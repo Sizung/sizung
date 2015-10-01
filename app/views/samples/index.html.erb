@@ -1,2 +1,8 @@
+<!-- Using default values -->
 <%= react_component('Sample') %>
+
+<!-- Using parameter values -->
 <%= react_component('Sample', name: 'Sam Sample') %>
+
+<!-- Using server side rendering -->
+<%= react_component('Sample', { name: 'Sam Sample' }, { prerender: true }) %>
