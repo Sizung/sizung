@@ -8,7 +8,8 @@ class Sample extends React.Component {
   render() {
     return (
       <div>
-        <div>Name: {this.props.name}</div>
+        <ReactBootstrap.Button style={{ marginRight: '1em' }} bsSize='xsmall'>Invite</ReactBootstrap.Button>
+        <span>{this.props.name}</span>
       </div>
     );
   }

@@ -33,6 +33,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # gem 'capistrano-rails', group: :development
 
 gem 'react-rails', '~> 1.3.0'
+gem 'therubyracer'
+gem 'less-rails'
+gem 'twitter-bootstrap-rails', '~> 3.2.0'
+gem 'react-bootstrap-rails', github: 'gugl/react-bootstrap-rails'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
