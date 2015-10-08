@@ -78,4 +78,6 @@ Rails.application.configure do
   config.active_record.dump_schema_after_migration = false
 
   config.react.variant = :development
+
+  config.action_mailer.default_url_options = { host: ENV['SIZUNG_HOST'] }
 end
