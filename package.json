@@ -20,10 +20,10 @@
   },
   "homepage": "https://github.com/suzan2go/react-rails-redux-sample",
   "devDependencies": {
-    "babelify": "^6.1.3",
     "browserify-incremental": "^3.0.1"
   },
   "dependencies": {
+    "babelify": "^6.1.3",
     "browserify": "^11.2.0",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
