@@ -36,7 +36,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
   #   super
   # end
 
-  # protected
+  def create
+    super do |user|
+      organization = user.organizations.first
+      organization.owner = user
+      organization.save!
+    end
+  end
+
+  protected
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
@@ -46,6 +54,23 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # If you have extra params to permit, append them to the sanitizer.
   def configure_account_update_params
     devise_parameter_sanitizer.for(:account_update) << [:first_name, :last_name]
+  end
+
+  # Build a devise resource passing in the session. Useful to move
+  # temporary session data to the newly created user.
+  def build_resource(hash=nil)
+    self.resource = resource_class.new_with_session(hash || {}, session)
+    if resource.organizations.empty?
+      resource.organizations.build(name: Organization::DEFAULT_NAME)
+    end
+  end
+
+  def after_inactive_sign_up_path_for(resource)
+    root_path
+  end
+
+  def after_sign_up_path_for(resource)
+    welcome_path
   end
 
   # The path used after sign up.

@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable
 
+  has_many :organization_members, foreign_key: 'member_id'
+  has_many :organizations, through: :organization_members
+
   validates_presence_of :first_name, :last_name
 
   def name

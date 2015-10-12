@@ -11,11 +11,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151008153139) do
+ActiveRecord::Schema.define(version: 20151008162446) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "organization_members", force: :cascade do |t|
+    t.uuid     "organization_id"
+    t.uuid     "member_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "organization_members", ["member_id"], name: "index_organization_members_on_member_id", using: :btree
+  add_index "organization_members", ["organization_id"], name: "index_organization_members_on_organization_id", using: :btree
+
+  create_table "organizations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.string   "name",       null: false
+    t.text     "mission"
+    t.uuid     "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "organizations", ["owner_id"], name: "index_organizations_on_owner_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -46,4 +66,7 @@ ActiveRecord::Schema.define(version: 20151008153139) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "organization_members", "organizations"
+  add_foreign_key "organization_members", "users", column: "member_id"
+  add_foreign_key "organizations", "users", column: "owner_id"
 end
