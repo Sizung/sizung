@@ -31,6 +31,10 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     assert_equal 200, page.status_code
     assert_equal '/', page.current_path
     assert page.has_content? 'A message with a confirmation link has been sent to your email address. Please follow the link to activate your account.'
+    user = User.order(:created_at).last
+    assert_equal 'Sam', user.first_name
+    assert_equal 'Sample', user.last_name
+    assert_equal 'sam.sample@example.com', user.email
     assert_equal 1, Organization.all.size
     assert_equal Organization::DEFAULT_NAME, User.order(:created_at).last.organizations.order(:created_at).last.name
   end
