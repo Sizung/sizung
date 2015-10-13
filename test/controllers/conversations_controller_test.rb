@@ -24,12 +24,13 @@ describe ConversationsController do
       assert_response :success
       conversations = assigns(:conversations)
       assert_not_nil conversations
-      assert_equal 1, conversations.size
+      assert_equal 2, conversations.size
     end
 
     it 'creates a new conversation' do
+      organization = FactoryGirl.create(:organization)
       assert_difference('Conversation.count') do
-        post :create, conversation: { organization_id: FactoryGirl.create(:organization).id, title: 'Our general discussion' }
+        post :create, conversation: { organization_id: organization.id, title: 'Our general discussion' }
       end
 
       assert_redirected_to conversation_path(assigns(:conversation))

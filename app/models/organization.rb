@@ -12,6 +12,7 @@ class Organization < ActiveRecord::Base
 
   def add_account_user_for_owner
     organization_members.build(member: owner) if owner
+    conversations.build(title: Conversation::DEFAULT_TITLE)
   end
 
 end
