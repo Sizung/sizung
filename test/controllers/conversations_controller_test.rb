@@ -13,7 +13,8 @@ describe ConversationsController do
 
   describe 'signed in' do
     setup do
-      @conversation = FactoryGirl.create :conversation
+      @conversation = FactoryGirl.create(:conversation)
+      @other_conversation = FactoryGirl.create(:conversation)
       @request.env['devise.mapping'] = Devise.mappings[:user]
       sign_in @conversation.organization.owner
     end
@@ -21,7 +22,9 @@ describe ConversationsController do
     it 'lists all conversations' do
       get :index
       assert_response :success
-      assert_not_nil assigns(:conversations)
+      conversations = assigns(:conversations)
+      assert_not_nil conversations
+      assert_equal 1, conversations.size
     end
 
     it 'creates a new conversation' do
@@ -33,21 +36,18 @@ describe ConversationsController do
     end
 
     it 'shows a single conversation' do
-      conversation = FactoryGirl.create(:conversation)
-      get :show, id: conversation
+      get :show, id: @conversation
       assert_response :success
     end
 
     it 'updates an existing conversation' do
-      conversation = FactoryGirl.create(:conversation)
-      put :update, id: conversation, conversation: { organization_id: conversation.organization_id, title: conversation.title }
+      put :update, id: @conversation, conversation: { organization_id: @conversation.organization_id, title: @conversation.title }
       assert_redirected_to conversation_path(assigns(:conversation))
     end
 
     it 'destroys a conversation' do
-      conversation = FactoryGirl.create(:conversation)
       assert_difference('Conversation.count', -1) do
-        delete :destroy, id: conversation
+        delete :destroy, id: @conversation
       end
 
       assert_redirected_to conversations_path

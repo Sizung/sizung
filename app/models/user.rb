@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
 
   has_many :organization_members, foreign_key: 'member_id', dependent: :destroy
   has_many :organizations, through: :organization_members
+  has_many :conversations, through: :organizations
 
   validates_presence_of :first_name, :last_name
 

@@ -1,11 +1,13 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_comment, only: [:show, :edit, :update, :destroy]
+  after_action :verify_authorized,    except: :index
+  after_action :verify_policy_scoped, only: :index
 
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.all
+    @comments = policy_scope(Comment)
   end
 
   # GET /comments/1
@@ -16,6 +18,7 @@ class CommentsController < ApplicationController
   # GET /comments/new
   def new
     @comment = Comment.new
+    authorize @comment
   end
 
   # GET /comments/1/edit
@@ -26,6 +29,7 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
+    authorize @comment
 
     respond_to do |format|
       if @comment.save
@@ -66,6 +70,7 @@ class CommentsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
       @comment = Comment.find(params[:id])
+      authorize @comment
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

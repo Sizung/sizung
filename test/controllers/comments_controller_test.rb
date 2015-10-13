@@ -14,6 +14,7 @@ describe CommentsController do
   describe 'signed in' do
     setup do
       @comment = FactoryGirl.create(:comment)
+      @other_comment = FactoryGirl.create(:comment)
       @request.env['devise.mapping'] = Devise.mappings[:user]
       sign_in @comment.conversation.organization.owner
     end
@@ -21,7 +22,9 @@ describe CommentsController do
     it 'gets index' do
       get :index
       value(response).must_be :success?
-      value(assigns(:comments)).wont_be :nil?
+      comments = assigns(:comments)
+      value(comments).wont_be :nil?
+      value(comments.size).must_equal 1
     end
 
     it 'gets new' do

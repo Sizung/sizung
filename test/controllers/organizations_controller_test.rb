@@ -13,7 +13,8 @@ describe OrganizationsController do
 
   describe 'signed in' do
     setup do
-      @organization = FactoryGirl.create :organization
+      @organization = FactoryGirl.create(:organization)
+      @another_organization = FactoryGirl.create(:organization)
       @request.env['devise.mapping'] = Devise.mappings[:user]
       sign_in @organization.owner
     end
@@ -21,7 +22,9 @@ describe OrganizationsController do
     it 'lists all organizations' do
       get :index
       assert_response :success
-      assert_not_nil assigns(:organizations)
+      organizations = assigns(:organizations)
+      assert_not_nil organizations
+      assert_equal 1, organizations.size
     end
 
     it 'creates a new organization' do
@@ -33,22 +36,19 @@ describe OrganizationsController do
     end
 
     it 'shows a single organization' do
-      organization = FactoryGirl.create(:organization)
-      get :show, id: organization
+      get :show, id: @organization
       assert_response :success
     end
 
     it 'updates an existing organization' do
-      organization = FactoryGirl.create(:organization)
-      put :update, id: organization, organization: { name: 'My changed organization name' }
+      put :update, id: @organization, organization: { name: 'My changed organization name' }
       assert_redirected_to organization_path(assigns(:organization))
-      assert_equal 'My changed organization name', organization.reload.name
+      assert_equal 'My changed organization name', @organization.reload.name
     end
 
     it 'destroys a organization' do
-      organization = FactoryGirl.create(:organization)
       assert_difference('Organization.count', -1) do
-        delete :destroy, id: organization
+        delete :destroy, id: @organization
       end
 
       assert_redirected_to organizations_path

@@ -1,11 +1,13 @@
 class ConversationsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_conversation, only: [:show, :edit, :update, :destroy]
+  after_action :verify_authorized,    except: :index
+  after_action :verify_policy_scoped, only: :index
 
   # GET /conversations
   # GET /conversations.json
   def index
-    @conversations = Conversation.all
+    @conversations = policy_scope(Conversation)
   end
 
   # GET /conversations/1
@@ -26,6 +28,7 @@ class ConversationsController < ApplicationController
   # POST /conversations.json
   def create
     @conversation = Conversation.new(conversation_params)
+    authorize @conversation
 
     respond_to do |format|
       if @conversation.save
@@ -66,6 +69,7 @@ class ConversationsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_conversation
       @conversation = Conversation.find(params[:id])
+      authorize @conversation
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

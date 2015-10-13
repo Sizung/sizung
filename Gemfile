@@ -48,6 +48,7 @@ gem 'rails_12factor'
 gem 'puma'
 gem 'rack-timeout'
 gem 'simple_form'
+gem 'pundit'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
