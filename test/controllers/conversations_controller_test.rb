@@ -1,8 +1,5 @@
-# require 'minitest/spec'
-# require 'minitest/autorun'
 require 'test_helper'
 
-# class ConversationsControllerTest < ActionController::TestCase
 describe ConversationsController do
   include Devise::TestHelpers
 

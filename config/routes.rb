@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :comments
   resources :conversations
   resources :organizations
   devise_for :users, controllers: {
