@@ -2,9 +2,11 @@
 
 import { combineReducers } from 'redux';
 import comments from './comments';
+import agendaItems from './agendaItems';
 
 const rootReducer = combineReducers({
-  comments
+  comments,
+  agendaItems
 });
 
 export default rootReducer;
