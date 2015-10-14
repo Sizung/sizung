@@ -1,13 +1,11 @@
-%p#notice= notice
-
-%p
-  %b Title:
-  = @conversation.title
 %p
   %b Organization:
   = @conversation.organization
+%p
+  %b Conversation:
+  = @conversation.title
 
-= react_component('ConversationRoot', {comments: [{id: 1, body: 'Hello', author: {name: 'Aniruddha Ujlambkar'}}, {id: 2, body: 'world', author: {name: 'Günter Glück'}}]}, {prerender: true} )
+= react_component('ConversationRoot', {agendaItems: [{id: 1, title: 'Review Agenda List', conversationTitle: 'React Tutorial', commentsSize: 4}, {id: 2, title: 'Update Trello Specifications', conversationTitle: 'Functional Specifications', commentsSize: 34}], comments: [{id: 1, body: 'Hello', author: {name: 'Aniruddha Ujlambkar'}}, {id: 2, body: 'world', author: {name: 'Günter Glück'}}]}, {prerender: false} )
 
 = link_to 'Edit', edit_conversation_path(@conversation)
 \|

@@ -4,7 +4,10 @@ import React, { Component, PropTypes } from 'react';
 
 class Comment extends React.Component {
   render() {
-    return <div>Comment: { this.props.body } by { this.props.author.name }</div>;
+    return <div style={{marginTop: '1em'}}>
+            <div><strong>{ this.props.author.name }</strong> <small>Today at 11:57 AM</small></div>
+            <div>{this.props.body}</div>
+          </div>;
   }
 }
 

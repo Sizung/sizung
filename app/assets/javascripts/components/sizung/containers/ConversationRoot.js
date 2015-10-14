@@ -12,20 +12,36 @@
 
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import AgendaItemListApp from './AgendaItemListApp';
 import CommentListApp from './CommentListApp';
 import configureStore from '../store/configureStore';
 import {setComments} from '../actions/comments'
+import {setAgendaItems} from '../actions/agendaItems'
 
 const store = configureStore();
 
 export default class ConversationRoot extends Component {
   componentWillMount() {
     store.dispatch(setComments(this.props.comments));
+    store.dispatch(setAgendaItems(this.props.agendaItems));
   }
   render() {
     return (
       <Provider store={store}>
-        {() => <CommentListApp />}
+        {
+          () =>
+            <div>
+              <div className="col-xs-3">
+                <AgendaItemListApp />
+              </div>
+              <div className="col-xs-6">
+                <CommentListApp />
+              </div>
+              <div className="col-xs-3">
+                <AgendaItemListApp />
+              </div>
+            </div>
+        }
       </Provider>
     );
   }

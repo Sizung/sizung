@@ -15,4 +15,8 @@ class Organization < ActiveRecord::Base
     conversations.build(title: Conversation::DEFAULT_TITLE)
   end
 
+  def to_s
+    name
+  end
+
 end
