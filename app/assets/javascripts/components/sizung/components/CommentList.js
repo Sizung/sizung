@@ -11,7 +11,7 @@ class CommentList extends Component {
         <CommentForm addComment={addComment} />
         {
           comments.map(function(comment) {
-            return(<Comment key={comment.id} text={comment.text} />);
+            return(<Comment key={comment.id} body={comment.body} author={comment.author} />);
           })
         }
       </div>

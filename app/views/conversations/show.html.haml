@@ -7,6 +7,8 @@
   %b Organization:
   = @conversation.organization
 
+= react_component('ConversationRoot', {comments: [{id: 1, body: 'Hello', author: {name: 'Aniruddha Ujlambkar'}}, {id: 2, body: 'world', author: {name: 'Günter Glück'}}]}, {prerender: true} )
+
 = link_to 'Edit', edit_conversation_path(@conversation)
 \|
 = link_to 'Back', conversations_path
