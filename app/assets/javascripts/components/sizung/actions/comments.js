@@ -30,6 +30,7 @@ export function addComment(comment) {
   return function(dispatch) {
     return fetch('/comments', {
       method: 'post',
+      credentials: 'include', // send cookies with it
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -41,7 +42,6 @@ export function addComment(comment) {
     })
     .then(response => response.json())
     .then(function(json) {
-      console.log(json);
       dispatch(addCommentSuccess(json));
     });
   };
