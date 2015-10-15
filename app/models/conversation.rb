@@ -5,4 +5,8 @@ class Conversation < ActiveRecord::Base
   validates_presence_of :organization, :title
 
   DEFAULT_TITLE = 'general'
+
+  def to_s
+    title
+  end
 end

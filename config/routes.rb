@@ -8,7 +8,11 @@ Rails.application.routes.draw do
                    }
   resources :samples, only: [:index]
 
-  root 'samples#index'
+  authenticated :user do
+    root to: 'organizations#index', as: :authenticated_root
+  end
+
+  root 'landing_page#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
