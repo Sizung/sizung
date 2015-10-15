@@ -12,7 +12,7 @@ class CommentList extends Component {
         <CommentForm addComment={addComment} currentConversation={currentConversation} />
         {
           comments.map(function(comment) {
-            return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} deleteComment={deleteComment} />);
+            return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.created_at} deleteComment={deleteComment} />);
           })
         }
       </div>

@@ -2,6 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
+import Time from 'react-time'
 
 class Comment extends React.Component {
   constructor() {
@@ -15,7 +16,7 @@ class Comment extends React.Component {
 
   render() {
     return <div style={[styles.base]}>
-            <div><strong>{ this.props.author.name }</strong> <small>Today at 11:57 AM</small></div>
+            <div><strong>{ this.props.author.name }</strong> <small><Time value={this.props.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small></div>
             <div>
               {this.props.body}
 
@@ -42,7 +43,8 @@ var styles = {
 Comment.propTypes = {
   id: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
-  author: PropTypes.object.isRequired
+  author: PropTypes.object.isRequired,
+  createdAt: PropTypes.string.isRequired
 };
 
 export default Radium(Comment);
