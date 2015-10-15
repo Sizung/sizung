@@ -30,6 +30,7 @@ class CommentsController < ApplicationController
   def create
     @comment = Comment.new(comment_params)
     authorize @comment
+    @comment.author = current_user
 
     respond_to do |format|
       if @comment.save

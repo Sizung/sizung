@@ -34,7 +34,7 @@ describe CommentsController do
 
     it 'creates comment' do
       expect {
-        post :create, comment: { author_id: @comment.author_id, body: @comment.body, conversation_id: @comment.conversation_id }
+        post :create, comment: { body: @comment.body, conversation_id: @comment.conversation_id }
       }.must_change 'Comment.count'
 
       must_redirect_to comment_path(assigns(:comment))

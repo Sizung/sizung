@@ -3,10 +3,12 @@
 import { combineReducers } from 'redux';
 import comments from './comments';
 import agendaItems from './agendaItems';
+import conversations from './conversations';
 
 const rootReducer = combineReducers({
   comments,
-  agendaItems
+  agendaItems,
+  conversations
 });
 
 export default rootReducer;

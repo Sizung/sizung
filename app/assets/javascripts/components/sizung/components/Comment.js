@@ -12,7 +12,8 @@ class Comment extends React.Component {
 }
 
 Comment.propTypes = {
-  body: PropTypes.string.isRequired
+  body: PropTypes.string.isRequired,
+  author: PropTypes.object.isRequired
 };
 
 export default Comment;

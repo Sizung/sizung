@@ -4,11 +4,12 @@ import Comment from './Comment';
 
 class CommentList extends Component {
   render() {
-    const { comments, addComment } = this.props;
+    const { conversations, comments, addComment } = this.props;
+    const currentConversation = conversations.currentConversation;
 
     return (
       <div className='commentList'>
-        <CommentForm addComment={addComment} />
+        <CommentForm addComment={addComment} currentConversation={currentConversation} />
         {
           comments.map(function(comment) {
             return(<Comment key={comment.id} body={comment.body} author={comment.author} />);
@@ -21,7 +22,8 @@ class CommentList extends Component {
 
 CommentList.propTypes = {
   addComment: PropTypes.func.isRequired,
-  comments: PropTypes.array.isRequired
+  comments: PropTypes.array.isRequired,
+  conversations: PropTypes.object.isRequired
 };
 
 export default CommentList;

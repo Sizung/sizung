@@ -17,6 +17,7 @@ import CommentListApp from './CommentListApp';
 import configureStore from '../store/configureStore';
 import {setComments} from '../actions/comments'
 import {setAgendaItems} from '../actions/agendaItems'
+import {setCurrentConversation} from '../actions/conversations'
 
 const store = configureStore();
 
@@ -24,6 +25,7 @@ export default class ConversationRoot extends Component {
   componentWillMount() {
     store.dispatch(setComments(this.props.comments));
     store.dispatch(setAgendaItems(this.props.agendaItems));
+    store.dispatch(setCurrentConversation(this.props.currentConversation))
   }
   render() {
     return (

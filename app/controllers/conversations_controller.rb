@@ -13,6 +13,7 @@ class ConversationsController < ApplicationController
   # GET /conversations/1
   # GET /conversations/1.json
   def show
+    @comments_json = @conversation.comments.as_json(include: { author: {methods: :name}})
   end
 
   # GET /conversations/new
