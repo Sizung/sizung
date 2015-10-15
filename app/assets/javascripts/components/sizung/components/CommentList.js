@@ -4,7 +4,7 @@ import Comment from './Comment';
 
 class CommentList extends Component {
   render() {
-    const { conversations, comments, addComment } = this.props;
+    const { conversations, comments, addComment, deleteComment } = this.props;
     const currentConversation = conversations.currentConversation;
 
     return (
@@ -12,7 +12,7 @@ class CommentList extends Component {
         <CommentForm addComment={addComment} currentConversation={currentConversation} />
         {
           comments.map(function(comment) {
-            return(<Comment key={comment.id} body={comment.body} author={comment.author} />);
+            return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} deleteComment={deleteComment} />);
           })
         }
       </div>
@@ -22,6 +22,7 @@ class CommentList extends Component {
 
 CommentList.propTypes = {
   addComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired,
   comments: PropTypes.array.isRequired,
   conversations: PropTypes.object.isRequired
 };

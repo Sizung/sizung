@@ -11,6 +11,7 @@ import MetaTagsManager from '../utils/MetaTagsManager';
 
 export const SET_COMMENTS = 'SET_COMMENTS';
 export const ADD_COMMENT  = 'ADD_COMMENT';
+export const DELETE_COMMENT  = 'DELETE_COMMENT';
 
 export function setComments(comments) {
   return {
@@ -22,6 +23,13 @@ export function setComments(comments) {
 export function addCommentSuccess(comment) {
   return {
     type: ADD_COMMENT,
+    comment: comment
+  };
+}
+
+export function deleteCommentSuccess(comment) {
+  return {
+    type: DELETE_COMMENT,
     comment: comment
   };
 }
@@ -46,3 +54,25 @@ export function addComment(comment) {
     });
   };
 }
+
+export function deleteComment(comment_id) {
+  return function(dispatch) {
+    return fetch('/comments/' + comment_id, {
+      method: 'delete',
+      credentials: 'include', // send cookies with it
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
+      }}
+    )
+    .then(response => response.json())
+    .then(function(json) {
+      dispatch(deleteCommentSuccess(json));
+      //if(response.status == 200) {
+      //  dispatch(deleteCommentSuccess(response.json()));
+      //}
+    });
+  };
+}
+
