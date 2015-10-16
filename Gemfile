@@ -33,8 +33,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'react-rails', '~> 1.3.0'
-gem 'browserify-rails'
+# gem 'react-rails', '~> 1.3.0'
+# gem 'browserify-rails'
+gem 'react_webpack_rails'
+
 
 gem 'therubyracer'
 gem 'less-rails'

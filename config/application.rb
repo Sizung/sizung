@@ -22,7 +22,7 @@ module Sizung
 
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
-    config.browserify_rails.commandline_options = '-t babelify'
+    # config.browserify_rails.commandline_options = '-t babelify'
     config.generators do |g|
       g.test_framework :minitest, spec: true
       g.fixture_replacement :factory_girl, dir: 'test/factories'
