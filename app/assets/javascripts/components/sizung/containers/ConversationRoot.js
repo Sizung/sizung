@@ -13,10 +13,12 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import AgendaItemListApp from './AgendaItemListApp';
+import DeliverableListApp from './DeliverableListApp';
 import CommentListApp from './CommentListApp';
 import configureStore from '../store/configureStore';
 import {setComments} from '../actions/comments'
 import {setAgendaItems} from '../actions/agendaItems'
+import {setDeliverables} from '../actions/deliverables'
 import {setCurrentConversation} from '../actions/conversations'
 
 const store = configureStore();
@@ -25,7 +27,8 @@ export default class ConversationRoot extends Component {
   componentWillMount() {
     store.dispatch(setComments(this.props.comments));
     store.dispatch(setAgendaItems(this.props.agendaItems));
-    store.dispatch(setCurrentConversation(this.props.currentConversation))
+    store.dispatch(setCurrentConversation(this.props.currentConversation));
+      store.dispatch(setDeliverables(this.props.deliverables));
   }
   render() {
     return (
@@ -40,7 +43,7 @@ export default class ConversationRoot extends Component {
                 <CommentListApp />
               </div>
               <div className="col-xs-3">
-                <AgendaItemListApp />
+                <DeliverableListApp />
               </div>
             </div>
         }

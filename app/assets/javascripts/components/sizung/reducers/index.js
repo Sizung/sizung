@@ -4,11 +4,13 @@ import { combineReducers } from 'redux';
 import comments from './comments';
 import agendaItems from './agendaItems';
 import conversations from './conversations';
+import deliverables from './deliverables';
 
 const rootReducer = combineReducers({
   comments,
   agendaItems,
-  conversations
+  conversations,
+  deliverables
 });
 
 export default rootReducer;
