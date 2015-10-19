@@ -9,7 +9,7 @@ class CommentForm extends React.Component {
       name = React.findDOMNode(this.refs.name).value.trim();
       if(!name) return;
 
-      this.props.addComment({conversation_id: this.props.currentConversation.id, body: name});
+      this.props.createComment({conversation_id: this.props.currentConversation.id, body: name});
 
       React.findDOMNode(this.refs.name).value = ''
     }
@@ -27,7 +27,7 @@ class CommentForm extends React.Component {
 
 
 CommentForm.propTypes = {
-  addComment: PropTypes.func.isRequired,
+  createComment: PropTypes.func.isRequired,
   currentConversation: PropTypes.object.isRequired
 };
 

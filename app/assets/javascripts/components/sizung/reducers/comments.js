@@ -4,16 +4,21 @@
 // The are not allowed to change the state object. They have to return a new state object that they
 // create using the previous state and whatever they have to do because of the action they have to handle.
 
-import { SET_COMMENTS, ADD_COMMENT, DELETE_COMMENT } from '../actions/comments';
+import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
+import { SET_COMMENTS, CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
 
 export default function comments(state = [], action = null) {
   switch (action.type) {
-  case ADD_COMMENT:
-    return state.concat([action.comment]);
+  case CREATE_COMMENT:
+    if(action.status == STATUS_SUCCESS) {
+      return state.concat([action.comment]);
+    }
   case DELETE_COMMENT:
-    return state.filter(function(element) {
-      return element.id != action.comment.id
-    });
+    if(action.status == STATUS_SUCCESS) {
+      return state.filter(function(element) {
+        return element.id != action.comment.id
+      });
+    }
   case SET_COMMENTS:
     return action.comments;
   default:
