@@ -6,11 +6,15 @@ import agendaItems from './agendaItems';
 import conversations from './conversations';
 import deliverables from './deliverables';
 
-const rootReducer = combineReducers({
+const entities = combineReducers({
   comments,
   agendaItems,
   conversations,
   deliverables
+});
+
+const rootReducer = combineReducers({
+  entities
 });
 
 export default rootReducer;

@@ -9,7 +9,7 @@ import * as DeliverableListActions from '../actions/deliverables';
 
 function mapStateToProps(state) {
   return {
-    deliverables: state.deliverables
+    deliverables: state.entities.deliverables
   }
 }
 

@@ -9,8 +9,8 @@ import * as CommentsActions from '../actions/comments';
 
 function mapStateToProps(state) {
   return {
-    comments: state.comments,
-    conversations: state.conversations
+    comments: state.entities.comments,
+    conversations: state.entities.conversations
   }
 }
 

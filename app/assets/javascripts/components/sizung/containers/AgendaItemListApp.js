@@ -9,7 +9,7 @@ import * as AgendaItemListActions from '../actions/agendaItems';
 
 function mapStateToProps(state) {
   return {
-    agendaItems: state.agendaItems
+    agendaItems: state.entities.agendaItems
   }
 }
 

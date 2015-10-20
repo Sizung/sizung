@@ -7,7 +7,7 @@
 
 export const SET_DELIVERABLES = 'SET_DELIVERABLES';
 
-export function setDeliverables(deliverables) {
+export function setDeliverables(deliverables = []) {
   return {
     type: SET_DELIVERABLES,
       deliverables: deliverables
