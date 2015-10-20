@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/suzan2go/react-rails-redux-sample",
   "devDependencies": {
-    "browserify-incremental": "^3.0.1"
+    "browserify-incremental": "^3.0.1",
+    "redux-devtools": "^2.1.5"
   },
   "dependencies": {
     "babelify": "^6.1.3",
@@ -28,12 +29,12 @@
     "es6-promise": "^3.0.2",
     "isomorphic-fetch": "^2.1.1",
     "moment": "^2.10.6",
-    "radium": "^0.14.1",
+    "radium": "^0.14.3",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
-    "react-redux": "^0.8.2",
+    "react-redux": "^3.0.0",
     "react-time": "^4.0.0",
-    "redux": "^1.0.0",
-    "redux-thunk": "^0.1.0"
+    "redux": "^3.0.3",
+    "redux-thunk": "^1.0.0"
   }
 }
