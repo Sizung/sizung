@@ -4,17 +4,17 @@
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AgendaItemList from '../components/AgendaItemList';
-import * as AgendaItemListActions from '../actions/agendaItems';
+import DeliverableList from '../components/DeliverableList';
+import * as DeliverableListActions from '../actions/deliverables';
 
 function mapStateToProps(state) {
   return {
-    agendaItems: state.entities.agendaItems
+    deliverables: state.entities.deliverables
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(AgendaItemListActions, dispatch);
+  return bindActionCreators(DeliverableListActions, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AgendaItemList);
+export default connect(mapStateToProps, mapDispatchToProps)(DeliverableList);

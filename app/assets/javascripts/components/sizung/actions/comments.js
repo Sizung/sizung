@@ -8,21 +8,24 @@
 //import 'babel/polyfill';
 import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../utils/MetaTagsManager';
+import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses.js';
 
 export const SET_COMMENTS = 'SET_COMMENTS';
-export const ADD_COMMENT  = 'ADD_COMMENT';
-export const DELETE_COMMENT  = 'DELETE_COMMENT';
+export const CREATE_COMMENT = 'CREATE_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 
-export function setComments(comments) {
+export function setComments(conversation, comments) {
   return {
     type: SET_COMMENTS,
+    conversation: conversation,
     comments: comments
   };
 }
 
-export function addCommentSuccess(comment) {
+export function createCommentSuccess(comment) {
   return {
-    type: ADD_COMMENT,
+    type: CREATE_COMMENT,
+    status: STATUS_SUCCESS,
     comment: comment
   };
 }
@@ -30,11 +33,12 @@ export function addCommentSuccess(comment) {
 export function deleteCommentSuccess(comment) {
   return {
     type: DELETE_COMMENT,
+    status: STATUS_SUCCESS,
     comment: comment
   };
 }
 
-export function addComment(comment) {
+export function createComment(comment) {
   return function(dispatch) {
     return fetch('/comments', {
       method: 'post',
@@ -50,7 +54,7 @@ export function addComment(comment) {
     })
     .then(response => response.json())
     .then(function(json) {
-      dispatch(addCommentSuccess(json));
+      dispatch(createCommentSuccess(json));
     });
   };
 }

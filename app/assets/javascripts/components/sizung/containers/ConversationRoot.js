@@ -13,38 +13,51 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import AgendaItemListApp from './AgendaItemListApp';
+import DeliverableListApp from './DeliverableListApp';
 import CommentListApp from './CommentListApp';
 import configureStore from '../store/configureStore';
 import {setComments} from '../actions/comments'
 import {setAgendaItems} from '../actions/agendaItems'
+import {setDeliverables} from '../actions/deliverables'
 import {setCurrentConversation} from '../actions/conversations'
+
+// Redux DevTools store enhancers
+import { devTools, persistState } from 'redux-devtools';
+// React components for Redux DevTools
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
 
 const store = configureStore();
 
 export default class ConversationRoot extends Component {
   componentWillMount() {
-    store.dispatch(setComments(this.props.comments));
+    store.dispatch(setComments(this.props.currentConversation, this.props.comments));
     store.dispatch(setAgendaItems(this.props.agendaItems));
-    store.dispatch(setCurrentConversation(this.props.currentConversation))
+    store.dispatch(setCurrentConversation(this.props.currentConversation));
+      store.dispatch(setDeliverables(this.props.deliverables));
   }
   render() {
     return (
-      <Provider store={store}>
-        {
-          () =>
-            <div>
-              <div className="col-xs-3">
-                <AgendaItemListApp />
+      <div>
+        <Provider store={store}>
+          {
+            () =>
+              <div>
+                <div className="col-xs-3">
+                  <AgendaItemListApp />
+                </div>
+                <div className="col-xs-6">
+                  <CommentListApp />
+                </div>
+                <div className="col-xs-3">
+                  <DeliverableListApp />
+                </div>
               </div>
-              <div className="col-xs-6">
-                <CommentListApp />
-              </div>
-              <div className="col-xs-3">
-                <AgendaItemListApp />
-              </div>
-            </div>
-        }
-      </Provider>
+          }
+        </Provider>
+        <DebugPanel top right bottom>
+          <DevTools store={store} monitor={LogMonitor} />
+        </DebugPanel>
+      </div>
     );
   }
 }
