@@ -14,9 +14,10 @@ export const SET_COMMENTS = 'SET_COMMENTS';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 
-export function setComments(comments) {
+export function setComments(conversation, comments) {
   return {
     type: SET_COMMENTS,
+    conversation: conversation,
     comments: comments
   };
 }

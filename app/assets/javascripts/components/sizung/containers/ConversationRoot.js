@@ -30,7 +30,7 @@ const store = configureStore();
 
 export default class ConversationRoot extends Component {
   componentWillMount() {
-    store.dispatch(setComments(this.props.comments));
+    store.dispatch(setComments(this.props.currentConversation, this.props.comments));
     store.dispatch(setAgendaItems(this.props.agendaItems));
     store.dispatch(setCurrentConversation(this.props.currentConversation));
       store.dispatch(setDeliverables(this.props.deliverables));

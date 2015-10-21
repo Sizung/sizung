@@ -4,8 +4,7 @@ import Comment from './Comment';
 
 class CommentList extends Component {
   render() {
-    const { conversations, comments, createComment, deleteComment } = this.props;
-    const currentConversation = conversations.currentConversation;
+    const { currentConversation, comments, createComment, deleteComment } = this.props;
 
     return (
       <div className='commentList'>
@@ -24,7 +23,7 @@ CommentList.propTypes = {
   createComment: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
   comments: PropTypes.array.isRequired,
-  conversations: PropTypes.object.isRequired
+  currentConversation: PropTypes.object.isRequired
 };
 
 export default CommentList;

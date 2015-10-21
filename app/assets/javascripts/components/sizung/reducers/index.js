@@ -3,17 +3,19 @@
 import { combineReducers } from 'redux';
 import comments from './comments';
 import agendaItems from './agendaItems';
-import conversations from './conversations';
+import currentConversation from './currentConversation';
 import deliverables from './deliverables';
+import commentsByConversation from './commentsByConversation';
 
 const entities = combineReducers({
   comments,
   agendaItems,
-  conversations,
   deliverables
 });
 
 const rootReducer = combineReducers({
+  currentConversation,
+  commentsByConversation,
   entities
 });
 
