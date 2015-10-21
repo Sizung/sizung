@@ -7,27 +7,25 @@
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
 import { SET_COMMENTS, CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
 
-export default function comments(state = {}, action = null) {
+import Immutable from 'immutable';
+
+const initialState = Immutable.Map();
+
+export default function comments(state = initialState, action = null) {
   switch (action.type) {
   case CREATE_COMMENT:
     if(action.status == STATUS_SUCCESS) {
-      //return Object.assign({}, state, {1: 1});
-      //return state.concat([action.comment]);
-      return state;
+      return state.set(action.comment.id, action.comment);
     }
   case DELETE_COMMENT:
     if(action.status == STATUS_SUCCESS) {
-      //return state.filter(function(element) {
-      //  return element.id != action.comment.id
-      //});
-      return state;
+      return state.remove(action.comment.id);
     }
   case SET_COMMENTS:
-    var newState = {};
     for(var i=0; i<action.comments.length; i++) {
-      newState[action.comments[i].id] = action.comments[i];
+      state = state.set(action.comments[i].id, action.comments[i]);
     }
-    return newState;
+    return state;
   default:
     return state;
   }

@@ -8,11 +8,11 @@ import CommentList from '../components/CommentList';
 import * as CommentsActions from '../actions/comments';
 
 function mapStateToProps(state) {
-  const commentIdsToShow = state.commentsByConversation[state.currentConversation.id];
+  const commentIdsToShow = state.commentsByConversation.get(state.currentConversation.id);
 
   var comments = commentIdsToShow.map(function(commentId){
-    return state.entities.comments[commentId];
-  });
+    return state.entities.comments.get(commentId);
+  }).toJS();
 
   return {
     comments: comments,
