@@ -11,6 +11,7 @@ class CommentList extends Component {
         <CommentForm createComment={createComment} currentConversation={currentConversation} />
         {
           comments.map(function(comment) {
+            // use comment object instead
             return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.created_at} deleteComment={deleteComment} />);
           })
         }

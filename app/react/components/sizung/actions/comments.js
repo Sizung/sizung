@@ -30,6 +30,8 @@ export function createCommentSuccess(comment) {
   };
 }
 
+// don't export to show that this is not used as UI action handler
+// or maybe inline in the 'then' ajax response
 export function deleteCommentSuccess(comment) {
   return {
     type: DELETE_COMMENT,

@@ -11,13 +11,16 @@ export default function comments(state = {}, action = null) {
   switch (action.type) {
   case CREATE_COMMENT:
     if(action.status == STATUS_SUCCESS) {
-      return state.concat([action.comment]);
+      //return Object.assign({}, state, {1: 1});
+      //return state.concat([action.comment]);
+      return state;
     }
   case DELETE_COMMENT:
     if(action.status == STATUS_SUCCESS) {
-      return state.filter(function(element) {
-        return element.id != action.comment.id
-      });
+      //return state.filter(function(element) {
+      //  return element.id != action.comment.id
+      //});
+      return state;
     }
   case SET_COMMENTS:
     var newState = {};

@@ -1,8 +1,8 @@
 window.React = require('react');
 
-import HelloWorld from './components/hello-world';
-
-registerComponent('hello-world', HelloWorld);
+//import HelloWorld from './components/hello-world';
+//
+//registerComponent('hello-world', HelloWorld);
 
 import CommentForm from './components/sizung/components/CommentForm.js'
 registerComponent('CommentForm', CommentForm);

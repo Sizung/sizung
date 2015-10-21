@@ -11,6 +11,13 @@ export default function commentsByConversation(state = {}, action = null) {
     var newState = {};
     newState[action.conversation.id] = ids;
     return newState;
+  case DELETE_COMMENT:
+    if(action.status == STATUS_SUCCESS) {
+      const convId = action.comment.conversation_id
+      var newState = {};
+      newState[convId] = state[convId].filter(function(id) {return id != action.comment.id});
+      return newState;
+    }
   default:
     return state;
   }

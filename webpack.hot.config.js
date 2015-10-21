@@ -33,6 +33,7 @@ var config = {
                 exclude: /node_modules/,
                 loader: "babel",
                 query: {
+                    "stage": 1,
                     "env": {
                         // Not active when NODE_ENV=production
                         "development": {
