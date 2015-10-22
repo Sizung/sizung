@@ -46,11 +46,13 @@ gem 'twitter-bootstrap-rails', '~> 3.2.0'
 gem 'haml'
 gem 'haml-rails'
 gem 'devise'
+gem 'devise_invitable'
 gem 'rails_12factor'
 gem 'puma'
 gem 'rack-timeout'
 gem 'simple_form'
 gem 'pundit'
+gem 'figaro'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -60,6 +62,7 @@ group :development, :test do
   gem 'minitest-rails'
   gem 'minitest-reporters'
   gem 'minitest-rails-capybara'
+  gem 'email_spec'
 end
 
 group :development do

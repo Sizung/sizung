@@ -21,3 +21,5 @@
 
 # Run npm install instead of uploading them to the repo
 /node_modules
+# Ignore application configuration
+/config/application.yml
