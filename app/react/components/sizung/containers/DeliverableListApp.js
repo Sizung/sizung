@@ -8,8 +8,10 @@ import DeliverableList from '../components/DeliverableList';
 import * as DeliverableListActions from '../actions/deliverables';
 
 function mapStateToProps(state) {
+  var deliverables = state.getIn(['entities', 'deliverables']).toList();
+
   return {
-    deliverables: state.entities.deliverables
+    deliverables: deliverables
   }
 }
 

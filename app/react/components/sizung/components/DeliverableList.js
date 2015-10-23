@@ -23,7 +23,7 @@ class DeliverableList extends Component {
 }
 
 DeliverableList.propTypes = {
-  deliverables: PropTypes.array.isRequired
+  deliverables: PropTypes.object.isRequired
 };
 
 export default DeliverableList;

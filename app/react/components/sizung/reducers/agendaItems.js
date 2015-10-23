@@ -5,11 +5,17 @@
 // create using the previous state and whatever they have to do because of the action they have to handle.
 
 import { SET_AGENDA_ITEMS} from '../actions/agendaItems';
+import Immutable from 'immutable';
 
-export default function agendaItems(state = [], action = null) {
+const initialState = Immutable.Map();
+
+export default function agendaItems(state = initialState, action = null) {
   switch (action.type) {
   case SET_AGENDA_ITEMS:
-    return action.agendaItems;
+    for(var i=0; i<action.agendaItems.length; i++) {
+      state = state.set(action.agendaItems[i].id, action.agendaItems[i]);
+    }
+    return state;
   default:
     return state;
   }

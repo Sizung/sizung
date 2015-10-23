@@ -5,11 +5,17 @@
 // create using the previous state and whatever they have to do because of the action they have to handle.
 
 import { SET_DELIVERABLES } from '../actions/deliverables';
+import Immutable from 'immutable';
 
-export default function deliverables(state = [], action = null) {
+const initialState = Immutable.Map();
+
+export default function deliverables(state = initialState, action = null) {
   switch (action.type) {
   case SET_DELIVERABLES:
-    return action.deliverables;
+    for(var i=0; i<action.deliverables.length; i++) {
+      state = state.set(action.deliverables[i].id, action.deliverables[i]);
+    }
+    return state;
   default:
     return state;
   }

@@ -33,7 +33,7 @@ export default class ConversationRoot extends Component {
     store.dispatch(setComments(this.props.currentConversation, this.props.comments));
     store.dispatch(setAgendaItems(this.props.agendaItems));
     store.dispatch(setCurrentConversation(this.props.currentConversation));
-      store.dispatch(setDeliverables(this.props.deliverables));
+    store.dispatch(setDeliverables(this.props.deliverables));
   }
   render() {
     return (

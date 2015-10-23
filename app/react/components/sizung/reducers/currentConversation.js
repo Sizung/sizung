@@ -1,9 +1,12 @@
 import { SET_CURRENT_CONVERSATION } from '../actions/conversations';
+import Immutable from 'immutable';
 
-export default function currentConversation(state = {}, action = null) {
+const initialState = Immutable.Map();
+
+export default function currentConversation(state = initialState, action = null) {
   switch (action.type) {
   case SET_CURRENT_CONVERSATION:
-    return action.conversation;
+    return Immutable.fromJS(action.conversation);
   default:
     return state;
   }

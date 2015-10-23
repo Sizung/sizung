@@ -9,7 +9,7 @@ class CommentForm extends React.Component {
       name = React.findDOMNode(this.refs.name).value.trim();
       if(!name) return;
 
-      this.props.createComment({conversation_id: this.props.currentConversation.id, body: name});
+      this.props.createComment({conversation_id: this.props.currentConversation.get('id'), body: name});
 
       React.findDOMNode(this.refs.name).value = ''
     }
