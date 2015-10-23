@@ -15,3 +15,11 @@ Within the projects directory run
 And start the server
 
 ```rails s```
+
+And start the node dev server for handling hot code reload for react
+
+```node devServer.js```
+
+## Deployment
+
+We are using Heroku for deployment at the moment, so it's as easy as push it to the heroku remote branch.

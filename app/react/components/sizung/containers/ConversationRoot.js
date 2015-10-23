@@ -21,11 +21,6 @@ import {setAgendaItems} from '../actions/agendaItems'
 import {setDeliverables} from '../actions/deliverables'
 import {setCurrentConversation} from '../actions/conversations'
 
-// Redux DevTools store enhancers
-import { devTools, persistState } from 'redux-devtools';
-// React components for Redux DevTools
-import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
-
 const store = configureStore();
 
 export default class ConversationRoot extends Component {
@@ -36,28 +31,53 @@ export default class ConversationRoot extends Component {
     store.dispatch(setDeliverables(this.props.deliverables));
   }
   render() {
-    return (
-      <div>
-        <Provider store={store}>
-          {
-            () =>
-              <div>
-                <div className="col-xs-3">
-                  <AgendaItemListApp />
+    if (__DEVTOOLS__) {
+      // React components for Redux DevTools
+      const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
+      return (
+        <div>
+          <Provider store={store}>
+            {
+              () =>
+                <div>
+                  <div className="col-xs-3">
+                    <AgendaItemListApp />
+                  </div>
+                  <div className="col-xs-6">
+                    <CommentListApp />
+                  </div>
+                  <div className="col-xs-3">
+                    <DeliverableListApp />
+                  </div>
                 </div>
-                <div className="col-xs-6">
-                  <CommentListApp />
+            }
+          </Provider>
+          <DebugPanel top right bottom>
+            <DevTools store={store} monitor={LogMonitor} />
+          </DebugPanel>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Provider store={store}>
+            {
+              () =>
+                <div>
+                  <div className="col-xs-3">
+                    <AgendaItemListApp />
+                  </div>
+                  <div className="col-xs-6">
+                    <CommentListApp />
+                  </div>
+                  <div className="col-xs-3">
+                    <DeliverableListApp />
+                  </div>
                 </div>
-                <div className="col-xs-3">
-                  <DeliverableListApp />
-                </div>
-              </div>
-          }
-        </Provider>
-        <DebugPanel top right bottom>
-          <DevTools store={store} monitor={LogMonitor} />
-        </DebugPanel>
-      </div>
-    );
+            }
+          </Provider>
+        </div>
+      );
+    }
   }
 }

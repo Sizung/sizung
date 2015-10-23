@@ -10,7 +10,9 @@ var PUBLIC_DEV_SERVER = "http://localhost:4000/";
 var ENTRY = "./index.js";
 
 var NODE_ENV_PLUGIN = new webpack.DefinePlugin({
-    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV)
+    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
+    __DEVELOPMENT__: true,
+    __DEVTOOLS__: true
 });
 
 var config = {

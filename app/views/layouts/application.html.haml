@@ -17,10 +17,10 @@
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
     = javascript_include_tag "application", 'data-turbolinks-track' => true
 
-    :javascript
-      console.warn("Development mode. Make sure to start 'node devServer.js'");
-      var script = "http://" + (location.host || 'localhost').split(':')[0] + ":4000/react-app-bundle.js"
-      document.write('<script src="' + script + '"></' + 'script>');
+    - if ENV['RAILS_ENV'] == 'development'
+      :javascript
+        console.warn("Development mode. Make sure to start 'node devServer.js'");
+        document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] + ':4000/react-app-bundle.js"></' + 'script>');
 
   %body
     .navbar.navbar-default.navbar-static-top

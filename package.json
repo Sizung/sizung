@@ -42,8 +42,8 @@
   },
   "scripts": {
     "test": "karma start",
-    "start": "webpack -w --config webpack/dev.config.js",
-    "build": "webpack -p --config webpack/production.config.js"
+    "start": "node devServer.js",
+    "build": "webpack --config webpack/production.config.js"
   },
   "license": "",
   "engines": {

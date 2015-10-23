@@ -77,8 +77,6 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.react.variant = :development
-
   config.action_mailer.default_url_options = { host: ENV['SIZUNG_HOST'] }
 
   ActionMailer::Base.smtp_settings = {
