@@ -30,6 +30,12 @@ export default class ConversationRoot extends Component {
     store.dispatch(setCurrentConversation(this.props.currentConversation));
     store.dispatch(setDeliverables(this.props.deliverables));
   }
+
+  componentDidMount() {
+    window.App.comments.setOnReceived(function (data) {
+      console.log('received new comment in react', data);
+    });
+  }
   render() {
     if (__DEVTOOLS__) {
       // React components for Redux DevTools

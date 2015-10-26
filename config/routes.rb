@@ -13,6 +13,8 @@ Rails.application.routes.draw do
     root to: 'organizations#index', as: :authenticated_root
   end
 
+  match '/websocket', to: ActionCable.server, via: [:get, :post]
+
   root 'landing_page#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
