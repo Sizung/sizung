@@ -16,7 +16,7 @@ import AgendaItemListApp from './AgendaItemListApp';
 import DeliverableListApp from './DeliverableListApp';
 import CommentListApp from './CommentListApp';
 import configureStore from '../store/configureStore';
-import {setComments} from '../actions/comments'
+import {setComments, createCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems} from '../actions/agendaItems'
 import {setDeliverables} from '../actions/deliverables'
 import {setCurrentConversation} from '../actions/conversations'
@@ -34,6 +34,7 @@ export default class ConversationRoot extends Component {
   componentDidMount() {
     window.App.comments.setOnReceived(function (data) {
       console.log('received new comment in react', data);
+      store.dispatch(createCommentRemoteOrigin(data.comment));
     });
   }
   render() {

@@ -23,6 +23,8 @@ export default function commentsByConversation(state = initialState, action = nu
   case CREATE_COMMENT:
     if(action.status == STATUS_SUCCESS) {
       return state.set(action.comment.conversation_id, state.get(action.comment.conversation_id).push(action.comment.id));
+    } else if(action.status == STATUS_REMOTE_ORIGIN) {
+      return state.set(action.comment.conversation_id, state.get(action.comment.conversation_id).push(action.comment.id));
     } else {
       return state;
     }
