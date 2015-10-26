@@ -9,7 +9,6 @@ App.comments = App.cable.subscriptions.create "CommentsChannel",
     , 1000
 
   received: (data) ->
-    console.log('got comment data: ', data)
     this.onReceived(data)
 
   userIsCurrentUser: (comment) ->

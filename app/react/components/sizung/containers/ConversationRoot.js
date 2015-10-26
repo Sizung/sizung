@@ -16,6 +16,7 @@ import AgendaItemListApp from './AgendaItemListApp';
 import DeliverableListApp from './DeliverableListApp';
 import CommentListApp from './CommentListApp';
 import configureStore from '../store/configureStore';
+import {setCurrentUser} from '../actions/users'
 import {setComments, createCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems} from '../actions/agendaItems'
 import {setDeliverables} from '../actions/deliverables'
@@ -25,6 +26,7 @@ const store = configureStore();
 
 export default class ConversationRoot extends Component {
   componentWillMount() {
+    store.dispatch(setCurrentUser(this.props.currentUser));
     store.dispatch(setComments(this.props.currentConversation, this.props.comments));
     store.dispatch(setAgendaItems(this.props.agendaItems));
     store.dispatch(setCurrentConversation(this.props.currentConversation));
@@ -33,8 +35,9 @@ export default class ConversationRoot extends Component {
 
   componentDidMount() {
     window.App.comments.setOnReceived(function (data) {
-      console.log('received new comment in react', data);
-      store.dispatch(createCommentRemoteOrigin(data.comment));
+      if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
+        store.dispatch(createCommentRemoteOrigin(data.comment));
+      }
     });
   }
   render() {

@@ -34,6 +34,8 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
+        BroadcastCommentCreatedJob.perform_later(comment: @comment, actor_id: current_user.id)
+
         format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
       else
