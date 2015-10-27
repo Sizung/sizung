@@ -25,7 +25,11 @@ export default function comments(state = initialState, action = null) {
   case DELETE_COMMENT:
     if(action.status == STATUS_SUCCESS) {
       return state.remove(action.comment.id);
-    } else {
+    }
+    else if(action.status == STATUS_REMOTE_ORIGIN) {
+      return state.remove(action.comment.id);
+    }
+    else {
       return state;
     }
   case SET_COMMENTS:

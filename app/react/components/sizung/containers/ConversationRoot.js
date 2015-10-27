@@ -17,7 +17,7 @@ import DeliverableListApp from './DeliverableListApp';
 import CommentListApp from './CommentListApp';
 import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
-import {setComments, createCommentRemoteOrigin} from '../actions/comments'
+import {setComments, createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems} from '../actions/agendaItems'
 import {setDeliverables} from '../actions/deliverables'
 import {setCurrentConversation} from '../actions/conversations'
@@ -36,7 +36,12 @@ export default class ConversationRoot extends Component {
   componentDidMount() {
     window.App.comments.setOnReceived(function (data) {
       if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
-        store.dispatch(createCommentRemoteOrigin(data.comment));
+        if(data.action == 'create') {
+          store.dispatch(createCommentRemoteOrigin(data.comment));
+        }
+        else if(data.action == 'delete') {
+          store.dispatch(deleteCommentRemoteOrigin(data.comment));
+        }
       }
     });
   }

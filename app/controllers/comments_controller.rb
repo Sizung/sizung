@@ -34,7 +34,7 @@ class CommentsController < ApplicationController
 
     respond_to do |format|
       if @comment.save
-        BroadcastCommentCreatedJob.perform_later(comment: @comment, actor_id: current_user.id)
+        CommentRelayJob.perform_later(comment: @comment.as_json(include: {author: {methods: :name}}).to_json, actor_id: current_user.id, action: 'create')
 
         format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
         format.json { render :show, status: :created, location: @comment }
@@ -64,6 +64,7 @@ class CommentsController < ApplicationController
   def destroy
     @comment.destroy
     respond_to do |format|
+      CommentRelayJob.perform_later(comment: @comment.as_json(include: {author: {methods: :name}}).to_json, actor_id: current_user.id, action: 'delete')
       format.html { redirect_to comments_url, notice: 'Comment was successfully destroyed.' }
       format.json { render :show, status: :ok }
     end

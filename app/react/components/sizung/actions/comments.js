@@ -30,6 +30,14 @@ export function createCommentRemoteOrigin(comment) {
   };
 }
 
+export function deleteCommentRemoteOrigin(comment) {
+  return {
+    type: DELETE_COMMENT,
+    status: STATUS_REMOTE_ORIGIN,
+    comment: comment
+  };
+}
+
 export function createCommentSuccess(comment) {
   return {
     type: CREATE_COMMENT,
