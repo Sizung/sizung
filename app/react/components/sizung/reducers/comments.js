@@ -15,13 +15,21 @@ export default function comments(state = initialState, action = null) {
   case CREATE_COMMENT:
     if(action.status == STATUS_SUCCESS) {
       return state.set(action.comment.id, action.comment);
-    } else {
+    }
+    else if(action.status == STATUS_REMOTE_ORIGIN) {
+      return state.set(action.comment.id, action.comment);
+    }
+    else {
       return state;
     }
   case DELETE_COMMENT:
     if(action.status == STATUS_SUCCESS) {
       return state.remove(action.comment.id);
-    } else {
+    }
+    else if(action.status == STATUS_REMOTE_ORIGIN) {
+      return state.remove(action.comment.id);
+    }
+    else {
       return state;
     }
   case SET_COMMENTS:

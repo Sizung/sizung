@@ -3,6 +3,7 @@
 import { combineReducers } from 'redux-immutablejs';
 import comments from './comments';
 import agendaItems from './agendaItems';
+import currentUser from './currentUser';
 import currentConversation from './currentConversation';
 import deliverables from './deliverables';
 import commentsByConversation from './commentsByConversation';
@@ -14,6 +15,7 @@ const entities = combineReducers({
 });
 
 const rootReducer = combineReducers({
+  currentUser,
   currentConversation,
   commentsByConversation,
   entities

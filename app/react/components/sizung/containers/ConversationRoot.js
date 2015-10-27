@@ -16,7 +16,8 @@ import AgendaItemListApp from './AgendaItemListApp';
 import DeliverableListApp from './DeliverableListApp';
 import CommentListApp from './CommentListApp';
 import configureStore from '../store/configureStore';
-import {setComments} from '../actions/comments'
+import {setCurrentUser} from '../actions/users'
+import {setComments, createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems} from '../actions/agendaItems'
 import {setDeliverables} from '../actions/deliverables'
 import {setCurrentConversation} from '../actions/conversations'
@@ -25,10 +26,24 @@ const store = configureStore();
 
 export default class ConversationRoot extends Component {
   componentWillMount() {
+    store.dispatch(setCurrentUser(this.props.currentUser));
     store.dispatch(setComments(this.props.currentConversation, this.props.comments));
     store.dispatch(setAgendaItems(this.props.agendaItems));
     store.dispatch(setCurrentConversation(this.props.currentConversation));
     store.dispatch(setDeliverables(this.props.deliverables));
+  }
+
+  componentDidMount() {
+    window.App.comments.setOnReceived(function (data) {
+      if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
+        if(data.action == 'create') {
+          store.dispatch(createCommentRemoteOrigin(data.comment));
+        }
+        else if(data.action == 'delete') {
+          store.dispatch(deleteCommentRemoteOrigin(data.comment));
+        }
+      }
+    });
   }
   render() {
     if (__DEVTOOLS__) {
