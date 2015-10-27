@@ -1,7 +1,5 @@
 production: &production
-  :url: redis://10.10.3.153:6381
-  :host: 10.10.3.153
-  :port: 6381
+  :url: <%= ENV["REDIS_URL"] %>
   :timeout: 1
 development: &development
   :url: redis://localhost:6379
