@@ -23,7 +23,7 @@ class AgendaItemList extends Component {
 }
 
 AgendaItemList.propTypes = {
-  agendaItems: PropTypes.array.isRequired
+  agendaItems: PropTypes.object.isRequired
 };
 
 export default AgendaItemList;

@@ -6,9 +6,6 @@ App.appearance = App.cable.subscriptions.create "AppearanceChannel",
   appear: ->
     @perform 'appear', appearing_on: @appearingOn()
 
-  away: ->
-    @perform 'away'
-
   appearingOn: ->
     #    $('main').data 'appearing-on'
     'on my sizung page'

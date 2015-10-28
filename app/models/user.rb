@@ -8,6 +8,14 @@ class User < ActiveRecord::Base
   has_many :organizations, through: :organization_members
   has_many :conversations, through: :organizations
 
+  def appear
+    update presence_status: 'online'
+  end
+
+  def disappear
+    update presence_status: 'offline'
+  end
+
   def name
     (first_name && last_name) ? [first_name, last_name].join(' ') : email
   end

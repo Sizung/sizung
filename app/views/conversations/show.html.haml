@@ -6,7 +6,7 @@
 %p
   %b Conversation:
   = @conversation.title
-= react_component('ConversationRoot', {currentUser: {id: current_user.id}, currentConversation: {id: @conversation.id}, agendaItems: [{id: 1, title: 'Review Agenda List', conversationTitle: 'React Tutorial', commentsSize: 4}, {id: 2, title: 'Update Trello Specifications', conversationTitle: 'Functional Specifications', commentsSize: 34}], comments: @comments_json, deliverables: [{id: 1, body: "Implement React Components for Agenda Items"},{id: 2, body: "Implement Agenda Discussion View with Dynamic Data"}, {id: 3, body: "Review UI wireframes and update Trello"}]}, {prerender: false} )
+= react_component('ConversationRoot', {users: @users_json, currentUser: {id: current_user.id}, currentConversation: {id: @conversation.id}, agendaItems: [{id: 1, title: 'Review Agenda List', conversationTitle: 'React Tutorial', commentsSize: 4}, {id: 2, title: 'Update Trello Specifications', conversationTitle: 'Functional Specifications', commentsSize: 34}], comments: @comments_json, deliverables: [{id: 1, body: "Implement React Components for Agenda Items"},{id: 2, body: "Implement Agenda Discussion View with Dynamic Data"}, {id: 3, body: "Review UI wireframes and update Trello"}]}, {prerender: false} )
 
 = link_to 'Edit', edit_conversation_path(@conversation)
 \|

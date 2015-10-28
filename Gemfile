@@ -53,6 +53,8 @@ gem 'simple_form'
 gem 'pundit'
 gem 'figaro'
 gem 'actioncable', github: 'gugl/actioncable'
+gem 'redis'
+gem 'hiredis'
 
 group :production do
   gem 'rails_12factor'
