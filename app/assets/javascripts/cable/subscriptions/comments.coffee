@@ -19,7 +19,6 @@ App.comments = App.cable.subscriptions.create "CommentsChannel",
     console.log('CommentsChannel following conversation: ' + conversationId)
 
   setOnReceived: (callback) ->
-    console.log('setOnReceived')
     this.onReceived = callback
 
   followCurrentConversation: ->

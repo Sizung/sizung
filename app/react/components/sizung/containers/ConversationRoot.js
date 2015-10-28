@@ -21,7 +21,7 @@ import {setCurrentUser} from '../actions/users'
 import {setComments, createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems} from '../actions/agendaItems'
 import {setDeliverables} from '../actions/deliverables'
-import {setUsers} from '../actions/users'
+import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
 
 const store = configureStore();
@@ -47,6 +47,13 @@ export default class ConversationRoot extends Component {
         }
       }
     });
+
+
+    window.App.appearance.setOnReceived(function (data) {
+      console.log('Activity in appearance: ', data);
+      store.dispatch(updateUserRemoteOrigin(data.user));
+    });
+
   }
   render() {
     if (__DEVTOOLS__) {
