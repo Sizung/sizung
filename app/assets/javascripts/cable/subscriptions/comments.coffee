@@ -23,7 +23,8 @@ App.comments = App.cable.subscriptions.create "CommentsChannel",
 
   followCurrentConversation: ->
     conversationId = $('#js-conversation').data('conversation-id')
-    this.followConversation(conversationId)
+    if(conversationId)
+      this.followConversation(conversationId)
 
   unfollowConversation: ->
     @perform 'unfollow'

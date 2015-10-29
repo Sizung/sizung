@@ -27,7 +27,8 @@ App.appearance = App.cable.subscriptions.create "AppearanceChannel",
 
   followCurrentOrganization: ->
     organizationId = $('#js-organization').data('organization-id')
-    this.followOrganization(organizationId)
+    if(organizationId)
+      this.followOrganization(organizationId)
 
   unfollowOrganization: ->
     @perform 'unfollow'
@@ -36,6 +37,3 @@ App.appearance = App.cable.subscriptions.create "AppearanceChannel",
     unless @installedPageChangeCallback
       @installedPageChangeCallback = true
       $(document).on 'page:change', -> App.comments.followCurrentOrganization()
-
-$(document).on 'page:change', ->
-  App.appearance.appear()
