@@ -8,7 +8,6 @@ class User extends React.Component {
 
     return (
       <div>
-        assettest
         <span>{ presence_status } { email }</span>
       </div>
     );

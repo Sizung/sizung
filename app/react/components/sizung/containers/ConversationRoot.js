@@ -56,27 +56,28 @@ export default class ConversationRoot extends Component {
 
   }
   render() {
+    const toRender = () =>
+      <div>
+        <div className="col-xs-3">
+          <AgendaItemListApp />
+        </div>
+        <div className="col-xs-6">
+          <UserListApp />
+          <CommentListApp />
+        </div>
+        <div className="col-xs-3">
+          <DeliverableListApp />
+        </div>
+      </div>
+
+
     if (__DEVTOOLS__) {
       // React components for Redux DevTools
       const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
       return (
         <div>
           <Provider store={store}>
-            {
-              () =>
-                <div>
-                  <div className="col-xs-3">
-                    <AgendaItemListApp />
-                  </div>
-                  <div className="col-xs-6">
-                    <UserListApp />
-                    <CommentListApp />
-                  </div>
-                  <div className="col-xs-3">
-                    <DeliverableListApp />
-                  </div>
-                </div>
-            }
+            { toRender }
           </Provider>
           <DebugPanel top right bottom>
             <DevTools store={store} monitor={LogMonitor} />
@@ -87,20 +88,7 @@ export default class ConversationRoot extends Component {
       return (
         <div>
           <Provider store={store}>
-            {
-              () =>
-                <div>
-                  <div className="col-xs-3">
-                    <AgendaItemListApp />
-                  </div>
-                  <div className="col-xs-6">
-                    <CommentListApp />
-                  </div>
-                  <div className="col-xs-3">
-                    <DeliverableListApp />
-                  </div>
-                </div>
-            }
+            { toRender }
           </Provider>
         </div>
       );
