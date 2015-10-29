@@ -10,6 +10,79 @@
  * defined in the other CSS/SCSS files in this directory. It is generally better to create a new
  * file per style scope.
  *
+ * this file will contain all the custom css for Sizung on top of the default bootstrap css
  *= require_tree .
  *= require_self
  */
+
+.gray-bg {
+    background-color: #eeeeee;
+}
+
+.white-bg {
+    background-color: #ffffff;
+}
+
+.zero-vertical-margin {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+.zero-horizontal-margin {
+    margin-left: 0px;
+    margin-right: 0px;
+}
+
+.zero-margin {
+    margin: 0px;
+}
+
+.zero-vertical-padding {
+    padding-bottom: 0px;
+    padding-top: 0px;
+}
+
+.zero-horizontal-padding {
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+.zero-padding {
+    padding: 0px;
+}
+
+.padding-xs {
+    padding: 5px;
+}
+
+.padding-sm {
+    padding: 10px;
+}
+
+.padding-lg {
+    padding: 15px;
+}
+
+.padding-xl {
+    padding: 20px;
+}
+
+.margin-xs {
+    padding: 5px;
+}
+
+.margin-sm {
+    padding: 10px;
+}
+
+.margin-lg {
+    padding: 15px;
+}
+
+.margin-xl {
+    padding: 20px;
+}
+
+.full-width {
+    width: 100%;
+}   

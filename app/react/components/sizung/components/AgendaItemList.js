@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import AgendaItem from './AgendaItem';
+import { Glyphicon } from 'react-bootstrap';
+
 
 class AgendaItemList extends Component {
   render() {
@@ -7,6 +9,9 @@ class AgendaItemList extends Component {
 
     return (
       <div className='agendaItemList'>
+        <div className='agendaItemListHeader padding-sm'>
+          <Glyphicon glyph="tag" />{" "}Agendas
+        </div>
         {
           agendaItems.map(function(agendaItem) {
             return(<AgendaItem

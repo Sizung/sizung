@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
+import { Glyphicon } from 'react-bootstrap';
 
 class CommentList extends Component {
   render() {
@@ -8,6 +9,9 @@ class CommentList extends Component {
 
     return (
       <div className='commentList'>
+        <div className='commentListHeader'>
+          <Glyphicon glyph="phone-alt" />{" "}Conversations
+        </div>
         <CommentForm createComment={createComment} currentConversation={currentConversation} />
         {
           comments.map(function(comment) {

@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Deliverable from './Deliverable';
+import { Glyphicon } from 'react-bootstrap';
 
 class DeliverableList extends Component {
   render() {
@@ -7,6 +8,9 @@ class DeliverableList extends Component {
 
     return (
       <div className='deliverableList'>
+        <div className='deliverableListHeader padding-sm'>
+          <Glyphicon glyph="tasks" />{" "}Deliverables
+        </div>
         {
           deliverables.map(function(deliverable) {
             return(<Deliverable
