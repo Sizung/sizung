@@ -36,4 +36,4 @@ App.appearance = App.cable.subscriptions.create "AppearanceChannel",
   installPageChangeCallback: ->
     unless @installedPageChangeCallback
       @installedPageChangeCallback = true
-      $(document).on 'page:change', -> App.comments.followCurrentOrganization()
+      $(document).on 'page:change', -> App.appearance.followCurrentOrganization()
