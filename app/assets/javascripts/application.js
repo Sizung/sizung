@@ -17,7 +17,7 @@
 // require react
 // require react_ujs
 // require components
-//= require react_integration
-//= require react_bundle
 //= require application_cable
 //= require_tree ./cable
+//= require react_integration
+//= require react_bundle
