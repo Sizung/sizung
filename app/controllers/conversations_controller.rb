@@ -3,6 +3,8 @@ class ConversationsController < ApplicationController
   before_action :set_conversation, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized,    except: :index
   after_action :verify_policy_scoped, only: :index
+  layout 'conversation', only: [:show]
+
 
   # GET /conversations
   # GET /conversations.json
