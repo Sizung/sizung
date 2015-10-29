@@ -20,6 +20,7 @@ module ApplicationCable
           logger.info "Verified user: #{verified_user}"
           verified_user
         else
+          logger.error "User not found or token has expired. User: #{verified_user}, UserId: #{cookies.signed['user.id']}, Expired: #{cookies.signed['user.expires_at']}."
           reject_unauthorized_connection
         end
       end

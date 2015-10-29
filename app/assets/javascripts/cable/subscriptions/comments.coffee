@@ -19,12 +19,12 @@ App.comments = App.cable.subscriptions.create "CommentsChannel",
     console.log('CommentsChannel following conversation: ' + conversationId)
 
   setOnReceived: (callback) ->
-    console.log('setOnReceived')
     this.onReceived = callback
 
   followCurrentConversation: ->
     conversationId = $('#js-conversation').data('conversation-id')
-    this.followConversation(conversationId)
+    if(conversationId)
+      this.followConversation(conversationId)
 
   unfollowConversation: ->
     @perform 'unfollow'

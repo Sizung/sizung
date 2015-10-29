@@ -288,6 +288,7 @@ DEPENDENCIES
   figaro
   haml
   haml-rails
+  hiredis
   jbuilder (~> 2.0)
   jquery-rails
   less-rails
@@ -302,6 +303,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails_12factor
   react_webpack_rails
+  redis
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   simple_form

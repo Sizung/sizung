@@ -6,12 +6,14 @@ import agendaItems from './agendaItems';
 import currentUser from './currentUser';
 import currentConversation from './currentConversation';
 import deliverables from './deliverables';
+import users from './users';
 import commentsByConversation from './commentsByConversation';
 
 const entities = combineReducers({
   comments,
   agendaItems,
-  deliverables
+  deliverables,
+  users
 });
 
 const rootReducer = combineReducers({
