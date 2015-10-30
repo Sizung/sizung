@@ -1,12 +1,20 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
 import React, { Component, PropTypes } from 'react';
+import { Glyphicon } from 'react-bootstrap';
 
 class AgendaItem extends React.Component {
   render() {
-    return <div className="row well well-small"> <strong className="col-xs-12">{ this.props.title }</strong>
-           <small className="col-xs-12">#{this.props.conversationTitle}</small>
-           <small className="col-xs-12">{this.props.commentsSize} comments</small></div>;
+    return <div className="row white-bg padding-sm-vertical margin-xs-vertical">
+        <div className="col-xs-12">
+          <strong className="pull-left">{ this.props.title }</strong>
+          <i className="pull-right" glyph="tag" />
+        </div>
+        <div className="col-xs-12">
+          <small className="pull-left">{this.props.commentsSize} comments</small>
+          <small className="pull-right">#{this.props.conversationTitle}</small>
+        </div>
+      </div>;
   }
 }
 

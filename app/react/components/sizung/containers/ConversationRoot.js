@@ -57,18 +57,26 @@ export default class ConversationRoot extends Component {
   }
   render() {
     const toRender = () =>
-      <div>
-        <div className="col-xs-3">
-          <AgendaItemListApp />
-        </div>
-        <div className="col-xs-6">
-          <UserListApp />
-          <CommentListApp />
-        </div>
-        <div className="col-xs-3">
-          <DeliverableListApp />
+
+      <div className="container gray-bg padding-lg full-width">
+        <div className="row">
+          <div className="col-lg-12">
+            <UserListApp className="pull-right"/>
+            <div className="col-xs-12">
+              <div className="col-xs-3">
+                <AgendaItemListApp />
+              </div>
+              <div className="col-xs-6">
+                <CommentListApp />
+              </div>
+              <div className="col-xs-3">
+                <DeliverableListApp />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+
 
 
     if (__DEVTOOLS__) {
@@ -79,7 +87,7 @@ export default class ConversationRoot extends Component {
           <Provider store={store}>
             { toRender }
           </Provider>
-          <DebugPanel top right bottom>
+          <DebugPanel bottom>
             <DevTools store={store} monitor={LogMonitor} />
           </DebugPanel>
         </div>

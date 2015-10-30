@@ -9,8 +9,8 @@ class AgendaItemList extends Component {
 
     return (
       <div className='agendaItemList'>
-        <div className='agendaItemListHeader padding-sm'>
-          <Glyphicon glyph="tag" />{" "}Agendas
+        <div className='agendaItemListHeader padding-sm-vertical'>
+          <i className="fa fa-tag"></i>  {" "}Agendas
         </div>
         {
           agendaItems.map(function(agendaItem) {

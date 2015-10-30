@@ -8,16 +8,16 @@ class DeliverableList extends Component {
 
     return (
       <div className='deliverableList'>
-        <div className='deliverableListHeader padding-sm'>
-          <Glyphicon glyph="tasks" />{" "}Deliverables
+        <div className='deliverableListHeader padding-sm-vertical'>
+          <i className='fa fa-tasks'></i>{" "}Deliverables
         </div>
         {
           deliverables.map(function(deliverable) {
             return(<Deliverable
                     key={deliverable.id}
                     body={deliverable.body}
-                    //conversationTitle={deliverable.conversation.converstaionTitle}
-                    //commentsSize={deliverable.comments.size()}
+                    conversationTitle={deliverable.conversationTitle}
+                    assignee={deliverable.assignee}
                 />);
           })
         }
