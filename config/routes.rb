@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :agenda_items, only: [:create]
   resources :comments
   resources :conversations
   resources :organizations

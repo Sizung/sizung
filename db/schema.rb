@@ -11,11 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151028095834) do
+ActiveRecord::Schema.define(version: 20151030095454) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "uuid-ossp"
+
+  create_table "agenda_items", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "conversation_id"
+    t.uuid     "owner_id"
+    t.string   "title",                            null: false
+    t.string   "status",          default: "open", null: false
+    t.datetime "created_at",                       null: false
+    t.datetime "updated_at",                       null: false
+  end
+
+  add_index "agenda_items", ["conversation_id"], name: "index_agenda_items_on_conversation_id", using: :btree
+  add_index "agenda_items", ["owner_id"], name: "index_agenda_items_on_owner_id", using: :btree
 
   create_table "comments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "conversation_id"
@@ -98,6 +110,8 @@ ActiveRecord::Schema.define(version: 20151028095834) do
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
+  add_foreign_key "agenda_items", "conversations"
+  add_foreign_key "agenda_items", "users", column: "owner_id"
   add_foreign_key "comments", "conversations"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "conversations", "organizations"
