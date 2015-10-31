@@ -23,7 +23,7 @@ class CommentForm extends React.Component {
 
   render() {
     return (
-      <form className="commentForm" ref="commentFormRef" onSubmit={this.handleSubmit}>
+      <form className="commentForm margin-sm-vertical" ref="commentFormRef" onSubmit={this.handleSubmit}>
         <Input type="text" placeholder="Type your comment" ref="name" buttonAfter={<Button type="submit"><i className="fa fa-comment-o"></i></Button>}/>
       </form>
     );
