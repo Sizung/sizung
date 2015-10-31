@@ -4,7 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 class Deliverable extends React.Component {
     render() {
-        return <div className="row white-bg padding-sm-vertical margin-xs-vertical">
+        return <div className="row white-bg padding-sm-vertical margin-xs-vertical box-shadow">
           <div className="col-xs-12">
             <strong className="col-xs-11 zero-padding">{ this.props.body }</strong>
             <i className="col-xs-1 fa fa-tasks zero-padding"></i>

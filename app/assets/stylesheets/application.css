@@ -166,3 +166,9 @@
 .full-width {
     width: 100%;
 }
+
+.box-shadow {
+    -webkit-box-shadow: 10px 10px 10px 0px rgba(170,170,170,1);
+    -moz-box-shadow: 10px 10px 10px 0px rgba(170,170,170,1);
+    box-shadow: 10px 10px 10px 0px rgba(170,170,170,1);
+}

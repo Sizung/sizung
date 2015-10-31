@@ -5,7 +5,7 @@ import { Glyphicon } from 'react-bootstrap';
 
 class AgendaItem extends React.Component {
   render() {
-    return <div className="row white-bg padding-sm-vertical margin-xs-vertical">
+    return <div className="row white-bg padding-sm-vertical margin-xs-vertical box-shadow">
         <div className="col-xs-12">
           <strong className="pull-left">{ this.props.title }</strong>
           <i className="pull-right" glyph="tag" />

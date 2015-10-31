@@ -9,9 +9,10 @@ class CommentList extends Component {
 
     return (
       <div className='commentList'>
-        <div className='commentListHeader'>
-          <Glyphicon glyph="phone-alt" />{" "}Conversations
+        <div className='commentListHeader padding-sm-vertical'>
+          <i className='fa fa-comments-o'></i>{' '}Conversations
         </div>
+        <div className='commentListArea white-bg box-shadow padding-sm margin-xs-vertical'>
         <CommentForm createComment={createComment} currentConversation={currentConversation} />
         {
           comments.map(function(comment) {
@@ -19,6 +20,7 @@ class CommentList extends Component {
             return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.created_at} deleteComment={deleteComment} />);
           })
         }
+        </div>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Input,Button, ButtonGroup } from 'react-bootstrap';
 
 class CommentForm extends React.Component {
   constructor() {
@@ -6,20 +7,24 @@ class CommentForm extends React.Component {
 
     this.handleSubmit = (e) => {
       e.preventDefault();
-      name = React.findDOMNode(this.refs.name).value.trim();
+
+      //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
+      name = this.refs.name.getInputDOMNode().value.trim();
+      //name = React.findDOMNode(this.refs.name).value.trim();
       if(!name) return;
 
       this.props.createComment({conversation_id: this.props.currentConversation.get('id'), body: name});
 
-      React.findDOMNode(this.refs.name).value = ''
+      this.refs.name.getInputDOMNode().value = '';
     }
+
   }
+
 
   render() {
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input placeholder="What is it about?" ref="name" />
-        <input type="submit" value="Add Comment" />
+      <form className="commentForm" ref="commentFormRef" onSubmit={this.handleSubmit}>
+        <Input type="text" placeholder="Type your comment" ref="name" buttonAfter={<Button type="submit"><i className="fa fa-comment-o"></i></Button>}/>
       </form>
     );
   }
