@@ -172,3 +172,38 @@
     -moz-box-shadow: 5px 5px 10px 0px rgba(170,170,170,1);
     box-shadow: 5px 5px 10px 0px rgba(170,170,170,1);
 }
+
+.circle-xs {
+    border-radius: 50%/50%;
+    width: 15px;
+    height: 15px;
+    background-color: #eeeeee;
+}
+
+.circle-sm {
+    border-radius: 50%/50%;
+    width: 30px;
+    height: 30px;
+    background-color: #eeeeee;
+}
+
+.circle-lg {
+    border-radius: 50%/50%;
+    width: 50px;
+    height: 50px;
+    background-color: #eeeeee;
+}
+
+.circle-text-sm {
+    font-size: small;
+    position: absolute;
+    padding: 6px;
+    color: #777777;
+}
+
+.circle-text-lg {
+    font-size: large;
+    position: absolute;
+    padding: 12px;
+    color: #777777;
+}
