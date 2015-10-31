@@ -15,7 +15,7 @@ class Comment extends React.Component {
   }
 
   render() {
-    return <div style={[styles.base]} className="margin-xs-vertical">
+    return <div style={[styles.base]} className="col-xs-12 zero-padding margin-xs-vertical">
             <div className="col-xs-1">
               <div className="circle-sm">
                 <span className="circle-text-sm">{this.props.author.name.split(' ')[0].charAt(0)+this.props.author.name.split(' ')[1].charAt(0)}</span>

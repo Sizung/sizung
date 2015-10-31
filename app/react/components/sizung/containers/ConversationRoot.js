@@ -58,7 +58,7 @@ export default class ConversationRoot extends Component {
   render() {
     const toRender = () =>
 
-      <div className="container gray-bg zero-padding full-width box-shadow">
+      <div className="container gray-bg zero-padding full-width">
         <div className="row">
           <div className="col-lg-12">
             <UserListApp className="pull-right"/>

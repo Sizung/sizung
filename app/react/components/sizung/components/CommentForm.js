@@ -23,9 +23,24 @@ class CommentForm extends React.Component {
 
   render() {
     return (
-      <form className="commentForm margin-sm-vertical" ref="commentFormRef" onSubmit={this.handleSubmit}>
-        <Input type="text" placeholder="Type your comment" ref="name" buttonAfter={<Button type="submit"><i className="fa fa-comment-o"></i></Button>}/>
-      </form>
+      <div className="col-xs-12 zero-padding padding-sm-vertical" style={{border : '0px solid #eeeeee', borderTopWidth : '1px'}}>
+        <form className="commentForm" ref="commentFormRef" onSubmit={this.handleSubmit}>
+          <div className="col-xs-1">
+            <div className="circle-sm">
+              <span className="circle-text-sm">AU</span>
+            </div>
+          </div>
+          <div className="col-xs-11" style={{paddingLeft: '0px'}}>
+            <Input className="zero-padding col-xs-12" style={{border: 'none', outline: 'none', boxShadow: 'none'}} type="text" placeholder="Type your comment here" ref="name"/>
+            <ButtonGroup className="pull-right">
+              <Button className="btn btn-xs" type="submit" style={{border: 'none'}} ><i className="fa fa-comment text-muted"></i></Button>
+              <Button className="btn btn-xs" type="submit" style={{border: 'none'}} ><i className="fa fa-tag text-muted"></i></Button>
+              <Button className="btn btn-xs" type="submit" style={{border: 'none'}} ><i className="fa fa-tasks text-muted"></i></Button>
+              <Button className="btn btn-xs" type="submit" style={{border: 'none'}} ><i className="fa fa-comments text-muted"></i></Button>
+            </ButtonGroup>
+          </div>
+        </form>
+      </div>
     );
   }
 }
@@ -33,7 +48,8 @@ class CommentForm extends React.Component {
 
 CommentForm.propTypes = {
   createComment: PropTypes.func.isRequired,
-  currentConversation: PropTypes.object.isRequired
+  currentConversation: PropTypes.object.isRequired,
+  currentUser : PropTypes.object.isRequired
 };
 
 export default CommentForm;

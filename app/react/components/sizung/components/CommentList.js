@@ -6,26 +6,28 @@ import { Glyphicon } from 'react-bootstrap';
 class CommentList extends Component {
   render() {
     const { currentConversation, comments, createComment, deleteComment } = this.props;
-    console.log("Current Conversation: " + this.props.currentConversation);
     return (
 
-    <div className='commentList'>
-        <div className='commentListHeader padding-sm box-shadow '>
-          <i className='fa fa-comments-o'></i>{' '}<strong>Conversations</strong>
+    <div className='commentList col-xs-12 zero-padding'>
+      <div className='commentListHeader padding-sm col-xs-12 zero-padding  box-shadow'>
+        <i className='fa fa-comments-o'></i>{' '}<strong>Conversations</strong>
+      </div>
+      <div className='commentListArea white-bg margin-xs-vertical col-xs-12 zero-padding  box-shadow'>
+        <div className="commentListConversationHeader col-xs-12 padding-sm-vertical">
+          # Conv - {this.props.currentConversation.get('id')}
         </div>
-        <div className='commentListArea white-bg padding-sm margin-xs-vertical'>
-          <div className="commentListConversationHeader">
-            # Conv - {this.props.currentConversation.get('id')}
-          </div>
+        <div className='comments'>
         {
-         comments.map(function(comment) {
+          comments.map(function(comment) {
             // use comment object instead
             return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.created_at} deleteComment={deleteComment} />);
           })
         }
-        <CommentForm createComment={createComment} currentConversation={currentConversation} />
         </div>
+        <CommentForm createComment={createComment} currentConversation={currentConversation} />
       </div>
+
+    </div>
     );
   }
 }
