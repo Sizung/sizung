@@ -14,6 +14,7 @@ describe AgendaItemsController do
   describe 'signed in' do
     setup do
       @conversation = FactoryGirl.create(:conversation)
+      @agenda_item  = FactoryGirl.create(:agenda_item)
       @request.env['devise.mapping'] = Devise.mappings[:user]
       sign_in @conversation.organization.owner
     end
@@ -26,6 +27,16 @@ describe AgendaItemsController do
       assert_response :success
       agenda_item = JSON.parse(response.body)
       assert_equal 'Last months review', agenda_item['data']['attributes']['title']
+    end
+
+    it 'destroys agenda item' do
+      expect {
+        delete :destroy, id: @agenda_item
+      }.must_change 'AgendaItem.count', -1
+
+      assert_response :success
+      agenda_item = JSON.parse(response.body)
+      assert_equal @agenda_item.title, agenda_item['data']['attributes']['title']
     end
   end
 end
