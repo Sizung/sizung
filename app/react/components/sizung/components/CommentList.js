@@ -6,20 +6,28 @@ import { Glyphicon } from 'react-bootstrap';
 class CommentList extends Component {
   render() {
     const { currentConversation, comments, createComment, deleteComment } = this.props;
-
     return (
-      <div className='commentList'>
-        <div className='commentListHeader'>
-          <Glyphicon glyph="phone-alt" />{" "}Conversations
+
+    <div className='commentList col-xs-12 zero-padding'>
+      <div className='commentListHeader padding-sm col-xs-12 zero-padding  box-shadow'>
+        <i className='fa fa-comments-o'></i>{' '}<strong>Conversations</strong>
+      </div>
+      <div className='commentListArea white-bg margin-xs-vertical col-xs-12 zero-padding  box-shadow'>
+        <div className="commentListConversationHeader col-xs-12 padding-sm-vertical">
+          # Conv - {this.props.currentConversation.get('id')}
         </div>
-        <CommentForm createComment={createComment} currentConversation={currentConversation} />
+        <div className='comments'>
         {
           comments.map(function(comment) {
             // use comment object instead
             return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.created_at} deleteComment={deleteComment} />);
           })
         }
+        </div>
+        <CommentForm createComment={createComment} currentConversation={currentConversation} />
       </div>
+
+    </div>
     );
   }
 }

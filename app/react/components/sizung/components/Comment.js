@@ -15,18 +15,24 @@ class Comment extends React.Component {
   }
 
   render() {
-    return <div style={[styles.base]}>
-            <div><strong>{ this.props.author.name }</strong> <small><Time value={this.props.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small></div>
-            <div>
+    return <div style={[styles.base]} className="col-xs-12 zero-padding margin-xs-vertical">
+            <div className="col-xs-1">
+              <div className="circle-sm">
+                <span className="circle-text-sm">{this.props.author.name.split(' ')[0].charAt(0)+this.props.author.name.split(' ')[1].charAt(0)}</span>
+              </div>
+            </div>
+            <div className="col-xs-11 zero-padding">
               {this.props.body}
-
-              {Radium.getState(this.state, this.key, ':hover') ? (
-                <span style={{marginLeft: '1em'}}>
-                  <a href='#' onClick={this.handleDeleteClick}>
-                    <i className="fa fa-times" aria-label='Delete'></i>
-                  </a>
-                </span>
-              ) : null}
+              <div className="pull-left col-xs-12 zero-padding margin-xs-vertical text-muted">
+                <small><Time value={this.props.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+                {Radium.getState(this.state, this.key, ':hover') ? (
+                  <span style={{marginLeft: '1em'}}>
+                    <a href='#' onClick={this.handleDeleteClick}>
+                      <i className="fa fa-times" aria-label='Delete'></i>
+                    </a>
+                  </span>
+                ) : null}
+              </div>
             </div>
           </div>;
   }

@@ -7,8 +7,8 @@ class User extends React.Component {
     let { email, presence_status } = this.props.user;
 
     return (
-      <div>
-        <span>{ presence_status } { email }</span>
+      <div className="navbar navbar-static white-bg zero-margin">
+        <span className="pull-right">{ presence_status } { email }</span>
       </div>
     );
   }
