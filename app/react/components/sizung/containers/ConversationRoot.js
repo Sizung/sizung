@@ -87,7 +87,7 @@ export default class ConversationRoot extends Component {
           <Provider store={store}>
             { toRender }
           </Provider>
-          <DebugPanel bottom>
+          <DebugPanel top right bottom>
             <DevTools store={store} monitor={LogMonitor} />
           </DebugPanel>
         </div>

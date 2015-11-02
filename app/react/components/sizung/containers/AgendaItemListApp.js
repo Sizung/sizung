@@ -10,6 +10,7 @@ import * as AgendaItemListActions from '../actions/agendaItems';
 function mapStateToProps(state) {
 
   var agendaItems = state.getIn(['entities', 'agendaItems']).toList();
+  console.log('agenda items: ', agendaItems.toJS());
 
   return {
     agendaItems: agendaItems

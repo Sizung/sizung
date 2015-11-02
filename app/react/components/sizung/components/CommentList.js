@@ -5,7 +5,7 @@ import { Glyphicon } from 'react-bootstrap';
 
 class CommentList extends Component {
   render() {
-    const { currentConversation, comments, createComment, deleteComment } = this.props;
+    const { currentConversation, comments, createComment, deleteComment, createAgendaItem } = this.props;
     return (
 
     <div className='commentList col-xs-12 zero-padding'>
@@ -24,7 +24,7 @@ class CommentList extends Component {
           })
         }
         </div>
-        <CommentForm createComment={createComment} currentConversation={currentConversation} />
+        <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} currentConversation={currentConversation} />
       </div>
 
     </div>
@@ -34,6 +34,7 @@ class CommentList extends Component {
 
 CommentList.propTypes = {
   createComment: PropTypes.func.isRequired,
+  createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
   comments: PropTypes.array.isRequired,
   currentConversation: PropTypes.object.isRequired

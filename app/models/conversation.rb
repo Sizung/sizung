@@ -1,6 +1,7 @@
 class Conversation < ActiveRecord::Base
   belongs_to :organization
   has_many :comments
+  has_many :agenda_items
 
   validates_presence_of :organization, :title
 

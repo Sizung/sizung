@@ -6,8 +6,11 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import CommentList from '../components/CommentList';
 import * as CommentsActions from '../actions/comments';
+import * as AgendaItemActions from '../actions/agendaItems';
 
 function mapStateToProps(state) {
+  console.log('map: ', state.toJS());
+  console.log('currentConversation: ', state.getIn(['currentConversation', 'id']));
   const commentIdsToShow = state.getIn(['commentsByConversation', state.getIn(['currentConversation', 'id'])]);
 
   var comments = commentIdsToShow.map(function(commentId){
@@ -21,7 +24,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(CommentsActions, dispatch);
+  return bindActionCreators({...AgendaItemActions, ...CommentsActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentList);

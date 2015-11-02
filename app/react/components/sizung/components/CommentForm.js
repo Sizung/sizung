@@ -7,6 +7,7 @@ class CommentForm extends React.Component {
 
     this.handleSubmit = (e) => {
       e.preventDefault();
+      console.log("handleSubmit:", e);
 
       //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
       name = this.refs.name.getInputDOMNode().value.trim();
@@ -14,6 +15,20 @@ class CommentForm extends React.Component {
       if(!name) return;
 
       this.props.createComment({conversation_id: this.props.currentConversation.get('id'), body: name});
+
+      this.refs.name.getInputDOMNode().value = '';
+    }
+
+    this.handleAgendaItem = (e) => {
+      e.preventDefault();
+      console.log("handleAgendaItem:", e);
+
+      //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
+      name = this.refs.name.getInputDOMNode().value.trim();
+      //name = React.findDOMNode(this.refs.name).value.trim();
+      if(!name) return;
+
+      this.props.createAgendaItem({conversation_id: this.props.currentConversation.get('id'), title: name});
 
       this.refs.name.getInputDOMNode().value = '';
     }
@@ -34,7 +49,7 @@ class CommentForm extends React.Component {
             <Input className="zero-padding col-xs-12" style={{border: 'none', outline: 'none', boxShadow: 'none'}} type="text" placeholder="Type your comment here" ref="name"/>
             <ButtonGroup className="pull-right">
               <Button className="btn btn-xs" type="submit" style={{border: 'none'}} ><i className="fa fa-comment text-muted"></i></Button>
-              <Button className="btn btn-xs" type="submit" style={{border: 'none'}} ><i className="fa fa-tag text-muted"></i></Button>
+              <Button className="btn btn-xs" type="submit" onClick={this.handleAgendaItem} style={{border: 'none'}} ><i className="fa fa-tag text-muted"></i></Button>
               <Button className="btn btn-xs" type="submit" style={{border: 'none'}} ><i className="fa fa-tasks text-muted"></i></Button>
               <Button className="btn btn-xs" type="submit" style={{border: 'none'}} ><i className="fa fa-comments text-muted"></i></Button>
             </ButtonGroup>
@@ -48,6 +63,7 @@ class CommentForm extends React.Component {
 
 CommentForm.propTypes = {
   createComment: PropTypes.func.isRequired,
+  createAgendaItem: PropTypes.func.isRequired,
   currentConversation: PropTypes.object.isRequired,
   currentUser : PropTypes.object.isRequired
 };

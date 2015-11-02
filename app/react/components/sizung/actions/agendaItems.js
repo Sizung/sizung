@@ -5,13 +5,46 @@
 // The type is the only mandatory field in the structure and describes the type of the action.
 // By this type, the reducer function then decides how to handle the action.
 
+import fetch from 'isomorphic-fetch';
+import MetaTagsManager from '../utils/MetaTagsManager';
+import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses.js';
+
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
+export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 
 export function setAgendaItems(agendaItems) {
   return {
     type: SET_AGENDA_ITEMS,
       agendaItems: agendaItems
 
-};
+  };
 }
 
+export function createAgendaItemSuccess(agendaItem) {
+  return {
+    type: CREATE_AGENDA_ITEM,
+    status: STATUS_SUCCESS,
+    agendaItem: agendaItem
+  };
+}
+
+export function createAgendaItem(agendaItem) {
+  return function(dispatch) {
+    return fetch('/agenda_items', {
+      method: 'post',
+      credentials: 'include', // send cookies with it
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
+      },
+      body: JSON.stringify({
+        agenda_item: agendaItem
+      })
+    })
+    .then(response => response.json())
+    .then(function(json) {
+      dispatch(createAgendaItemSuccess(json));
+    });
+  };
+}

@@ -16,6 +16,7 @@ class AgendaItemList extends Component {
           agendaItems.map(function(agendaItem) {
             return(<AgendaItem
                     key={agendaItem.id}
+                    agendaItem={agendaItem}
                     title={agendaItem.title}
                     conversationTitle={agendaItem.conversationTitle}
                     commentsSize={agendaItem.commentsSize}

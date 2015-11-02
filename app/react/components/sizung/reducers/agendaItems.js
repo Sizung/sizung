@@ -4,16 +4,23 @@
 // The are not allowed to change the state object. They have to return a new state object that they
 // create using the previous state and whatever they have to do because of the action they have to handle.
 
-import { SET_AGENDA_ITEMS} from '../actions/agendaItems';
+import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
+import { SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM } from '../actions/agendaItems';
 import Immutable from 'immutable';
-
 const initialState = Immutable.Map();
 
 export default function agendaItems(state = initialState, action = null) {
   switch (action.type) {
+  case CREATE_AGENDA_ITEM:
+    if(action.status == STATUS_SUCCESS) {
+      return state.set(action.agendaItem.data.id, action.agendaItem.data);
+    }
+    else {
+      return state;
+    }
   case SET_AGENDA_ITEMS:
-    for(var i=0; i<action.agendaItems.length; i++) {
-      state = state.set(action.agendaItems[i].id, action.agendaItems[i]);
+    for(var i=0; i<action.agendaItems.data.length; i++) {
+      state = state.set(action.agendaItems.data[i].id, action.agendaItems.data[i]);
     }
     return state;
   default:
