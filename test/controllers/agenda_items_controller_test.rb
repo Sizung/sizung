@@ -25,7 +25,7 @@ describe AgendaItemsController do
 
       assert_response :success
       agenda_item = JSON.parse(response.body)
-      assert_equal 'Last months review', agenda_item['title']
+      assert_equal 'Last months review', agenda_item['data']['attributes']['title']
     end
   end
 end

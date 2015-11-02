@@ -10,7 +10,7 @@ class AgendaItemsController < ApplicationController
     authorize @agenda_item
     @agenda_item.owner = current_user
     @agenda_item.save
-    respond_with(@agenda_item)
+    render json: @agenda_item, serializer: AgendaItemSerializer
   end
 
   private
