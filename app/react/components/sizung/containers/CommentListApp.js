@@ -12,7 +12,12 @@ function mapStateToProps(state) {
   const commentIdsToShow = state.getIn(['commentsByConversation', state.getIn(['currentConversation', 'id'])]);
 
   var comments = commentIdsToShow.map(function(commentId){
-    return state.getIn(['entities', 'comments', commentId]);
+    var comment = state.getIn(['entities', 'comments', commentId]);
+    if(comment.attachmentType === 'agenda_items') {
+      comment['attachment'] = state.getIn(['entities', 'agendaItems', comment.attachmentId]);
+      comment['attachment']['conversation'] = state.getIn(['entities', 'conversations', comment['attachment'].conversationId]);
+    }
+    return comment;
   }).toJS();
 
   return {

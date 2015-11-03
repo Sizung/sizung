@@ -1,5 +1,6 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
+import AgendaItem from './AgendaItem';
 import React, { Component, PropTypes } from 'react';
 import Radium from 'radium';
 import Time from 'react-time'
@@ -15,6 +16,15 @@ class Comment extends React.Component {
   }
 
   render() {
+    var attachment;
+    if(this.props.attachment) {
+      attachment = (
+        <div className="row">
+          <div className="col-xs-6">
+            <AgendaItem key={this.props.attachment.id} agendaItem={this.props.attachment}/>
+          </div>
+        </div>)
+    }
     return <div style={[styles.base]} className="col-xs-12 zero-padding margin-xs-vertical">
             <div className="col-xs-1">
               <div className="circle-sm">
@@ -23,6 +33,7 @@ class Comment extends React.Component {
             </div>
             <div className="col-xs-11 zero-padding">
               {this.props.body}
+              {attachment}
               <div className="pull-left col-xs-12 zero-padding margin-xs-vertical text-muted">
                 <small><Time value={this.props.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
                 {Radium.getState(this.state, this.key, ':hover') ? (
