@@ -12,7 +12,8 @@ class CommentsController < ApplicationController
     @comment.author = current_user
     @comment.save
     if @comment.persisted?
-      CommentRelayJob.perform_later(comment: @comment.as_json(include: {author: {methods: :name}}).to_json, actor_id: current_user.id, action: 'create')
+      payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
+      CommentRelayJob.perform_later(payload: payload, conversation_id: @comment.conversation_id, actor_id: current_user.id, action: 'create')
     end
     render json: @comment, serializer: CommentSerializer
   end
@@ -20,7 +21,8 @@ class CommentsController < ApplicationController
   # DELETE /comments/1.json
   def destroy
     if @comment.destroy
-      CommentRelayJob.perform_later(comment: @comment.as_json(include: {author: {methods: :name}}).to_json, actor_id: current_user.id, action: 'delete')
+      payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
+      CommentRelayJob.perform_later(payload: payload, conversation_id: @comment.conversation_id, actor_id: current_user.id, action: 'delete')
     end
     render json: @comment, serializer: CommentSerializer
   end

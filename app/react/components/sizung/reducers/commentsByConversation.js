@@ -20,7 +20,7 @@ export default function commentsByConversation(state = initialState, action = nu
       return state.set(convId, state.get(convId).filter(function(id) {return id != action.comment.id}));
     }
     else if(action.status == STATUS_REMOTE_ORIGIN) {
-      const convId = action.comment.conversation_id;
+      const convId = action.comment.conversationId;
       return state.set(convId, state.get(convId).filter(function(id) {return id != action.comment.id}));
     }
     else {
@@ -31,7 +31,7 @@ export default function commentsByConversation(state = initialState, action = nu
       return state.set(action.comment.conversationId, state.get(action.comment.conversationId).push(action.comment.id));
     }
     else if(action.status == STATUS_REMOTE_ORIGIN) {
-      return state.set(action.comment.conversation_id, state.get(action.comment.conversation_id).push(action.comment.id));
+      return state.set(action.comment.conversationId, state.get(action.comment.conversationId).push(action.comment.id));
     }
     else {
       return state;

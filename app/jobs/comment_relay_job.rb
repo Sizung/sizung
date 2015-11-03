@@ -1,11 +1,10 @@
 class CommentRelayJob < ActiveJob::Base
   queue_as :default
 
-  def perform(comment:, actor_id:, action:)
+  def perform(payload:, conversation_id:, actor_id:, action:)
     logger.info('Broadcasting new comment')
-    conversation_id = JSON.parse(comment)['conversation_id']
     ActionCable.server.broadcast "conversations:#{conversation_id}:comments",
-                                 comment: JSON.parse(comment),
+                                 payload: JSON.parse(payload),
                                  actor_id: actor_id,
                                  action: action
   end

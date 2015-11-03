@@ -40,10 +40,10 @@ export default class ConversationRoot extends Component {
     window.App.comments.setOnReceived(function (data) {
       if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
         if(data.action == 'create') {
-          store.dispatch(createCommentRemoteOrigin(data.comment));
+          store.dispatch(createCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));
         }
         else if(data.action == 'delete') {
-          store.dispatch(deleteCommentRemoteOrigin(data.comment));
+          store.dispatch(deleteCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));
         }
       }
     });
