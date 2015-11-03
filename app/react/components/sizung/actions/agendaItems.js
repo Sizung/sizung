@@ -12,11 +12,20 @@ import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGI
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 
+function transformFromJsonApi(agendaItem) {
+  return {
+    id: agendaItem.id,
+    title: agendaItem.attributes.title,
+    ownerId: agendaItem.relationships.owner.data.id,
+    conversationId: agendaItem.relationships.conversation.data.id
+  };
+}
+
+
 export function setAgendaItems(agendaItems) {
   return {
     type: SET_AGENDA_ITEMS,
-      agendaItems: agendaItems
-
+    agendaItems: agendaItems.data.map(transformFromJsonApi)
   };
 }
 
@@ -44,7 +53,7 @@ export function createAgendaItem(agendaItem) {
     })
     .then(response => response.json())
     .then(function(json) {
-      dispatch(createAgendaItemSuccess(json));
+      dispatch(createAgendaItemSuccess(transformFromJsonApi(json.data)));
     });
   };
 }

@@ -9,15 +9,15 @@ export default function agendaItemsByConversation(state = initialState, action =
   switch (action.type) {
   case SET_AGENDA_ITEMS:
     var conversationId;
-    var ids = action.agendaItems.data.map(function(agendaItem) {
-      conversationId = agendaItem.relationships.conversation.data.id;
+    var ids = action.agendaItems.map(function(agendaItem) {
+      conversationId = agendaItem.conversationId;
       return agendaItem.id
     });
 
     return state.set(conversationId, Immutable.List(ids));
   case CREATE_AGENDA_ITEM:
     if(action.status == STATUS_SUCCESS) {
-      return state.set(action.agendaItem.data.relationships.conversation.data.id, state.get(action.agendaItem.data.relationships.conversation.data.id).push(action.agendaItem.data));
+      return state.set(action.agendaItem.conversationId, state.get(action.agendaItem.conversationId).push(action.agendaItem));
     }
     else {
       return state;

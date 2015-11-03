@@ -9,8 +9,6 @@ import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
 
 function mapStateToProps(state) {
-  console.log('map: ', state.toJS());
-  console.log('currentConversation: ', state.getIn(['currentConversation', 'id']));
   const commentIdsToShow = state.getIn(['commentsByConversation', state.getIn(['currentConversation', 'id'])]);
 
   var comments = commentIdsToShow.map(function(commentId){

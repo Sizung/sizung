@@ -9,8 +9,14 @@ import * as AgendaItemListActions from '../actions/agendaItems';
 
 function mapStateToProps(state) {
 
-  var agendaItems = state.getIn(['entities', 'agendaItems']).toList();
-  console.log('agenda items: ', agendaItems.toJS());
+  var agendaItems = state.getIn(['entities', 'agendaItems']).toList().map(function(agendaItem) {
+    return {
+      id: agendaItem.id,
+      title: agendaItem.title,
+      commentsSize: 0,
+      conversation: state.getIn(['entities', 'conversations', agendaItem.conversationId])
+    }
+  });
 
   return {
     agendaItems: agendaItems

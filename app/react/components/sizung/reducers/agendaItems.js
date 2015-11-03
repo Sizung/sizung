@@ -13,14 +13,14 @@ export default function agendaItems(state = initialState, action = null) {
   switch (action.type) {
   case CREATE_AGENDA_ITEM:
     if(action.status == STATUS_SUCCESS) {
-      return state.set(action.agendaItem.data.id, action.agendaItem.data);
+      return state.set(action.agendaItem.id, action.agendaItem);
     }
     else {
       return state;
     }
   case SET_AGENDA_ITEMS:
-    for(var i=0; i<action.agendaItems.data.length; i++) {
-      state = state.set(action.agendaItems.data[i].id, action.agendaItems.data[i]);
+    for(var i=0; i<action.agendaItems.length; i++) {
+      state = state.set(action.agendaItems[i].id, action.agendaItems[i]);
     }
     return state;
   default:

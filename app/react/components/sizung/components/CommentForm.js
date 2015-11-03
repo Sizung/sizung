@@ -7,7 +7,6 @@ class CommentForm extends React.Component {
 
     this.handleSubmit = (e) => {
       e.preventDefault();
-      console.log("handleSubmit:", e);
 
       //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
       name = this.refs.name.getInputDOMNode().value.trim();
@@ -17,11 +16,10 @@ class CommentForm extends React.Component {
       this.props.createComment({conversation_id: this.props.currentConversation.get('id'), body: name});
 
       this.refs.name.getInputDOMNode().value = '';
-    }
+    };
 
     this.handleAgendaItem = (e) => {
       e.preventDefault();
-      console.log("handleAgendaItem:", e);
 
       //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
       name = this.refs.name.getInputDOMNode().value.trim();

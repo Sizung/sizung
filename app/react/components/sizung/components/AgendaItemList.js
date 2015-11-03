@@ -17,9 +17,6 @@ class AgendaItemList extends Component {
             return(<AgendaItem
                     key={agendaItem.id}
                     agendaItem={agendaItem}
-                    title={agendaItem.title}
-                    conversationTitle={agendaItem.conversationTitle}
-                    commentsSize={agendaItem.commentsSize}
                 />);
           })
         }
