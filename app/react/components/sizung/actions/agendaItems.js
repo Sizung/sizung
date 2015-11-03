@@ -13,7 +13,7 @@ import { transformCommentFromJsonApi } from './comments'
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 
-function transformAgendaItemFromJsonApi(agendaItem) {
+export function transformAgendaItemFromJsonApi(agendaItem) {
   return {
     id: agendaItem.id,
     title: agendaItem.attributes.title,
@@ -34,6 +34,15 @@ export function createAgendaItemSuccess(agendaItem, initialComment) {
   return {
     type: CREATE_AGENDA_ITEM,
     status: STATUS_SUCCESS,
+    agendaItem: agendaItem,
+    initialComment: initialComment
+  };
+}
+
+export function createAgendaItemRemoteOrigin(agendaItem, initialComment) {
+  return {
+    type: CREATE_AGENDA_ITEM,
+    status: STATUS_REMOTE_ORIGIN,
     agendaItem: agendaItem,
     initialComment: initialComment
   };

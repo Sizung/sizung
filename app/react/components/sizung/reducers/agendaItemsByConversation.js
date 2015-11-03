@@ -21,6 +21,10 @@ export default function agendaItemsByConversation(state = initialState, action =
       const convList = state.get(action.agendaItem.conversationId) || Immutable.List();
       return state.set(action.agendaItem.conversationId, convList.push(action.agendaItem.id));
     }
+    else if(action.status == STATUS_REMOTE_ORIGIN) {
+      const convList = state.get(action.agendaItem.conversationId) || Immutable.List();
+      return state.set(action.agendaItem.conversationId, convList.push(action.agendaItem.id));
+    }
     else {
       return state;
     }

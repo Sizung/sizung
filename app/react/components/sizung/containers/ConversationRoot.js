@@ -18,8 +18,8 @@ import CommentListApp from './CommentListApp';
 import UserListApp from './UserListApp';
 import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
-import {setComments, createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
-import {setAgendaItems} from '../actions/agendaItems'
+import {setComments, createCommentRemoteOrigin, deleteCommentRemoteOrigin, transformCommentFromJsonApi} from '../actions/comments'
+import {setAgendaItems, createAgendaItemRemoteOrigin, transformAgendaItemFromJsonApi} from '../actions/agendaItems'
 import {setDeliverables} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
@@ -52,6 +52,16 @@ export default class ConversationRoot extends Component {
     window.App.appearance.setOnReceived(function (data) {
       console.log('Activity in appearance: ', data);
       store.dispatch(updateUserRemoteOrigin(data.user));
+    });
+
+    window.App.agenda_items.setOnReceived(function (data) {
+      console.log('Activity in agenda_items: ', data);
+      if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
+        if (data.action == 'create') {
+          const initialComment = transformCommentFromJsonApi(data.payload.included[0]);
+          store.dispatch(createAgendaItemRemoteOrigin(transformAgendaItemFromJsonApi(data.payload.data), initialComment));
+        }
+      }
     });
 
   }

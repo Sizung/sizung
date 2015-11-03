@@ -12,6 +12,9 @@ class AgendaItemsController < ApplicationController
     @agenda_item.owner = current_user
     @agenda_item.build_initial_comment(body: @agenda_item.title, author: current_user, conversation: @agenda_item.conversation)
     @agenda_item.save
+    if @agenda_item.persisted?
+      AgendaItemRelayJob.perform_later(agenda_item: @agenda_item, actor_id: current_user.id, action: 'create')
+    end
     render json: @agenda_item, serializer: AgendaItemSerializer, include: [:initial_comment]
   end
 

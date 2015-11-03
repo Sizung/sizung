@@ -15,6 +15,9 @@ export default function agendaItems(state = initialState, action = null) {
     if(action.status == STATUS_SUCCESS) {
       return state.set(action.agendaItem.id, action.agendaItem);
     }
+    else if(action.status == STATUS_REMOTE_ORIGIN) {
+      return state.set(action.agendaItem.id, action.agendaItem);
+    }
     else {
       return state;
     }
