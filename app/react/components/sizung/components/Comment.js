@@ -53,4 +53,8 @@ Comment.propTypes = {
   createdAt: PropTypes.string.isRequired
 };
 
+Comment.defaultProps = {
+  author: {name: 'George Guest'}
+};
+
 export default Radium(Comment);

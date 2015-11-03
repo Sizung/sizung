@@ -10,8 +10,9 @@ class AgendaItemsController < ApplicationController
     @agenda_item = AgendaItem.new(agenda_item_params)
     authorize @agenda_item
     @agenda_item.owner = current_user
+    @agenda_item.build_initial_comment(body: @agenda_item.title, author: current_user, conversation: @agenda_item.conversation)
     @agenda_item.save
-    render json: @agenda_item, serializer: AgendaItemSerializer
+    render json: @agenda_item, serializer: AgendaItemSerializer, include: [:initial_comment]
   end
 
   # DELETE /agenda_items/1.json

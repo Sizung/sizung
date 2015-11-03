@@ -12,12 +12,25 @@ import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGI
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 
-function transformFromJsonApi(agendaItem) {
+function transformAgendaItemFromJsonApi(agendaItem) {
+  console.log(agendaItem);
   return {
     id: agendaItem.id,
     title: agendaItem.attributes.title,
     ownerId: agendaItem.relationships.owner.data.id,
-    conversationId: agendaItem.relationships.conversation.data.id
+    conversationId: agendaItem.relationships.conversation.data.id,
+    initialCommentId: agendaItem.relationships.initial_comment.data.id
+  };
+}
+
+function transformCommentFromJsonApi(comment) {
+  return {
+    id: comment.id,
+    body: comment.attributes.body,
+    authorId: comment.relationships.author.data.id,
+    conversationId: comment.relationships.conversation.data.id,
+    attachmentId: comment.relationships.attachment.data.id,
+    attachmentType: comment.relationships.attachment.data.type
   };
 }
 
@@ -25,15 +38,16 @@ function transformFromJsonApi(agendaItem) {
 export function setAgendaItems(agendaItems) {
   return {
     type: SET_AGENDA_ITEMS,
-    agendaItems: agendaItems.data.map(transformFromJsonApi)
+    agendaItems: agendaItems.data.map(transformAgendaItemFromJsonApi)
   };
 }
 
-export function createAgendaItemSuccess(agendaItem) {
+export function createAgendaItemSuccess(agendaItem, initialComment) {
   return {
     type: CREATE_AGENDA_ITEM,
     status: STATUS_SUCCESS,
-    agendaItem: agendaItem
+    agendaItem: agendaItem,
+    initialComment: initialComment
   };
 }
 
@@ -53,7 +67,9 @@ export function createAgendaItem(agendaItem) {
     })
     .then(response => response.json())
     .then(function(json) {
-      dispatch(createAgendaItemSuccess(transformFromJsonApi(json.data)));
+      console.log(json);
+      const initialComment = transformCommentFromJsonApi(json.included[0]);
+      dispatch(createAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data), initialComment));
     });
   };
 }

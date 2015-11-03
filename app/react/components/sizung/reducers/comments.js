@@ -6,6 +6,7 @@
 
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
 import { SET_COMMENTS, CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
+import { CREATE_AGENDA_ITEM } from '../actions/agendaItems';
 import Immutable from 'immutable';
 
 const initialState = Immutable.Map();
@@ -18,6 +19,16 @@ export default function comments(state = initialState, action = null) {
     }
     else if(action.status == STATUS_REMOTE_ORIGIN) {
       return state.set(action.comment.id, action.comment);
+    }
+    else {
+      return state;
+    }
+  case CREATE_AGENDA_ITEM:
+    if(action.status == STATUS_SUCCESS) {
+      return state.set(action.initialComment.id, action.initialComment);
+    }
+    else if(action.status == STATUS_REMOTE_ORIGIN) {
+      return state.set(action.initialComment.id, action.initialComment);
     }
     else {
       return state;
