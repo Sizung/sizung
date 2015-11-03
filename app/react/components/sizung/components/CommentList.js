@@ -20,7 +20,7 @@ class CommentList extends Component {
         {
           comments.map(function(comment) {
             // use comment object instead
-            return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.created_at} deleteComment={deleteComment} />);
+            return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.createdAt} deleteComment={deleteComment} />);
           })
         }
         </div>

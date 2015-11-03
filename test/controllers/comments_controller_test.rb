@@ -37,7 +37,7 @@ describe CommentsController do
         post :create, comment: { body: @comment.body, conversation_id: @comment.conversation_id }
       }.must_change 'Comment.count'
 
-      must_redirect_to comment_path(assigns(:comment))
+      assert_response :success
     end
 
     it 'shows comment' do

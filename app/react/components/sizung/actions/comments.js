@@ -14,11 +14,25 @@ export const SET_COMMENTS = 'SET_COMMENTS';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 
+export function transformCommentFromJsonApi(comment) {
+  const attachmentData = comment.relationships.attachment.data;
+  return {
+    id: comment.id,
+    body: comment.attributes.body,
+    createdAt: comment.attributes.created_at,
+    updatedAt: comment.attributes.updated_at,
+    authorId: comment.relationships.author.data.id,
+    conversationId: comment.relationships.conversation.data.id,
+    attachmentId: attachmentData ? attachmentData.id : null,
+    attachmentType: attachmentData ? attachmentData.type : null
+  };
+}
+
 export function setComments(conversation, comments) {
   return {
     type: SET_COMMENTS,
     conversation: conversation,
-    comments: comments
+    comments: comments.data.map(transformCommentFromJsonApi)
   };
 }
 
@@ -72,7 +86,7 @@ export function createComment(comment) {
     })
     .then(response => response.json())
     .then(function(json) {
-      dispatch(createCommentSuccess(json));
+      dispatch(createCommentSuccess(transformCommentFromJsonApi(json.data)));
     });
   };
 }
@@ -90,7 +104,7 @@ export function deleteComment(comment_id) {
     )
     .then(response => response.json())
     .then(function(json) {
-      dispatch(deleteCommentSuccess(json));
+      dispatch(deleteCommentSuccess(transformCommentFromJsonApi(json.data)));
       //if(response.status == 200) {
       //  dispatch(deleteCommentSuccess(response.json()));
       //}

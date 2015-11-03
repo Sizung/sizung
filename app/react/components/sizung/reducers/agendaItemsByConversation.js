@@ -1,5 +1,6 @@
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
 import { SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM } from '../actions/agendaItems';
+import { DELETE_COMMENT } from '../actions/comments';
 
 import Immutable from 'immutable';
 
@@ -17,7 +18,21 @@ export default function agendaItemsByConversation(state = initialState, action =
     return state.set(conversationId, Immutable.List(ids));
   case CREATE_AGENDA_ITEM:
     if(action.status == STATUS_SUCCESS) {
-      return state.set(action.agendaItem.conversationId, state.get(action.agendaItem.conversationId).push(action.agendaItem));
+      const convList = state.get(action.agendaItem.conversationId) || Immutable.List();
+      return state.set(action.agendaItem.conversationId, convList.push(action.agendaItem.id));
+    }
+    else {
+      return state;
+    }
+  case DELETE_COMMENT:
+    if(action.status == STATUS_SUCCESS) {
+      const convId = action.comment.conversationId;
+      if(action.comment.attachmentType === 'agenda_items') {
+        return state.set(convId, state.get(convId).filter(function(id) {return id != action.comment.attachmentId}));
+      }
+      else {
+        return state;
+      }
     }
     else {
       return state;

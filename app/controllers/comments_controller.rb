@@ -4,6 +4,8 @@ class CommentsController < ApplicationController
   after_action :verify_authorized,    except: :index
   after_action :verify_policy_scoped, only: :index
 
+  respond_to :json
+
   # GET /comments
   # GET /comments.json
   def index
@@ -25,24 +27,16 @@ class CommentsController < ApplicationController
   def edit
   end
 
-  # POST /comments
   # POST /comments.json
   def create
     @comment = Comment.new(comment_params)
     authorize @comment
     @comment.author = current_user
-
-    respond_to do |format|
-      if @comment.save
-        CommentRelayJob.perform_later(comment: @comment.as_json(include: {author: {methods: :name}}).to_json, actor_id: current_user.id, action: 'create')
-
-        format.html { redirect_to @comment, notice: 'Comment was successfully created.' }
-        format.json { render :show, status: :created, location: @comment }
-      else
-        format.html { render :new }
-        format.json { render json: @comment.errors, status: :unprocessable_entity }
-      end
+    @comment.save
+    if @comment.persisted?
+      CommentRelayJob.perform_later(comment: @comment.as_json(include: {author: {methods: :name}}).to_json, actor_id: current_user.id, action: 'create')
     end
+    render json: @comment, serializer: CommentSerializer
   end
 
   # PATCH/PUT /comments/1
@@ -62,12 +56,10 @@ class CommentsController < ApplicationController
   # DELETE /comments/1
   # DELETE /comments/1.json
   def destroy
-    @comment.destroy
-    respond_to do |format|
+    if @comment.destroy
       CommentRelayJob.perform_later(comment: @comment.as_json(include: {author: {methods: :name}}).to_json, actor_id: current_user.id, action: 'delete')
-      format.html { redirect_to comments_url, notice: 'Comment was successfully destroyed.' }
-      format.json { render :show, status: :ok }
     end
+    render json: @comment, serializer: CommentSerializer
   end
 
   private

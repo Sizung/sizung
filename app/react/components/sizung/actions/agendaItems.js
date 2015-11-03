@@ -8,12 +8,12 @@
 import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../utils/MetaTagsManager';
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses.js';
+import { transformCommentFromJsonApi } from './comments'
 
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 
 function transformAgendaItemFromJsonApi(agendaItem) {
-  console.log(agendaItem);
   return {
     id: agendaItem.id,
     title: agendaItem.attributes.title,
@@ -22,18 +22,6 @@ function transformAgendaItemFromJsonApi(agendaItem) {
     initialCommentId: agendaItem.relationships.initial_comment.data.id
   };
 }
-
-function transformCommentFromJsonApi(comment) {
-  return {
-    id: comment.id,
-    body: comment.attributes.body,
-    authorId: comment.relationships.author.data.id,
-    conversationId: comment.relationships.conversation.data.id,
-    attachmentId: comment.relationships.attachment.data.id,
-    attachmentType: comment.relationships.attachment.data.type
-  };
-}
-
 
 export function setAgendaItems(agendaItems) {
   return {
@@ -67,7 +55,6 @@ export function createAgendaItem(agendaItem) {
     })
     .then(response => response.json())
     .then(function(json) {
-      console.log(json);
       const initialComment = transformCommentFromJsonApi(json.included[0]);
       dispatch(createAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data), initialComment));
     });
