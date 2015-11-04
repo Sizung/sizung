@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
-import { Glyphicon } from 'react-bootstrap';
+import { Glyphicon, Table } from 'react-bootstrap';
 
 class CommentList extends Component {
   render() {
@@ -10,19 +10,21 @@ class CommentList extends Component {
 
     <div className='commentList col-xs-12 zero-padding'>
       <div className='commentListHeader padding-sm col-xs-12 zero-padding  box-shadow'>
-        <i className='fa fa-comments-o'></i>{' '}<strong>Conversations</strong>
+        <strong># Conv - {this.props.currentConversation.get('id')}</strong>
       </div>
       <div className='commentListArea white-bg margin-xs-vertical col-xs-12 zero-padding  box-shadow'>
-        <div className="commentListConversationHeader col-xs-12 padding-sm-vertical">
-          # Conv - {this.props.currentConversation.get('id')}
-        </div>
-        <div className='comments'>
-        {
-          comments.map(function(comment) {
-            // use comment object instead
-            return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.created_at} deleteComment={deleteComment} />);
-          })
-        }
+
+        <div className='comments borderless'>
+          <Table responsive className="borderless-table margin-xs-vertical">
+            <tbody>
+            {
+              comments.map(function(comment) {
+                // use comment object instead
+                return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.created_at} deleteComment={deleteComment} />);
+              })
+            }
+            </tbody>
+          </Table>
         </div>
         <CommentForm createComment={createComment} currentConversation={currentConversation} />
       </div>

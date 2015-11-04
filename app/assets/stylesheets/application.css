@@ -168,9 +168,9 @@
 }
 
 .box-shadow {
-    -webkit-box-shadow: 5px 5px 10px 0px rgba(170,170,170,1);
-    -moz-box-shadow: 5px 5px 10px 0px rgba(170,170,170,1);
-    box-shadow: 5px 5px 10px 0px rgba(170,170,170,1);
+    -webkit-box-shadow: 2px 2px 2px 0px rgba(170,170,170,1);
+    -moz-box-shadow: 2px 2px 2px 0px rgba(170,170,170,1);
+    box-shadow: 2px 2px 2px 0px rgba(170,170,170,1);
 }
 
 .circle-xs {
@@ -206,4 +206,30 @@
     position: absolute;
     padding: 12px;
     color: #777777;
+}
+
+.borderless-table tbody tr td,
+.borderless-table tbody tr th,
+.borderless-table thead tr th {
+    border: none;
+    margin: 0px;
+}
+
+.circle-td-xs tbody tr td{
+    width: 35px;
+    height: 35px;
+}
+
+.circle-td-sm tbody tr td{
+    width: 50px;
+    height: 50px;
+}
+
+.circle-td-lg tbody tr td{
+    width: 70px;
+    height: 70px;
+}
+
+.borderless {
+    border: none;
 }
