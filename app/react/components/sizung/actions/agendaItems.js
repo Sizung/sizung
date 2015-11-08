@@ -31,21 +31,19 @@ export function setAgendaItems(agendaItems) {
   };
 }
 
-export function createAgendaItemSuccess(agendaItem, initialComment) {
+export function createAgendaItemSuccess(agendaItem) {
   return {
     type: CREATE_AGENDA_ITEM,
     status: STATUS_SUCCESS,
     agendaItem: agendaItem,
-    initialComment: initialComment
   };
 }
 
-export function createAgendaItemRemoteOrigin(agendaItem, initialComment) {
+export function createAgendaItemRemoteOrigin(agendaItem) {
   return {
     type: CREATE_AGENDA_ITEM,
     status: STATUS_REMOTE_ORIGIN,
     agendaItem: agendaItem,
-    initialComment: initialComment
   };
 }
 
@@ -65,8 +63,7 @@ export function createAgendaItem(agendaItem) {
     })
     .then(response => response.json())
     .then(function(json) {
-      const initialComment = transformCommentFromJsonApi(json.included[0]);
-      dispatch(createAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data), initialComment));
+      dispatch(createAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data)));
     });
   };
 }

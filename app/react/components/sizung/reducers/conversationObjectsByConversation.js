@@ -15,6 +15,38 @@ export default function conversationObjectsByConversation(state = initialState, 
     });
 
     return state.set(action.conversation.id, Immutable.List(objects));
+  case DELETE_COMMENT:
+    if(action.status == STATUS_SUCCESS) {
+      const convId = action.comment.conversationId;
+      return state.set(convId, state.get(convId).filter(function(identifier) {return identifier.id != action.comment.id}));
+    }
+    else if(action.status == STATUS_REMOTE_ORIGIN) {
+      const convId = action.comment.conversationId;
+      return state.set(convId, state.get(convId).filter(function(identifier) {return identifier.id != action.comment.id}));
+    }
+    else {
+      return state;
+    }
+  case CREATE_COMMENT:
+    if(action.status == STATUS_SUCCESS) {
+      return state.set(action.comment.conversationId, state.get(action.comment.conversationId).push({id: action.comment.id, type: action.comment.type}));
+    }
+    else if(action.status == STATUS_REMOTE_ORIGIN) {
+      return state.set(action.comment.conversationId, state.get(action.comment.conversationId).push({id: action.comment.id, type: action.comment.type}));
+    }
+    else {
+      return state;
+    }
+  case CREATE_AGENDA_ITEM:
+    if(action.status == STATUS_SUCCESS) {
+      return state.set(action.agendaItem.conversationId, state.get(action.agendaItem.conversationId).push({id: action.agendaItem.id, type: action.agendaItem.type}));
+    }
+    else if(action.status == STATUS_REMOTE_ORIGIN) {
+      return state.set(action.agendaItem.conversationId, state.get(action.agendaItem.conversationId).push({id: action.agendaItem.id, type: action.agendaItem.type}));
+    }
+    else {
+      return state;
+    }
   default:
     return state;
   }

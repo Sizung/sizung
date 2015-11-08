@@ -59,8 +59,7 @@ export default class ConversationRoot extends Component {
       console.log('Activity in agenda_items: ', data);
       if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
         if (data.action == 'create') {
-          const initialComment = transformCommentFromJsonApi(data.payload.included[0]);
-          store.dispatch(createAgendaItemRemoteOrigin(transformAgendaItemFromJsonApi(data.payload.data), initialComment));
+          store.dispatch(createAgendaItemRemoteOrigin(transformAgendaItemFromJsonApi(data.payload.data)));
         }
       }
     });

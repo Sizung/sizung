@@ -24,16 +24,6 @@ export default function comments(state = initialState, action = null) {
     else {
       return state;
     }
-  case CREATE_AGENDA_ITEM:
-    if(action.status == STATUS_SUCCESS) {
-      return state.set(action.initialComment.id, action.initialComment);
-    }
-    else if(action.status == STATUS_REMOTE_ORIGIN) {
-      return state.set(action.initialComment.id, action.initialComment);
-    }
-    else {
-      return state;
-    }
   case DELETE_COMMENT:
     if(action.status == STATUS_SUCCESS) {
       return state.remove(action.comment.id);
