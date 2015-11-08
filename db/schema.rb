@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151103100835) do
+ActiveRecord::Schema.define(version: 20151106100827) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,13 +20,13 @@ ActiveRecord::Schema.define(version: 20151103100835) do
   create_table "agenda_items", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "conversation_id"
     t.uuid     "owner_id"
-    t.string   "title",                            null: false
+    t.string   "title",           null: false
     t.string   "status",          default: "open", null: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
-
   add_index "agenda_items", ["conversation_id"], name: "index_agenda_items_on_conversation_id", using: :btree
+  add_index "agenda_items", ["created_at"], name: "index_agenda_items_on_created_at", order: {"created_at"=>:desc}, using: :btree
   add_index "agenda_items", ["owner_id"], name: "index_agenda_items_on_owner_id", using: :btree
 
   create_table "comments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
@@ -38,9 +38,13 @@ ActiveRecord::Schema.define(version: 20151103100835) do
     t.uuid     "attachment_id"
     t.string   "attachment_type"
   end
-
   add_index "comments", ["author_id"], name: "index_comments_on_author_id", using: :btree
   add_index "comments", ["conversation_id"], name: "index_comments_on_conversation_id", using: :btree
+  add_index "comments", ["created_at"], name: "index_comments_on_created_at", order: {"created_at"=>:desc}, using: :btree
+
+  create_view "conversation_objects", <<-'END_VIEW_CONVERSATION_OBJECTS', :force => true
+SELECT comments.id, 'Comment'::text AS type, comments.conversation_id, comments.author_id, comments.created_at, NULL::uuid AS owner_id, NULL::character varying AS title, comments.body, NULL::character varying AS status FROM comments UNION ALL SELECT agenda_items.id, 'AgendaItem'::text AS type, agenda_items.conversation_id, NULL::uuid AS author_id, agenda_items.created_at, agenda_items.owner_id, agenda_items.title, NULL::text AS body, agenda_items.status FROM agenda_items
+  END_VIEW_CONVERSATION_OBJECTS
 
   create_table "conversations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "title",           null: false
@@ -48,7 +52,6 @@ ActiveRecord::Schema.define(version: 20151103100835) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
-
   add_index "conversations", ["organization_id"], name: "index_conversations_on_organization_id", using: :btree
 
   create_table "organization_members", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
@@ -57,7 +60,6 @@ ActiveRecord::Schema.define(version: 20151103100835) do
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
   end
-
   add_index "organization_members", ["member_id"], name: "index_organization_members_on_member_id", using: :btree
   add_index "organization_members", ["organization_id"], name: "index_organization_members_on_organization_id", using: :btree
 
@@ -68,7 +70,6 @@ ActiveRecord::Schema.define(version: 20151103100835) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
   add_index "organizations", ["owner_id"], name: "index_organizations_on_owner_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
@@ -89,8 +90,8 @@ ActiveRecord::Schema.define(version: 20151103100835) do
     t.integer  "failed_attempts",        default: 0,  null: false
     t.string   "unlock_token"
     t.datetime "locked_at"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
     t.string   "first_name"
     t.string   "last_name"
     t.string   "invitation_token"
@@ -103,7 +104,6 @@ ActiveRecord::Schema.define(version: 20151103100835) do
     t.integer  "invitations_count",      default: 0
     t.string   "presence_status"
   end
-
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["invitation_token"], name: "index_users_on_invitation_token", unique: true, using: :btree
