@@ -5,34 +5,22 @@
 // The type is the only mandatory field in the structure and describes the type of the action.
 // By this type, the reducer function then decides how to handle the action.
 
-//import 'babel/polyfill';
 import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../utils/MetaTagsManager';
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses.js';
 
-export const SET_COMMENTS = 'SET_COMMENTS';
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 export function transformCommentFromJsonApi(comment) {
-  const attachmentData = comment.relationships.attachment.data;
   return {
     id: comment.id,
+    type: comment.type,
     body: comment.attributes.body,
     createdAt: comment.attributes.created_at,
     updatedAt: comment.attributes.updated_at,
     authorId: comment.relationships.author.data.id,
-    conversationId: comment.relationships.conversation.data.id,
-    attachmentId: attachmentData ? attachmentData.id : null,
-    attachmentType: attachmentData ? attachmentData.type : null
-  };
-}
-
-export function setComments(conversation, comments) {
-  return {
-    type: SET_COMMENTS,
-    conversation: conversation,
-    comments: comments.data.map(transformCommentFromJsonApi)
+    conversationId: comment.relationships.conversation.data.id
   };
 }
 

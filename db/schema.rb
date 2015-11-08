@@ -43,7 +43,7 @@ ActiveRecord::Schema.define(version: 20151106100827) do
   add_index "comments", ["created_at"], name: "index_comments_on_created_at", order: {"created_at"=>:desc}, using: :btree
 
   create_view "conversation_objects", <<-'END_VIEW_CONVERSATION_OBJECTS', :force => true
-SELECT comments.id, 'Comment'::text AS type, comments.conversation_id, comments.author_id, comments.created_at, NULL::uuid AS owner_id, NULL::character varying AS title, comments.body, NULL::character varying AS status FROM comments UNION ALL SELECT agenda_items.id, 'AgendaItem'::text AS type, agenda_items.conversation_id, NULL::uuid AS author_id, agenda_items.created_at, agenda_items.owner_id, agenda_items.title, NULL::text AS body, agenda_items.status FROM agenda_items
+SELECT comments.id, 'Comment'::text AS type, comments.conversation_id, comments.author_id, comments.created_at, comments.updated_at, NULL::uuid AS owner_id, NULL::character varying AS title, comments.body, NULL::character varying AS status FROM comments UNION ALL SELECT agenda_items.id, 'AgendaItem'::text AS type, agenda_items.conversation_id, NULL::uuid AS author_id, agenda_items.created_at, agenda_items.updated_at, agenda_items.owner_id, agenda_items.title, NULL::text AS body, agenda_items.status FROM agenda_items
   END_VIEW_CONVERSATION_OBJECTS
 
   create_table "conversations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|

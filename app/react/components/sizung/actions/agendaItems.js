@@ -14,12 +14,13 @@ export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 
 export function transformAgendaItemFromJsonApi(agendaItem) {
+  console.log('transformAgendaItemFromJsonApi: ', agendaItem);
   return {
     id: agendaItem.id,
+    type: 'agendaItems',
     title: agendaItem.attributes.title,
     ownerId: agendaItem.relationships.owner.data.id,
     conversationId: agendaItem.relationships.conversation.data.id,
-    initialCommentId: agendaItem.relationships.initial_comment.data.id
   };
 }
 

@@ -18,7 +18,8 @@ import CommentListApp from './CommentListApp';
 import UserListApp from './UserListApp';
 import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
-import {setComments, createCommentRemoteOrigin, deleteCommentRemoteOrigin, transformCommentFromJsonApi} from '../actions/comments'
+import {setConversationObjects} from '../actions/conversationObjects'
+import {createCommentRemoteOrigin, deleteCommentRemoteOrigin, transformCommentFromJsonApi} from '../actions/comments'
 import {setAgendaItems, createAgendaItemRemoteOrigin, transformAgendaItemFromJsonApi} from '../actions/agendaItems'
 import {setDeliverables} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
@@ -29,7 +30,7 @@ const store = configureStore();
 export default class ConversationRoot extends Component {
   componentWillMount() {
     store.dispatch(setCurrentUser(this.props.currentUser));
-    store.dispatch(setComments(this.props.currentConversation, this.props.comments));
+    store.dispatch(setConversationObjects(this.props.currentConversation, this.props.conversationObjects));
     store.dispatch(setAgendaItems(this.props.agendaItems));
     store.dispatch(setCurrentConversation(this.props.currentConversation));
     store.dispatch(setDeliverables(this.props.deliverables));

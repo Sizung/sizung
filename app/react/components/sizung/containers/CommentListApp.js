@@ -9,19 +9,21 @@ import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
 
 function mapStateToProps(state) {
-  const commentIdsToShow = state.getIn(['commentsByConversation', state.getIn(['currentConversation', 'id'])]);
+  const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
 
-  var comments = commentIdsToShow.map(function(commentId){
-    var comment = state.getIn(['entities', 'comments', commentId]);
-    if(comment.attachmentType === 'agenda_items') {
-      comment['attachment'] = state.getIn(['entities', 'agendaItems', comment.attachmentId]);
-      comment['attachment']['conversation'] = state.getIn(['entities', 'conversations', comment['attachment'].conversationId]);
+  var conversationObjects = objectsToShow.map(function(objectReference){
+    const {id, type} = objectReference;
+
+    var conversationObject = state.getIn(['entities', type, id]);
+    console.log(type, id, conversationObject);
+    if (conversationObject.type === 'agendaItems') {
+      conversationObject.conversation = state.getIn(['entities', 'conversations', conversationObject.conversationId]);
     }
-    return comment;
+    return conversationObject;
   }).toJS();
 
   return {
-    comments: comments,
+    conversationObjects: conversationObjects,
     currentConversation: state.get('currentConversation')
   }
 }

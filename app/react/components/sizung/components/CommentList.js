@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
+import AgendaItem from './AgendaItem'
 import { Glyphicon } from 'react-bootstrap';
 
 class CommentList extends Component {
   render() {
-    const { currentConversation, comments, createComment, deleteComment, createAgendaItem } = this.props;
+    const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem } = this.props;
     return (
 
     <div className='commentList col-xs-12 zero-padding'>
@@ -18,9 +19,20 @@ class CommentList extends Component {
         </div>
         <div className='comments'>
         {
-          comments.map(function(comment) {
-            // use comment object instead
-            return(<Comment key={comment.id} attachment={comment.attachment} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.createdAt} deleteComment={deleteComment} />);
+          conversationObjects.map(function(conversationObject) {
+            console.log('in CommentList: ', conversationObject);
+            if (conversationObject.type === 'comments') {
+              const comment = conversationObject;
+              // use comment object instead
+              return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.createdAt} deleteComment={deleteComment} />);
+            }
+            else if (conversationObject.type === 'agendaItems') {
+              const agendaItem = conversationObject;
+              return <AgendaItem key={agendaItem.id} agendaItem={agendaItem}/>
+            }
+            else {
+              console.log('Component not found for conversationObject: ', conversationObject);
+            }
           })
         }
         </div>
@@ -36,7 +48,7 @@ CommentList.propTypes = {
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
-  comments: PropTypes.array.isRequired,
+  conversationObjects: PropTypes.array.isRequired,
   currentConversation: PropTypes.object.isRequired
 };
 

@@ -17,7 +17,7 @@ class ConversationsController < ApplicationController
   def show
     @agenda_items_json = ActiveModel::SerializableResource.new(@conversation.agenda_items).serializable_hash
     # @comments_json = @conversation.comments.as_json(include: { author: {methods: :name}})
-    @comments_json = ActiveModel::SerializableResource.new(@conversation.conversation_objects).serializable_hash
+    @conversation_objects_json = ActiveModel::SerializableResource.new(@conversation.conversation_objects).serializable_hash
     @users_json = @conversation.organization.members
   end
 
