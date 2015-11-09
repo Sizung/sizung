@@ -17,8 +17,10 @@ class Comment extends React.Component {
 
   render() {
     return  <div style={[styles.base]} className="col-xs-12 margin-xs-vertical">
-              <div className="col-xs-11 zero-padding">
+              <div className="col-xs-1">
                 <User user={this.props.author} />
+              </div>
+              <div className="col-xs-11 zero-padding">
                 {this.props.body}
                 <div className="pull-left col-xs-12 zero-padding margin-xs-vertical text-muted">
                   <small><Time value={this.props.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>

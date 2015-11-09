@@ -19,9 +19,12 @@ class AgendaItemInTimeline extends React.Component {
     const { agendaItem } = this.props;
     const { conversation } = agendaItem.conversation
     return  <div style={[styles.base]} className="col-xs-12 margin-xs-vertical">
-              <div className="col-xs-11 zero-padding">
+              <div className="col-xs-1">
                 <User user={agendaItem.owner} />
+              </div>
+              <div className="col-xs-11 zero-padding">
                 {agendaItem.title}
+                <i className="fa fa-tag" style={{marginLeft: '1em'}} />
                 <div className="pull-left col-xs-12 zero-padding margin-xs-vertical text-muted">
                   <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
                 </div>

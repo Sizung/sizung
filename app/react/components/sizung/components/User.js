@@ -7,7 +7,7 @@ class User extends React.Component {
     let { email, presenceStatus, firstName, lastName } = this.props.user;
     let style = {};
     if (presenceStatus === 'online') {
-      style = {borderBottom: '2px solid green'}
+      style = {color: '#7B7'}
     }
 
     return (
