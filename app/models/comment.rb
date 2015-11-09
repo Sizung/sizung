@@ -1,4 +1,6 @@
-class Comment < ActiveRecord::Base
+class Comment < ConversationObject
+  self.table_name = 'comments'
+
   belongs_to :conversation
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 

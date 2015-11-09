@@ -5,11 +5,14 @@ import comments from './comments';
 import agendaItems from './agendaItems';
 import currentUser from './currentUser';
 import currentConversation from './currentConversation';
+import conversations from './conversations';
 import deliverables from './deliverables';
 import users from './users';
-import commentsByConversation from './commentsByConversation';
+import agendaItemsByConversation from './agendaItemsByConversation';
+import conversationObjectsByConversation from './conversationObjectsByConversation'
 
 const entities = combineReducers({
+  conversations,
   comments,
   agendaItems,
   deliverables,
@@ -19,7 +22,8 @@ const entities = combineReducers({
 const rootReducer = combineReducers({
   currentUser,
   currentConversation,
-  commentsByConversation,
+  conversationObjectsByConversation,
+  agendaItemsByConversation,
   entities
 });
 

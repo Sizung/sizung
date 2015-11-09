@@ -15,7 +15,9 @@ class ConversationsController < ApplicationController
   # GET /conversations/1
   # GET /conversations/1.json
   def show
-    @comments_json = @conversation.comments.as_json(include: { author: {methods: :name}})
+    @agenda_items_json = ActiveModel::SerializableResource.new(@conversation.agenda_items).serializable_hash
+    # @comments_json = @conversation.comments.as_json(include: { author: {methods: :name}})
+    @conversation_objects_json = ActiveModel::SerializableResource.new(@conversation.conversation_objects).serializable_hash
     @users_json = @conversation.organization.members
   end
 

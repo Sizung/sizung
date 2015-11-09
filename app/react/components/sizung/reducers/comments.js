@@ -5,7 +5,9 @@
 // create using the previous state and whatever they have to do because of the action they have to handle.
 
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
-import { SET_COMMENTS, CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
+import { CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
+import { SET_CONVERSATION_OBJECTS } from '../actions/conversationObjects'
+import { CREATE_AGENDA_ITEM } from '../actions/agendaItems';
 import Immutable from 'immutable';
 
 const initialState = Immutable.Map();
@@ -32,9 +34,12 @@ export default function comments(state = initialState, action = null) {
     else {
       return state;
     }
-  case SET_COMMENTS:
-    for(var i=0; i<action.comments.length; i++) {
-      state = state.set(action.comments[i].id, action.comments[i]);
+  case SET_CONVERSATION_OBJECTS:
+    for(var i=0; i<action.conversationObjects.length; i++) {
+      const conversationObject = action.conversationObjects[i];
+      if (conversationObject.type === 'comments') {
+        state = state.set(conversationObject.id, conversationObject);
+      }
     }
     return state;
   default:

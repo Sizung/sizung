@@ -14,12 +14,13 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import AgendaItemListApp from './AgendaItemListApp';
 import DeliverableListApp from './DeliverableListApp';
-import CommentListApp from './CommentListApp';
+import ConversationObjectListApp from './ConversationObjectListApp';
 import UserListApp from './UserListApp';
 import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
-import {setComments, createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
-import {setAgendaItems} from '../actions/agendaItems'
+import {setConversationObjects} from '../actions/conversationObjects'
+import {createCommentRemoteOrigin, deleteCommentRemoteOrigin, transformCommentFromJsonApi} from '../actions/comments'
+import {setAgendaItems, createAgendaItemRemoteOrigin, transformAgendaItemFromJsonApi} from '../actions/agendaItems'
 import {setDeliverables} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
@@ -29,7 +30,7 @@ const store = configureStore();
 export default class ConversationRoot extends Component {
   componentWillMount() {
     store.dispatch(setCurrentUser(this.props.currentUser));
-    store.dispatch(setComments(this.props.currentConversation, this.props.comments));
+    store.dispatch(setConversationObjects(this.props.currentConversation, this.props.conversationObjects));
     store.dispatch(setAgendaItems(this.props.agendaItems));
     store.dispatch(setCurrentConversation(this.props.currentConversation));
     store.dispatch(setDeliverables(this.props.deliverables));
@@ -40,10 +41,10 @@ export default class ConversationRoot extends Component {
     window.App.comments.setOnReceived(function (data) {
       if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
         if(data.action == 'create') {
-          store.dispatch(createCommentRemoteOrigin(data.comment));
+          store.dispatch(createCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));
         }
         else if(data.action == 'delete') {
-          store.dispatch(deleteCommentRemoteOrigin(data.comment));
+          store.dispatch(deleteCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));
         }
       }
     });
@@ -52,6 +53,15 @@ export default class ConversationRoot extends Component {
     window.App.appearance.setOnReceived(function (data) {
       console.log('Activity in appearance: ', data);
       store.dispatch(updateUserRemoteOrigin(data.user));
+    });
+
+    window.App.agenda_items.setOnReceived(function (data) {
+      console.log('Activity in agenda_items: ', data);
+      if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
+        if (data.action == 'create') {
+          store.dispatch(createAgendaItemRemoteOrigin(transformAgendaItemFromJsonApi(data.payload.data)));
+        }
+      }
     });
 
   }
@@ -67,7 +77,7 @@ export default class ConversationRoot extends Component {
                 <AgendaItemListApp />
               </div>
               <div className="col-xs-6 padding-xs-horizontal">
-                <CommentListApp />
+                <ConversationObjectListApp />
               </div>
               <div className="col-xs-3">
                 <DeliverableListApp />
@@ -87,7 +97,7 @@ export default class ConversationRoot extends Component {
           <Provider store={store}>
             { toRender }
           </Provider>
-          <DebugPanel bottom>
+          <DebugPanel top right bottom>
             <DevTools store={store} monitor={LogMonitor} />
           </DebugPanel>
         </div>
