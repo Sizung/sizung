@@ -25,14 +25,10 @@ describe AgendaItemsController do
         post :create, agenda_item: { title: 'Last months review', conversation_id: @conversation.id }, format: :json
       }.must_change 'AgendaItem.count'
 
-      @initial_comment = Comment.last
       assert_response :success
       agenda_item = JSON.parse(response.body)
       assert_equal 'Last months review', agenda_item['data']['attributes']['title']
       assert_equal @current_user.id, agenda_item['data']['relationships']['owner']['data']['id']
-      assert_equal @initial_comment.id, agenda_item['data']['relationships']['initial_comment']['data']['id']
-      assert_equal @initial_comment.id, agenda_item['included'][0]['id']
-      assert_equal 'comments', agenda_item['included'][0]['type']
     end
 
     it 'destroys agenda item' do
