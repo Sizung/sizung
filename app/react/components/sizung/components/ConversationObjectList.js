@@ -4,7 +4,7 @@ import Comment from './Comment';
 import AgendaItemInTimeline from './AgendaItemInTimeline'
 import { Glyphicon } from 'react-bootstrap';
 
-class CommentList extends Component {
+class ConversationObjectList extends Component {
   render() {
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, currentUser } = this.props;
     return (
@@ -43,7 +43,7 @@ class CommentList extends Component {
   }
 }
 
-CommentList.propTypes = {
+ConversationObjectList.propTypes = {
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
@@ -51,4 +51,4 @@ CommentList.propTypes = {
   currentConversation: PropTypes.object.isRequired
 };
 
-export default CommentList;
+export default ConversationObjectList;

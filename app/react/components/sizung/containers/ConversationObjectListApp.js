@@ -1,10 +1,10 @@
-// App style container components are there to bind a Component (here CommentList) to
+// App style container components are there to bind a Component (here ConversationObjectList) to
 // the actions they can call and to which part of the state tree they are interested in.
 // When the part of the state tree that they are interested in is changed, they get re-rendered.
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import CommentList from '../components/CommentList';
+import ConversationObjectList from '../components/ConversationObjectList';
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
 
@@ -39,4 +39,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({...AgendaItemActions, ...CommentsActions}, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CommentList);
+export default connect(mapStateToProps, mapDispatchToProps)(ConversationObjectList);
