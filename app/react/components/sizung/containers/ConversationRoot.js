@@ -14,7 +14,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import AgendaItemListApp from './AgendaItemListApp';
 import DeliverableListApp from './DeliverableListApp';
-import CommentListApp from './CommentListApp';
+import ConversationObjectListApp from './ConversationObjectListApp';
 import UserListApp from './UserListApp';
 import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
@@ -77,7 +77,7 @@ export default class ConversationRoot extends Component {
                 <AgendaItemListApp />
               </div>
               <div className="col-xs-6 padding-xs-horizontal">
-                <CommentListApp />
+                <ConversationObjectListApp />
               </div>
               <div className="col-xs-3">
                 <DeliverableListApp />

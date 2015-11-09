@@ -14,7 +14,7 @@ class CommentForm extends React.Component {
       //name = React.findDOMNode(this.refs.name).value.trim();
       if(!name) return;
 
-      this.props.createComment({conversation_id: this.props.currentConversation.get('id'), body: name});
+      this.props.createComment({conversation_id: this.props.currentConversation.id, body: name});
 
       this.refs.name.getInputDOMNode().value = '';
     };
@@ -27,7 +27,7 @@ class CommentForm extends React.Component {
       //name = React.findDOMNode(this.refs.name).value.trim();
       if(!name) return;
 
-      this.props.createAgendaItem({conversation_id: this.props.currentConversation.get('id'), title: name});
+      this.props.createAgendaItem({conversation_id: this.props.currentConversation.id, title: name});
 
       this.refs.name.getInputDOMNode().value = '';
     }
@@ -61,7 +61,10 @@ class CommentForm extends React.Component {
 CommentForm.propTypes = {
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func.isRequired,
-  currentConversation: PropTypes.object.isRequired,
+  currentConversation: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
+  }).isRequired,
   currentUser : PropTypes.object.isRequired
 };
 

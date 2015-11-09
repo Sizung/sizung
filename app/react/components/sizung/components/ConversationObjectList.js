@@ -15,7 +15,7 @@ class ConversationObjectList extends Component {
       </div>
       <div className='commentListArea white-bg margin-xs-vertical col-xs-12 zero-padding  box-shadow'>
         <div className="commentListConversationHeader col-xs-12 padding-sm-vertical">
-          # Conv - {this.props.currentConversation.get('id')}
+          # Conv - {currentConversation.title}
         </div>
         <div className='comments'>
         {
@@ -48,7 +48,10 @@ ConversationObjectList.propTypes = {
   createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
   conversationObjects: PropTypes.array.isRequired,
-  currentConversation: PropTypes.object.isRequired
+  currentConversation: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default ConversationObjectList;

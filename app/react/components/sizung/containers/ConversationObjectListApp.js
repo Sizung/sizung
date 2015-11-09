@@ -28,9 +28,11 @@ function mapStateToProps(state) {
 
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
 
+  const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
+
   return {
     conversationObjects: conversationObjects,
-    currentConversation: state.get('currentConversation'),
+    currentConversation: currentConversation,
     currentUser: currentUser
   }
 }
