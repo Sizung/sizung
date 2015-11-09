@@ -10,7 +10,7 @@ class AgendaItemList extends Component {
     return (
       <div className='agendaItemList'>
         <div className='row agendaItemListHeader padding-sm box-shadow'>
-          <i className="fa fa-tag"></i>  {" "}<strong>Agendas</strong>
+          <i className="fa fa-tag"></i>  {" "}<strong>Agenda</strong>
         </div>
         {
           agendaItems.map(function(agendaItem) {

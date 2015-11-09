@@ -76,7 +76,7 @@ export default class ConversationRoot extends Component {
               <div className="col-xs-3">
                 <AgendaItemListApp />
               </div>
-              <div className="col-xs-6">
+              <div className="col-xs-6 padding-xs-horizontal">
                 <CommentListApp />
               </div>
               <div className="col-xs-3">
