@@ -5,7 +5,7 @@ import { Glyphicon } from 'react-bootstrap';
 
 class AgendaItemList extends Component {
   render() {
-    const { agendaItems } = this.props;
+    const { agendaItems, selectAgendaItem } = this.props;
 
     return (
       <div className='agendaItemList'>
@@ -17,6 +17,7 @@ class AgendaItemList extends Component {
             return(<AgendaItem
                     key={agendaItem.id}
                     agendaItem={agendaItem}
+                    selectAgendaItem={selectAgendaItem}
                 />);
           })
         }
@@ -26,7 +27,8 @@ class AgendaItemList extends Component {
 }
 
 AgendaItemList.propTypes = {
-  agendaItems: PropTypes.object.isRequired
+  agendaItems: PropTypes.object.isRequired,
+  selectAgendaItem: PropTypes.func.isRequired
 };
 
 export default AgendaItemList;

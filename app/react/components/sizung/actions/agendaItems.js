@@ -12,6 +12,7 @@ import { transformCommentFromJsonApi } from './comments'
 
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
+export const SELECT_AGENDA_ITEM = 'SELECT_AGENDA_ITEM';
 
 export function transformAgendaItemFromJsonApi(agendaItem) {
   return {
@@ -22,6 +23,13 @@ export function transformAgendaItemFromJsonApi(agendaItem) {
     conversationId: agendaItem.relationships.conversation.data.id,
     createdAt: agendaItem.attributes.created_at
   };
+}
+
+export function selectAgendaItem(agendaItemId) {
+  return {
+    type: SELECT_AGENDA_ITEM,
+    agendaItemId: agendaItemId
+  }
 }
 
 export function setAgendaItems(agendaItems) {
