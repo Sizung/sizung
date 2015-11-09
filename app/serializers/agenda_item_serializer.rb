@@ -1,6 +1,5 @@
 class AgendaItemSerializer < ActiveModel::Serializer
-  attributes :id, :title
+  attributes :id, :title, :created_at
   belongs_to :conversation
   belongs_to :owner
-  has_one :initial_comment
 end

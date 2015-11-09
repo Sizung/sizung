@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Input,Button, ButtonGroup } from 'react-bootstrap';
+import User from './User';
 
 class CommentForm extends React.Component {
   constructor() {
@@ -35,14 +36,12 @@ class CommentForm extends React.Component {
 
 
   render() {
+    const { currentUser } = this.props;
+
     return (
       <div className="col-xs-12 zero-padding padding-sm-vertical" style={{border : '0px solid #eeeeee', borderTopWidth : '1px'}}>
+        <User user={currentUser} />
         <form className="commentForm" ref="commentFormRef" onSubmit={this.handleSubmit}>
-          <div className="col-xs-1">
-            <div className="circle-sm">
-              <span className="circle-text-sm">AU</span>
-            </div>
-          </div>
           <div className="col-xs-11" style={{paddingLeft: '0px'}}>
             <Input className="zero-padding col-xs-12" style={{border: 'none', outline: 'none', boxShadow: 'none'}} type="text" placeholder="Type your comment here" ref="name"/>
             <ButtonGroup className="pull-right">

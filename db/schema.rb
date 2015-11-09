@@ -35,8 +35,6 @@ ActiveRecord::Schema.define(version: 20151106100827) do
     t.text     "body"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.uuid     "attachment_id"
-    t.string   "attachment_type"
   end
   add_index "comments", ["author_id"], name: "index_comments_on_author_id", using: :btree
   add_index "comments", ["conversation_id"], name: "index_comments_on_conversation_id", using: :btree

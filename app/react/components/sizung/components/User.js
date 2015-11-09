@@ -4,18 +4,27 @@ import React, { Component, PropTypes } from 'react';
 
 class User extends React.Component {
   render() {
-    let { email, presence_status } = this.props.user;
+    let { email, presenceStatus, firstName, lastName } = this.props.user;
+    let style = {};
+    if (presenceStatus === 'online') {
+      style = {borderBottom: '2px solid green'}
+    }
 
     return (
-      <div className="navbar navbar-static white-bg zero-margin">
-        <span className="pull-right">{ presence_status } { email }</span>
+      <div className="circle-sm">
+        <span className="circle-text-sm" title={email} style={style}>{firstName.charAt(0) + lastName.charAt(0)}</span>
       </div>
     );
   }
 }
 
 User.propTypes = {
-  user: PropTypes.object.isRequired
+  user: PropTypes.shape({
+    email: PropTypes.string.isRequired,
+    firstName: PropTypes.string.isRequired,
+    lastName: PropTypes.string.isRequired,
+    presenceStatus: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default User;

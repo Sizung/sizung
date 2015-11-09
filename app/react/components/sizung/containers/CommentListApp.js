@@ -15,16 +15,23 @@ function mapStateToProps(state) {
     const {id, type} = objectReference;
 
     var conversationObject = state.getIn(['entities', type, id]);
-    console.log(type, id, conversationObject);
     if (conversationObject.type === 'agendaItems') {
       conversationObject.conversation = state.getIn(['entities', 'conversations', conversationObject.conversationId]);
+      conversationObject.commentsSize = 0;
+      conversationObject.owner = state.getIn(['entities', 'users', conversationObject.ownerId]);
+    }
+    else if (conversationObject.type === 'comments') {
+      conversationObject.author = state.getIn(['entities', 'users', conversationObject.authorId]);
     }
     return conversationObject;
   }).toJS();
 
+  const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
+
   return {
     conversationObjects: conversationObjects,
-    currentConversation: state.get('currentConversation')
+    currentConversation: state.get('currentConversation'),
+    currentUser: currentUser
   }
 }
 

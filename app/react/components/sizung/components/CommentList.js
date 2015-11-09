@@ -1,12 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
-import AgendaItem from './AgendaItem'
+import AgendaItemInTimeline from './AgendaItemInTimeline'
 import { Glyphicon } from 'react-bootstrap';
 
 class CommentList extends Component {
   render() {
-    const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem } = this.props;
+    const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, currentUser } = this.props;
     return (
 
     <div className='commentList col-xs-12 zero-padding'>
@@ -20,7 +20,6 @@ class CommentList extends Component {
         <div className='comments'>
         {
           conversationObjects.map(function(conversationObject) {
-            console.log('in CommentList: ', conversationObject);
             if (conversationObject.type === 'comments') {
               const comment = conversationObject;
               // use comment object instead
@@ -28,7 +27,7 @@ class CommentList extends Component {
             }
             else if (conversationObject.type === 'agendaItems') {
               const agendaItem = conversationObject;
-              return <AgendaItem key={agendaItem.id} agendaItem={agendaItem}/>
+              return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem}/>
             }
             else {
               console.log('Component not found for conversationObject: ', conversationObject);
@@ -36,7 +35,7 @@ class CommentList extends Component {
           })
         }
         </div>
-        <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} currentConversation={currentConversation} />
+        <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} currentUser={currentUser} currentConversation={currentConversation} />
       </div>
 
     </div>
