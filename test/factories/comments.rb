@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :comment do
-    conversation
+    commentable factory: :conversation
     author factory: :user
     sequence(:body) {|n| "Comment-Body-#{n}"}
   end

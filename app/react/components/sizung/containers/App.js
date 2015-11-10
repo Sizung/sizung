@@ -16,56 +16,54 @@ class App extends Component {
     const { selectedAgendaItem } = this.props;
     const { currentConversation, createComment, deleteComment, createAgendaItem, currentUser } = this.props;
 
-    const selectedRender = (
-      <div className="container gray-bg zero-padding full-width">
-        <div className="row">
-          <div className="col-lg-12">
-            <UserListApp className="pull-right"/>
-            <div className="col-xs-12 zero-padding">
-              <div className="col-xs-3">
-                <AgendaItemListApp />
-              </div>
-              <div className="col-xs-6 padding-xs-horizontal">
-                <h1>{this.props.selectedAgendaItem}</h1>
-                <CommentForm createComment={createComment}
-                             currentUser={currentUser}
-                             parent={currentConversation} />
-              </div>
-              <div className="col-xs-3">
-                <DeliverableListApp />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-
-    const defaultRender = (
-      <div className="container gray-bg zero-padding full-width">
-        <div className="row">
-          <div className="col-lg-12">
-            <UserListApp className="pull-right"/>
-            <div className="col-xs-12 zero-padding">
-              <div className="col-xs-3">
-                <AgendaItemListApp />
-              </div>
-              <div className="col-xs-6 padding-xs-horizontal">
-                <ConversationObjectListApp />
-              </div>
-              <div className="col-xs-3">
-                <DeliverableListApp />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    console.log('currentSelected: ', selectedAgendaItem);
 
     if(selectedAgendaItem) {
-      return selectedRender;
+      return (
+                <div className="container gray-bg zero-padding full-width">
+                  <div className="row">
+                    <div className="col-lg-12">
+                      <UserListApp className="pull-right"/>
+                      <div className="col-xs-12 zero-padding">
+                        <div className="col-xs-3">
+                          <AgendaItemListApp />
+                        </div>
+                        <div className="col-xs-6 padding-xs-horizontal">
+                          <h1>{this.props.selectedAgendaItem.id}</h1>
+                          <CommentForm createComment={createComment}
+                                       currentUser={currentUser}
+                                       parent={selectedAgendaItem} />
+                        </div>
+                        <div className="col-xs-3">
+                          <DeliverableListApp />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+             );
     }
     else {
-      return defaultRender;
+      return (
+                <div className="container gray-bg zero-padding full-width">
+                  <div className="row">
+                    <div className="col-lg-12">
+                      <UserListApp className="pull-right"/>
+                      <div className="col-xs-12 zero-padding">
+                        <div className="col-xs-3">
+                          <AgendaItemListApp />
+                        </div>
+                        <div className="col-xs-6 padding-xs-horizontal">
+                          <ConversationObjectListApp />
+                        </div>
+                        <div className="col-xs-3">
+                          <DeliverableListApp />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+             );
     }
   }
 }
@@ -73,9 +71,11 @@ class App extends Component {
 function mapStateToProps(state) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
+  const selectedAgendaItemId = state.getIn(['selectedConversationObject', 'id']);
+  const selectedAgendaItem = selectedAgendaItemId ? state.getIn(['entities', 'agendaItems', selectedAgendaItemId]) : null;
 
   return {
-    selectedAgendaItem: state.getIn(['selectedConversationObject', 'id']),
+    selectedAgendaItem: selectedAgendaItem,
     currentConversation: currentConversation,
     currentUser: currentUser
   }

@@ -14,7 +14,7 @@ class CommentForm extends React.Component {
       //name = React.findDOMNode(this.refs.name).value.trim();
       if(!name) return;
 
-      this.props.createComment({conversation_id: this.props.parent.id, body: name});
+      this.props.createComment({commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name});
       this.refs.name.getInputDOMNode().value = '';
     };
 
@@ -47,6 +47,7 @@ class CommentForm extends React.Component {
           <div className="col-xs-11" style={{paddingLeft: '0px'}}>
             <Input className="zero-padding col-xs-12" style={{border: 'none', outline: 'none', boxShadow: 'none'}} type="text" placeholder="Type your comment here" ref="name"/>
             <ButtonGroup className="pull-right">
+              <Button key="createComment" className="btn btn-xs" type="submit" onClick={this.handleSubmit} style={{border: 'none'}} ><i className="fa fa-comment text-muted"></i></Button>
               { buttons }
             </ButtonGroup>
           </div>
@@ -61,7 +62,8 @@ CommentForm.propTypes = {
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func,
   parent: PropTypes.shape({
-    id: PropTypes.string.isRequired
+    id: PropTypes.string.isRequired,
+    type: PropTypes.string.isRequired
   }).isRequired,
   currentUser : PropTypes.object.isRequired
 };

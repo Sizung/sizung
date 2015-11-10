@@ -13,7 +13,7 @@ class CommentsController < ApplicationController
     @comment.save
     if @comment.persisted?
       payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
-      CommentRelayJob.perform_later(payload: payload, conversation_id: @comment.conversation_id, actor_id: current_user.id, action: 'create')
+      CommentRelayJob.perform_later(payload: payload, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type, actor_id: current_user.id, action: 'create')
     end
     render json: @comment, serializer: CommentSerializer
   end
@@ -22,7 +22,7 @@ class CommentsController < ApplicationController
   def destroy
     if @comment.destroy
       payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
-      CommentRelayJob.perform_later(payload: payload, conversation_id: @comment.conversation_id, actor_id: current_user.id, action: 'delete')
+      CommentRelayJob.perform_later(payload: payload, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type, actor_id: current_user.id, action: 'delete')
     end
     render json: @comment, serializer: CommentSerializer
   end
@@ -36,6 +36,6 @@ class CommentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def comment_params
-      params.require(:comment).permit(:conversation_id, :author_id, :body)
+      params.require(:comment).permit(:commentable_id, :commentable_type, :author_id, :body)
     end
 end

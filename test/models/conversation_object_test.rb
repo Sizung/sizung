@@ -9,7 +9,7 @@ describe ConversationObject do
     conversation = FactoryGirl.create :conversation
     (1..10).each do |n|
       FactoryGirl.create :agenda_item, conversation: conversation, created_at: (DateTime.now - n.minutes)
-      FactoryGirl.create :comment, conversation: conversation, created_at: (DateTime.now - n.minutes - n.seconds)
+      FactoryGirl.create :comment, commentable: conversation, created_at: (DateTime.now - n.minutes - n.seconds)
     end
     assert_equal 20, conversation.conversation_objects.size
 
@@ -21,5 +21,6 @@ describe ConversationObject do
 
     assert conversation.conversation_objects[0].kind_of?(AgendaItem)
     assert conversation.conversation_objects[1].kind_of?(Comment)
+    assert_equal conversation, conversation.conversation_objects[1].commentable
   end
 end

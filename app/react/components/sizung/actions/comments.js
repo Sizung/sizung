@@ -20,7 +20,8 @@ export function transformCommentFromJsonApi(comment) {
     createdAt: comment.attributes.created_at,
     updatedAt: comment.attributes.updated_at,
     authorId: comment.relationships.author.data.id,
-    conversationId: comment.relationships.conversation.data.id
+    commentableId: comment.relationships.commentable.data.id,
+    commentableType: comment.relationships.commentable.data.type
   };
 }
 
@@ -59,6 +60,13 @@ export function deleteCommentSuccess(comment) {
 }
 
 export function createComment(comment) {
+  if (comment.commentable_type === 'conversations') {
+    comment.commentable_type = 'Conversation';
+  }
+  else if (comment.commentable_type === 'agendaItems') {
+    comment.commentable_type = 'AgendaItem';
+  }
+
   return function(dispatch) {
     return fetch('/comments', {
       method: 'post',
