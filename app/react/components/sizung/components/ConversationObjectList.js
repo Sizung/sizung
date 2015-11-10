@@ -35,7 +35,7 @@ class ConversationObjectList extends Component {
           })
         }
         </div>
-        <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} currentUser={currentUser} currentConversation={currentConversation} />
+        <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} currentUser={currentUser} parent={currentConversation} />
       </div>
 
     </div>
