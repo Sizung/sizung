@@ -24,6 +24,7 @@ import {setAgendaItems, createAgendaItemRemoteOrigin, transformAgendaItemFromJso
 import {setDeliverables} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
+import App from './App';
 
 const store = configureStore();
 
@@ -67,6 +68,9 @@ export default class ConversationRoot extends Component {
   }
   render() {
     const toRender = () =>
+      <App />
+
+    const oldToRender = () =>
 
       <div className="container gray-bg zero-padding full-width">
         <div className="row">

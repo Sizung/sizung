@@ -24,8 +24,11 @@ function mapStateToProps(state) {
       }
     });
 
+  const selectedConversationObject = state.getIn(['selectedConversationObject', 'id']);
+
   return {
-    agendaItems: agendaItems
+    agendaItems: agendaItems,
+    selectedId: selectedConversationObject
   }
 }
 

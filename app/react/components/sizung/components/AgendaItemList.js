@@ -5,7 +5,7 @@ import { Glyphicon } from 'react-bootstrap';
 
 class AgendaItemList extends Component {
   render() {
-    const { agendaItems, selectAgendaItem } = this.props;
+    const { agendaItems, selectAgendaItem, selectedId } = this.props;
 
     return (
       <div className='agendaItemList'>
@@ -18,6 +18,7 @@ class AgendaItemList extends Component {
                     key={agendaItem.id}
                     agendaItem={agendaItem}
                     selectAgendaItem={selectAgendaItem}
+                    selected={agendaItem.id === selectedId}
                 />);
           })
         }

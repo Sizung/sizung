@@ -11,16 +11,21 @@ class AgendaItem extends React.Component {
     this.handleClick = (e) => {
       e.preventDefault();
 
-      console.log(e);
       this.props.selectAgendaItem(this.props.agendaItem.id);
     };
   }
 
   render() {
-    const {agendaItem} = this.props;
+    const {agendaItem, selected} = this.props;
     const {conversation} = this.props.agendaItem;
 
-    return <div className="row white-bg padding-sm-vertical margin-xs-vertical box-shadow" onClick={this.handleClick}>
+    var style = {};
+    if(selected === true) {
+      style['backgroundColor'] = 'red';
+    }
+
+    return (
+      <div style={style} className="row white-bg padding-sm-vertical margin-xs-vertical box-shadow" onClick={this.handleClick}>
         <div className="col-xs-12">
           <span className="col-xs-11 zero-padding" style={{textAlign: 'left'}}>{ agendaItem.title }</span>
           <i className="col-xs-1 fa fa-tag zero-padding" style={{textAlign: 'right'}}/>
@@ -29,7 +34,8 @@ class AgendaItem extends React.Component {
           <small className="pull-left text-muted">{agendaItem.commentsSize} comments</small>
           <small className="pull-right text-muted">#{conversation.title}</small>
         </div>
-      </div>;
+      </div>
+    );
   }
 }
 
