@@ -19,8 +19,9 @@ import UserListApp from './UserListApp';
 import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
 import {setConversationObjects} from '../actions/conversationObjects'
-import {createCommentRemoteOrigin, deleteCommentRemoteOrigin, transformCommentFromJsonApi} from '../actions/comments'
-import {setAgendaItems, createAgendaItemRemoteOrigin, transformAgendaItemFromJsonApi} from '../actions/agendaItems'
+import {createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
+import {setAgendaItems, createAgendaItemRemoteOrigin} from '../actions/agendaItems'
+import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi} from '../utils/jsonApiUtils';
 import {setDeliverables} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'

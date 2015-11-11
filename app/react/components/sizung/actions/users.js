@@ -2,19 +2,7 @@ import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGI
 export const SET_CURRENT_USER = 'SET_CURRENT_USER';
 export const SET_USERS = 'SET_USERS';
 export const UPDATE_USER = 'UPDATE_USER';
-
-export function transformUserFromJsonApi(user) {
-  return {
-    id: user.id,
-    type: 'users',
-    email: user.email,
-    firstName: user.first_name,
-    lastName: user.last_name,
-    name: user.first_name + user.last_name,
-    presenceStatus: user.presence_status
-  };
-}
-
+import { transformUserFromJsonApi } from '../utils/jsonApiUtils.js';
 
 export function setCurrentUser(currentUser) {
   return {

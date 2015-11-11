@@ -3,8 +3,13 @@ class CommentRelayJob < ActiveJob::Base
 
   def perform(payload:, commentable_id:, commentable_type:, actor_id:, action:)
     logger.info('Broadcasting new comment')
-    # TODO: Update so that it also can broadcast to other commentable types
-    ActionCable.server.broadcast "conversations:#{commentable_id}:comments",
+
+    conversation_id = commentable_id
+    if commentable_type == 'AgendaItem'
+      conversation_id = commentable_type.constantize.find(commentable_id).conversation_id
+    end
+
+    ActionCable.server.broadcast "conversations:#{conversation_id}:comments",
                                  payload: JSON.parse(payload),
                                  actor_id: actor_id,
                                  action: action

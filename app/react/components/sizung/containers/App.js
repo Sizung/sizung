@@ -10,15 +10,22 @@ import DeliverableListApp from './DeliverableListApp';
 import ConversationObjectListApp from './ConversationObjectListApp';
 import UserListApp from './UserListApp';
 import CommentForm from '../components/CommentForm';
+import Comment from '../components/Comment';
+import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
+import {fillConversationObject} from '../utils/entityUtils';
 
 class App extends Component {
   render() {
     const { selectedAgendaItem } = this.props;
-    const { currentConversation, createComment, deleteComment, createAgendaItem, currentUser } = this.props;
-
-    console.log('currentSelected: ', selectedAgendaItem);
+    const { currentConversation, createComment, deleteComment, createAgendaItem, currentUser, conversationObjects } = this.props;
 
     if(selectedAgendaItem) {
+      const conversationObjectComponents = conversationObjects.map(function(conversationObject) {
+        if (conversationObject.type === 'comments') {
+          const comment = conversationObject;
+          return <Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.createdAt} deleteComment={deleteComment}/>
+        }
+      });
       return (
                 <div className="container gray-bg zero-padding full-width">
                   <div className="row">
@@ -29,7 +36,12 @@ class App extends Component {
                           <AgendaItemListApp />
                         </div>
                         <div className="col-xs-6 padding-xs-horizontal">
-                          <h1>{this.props.selectedAgendaItem.id}</h1>
+                          <AgendaItemInTimeline agendaItem={selectedAgendaItem} />
+
+                          <div className='comments'>
+                            {conversationObjectComponents}
+                          </div>
+
                           <CommentForm createComment={createComment}
                                        currentUser={currentUser}
                                        parent={selectedAgendaItem} />
@@ -74,9 +86,17 @@ function mapStateToProps(state) {
   const selectedAgendaItemId = state.getIn(['selectedConversationObject', 'id']);
   const selectedAgendaItem = selectedAgendaItemId ? state.getIn(['entities', 'agendaItems', selectedAgendaItemId]) : null;
 
+  var conversationObjects;
+  if (selectedAgendaItem) {
+    conversationObjects = state.getIn(['conversationObjectsByAgendaItem', selectedAgendaItemId]).map(function(reference) {
+      return fillConversationObject(state, reference);
+    }).reverse();
+  }
+
   return {
     selectedAgendaItem: selectedAgendaItem,
     currentConversation: currentConversation,
+    conversationObjects: conversationObjects,
     currentUser: currentUser
   }
 }

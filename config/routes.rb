@@ -1,7 +1,15 @@
 Rails.application.routes.draw do
-  resources :agenda_items, only: [:create, :destroy]
+  concern :list_conversation_objects do |options|
+    resources :conversation_objects, options.merge(only: [:index])
+  end
+
+  resources :agenda_items, only: [:create, :destroy] do
+    concerns :list_conversation_objects, parent_type: 'AgendaItem'
+  end
   resources :comments
-  resources :conversations
+  resources :conversations do
+    concerns :list_conversation_objects, parent_type: 'Conversation'
+  end
   resources :organizations
   devise_for :users, controllers: {
                        registrations: 'users/registrations',

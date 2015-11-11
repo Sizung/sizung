@@ -1,7 +1,6 @@
 export function fillAgendaItem(state, id) {
   var agendaItem = state.getIn(['entities', 'agendaItems', id]);
   agendaItem.conversation = state.getIn(['entities', 'conversations', agendaItem.conversationId]);
-  agendaItem.commentsSize = 0;
   agendaItem.owner = state.getIn(['entities', 'users', agendaItem.ownerId]);
 
   return agendaItem;

@@ -11,6 +11,7 @@ import users from './users';
 import agendaItemsByConversation from './agendaItemsByConversation';
 import conversationObjectsByConversation from './conversationObjectsByConversation';
 import selectedConversationObject from './selectedConversationObject';
+import conversationObjectsByAgendaItem from './conversationObjectsByAgendaItem';
 
 const entities = combineReducers({
   conversations,
@@ -25,6 +26,7 @@ const rootReducer = combineReducers({
   currentUser,
   currentConversation,
   conversationObjectsByConversation,
+  conversationObjectsByAgendaItem,
   agendaItemsByConversation,
   entities
 });

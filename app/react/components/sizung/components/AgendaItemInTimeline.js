@@ -44,7 +44,7 @@ var styles = {
 AgendaItemInTimeline.propTypes = {
   agendaItem: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    commentsSize: PropTypes.number.isRequired,
+    commentsCount: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
     conversation: PropTypes.shape({
       title: PropTypes.string.isRequired

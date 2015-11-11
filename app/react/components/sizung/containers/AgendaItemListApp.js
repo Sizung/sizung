@@ -19,7 +19,7 @@ function mapStateToProps(state) {
       return {
         id: agendaItem.id,
         title: agendaItem.title,
-        commentsSize: 0,
+        commentsCount: agendaItem.commentsCount,
         conversation: state.getIn(['entities', 'conversations', agendaItem.conversationId])
       }
     });

@@ -8,22 +8,10 @@
 import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../utils/MetaTagsManager';
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses.js';
+import { transformCommentFromJsonApi } from '../utils/jsonApiUtils.js';
 
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
-
-export function transformCommentFromJsonApi(comment) {
-  return {
-    id: comment.id,
-    type: comment.type,
-    body: comment.attributes.body,
-    createdAt: comment.attributes.created_at,
-    updatedAt: comment.attributes.updated_at,
-    authorId: comment.relationships.author.data.id,
-    commentableId: comment.relationships.commentable.data.id,
-    commentableType: comment.relationships.commentable.data.type
-  };
-}
 
 export function createCommentRemoteOrigin(comment) {
   return {

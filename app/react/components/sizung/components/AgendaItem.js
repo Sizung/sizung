@@ -31,7 +31,7 @@ class AgendaItem extends React.Component {
           <i className="col-xs-1 fa fa-tag zero-padding" style={{textAlign: 'right'}}/>
         </div>
         <div className="col-xs-12">
-          <small className="pull-left text-muted">{agendaItem.commentsSize} comments</small>
+          <small className="pull-left text-muted">{agendaItem.commentsCount} comments</small>
           <small className="pull-right text-muted">#{conversation.title}</small>
         </div>
       </div>
@@ -42,7 +42,7 @@ class AgendaItem extends React.Component {
 AgendaItem.propTypes = {
   agendaItem: PropTypes.shape({
     title: PropTypes.string.isRequired,
-    commentsSize: PropTypes.number.isRequired,
+    commentsCount: PropTypes.number.isRequired,
     conversation: PropTypes.shape({
       title: PropTypes.string.isRequired
     }).isRequired

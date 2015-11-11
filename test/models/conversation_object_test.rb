@@ -16,9 +16,6 @@ describe ConversationObject do
     # really sorted with latest entry first to proof that the order by works
     assert conversation.conversation_objects[0].created_at > conversation.conversation_objects[1].created_at
 
-    assert conversation.conversation_objects[0].kind_of?(ConversationObject)
-    assert conversation.conversation_objects[1].kind_of?(ConversationObject)
-
     assert conversation.conversation_objects[0].kind_of?(AgendaItem)
     assert conversation.conversation_objects[1].kind_of?(Comment)
     assert_equal conversation, conversation.conversation_objects[1].commentable
