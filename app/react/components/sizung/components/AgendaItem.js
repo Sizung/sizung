@@ -21,7 +21,7 @@ class AgendaItem extends React.Component {
 
     var style = {};
     if(selected === true) {
-      style['backgroundColor'] = 'red';
+      style['backgroundColor'] = '#9C9';
     }
 
     return (

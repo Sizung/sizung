@@ -15,9 +15,18 @@ export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 export const SELECT_AGENDA_ITEM = 'SELECT_AGENDA_ITEM';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
 
+export function closeAgendaItem() {
+  return {
+    type: SELECT_AGENDA_ITEM,
+    status: STATUS_SUCCESS,
+    agendaItemId: null
+  }
+}
+
 function selectAgendaItemSuccess(agendaItemId) {
   return {
     type: SELECT_AGENDA_ITEM,
+    status: STATUS_SUCCESS,
     agendaItemId: agendaItemId
   }
 }

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Button } from 'react-bootstrap';
 
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
@@ -36,6 +37,7 @@ class App extends Component {
                           <AgendaItemListApp />
                         </div>
                         <div className="col-xs-6 padding-xs-horizontal">
+                          <Button href="#" onClick={this.props.closeAgendaItem}>Close</Button>
                           <AgendaItemInTimeline agendaItem={selectedAgendaItem} />
 
                           <div className='comments'>
