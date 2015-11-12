@@ -9,7 +9,9 @@ import conversations from './conversations';
 import deliverables from './deliverables';
 import users from './users';
 import agendaItemsByConversation from './agendaItemsByConversation';
-import conversationObjectsByConversation from './conversationObjectsByConversation'
+import conversationObjectsByConversation from './conversationObjectsByConversation';
+import selectedConversationObject from './selectedConversationObject';
+import conversationObjectsByAgendaItem from './conversationObjectsByAgendaItem';
 
 const entities = combineReducers({
   conversations,
@@ -20,9 +22,11 @@ const entities = combineReducers({
 });
 
 const rootReducer = combineReducers({
+  selectedConversationObject,
   currentUser,
   currentConversation,
   conversationObjectsByConversation,
+  conversationObjectsByAgendaItem,
   agendaItemsByConversation,
   entities
 });

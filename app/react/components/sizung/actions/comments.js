@@ -8,21 +8,10 @@
 import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../utils/MetaTagsManager';
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses.js';
+import { transformCommentFromJsonApi } from '../utils/jsonApiUtils.js';
 
 export const CREATE_COMMENT = 'CREATE_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
-
-export function transformCommentFromJsonApi(comment) {
-  return {
-    id: comment.id,
-    type: comment.type,
-    body: comment.attributes.body,
-    createdAt: comment.attributes.created_at,
-    updatedAt: comment.attributes.updated_at,
-    authorId: comment.relationships.author.data.id,
-    conversationId: comment.relationships.conversation.data.id
-  };
-}
 
 export function createCommentRemoteOrigin(comment) {
   return {
@@ -59,6 +48,13 @@ export function deleteCommentSuccess(comment) {
 }
 
 export function createComment(comment) {
+  if (comment.commentable_type === 'conversations') {
+    comment.commentable_type = 'Conversation';
+  }
+  else if (comment.commentable_type === 'agendaItems') {
+    comment.commentable_type = 'AgendaItem';
+  }
+
   return function(dispatch) {
     return fetch('/comments', {
       method: 'post',

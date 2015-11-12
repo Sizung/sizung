@@ -16,12 +16,12 @@ describe CommentsController do
       @comment = FactoryGirl.create(:comment)
       @other_comment = FactoryGirl.create(:comment)
       @request.env['devise.mapping'] = Devise.mappings[:user]
-      sign_in @comment.conversation.organization.owner
+      sign_in @comment.commentable.organization.owner
     end
 
     it 'creates comment' do
       expect {
-        post :create, comment: { body: @comment.body, conversation_id: @comment.conversation_id }
+        post :create, comment: { body: @comment.body, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type }
       }.must_change 'Comment.count'
 
       assert_response :success

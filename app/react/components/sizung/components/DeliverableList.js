@@ -15,9 +15,7 @@ class DeliverableList extends Component {
           deliverables.map(function(deliverable) {
             return(<Deliverable
                     key={deliverable.id}
-                    body={deliverable.body}
-                    conversationTitle={deliverable.conversationTitle}
-                    assignee={deliverable.assignee}
+                    deliverable={deliverable}
                 />);
           })
         }

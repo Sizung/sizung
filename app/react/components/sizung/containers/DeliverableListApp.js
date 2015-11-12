@@ -6,9 +6,12 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import DeliverableList from '../components/DeliverableList';
 import * as DeliverableListActions from '../actions/deliverables';
+import { fillDeliverable } from '../utils/entityUtils';
 
 function mapStateToProps(state) {
-  var deliverables = state.getIn(['entities', 'deliverables']).toList();
+  var deliverables = state.getIn(['entities', 'deliverables']).map(function(deliverable) {
+    return fillDeliverable(state, deliverable.id);
+  }).toList();
 
   return {
     deliverables: deliverables

@@ -5,7 +5,7 @@ import Radium from 'radium';
 import Time from 'react-time'
 import User from './User'
 
-class AgendaItemInTimeline extends React.Component {
+class DeliverableInTimeline extends React.Component {
   constructor() {
     super();
 
@@ -16,17 +16,17 @@ class AgendaItemInTimeline extends React.Component {
   }
 
   render() {
-    const { agendaItem } = this.props;
-    const { conversation } = agendaItem.conversation
+    const { deliverable } = this.props;
+    const { agendaItem } = deliverable.agendaItem;
     return  <div style={[styles.base]} className="col-xs-12 margin-xs-vertical">
               <div className="col-xs-1">
-                <User user={agendaItem.owner} />
+                <User user={deliverable.owner} />
               </div>
               <div className="col-xs-11 zero-padding">
-                {agendaItem.title}
-                <i className="fa fa-tag" style={{marginLeft: '1em'}} />
+                {deliverable.title}
+                <i className="fa fa-tasks" style={{marginLeft: '1em'}} />
                 <div className="pull-left col-xs-12 zero-padding margin-xs-vertical text-muted">
-                  <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+                  <small><Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
                 </div>
               </div>
             </div>;
@@ -41,15 +41,15 @@ var styles = {
   }
 };
 
-AgendaItemInTimeline.propTypes = {
-  agendaItem: PropTypes.shape({
+DeliverableInTimeline.propTypes = {
+  deliverable: PropTypes.shape({
     title: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
-    conversation: PropTypes.shape({
+    agendaItem: PropTypes.shape({
       title: PropTypes.string.isRequired
     }).isRequired
   }).isRequired
 };
 
-export default Radium(AgendaItemInTimeline);
+export default Radium(DeliverableInTimeline);

@@ -8,28 +8,60 @@
 import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../utils/MetaTagsManager';
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses.js';
-import { transformCommentFromJsonApi } from './comments'
+import { transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformConversationObjectFromJsonApi } from '../utils/jsonApiUtils.js';
 
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 export const SELECT_AGENDA_ITEM = 'SELECT_AGENDA_ITEM';
+export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
 
-export function transformAgendaItemFromJsonApi(agendaItem) {
+export function closeAgendaItem() {
   return {
-    id: agendaItem.id,
-    type: 'agendaItems',
-    title: agendaItem.attributes.title,
-    ownerId: agendaItem.relationships.owner.data.id,
-    conversationId: agendaItem.relationships.conversation.data.id,
-    createdAt: agendaItem.attributes.created_at
+    type: SELECT_AGENDA_ITEM,
+    status: STATUS_SUCCESS,
+    agendaItemId: null
+  }
+}
+
+function selectAgendaItemSuccess(agendaItemId) {
+  return {
+    type: SELECT_AGENDA_ITEM,
+    status: STATUS_SUCCESS,
+    agendaItemId: agendaItemId
+  }
+}
+
+function fetchConversationObjectsSuccess(parentReference, conversationObjects) {
+  return {
+    type: FETCH_CONVERSATION_OBJECTS,
+    status: STATUS_SUCCESS,
+    parentReference: parentReference,
+    conversationObjects: conversationObjects
   };
 }
 
 export function selectAgendaItem(agendaItemId) {
-  return {
-    type: SELECT_AGENDA_ITEM,
-    agendaItemId: agendaItemId
-  }
+  return function(dispatch) {
+    return fetch('/agenda_items/' + agendaItemId + '/conversation_objects', {
+      method: 'get',
+      credentials: 'include', // send cookies with it
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
+      }
+    })
+    .then(response => response.json())
+    .then(function(json) {
+      dispatch(
+        fetchConversationObjectsSuccess(
+          { type: 'agendaItems', id: agendaItemId },
+          json.data.map(transformConversationObjectFromJsonApi)
+        )
+      );
+      dispatch(selectAgendaItemSuccess(agendaItemId));
+    });
+  };
 }
 
 export function setAgendaItems(agendaItems) {

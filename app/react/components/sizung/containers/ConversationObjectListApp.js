@@ -7,23 +7,13 @@ import { connect } from 'react-redux';
 import ConversationObjectList from '../components/ConversationObjectList';
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
+import { fillConversationObject } from '../utils/entityUtils';
 
 function mapStateToProps(state) {
   const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
 
   var conversationObjects = objectsToShow.map(function(objectReference){
-    const {id, type} = objectReference;
-
-    var conversationObject = state.getIn(['entities', type, id]);
-    if (conversationObject.type === 'agendaItems') {
-      conversationObject.conversation = state.getIn(['entities', 'conversations', conversationObject.conversationId]);
-      conversationObject.commentsSize = 0;
-      conversationObject.owner = state.getIn(['entities', 'users', conversationObject.ownerId]);
-    }
-    else if (conversationObject.type === 'comments') {
-      conversationObject.author = state.getIn(['entities', 'users', conversationObject.authorId]);
-    }
-    return conversationObject;
+    return fillConversationObject(state, objectReference);
   }).reverse().toJS();
 
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
