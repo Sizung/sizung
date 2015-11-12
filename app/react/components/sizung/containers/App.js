@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap';
 
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
+import * as DeliverableActions from '../actions/deliverables';
 
 import AgendaItemListApp from './AgendaItemListApp';
 import DeliverableListApp from './DeliverableListApp';
@@ -12,19 +13,24 @@ import ConversationObjectListApp from './ConversationObjectListApp';
 import UserListApp from './UserListApp';
 import CommentForm from '../components/CommentForm';
 import Comment from '../components/Comment';
+import DeliverableInTimeline from '../components/DeliverableInTimeline';
 import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
 import {fillConversationObject} from '../utils/entityUtils';
 
 class App extends Component {
   render() {
     const { selectedAgendaItem } = this.props;
-    const { currentConversation, createComment, deleteComment, createAgendaItem, currentUser, conversationObjects } = this.props;
+    const { currentConversation, createComment, deleteComment, createAgendaItem, createDeliverable, currentUser, conversationObjects } = this.props;
 
     if(selectedAgendaItem) {
       const conversationObjectComponents = conversationObjects.map(function(conversationObject) {
         if (conversationObject.type === 'comments') {
           const comment = conversationObject;
           return <Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.createdAt} deleteComment={deleteComment}/>
+        }
+        if (conversationObject.type === 'deliverables') {
+          const deliverable = conversationObject;
+          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable}/>
         }
       });
       return (
@@ -45,6 +51,7 @@ class App extends Component {
                           </div>
 
                           <CommentForm createComment={createComment}
+                                       createDeliverable={createDeliverable}
                                        currentUser={currentUser}
                                        parent={selectedAgendaItem} />
                         </div>
@@ -104,7 +111,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...AgendaItemActions, ...CommentsActions}, dispatch);
+  return bindActionCreators({...AgendaItemActions, ...CommentsActions, ...DeliverableActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

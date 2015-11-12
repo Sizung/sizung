@@ -1,3 +1,11 @@
+export function fillDeliverable(state, id) {
+  var deliverable = state.getIn(['entities', 'deliverables', id]);
+  deliverable.agendaItem = state.getIn(['entities', 'agendaItems', deliverable.agendaItemId]);
+  deliverable.owner = state.getIn(['entities', 'users', deliverable.ownerId]);
+
+  return deliverable;
+}
+
 export function fillAgendaItem(state, id) {
   var agendaItem = state.getIn(['entities', 'agendaItems', id]);
   agendaItem.conversation = state.getIn(['entities', 'conversations', agendaItem.conversationId]);
@@ -19,5 +27,11 @@ export function fillConversationObject(state, {id, type}) {
   }
   else if(type === 'comments') {
     return fillComment(state, id);
+  }
+  else if(type === 'deliverables') {
+    return fillDeliverable(state, id);
+  }
+  else {
+    console.warn('Unknown ConversationObject to fill: ', id, type);
   }
 }

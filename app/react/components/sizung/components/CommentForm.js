@@ -29,6 +29,18 @@ class CommentForm extends React.Component {
       this.props.createAgendaItem({conversation_id: this.props.parent.id, title: name});
       this.refs.name.getInputDOMNode().value = '';
     }
+
+    this.handleDeliverable = (e) => {
+      e.preventDefault();
+
+      //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
+      name = this.refs.name.getInputDOMNode().value.trim();
+      //name = React.findDOMNode(this.refs.name).value.trim();
+      if(!name) return;
+
+      this.props.createDeliverable({agenda_item_id: this.props.parent.id, title: name});
+      this.refs.name.getInputDOMNode().value = '';
+    }
   }
 
   render() {
@@ -36,6 +48,9 @@ class CommentForm extends React.Component {
     var buttons = [];
     if (this.props.createAgendaItem) {
       buttons.push(<Button key="createAgendaItem" className="btn btn-xs" type="submit" onClick={this.handleAgendaItem} style={{border: 'none'}} ><i className="fa fa-tag text-muted"></i></Button>);
+    }
+    if (this.props.createDeliverable) {
+      buttons.push(<Button key="createDeliverable" className="btn btn-xs" type="submit" onClick={this.handleDeliverable} style={{border: 'none'}} ><i className="fa fa-tasks text-muted"></i></Button>);
     }
 
     return (
@@ -61,6 +76,7 @@ class CommentForm extends React.Component {
 CommentForm.propTypes = {
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func,
+  createDeliverable: PropTypes.func,
   parent: PropTypes.shape({
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired

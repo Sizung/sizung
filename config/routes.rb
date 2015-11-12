@@ -6,6 +6,11 @@ Rails.application.routes.draw do
   resources :agenda_items, only: [:create, :destroy] do
     concerns :list_conversation_objects, parent_type: 'AgendaItem'
   end
+
+  resources :deliverables, only: [:create] do
+    concerns :list_conversation_objects, parent_type: 'Deliverable'
+  end
+
   resources :comments
   resources :conversations do
     concerns :list_conversation_objects, parent_type: 'Conversation'
