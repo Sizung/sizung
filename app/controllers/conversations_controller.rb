@@ -1,6 +1,7 @@
 class ConversationsController < ApplicationController
   before_filter :authenticate_user!
   before_action :set_conversation, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [:new, :create, :index]
   after_action :verify_authorized,    except: :index
   after_action :verify_policy_scoped, only: :index
   layout 'conversation', only: [:show]
@@ -9,7 +10,7 @@ class ConversationsController < ApplicationController
   # GET /conversations
   # GET /conversations.json
   def index
-    @conversations = policy_scope(Conversation)
+    @conversations = @organization.conversations
   end
 
   # GET /conversations/1
@@ -24,7 +25,8 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/new
   def new
-    @conversation = Conversation.new
+    @conversation = @organization.conversations.build
+    authorize @conversation
   end
 
   # GET /conversations/1/edit
@@ -67,13 +69,17 @@ class ConversationsController < ApplicationController
   def destroy
     @conversation.destroy
     respond_to do |format|
-      format.html { redirect_to conversations_url, notice: 'Conversation was successfully destroyed.' }
+      format.html { redirect_to organization_conversations_url(@conversation.organization), notice: 'Conversation was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
     # Use callbacks to share common setup or constraints between actions.
+    def set_organization
+      @organization = policy_scope(Organization).find(params[:organization_id])
+    end
+
     def set_conversation
       @conversation = Conversation.find(params[:id])
       authorize @conversation

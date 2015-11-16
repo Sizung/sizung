@@ -1,9 +1,9 @@
-= simple_form_for(@conversation) do |f|
+= simple_form_for([@organization, @conversation]) do |f|
   = f.error_notification
 
   .form-inputs
     = f.input :title
-    = f.association :organization
+    = f.input :organization_id, as: :hidden
 
   .form-actions
     = f.button :submit

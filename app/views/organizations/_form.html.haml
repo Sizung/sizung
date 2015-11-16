@@ -4,7 +4,7 @@
   .form-inputs
     = f.input :name
     = f.input :mission
-    = f.association :owner
+    = f.input :owner_id, as: :hidden
 
   .form-actions
     = f.button :submit

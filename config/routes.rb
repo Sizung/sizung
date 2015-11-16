@@ -12,10 +12,14 @@ Rails.application.routes.draw do
   end
 
   resources :comments
-  resources :conversations do
-    concerns :list_conversation_objects, parent_type: 'Conversation'
+  # resources :conversations do
+  #   concerns :list_conversation_objects, parent_type: 'Conversation'
+  # end
+  resources :organizations, shallow: true do
+    resources :conversations do
+      concerns :list_conversation_objects, parent_type: 'Conversation'
+    end
   end
-  resources :organizations
   devise_for :users, controllers: {
                        registrations: 'users/registrations',
                        sessions:      'users/sessions',

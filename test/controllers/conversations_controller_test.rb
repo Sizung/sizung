@@ -5,7 +5,8 @@ describe ConversationsController do
 
   describe 'visitor' do
     it 'should not see any conversations' do
-      get :index
+      @conversation = FactoryGirl.create(:conversation)
+      get :index, organization_id: @conversation.organization
       assert_response :redirect
       assert_redirected_to new_user_session_path
     end
@@ -20,7 +21,7 @@ describe ConversationsController do
     end
 
     it 'lists all conversations' do
-      get :index
+      get :index, organization_id: @conversation.organization_id
       assert_response :success
       conversations = assigns(:conversations)
       assert_not_nil conversations
@@ -28,9 +29,9 @@ describe ConversationsController do
     end
 
     it 'creates a new conversation' do
-      organization = FactoryGirl.create(:organization)
+      organization = @conversation.organization
       assert_difference('Conversation.count') do
-        post :create, conversation: { organization_id: organization.id, title: 'Our general discussion' }
+        post :create, organization_id: organization.id, conversation: { organization_id: organization.id, title: 'Our general discussion' }
       end
 
       assert_redirected_to conversation_path(assigns(:conversation))
@@ -51,7 +52,7 @@ describe ConversationsController do
         delete :destroy, id: @conversation
       end
 
-      assert_redirected_to conversations_path
+      assert_redirected_to organization_conversations_path(@conversation.organization)
     end
   end
 end

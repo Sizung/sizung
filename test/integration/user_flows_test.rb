@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class UserFlowsTest < ActionDispatch::IntegrationTest
-  test 'User can see the default conversation page after login' do
+  test 'User can see the organizations list page after login' do
     visit user_session_path
     assert_equal 200, page.status_code
     @user = FactoryGirl.create :user
@@ -10,7 +10,7 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
 
     click_on 'Log in'
     assert_equal 200, page.status_code
-    assert_equal conversation_path(Conversation.last), page.current_path
+    assert_equal organizations_path, page.current_path
     assert page.has_content?('Signed in successfully.')
   end
 
