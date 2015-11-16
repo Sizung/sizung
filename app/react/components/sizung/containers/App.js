@@ -16,6 +16,7 @@ import Comment from '../components/Comment';
 import DeliverableInTimeline from '../components/DeliverableInTimeline';
 import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
 import {fillConversationObject} from '../utils/entityUtils';
+import ApplicationLayout from '../components/ApplicationLayout';
 
 class App extends Component {
   render() {
@@ -34,56 +35,48 @@ class App extends Component {
         }
       });
       return (
-                <div className="container gray-bg zero-padding full-width">
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <UserListApp className="pull-right"/>
-                      <div className="col-xs-12 zero-padding">
-                        <div className="col-xs-3">
-                          <AgendaItemListApp />
-                        </div>
-                        <div className="col-xs-6 padding-xs-horizontal">
-                          <Button href="#" onClick={this.props.closeAgendaItem}>Close</Button>
-                          <AgendaItemInTimeline agendaItem={selectedAgendaItem} />
+                <ApplicationLayout currentUser={currentUser}>
+                  <UserListApp className="pull-right"/>
+                  <div className="col-xs-12 zero-padding">
+                    <div className="col-xs-3">
+                      <AgendaItemListApp />
+                    </div>
+                    <div className="col-xs-6 padding-xs-horizontal">
+                      <Button href="#" onClick={this.props.closeAgendaItem}>Close</Button>
+                      <AgendaItemInTimeline agendaItem={selectedAgendaItem} />
 
-                          <div className='comments'>
-                            {conversationObjectComponents}
-                          </div>
-
-                          <CommentForm createComment={createComment}
-                                       createDeliverable={createDeliverable}
-                                       currentUser={currentUser}
-                                       parent={selectedAgendaItem} />
-                        </div>
-                        <div className="col-xs-3">
-                          <DeliverableListApp />
-                        </div>
+                      <div className='comments'>
+                        {conversationObjectComponents}
                       </div>
+
+                      <CommentForm createComment={createComment}
+                                   createDeliverable={createDeliverable}
+                                   currentUser={currentUser}
+                                   parent={selectedAgendaItem} />
+                    </div>
+                    <div className="col-xs-3">
+                      <DeliverableListApp />
                     </div>
                   </div>
-                </div>
+                </ApplicationLayout>
              );
     }
     else {
       return (
-                <div className="container gray-bg zero-padding full-width">
-                  <div className="row">
-                    <div className="col-lg-12">
-                      <UserListApp className="pull-right"/>
-                      <div className="col-xs-12 zero-padding">
-                        <div className="col-xs-3">
-                          <AgendaItemListApp />
-                        </div>
-                        <div className="col-xs-6 padding-xs-horizontal">
-                          <ConversationObjectListApp />
-                        </div>
-                        <div className="col-xs-3">
-                          <DeliverableListApp />
-                        </div>
-                      </div>
+                <ApplicationLayout currentUser={currentUser}>
+                  <UserListApp className="pull-right"/>
+                  <div className="col-xs-12 zero-padding">
+                    <div className="col-xs-3">
+                      <AgendaItemListApp />
+                    </div>
+                    <div className="col-xs-6 padding-xs-horizontal">
+                      <ConversationObjectListApp />
+                    </div>
+                    <div className="col-xs-3">
+                      <DeliverableListApp />
                     </div>
                   </div>
-                </div>
+                </ApplicationLayout>
              );
     }
   }
