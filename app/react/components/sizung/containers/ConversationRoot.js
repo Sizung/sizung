@@ -21,8 +21,8 @@ import {setCurrentUser} from '../actions/users'
 import {setConversationObjects} from '../actions/conversationObjects'
 import {createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems, createAgendaItemRemoteOrigin} from '../actions/agendaItems'
-import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi} from '../utils/jsonApiUtils';
-import {setDeliverables} from '../actions/deliverables'
+import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi} from '../utils/jsonApiUtils';
+import {setDeliverables, createDeliverableRemoteOrigin} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
 import App from './App';
@@ -62,6 +62,15 @@ export default class ConversationRoot extends Component {
       if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
         if (data.action == 'create') {
           store.dispatch(createAgendaItemRemoteOrigin(transformAgendaItemFromJsonApi(data.payload.data)));
+        }
+      }
+    });
+
+    window.App.deliverables.setOnReceived(function (data) {
+      console.log('Activity in deliverables: ', data);
+      if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
+        if (data.action == 'create') {
+          store.dispatch(createDeliverableRemoteOrigin(transformDeliverableFromJsonApi(data.payload.data)));
         }
       }
     });

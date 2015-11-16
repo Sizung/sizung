@@ -29,6 +29,14 @@ function createDeliverableSuccess(deliverable) {
   };
 }
 
+export function createDeliverableRemoteOrigin(deliverable) {
+  return {
+    type: CREATE_DELIVERABLE,
+    status: STATUS_REMOTE_ORIGIN,
+    deliverable: deliverable
+  };
+}
+
 export function createDeliverable(deliverable) {
   return function(dispatch) {
     return fetch('/deliverables', {

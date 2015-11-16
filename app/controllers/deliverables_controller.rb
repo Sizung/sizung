@@ -10,9 +10,11 @@ class DeliverablesController < ApplicationController
     authorize @deliverable
     @deliverable.owner = current_user
     @deliverable.save
-    # if @deliverable.persisted?
-    #   DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'create')
-    # end
+
+    if @deliverable.persisted?
+      DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'create')
+    end
+
     render json: @deliverable, serializer: DeliverableSerializer
   end
 
