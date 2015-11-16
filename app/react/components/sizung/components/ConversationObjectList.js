@@ -7,6 +7,25 @@ import { Glyphicon } from 'react-bootstrap';
 class ConversationObjectList extends Component {
   render() {
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, currentUser } = this.props;
+
+    var conversationObjectElements;
+    if(conversationObjects) {
+      conversationObjectElements = conversationObjects.map(function(conversationObject) {
+        if (conversationObject.type === 'comments') {
+          const comment = conversationObject;
+          // use comment object instead
+          return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.createdAt} deleteComment={deleteComment} />);
+        }
+        else if (conversationObject.type === 'agendaItems') {
+          const agendaItem = conversationObject;
+          return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem}/>
+        }
+        else {
+          console.log('Component not found for conversationObject: ', conversationObject);
+        }
+      });
+    }
+
     return (
 
     <div className='commentList col-xs-12 zero-padding'>
@@ -18,22 +37,7 @@ class ConversationObjectList extends Component {
           # Conv - {currentConversation.title}
         </div>
         <div className='comments'>
-        {
-          conversationObjects.map(function(conversationObject) {
-            if (conversationObject.type === 'comments') {
-              const comment = conversationObject;
-              // use comment object instead
-              return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.createdAt} deleteComment={deleteComment} />);
-            }
-            else if (conversationObject.type === 'agendaItems') {
-              const agendaItem = conversationObject;
-              return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem}/>
-            }
-            else {
-              console.log('Component not found for conversationObject: ', conversationObject);
-            }
-          })
-        }
+        { conversationObjectElements }
         </div>
         <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} currentUser={currentUser} parent={currentConversation} />
       </div>

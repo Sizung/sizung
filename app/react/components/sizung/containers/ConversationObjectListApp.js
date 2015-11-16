@@ -12,9 +12,13 @@ import { fillConversationObject } from '../utils/entityUtils';
 function mapStateToProps(state) {
   const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
 
-  var conversationObjects = objectsToShow.map(function(objectReference){
-    return fillConversationObject(state, objectReference);
-  }).reverse().toJS();
+  var conversationObjects;
+
+  if (objectsToShow) {
+    conversationObjects = objectsToShow.map(function(objectReference){
+      return fillConversationObject(state, objectReference);
+    }).reverse().toJS();
+  }
 
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
 
