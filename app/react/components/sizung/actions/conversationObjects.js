@@ -15,19 +15,21 @@ export function setConversationObjects(conversation, conversationObjects) {
   };
 }
 
-function fetchConversationObjectsSuccess(parentReference, conversationObjects) {
-  console.log('fetched: ', conversationObjects);
+function fetchConversationObjectsSuccess(parentReference, conversationObjects, links) {
   return {
     type: FETCH_CONVERSATION_OBJECTS,
     status: STATUS_SUCCESS,
     parentReference: parentReference,
-    conversationObjects: conversationObjects
+    conversationObjects: conversationObjects,
+    links: links
   };
 }
 
-export function fetchConversationObjects(type, id) {
+export function fetchConversationObjects(type, id, url = null) {
+  const urlToFetch = url || '/' + type + '/' + id + '/conversation_objects';
+
   return function(dispatch) {
-    return fetch('/' + type + '/' + id + '/conversation_objects?page_number=1&page_size=2', {
+    return fetch(urlToFetch, {
       method: 'get',
       credentials: 'include', // send cookies with it
       headers: {
@@ -40,7 +42,8 @@ export function fetchConversationObjects(type, id) {
     .then(function(json) {
       dispatch(fetchConversationObjectsSuccess(
         { type: type, id: id },
-        json.data.map(transformConversationObjectFromJsonApi)
+        json.data.map(transformConversationObjectFromJsonApi),
+        json.links
       ));
     });
   };

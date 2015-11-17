@@ -5,8 +5,23 @@ import AgendaItemInTimeline from './AgendaItemInTimeline'
 import { Glyphicon } from 'react-bootstrap';
 
 class ConversationObjectList extends Component {
+  constructor() {
+    super();
+
+    this.handleShowMore = (e) => {
+      e.preventDefault();
+      this.props.fetchConversationObjects('conversations', this.props.currentConversation.id, this.props.nextPageUrl);
+    }
+  }
+
   render() {
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, currentUser } = this.props;
+
+    console.log('nextPageUrl: ', this.props.nextPageUrl);
+    var showMore;
+    if(this.props.nextPageUrl) {
+      showMore = <div onClick={this.handleShowMore}>Show More</div>;
+    }
 
     var conversationObjectElements;
     if(conversationObjects) {
@@ -37,7 +52,8 @@ class ConversationObjectList extends Component {
           # Conv - {currentConversation.title}
         </div>
         <div className='comments'>
-        { conversationObjectElements }
+          { showMore }
+          { conversationObjectElements }
         </div>
         <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} currentUser={currentUser} parent={currentConversation} />
       </div>
@@ -48,14 +64,20 @@ class ConversationObjectList extends Component {
 }
 
 ConversationObjectList.propTypes = {
+  nextPageUrl: PropTypes.string,
+  fetchConversationObjects: PropTypes.func.isRequired,
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
-  conversationObjects: PropTypes.array.isRequired,
+  conversationObjects: PropTypes.array,
   currentConversation: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired
   }).isRequired
+};
+
+ConversationObjectList.defaultProps = {
+  nextPageUrl: null
 };
 
 export default ConversationObjectList;
