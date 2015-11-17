@@ -25,10 +25,20 @@ function fetchConversationObjectsSuccess(parentReference, conversationObjects, l
   };
 }
 
+function fetchConversationObjectsInProgress(parentReference) {
+  return {
+    type: FETCH_CONVERSATION_OBJECTS,
+    status: STATUS_IN_PROGRESS,
+    parentReference: parentReference
+  };
+}
+
 export function fetchConversationObjects(type, id, url = null) {
   const urlToFetch = url || '/' + type + '/' + id + '/conversation_objects';
+  const parentReference = { type: type, id: id };
 
   return function(dispatch) {
+    dispatch(fetchConversationObjectsInProgress(parentReference));
     return fetch(urlToFetch, {
       method: 'get',
       credentials: 'include', // send cookies with it
@@ -41,7 +51,7 @@ export function fetchConversationObjects(type, id, url = null) {
     .then(response => response.json())
     .then(function(json) {
       dispatch(fetchConversationObjectsSuccess(
-        { type: type, id: id },
+        parentReference,
         json.data.map(transformConversationObjectFromJsonApi),
         json.links
       ));

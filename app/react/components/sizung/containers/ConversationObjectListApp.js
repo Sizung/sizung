@@ -15,6 +15,7 @@ function mapStateToProps(state) {
 
   var conversationObjects;
   var nextPageUrl;
+  var isFetching;
 
   if (objectsToShow) {
     conversationObjects = objectsToShow.get('references').map(function(objectReference){
@@ -22,6 +23,7 @@ function mapStateToProps(state) {
     }).reverse().toJS();
 
     nextPageUrl = objectsToShow.get('nextPageUrl');
+    isFetching = objectsToShow.get('isFetching');
   }
 
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
@@ -32,7 +34,8 @@ function mapStateToProps(state) {
     conversationObjects: conversationObjects,
     currentConversation: currentConversation,
     currentUser: currentUser,
-    nextPageUrl: nextPageUrl
+    nextPageUrl: nextPageUrl,
+    isFetching: isFetching
   }
 }
 

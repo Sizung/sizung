@@ -13,13 +13,18 @@ const initialState = Immutable.Map();
 export default function agendaItems(state = initialState, action = null) {
   switch (action.type) {
   case FETCH_CONVERSATION_OBJECTS:
-    for(var i=0; i<action.conversationObjects.length; i++) {
-      const conversationObject = action.conversationObjects[i];
-      if (conversationObject.type === 'agendaItems') {
-        state = state.set(conversationObject.id, conversationObject);
+    if (action.status == STATUS_SUCCESS) {
+      for (var i = 0; i < action.conversationObjects.length; i++) {
+        const conversationObject = action.conversationObjects[i];
+        if (conversationObject.type === 'agendaItems') {
+          state = state.set(conversationObject.id, conversationObject);
+        }
       }
-    };
-    return state;
+      return state;
+    }
+    else {
+      return state;
+    }
   case CREATE_AGENDA_ITEM:
     if(action.status == STATUS_SUCCESS) {
       return state.set(action.agendaItem.id, action.agendaItem);

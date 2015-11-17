@@ -2,7 +2,7 @@ import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGI
 import { FETCH_CONVERSATION_OBJECTS } from '../actions/conversationObjects.js';
 import { CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
 import { CREATE_AGENDA_ITEM } from '../actions/agendaItems';
-import { add, remove, fetched, toReference } from '../utils/paginationUtils';
+import { add, remove, fetchInProgress, fetched, toReference } from '../utils/paginationUtils';
 
 import Immutable from 'immutable';
 const initialState = Immutable.Map();
@@ -11,8 +11,12 @@ export default function conversationObjectsByConversation(state = initialState, 
   switch (action.type) {
   case FETCH_CONVERSATION_OBJECTS:
     if(action.parentReference.type === 'conversations') {
-      const objects = action.conversationObjects.map(toReference);
-      return fetched(state, action.parentReference.id, objects, action);
+      if (action.status == STATUS_SUCCESS) {
+        const objects = action.conversationObjects.map(toReference);
+        return fetched(state, action.parentReference.id, objects, action);
+      } else {
+        return fetchInProgress(state, action.parentReference.id);
+      }
     }
     else {
       return state;

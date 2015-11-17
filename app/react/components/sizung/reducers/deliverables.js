@@ -30,13 +30,19 @@ export default function deliverables(state = initialState, action = null) {
       }
       return state;
     case FETCH_CONVERSATION_OBJECTS:
-      for(var i=0; i<action.conversationObjects.length; i++) {
-        const conversationObject = action.conversationObjects[i];
-        if (conversationObject.type === 'deliverables') {
-          state = state.set(conversationObject.id, conversationObject);
+      if (action.status == STATUS_SUCCESS) {
+        for (var i = 0; i < action.conversationObjects.length; i++) {
+          const conversationObject = action.conversationObjects[i];
+          if (conversationObject.type === 'deliverables') {
+            state = state.set(conversationObject.id, conversationObject);
+          }
         }
-      };
-      return state;
+        ;
+        return state;
+      }
+      else {
+        return state;
+      }
     default:
       return state;
   }

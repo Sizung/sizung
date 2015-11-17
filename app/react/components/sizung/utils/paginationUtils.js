@@ -11,6 +11,11 @@ export function toReference(object) {
   return { id: object.id, type: object.type };
 }
 
+export function fetchInProgress(state, key) {
+  const map = currentMap(state, key);
+  return state.set(key, map.set('isFetching', true));
+}
+
 export function fetched(state, key, references, action) {
   const map = currentMap(state, key);
 

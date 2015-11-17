@@ -17,10 +17,12 @@ class ConversationObjectList extends Component {
   render() {
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, currentUser } = this.props;
 
-    console.log('nextPageUrl: ', this.props.nextPageUrl);
     var showMore;
-    if(this.props.nextPageUrl) {
-      showMore = <div onClick={this.handleShowMore}>Show More</div>;
+    if(this.props.isFetching) {
+      showMore = <div className="text-center">Loading...</div>;
+    }
+    else if(this.props.nextPageUrl) {
+      showMore = <div className="text-center"><a href="#" onClick={this.handleShowMore}>Show More</a></div>;
     }
 
     var conversationObjectElements;
@@ -65,6 +67,7 @@ class ConversationObjectList extends Component {
 
 ConversationObjectList.propTypes = {
   nextPageUrl: PropTypes.string,
+  isFetching: PropTypes.bool,
   fetchConversationObjects: PropTypes.func.isRequired,
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func.isRequired,
@@ -77,7 +80,8 @@ ConversationObjectList.propTypes = {
 };
 
 ConversationObjectList.defaultProps = {
-  nextPageUrl: null
+  nextPageUrl: null,
+  isFetching: false
 };
 
 export default ConversationObjectList;
