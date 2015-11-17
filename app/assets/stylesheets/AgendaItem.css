@@ -1,0 +1,6 @@
+.default {
+    composes: white-bg from "./application.css";
+    composes: padding-sm-vertical from "./application.css";
+    composes: margin-xs-vertical from "./application.css";
+    composes: box-shadow from "./application.css";
+}

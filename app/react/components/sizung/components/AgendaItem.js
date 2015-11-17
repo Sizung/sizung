@@ -2,7 +2,10 @@
 
 import React, { Component, PropTypes } from 'react';
 import { Glyphicon } from 'react-bootstrap';
+import CSSModules from 'react-css-modules';
+import styles from "../../../../assets/stylesheets/AgendaItem.css";
 
+@CSSModules(styles)
 class AgendaItem extends React.Component {
 
   constructor() {
@@ -25,7 +28,7 @@ class AgendaItem extends React.Component {
     }
 
     return (
-      <div style={style} className="row white-bg padding-sm-vertical margin-xs-vertical box-shadow" onClick={this.handleClick}>
+      <div style={style} styleName='default' onClick={this.handleClick}>
         <div className="col-xs-12">
           <span className="col-xs-11 zero-padding" style={{textAlign: 'left'}}>{ agendaItem.title }</span>
           <i className="col-xs-1 fa fa-tag zero-padding" style={{textAlign: 'right'}}/>
