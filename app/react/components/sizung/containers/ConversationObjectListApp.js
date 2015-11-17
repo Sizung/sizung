@@ -20,7 +20,9 @@ function mapStateToProps(state) {
   if (objectsToShow) {
     conversationObjects = objectsToShow.get('references').map(function(objectReference){
       return fillConversationObject(state, objectReference);
-    }).reverse().toJS();
+    }).toList().sortBy(function(conversationObject) {
+      return conversationObject.createdAt;
+    }).toJS();
 
     nextPageUrl = objectsToShow.get('nextPageUrl');
     isFetching = objectsToShow.get('isFetching');

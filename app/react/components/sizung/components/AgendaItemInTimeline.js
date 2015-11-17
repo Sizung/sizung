@@ -17,7 +17,7 @@ class AgendaItemInTimeline extends React.Component {
 
   render() {
     const { agendaItem } = this.props;
-    const { conversation } = agendaItem.conversation
+    const { conversation } = agendaItem;
     return  <div style={[styles.base]} className="col-xs-12 margin-xs-vertical">
               <div className="col-xs-1">
                 <User user={agendaItem.owner} />

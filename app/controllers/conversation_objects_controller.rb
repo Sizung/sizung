@@ -15,7 +15,7 @@ class ConversationObjectsController < ApplicationController
     end
 
     def page_size
-      params[:page] ? params[:page][:size] : 2
+      params[:page] ? params[:page][:size] : 10
     end
 
     def parent_type

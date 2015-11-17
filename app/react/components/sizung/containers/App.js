@@ -15,13 +15,14 @@ import CommentForm from '../components/CommentForm';
 import Comment from '../components/Comment';
 import DeliverableInTimeline from '../components/DeliverableInTimeline';
 import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
-import {fillConversationObject} from '../utils/entityUtils';
+import {fillConversationObject, fillAgendaItem} from '../utils/entityUtils';
 import ApplicationLayout from '../components/ApplicationLayout';
 
 class App extends Component {
   render() {
     const { selectedAgendaItem } = this.props;
     const { currentConversation, createComment, deleteComment, createAgendaItem, createDeliverable, currentUser, conversationObjects } = this.props;
+
 
     if(selectedAgendaItem) {
       const conversationObjectComponents = conversationObjects.map(function(conversationObject) {
@@ -86,7 +87,7 @@ function mapStateToProps(state) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
   const selectedAgendaItemId = state.getIn(['selectedConversationObject', 'id']);
-  const selectedAgendaItem = selectedAgendaItemId ? state.getIn(['entities', 'agendaItems', selectedAgendaItemId]) : null;
+  const selectedAgendaItem = selectedAgendaItemId ? fillAgendaItem(state, selectedAgendaItemId) : null;
 
   var conversationObjects;
   if (selectedAgendaItem) {
