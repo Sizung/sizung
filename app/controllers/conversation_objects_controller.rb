@@ -6,10 +6,18 @@ class ConversationObjectsController < ApplicationController
 
   def index
     authorize parent, :show?
-    render json: parent.conversation_objects
+    render json: parent.conversation_objects.page(page_number).per(page_size)
   end
 
   private
+    def page_number
+      params[:page] ? params[:page][:number] : 1
+    end
+
+    def page_size
+      params[:page] ? params[:page][:size] : 10
+    end
+
     def parent_type
       @parent_type ||= params[:parent_type]
     end

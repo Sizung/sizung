@@ -31,12 +31,13 @@ function selectAgendaItemSuccess(agendaItemId) {
   }
 }
 
-function fetchConversationObjectsSuccess(parentReference, conversationObjects) {
+function fetchConversationObjectsSuccess(parentReference, conversationObjects, links) {
   return {
     type: FETCH_CONVERSATION_OBJECTS,
     status: STATUS_SUCCESS,
     parentReference: parentReference,
-    conversationObjects: conversationObjects
+    conversationObjects: conversationObjects,
+    links: links
   };
 }
 
@@ -56,7 +57,8 @@ export function selectAgendaItem(agendaItemId) {
       dispatch(
         fetchConversationObjectsSuccess(
           { type: 'agendaItems', id: agendaItemId },
-          json.data.map(transformConversationObjectFromJsonApi)
+          json.data.map(transformConversationObjectFromJsonApi),
+          json.links
         )
       );
       dispatch(selectAgendaItemSuccess(agendaItemId));

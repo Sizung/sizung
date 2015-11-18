@@ -7,28 +7,16 @@ import { connect } from 'react-redux';
 import ConversationObjectList from '../components/ConversationObjectList';
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
+import * as DeliverableActions from '../actions/deliverables';
+import { fetchConversationObjects } from '../actions/conversationObjects';
 import { fillConversationObject } from '../utils/entityUtils';
 
 function mapStateToProps(state) {
-  const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
-
-  var conversationObjects = objectsToShow.map(function(objectReference){
-    return fillConversationObject(state, objectReference);
-  }).reverse().toJS();
-
-  const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
-
-  const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
-
-  return {
-    conversationObjects: conversationObjects,
-    currentConversation: currentConversation,
-    currentUser: currentUser
-  }
+  return {}
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...AgendaItemActions, ...CommentsActions}, dispatch);
+  return bindActionCreators({...AgendaItemActions, ...CommentsActions, ...DeliverableActions, fetchConversationObjects}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationObjectList);

@@ -15,96 +15,99 @@ import CommentForm from '../components/CommentForm';
 import Comment from '../components/Comment';
 import DeliverableInTimeline from '../components/DeliverableInTimeline';
 import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
-import {fillConversationObject} from '../utils/entityUtils';
+import {fillConversationObject, fillAgendaItem} from '../utils/entityUtils';
 import ApplicationLayout from '../components/ApplicationLayout';
+import ConversationObjectList from '../components/ConversationObjectList';
 
 class App extends Component {
+
   render() {
-    const { selectedAgendaItem } = this.props;
-    const { currentConversation, createComment, deleteComment, createAgendaItem, createDeliverable, currentUser, conversationObjects } = this.props;
+    const { selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation, currentUser } = this.props;
 
+    var middlePart = this.prepareMiddlePart(selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation);
+
+    return (<ApplicationLayout currentUser={currentUser}>
+              <UserListApp className="pull-right"/>
+              <div className="col-xs-12 zero-padding">
+                <div className="col-xs-3">
+                  <AgendaItemListApp />
+                </div>
+                <div className="col-xs-6 padding-xs-horizontal">
+                  { middlePart }
+                </div>
+                <div className="col-xs-3">
+                  <DeliverableListApp />
+                </div>
+              </div>
+            </ApplicationLayout>);
+  }
+
+  prepareMiddlePart(selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation) {
     if(selectedAgendaItem) {
-      const conversationObjectComponents = conversationObjects.map(function(conversationObject) {
-        if (conversationObject.type === 'comments') {
-          const comment = conversationObject;
-          return <Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.createdAt} deleteComment={deleteComment}/>
-        }
-        if (conversationObject.type === 'deliverables') {
-          const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable}/>
-        }
-      });
-      return (
-                <ApplicationLayout currentUser={currentUser}>
-                  <UserListApp className="pull-right"/>
-                  <div className="col-xs-12 zero-padding">
-                    <div className="col-xs-3">
-                      <AgendaItemListApp />
-                    </div>
-                    <div className="col-xs-6 padding-xs-horizontal">
-                      <Button href="#" onClick={this.props.closeAgendaItem}>Close</Button>
-                      <AgendaItemInTimeline agendaItem={selectedAgendaItem} />
-
-                      <div className='comments'>
-                        {conversationObjectComponents}
-                      </div>
-
-                      <CommentForm createComment={createComment}
-                                   createDeliverable={createDeliverable}
-                                   currentUser={currentUser}
-                                   parent={selectedAgendaItem} />
-                    </div>
-                    <div className="col-xs-3">
-                      <DeliverableListApp />
-                    </div>
-                  </div>
-                </ApplicationLayout>
-             );
+      return (<div>
+                <Button href="#" onClick={closeAgendaItem}>Close</Button>
+                <AgendaItemInTimeline agendaItem={selectedAgendaItem} />
+                <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation} />
+              </div>);
+    }
+    else if (conversationObjectsList.conversationObjects) {
+      return <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation} />
     }
     else {
-      return (
-                <ApplicationLayout currentUser={currentUser}>
-                  <UserListApp className="pull-right"/>
-                  <div className="col-xs-12 zero-padding">
-                    <div className="col-xs-3">
-                      <AgendaItemListApp />
-                    </div>
-                    <div className="col-xs-6 padding-xs-horizontal">
-                      <ConversationObjectListApp />
-                    </div>
-                    <div className="col-xs-3">
-                      <DeliverableListApp />
-                    </div>
-                  </div>
-                </ApplicationLayout>
-             );
+      return <div></div>;
     }
   }
+}
+
+
+function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable) {
+  const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
+  var conversationObjectsList = {commentForm: {}};
+
+  if (objectsToShow) {
+    conversationObjectsList.conversationObjects = objectsToShow.get('references').map(function(objectReference){
+      return fillConversationObject(state, objectReference);
+    }).toList().sortBy(function(conversationObject) {
+      return conversationObject.createdAt;
+    }).toJS();
+
+    conversationObjectsList.nextPageUrl = objectsToShow.get('nextPageUrl');
+    conversationObjectsList.isFetching = objectsToShow.get('isFetching');
+    conversationObjectsList.commentForm.currentUser = currentUser;
+    conversationObjectsList.commentForm.parent = parentObject;
+    conversationObjectsList.commentForm.canCreateAgendaItem = canCreateAgendaItem;
+    conversationObjectsList.commentForm.canCreateDeliverable = canCreateDeliverable;
+  }
+
+  return conversationObjectsList;
 }
 
 function mapStateToProps(state) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
   const selectedAgendaItemId = state.getIn(['selectedConversationObject', 'id']);
-  const selectedAgendaItem = selectedAgendaItemId ? state.getIn(['entities', 'agendaItems', selectedAgendaItemId]) : null;
+  const selectedAgendaItem = selectedAgendaItemId ? fillAgendaItem(state, selectedAgendaItemId) : null;
 
-  var conversationObjects;
+  var conversationObjectsList;
+
   if (selectedAgendaItem) {
-    conversationObjects = state.getIn(['conversationObjectsByAgendaItem', selectedAgendaItemId]).map(function(reference) {
-      return fillConversationObject(state, reference);
-    }).reverse();
+    const objectsToShow = state.getIn(['conversationObjectsByAgendaItem', selectedAgendaItemId]);
+    conversationObjectsList = prepareConversationObjectList(state, objectsToShow, selectedAgendaItem, false, true);
+  } else {
+    const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
+    conversationObjectsList = prepareConversationObjectList(state, objectsToShow, currentConversation, true, false);
   }
 
   return {
+    conversationObjectsList: conversationObjectsList,
     selectedAgendaItem: selectedAgendaItem,
     currentConversation: currentConversation,
-    conversationObjects: conversationObjects,
     currentUser: currentUser
   }
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...AgendaItemActions, ...CommentsActions, ...DeliverableActions}, dispatch);
+  return bindActionCreators({...AgendaItemActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

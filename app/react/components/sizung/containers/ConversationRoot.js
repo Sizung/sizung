@@ -18,7 +18,7 @@ import ConversationObjectListApp from './ConversationObjectListApp';
 import UserListApp from './UserListApp';
 import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
-import {setConversationObjects} from '../actions/conversationObjects'
+import {setConversationObjects, fetchConversationObjects} from '../actions/conversationObjects'
 import {createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems, createAgendaItemRemoteOrigin} from '../actions/agendaItems'
 import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi} from '../utils/jsonApiUtils';
@@ -32,7 +32,7 @@ const store = configureStore();
 export default class ConversationRoot extends Component {
   componentWillMount() {
     store.dispatch(setCurrentUser(this.props.currentUser));
-    store.dispatch(setConversationObjects(this.props.currentConversation, this.props.conversationObjects));
+    //store.dispatch(setConversationObjects(this.props.currentConversation, this.props.conversationObjects));
     store.dispatch(setAgendaItems(this.props.agendaItems));
     store.dispatch(setCurrentConversation(this.props.currentConversation));
     store.dispatch(setDeliverables(this.props.deliverables));
@@ -40,6 +40,8 @@ export default class ConversationRoot extends Component {
   }
 
   componentDidMount() {
+    store.dispatch(fetchConversationObjects('conversations', this.props.currentConversation.id));
+
     window.App.comments.setOnReceived(function (data) {
       if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
         if(data.action == 'create') {

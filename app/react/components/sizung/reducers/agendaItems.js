@@ -6,11 +6,24 @@
 
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
 import { SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM } from '../actions/agendaItems';
+import { FETCH_CONVERSATION_OBJECTS } from '../actions/conversationObjects';
 import Immutable from 'immutable';
 const initialState = Immutable.Map();
 
 export default function agendaItems(state = initialState, action = null) {
   switch (action.type) {
+  case FETCH_CONVERSATION_OBJECTS:
+    if (action.status == STATUS_SUCCESS) {
+      action.conversationObjects.forEach(conversationObject => {
+        if (conversationObject.type === 'agendaItems') {
+          state = state.set(conversationObject.id, conversationObject);
+        }
+      });
+      return state;
+    }
+    else {
+      return state;
+    }
   case CREATE_AGENDA_ITEM:
     if(action.status == STATUS_SUCCESS) {
       return state.set(action.agendaItem.id, action.agendaItem);
