@@ -33,6 +33,7 @@
     "radium": "^0.14.3",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
+    "react-css-modules": "^3.6.1",
     "react-redux": "^3.0.0",
     "react-time": "^4.0.0",
     "react-tools": "*",
