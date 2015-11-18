@@ -18,5 +18,6 @@ namespace :assets do
 
   task :clobber do
     rm_rf "#{Rails.application.config.root}/app/assets/javascripts/react_bundle.js"
+    rm_rf "#{Rails.application.config.root}/app/assets/stylesheets/react_bundle.css"
   end
 end

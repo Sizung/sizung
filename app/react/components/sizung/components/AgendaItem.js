@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Glyphicon } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
-import styles from "../../../../assets/stylesheets/AgendaItem.css";
+import styles from "./AgendaItem.css";
 
 @CSSModules(styles)
 class AgendaItem extends React.Component {
