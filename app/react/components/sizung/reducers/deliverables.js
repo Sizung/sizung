@@ -31,13 +31,11 @@ export default function deliverables(state = initialState, action = null) {
       return state;
     case FETCH_CONVERSATION_OBJECTS:
       if (action.status == STATUS_SUCCESS) {
-        for (var i = 0; i < action.conversationObjects.length; i++) {
-          const conversationObject = action.conversationObjects[i];
+        action.conversationObjects.forEach(conversationObject => {
           if (conversationObject.type === 'deliverables') {
             state = state.set(conversationObject.id, conversationObject);
           }
-        }
-        ;
+        });
         return state;
       }
       else {

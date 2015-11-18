@@ -46,10 +46,10 @@ class CommentForm extends React.Component {
   render() {
     const { currentUser } = this.props;
     var buttons = [];
-    if (this.props.createAgendaItem) {
+    if (this.props.canCreateAgendaItem) {
       buttons.push(<Button key="createAgendaItem" className="btn btn-xs" type="submit" onClick={this.handleAgendaItem} style={{border: 'none'}} ><i className="fa fa-tag text-muted"></i></Button>);
     }
-    if (this.props.createDeliverable) {
+    if (this.props.canCreateDeliverable) {
       buttons.push(<Button key="createDeliverable" className="btn btn-xs" type="submit" onClick={this.handleDeliverable} style={{border: 'none'}} ><i className="fa fa-tasks text-muted"></i></Button>);
     }
 
@@ -72,7 +72,6 @@ class CommentForm extends React.Component {
   }
 }
 
-
 CommentForm.propTypes = {
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func,
@@ -81,7 +80,9 @@ CommentForm.propTypes = {
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired
   }).isRequired,
-  currentUser : PropTypes.object.isRequired
+  currentUser : PropTypes.object.isRequired,
+  canCreateAgendaItem: PropTypes.bool.isRequired,
+  canCreateDeliverable: PropTypes.bool.isRequired
 };
 
 export default CommentForm;

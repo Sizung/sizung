@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import CommentForm from './CommentForm';
 import Comment from './Comment';
 import AgendaItemInTimeline from './AgendaItemInTimeline'
+import DeliverableInTimeline from './DeliverableInTimeline'
 import { Glyphicon } from 'react-bootstrap';
 
 class ConversationObjectList extends Component {
@@ -10,38 +11,49 @@ class ConversationObjectList extends Component {
 
     this.handleShowMore = (e) => {
       e.preventDefault();
-      this.props.fetchConversationObjects('conversations', this.props.currentConversation.id, this.props.nextPageUrl);
+      var parentType = this.props.commentForm.parent.type ? this.props.commentForm.parent.type : 'conversations';
+
+      this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
     }
   }
 
-  render() {
-    const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, currentUser } = this.props;
-
-    var showMore;
-    if(this.props.isFetching) {
-      showMore = <div className="text-center">Loading...</div>;
-    }
-    else if(this.props.nextPageUrl) {
-      showMore = <div className="text-center"><a href="#" onClick={this.handleShowMore}>Show More</a></div>;
-    }
-
-    var conversationObjectElements;
+  prepareChildElements(conversationObjects, deleteComment) {
     if(conversationObjects) {
-      conversationObjectElements = conversationObjects.map(function(conversationObject) {
+      return conversationObjects.map(function(conversationObject) {
         if (conversationObject.type === 'comments') {
           const comment = conversationObject;
-          // use comment object instead
-          return(<Comment key={comment.id} id={comment.id} body={comment.body} author={comment.author} createdAt={comment.createdAt} deleteComment={deleteComment} />);
+          return(<Comment key={comment.id} comment={comment} deleteComment={deleteComment} />);
         }
         else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
           return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem}/>
+        }
+        if (conversationObject.type === 'deliverables') {
+          const deliverable = conversationObject;
+          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable}/>
         }
         else {
           console.log('Component not found for conversationObject: ', conversationObject);
         }
       });
     }
+  }
+
+  prepareShowMore(isFetching, nextPageUrl) {
+    if(isFetching) {
+      return <div className="text-center">Loading...</div>;
+    }
+    else if(nextPageUrl) {
+      return <div className="text-center"><a href="#" onClick={this.handleShowMore}>Show More</a></div>;
+    }
+  }
+
+  render() {
+    const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem,
+      createDeliverable, commentForm, isFetching, nextPageUrl } = this.props;
+
+    var showMore = this.prepareShowMore(isFetching, nextPageUrl);
+    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment);
 
     return (
 
@@ -57,7 +69,10 @@ class ConversationObjectList extends Component {
           { showMore }
           { conversationObjectElements }
         </div>
-        <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} currentUser={currentUser} parent={currentConversation} />
+        <CommentForm createComment={createComment}
+                     createAgendaItem={createAgendaItem}
+                     createDeliverable={createDeliverable}
+                     {...commentForm}/>
       </div>
 
     </div>
@@ -66,6 +81,15 @@ class ConversationObjectList extends Component {
 }
 
 ConversationObjectList.propTypes = {
+  commentForm: PropTypes.shape({
+    currentUser: PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      email: PropTypes.string.isRequired
+    }),
+    parent: PropTypes.object.isRequired,
+    canCreateAgendaItem: PropTypes.bool.isRequired,
+    canCreateDeliverable: PropTypes.bool.isRequired
+  }).isRequired,
   nextPageUrl: PropTypes.string,
   isFetching: PropTypes.bool,
   fetchConversationObjects: PropTypes.func.isRequired,

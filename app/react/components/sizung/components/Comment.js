@@ -11,19 +11,21 @@ class Comment extends React.Component {
 
     this.handleDeleteClick = (e) => {
       e.preventDefault();
-      this.props.deleteComment(this.props.id);
+      this.props.deleteComment(this.props.comment.id);
     }
   }
 
   render() {
+    const {author, body, createdAt} = this.props.comment;
+
     return  <div style={[styles.base]} className="col-xs-12 margin-xs-vertical">
               <div className="col-xs-1">
-                <User user={this.props.author} />
+                <User user={author} />
               </div>
               <div className="col-xs-11 zero-padding">
-                {this.props.body}
+                {body}
                 <div className="pull-left col-xs-12 zero-padding margin-xs-vertical text-muted">
-                  <small><Time value={this.props.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+                  <small><Time value={createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
                   {Radium.getState(this.state, this.key, ':hover') ? (
                     <span style={{marginLeft: '1em'}}>
                       <a href='#' onClick={this.handleDeleteClick}>
@@ -46,10 +48,12 @@ var styles = {
 };
 
 Comment.propTypes = {
-  id: PropTypes.string.isRequired,
-  body: PropTypes.string.isRequired,
-  author: PropTypes.object.isRequired,
-  createdAt: PropTypes.string.isRequired
+  comment: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    body: PropTypes.string.isRequired,
+    author: PropTypes.object.isRequired,
+    createdAt: PropTypes.string.isRequired
+  }).isRequired
 };
 
 export default Radium(Comment);

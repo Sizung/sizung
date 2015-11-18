@@ -7,42 +7,16 @@ import { connect } from 'react-redux';
 import ConversationObjectList from '../components/ConversationObjectList';
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
+import * as DeliverableActions from '../actions/deliverables';
 import { fetchConversationObjects } from '../actions/conversationObjects';
 import { fillConversationObject } from '../utils/entityUtils';
 
 function mapStateToProps(state) {
-  const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
-
-  var conversationObjects;
-  var nextPageUrl;
-  var isFetching;
-
-  if (objectsToShow) {
-    conversationObjects = objectsToShow.get('references').map(function(objectReference){
-      return fillConversationObject(state, objectReference);
-    }).toList().sortBy(function(conversationObject) {
-      return conversationObject.createdAt;
-    }).toJS();
-
-    nextPageUrl = objectsToShow.get('nextPageUrl');
-    isFetching = objectsToShow.get('isFetching');
-  }
-
-  const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
-
-  const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
-
-  return {
-    conversationObjects: conversationObjects,
-    currentConversation: currentConversation,
-    currentUser: currentUser,
-    nextPageUrl: nextPageUrl,
-    isFetching: isFetching
-  }
+  return {}
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...AgendaItemActions, ...CommentsActions, fetchConversationObjects}, dispatch);
+  return bindActionCreators({...AgendaItemActions, ...CommentsActions, ...DeliverableActions, fetchConversationObjects}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationObjectList);
