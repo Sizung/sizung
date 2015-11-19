@@ -11,7 +11,7 @@ class AgendaItem extends React.Component {
     this.handleClick = (e) => {
       e.preventDefault();
 
-      this.props.selectAgendaItem(this.props.agendaItem.id);
+      this.props.selectAgendaItem(this.props.agendaItem.conversationId, this.props.agendaItem.id);
     };
   }
 
@@ -41,6 +41,8 @@ class AgendaItem extends React.Component {
 
 AgendaItem.propTypes = {
   agendaItem: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    conversationId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     conversation: PropTypes.shape({

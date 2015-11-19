@@ -20,6 +20,10 @@ Rails.application.routes.draw do
       concerns :list_conversation_objects, parent_type: 'Conversation'
     end
   end
+
+  get 'conversations/:id/deliverables/:deliverable_id', to: 'conversations#show'
+  get 'conversations/:id/agenda_items/:agenda_item_id', to: 'conversations#show'
+
   devise_for :users, controllers: {
                        registrations: 'users/registrations',
                        sessions:      'users/sessions',

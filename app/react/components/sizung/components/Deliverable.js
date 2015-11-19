@@ -32,4 +32,13 @@ Deliverable.propTypes = {
   }).isRequired
 };
 
+Deliverable.defaultProps = {
+  deliverable: {
+    title: 'foobar',
+    agendaItem: {
+      title: 'barfoo'
+    }
+  }
+};
+
 export default Deliverable;
