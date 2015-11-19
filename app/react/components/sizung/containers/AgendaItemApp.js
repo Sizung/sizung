@@ -30,8 +30,28 @@ class AgendaItemApp extends React.Component {
     };
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.selectedAgendaItemId !== this.props.selectedAgendaItemId || nextProps.conversationObjectsList !== this.props.conversationObjectsList;
+  //shouldComponentUpdate(nextProps, nextState) {
+  //  return nextProps.selectedAgendaItemId !== this.props.selectedAgendaItemId || nextProps.conversationObjectsList !== this.props.conversationObjectsList;
+  //}
+
+  //componentDidUpdate (prevProps) {
+  //  // respond to parameter change in scenario 3
+  //  let oldId = prevProps.params.selectedAgendaItem;
+  //  let newId = this.props.selectedAgendaItem;
+  //  if (newId !== oldId) {
+  //    this.fetchInvoice()
+  //  }
+  //}
+
+  /*
+   * This is called when the component is first mounted to the DOM.
+   *
+   * Here we fetch the conversation Objects for the agendaItemId (from the route) and set the selectedAgendaItemId in
+   * the store using the selectAgendaItem ActionCreator. That is the same ActionCreator that is used when you click
+   * on an agenda item to select it.
+   */
+  componentDidMount () {
+    this.props.selectAgendaItem(this.props.currentConversation.id, this.props.selectedAgendaItemIdInPath)
   }
 
   render() {
@@ -73,15 +93,12 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
 }
 
 function mapStateToProps(state) {
+  //console.log('AgendaItemApp: mapStateToProps: (path, state)', state.get('routing').path.split('/')[4], state.getIn(['selectedConversationObject', 'id']));
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
   const selectedAgendaItemIdInState = state.getIn(['selectedConversationObject', 'id']);
   const selectedAgendaItemIdInPath = state.get('routing').path.split('/')[4];
   const selectedAgendaItemId = selectedAgendaItemIdInState;
-  //if (selectedAgendaItemIdInPath != selectedAgendaItemIdInState) {
-  //  state.dispatch(selectAgendaItemWithFetch(selectedAgendaItemIdInPath));
-  //}
-  console.log(selectedAgendaItemId);
 
   const selectedAgendaItem = selectedAgendaItemId ? fillAgendaItem(state, selectedAgendaItemId) : null;
 
@@ -89,6 +106,7 @@ function mapStateToProps(state) {
   const conversationObjectsList = prepareConversationObjectList(state, objectsToShow, selectedAgendaItem, false, true);
 
   return {
+    selectedAgendaItemIdInPath: selectedAgendaItemIdInPath,
     conversationObjectsList: conversationObjectsList,
     selectedAgendaItem: selectedAgendaItem,
     currentConversation: currentConversation,

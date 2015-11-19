@@ -56,29 +56,48 @@ function fetchConversationObjectsSuccess(parentReference, conversationObjects, l
 //  };
 //}
 
+function shouldFetch(getState, agendaItemId) {
+  if (getState().getIn(['conversationObjectsByAgendaItem', agendaItemId])) {
+    return false;
+  }
+  else {
+    return true;
+  }
+}
+
+function fetchObjects(conversationId, agendaItemId, dispatch) {
+  return fetch('/agenda_items/' + agendaItemId + '/conversation_objects', {
+    method: 'get',
+    credentials: 'include', // send cookies with it
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': MetaTagsManager.getCSRFToken()
+    }
+  })
+  .then(response => response.json())
+  .then(function(json) {
+    dispatch(
+      fetchConversationObjectsSuccess(
+        { type: 'agendaItems', id: agendaItemId },
+        json.data.map(transformConversationObjectFromJsonApi),
+        json.links
+      )
+    );
+    dispatch(selectAgendaItemSuccess(agendaItemId));
+    dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
+  });
+}
+
 export function selectAgendaItem(conversationId, agendaItemId) {
-  return function(dispatch) {
-    return fetch('/agenda_items/' + agendaItemId + '/conversation_objects', {
-      method: 'get',
-      credentials: 'include', // send cookies with it
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
-      }
-    })
-    .then(response => response.json())
-    .then(function(json) {
-      dispatch(
-        fetchConversationObjectsSuccess(
-          { type: 'agendaItems', id: agendaItemId },
-          json.data.map(transformConversationObjectFromJsonApi),
-          json.links
-        )
-      );
+  return function(dispatch, getState) {
+    if (shouldFetch(getState, agendaItemId)) {
+      return fetchObjects(conversationId, agendaItemId, dispatch);
+    }
+    else {
       dispatch(selectAgendaItemSuccess(agendaItemId));
       dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
-    });
+    }
   };
 }
 
