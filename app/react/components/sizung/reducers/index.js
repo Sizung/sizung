@@ -12,6 +12,7 @@ import agendaItemsByConversation from './agendaItemsByConversation';
 import conversationObjectsByConversation from './conversationObjectsByConversation';
 import selectedConversationObject from './selectedConversationObject';
 import conversationObjectsByAgendaItem from './conversationObjectsByAgendaItem';
+import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 
 const entities = combineReducers({
   conversations,
@@ -22,6 +23,7 @@ const entities = combineReducers({
 });
 
 const rootReducer = combineReducers({
+  routing: routeReducer,
   selectedConversationObject,
   currentUser,
   currentConversation,

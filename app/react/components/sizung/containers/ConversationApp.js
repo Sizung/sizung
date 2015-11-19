@@ -19,42 +19,24 @@ import {fillConversationObject, fillAgendaItem} from '../utils/entityUtils';
 import ApplicationLayout from '../components/ApplicationLayout';
 import ConversationObjectList from '../components/ConversationObjectList';
 
-class App extends Component {
+class ConversationApp extends React.Component {
+  constructor() {
+    super();
 
-  render() {
-    const { selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation, currentUser } = this.props;
+    this.handleBackClick = (e) => {
+      e.preventDefault();
 
-    var middlePart = this.prepareMiddlePart(selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation);
-
-    return (<ApplicationLayout currentUser={currentUser}>
-              <UserListApp className="pull-right"/>
-              <div className="col-xs-12 zero-padding">
-                <div className="col-xs-3">
-                  <AgendaItemListApp />
-                </div>
-                <div className="col-xs-6 padding-xs-horizontal">
-                  {this.props.children}
-                </div>
-                <div className="col-xs-3">
-                  <DeliverableListApp />
-                </div>
-              </div>
-            </ApplicationLayout>);
+      this.props.backToConversation(this.props.currentConversation.id);
+    };
   }
 
-  prepareMiddlePart(selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation) {
-    if(selectedAgendaItem) {
-      return (<div>
-                <Button href="#" onClick={closeAgendaItem}>Close</Button>
-                <AgendaItemInTimeline agendaItem={selectedAgendaItem} />
-                <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation} />
-              </div>);
-    }
-    else if (conversationObjectsList.conversationObjects) {
+  render() {
+    const { conversationObjectsList, currentConversation } = this.props;
+    if (conversationObjectsList.conversationObjects) {
       return <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation} />
     }
     else {
-      return <div></div>;
+      return <div>Loading...</div>;
     }
   }
 }
@@ -85,22 +67,12 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
 function mapStateToProps(state) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
-  const selectedAgendaItemId = state.getIn(['selectedConversationObject', 'id']);
-  const selectedAgendaItem = selectedAgendaItemId ? fillAgendaItem(state, selectedAgendaItemId) : null;
 
-  var conversationObjectsList;
-
-  if (selectedAgendaItem) {
-    const objectsToShow = state.getIn(['conversationObjectsByAgendaItem', selectedAgendaItemId]);
-    conversationObjectsList = prepareConversationObjectList(state, objectsToShow, selectedAgendaItem, false, true);
-  } else {
-    const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
-    conversationObjectsList = prepareConversationObjectList(state, objectsToShow, currentConversation, true, false);
-  }
+  const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
+  const conversationObjectsList = prepareConversationObjectList(state, objectsToShow, currentConversation, true, false);
 
   return {
     conversationObjectsList: conversationObjectsList,
-    selectedAgendaItem: selectedAgendaItem,
     currentConversation: currentConversation,
     currentUser: currentUser
   }
@@ -110,4 +82,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({...AgendaItemActions}, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(ConversationApp);

@@ -27,4 +27,13 @@ User.propTypes = {
   }).isRequired
 };
 
+User.defaultProps = {
+  user: {
+    email: 'bla',
+    firstName: 'foo',
+    lastName: 'bar',
+    presenceStatus: 'offline'
+  }
+};
+
 export default User;

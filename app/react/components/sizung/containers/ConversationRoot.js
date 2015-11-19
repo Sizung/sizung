@@ -26,8 +26,17 @@ import {setDeliverables, createDeliverableRemoteOrigin} from '../actions/deliver
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
 import App from './App';
+import AgendaItemApp from './AgendaItemApp';
+import ConversationApp from './ConversationApp';
+
+import { Router, Route } from 'react-router';
+import createBrowserHistory from 'history/lib/createBrowserHistory';
+import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
+import Deliverable from '../components/Deliverable';
 
 const store = configureStore();
+const history = createBrowserHistory();
+syncReduxAndRouter(history, store, (state) => state.get('routing'));
 
 export default class ConversationRoot extends Component {
   componentWillMount() {
@@ -80,30 +89,16 @@ export default class ConversationRoot extends Component {
   }
   render() {
     const toRender = () =>
-      <App />
-
-    const oldToRender = () =>
-
-      <div className="container gray-bg zero-padding full-width">
-        <div className="row">
-          <div className="col-lg-12">
-            <UserListApp className="pull-right"/>
-            <div className="col-xs-12 zero-padding">
-              <div className="col-xs-3">
-                <AgendaItemListApp />
-              </div>
-              <div className="col-xs-6 padding-xs-horizontal">
-                <ConversationObjectListApp />
-              </div>
-              <div className="col-xs-3">
-                <DeliverableListApp />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
+      (
+        <Router history={history}>
+          <Route path="/" component={App}>
+            <Route path="conversations/:id" component={ConversationApp} />
+            <Route path="conversations/:id/agenda_items/:agendaItemId" component={AgendaItemApp}/>
+            <Route path="deliverables/:deliverableId" component={Deliverable}/>
+          </Route>
+        </Router>
+      );
+    //<App />
 
     if (__DEVTOOLS__) {
       // React components for Redux DevTools
