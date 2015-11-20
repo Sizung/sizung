@@ -54,6 +54,9 @@ export function createComment(comment) {
   else if (comment.commentable_type === 'agendaItems') {
     comment.commentable_type = 'AgendaItem';
   }
+  else if (comment.commentable_type === 'deliverables') {
+    comment.commentable_type = 'Deliverable';
+  }
 
   return function(dispatch) {
     return fetch('/comments', {

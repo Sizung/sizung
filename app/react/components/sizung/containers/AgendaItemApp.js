@@ -7,16 +7,9 @@ import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as DeliverableActions from '../actions/deliverables';
 
-import AgendaItemListApp from './AgendaItemListApp';
-import DeliverableListApp from './DeliverableListApp';
 import ConversationObjectListApp from './ConversationObjectListApp';
-import UserListApp from './UserListApp';
-import CommentForm from '../components/CommentForm';
-import Comment from '../components/Comment';
-import DeliverableInTimeline from '../components/DeliverableInTimeline';
 import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
 import {fillConversationObject, fillAgendaItem} from '../utils/entityUtils';
-import ApplicationLayout from '../components/ApplicationLayout';
 import ConversationObjectList from '../components/ConversationObjectList';
 
 class AgendaItemApp extends React.Component {
@@ -29,19 +22,6 @@ class AgendaItemApp extends React.Component {
       this.props.backToConversation(this.props.currentConversation.id);
     };
   }
-
-  //shouldComponentUpdate(nextProps, nextState) {
-  //  return nextProps.selectedAgendaItemId !== this.props.selectedAgendaItemId || nextProps.conversationObjectsList !== this.props.conversationObjectsList;
-  //}
-
-  //componentDidUpdate (prevProps) {
-  //  // respond to parameter change in scenario 3
-  //  let oldId = prevProps.params.selectedAgendaItem;
-  //  let newId = this.props.selectedAgendaItem;
-  //  if (newId !== oldId) {
-  //    this.fetchInvoice()
-  //  }
-  //}
 
   /*
    * This is called when the component is first mounted to the DOM.
@@ -69,7 +49,6 @@ class AgendaItemApp extends React.Component {
   }
 }
 
-
 function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   var conversationObjectsList = {commentForm: {}};
@@ -93,7 +72,6 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
 }
 
 function mapStateToProps(state) {
-  //console.log('AgendaItemApp: mapStateToProps: (path, state)', state.get('routing').path.split('/')[4], state.getIn(['selectedConversationObject', 'id']));
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
   const selectedAgendaItemIdInState = state.getIn(['selectedConversationObject', 'id']);

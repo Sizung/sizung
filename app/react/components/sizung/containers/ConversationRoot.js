@@ -27,6 +27,7 @@ import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
 import App from './App';
 import AgendaItemApp from './AgendaItemApp';
+import DeliverableApp from './DeliverableApp';
 import ConversationApp from './ConversationApp';
 
 import { Router, Route } from 'react-router';
@@ -93,8 +94,8 @@ export default class ConversationRoot extends Component {
         <Router history={history}>
           <Route path="/" component={App}>
             <Route path="conversations/:id" component={ConversationApp} />
+            <Route path="conversations/:id/agenda_items/:agendaItemId/deliverables/:deliverableId" component={DeliverableApp}/>
             <Route path="conversations/:id/agenda_items/:agendaItemId" component={AgendaItemApp}/>
-            <Route path="deliverables/:deliverableId" component={Deliverable}/>
           </Route>
         </Router>
       );

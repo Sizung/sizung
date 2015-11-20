@@ -9,12 +9,16 @@ import * as DeliverableListActions from '../actions/deliverables';
 import { fillDeliverable } from '../utils/entityUtils';
 
 function mapStateToProps(state) {
+  const pathElements = state.get('routing').path.split('/');
+  const selectedDeliverableId = pathElements.length >= 6 ? pathElements[6] : null;
+
   var deliverables = state.getIn(['entities', 'deliverables']).map(function(deliverable) {
     return fillDeliverable(state, deliverable.id);
   }).toList();
 
   return {
-    deliverables: deliverables
+    deliverables: deliverables,
+    selectedDeliverableId: selectedDeliverableId
   }
 }
 

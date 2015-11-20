@@ -3,11 +3,30 @@
 import React, { Component, PropTypes } from 'react';
 
 class Deliverable extends React.Component {
-    render() {
-      const { deliverable } = this.props;
-      const { title, agendaItem } = deliverable;
+  constructor() {
+    super();
 
-        return <div className="row white-bg padding-sm-vertical margin-xs-vertical box-shadow">
+    this.handleClick = (e) => {
+      e.preventDefault();
+
+      this.props.selectDeliverable(
+        this.props.deliverable.agendaItem.conversationId,
+        this.props.deliverable.agendaItem.id,
+        this.props.deliverable.id
+      );
+    };
+  }
+
+
+    render() {
+      const { deliverable, selected } = this.props;
+      const { title, agendaItem } = deliverable;
+      var style = {};
+      if(selected === true) {
+        style['backgroundColor'] = '#9C9';
+      }
+
+        return <div style={style} className="row white-bg padding-sm-vertical margin-xs-vertical box-shadow" onClick={this.handleClick}>
           <div className="col-xs-12">
             <span className="col-xs-11 zero-padding" style={{textAlign: 'left'}}>{ title }</span>
             <i className="col-xs-1 fa fa-tasks zero-padding" style={{textAlign: 'right'}}></i>
@@ -29,7 +48,8 @@ Deliverable.propTypes = {
   deliverable: PropTypes.shape({
     title: PropTypes.string.isRequired,
     agendaItem: PropTypes.object.isRequired
-  }).isRequired
+  }).isRequired,
+  selectDeliverable: PropTypes.func.isRequired
 };
 
 Deliverable.defaultProps = {

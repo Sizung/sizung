@@ -4,7 +4,7 @@ import { Glyphicon } from 'react-bootstrap';
 
 class DeliverableList extends Component {
   render() {
-    const { deliverables } = this.props;
+    const { deliverables, selectDeliverable, selectedDeliverableId } = this.props;
 
     return (
       <div className='deliverableList'>
@@ -16,6 +16,8 @@ class DeliverableList extends Component {
             return(<Deliverable
                     key={deliverable.id}
                     deliverable={deliverable}
+                    selectDeliverable={selectDeliverable}
+                    selected={deliverable.id === selectedDeliverableId}
                 />);
           })
         }
@@ -25,7 +27,9 @@ class DeliverableList extends Component {
 }
 
 DeliverableList.propTypes = {
-  deliverables: PropTypes.object.isRequired
+  selectedDeliverableId: PropTypes.string,
+  selectDeliverable: PropTypes.func.isRequired,
+  deliverables: PropTypes.object.isRequired,
 };
 
 export default DeliverableList;

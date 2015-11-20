@@ -7,6 +7,7 @@ import { connect } from 'react-redux';
 import AgendaItemList from '../components/AgendaItemList';
 import * as AgendaItemListActions from '../actions/agendaItems';
 import Immutable from 'immutable';
+import { getPath, getAgendaItemIdFromPath } from '../utils/pathUtils';
 
 function mapStateToProps(state) {
   const agendaItemIdsToShow = state.getIn(['agendaItemsByConversation', state.getIn(['currentConversation', 'id'])]) || Immutable.List();
@@ -26,10 +27,11 @@ function mapStateToProps(state) {
     });
 
   const selectedConversationObject = state.getIn(['selectedConversationObject', 'id']);
+  const selectedAgendaItemId = getAgendaItemIdFromPath(getPath(state));
 
   return {
     agendaItems: agendaItems,
-    selectedId: selectedConversationObject
+    selectedId: selectedAgendaItemId
   }
 }
 

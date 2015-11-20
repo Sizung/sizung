@@ -21,7 +21,7 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'conversations/:id/deliverables/:deliverable_id', to: 'conversations#show'
+  get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: 'conversations#show'
   get 'conversations/:id/agenda_items/:agenda_item_id', to: 'conversations#show'
 
   devise_for :users, controllers: {
