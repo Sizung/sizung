@@ -1,0 +1,15 @@
+.card {
+    background-color: white;
+
+    -webkit-box-shadow: 1px 1px 1px 0px rgba(170,170,170,1);
+    -moz-box-shadow: 1px 1px 1px 0px rgba(170,170,170,1);
+    box-shadow: 1px 1px 1px 0px rgba(170,170,170,1);
+    padding: 10px;
+    margin: 5px 0px 5px 0px;
+}
+
+.card-selected {
+    composes: card;
+    background-color: lightskyblue;
+    color: white;
+}

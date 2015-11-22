@@ -8,8 +8,8 @@ class DeliverableList extends Component {
 
     return (
       <div className='deliverableList'>
-        <div className='row deliverableListHeader padding-sm box-shadow'>
-          <i className='fa fa-tasks'></i>{" "}<strong>Deliverables</strong>
+        <div className='deliverableListHeader padding-sm'>
+          <i className='fa fa-tasks'></i>{" "}Deliverables
         </div>
         {
           deliverables.map(function(deliverable) {
