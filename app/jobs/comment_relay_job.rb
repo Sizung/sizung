@@ -7,6 +7,8 @@ class CommentRelayJob < ActiveJob::Base
     conversation_id = commentable_id
     if commentable_type == 'AgendaItem'
       conversation_id = commentable_type.constantize.find(commentable_id).conversation_id
+    elsif commentable_type == 'Deliverable'
+      conversation_id = commentable_type.constantize.find(commentable_id).agenda_item.conversation_id
     end
 
     ActionCable.server.broadcast "conversations:#{conversation_id}:comments",
