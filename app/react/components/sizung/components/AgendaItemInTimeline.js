@@ -35,7 +35,7 @@ class AgendaItemInTimeline extends React.Component {
 
   titleElement(persistedTitle) {
     if (this.state.edit && this.state.edit.title) {
-      return <div><form onClick={this.handleSaveClick}><input type="text" ref="input" defaultValue={persistedTitle} style={{width: '400px'}}/><button type="submit">Save</button></form></div>
+      return <div><form onSubmit={this.handleSaveClick}><input type="text" ref="input" defaultValue={persistedTitle} style={{width: '400px'}}/><button type="submit">Save</button></form></div>
     }
     else {
       return <span>{persistedTitle}<a href="#" onClick={this.handleEditClick}><i className="fa fa-pencil" style={{marginLeft: '1em'}} /></a></span>;
