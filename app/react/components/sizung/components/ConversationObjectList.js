@@ -58,13 +58,10 @@ class ConversationObjectList extends Component {
     return (
 
     <div className='commentList col-xs-12 zero-padding'>
-      <div className='commentListHeader padding-sm col-xs-12 zero-padding  box-shadow'>
-        <i className='fa fa-comments-o'></i>{' '}<strong>Conversations</strong>
+      <div className='commentListHeader padding-sm col-xs-12 zero-padding'>
+        <i className='fa fa-comments-o'></i>{' '}Conv - {currentConversation.title}
       </div>
       <div className='commentListArea white-bg margin-xs-vertical col-xs-12 zero-padding  box-shadow'>
-        <div className="commentListConversationHeader col-xs-12 padding-sm-vertical">
-          # Conv - {currentConversation.title}
-        </div>
         <div className='comments'>
           { showMore }
           { conversationObjectElements }

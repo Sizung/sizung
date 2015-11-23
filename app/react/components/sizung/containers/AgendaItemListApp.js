@@ -4,7 +4,7 @@
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import AgendaItemList from '../components/AgendaItemList';
+import AgendaItemList from '../components/AgendaItemList/index';
 import * as AgendaItemListActions from '../actions/agendaItems';
 import Immutable from 'immutable';
 import { getPath, getAgendaItemIdFromPath } from '../utils/pathUtils';

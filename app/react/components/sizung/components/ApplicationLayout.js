@@ -6,7 +6,7 @@ class ApplicationLayout extends Component {
     return (
       <div>
         <NavigationHeader currentUser={this.props.currentUser}/>
-        <div className="container gray-bg padding-lg full-width">
+        <div className="gray-bg padding-lg full-width">
           <div className="row">
             <div className="col-lg-12">
               { this.props.children }

@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button } from 'react-bootstrap';
+import { Button, Row, Col } from 'react-bootstrap';
 
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
@@ -28,17 +28,21 @@ class App extends Component {
 
     return (<ApplicationLayout currentUser={currentUser}>
               <UserListApp className="pull-right"/>
-              <div className="col-xs-12 zero-padding">
-                <div className="col-xs-3">
-                  <AgendaItemListApp />
-                </div>
-                <div className="col-xs-6 padding-xs-horizontal">
-                  {this.props.children}
-                </div>
-                <div className="col-xs-3">
-                  <DeliverableListApp />
-                </div>
-              </div>
+                  <Row>
+                    <Col xs={12}>
+                      <Row>
+                        <Col xs={12} md={3} className='zero-padding'>
+                          <AgendaItemListApp />
+                        </Col>
+                        <Col xs={12} md={6} className='zero-padding'>
+                         {this.props.children}
+                        </Col>
+                        <Col xs={12} md={3} className='zero-padding'>
+                          <DeliverableListApp />
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>		
             </ApplicationLayout>);
   }
 

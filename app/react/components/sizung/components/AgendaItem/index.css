@@ -1,0 +1,30 @@
+.default {
+  composes: card from '../../styles/modules/card.css';
+}
+.selected {
+  composes: card-selected from '../../styles/modules/card.css';
+}
+
+.title-row{
+  position: relative;
+}
+.title{
+  padding-right: 30px;
+}
+.agenda-item-icon{
+  composes: fa fa-tag from global;
+
+  width: 30px;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  padding-right: 5px;
+  padding-top: 5px;
+
+  text-align: right;
+}
+.comments-icon {
+  composes: fa fa-comment-o from global;
+}
+

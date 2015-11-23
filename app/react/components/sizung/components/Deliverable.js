@@ -22,11 +22,12 @@ class Deliverable extends React.Component {
       const { deliverable, selected } = this.props;
       const { title, agendaItem } = deliverable;
       var style = {};
+      style['marginTop'] = '5px;';
       if(selected === true) {
         style['backgroundColor'] = '#9C9';
       }
 
-        return <div style={style} className="row white-bg padding-sm-vertical margin-xs-vertical box-shadow" onClick={this.handleClick}>
+        return <div style={style} className="col-xs-12 white-bg padding-sm-vertical box-shadow" onClick={this.handleClick}>
           <div className="col-xs-12">
             <span className="col-xs-11 zero-padding" style={{textAlign: 'left'}}>{ title }</span>
             <i className="col-xs-1 fa fa-tasks zero-padding" style={{textAlign: 'right'}}></i>

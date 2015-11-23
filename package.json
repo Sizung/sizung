@@ -3,6 +3,7 @@
   "devDependencies": {
     "babel-eslint": "^4.1.1",
     "babel-plugin-react-transform": "^1.1.1",
+    "css-loader": "^0.23.0",
     "eslint": "^0.24.1",
     "eslint-plugin-react": "^3.3.1",
     "expect": "^1.9.0",
@@ -32,6 +33,7 @@
     "radium": "^0.14.3",
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
+    "react-css-modules": "^3.6.1",
     "react-redux": "^3.0.0",
     "react-router": "^1.0.0",
     "react-time": "^4.0.0",
@@ -41,6 +43,7 @@
     "redux-simple-router": "0.0.8",
     "redux-thunk": "^1.0.0",
     "sass-loader": "^2.0.1",
+    "style-loader": "^0.13.0",
     "webpack": "^1.12.1"
   },
   "scripts": {

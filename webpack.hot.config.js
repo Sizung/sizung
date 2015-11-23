@@ -2,6 +2,8 @@
 
 var webpack = require("webpack");
 
+var ExtractTextPlugin = require('extract-text-webpack-plugin');
+
 // This must be the public address where the hot reload bundle is loaded in the
 // browser. Yeah it sucks to hard code it here. Let's hope for the better
 // future
@@ -52,6 +54,13 @@ var config = {
                         }
                     }
                 }
+            },
+            {
+              test: /\.css$/,
+              //loader: 'style-loader!css-loader'
+              //loaders: ['style-loader', 'css-loader']
+              //loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
+              loader: 'style-loader!css-loader?modules'
             }
         ]
     },
@@ -61,7 +70,7 @@ var config = {
     plugins: [
         NODE_ENV_PLUGIN,
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
+        new webpack.NoErrorsPlugin()
     ]
 };
 

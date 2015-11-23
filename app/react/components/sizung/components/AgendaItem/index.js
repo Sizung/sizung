@@ -1,8 +1,11 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
 import React, { Component, PropTypes } from 'react';
-import { Glyphicon } from 'react-bootstrap';
+import { Glyphicon, Grid, Row, Col } from 'react-bootstrap';
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
 
+@CSSModules(styles)
 class AgendaItem extends React.Component {
 
   constructor() {
@@ -20,19 +23,20 @@ class AgendaItem extends React.Component {
     const {conversation} = this.props.agendaItem;
 
     var style = {};
+    var styleName = 'default';
     if(selected === true) {
-      style['backgroundColor'] = '#9C9';
+      //style['backgroundColor'] = '#9C9';
+      styleName = 'selected';
     }
 
     return (
-      <div style={style} className="row white-bg padding-sm-vertical margin-xs-vertical box-shadow" onClick={this.handleClick}>
-        <div className="col-xs-12">
-          <span className="col-xs-11 zero-padding" style={{textAlign: 'left'}}>{ agendaItem.title }</span>
-          <i className="col-xs-1 fa fa-tag zero-padding" style={{textAlign: 'right'}}/>
+      <div styleName={styleName} onClick={this.handleClick}>
+        <div styleName="title-row">
+              <div styleName='title'>{ agendaItem.title }</div>
+              <i styleName='agenda-item-icon'></i>
         </div>
-        <div className="col-xs-12">
-          <small className="pull-left text-muted">{agendaItem.commentsCount} comments</small>
-          <small className="pull-right text-muted">#{conversation.title}</small>
+        <div>
+          <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>
         </div>
       </div>
     );

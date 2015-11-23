@@ -1,16 +1,18 @@
 import React, { Component, PropTypes } from 'react';
-import AgendaItem from './AgendaItem';
+import AgendaItem from './../AgendaItem/index';
 import { Glyphicon } from 'react-bootstrap';
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
 
-
+@CSSModules(styles)
 class AgendaItemList extends Component {
   render() {
     const { agendaItems, selectAgendaItem, selectedId } = this.props;
 
     return (
-      <div className='agendaItemList'>
-        <div className='row agendaItemListHeader padding-sm box-shadow'>
-          <i className="fa fa-tag"></i>  {" "}<strong>Agenda</strong>
+      <div styleName='list'>
+        <div styleName='header'>
+          <i className="fa fa-tag"></i>{" "}Agenda
         </div>
         {
           agendaItems.map(function(agendaItem) {

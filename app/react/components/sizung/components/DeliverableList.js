@@ -7,9 +7,9 @@ class DeliverableList extends Component {
     const { deliverables, selectDeliverable, selectedDeliverableId } = this.props;
 
     return (
-      <div className='deliverableList'>
-        <div className='row deliverableListHeader padding-sm box-shadow'>
-          <i className='fa fa-tasks'></i>{" "}<strong>Deliverables</strong>
+      <div className='deliverableList padding-xs-horizontal'>
+        <div className='deliverableListHeader padding-sm'>
+          <i className='fa fa-tasks'></i>{" "}Deliverables
         </div>
         {
           deliverables.map(function(deliverable) {
