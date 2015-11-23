@@ -13,8 +13,38 @@ import { transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformC
 
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
+export const UPDATE_AGENDA_ITEM = 'UPDATE_AGENDA_ITEM';
 export const SELECT_AGENDA_ITEM = 'SELECT_AGENDA_ITEM';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
+
+export function updateAgendaItemSuccess(agendaItem) {
+  return {
+    type: UPDATE_AGENDA_ITEM,
+    status: STATUS_SUCCESS,
+    agendaItem: agendaItem
+  };
+}
+
+export function updateAgendaItem(id, changedFields) {
+  return function(dispatch) {
+    return fetch('/agenda_items/' + id, {
+      method: 'PUT',
+      credentials: 'include', // send cookies with it
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
+      },
+      body: JSON.stringify({
+        agenda_item: changedFields
+      })
+    })
+    .then(response => response.json())
+    .then(function(json) {
+      dispatch(updateAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data)));
+    });
+  };
+}
 
 export function backToConversation(conversationId) {
   return function(dispatch) {

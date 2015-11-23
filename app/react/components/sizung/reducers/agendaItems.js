@@ -5,7 +5,7 @@
 // create using the previous state and whatever they have to do because of the action they have to handle.
 
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
-import { SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM } from '../actions/agendaItems';
+import { SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM, UPDATE_AGENDA_ITEM } from '../actions/agendaItems';
 import { FETCH_CONVERSATION_OBJECTS } from '../actions/conversationObjects';
 import Immutable from 'immutable';
 const initialState = Immutable.Map();
@@ -29,6 +29,13 @@ export default function agendaItems(state = initialState, action = null) {
       return state.set(action.agendaItem.id, action.agendaItem);
     }
     else if(action.status == STATUS_REMOTE_ORIGIN) {
+      return state.set(action.agendaItem.id, action.agendaItem);
+    }
+    else {
+      return state;
+    }
+  case UPDATE_AGENDA_ITEM:
+    if(action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN) {
       return state.set(action.agendaItem.id, action.agendaItem);
     }
     else {

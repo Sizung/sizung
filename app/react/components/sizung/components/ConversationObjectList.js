@@ -17,7 +17,7 @@ class ConversationObjectList extends Component {
     }
   }
 
-  prepareChildElements(conversationObjects, deleteComment) {
+  prepareChildElements(conversationObjects, deleteComment, updateAgendaItem) {
     if(conversationObjects) {
       return conversationObjects.map(function(conversationObject) {
         if (conversationObject.type === 'comments') {
@@ -26,7 +26,7 @@ class ConversationObjectList extends Component {
         }
         else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
-          return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem}/>
+          return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem} updateAgendaItem={updateAgendaItem}/>
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
@@ -49,11 +49,11 @@ class ConversationObjectList extends Component {
   }
 
   render() {
-    const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem,
+    const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, updateAgendaItem,
       createDeliverable, commentForm, isFetching, nextPageUrl } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment);
+    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem);
 
     return (
 

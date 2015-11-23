@@ -3,8 +3,12 @@ class AgendaItemPolicy < ApplicationPolicy
     true
   end
 
+  def update?
+    show?
+  end
+
   def destroy?
-    true
+    show?
   end
 
   class Scope < Scope
