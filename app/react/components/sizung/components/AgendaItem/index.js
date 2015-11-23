@@ -31,7 +31,7 @@ class AgendaItem extends React.Component {
 
     return (
       <div styleName={styleName} onClick={this.handleClick}>
-        <div styleName="title-row">
+        <div styleName='title-row'>
               <div styleName='title'>{ agendaItem.title }</div>
               <i styleName='agenda-item-icon'></i>
         </div>

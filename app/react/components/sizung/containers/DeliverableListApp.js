@@ -4,7 +4,7 @@
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import DeliverableList from '../components/DeliverableList';
+import DeliverableList from '../components/DeliverableList/index';
 import * as DeliverableListActions from '../actions/deliverables';
 import { fillDeliverable } from '../utils/entityUtils';
 
