@@ -22,9 +22,7 @@ import ConversationObjectList from '../components/ConversationObjectList';
 class App extends Component {
 
   render() {
-    const { selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation, currentUser } = this.props;
-
-    var middlePart = this.prepareMiddlePart(selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation);
+    const { currentUser } = this.props;
 
     return (<ApplicationLayout currentUser={currentUser}>
               <UserListApp className="pull-right"/>
@@ -45,24 +43,7 @@ class App extends Component {
                   </Row>		
             </ApplicationLayout>);
   }
-
-  prepareMiddlePart(selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation) {
-    if(selectedAgendaItem) {
-      return (<div>
-                <Button href="#" onClick={closeAgendaItem}>Close</Button>
-                <AgendaItemInTimeline agendaItem={selectedAgendaItem} />
-                <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation} />
-              </div>);
-    }
-    else if (conversationObjectsList.conversationObjects) {
-      return <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation} />
-    }
-    else {
-      return <div></div>;
-    }
-  }
 }
-
 
 function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);

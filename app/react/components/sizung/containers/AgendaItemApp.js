@@ -35,11 +35,11 @@ class AgendaItemApp extends React.Component {
   }
 
   render() {
-    const { selectedAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation, currentUser } = this.props;
+    const { selectedAgendaItem, updateAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation, currentUser } = this.props;
     if(selectedAgendaItem) {
       return (<div>
         <Button href="#" onClick={this.handleBackClick}>Close</Button>
-        <AgendaItemInTimeline agendaItem={selectedAgendaItem}/>
+        <AgendaItemInTimeline agendaItem={selectedAgendaItem} updateAgendaItem={updateAgendaItem}/>
         <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation}/>
       </div>);
     }
