@@ -27,7 +27,8 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
+        //loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
+        loader: 'style-loader!css-loader?modules'
       }
     ]
   },
@@ -36,8 +37,8 @@ module.exports = {
   },
   plugins: [
     NODE_ENV_PLUGIN,
-    new ExtractTextPlugin('../stylesheets/react_bundle.css', {
-      allChunks: true
-    })
+    //new ExtractTextPlugin('../stylesheets/react_bundle.css', {
+    //  allChunks: true
+    //})
   ]
 };
