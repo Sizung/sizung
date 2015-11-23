@@ -1,15 +1,17 @@
 .card {
-    background-color: white;
+  padding: 10px;
+  margin: 5px 0px 5px 0px;
 
-    -webkit-box-shadow: 1px 1px 1px 0px rgba(170,170,170,1);
-    -moz-box-shadow: 1px 1px 1px 0px rgba(170,170,170,1);
-    box-shadow: 1px 1px 1px 0px rgba(170,170,170,1);
-    padding: 10px;
-    margin: 5px 0px 5px 0px;
+  -webkit-box-shadow: 1px 1px 1px 0px #aaaaaa;
+  -moz-box-shadow: 1px 1px 1px 0px #aaaaaa;
+  box-shadow: 1px 1px 1px 0px #aaaaaa;
+
+  background-color: #ffffff;
 }
 
 .card-selected {
-    composes: card;
-    background-color: lightskyblue;
-    color: white;
+  composes: card;
+
+  background-color: #87cefa;
+  color: #FFFFFF;
 }

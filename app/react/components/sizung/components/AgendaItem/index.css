@@ -1,28 +1,30 @@
 .default {
-    composes: card from '../../styles/modules/card.css';
+  composes: card from '../../styles/modules/card.css';
 }
 .selected {
-    composes: card-selected from '../../styles/modules/card.css';
+  composes: card-selected from '../../styles/modules/card.css';
 }
 
-.agendaItemTitleRow{
-    overflow:hidden;
-    position: relative;
+.title-row{
+  position: relative;
 }
-.agendaItemTitle{
-    padding-right:30px;
+.title{
+  padding-right: 30px;
 }
-.agendaItemIcon{
-    width:30px;
-    position:absolute;
-    height:100%;
-    top:0;
-    right:0;
-    padding-right: 5px;
-    padding-top: 5px;
-    composes: fa fa-tag from global;
-    text-align: right;
+.agenda-item-icon{
+  composes: fa fa-tag from global;
+
+  width: 30px;
+  position: absolute;
+  height: 100%;
+  top: 0;
+  right: 0;
+  padding-right: 5px;
+  padding-top: 5px;
+
+  text-align: right;
 }
-.commentsIcon {
-    composes: fa fa-comment-o from global;
+.comments-icon {
+  composes: fa fa-comment-o from global;
 }
+

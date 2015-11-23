@@ -31,12 +31,12 @@ class AgendaItem extends React.Component {
 
     return (
       <div styleName={styleName} onClick={this.handleClick}>
-        <div styleName="agendaItemTitleRow">
-              <div styleName='agendaItemTitle'>{ agendaItem.title }</div>
-              <i styleName='agendaItemIcon'></i>
+        <div styleName="title-row">
+              <div styleName='title'>{ agendaItem.title }</div>
+              <i styleName='agenda-item-icon'></i>
         </div>
         <div>
-          <i styleName='commentsIcon'></i>{" "}<small>{agendaItem.commentsCount}</small>
+          <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>
         </div>
       </div>
     );

@@ -10,8 +10,8 @@ class AgendaItemList extends Component {
     const { agendaItems, selectAgendaItem, selectedId } = this.props;
 
     return (
-      <div styleName='agendaItemList'>
-        <div styleName='agendaItemListHeader'>
+      <div styleName='list'>
+        <div styleName='header'>
           <i className="fa fa-tag"></i>{" "}Agenda
         </div>
         {
