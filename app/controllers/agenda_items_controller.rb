@@ -33,7 +33,7 @@ class AgendaItemsController < ApplicationController
 
   private
     def agenda_item_params
-      params.require(:agenda_item).permit(:conversation_id, :title)
+      params.require(:agenda_item).permit(:conversation_id, :title, :status)
     end
 
     def set_agenda_item

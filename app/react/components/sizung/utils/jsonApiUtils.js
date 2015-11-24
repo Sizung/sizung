@@ -23,6 +23,7 @@ export function transformAgendaItemFromJsonApi(agendaItem) {
     id: agendaItem.id,
     type: transformTypeFromJsonApi(agendaItem.type),
     title: agendaItem.attributes.title,
+    status: agendaItem.attributes.status,
     ownerId: agendaItem.relationships.owner.data.id,
     conversationId: agendaItem.relationships.conversation.data.id,
     commentsCount: agendaItem.attributes.comments_count,

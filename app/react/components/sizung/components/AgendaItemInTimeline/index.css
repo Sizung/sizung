@@ -13,6 +13,19 @@
   font-weight: bold;
 }
 
+.status-open {
+  composes: fa fa-check from global;
+  composes: hover-inline from '../../styles/modules/hover.css';
+
+  color: gray;
+}
+
+.status-resolved {
+  composes: fa fa-check from global;
+
+  color: green;
+}
+
 .user-container {
   composes: col-xs-1 from global;
 }

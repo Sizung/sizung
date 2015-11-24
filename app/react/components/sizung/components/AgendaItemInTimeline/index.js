@@ -23,6 +23,8 @@ class AgendaItemInTimeline extends React.Component {
     this.handleKeyDown    = this.handleKeyDown.bind(this);
     this.handleSubmit     = this.handleSubmit.bind(this);
     this.handleBlur       = this.handleBlur.bind(this);
+
+    this.handleStatusClick = this.handleStatusClick.bind(this);
   }
 
   saveEdit() {
@@ -60,6 +62,12 @@ class AgendaItemInTimeline extends React.Component {
     this.saveEdit();
   }
 
+  handleStatusClick(e) {
+    e.preventDefault();
+
+    const newStatus = this.props.agendaItem.status === 'open' ? 'resolved' : 'open';
+    this.props.updateAgendaItem(this.props.agendaItem.id, {status: newStatus});
+  }
 
   titleElement(persistedTitle) {
     if (this.state.edit && this.state.edit.title) {
@@ -68,6 +76,11 @@ class AgendaItemInTimeline extends React.Component {
     else {
       return <span>{persistedTitle}<a styleName="edit-link" href="#" onClick={this.handleEditClick}><i className="fa fa-pencil" style={{marginLeft: '1em'}} /></a></span>;
     }
+  }
+
+  statusElement(persistedStatus) {
+    const styleName = 'status-' + persistedStatus;
+    return <span><i styleName={styleName} onClick={this.handleStatusClick}/></span>;
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -81,13 +94,15 @@ class AgendaItemInTimeline extends React.Component {
 
   render() {
     const { agendaItem } = this.props;
-    const titleElement = this.titleElement(agendaItem.title);
+    const { title, status } = agendaItem;
+    const titleElement = this.titleElement(title);
+    const statusElement = this.statusElement(status);
 
     return  <div styleName="root">
               <div styleName="user-container">
               </div>
               <div styleName="content-container">
-                <div styleName="title">{titleElement}</div>
+                <div styleName="title">{titleElement} {statusElement}</div>
                 <i styleName="agenda-item-icon" />
                 <div styleName="time-container">
                   <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
@@ -100,6 +115,7 @@ class AgendaItemInTimeline extends React.Component {
 AgendaItemInTimeline.propTypes = {
   agendaItem: PropTypes.shape({
     title: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired
   }).isRequired,
