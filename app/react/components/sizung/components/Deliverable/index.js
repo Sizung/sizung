@@ -4,7 +4,6 @@ import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 import User from '../User.js';
-import { Row, Col } from 'react-bootstrap';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
@@ -38,14 +37,8 @@ class Deliverable extends React.Component {
             <i styleName='deliverable-icon'></i>
           </div>
           <div styleName='details-row'>
-            <Row>
-              <Col xs={6}>
-                <User/>
-              </Col>
-              <Col xs={6}>
-                <div className='pull-right' styleName='agenda-title'># {agendaItem.title}</div>
-              </Col>
-            </Row>
+            <User/>
+            <div styleName='agenda-title'># {agendaItem.title}</div>
           </div>
         </div>;
 
