@@ -20,6 +20,7 @@ function mapStateToProps(state) {
       return {
         id: agendaItem.id,
         title: agendaItem.title,
+        status: agendaItem.status,
         commentsCount: agendaItem.commentsCount,
         conversationId: agendaItem.conversationId,
         conversation: state.getIn(['entities', 'conversations', agendaItem.conversationId])

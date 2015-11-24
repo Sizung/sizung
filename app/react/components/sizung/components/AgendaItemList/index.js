@@ -7,7 +7,7 @@ import styles from "./index.css";
 @CSSModules(styles)
 class AgendaItemList extends Component {
   render() {
-    const { agendaItems, selectAgendaItem, selectedId } = this.props;
+    const { agendaItems, selectAgendaItem, selectedId, updateAgendaItem } = this.props;
 
     return (
       <div styleName='list'>
@@ -21,6 +21,7 @@ class AgendaItemList extends Component {
                     agendaItem={agendaItem}
                     selectAgendaItem={selectAgendaItem}
                     selected={agendaItem.id === selectedId}
+                    updateAgendaItem={updateAgendaItem}
                 />);
           })
         }

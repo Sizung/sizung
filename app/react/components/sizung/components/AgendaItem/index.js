@@ -11,6 +11,8 @@ class AgendaItem extends React.Component {
   constructor() {
     super();
 
+    this.handleStatusClick = this.handleStatusClick.bind(this);
+
     this.handleClick = (e) => {
       e.preventDefault();
 
@@ -18,9 +20,22 @@ class AgendaItem extends React.Component {
     };
   }
 
+  statusElement(persistedStatus) {
+    const styleName = 'status-' + persistedStatus;
+    return <span><i styleName={styleName} onClick={this.handleStatusClick}/></span>;
+  }
+
+  handleStatusClick(e) {
+    e.preventDefault();
+
+    const newStatus = this.props.agendaItem.status === 'open' ? 'resolved' : 'open';
+    this.props.updateAgendaItem(this.props.agendaItem.id, {status: newStatus});
+  }
+
   render() {
     const {agendaItem, selected} = this.props;
     const {conversation} = this.props.agendaItem;
+    const statusElement = this.statusElement(agendaItem.status);
 
     var style = {};
     var styleName = 'default';
@@ -32,7 +47,7 @@ class AgendaItem extends React.Component {
     return (
       <div styleName={styleName} onClick={this.handleClick}>
         <div styleName='title-row'>
-              <div styleName='title'>{ agendaItem.title }</div>
+              <div styleName='title'>{ agendaItem.title } {statusElement} <a styleName="select-link" onClick={this.handleClick} href="#">discuss</a></div>
               <i styleName='agenda-item-icon'></i>
         </div>
         <div>
@@ -48,12 +63,14 @@ AgendaItem.propTypes = {
     id: PropTypes.string.isRequired,
     conversationId: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     conversation: PropTypes.shape({
       title: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
-  selectAgendaItem: PropTypes.func.isRequired
+  selectAgendaItem: PropTypes.func.isRequired,
+  updateAgendaItem: PropTypes.func.isRequired
 };
 
 export default AgendaItem;
