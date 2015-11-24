@@ -20,7 +20,7 @@ import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
 import {setConversationObjects, fetchConversationObjects} from '../actions/conversationObjects'
 import {createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
-import {setAgendaItems, createAgendaItemRemoteOrigin} from '../actions/agendaItems'
+import {setAgendaItems, createAgendaItemRemoteOrigin, updateAgendaItemRemoteOrigin} from '../actions/agendaItems'
 import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi} from '../utils/jsonApiUtils';
 import {setDeliverables, createDeliverableRemoteOrigin} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
@@ -74,6 +74,9 @@ export default class ConversationRoot extends Component {
       if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
         if (data.action == 'create') {
           store.dispatch(createAgendaItemRemoteOrigin(transformAgendaItemFromJsonApi(data.payload.data)));
+        }
+        else if (data.action == 'update') {
+          store.dispatch(updateAgendaItemRemoteOrigin(transformAgendaItemFromJsonApi(data.payload.data)));
         }
       }
     });

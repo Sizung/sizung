@@ -19,7 +19,9 @@ class AgendaItemsController < ApplicationController
 
   # PUT/PATCH /agenda_items/1.json
   def update
-    @agenda_item.update(agenda_item_params)
+    if @agenda_item.update(agenda_item_params)
+      AgendaItemRelayJob.perform_later(agenda_item: @agenda_item, actor_id: current_user.id, action: 'update')
+    end
     render json: @agenda_item
   end
 

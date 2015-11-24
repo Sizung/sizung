@@ -2,29 +2,30 @@
 
 import React, { Component, PropTypes } from 'react';
 import Time from 'react-time'
-import User from './User'
+import User from '../User'
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
 
 function SelectInputText(element) {
   element.setSelectionRange(0, element.value.length);
 }
 
+@CSSModules(styles)
 class AgendaItemInTimeline extends React.Component {
   constructor() {
     super();
     this.state = {edit: false};
 
-    this.handleEditClick = this.handleEditClick.bind(this);
-    this.handleSaveClick = this.handleSaveClick.bind(this);
+    this.saveEdit       = this.saveEdit.bind(this);
+    this.cancelEdit       = this.cancelEdit.bind(this);
+
+    this.handleEditClick  = this.handleEditClick.bind(this);
+    this.handleKeyDown    = this.handleKeyDown.bind(this);
+    this.handleSubmit     = this.handleSubmit.bind(this);
+    this.handleBlur       = this.handleBlur.bind(this);
   }
 
-  handleEditClick(e) {
-    e.preventDefault();
-    this.setState({edit: {title: this.props.agendaItem.title }})
-  }
-
-  handleSaveClick(e) {
-    e.preventDefault();
-
+  saveEdit() {
     var inputElem = React.findDOMNode(this.refs.input);
     const title = inputElem.value.trim();
     if(!title) return;
@@ -33,12 +34,39 @@ class AgendaItemInTimeline extends React.Component {
     this.setState({edit: false})
   }
 
+  cancelEdit() {
+    this.setState({edit: false})
+  }
+
+
+  handleEditClick(e) {
+    e.preventDefault();
+    this.setState({edit: {title: this.props.agendaItem.title }})
+  }
+
+  handleKeyDown(e) {
+    if (e.keyCode === 27) {
+      this.cancelEdit();
+    }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.saveEdit();
+  }
+
+  handleBlur(e) {
+    e.preventDefault();
+    this.saveEdit();
+  }
+
+
   titleElement(persistedTitle) {
     if (this.state.edit && this.state.edit.title) {
-      return <div><form onSubmit={this.handleSaveClick}><input type="text" ref="input" defaultValue={persistedTitle} style={{width: '400px'}}/><button type="submit">Save</button></form></div>
+      return <div><form onSubmit={this.handleSubmit}><input type="text" ref="input" onKeyDown={this.handleKeyDown} onBlur={this.handleBlur} defaultValue={persistedTitle} style={{width: '400px'}}/></form></div>
     }
     else {
-      return <span>{persistedTitle}<a href="#" onClick={this.handleEditClick}><i className="fa fa-pencil" style={{marginLeft: '1em'}} /></a></span>;
+      return <span>{persistedTitle}<a styleName="edit-link" href="#" onClick={this.handleEditClick}><i className="fa fa-pencil" style={{marginLeft: '1em'}} /></a></span>;
     }
   }
 
@@ -55,14 +83,13 @@ class AgendaItemInTimeline extends React.Component {
     const { agendaItem } = this.props;
     const titleElement = this.titleElement(agendaItem.title);
 
-    return  <div style={{marginTop: '1em'}} className="col-xs-12 margin-xs-vertical">
-              <div className="col-xs-1">
-                <User user={agendaItem.owner} />
+    return  <div styleName="root">
+              <div styleName="user-container">
               </div>
-              <div className="col-xs-11 zero-padding">
-                {titleElement}
-                <i className="fa fa-tag" style={{marginLeft: '3em'}} />
-                <div className="pull-left col-xs-12 zero-padding margin-xs-vertical text-muted">
+              <div styleName="content-container">
+                <div styleName="title">{titleElement}</div>
+                <i styleName="agenda-item-icon" />
+                <div styleName="time-container">
                   <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
                 </div>
               </div>

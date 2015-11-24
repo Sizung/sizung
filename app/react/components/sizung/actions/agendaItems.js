@@ -17,6 +17,14 @@ export const UPDATE_AGENDA_ITEM = 'UPDATE_AGENDA_ITEM';
 export const SELECT_AGENDA_ITEM = 'SELECT_AGENDA_ITEM';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
 
+export function updateAgendaItemRemoteOrigin(agendaItem) {
+  return {
+    type: UPDATE_AGENDA_ITEM,
+    status: STATUS_REMOTE_ORIGIN,
+    agendaItem: agendaItem
+  };
+}
+
 export function updateAgendaItemSuccess(agendaItem) {
   return {
     type: UPDATE_AGENDA_ITEM,
