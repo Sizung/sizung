@@ -33,7 +33,7 @@ import ConversationApp from './ConversationApp';
 import { Router, Route } from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
-import Deliverable from '../components/Deliverable';
+import Deliverable from '../components/Deliverable/index';
 
 const store = configureStore();
 const history = createBrowserHistory();

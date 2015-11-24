@@ -1,14 +1,17 @@
 import React, { Component, PropTypes } from 'react';
-import Deliverable from './Deliverable';
+import Deliverable from './../Deliverable/index';
 import { Glyphicon } from 'react-bootstrap';
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
 
+@CSSModules(styles)
 class DeliverableList extends Component {
   render() {
     const { deliverables, selectDeliverable, selectedDeliverableId } = this.props;
 
     return (
-      <div className='deliverableList padding-xs-horizontal'>
-        <div className='deliverableListHeader padding-sm'>
+      <div styleName='list'>
+        <div styleName='header'>
           <i className='fa fa-tasks'></i>{" "}Deliverables
         </div>
         {

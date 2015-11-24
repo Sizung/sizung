@@ -30,8 +30,8 @@ User.propTypes = {
 User.defaultProps = {
   user: {
     email: 'bla',
-    firstName: 'foo',
-    lastName: 'bar',
+    firstName: 'Foo',
+    lastName: 'Bar',
     presenceStatus: 'offline'
   }
 };
