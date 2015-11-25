@@ -4,7 +4,7 @@ window.React = require('react');
 //
 //registerComponent('hello-world', HelloWorld);
 
-import CommentForm from './components/sizung/components/CommentForm.js'
+import CommentForm from './components/sizung/components/CommentForm/index.js'
 registerComponent('CommentForm', CommentForm);
 
 import ConversationRoot from './components/sizung/containers/ConversationRoot.js'

@@ -1,0 +1,57 @@
+.list-container {
+  position: relative;
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+  padding: 0px;
+  margin: 5px 0px 5px 0px;
+}
+
+.list-header {
+  /*position:absolute;*/
+  /*top:0px;*/
+  overflow:hidden;
+  padding: 10px;
+  width: 100%;
+  /*height: 45px;*/
+}
+
+.comments-icon {
+  composes: fa fa-comments-o from global;
+}
+
+.list {
+  background-color: #ffffff;
+  /*position: absolute;*/
+  /*height: 300px;*/
+  /*top: 45px;*/
+  /*right: 0px;*/
+  /*left: 0px;*/
+  /*bottom: 60px;*/
+  overflow:auto;
+
+  -webkit-box-shadow: 1px 1px 1px 0px #aaaaaa;
+  -moz-box-shadow: 1px 1px 1px 0px #aaaaaa;
+  box-shadow: 1px 1px 1px 0px #aaaaaa;
+
+}
+
+.list-footer {
+  background-color: #ffffff;
+  /*position: absolute;*/
+  /*bottom: 0px;*/
+  /*left: 0px;*/
+  /*right: 0px;*/
+  height:60px;
+  /*overflow:hidden;*/
+
+  -webkit-box-shadow: 1px 1px 1px 0px #aaaaaa;
+  -moz-box-shadow: 1px 1px 1px 0px #aaaaaa;
+  box-shadow: 1px 1px 1px 0px #aaaaaa;
+}
+
+.member-dropdown {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}

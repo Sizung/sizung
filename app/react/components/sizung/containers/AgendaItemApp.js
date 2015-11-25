@@ -10,7 +10,7 @@ import * as DeliverableActions from '../actions/deliverables';
 import ConversationObjectListApp from './ConversationObjectListApp';
 import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
 import {fillConversationObject, fillAgendaItem} from '../utils/entityUtils';
-import ConversationObjectList from '../components/ConversationObjectList';
+import ConversationObjectList from '../components/ConversationObjectList/index';
 
 class AgendaItemApp extends React.Component {
   constructor() {

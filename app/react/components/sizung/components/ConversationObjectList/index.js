@@ -1,10 +1,15 @@
 import React, { Component, PropTypes } from 'react';
-import CommentForm from './CommentForm';
-import Comment from './Comment';
-import AgendaItemInTimeline from './AgendaItemInTimeline'
-import DeliverableInTimeline from './DeliverableInTimeline'
-import { Glyphicon } from 'react-bootstrap';
+import CommentForm from './../CommentForm/index';
+import Comment from './../Comment';
+import AgendaItemInTimeline from './../AgendaItemInTimeline'
+import DeliverableInTimeline from './../DeliverableInTimeline'
+import { Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
+import UserListApp from "../../containers/UserListApp";
 
+
+@CSSModules(styles)
 class ConversationObjectList extends Component {
   constructor() {
     super();
@@ -57,21 +62,29 @@ class ConversationObjectList extends Component {
 
     return (
 
-    <div className='commentList col-xs-12 zero-padding'>
-      <div className='commentListHeader padding-sm col-xs-12 zero-padding'>
-        <i className='fa fa-comments-o'></i>{' '}Conv - {currentConversation.title}
+    <div styleName='list-container'>
+      <div styleName='list-header'>
+        <i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}
+        <div styleName='member-dropdown'>
+          <DropdownButton bsStyle='default' bsSize="small" title='Members' pullRight>
+            <MenuItem eventKey="1">
+              <div>
+                <UserListApp/>
+              </div>
+            </MenuItem>
+          </DropdownButton>
+        </div>
       </div>
-      <div className='commentListArea white-bg margin-xs-vertical col-xs-12 zero-padding  box-shadow'>
-        <div className='comments'>
+      <div styleName='list'>
           { showMore }
           { conversationObjectElements }
-        </div>
+      </div>
+      <div styleName='list-footer'>
         <CommentForm createComment={createComment}
                      createAgendaItem={createAgendaItem}
                      createDeliverable={createDeliverable}
                      {...commentForm}/>
       </div>
-
     </div>
     );
   }

@@ -11,13 +11,13 @@ import AgendaItemListApp from './AgendaItemListApp';
 import DeliverableListApp from './DeliverableListApp';
 import ConversationObjectListApp from './ConversationObjectListApp';
 import UserListApp from './UserListApp';
-import CommentForm from '../components/CommentForm';
+import CommentForm from '../components/CommentForm/index';
 import Comment from '../components/Comment';
 import DeliverableInTimeline from '../components/DeliverableInTimeline';
 import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
 import {fillConversationObject, fillAgendaItem} from '../utils/entityUtils';
 import ApplicationLayout from '../components/ApplicationLayout';
-import ConversationObjectList from '../components/ConversationObjectList';
+import ConversationObjectList from '../components/ConversationObjectList/index';
 
 class ConversationApp extends React.Component {
   constructor() {
