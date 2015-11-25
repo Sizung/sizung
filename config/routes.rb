@@ -7,7 +7,7 @@ Rails.application.routes.draw do
     concerns :list_conversation_objects, parent_type: 'AgendaItem'
   end
 
-  resources :deliverables, only: [:create] do
+  resources :deliverables, only: [:create, :update] do
     concerns :list_conversation_objects, parent_type: 'Deliverable'
   end
 

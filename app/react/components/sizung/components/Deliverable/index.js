@@ -3,12 +3,15 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
-import User from '../User.js';
+import User from '../User';
+import EditableText from '../EditableText';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
   constructor() {
     super();
+
+    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
 
     this.handleClick = (e) => {
       e.preventDefault();
@@ -19,6 +22,10 @@ class Deliverable extends React.Component {
         this.props.deliverable.id
       );
     };
+  }
+
+  handleTitleUpdate(newTitle) {
+    this.props.updateDeliverable(this.props.deliverable.id, {title: newTitle});
   }
 
 
@@ -33,7 +40,9 @@ class Deliverable extends React.Component {
 
         return <div styleName={styleName} onClick={this.handleClick}>
           <div styleName='title-row'>
-            <div styleName='title'>{ title }</div>
+            <div styleName='title'>
+              <EditableText text={title} onUpdate={this.handleTitleUpdate} />
+            </div>
             <i styleName='deliverable-icon'></i>
           </div>
           <div styleName='details-row'>
@@ -50,7 +59,8 @@ Deliverable.propTypes = {
     title: PropTypes.string.isRequired,
     agendaItem: PropTypes.object.isRequired
   }).isRequired,
-  selectDeliverable: PropTypes.func.isRequired
+  selectDeliverable: PropTypes.func.isRequired,
+  updateDeliverable: PropTypes.func.isRequired
 };
 
 Deliverable.defaultProps = {

@@ -7,7 +7,7 @@ import styles from "./index.css";
 @CSSModules(styles)
 class DeliverableList extends Component {
   render() {
-    const { deliverables, selectDeliverable, selectedDeliverableId } = this.props;
+    const { deliverables, selectDeliverable, selectedDeliverableId, updateDeliverable } = this.props;
 
     return (
       <div styleName='list'>
@@ -21,6 +21,7 @@ class DeliverableList extends Component {
                     deliverable={deliverable}
                     selectDeliverable={selectDeliverable}
                     selected={deliverable.id === selectedDeliverableId}
+                    updateDeliverable={updateDeliverable}
                 />);
           })
         }
@@ -33,6 +34,7 @@ DeliverableList.propTypes = {
   selectedDeliverableId: PropTypes.string,
   selectDeliverable: PropTypes.func.isRequired,
   deliverables: PropTypes.object.isRequired,
+  updateDeliverable: PropTypes.func.isRequired
 };
 
 export default DeliverableList;

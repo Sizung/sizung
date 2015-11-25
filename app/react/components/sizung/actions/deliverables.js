@@ -14,8 +14,46 @@ import { updatePath } from 'redux-simple-router';
 
 export const SET_DELIVERABLES = 'SET_DELIVERABLES';
 export const CREATE_DELIVERABLE = 'CREATE_DELIVERABLE';
+export const UPDATE_DELIVERABLE = 'UPDATE_DELIVERABLE';
 export const SELECT_DELIVERABLE = 'SELECT_DELIVERABLE';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
+
+export function updateDeliverableRemoteOrigin(deliverable) {
+  return {
+    type: UPDATE_DELIVERABLE,
+    status: STATUS_REMOTE_ORIGIN,
+    deliverable: deliverable
+  };
+}
+
+export function updateDeliverableSuccess(deliverable) {
+  return {
+    type: UPDATE_DELIVERABLE,
+    status: STATUS_SUCCESS,
+    deliverable: deliverable
+  };
+}
+
+export function updateDeliverable(id, changedFields) {
+  return function(dispatch) {
+    return fetch('/deliverables/' + id, {
+      method: 'PUT',
+      credentials: 'include', // send cookies with it
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
+      },
+      body: JSON.stringify({
+        deliverable: changedFields
+      })
+    })
+    .then(response => response.json())
+    .then(function(json) {
+      dispatch(updateDeliverableSuccess(transformDeliverableFromJsonApi(json.data)));
+    });
+  };
+}
 
 export function backToConversation(conversationId) {
   return function(dispatch) {

@@ -4,7 +4,11 @@ class DeliverablePolicy < ApplicationPolicy
   end
 
   def destroy?
-    true
+    show?
+  end
+
+  def update?
+    show?
   end
 
   class Scope < Scope

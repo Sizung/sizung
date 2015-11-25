@@ -1,8 +1,10 @@
 .default {
   composes: card from '../../styles/modules/card.css';
+  composes: hover-container from '../../styles/modules/hover.css';
 }
 .selected {
   composes: card-selected from '../../styles/modules/card.css';
+  composes: hover-container from '../../styles/modules/hover.css';
   background-color: #99cc99;
 }
 
