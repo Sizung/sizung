@@ -22,7 +22,7 @@ class ConversationObjectList extends Component {
     }
   }
 
-  prepareChildElements(conversationObjects, deleteComment, updateAgendaItem) {
+  prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable) {
     if(conversationObjects) {
       return conversationObjects.map(function(conversationObject) {
         if (conversationObject.type === 'comments') {
@@ -35,7 +35,7 @@ class ConversationObjectList extends Component {
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable}/>
+          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable} updateDeliverable={updateDeliverable}/>
         }
         else {
           console.log('Component not found for conversationObject: ', conversationObject);
@@ -55,10 +55,10 @@ class ConversationObjectList extends Component {
 
   render() {
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, updateAgendaItem,
-      createDeliverable, commentForm, isFetching, nextPageUrl } = this.props;
+      createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem);
+    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable);
 
     return (
 
@@ -103,6 +103,8 @@ ConversationObjectList.propTypes = {
   nextPageUrl: PropTypes.string,
   isFetching: PropTypes.bool,
   fetchConversationObjects: PropTypes.func.isRequired,
+  createDeliverable: PropTypes.func.isRequired,
+  updateDeliverable: PropTypes.func.isRequired,
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,

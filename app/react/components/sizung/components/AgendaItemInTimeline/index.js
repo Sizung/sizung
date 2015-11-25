@@ -7,10 +7,6 @@ import EditableText from '../EditableText';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
-function SelectInputText(element) {
-  element.setSelectionRange(0, element.value.length);
-}
-
 @CSSModules(styles)
 class AgendaItemInTimeline extends React.Component {
   constructor() {
