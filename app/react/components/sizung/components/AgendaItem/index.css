@@ -29,16 +29,3 @@
 .comments-icon {
   composes: fa fa-comment-o from global;
 }
-
-.status-open {
-  composes: fa fa-check from global;
-  composes: hover-inline from '../../styles/modules/hover.css';
-
-  color: gray;
-}
-
-.status-resolved {
-  composes: fa fa-check from global;
-
-  color: green;
-}
