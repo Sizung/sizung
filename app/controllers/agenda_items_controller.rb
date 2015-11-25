@@ -1,7 +1,7 @@
 class AgendaItemsController < ApplicationController
   before_filter :authenticate_user!
   after_action :verify_authorized
-  before_action :set_agenda_item, only: [:update, :destroy]
+  before_action :set_agenda_item, only: [:update]
 
   respond_to :json
 
@@ -23,12 +23,6 @@ class AgendaItemsController < ApplicationController
       AgendaItemRelayJob.perform_later(agenda_item: @agenda_item, actor_id: current_user.id, action: 'update')
     end
     render json: @agenda_item
-  end
-
-  # DELETE /agenda_items/1.json
-  def destroy
-    @agenda_item.destroy
-    render json: @agenda_item, status: :ok
   end
 
   private

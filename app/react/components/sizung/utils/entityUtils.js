@@ -2,6 +2,7 @@ export function fillDeliverable(state, id) {
   var deliverable = state.getIn(['entities', 'deliverables', id]);
   deliverable.agendaItem = state.getIn(['entities', 'agendaItems', deliverable.agendaItemId]);
   deliverable.owner = state.getIn(['entities', 'users', deliverable.ownerId]);
+  deliverable.assignee = state.getIn(['entities', 'users', deliverable.assigneeId]);
 
   return deliverable;
 }

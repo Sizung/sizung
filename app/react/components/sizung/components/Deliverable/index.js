@@ -5,6 +5,7 @@ import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 import User from '../User';
 import EditableText from '../EditableText';
+import EditableStatus from '../EditableStatus';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
@@ -12,6 +13,7 @@ class Deliverable extends React.Component {
     super();
 
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
+    this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
 
     this.handleClick = (e) => {
       e.preventDefault();
@@ -28,10 +30,13 @@ class Deliverable extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, {title: newTitle});
   }
 
+  handleStatusUpdate(newStatus) {
+    this.props.updateDeliverable(this.props.deliverable.id, {status: newStatus});
+  }
 
     render() {
       const { deliverable, selected } = this.props;
-      const { title, agendaItem} = deliverable;
+      const { status, title, agendaItem } = deliverable;
 
       var styleName = 'default';
       if(selected === true) {
@@ -42,6 +47,7 @@ class Deliverable extends React.Component {
           <div styleName='title-row'>
             <div styleName='title'>
               <EditableText text={title} onUpdate={this.handleTitleUpdate} />
+              <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
             </div>
             <i styleName='deliverable-icon'></i>
           </div>
@@ -57,6 +63,7 @@ class Deliverable extends React.Component {
 Deliverable.propTypes = {
   deliverable: PropTypes.shape({
     title: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
     agendaItem: PropTypes.object.isRequired
   }).isRequired,
   selectDeliverable: PropTypes.func.isRequired,

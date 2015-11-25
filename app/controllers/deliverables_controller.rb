@@ -10,6 +10,7 @@ class DeliverablesController < ApplicationController
     @deliverable = Deliverable.new(deliverable_params)
     authorize @deliverable
     @deliverable.owner = current_user
+    @deliverable.assignee = current_user
     @deliverable.save
 
     if @deliverable.persisted?
@@ -29,7 +30,7 @@ class DeliverablesController < ApplicationController
 
   private
     def deliverable_params
-      params.require(:deliverable).permit(:agenda_item_id, :title)
+      params.require(:deliverable).permit(:agenda_item_id, :title, :assignee_id, :status)
     end
 
     def set_deliverable

@@ -1,15 +1,21 @@
 require 'test_helper'
 
-class ConversationTest < ActiveSupport::TestCase
-  test 'create valid conversation from factory' do
+describe Deliverable do
+  it 'create valid conversation from factory' do
     conversation = FactoryGirl.create(:conversation)
     assert conversation.persisted?
     assert conversation.organization.persisted?
   end
 
-  test 'complains when title is missing' do
+  it 'complains when title is missing' do
     conversation = FactoryGirl.build(:conversation, title: nil)
     assert_not conversation.valid?
     assert_equal ["can't be blank"], conversation.errors.messages[:title]
+  end
+
+  it 'creates an organization and organization_member' do
+    conversation = FactoryGirl.create(:conversation)
+    expect(conversation.organization.organization_members.size).must_equal 1
+    expect(conversation.organization.organization_members.first.member).must_equal conversation.organization.owner
   end
 end

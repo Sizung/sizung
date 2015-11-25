@@ -5,6 +5,7 @@ import React, { Component, PropTypes } from 'react';
 import Time from 'react-time'
 import User from '../User'
 import EditableText from '../EditableText';
+import EditableStatus from '../EditableStatus';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
@@ -14,6 +15,7 @@ class DeliverableInTimeline extends React.Component {
     super();
 
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
+    this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
     this.handleDeleteClick = (e) => {
       e.preventDefault();
       this.props.deleteComment(this.props.id);
@@ -22,6 +24,10 @@ class DeliverableInTimeline extends React.Component {
 
   handleTitleUpdate(newTitle) {
     this.props.updateDeliverable(this.props.deliverable.id, {title: newTitle});
+  }
+
+  handleStatusUpdate(newStatus) {
+    this.props.updateDeliverable(this.props.deliverable.id, {status: newStatus});
   }
 
   render() {
@@ -33,6 +39,7 @@ class DeliverableInTimeline extends React.Component {
         <div styleName="content-container">
           <div styleName="title">
             <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} />
+            <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} />
           </div>
           <i styleName="deliverable-icon" />
           <div styleName="time-container">
@@ -47,12 +54,14 @@ class DeliverableInTimeline extends React.Component {
 DeliverableInTimeline.propTypes = {
   deliverable: PropTypes.shape({
     title: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
     agendaItem: PropTypes.shape({
       title: PropTypes.string.isRequired
     }).isRequired
-  }).isRequired
+  }).isRequired,
+  updateDeliverable: PropTypes.func.isRequired
 };
 
 export default DeliverableInTimeline;
