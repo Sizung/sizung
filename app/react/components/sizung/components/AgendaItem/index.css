@@ -30,10 +30,6 @@
   composes: fa fa-comment-o from global;
 }
 
-.select-link {
-  composes: hover-inline from '../../styles/modules/hover.css';
-}
-
 .status-open {
   composes: fa fa-check from global;
   composes: hover-inline from '../../styles/modules/hover.css';

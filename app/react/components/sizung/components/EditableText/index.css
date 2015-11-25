@@ -1,0 +1,3 @@
+.edit-link {
+  composes: hover-inline from '../../styles/modules/hover.css';
+}

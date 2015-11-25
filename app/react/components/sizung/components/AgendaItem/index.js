@@ -5,12 +5,15 @@ import { Glyphicon, Grid, Row, Col } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
+import EditableText from '../EditableText';
+
 @CSSModules(styles)
 class AgendaItem extends React.Component {
 
   constructor() {
     super();
 
+    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.handleStatusClick = this.handleStatusClick.bind(this);
 
     this.handleClick = (e) => {
@@ -20,6 +23,10 @@ class AgendaItem extends React.Component {
     };
   }
 
+  handleTitleUpdate(newTitle) {
+    this.props.updateAgendaItem(this.props.agendaItem.id, {title: newTitle});
+  }
+
   statusElement(persistedStatus) {
     const styleName = 'status-' + persistedStatus;
     return <span><i styleName={styleName} onClick={this.handleStatusClick}/></span>;
@@ -27,6 +34,7 @@ class AgendaItem extends React.Component {
 
   handleStatusClick(e) {
     e.preventDefault();
+    e.stopPropagation();
 
     const newStatus = this.props.agendaItem.status === 'open' ? 'resolved' : 'open';
     this.props.updateAgendaItem(this.props.agendaItem.id, {status: newStatus});
@@ -47,8 +55,11 @@ class AgendaItem extends React.Component {
     return (
       <div styleName={styleName} onClick={this.handleClick}>
         <div styleName='title-row'>
-              <div styleName='title'>{ agendaItem.title } {statusElement} <a styleName="select-link" onClick={this.handleClick} href="#">discuss</a></div>
-              <i styleName='agenda-item-icon'></i>
+            <div styleName='title'>
+              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} />
+              {statusElement}
+            </div>
+            <i styleName='agenda-item-icon'></i>
         </div>
         <div>
           <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>

@@ -5,10 +5,6 @@
   margin-bottom: 5px;
 }
 
-.edit-link {
-  composes: hover-inline from '../../styles/modules/hover.css';
-}
-
 .title {
   font-weight: bold;
 }
