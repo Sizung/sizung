@@ -1,7 +1,11 @@
 import React, { Component, PropTypes } from 'react';
 import { Input,Button, ButtonGroup } from 'react-bootstrap';
-import User from './User';
+import User from './../User';
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
 
+
+@CSSModules(styles)
 class CommentForm extends React.Component {
   constructor() {
     super();
@@ -47,26 +51,26 @@ class CommentForm extends React.Component {
     const { currentUser } = this.props;
     var buttons = [];
     if (this.props.canCreateAgendaItem) {
-      buttons.push(<Button key="createAgendaItem" className="btn btn-xs" type="submit" onClick={this.handleAgendaItem} style={{border: 'none'}} ><i className="fa fa-tag text-muted"></i></Button>);
+      buttons.push(<Button key="createAgendaItem" styleName='agenda-item-btn' type="submit" onClick={this.handleAgendaItem}><i styleName='agenda-item-icon'></i></Button>);
     }
     if (this.props.canCreateDeliverable) {
       buttons.push(<Button key="createDeliverable" className="btn btn-xs" type="submit" onClick={this.handleDeliverable} style={{border: 'none'}} ><i className="fa fa-tasks text-muted"></i></Button>);
     }
 
     return (
-      <div className="col-xs-12 zero-padding padding-sm-vertical" style={{border : '0px solid #eeeeee', borderTopWidth : '1px'}}>
-        <div className="col-xs-1">
+      <div styleName='form-container'>
+        <div styleName='user'>
           <User user={currentUser} />
         </div>
-        <form className="commentForm" ref="commentFormRef" onSubmit={this.handleSubmit}>
-          <div className="col-xs-11" style={{paddingLeft: '0px'}}>
-            <Input className="zero-padding col-xs-12" style={{border: 'none', outline: 'none', boxShadow: 'none'}} type="text" placeholder="Type your comment here" ref="name"/>
-            <ButtonGroup className="pull-right">
+        <div styleName='input-container'>
+        <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
+            <Input groupClassName='zero-margin' styleName='input' type="text" placeholder="Type your comment here" ref="name"/>
+            <ButtonGroup styleName='input-btn-group'>
               <Button key="createComment" className="btn btn-xs" type="submit" onClick={this.handleSubmit} style={{border: 'none'}} ><i className="fa fa-comment text-muted"></i></Button>
               { buttons }
             </ButtonGroup>
-          </div>
         </form>
+          </div>
       </div>
     );
   }

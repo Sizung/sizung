@@ -4,7 +4,7 @@
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import ConversationObjectList from '../components/ConversationObjectList';
+import ConversationObjectList from '../components/ConversationObjectList/index';
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as DeliverableActions from '../actions/deliverables';

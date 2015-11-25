@@ -10,7 +10,7 @@ import * as DeliverableActions from '../actions/deliverables';
 import DeliverableInTimeline from '../components/DeliverableInTimeline';
 import ConversationObjectListApp from './ConversationObjectListApp';
 import {fillConversationObject, fillDeliverable} from '../utils/entityUtils';
-import ConversationObjectList from '../components/ConversationObjectList';
+import ConversationObjectList from '../components/ConversationObjectList/index';
 import { getPath, getAgendaItemIdFromPath, getDeliverableIdFromPath } from '../utils/pathUtils';
 
 class DeliverableApp extends React.Component {
