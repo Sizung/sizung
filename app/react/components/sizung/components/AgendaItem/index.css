@@ -9,6 +9,8 @@
 
 .row {
   composes: row from global;
+  min-height: 2em;
+  margin-bottom: 1em;
 }
 
 .content-container {

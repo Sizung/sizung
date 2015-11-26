@@ -45,13 +45,13 @@ class AgendaItem extends React.Component {
         <div styleName="row">
           <div styleName='content-container'>
             <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} />
-            <div>
-              <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>
-            </div>
           </div>
           <div styleName='status-container'>
             <EditableStatus status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
           </div>
+        </div>
+        <div>
+          <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>
         </div>
       </div>
     );
