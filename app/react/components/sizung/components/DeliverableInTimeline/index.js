@@ -34,16 +34,19 @@ class DeliverableInTimeline extends React.Component {
     const { deliverable } = this.props;
     return  (
       <div styleName="root">
-        <div styleName="user-container">
-        </div>
-        <div styleName="content-container">
-          <div styleName="title">
-            <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} />
-            <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} />
+        <div styleName="row">
+          <div styleName="user-container">
           </div>
-          <i styleName="deliverable-icon" />
-          <div styleName="time-container">
-            <small><Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+          <div styleName="content-container">
+            <div styleName="title">
+              <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} />
+            </div>
+            <div styleName="time-container">
+              <small><Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+            </div>
+          </div>
+          <div styleName="status-container">
+            <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} />
           </div>
         </div>
       </div>

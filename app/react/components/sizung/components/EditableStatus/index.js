@@ -19,8 +19,15 @@ class EditableStatus extends React.Component {
   }
 
   render() {
-    const styleName = 'status-' + this.props.status;
-    return <span><i styleName={styleName} onClick={this.handleStatusClick}/></span>;
+    const { status } = this.props;
+    return (
+      <span styleName={"root-" + status} onClick={this.handleStatusClick}>
+        <span styleName="stack">
+          <i styleName="circle"/>
+          <i styleName="status"/>
+        </span>
+      </span>
+    );
   }
 }
 

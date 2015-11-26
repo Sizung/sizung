@@ -5,6 +5,9 @@ import React, { Component, PropTypes } from 'react';
 class User extends React.Component {
   render() {
     let { email, presenceStatus, firstName, lastName } = this.props.user;
+
+    const initials = (firstName && lastName) ? firstName.charAt(0) + lastName.charAt(0) : email.charAt(0);
+
     let style = {};
     if (presenceStatus === 'online') {
       style = {color: '#7B7'}
@@ -12,7 +15,7 @@ class User extends React.Component {
 
     return (
       <div className="circle-sm">
-        <span className="circle-text-sm" title={email} style={style}>{firstName.charAt(0) + lastName.charAt(0)}</span>
+        <span className="circle-text-sm" title={email} style={style}>{initials}</span>
       </div>
     );
   }

@@ -8,53 +8,38 @@
   background-color: #99cc99;
 }
 
-.title-row{
-  position: relative;
-}
-.title{
-  padding-right: 30px;
+.row {
+  composes: row from global;
+  height: 30px;
 }
 
-.agenda-title {
-  position: absolute;
-  overflow: hidden;
+.content-container {
+  composes: col-xs-10 from global;
+}
 
-  width: 50%;
-  top: 5px;
-  right: 0px;
-  bottom: 5px;
+.status-container {
+  composes: col-xs-1 from global;
+}
 
+.details-row {
+  composes: row from global;
+}
+
+.user-container {
+  composes: col-xs-2 from global;
+}
+
+.agenda-title-container {
+  composes: col-xs-10 from global;
   text-align: right;
-  font-size: smaller;
-  color: #003366;
 }
 
 .assignee {
   display: inline-block;
   width: 50%;
-  padding: 0px;
+  padding: 0;
 }
 
 .comments-icon {
   composes: fa fa-comment-o from global;
-}
-
-.deliverable-icon{
-  composes: fa fa-tasks from global;
-
-  width: 30px;
-  position: absolute;
-  height: 100%;
-  top: 0;
-  right: 0;
-  padding-right: 5px;
-  padding-top: 5px;
-
-  text-align: right;
-}
-
-
-.details-row {
-  position: relative;
-  padding: 5px 0px 5px 0px;
 }

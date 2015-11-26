@@ -1,5 +1,6 @@
 .root {
   composes: hover-container from '../../styles/modules/hover.css';
+  composes: row from global;
   margin-top: 15px;
   margin-left: 15px;
   margin-bottom: 5px;
@@ -14,7 +15,11 @@
 }
 
 .content-container {
-  composes: col-xs-11 zero-padding from global;
+  composes: col-xs-10 zero-padding from global;
+}
+
+.status-container {
+  composes: col-xs-1 from global;
 }
 
 .agenda-item-icon {

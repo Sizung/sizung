@@ -34,30 +34,36 @@ class Deliverable extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, {status: newStatus});
   }
 
-    render() {
-      const { deliverable, selected } = this.props;
-      const { status, title, agendaItem } = deliverable;
+  render() {
+    const { deliverable, selected } = this.props;
+    const { status, title, agendaItem } = deliverable;
 
-      var styleName = 'default';
-      if(selected === true) {
-        styleName = 'selected';
-      }
-
-        return <div styleName={styleName} onClick={this.handleClick}>
-          <div styleName='title-row'>
-            <div styleName='title'>
-              <EditableText text={title} onUpdate={this.handleTitleUpdate} />
-              <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
-            </div>
-            <i styleName='deliverable-icon'></i>
-          </div>
-          <div styleName='details-row'>
-            <User/>
-            <div styleName='agenda-title'># {agendaItem.title}</div>
-          </div>
-        </div>;
-
+    var styleName = 'default';
+    if(selected === true) {
+      styleName = 'selected';
     }
+
+    return (
+      <div styleName={styleName} onClick={this.handleClick}>
+        <div styleName='row'>
+          <div styleName='content-container'>
+            <EditableText text={title} onUpdate={this.handleTitleUpdate} />
+          </div>
+          <div styleName='status-container'>
+            <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
+          </div>
+        </div>
+        <div styleName='details-row'>
+          <div styleName="user-container">
+            <User/>
+          </div>
+          <div styleName="agenda-title-container">
+            # {agendaItem.title}
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 Deliverable.propTypes = {

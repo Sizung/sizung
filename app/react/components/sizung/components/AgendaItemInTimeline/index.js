@@ -34,12 +34,13 @@ class AgendaItemInTimeline extends React.Component {
               <div styleName="content-container">
                 <div styleName="title">
                   <EditableText text={title} onUpdate={this.handleTitleUpdate} />
-                  <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
                 </div>
-                <i styleName="agenda-item-icon" />
                 <div styleName="time-container">
                   <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
                 </div>
+              </div>
+              <div styleName="status-container">
+                <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
               </div>
             </div>;
   }

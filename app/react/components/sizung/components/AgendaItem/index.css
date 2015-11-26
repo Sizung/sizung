@@ -7,25 +7,18 @@
   composes: hover-container from '../../styles/modules/hover.css';
 }
 
-.title-row{
-  position: relative;
+.row {
+  composes: row from global;
 }
-.title{
-  padding-right: 30px;
-}
-.agenda-item-icon{
-  composes: fa fa-tag from global;
 
-  width: 30px;
-  position: absolute;
-  height: 100%;
-  top: 0;
-  right: 0;
-  padding-right: 5px;
-  padding-top: 5px;
-
-  text-align: right;
+.content-container {
+  composes: col-xs-10 from global;
 }
+
+.status-container {
+  composes: col-xs-1 from global;
+}
+
 .comments-icon {
   composes: fa fa-comment-o from global;
 }
