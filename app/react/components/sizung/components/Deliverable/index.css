@@ -10,7 +10,8 @@
 
 .row {
   composes: row from global;
-  height: 30px;
+  min-height: 2em;
+  margin-bottom: 1em;
 }
 
 .content-container {
