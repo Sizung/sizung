@@ -2,7 +2,7 @@
   composes: hover-container from '../../styles/modules/hover.css';
   composes: row from global;
   margin-top: 15px;
-  margin-left: 15px;
+  margin-left: 12px;
   margin-bottom: 5px;
 }
 
