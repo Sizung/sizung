@@ -1,10 +1,12 @@
 .root-open {
   composes: hover-inline from '../../styles/modules/hover.css';
   color: gray;
+  cursor: pointer;
 }
 
 .root-resolved {
   color: green;
+  cursor: pointer;
 }
 
 .stack {

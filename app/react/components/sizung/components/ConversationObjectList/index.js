@@ -53,6 +53,27 @@ class ConversationObjectList extends Component {
     }
   }
 
+  scrollElement() {
+    var _this = this;
+    window.requestAnimationFrame(function() {
+      var node = _this.refs.list.getDOMNode();
+      if (node !== undefined) {
+        node.scrollTop = node.scrollHeight;
+      }
+    });
+  }
+
+  componentDidUpdate() {
+    if ( this.shouldScrollBottom ) {
+      this.scrollElement();
+    }
+  }
+
+  componentWillUpdate() {
+    var node = this.refs.list.getDOMNode();
+    this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+  }
+
   render() {
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, updateAgendaItem,
       createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl } = this.props;
@@ -75,7 +96,7 @@ class ConversationObjectList extends Component {
           </DropdownButton>
         </div>
       </div>
-      <div styleName='list'>
+      <div ref='list' styleName='list'>
           { showMore }
           { conversationObjectElements }
       </div>

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 class NavigationHeader extends Component {
   render() {
@@ -16,8 +17,12 @@ class NavigationHeader extends Component {
             <ul className="nav navbar-nav">
               <li><a href="/organizations">Organizations</a></li>
               <li><a href="/users/invitation/new">Invite your team</a></li>
-              <li><a href="/users/edit">{currentUserName}</a></li>
-              <li><a href="/users/sign_out" rel="nofollow" data-method="delete">Logout</a></li>
+            </ul>
+            <ul className="nav nav-bar-nav pull-right" style={{ paddingTop: '10px'}}>
+              <DropdownButton bsStyle='default' bsSize='small' title={currentUserName}>
+                <MenuItem eventKey="1" href="/users/edit">Edit Profile</MenuItem>
+                <MenuItem eventKey="2" href="/users/sign_out" rel="nofollow" data-method="delete">Logout</MenuItem>
+              </DropdownButton>
             </ul>
           </div>
         </div>
