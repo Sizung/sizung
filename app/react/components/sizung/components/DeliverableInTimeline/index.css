@@ -6,10 +6,6 @@
   margin-bottom: 5px;
 }
 
-.title {
-  font-weight: bold;
-}
-
 .user-container {
   composes: col-xs-1 from global;
 }
@@ -22,18 +18,8 @@
   composes: col-xs-1 from global;
 }
 
-.agenda-item-icon {
-  composes: fa fa-tag from global;
-
-  width: 30px;
-  position: absolute;
-  height: 100%;
-  top: 0;
-  right: 0;
-  padding-right: 5px;
-  padding-top: 5px;
-
-  text-align: right;
+.title {
+  font-weight: bold;
 }
 
 .time-container {

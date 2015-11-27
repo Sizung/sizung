@@ -1,0 +1,20 @@
+.root-open {
+  composes: hover-inline from '../../styles/modules/hover.css';
+  color: gray;
+}
+
+.root-resolved {
+  color: green;
+}
+
+.stack {
+  composes: fa-stack from global;
+}
+
+.circle {
+  composes: fa fa-circle-thin fa-stack-2x from global;
+}
+
+.status {
+  composes: fa fa-check fa-stack-1x from global;
+}

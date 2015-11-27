@@ -1,58 +1,46 @@
 .default {
   composes: card from '../../styles/modules/card.css';
+  composes: hover-container from '../../styles/modules/hover.css';
 }
 .selected {
   composes: card-selected from '../../styles/modules/card.css';
+  composes: hover-container from '../../styles/modules/hover.css';
   background-color: #99cc99;
 }
 
-.title-row{
-  position: relative;
+.row {
+  composes: row from global;
+  min-height: 2em;
+  margin-bottom: 1em;
 }
-.title{
-  padding-right: 30px;
+
+.content-container {
+  composes: col-xs-10 from global;
 }
 
-.agenda-title {
-  position: absolute;
-  overflow: hidden;
+.status-container {
+  composes: col-xs-1 from global;
+}
 
-  width: 50%;
-  top: 5px;
-  right: 0px;
-  bottom: 5px;
+.details-row {
+  composes: row from global;
+}
 
+.user-container {
+  composes: col-xs-2 from global;
+}
+
+.agenda-title-container {
+  composes: col-xs-10 from global;
   text-align: right;
-  font-size: smaller;
-  color: #003366;
 }
 
 .assignee {
   display: inline-block;
   width: 50%;
-  padding: 0px;
+  padding: 0;
 }
 
 .comments-icon {
   composes: fa fa-comment-o from global;
-}
-
-.deliverable-icon{
-  composes: fa fa-tasks from global;
-
-  width: 30px;
-  position: absolute;
-  height: 100%;
-  top: 0;
-  right: 0;
-  padding-right: 5px;
-  padding-top: 5px;
-
-  text-align: right;
-}
-
-
-.details-row {
-  position: relative;
-  padding: 5px 0px 5px 0px;
 }

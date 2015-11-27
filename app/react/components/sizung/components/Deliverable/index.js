@@ -3,12 +3,17 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
-import User from '../User.js';
+import User from '../User';
+import EditableText from '../EditableText';
+import EditableStatus from '../EditableStatus';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
   constructor() {
     super();
+
+    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
+    this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
 
     this.handleClick = (e) => {
       e.preventDefault();
@@ -21,36 +26,54 @@ class Deliverable extends React.Component {
     };
   }
 
+  handleTitleUpdate(newTitle) {
+    this.props.updateDeliverable(this.props.deliverable.id, {title: newTitle});
+  }
 
-    render() {
-      const { deliverable, selected } = this.props;
-      const { title, agendaItem} = deliverable;
+  handleStatusUpdate(newStatus) {
+    this.props.updateDeliverable(this.props.deliverable.id, {status: newStatus});
+  }
 
-      var styleName = 'default';
-      if(selected === true) {
-        styleName = 'selected';
-      }
+  render() {
+    const { deliverable, selected } = this.props;
+    const { status, title, agendaItem, assignee } = deliverable;
 
-        return <div styleName={styleName} onClick={this.handleClick}>
-          <div styleName='title-row'>
-            <div styleName='title'>{ title }</div>
-            <i styleName='deliverable-icon'></i>
-          </div>
-          <div styleName='details-row'>
-            <User/>
-            <div styleName='agenda-title'># {agendaItem.title}</div>
-          </div>
-        </div>;
-
+    var styleName = 'default';
+    if(selected === true) {
+      styleName = 'selected';
     }
+
+    return (
+      <div styleName={styleName} onClick={this.handleClick}>
+        <div styleName='row'>
+          <div styleName='content-container'>
+            <EditableText text={title} onUpdate={this.handleTitleUpdate} />
+          </div>
+          <div styleName='status-container'>
+            <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
+          </div>
+        </div>
+        <div styleName='details-row'>
+          <div styleName="user-container">
+            <User user={assignee} />
+          </div>
+          <div styleName="agenda-title-container">
+            # {agendaItem.title}
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
 Deliverable.propTypes = {
   deliverable: PropTypes.shape({
     title: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
     agendaItem: PropTypes.object.isRequired
   }).isRequired,
-  selectDeliverable: PropTypes.func.isRequired
+  selectDeliverable: PropTypes.func.isRequired,
+  updateDeliverable: PropTypes.func.isRequired
 };
 
 Deliverable.defaultProps = {

@@ -6,6 +6,7 @@ import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
 import EditableText from '../EditableText';
+import EditableStatus from '../EditableStatus';
 
 @CSSModules(styles)
 class AgendaItem extends React.Component {
@@ -13,8 +14,8 @@ class AgendaItem extends React.Component {
   constructor() {
     super();
 
-    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
-    this.handleStatusClick = this.handleStatusClick.bind(this);
+    this.handleTitleUpdate  = this.handleTitleUpdate.bind(this);
+    this.handleStatusUpdate  = this.handleStatusUpdate.bind(this);
 
     this.handleClick = (e) => {
       e.preventDefault();
@@ -27,39 +28,27 @@ class AgendaItem extends React.Component {
     this.props.updateAgendaItem(this.props.agendaItem.id, {title: newTitle});
   }
 
-  statusElement(persistedStatus) {
-    const styleName = 'status-' + persistedStatus;
-    return <span><i styleName={styleName} onClick={this.handleStatusClick}/></span>;
-  }
-
-  handleStatusClick(e) {
-    e.preventDefault();
-    e.stopPropagation();
-
-    const newStatus = this.props.agendaItem.status === 'open' ? 'resolved' : 'open';
+  handleStatusUpdate(newStatus) {
     this.props.updateAgendaItem(this.props.agendaItem.id, {status: newStatus});
   }
 
   render() {
     const {agendaItem, selected} = this.props;
-    const {conversation} = this.props.agendaItem;
-    const statusElement = this.statusElement(agendaItem.status);
 
-    var style = {};
     var styleName = 'default';
     if(selected === true) {
-      //style['backgroundColor'] = '#9C9';
       styleName = 'selected';
     }
 
     return (
       <div styleName={styleName} onClick={this.handleClick}>
-        <div styleName='title-row'>
-            <div styleName='title'>
-              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} />
-              {statusElement}
-            </div>
-            <i styleName='agenda-item-icon'></i>
+        <div styleName="row">
+          <div styleName='content-container'>
+            <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} />
+          </div>
+          <div styleName='status-container'>
+            <EditableStatus status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
+          </div>
         </div>
         <div>
           <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>

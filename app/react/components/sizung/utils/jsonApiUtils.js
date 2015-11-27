@@ -10,7 +10,9 @@ export function transformDeliverableFromJsonApi(deliverable) {
     id: deliverable.id,
     type: transformTypeFromJsonApi(deliverable.type),
     title: deliverable.attributes.title,
+    status: deliverable.attributes.status,
     ownerId: deliverable.relationships.owner.data.id,
+    assigneeId: deliverable.relationships.assignee.data.id,
     agendaItemId: deliverable.relationships.agenda_item.data.id,
     commentsCount: deliverable.attributes.comments_count,
     createdAt: deliverable.attributes.created_at,
@@ -31,20 +33,6 @@ export function transformAgendaItemFromJsonApi(agendaItem) {
     updatedAt: agendaItem.attributes.updated_at
   };
 }
-
-export function transformDeliverableFromJsonApi(deliverable) {
-  return {
-    id: deliverable.id,
-    type: transformTypeFromJsonApi(deliverable.type),
-    title: deliverable.attributes.title,
-    ownerId: deliverable.relationships.owner.data.id,
-    agendaItemId: deliverable.relationships.agenda_item.data.id,
-    commentsCount: deliverable.attributes.comments_count,
-    createdAt: deliverable.attributes.created_at,
-    updatedAt: deliverable.attributes.updated_at
-  };
-}
-
 
 export function transformCommentFromJsonApi(comment) {
   return {

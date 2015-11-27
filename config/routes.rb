@@ -3,11 +3,11 @@ Rails.application.routes.draw do
     resources :conversation_objects, options.merge(only: [:index])
   end
 
-  resources :agenda_items, only: [:create, :update, :destroy] do
+  resources :agenda_items, only: [:create, :update] do
     concerns :list_conversation_objects, parent_type: 'AgendaItem'
   end
 
-  resources :deliverables, only: [:create] do
+  resources :deliverables, only: [:create, :update] do
     concerns :list_conversation_objects, parent_type: 'Deliverable'
   end
 
