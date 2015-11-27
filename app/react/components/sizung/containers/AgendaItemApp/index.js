@@ -3,15 +3,19 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button } from 'react-bootstrap';
 
-import * as CommentsActions from '../actions/comments';
-import * as AgendaItemActions from '../actions/agendaItems';
-import * as DeliverableActions from '../actions/deliverables';
+import * as CommentsActions from '../../actions/comments';
+import * as AgendaItemActions from '../../actions/agendaItems';
+import * as DeliverableActions from '../../actions/deliverables';
 
-import ConversationObjectListApp from './ConversationObjectListApp';
-import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
-import {fillConversationObject, fillAgendaItem} from '../utils/entityUtils';
-import ConversationObjectList from '../components/ConversationObjectList/index';
+import ConversationObjectListApp from './../ConversationObjectListApp';
+import AgendaItemInTimeline from '../../components/AgendaItemInTimeline';
+import {fillConversationObject, fillAgendaItem} from '../../utils/entityUtils';
+import ConversationObjectList from '../../components/ConversationObjectList/index';
 
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
+
+@CSSModules(styles)
 class AgendaItemApp extends React.Component {
   constructor() {
     super();
@@ -37,7 +41,7 @@ class AgendaItemApp extends React.Component {
   render() {
     const { selectedAgendaItem, updateAgendaItem, closeAgendaItem, conversationObjectsList, currentConversation, currentUser } = this.props;
     if(selectedAgendaItem) {
-      return (<div>
+      return (<div styleName='root'>
         <Button href="#" onClick={this.handleBackClick}>Close</Button>
         <AgendaItemInTimeline agendaItem={selectedAgendaItem} updateAgendaItem={updateAgendaItem}/>
         <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation}/>

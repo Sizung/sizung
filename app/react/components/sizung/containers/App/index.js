@@ -3,44 +3,43 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button, Row, Col } from 'react-bootstrap';
 
-import * as CommentsActions from '../actions/comments';
-import * as AgendaItemActions from '../actions/agendaItems';
-import * as DeliverableActions from '../actions/deliverables';
+import * as CommentsActions from '../../actions/comments';
+import * as AgendaItemActions from '../../actions/agendaItems';
+import * as DeliverableActions from '../../actions/deliverables';
 
-import AgendaItemListApp from './AgendaItemListApp';
-import DeliverableListApp from './DeliverableListApp';
-import ConversationObjectListApp from './ConversationObjectListApp';
-import UserListApp from './UserListApp';
-import CommentForm from '../components/CommentForm/index';
-import Comment from '../components/Comment';
-import DeliverableInTimeline from '../components/DeliverableInTimeline';
-import AgendaItemInTimeline from '../components/AgendaItemInTimeline';
-import {fillConversationObject, fillAgendaItem} from '../utils/entityUtils';
-import ApplicationLayout from '../components/ApplicationLayout';
-import ConversationObjectList from '../components/ConversationObjectList/index';
+import AgendaItemListApp from './../AgendaItemListApp';
+import DeliverableListApp from './../DeliverableListApp';
+import ConversationObjectListApp from './../ConversationObjectListApp';
+import UserListApp from './../UserListApp';
+import CommentForm from '../../components/CommentForm/index';
+import Comment from '../../components/Comment';
+import DeliverableInTimeline from '../../components/DeliverableInTimeline';
+import AgendaItemInTimeline from '../../components/AgendaItemInTimeline';
+import {fillConversationObject, fillAgendaItem} from '../../utils/entityUtils';
+import ApplicationLayout from '../../components/ApplicationLayout/index';
+import ConversationObjectList from '../../components/ConversationObjectList/index';
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
 
+@CSSModules(styles)
 class App extends Component {
 
   render() {
     const { currentUser } = this.props;
 
-    return (<ApplicationLayout currentUser={currentUser}>
-                  <Row>
-                    <Col xs={12}>
-                      <Row>
-                        <Col xs={12} md={3} className='zero-padding'>
-                          <AgendaItemListApp />
-                        </Col>
-                        <Col xs={12} md={6} className='zero-padding'>
-                         {this.props.children}
-                        </Col>
-                        <Col xs={12} md={3} className='zero-padding'>
-                          <DeliverableListApp />
-                        </Col>
-                      </Row>
-                    </Col>
-                  </Row>		
-            </ApplicationLayout>);
+    return (<ApplicationLayout currentUser={currentUser} >
+      <Row styleName='root'>
+        <Col xs={12} md={3} styleName='left-panel'>
+          <AgendaItemListApp />
+        </Col>
+        <Col xs={12} md={6} styleName='center-panel'>
+          {this.props.children}
+        </Col>
+        <Col xs={12} md={3} styleName='right-panel'>
+          <DeliverableListApp />
+        </Col>
+      </Row>
+    </ApplicationLayout>);
   }
 }
 

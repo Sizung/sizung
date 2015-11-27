@@ -5,7 +5,7 @@
 }
 
 .agenda-item-icon {
-  composes: fa fa-tag from global;
+  composes: fa fa-tag text-muted from global;
 }
 
 .deliverable-btn {
@@ -56,6 +56,20 @@
   background-color: #ffffff;
 }
 
-.no-padding {
+.comment-btn {
+  composes: btn btn-xs from global;
+  border: none;
+}
 
+.comment-icon {
+  composes: fa fa-comment text-muted from global;
+}
+
+.deliverable-btn {
+  composes: btn btn-xs from global;
+  border: none;
+}
+
+.deliverable-icon {
+  composes: fa fa-tasks text-muted from global;
 }

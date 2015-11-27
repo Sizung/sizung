@@ -3,16 +3,19 @@ import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Button } from 'react-bootstrap';
 
-import * as CommentsActions from '../actions/comments';
-import * as AgendaItemActions from '../actions/agendaItems';
-import * as DeliverableActions from '../actions/deliverables';
+import * as CommentsActions from '../../actions/comments';
+import * as AgendaItemActions from '../../actions/agendaItems';
+import * as DeliverableActions from '../../actions/deliverables';
 
-import DeliverableInTimeline from '../components/DeliverableInTimeline';
-import ConversationObjectListApp from './ConversationObjectListApp';
-import {fillConversationObject, fillDeliverable} from '../utils/entityUtils';
-import ConversationObjectList from '../components/ConversationObjectList/index';
-import { getPath, getAgendaItemIdFromPath, getDeliverableIdFromPath } from '../utils/pathUtils';
+import DeliverableInTimeline from '../../components/DeliverableInTimeline';
+import ConversationObjectListApp from './../ConversationObjectListApp';
+import {fillConversationObject, fillDeliverable} from '../../utils/entityUtils';
+import ConversationObjectList from '../../components/ConversationObjectList/index';
+import { getPath, getAgendaItemIdFromPath, getDeliverableIdFromPath } from '../../utils/pathUtils';
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
 
+@CSSModules(styles)
 class DeliverableApp extends React.Component {
   constructor() {
     super();
@@ -38,7 +41,7 @@ class DeliverableApp extends React.Component {
   render() {
     const { selectedDeliverable, closeAgendaItem, conversationObjectsList, currentConversation, currentUser } = this.props;
     if(selectedDeliverable && conversationObjectsList) {
-      return (<div>
+      return (<div styleName='root'>
         <Button href="#" onClick={this.handleBackClick}>Close</Button>
         <DeliverableInTimeline deliverable={selectedDeliverable}/>
         <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation}/>

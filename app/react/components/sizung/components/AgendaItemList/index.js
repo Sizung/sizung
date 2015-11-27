@@ -10,21 +10,23 @@ class AgendaItemList extends Component {
     const { agendaItems, selectAgendaItem, selectedId, updateAgendaItem } = this.props;
 
     return (
-      <div styleName='list'>
+      <div styleName='root'>
         <div styleName='header'>
           <i className="fa fa-tag"></i>{" "}Agenda
         </div>
-        {
-          agendaItems.map(function(agendaItem) {
-            return(<AgendaItem
-                    key={agendaItem.id}
-                    agendaItem={agendaItem}
-                    selectAgendaItem={selectAgendaItem}
-                    selected={agendaItem.id === selectedId}
-                    updateAgendaItem={updateAgendaItem}
-                />);
-          })
-        }
+        <div>
+          {
+            agendaItems.map(function(agendaItem) {
+              return(<AgendaItem
+                      key={agendaItem.id}
+                      agendaItem={agendaItem}
+                      selectAgendaItem={selectAgendaItem}
+                      selected={agendaItem.id === selectedId}
+                      updateAgendaItem={updateAgendaItem}
+                  />);
+            })
+          }
+        </div>
       </div>
     );
   }

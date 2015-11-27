@@ -10,20 +10,22 @@ class DeliverableList extends Component {
     const { deliverables, selectDeliverable, selectedDeliverableId } = this.props;
 
     return (
-      <div styleName='list'>
+      <div styleName='root'>
         <div styleName='header'>
           <i className='fa fa-tasks'></i>{" "}Deliverables
         </div>
-        {
-          deliverables.map(function(deliverable) {
-            return(<Deliverable
-                    key={deliverable.id}
-                    deliverable={deliverable}
-                    selectDeliverable={selectDeliverable}
-                    selected={deliverable.id === selectedDeliverableId}
-                />);
-          })
-        }
+        <div>
+          {
+            deliverables.map(function(deliverable) {
+              return(<Deliverable
+                      key={deliverable.id}
+                      deliverable={deliverable}
+                      selectDeliverable={selectDeliverable}
+                      selected={deliverable.id === selectedDeliverableId}
+                  />);
+            })
+          }
+        </div>
       </div>
     );
   }

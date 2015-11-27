@@ -25,10 +25,10 @@ import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDe
 import {setDeliverables, createDeliverableRemoteOrigin} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
-import App from './App';
-import AgendaItemApp from './AgendaItemApp';
-import DeliverableApp from './DeliverableApp';
-import ConversationApp from './ConversationApp';
+import App from './App/index';
+import AgendaItemApp from './AgendaItemApp/index';
+import DeliverableApp from './DeliverableApp/index';
+import ConversationApp from './ConversationApp/index';
 
 import { Router, Route } from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';

@@ -1,0 +1,24 @@
+.root {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.main-content {
+  padding: 0px;
+  position: absolute;
+  top: 51px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
+  background-color: #eeeeee;
+}
+
+.footer {
+  height: 25px;
+  position: fixed;
+  bottom: 0px;
+}

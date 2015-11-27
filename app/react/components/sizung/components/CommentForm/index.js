@@ -54,7 +54,7 @@ class CommentForm extends React.Component {
       buttons.push(<Button key="createAgendaItem" styleName='agenda-item-btn' type="submit" onClick={this.handleAgendaItem}><i styleName='agenda-item-icon'></i></Button>);
     }
     if (this.props.canCreateDeliverable) {
-      buttons.push(<Button key="createDeliverable" className="btn btn-xs" type="submit" onClick={this.handleDeliverable} style={{border: 'none'}} ><i className="fa fa-tasks text-muted"></i></Button>);
+      buttons.push(<Button key="createDeliverable" styleName='deliverable-btn' type="submit" onClick={this.handleDeliverable}><i styleName='deliverable-icon'></i></Button>);
     }
 
     return (
@@ -66,7 +66,7 @@ class CommentForm extends React.Component {
         <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
             <Input groupClassName='zero-margin' styleName='input' type="text" placeholder="Type your comment here" ref="name"/>
             <ButtonGroup styleName='input-btn-group'>
-              <Button key="createComment" className="btn btn-xs" type="submit" onClick={this.handleSubmit} style={{border: 'none'}} ><i className="fa fa-comment text-muted"></i></Button>
+              <Button styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><i styleName='comment-icon'></i></Button>
               { buttons }
             </ButtonGroup>
         </form>

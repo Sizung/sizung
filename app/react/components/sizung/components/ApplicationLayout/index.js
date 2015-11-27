@@ -1,21 +1,20 @@
 import React, { Component, PropTypes } from 'react';
-import NavigationHeader from './NavigationHeader';
+import NavigationHeader from './../NavigationHeader';
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
 
+@CSSModules(styles)
 class ApplicationLayout extends Component {
   render() {
     return (
-      <div>
+      <div styleName='root'>
         <NavigationHeader currentUser={this.props.currentUser}/>
-        <div className="gray-bg padding-lg full-width">
-          <div className="row">
-            <div className="col-lg-12">
-              { this.props.children }
-            </div>
-          </div>
-          <footer>
-            <p>&copy; Sizung 2015</p>
-          </footer>
+        <div styleName='main-content' >
+          { this.props.children }
         </div>
+        <footer styleName='footer'>
+          <p>&copy; Sizung 2015</p>
+        </footer>
       </div>
     );
   }
