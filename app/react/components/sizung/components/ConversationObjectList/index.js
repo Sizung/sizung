@@ -86,13 +86,17 @@ class ConversationObjectList extends Component {
     <div styleName='list-container'>
       <div styleName='list-header'>
         <i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}
-        <div styleName='member-dropdown'>
-          <DropdownButton bsStyle='default' bsSize="small" title='Members' pullRight>
-            <MenuItem eventKey="1">
-              <div>
+        <div styleName='member-dropdown-container'>
+          <DropdownButton styleName='member-dropdown' bsStyle='default' bsSize="small" title='Members' pullRight noCaret>
+            <li>
+              <div styleName='member-list-container'>
                 <UserListApp/>
               </div>
-            </MenuItem>
+            </li>
+            <li className='divider'></li>
+            <li>
+              <a href="/users/invitation/new">Invite member</a>
+            </li>
           </DropdownButton>
         </div>
       </div>

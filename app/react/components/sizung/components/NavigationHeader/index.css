@@ -1,0 +1,29 @@
+.root {
+  composes: navbar navbar-default navbar-static-top  from global;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  background-color: #ffffff;
+}
+
+.main-container {
+  width: 100%;
+}
+
+.navbar-container {
+  composes: navbar-collapse collapse navbar-responsive-collapse from global;
+}
+
+.organisation-dropdown-nav {
+  composes: nav navbar-nav pull-left from global;
+}
+
+.user-dropdown-nav {
+  composes: nav navbar-nav pull-right from global;
+  padding-top: 10px;
+}
+
+.user-dropdown {
+  color: #777777;
+  outline: none;
+  border: none;
+}

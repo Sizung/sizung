@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import NavigationHeader from './../NavigationHeader';
+import NavigationHeader from './../NavigationHeader/index';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 

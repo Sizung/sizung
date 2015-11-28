@@ -8,10 +8,6 @@
   composes: fa fa-tag text-muted from global;
 }
 
-.deliverable-btn {
-  composes: fa fa-tasks text-muted from global;
-}
-
 .input-btn-group {
   position: absolute;
   right: 20px;
