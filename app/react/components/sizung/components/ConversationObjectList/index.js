@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import CommentForm from './../CommentForm/index';
-import Comment from './../Comment';
+import Comment from './../Comment/index';
 import AgendaItemInTimeline from './../AgendaItemInTimeline'
 import DeliverableInTimeline from './../DeliverableInTimeline'
 import { Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';

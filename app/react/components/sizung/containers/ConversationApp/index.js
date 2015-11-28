@@ -12,7 +12,7 @@ import DeliverableListApp from './../DeliverableListApp';
 import ConversationObjectListApp from './../ConversationObjectListApp';
 import UserListApp from './../UserListApp';
 import CommentForm from '../../components/CommentForm/index';
-import Comment from '../../components/Comment';
+import Comment from '../../components/Comment/index';
 import DeliverableInTimeline from '../../components/DeliverableInTimeline';
 import AgendaItemInTimeline from '../../components/AgendaItemInTimeline';
 import {fillConversationObject, fillAgendaItem} from '../../utils/entityUtils';

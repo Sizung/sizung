@@ -9,7 +9,7 @@
 }
 
 .deliverable-btn {
-
+  composes: fa fa-tasks text-muted from global;
 }
 
 .input-btn-group {
@@ -44,7 +44,7 @@
   height: 40px;
   width: 60px;
   vertical-align: middle;
-  padding: 0px 15px 0px 30px;
+  padding: 0px 15px 0px 15px;
 }
 
 .form-container {

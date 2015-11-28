@@ -29,20 +29,18 @@ class AgendaItemInTimeline extends React.Component {
     const { title, status } = agendaItem;
 
     return  <div styleName="root">
-              <div styleName="user-container">
-              </div>
-              <div styleName="content-container">
-                <div styleName="title">
-                  <EditableText text={title} onUpdate={this.handleTitleUpdate} />
-                </div>
-                <div styleName="time-container">
-                  <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
-                </div>
-              </div>
-              <div styleName="status-container">
-                <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
-              </div>
-            </div>;
+      <div styleName="content-container">
+        <div styleName="title">
+          <EditableText text={title} onUpdate={this.handleTitleUpdate} />
+        </div>
+        <div styleName="status-container">
+          <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
+        </div>
+      </div>
+      <div styleName="time-container">
+        <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+      </div>
+    </div>;
   }
 }
 

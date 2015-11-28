@@ -19,7 +19,7 @@ class NavigationHeader extends Component {
               <li><a href="/users/invitation/new">Invite your team</a></li>
             </ul>
             <ul className="nav nav-bar-nav pull-right" style={{ paddingTop: '10px'}}>
-              <DropdownButton bsStyle='default' bsSize='small' title={currentUserName}>
+              <DropdownButton bsStyle='link' bsSize='small' title={currentUserName} id='userDropdown'>
                 <MenuItem eventKey="1" href="/users/edit">Edit Profile</MenuItem>
                 <MenuItem eventKey="2" href="/users/sign_out" rel="nofollow" data-method="delete">Logout</MenuItem>
               </DropdownButton>

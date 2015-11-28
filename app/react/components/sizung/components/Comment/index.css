@@ -1,0 +1,48 @@
+.root {
+  width: 100%;
+  margin: 5px 0px;
+}
+
+.user-container {
+  display: table-cell;
+  height: 40px;
+  width: 60px;
+  padding: 0px 15px;
+  vertical-align: top;
+}
+
+.content-container {
+  position: relative;
+  display: table-cell;
+  width: 100%;
+  margin: 0px;
+  padding: 0px 30px 0px 0px;
+
+  text-align: justify;
+}
+
+.show-hover-options {
+  display: block;
+}
+
+.hide-hover-options {
+  display: none;
+}
+
+.delete-option {
+  margin-left: 1em;
+  position: absolute;
+  right: 10px;
+  top: 0px;
+}
+
+.delete-icon {
+  composes: fa fa-times fa-large text-muted from global;
+}
+
+.time-container {
+  composes: text-muted from global;
+  width: 100%;
+  padding: 0px;
+  margin: 5px 0px;
+}
