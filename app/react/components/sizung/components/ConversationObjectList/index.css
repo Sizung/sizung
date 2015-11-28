@@ -62,3 +62,18 @@
 .member-list-container {
   padding: 5px;
 }
+
+.loading-message {
+  composes: text-center from global;
+  font-size: smaller;
+}
+
+.load-more-message {
+  composes: text-center from global;
+  font-size: smaller;
+}
+
+.link {
+  composes: text-muted from global;
+  text-decoration: none !important;
+}

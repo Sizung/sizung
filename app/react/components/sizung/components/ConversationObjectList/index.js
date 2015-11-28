@@ -46,10 +46,10 @@ class ConversationObjectList extends Component {
 
   prepareShowMore(isFetching, nextPageUrl) {
     if(isFetching) {
-      return <div className="text-center">Loading...</div>;
+      return <div styleName='loading-message'>Loading...</div>;
     }
     else if(nextPageUrl) {
-      return <div className="text-center"><a href="#" onClick={this.handleShowMore}>Show More</a></div>;
+      return <div styleName='load-more-message'><a styleName='link' href="#" onClick={this.handleShowMore}>Show More</a></div>;
     }
   }
 
