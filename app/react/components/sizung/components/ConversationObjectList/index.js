@@ -22,12 +22,15 @@ class ConversationObjectList extends Component {
     }
   }
 
-  prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable) {
+  prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, parent) {
     if(conversationObjects) {
       return conversationObjects.map(function(conversationObject) {
         if (conversationObject.type === 'comments') {
           const comment = conversationObject;
-          return(<Comment key={comment.id} comment={comment} deleteComment={deleteComment} />);
+          comment.canCreateAgendaItem = canCreateAgendaItem;
+          comment.canCreateDeliverable = canCreateDeliverable;
+          comment.parent = parent;
+          return(<Comment key={comment.id} comment={comment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable}/>);
         }
         else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
@@ -76,11 +79,10 @@ class ConversationObjectList extends Component {
 
   render() {
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, updateAgendaItem,
-      createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl } = this.props;
+      createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem, canCreateDeliverable } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable);
-
+    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, commentForm.parent);
     return (
 
     <div styleName='list-container'>
@@ -137,7 +139,9 @@ ConversationObjectList.propTypes = {
   currentConversation: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  canCreateAgendaItem: PropTypes.bool.isRequired,
+  canCreateDeliverable: PropTypes.bool.isRequired
 };
 
 ConversationObjectList.defaultProps = {

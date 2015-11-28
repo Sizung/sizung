@@ -62,6 +62,8 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
     conversationObjectsList.commentForm.parent = parentObject;
     conversationObjectsList.commentForm.canCreateAgendaItem = canCreateAgendaItem;
     conversationObjectsList.commentForm.canCreateDeliverable = canCreateDeliverable;
+    conversationObjectsList.canCreateAgendaItem = canCreateAgendaItem;
+    conversationObjectsList.canCreateDeliverable = canCreateDeliverable;
   }
 
   return conversationObjectsList;

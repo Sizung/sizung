@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import Time from 'react-time'
 import User from './../User'
+import { DropdownButton, Dropdown, Menu, MenuItem, Toggle, Glyphicon } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
@@ -24,28 +25,65 @@ class Comment extends React.Component {
     this.setState({hover: !this.state.hover});
   }
 
+  handleAgendaItem(e){
+    //console.log("Comment body: " + this.props.comment.body);
+    e.preventDefault();
+    this.commentBodyNode = this.refs.commentBody.getDOMNode();
+    this.commentBody = $(this.commentBodyNode).text();
+    if(!this.commentBody) return;
+    this.props.createAgendaItem({conversation_id: this.props.comment.parent.id, title: this.commentBody});
+  }
+
+  handleDeliverable(e){
+    e.preventDefault();
+    this.commentBodyNode = this.refs.commentBody.getDOMNode();
+    this.commentBody = $(this.commentBodyNode).text();
+    if(!this.commentBody) return;
+    this.props.createDeliverable({agenda_item_id: this.props.comment.parent.id, title: this.commentBody});
+  }
+
   render() {
-    const {author, body, createdAt} = this.props.comment;
+    const {author, body, createdAt, id, canCreateAgendaItem, canCreateDeliverable} = this.props.comment;
+
+    var commentActions = [];
+    if (canCreateAgendaItem) {
+      commentActions.push(<li><a href="#" onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
+    }
+    if (canCreateDeliverable) {
+      commentActions.push(<li><a href="#" onClick={this.handleDeliverable.bind(this)}>Escalate as Deliverable</a></li>);
+    }
 
     var hoverStyle = (this.state.hover ? 'on-mouse-over' : 'on-mouse-out');
     return  <div styleName={'root-' + hoverStyle} onMouseOver={this.toggleHover.bind(this)} onMouseOut={this.toggleHover.bind(this)}>
-              <div styleName='user-container'>
-                <User user={author} />
-              </div>
-              <div styleName='content-container'>
-                <div styleName={'options-' + hoverStyle}>
-                    <span styleName='delete-option'>
-                      <a href='#' onClick={this.handleDeleteClick}>
-                        <i styleName='delete-icon' aria-label='Delete'></i>
-                      </a>
-                    </span>
-                </div>
-                {body}
-                <div styleName='time-container'>
-                  <small><Time value={createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
-                </div>
-              </div>
-            </div>;
+      <div styleName='user-container'>
+        <User user={author} />
+      </div>
+      <div styleName='content-container'>
+        <div styleName={'options-' + hoverStyle}>
+          <div styleName='delete-option'>
+            <Dropdown id={"settings-dropdown-"+id} styleName='settings-dropdown' pullRight>
+              <Dropdown.Toggle bsStyle='link' bsSize="small" noCaret>
+                <i className="fa fa-gear fa-large text-muted"></i>
+              </Dropdown.Toggle>
+              <Dropdown.Menu>
+                <li>
+                  <a href='#' onClick={this.handleDeleteClick}>
+                    Delete Comment
+                  </a>
+                </li>
+                {commentActions}
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+        </div>
+        <span ref='commentBody'>
+          {body}
+        </span>
+        <div styleName='time-container'>
+          <small><Time value={createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+        </div>
+      </div>
+    </div>;
   }
 }
 
@@ -54,8 +92,15 @@ Comment.propTypes = {
     id: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
     author: PropTypes.object.isRequired,
-    createdAt: PropTypes.string.isRequired
-  }).isRequired
+    createdAt: PropTypes.string.isRequired,
+    canCreateAgendaItem: PropTypes.bool.isRequired,
+    canCreateDeliverable: PropTypes.bool.isRequired,
+    parent: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired
+    }).isRequired,
+
+  }).isRequired,
 };
 
 export default Comment;

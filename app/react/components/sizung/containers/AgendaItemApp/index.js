@@ -57,7 +57,7 @@ class AgendaItemApp extends React.Component {
   }
 }
 
-function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable) {
+function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable, createDeliverable) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   var conversationObjectsList = {commentForm: {}};
 
@@ -74,6 +74,9 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
     conversationObjectsList.commentForm.parent = parentObject;
     conversationObjectsList.commentForm.canCreateAgendaItem = canCreateAgendaItem;
     conversationObjectsList.commentForm.canCreateDeliverable = canCreateDeliverable;
+    conversationObjectsList.canCreateAgendaItem = canCreateAgendaItem;
+    conversationObjectsList.canCreateDeliverable = canCreateDeliverable;
+    conversationObjectsList.createDeliverable = createDeliverable;
   }
 
   return conversationObjectsList;

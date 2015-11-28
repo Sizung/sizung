@@ -70,10 +70,12 @@
 
 .load-more-message {
   composes: text-center from global;
+  padding-top: 5px;
   font-size: smaller;
 }
 
 .link {
   composes: text-muted from global;
+  padding-top: 5px;
   text-decoration: none !important;
 }
