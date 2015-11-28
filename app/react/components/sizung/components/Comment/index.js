@@ -21,21 +21,19 @@ class Comment extends React.Component {
   }
 
   toggleHover() {
-    console.log("Current Hover State: " + this.state.hover);
     this.setState({hover: !this.state.hover});
-
   }
 
   render() {
     const {author, body, createdAt} = this.props.comment;
 
-    var hoverStyle = (this.state.hover ? 'show-hover-options' : 'hide-hover-options');
-    return  <div styleName='root'>
+    var hoverStyle = (this.state.hover ? 'on-mouse-over' : 'on-mouse-out');
+    return  <div styleName={'root-' + hoverStyle} onMouseOver={this.toggleHover.bind(this)} onMouseOut={this.toggleHover.bind(this)}>
               <div styleName='user-container'>
                 <User user={author} />
               </div>
-              <div styleName='content-container' onMouseOver={this.toggleHover.bind(this)} onMouseOut={this.toggleHover.bind(this)}>
-                <div styleName={hoverStyle}>
+              <div styleName='content-container'>
+                <div styleName={'options-' + hoverStyle}>
                     <span styleName='delete-option'>
                       <a href='#' onClick={this.handleDeleteClick}>
                         <i styleName='delete-icon' aria-label='Delete'></i>

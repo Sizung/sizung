@@ -1,6 +1,19 @@
 .root {
   width: 100%;
   margin: 5px 0px;
+  padding: 5px 0px;
+  border: 1px solid #ffffff;
+  border-width: 1px 0px;
+}
+
+.root-on-mouse-out {
+  composes: root;
+}
+
+.root-on-mouse-over {
+  composes: root;
+  border: 1px dashed #f0f0f0;
+  border-width: 1px 0px;
 }
 
 .user-container {
@@ -21,11 +34,11 @@
   text-align: justify;
 }
 
-.show-hover-options {
+.options-on-mouse-over {
   display: block;
 }
 
-.hide-hover-options {
+.options-on-mouse-out {
   display: none;
 }
 

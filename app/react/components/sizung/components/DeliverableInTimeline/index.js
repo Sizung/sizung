@@ -20,6 +20,9 @@ class DeliverableInTimeline extends React.Component {
       e.preventDefault();
       this.props.deleteComment(this.props.id);
     }
+    this.state = {
+      hover: false
+    };
   }
 
   handleTitleUpdate(newTitle) {
@@ -30,10 +33,19 @@ class DeliverableInTimeline extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, {status: newStatus});
   }
 
+  toggleHover() {
+    this.setState({hover: !this.state.hover});
+  }
+
   render() {
     const { deliverable } = this.props;
-    return  (
-      <div styleName="root">
+    const { owner } = deliverable;
+    var hoverStyle = (this.state.hover ? 'on-mouse-over' : 'on-mouse-out');
+
+    return  <div styleName={'root-' + hoverStyle} onMouseOver={this.toggleHover.bind(this)} onMouseOut={this.toggleHover.bind(this)}>
+        <div styleName='user-container'>
+          <User user={owner} />
+        </div>
         <div styleName="content-container">
           <div styleName="title">
             <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} />
@@ -46,7 +58,6 @@ class DeliverableInTimeline extends React.Component {
           <small><Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
         </div>
       </div>
-    );
   }
 }
 
