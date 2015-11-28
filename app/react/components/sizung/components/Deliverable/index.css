@@ -19,7 +19,8 @@
 }
 
 .status-container {
-  composes: col-xs-1 from global;
+  composes: col-xs-2 from global;
+  padding: 0px;
 }
 
 .details-row {

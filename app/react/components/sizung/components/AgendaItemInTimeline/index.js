@@ -40,7 +40,7 @@ class AgendaItemInTimeline extends React.Component {
         <User user={owner} />
       </div>
       <div styleName="content-container">
-        <div styleName="title">
+        <div styleName="title-container">
           <EditableText text={title} onUpdate={this.handleTitleUpdate} />
         </div>
         <div styleName="status-container">
