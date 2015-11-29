@@ -63,7 +63,7 @@ class Comment extends React.Component {
           <div styleName='delete-option'>
             <Dropdown id={"settings-dropdown-"+id} styleName='settings-dropdown' pullRight>
               <Dropdown.Toggle bsStyle='link' bsSize="small" noCaret>
-                <i className="fa fa-gear fa-large text-muted"></i>
+                <i styleName='gear-icon'></i>
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <li>
