@@ -23,6 +23,10 @@ class Comment extends React.Component {
 
   toggleHover() {
     this.setState({hover: !this.state.hover});
+    if ( React.findDOMNode(this.refs.settingsDropdown).open ) {
+      //TODO: Find a better way to hide the dropdown manually
+      React.findDOMNode(this.refs.settingsDropdown).click();
+    }
   }
 
   handleAgendaItem(e){
@@ -63,11 +67,11 @@ class Comment extends React.Component {
       <div styleName='content-container'>
         <div styleName={'options-' + hoverStyle}>
           <div styleName='delete-option'>
-            <Dropdown id={"settings-dropdown-"+id} styleName='settings-dropdown' pullRight>
+            <Dropdown id={"settings-dropdown-"+id} styleName='settings-dropdown' ref='settingsDropdown' pullRight>
               <Dropdown.Toggle bsStyle='link' bsSize="small" noCaret>
                 <i styleName='gear-icon'></i>
               </Dropdown.Toggle>
-              <Dropdown.Menu>
+              <Dropdown.Menu style={{ position: 'absolute', top: '0px', right: '0px', zIndex: '99999'}}>
                 <MenuItem onSelect={this.handleDeleteClick}>
                   Delete Comment
                 </MenuItem>
