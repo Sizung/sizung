@@ -32,6 +32,7 @@ class Comment extends React.Component {
     this.commentBody = $(this.commentBodyNode).text();
     if(!this.commentBody) return;
     this.props.createAgendaItem({conversation_id: this.props.comment.parent.id, title: this.commentBody});
+    this.toggleHover();
   }
 
   handleDeliverable(e){
@@ -40,6 +41,7 @@ class Comment extends React.Component {
     this.commentBody = $(this.commentBodyNode).text();
     if(!this.commentBody) return;
     this.props.createDeliverable({agenda_item_id: this.props.comment.parent.id, title: this.commentBody});
+    this.toggleHover();
   }
 
   render() {
@@ -47,10 +49,10 @@ class Comment extends React.Component {
 
     var commentActions = [];
     if (canCreateAgendaItem) {
-      commentActions.push(<li><a href="#" onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
+      commentActions.push(<MenuItem onSelect={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</MenuItem>);
     }
     if (canCreateDeliverable) {
-      commentActions.push(<li><a href="#" onClick={this.handleDeliverable.bind(this)}>Escalate as Deliverable</a></li>);
+      commentActions.push(<MenuItem onSelect={this.handleDeliverable.bind(this)}>Escalate as Deliverable</MenuItem>);
     }
 
     var hoverStyle = (this.state.hover ? 'on-mouse-over' : 'on-mouse-out');
@@ -66,11 +68,9 @@ class Comment extends React.Component {
                 <i styleName='gear-icon'></i>
               </Dropdown.Toggle>
               <Dropdown.Menu>
-                <li>
-                  <a href='#' onClick={this.handleDeleteClick}>
-                    Delete Comment
-                  </a>
-                </li>
+                <MenuItem onSelect={this.handleDeleteClick}>
+                  Delete Comment
+                </MenuItem>
                 {commentActions}
               </Dropdown.Menu>
             </Dropdown>
