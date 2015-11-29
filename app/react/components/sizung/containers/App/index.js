@@ -29,13 +29,13 @@ class App extends Component {
 
     return (<ApplicationLayout currentUser={currentUser} >
       <Row styleName='root'>
-        <Col xs={12} md={3} styleName='left-panel'>
+        <Col className='hidden-xs' sm={3} styleName='left-panel'>
           <AgendaItemListApp />
         </Col>
-        <Col xs={12} md={6} styleName='center-panel'>
+        <Col xs={12} sm={6} styleName='center-panel'>
           {this.props.children}
         </Col>
-        <Col xs={12} md={3} styleName='right-panel'>
+        <Col className='hidden-xs' sm={3} styleName='right-panel'>
           <DeliverableListApp />
         </Col>
       </Row>

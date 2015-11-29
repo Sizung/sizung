@@ -18,7 +18,7 @@
 }
 
 .footer {
-  composes: text-center from global;
+  composes: text-center text-muted from global;
   position: fixed;
   bottom: 0px;
   left:0px;
