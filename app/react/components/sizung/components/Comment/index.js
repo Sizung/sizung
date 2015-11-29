@@ -23,10 +23,6 @@ class Comment extends React.Component {
 
   toggleHover() {
     this.setState({hover: !this.state.hover});
-    if ( React.findDOMNode(this.refs.settingsDropdown).open ) {
-      //TODO: Find a better way to hide the dropdown manually
-      React.findDOMNode(this.refs.settingsDropdown).click();
-    }
   }
 
   handleAgendaItem(e){
