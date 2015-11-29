@@ -23,7 +23,8 @@ class DeliverableList extends Component {
   }
 
   componentDidUpdate() {
-    this.scrollElement();
+    //TODO: find and alternative way to scroll. Currently any render on the list scrolls it down to the bottom
+    //this.scrollElement();
   }
 
   render() {
