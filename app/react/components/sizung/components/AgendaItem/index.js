@@ -41,17 +41,19 @@ class AgendaItem extends React.Component {
     }
 
     return (
-      <div styleName={styleName} onClick={this.handleClick}>
-        <div styleName="row">
-          <div styleName='content-container'>
-            <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} />
+      <div styleName='root'>
+        <div styleName={styleName} onClick={this.handleClick}>
+          <div styleName="row">
+            <div styleName='content-container'>
+              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} />
+            </div>
+            <div styleName='status-container'>
+              <EditableStatus status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
+            </div>
           </div>
-          <div styleName='status-container'>
-            <EditableStatus status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
+          <div>
+            <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>
           </div>
-        </div>
-        <div>
-          <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>
         </div>
       </div>
     );

@@ -7,6 +7,8 @@
 
 .left-panel {
   padding: 0px;
+  position: relative;
+  height: 100%;
 }
 
 .center-panel {
@@ -17,4 +19,6 @@
 
 .right-panel {
   padding: 0px;
+  position: relative;
+  height: 100%;
 }

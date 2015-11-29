@@ -13,7 +13,7 @@ class ApplicationLayout extends Component {
           { this.props.children }
         </div>
         <footer styleName='footer'>
-          <p>&copy; Sizung 2015</p>
+          &copy; Sizung 2015
         </footer>
       </div>
     );

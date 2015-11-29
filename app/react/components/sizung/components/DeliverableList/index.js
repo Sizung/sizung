@@ -14,7 +14,7 @@ class DeliverableList extends Component {
         <div styleName='header'>
           <i className='fa fa-tasks'></i>{" "}Deliverables
         </div>
-        <div>
+        <div styleName='list'>
           {
             deliverables.map(function(deliverable) {
               return(<Deliverable

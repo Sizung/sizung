@@ -44,21 +44,23 @@ class Deliverable extends React.Component {
     }
 
     return (
-      <div styleName={styleName} onClick={this.handleClick}>
-        <div styleName='row'>
-          <div styleName='content-container'>
-            <EditableText text={title} onUpdate={this.handleTitleUpdate} />
+      <div styleName='root'>
+        <div styleName={styleName} onClick={this.handleClick}>
+          <div styleName='row'>
+            <div styleName='content-container'>
+              <EditableText text={title} onUpdate={this.handleTitleUpdate} />
+            </div>
+            <div styleName='status-container'>
+              <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
+            </div>
           </div>
-          <div styleName='status-container'>
-            <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
-          </div>
-        </div>
-        <div styleName='details-row'>
-          <div styleName="user-container">
-            <User user={assignee} />
-          </div>
-          <div styleName="agenda-title-container">
-            # {agendaItem.title}
+          <div styleName='details-row'>
+            <div styleName="user-container">
+              <User user={assignee} />
+            </div>
+            <div styleName="agenda-title-container">
+              # {agendaItem.title}
+            </div>
           </div>
         </div>
       </div>

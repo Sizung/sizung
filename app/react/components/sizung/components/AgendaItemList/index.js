@@ -14,7 +14,7 @@ class AgendaItemList extends Component {
         <div styleName='header'>
           <i className="fa fa-tag"></i>{" "}Agenda
         </div>
-        <div>
+        <div styleName='list'>
           {
             agendaItems.map(function(agendaItem) {
               return(<AgendaItem
