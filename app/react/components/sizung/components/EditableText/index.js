@@ -66,7 +66,7 @@ class EditableText extends React.Component {
       return <div styleName='edit-text-container'><form styleName='edit-text-form' onSubmit={this.handleSubmit}><input type="text" ref="input" onClick={this.handleInputClick} onKeyDown={this.handleKeyDown} onBlur={this.handleBlur} defaultValue={persistedText} styleName='edit-text-input'/></form></div>
     }
     else {
-      return <span>{persistedText}<a styleName="edit-link" href="#" onClick={this.handleEditClick}><i className="fa fa-pencil" style={{marginLeft: '1em'}} /></a></span>;
+      return <div styleName='persisted-text-container'>{persistedText}<a styleName="edit-link" href="#" onClick={this.handleEditClick}><i className="fa fa-pencil" style={{marginLeft: '1em'}} /></a></div>;
     }
   }
 

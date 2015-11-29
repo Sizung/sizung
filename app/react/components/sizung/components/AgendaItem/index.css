@@ -12,18 +12,21 @@
 }
 
 .row {
-  composes: row from global;
+  position: relative;
+  width: 100%;
   min-height: 2em;
   margin-bottom: 1em;
 }
 
 .content-container {
-  composes: col-xs-10 from global;
+  width: 100%;
+  padding-right: 30px;
 }
 
 .status-container {
-  composes: col-xs-2 from global;
-  padding: 0px;
+  position: absolute;
+  right: 0px;
+  top: 0px;
 }
 
 .comments-icon {
