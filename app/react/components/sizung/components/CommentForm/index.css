@@ -69,3 +69,12 @@
 .deliverable-icon {
   composes: fa fa-tasks text-muted from global;
 }
+
+.conversation-btn {
+  composes: btn btn-xs from global;
+  border: none;
+}
+
+.conversation-icon {
+  composes: fa fa-comments-o text-muted from global;
+}

@@ -45,6 +45,11 @@ class CommentForm extends React.Component {
       this.props.createDeliverable({agenda_item_id: this.props.parent.id, title: name});
       this.refs.name.getInputDOMNode().value = '';
     }
+
+    this.handleConversation = (e) => {
+      e.preventDefault();
+      //TBD
+    }
   }
 
   render() {
@@ -68,6 +73,7 @@ class CommentForm extends React.Component {
             <ButtonGroup styleName='input-btn-group'>
               <Button styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><i styleName='comment-icon'></i></Button>
               { buttons }
+              <Button key="createConversation" styleName='conversation-btn' type="submit" onClick={this.handleConversation}><i styleName='conversation-icon'></i></Button>
             </ButtonGroup>
         </form>
           </div>
