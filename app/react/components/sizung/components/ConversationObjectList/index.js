@@ -20,6 +20,7 @@ class ConversationObjectList extends Component {
 
       this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
     }
+    this.scrollElement = this.scrollElement.bind(this);
   }
 
   prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, parent) {
@@ -59,7 +60,7 @@ class ConversationObjectList extends Component {
   scrollElement() {
     var _this = this;
     window.requestAnimationFrame(function() {
-      var node = _this.refs.list.getDOMNode();
+      var node = _this.refs.conversationObjectList.getDOMNode();
       if (node !== undefined) {
         node.scrollTop = node.scrollHeight;
       }
@@ -73,7 +74,7 @@ class ConversationObjectList extends Component {
   }
 
   componentWillUpdate() {
-    var node = this.refs.list.getDOMNode();
+    var node = this.refs.conversationObjectList.getDOMNode();
     this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
   }
 
@@ -102,7 +103,7 @@ class ConversationObjectList extends Component {
           </DropdownButton>
         </div>
       </div>
-      <div ref='list' styleName='list'>
+      <div ref='conversationObjectList' styleName='list'>
           { showMore }
           { conversationObjectElements }
       </div>

@@ -6,6 +6,26 @@ import styles from "./index.css";
 
 @CSSModules(styles)
 class DeliverableList extends Component {
+
+  constructor() {
+    super();
+
+    this.scrollElement = this.scrollElement.bind(this);
+  }
+  scrollElement() {
+    var _this = this;
+    window.requestAnimationFrame(function() {
+      var node = _this.refs.deliverableList.getDOMNode();
+      if (node !== undefined) {
+        node.scrollTop = node.scrollHeight;
+      }
+    });
+  }
+
+  componentDidUpdate() {
+    this.scrollElement();
+  }
+
   render() {
     const { deliverables, selectDeliverable, selectedDeliverableId, updateDeliverable } = this.props;
 
@@ -14,7 +34,7 @@ class DeliverableList extends Component {
         <div styleName='header'>
           <i className='fa fa-tasks'></i>{" "}Deliverables
         </div>
-        <div styleName='list'>
+        <div ref='deliverableList' styleName='list'>
           {
             deliverables.map(function(deliverable) {
               return(<Deliverable

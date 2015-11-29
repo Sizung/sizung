@@ -6,15 +6,34 @@ import styles from "./index.css";
 
 @CSSModules(styles)
 class AgendaItemList extends Component {
+
+  constructor() {
+    super();
+
+    this.scrollElement = this.scrollElement.bind(this);
+  }
+  scrollElement() {
+    var _this = this;
+    window.requestAnimationFrame(function() {
+      var node = _this.refs.agendaItemList.getDOMNode();
+      if (node !== undefined) {
+        node.scrollTop = node.scrollHeight;
+      }
+    });
+  }
+
+  componentDidUpdate() {
+      this.scrollElement();
+  }
+
   render() {
     const { agendaItems, selectAgendaItem, selectedId, updateAgendaItem } = this.props;
-
     return (
       <div styleName='root'>
         <div styleName='header'>
           <i className="fa fa-tag"></i>{" "}Agenda
         </div>
-        <div styleName='list'>
+        <div ref='agendaItemList' styleName='list'>
           {
             agendaItems.map(function(agendaItem) {
               return(<AgendaItem
