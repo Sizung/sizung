@@ -11,6 +11,10 @@ class AgendaItemList extends Component {
     super();
 
     this.scrollElement = this.scrollElement.bind(this);
+
+    this.state = {
+      agendaItemCount: 0
+    };
   }
   scrollElement() {
     var _this = this;
@@ -23,8 +27,11 @@ class AgendaItemList extends Component {
   }
 
   componentDidUpdate() {
-      //TODO: find and alternative way to scroll. Currently any render on the list scrolls it down to the bottom
-      //this.scrollElement();
+      //TODO: find and better alternative way to scroll on adding new component.
+    if ( this.props.agendaItems.length > this.state.agendaItemCount ) {
+      this.setState({agendaItemCount : this.props.agendaItems.length});
+      this.scrollElement();
+    }
   }
 
   render() {

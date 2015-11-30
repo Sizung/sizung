@@ -11,6 +11,10 @@ class DeliverableList extends Component {
     super();
 
     this.scrollElement = this.scrollElement.bind(this);
+
+    this.state = {
+      deliverableCount: 0
+    };
   }
   scrollElement() {
     var _this = this;
@@ -23,8 +27,11 @@ class DeliverableList extends Component {
   }
 
   componentDidUpdate() {
-    //TODO: find and alternative way to scroll. Currently any render on the list scrolls it down to the bottom
-    //this.scrollElement();
+    //TODO: find and alternative way to scroll on adding a new component.
+    if ( this.props.deliverables.length > this.state.deliverableCount ) {
+      this.setState({deliverableCount : this.props.deliverables.length});
+      this.scrollElement();
+    }
   }
 
   render() {
