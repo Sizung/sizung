@@ -36,7 +36,7 @@ class Deliverable extends React.Component {
 
   render() {
     const { deliverable, selected } = this.props;
-    const { status, title, agendaItem, assignee } = deliverable;
+    const { status, title, agendaItem, assignee, dueOn } = deliverable;
 
     var styleName = 'default';
     if(selected === true) {
@@ -57,6 +57,9 @@ class Deliverable extends React.Component {
           <div styleName='details-row'>
             <div styleName="user-container">
               <User user={assignee} />
+            </div>
+            <div styleName="due-on">
+              {dueOn}
             </div>
             <div styleName="agenda-title-container">
               # {agendaItem.title}

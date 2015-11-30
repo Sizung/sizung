@@ -38,8 +38,12 @@
   composes: col-xs-2 from global;
 }
 
+.due-on {
+  composes: col-xs-5 from global;
+}
+
 .agenda-title-container {
-  composes: col-xs-10 from global;
+  composes: col-xs-5 from global;
   text-align: right;
 }
 
