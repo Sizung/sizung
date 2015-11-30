@@ -6,6 +6,7 @@ import Time from 'react-time'
 import User from '../User'
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
+import EditableDate from '../EditableDate';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
@@ -16,6 +17,7 @@ class DeliverableInTimeline extends React.Component {
 
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
+    this.handleDueOnUpdate = this.handleDueOnUpdate.bind(this);
     this.handleDeleteClick = (e) => {
       e.preventDefault();
       this.props.deleteComment(this.props.id);
@@ -31,6 +33,10 @@ class DeliverableInTimeline extends React.Component {
 
   handleStatusUpdate(newStatus) {
     this.props.updateDeliverable(this.props.deliverable.id, {status: newStatus});
+  }
+
+  handleDueOnUpdate(newDueOn) {
+    this.props.updateDeliverable(this.props.deliverable.id, {due_on: newDueOn});
   }
 
   toggleHover() {
@@ -53,6 +59,9 @@ class DeliverableInTimeline extends React.Component {
           <div styleName="status-container">
             <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} />
           </div>
+          <div styleName="meta-container">
+            <EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} />
+          </div>
         </div>
         <div styleName="time-container">
           <small><Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
@@ -65,6 +74,7 @@ DeliverableInTimeline.propTypes = {
   deliverable: PropTypes.shape({
     title: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
+    dueOn: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
     agendaItem: PropTypes.shape({

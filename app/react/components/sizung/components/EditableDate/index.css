@@ -1,0 +1,23 @@
+.edit-link {
+  composes: hover-inline from '../../styles/modules/hover.css';
+}
+
+.edit-text-container {
+  width: 100%;
+  padding: 0px;
+}
+
+.edit-text-form {
+  width: 100%;
+  padding: 0px;
+}
+
+.edit-text-input {
+  width: 100%;
+  padding: 0px;
+}
+
+.persisted-text-container {
+  width: 100%;
+  padding: 0px;
+}

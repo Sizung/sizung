@@ -35,6 +35,7 @@
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
     "react-css-modules": "^3.6.1",
+    "react-date-picker": "^3.1.8",
     "react-redux": "^3.0.0",
     "react-router": "^1.0.0",
     "react-time": "^4.0.0",

@@ -48,6 +48,10 @@
   right: 35px;
 }
 
+.meta-container {
+
+}
+
 .time-container {
   composes: text-muted from global;
   margin: 5px 40px 5px 60px;

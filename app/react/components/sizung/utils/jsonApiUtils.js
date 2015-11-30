@@ -11,6 +11,7 @@ export function transformDeliverableFromJsonApi(deliverable) {
     type: transformTypeFromJsonApi(deliverable.type),
     title: deliverable.attributes.title,
     status: deliverable.attributes.status,
+    dueOn: deliverable.attributes.due_on,
     ownerId: deliverable.relationships.owner.data.id,
     assigneeId: deliverable.relationships.assignee.data.id,
     agendaItemId: deliverable.relationships.agenda_item.data.id,

@@ -30,7 +30,7 @@ class DeliverablesController < ApplicationController
 
   private
     def deliverable_params
-      params.require(:deliverable).permit(:agenda_item_id, :title, :assignee_id, :status)
+      params.require(:deliverable).permit(:agenda_item_id, :title, :assignee_id, :status, :due_on)
     end
 
     def set_deliverable
