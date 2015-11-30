@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import User from './User';
+import User from './User/index';
 
 class UserList extends Component {
   render() {

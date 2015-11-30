@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Input,Button, ButtonGroup } from 'react-bootstrap';
-import User from './../User';
+import User from './../User/index';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 

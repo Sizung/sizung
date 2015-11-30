@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
-import User from '../User';
+import User from '../User/index';
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 

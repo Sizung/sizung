@@ -10,13 +10,11 @@ class DeliverableList extends Component {
   constructor() {
     super();
 
-    this.scrollElement = this.scrollElement.bind(this);
+    this.scrollList = this.scrollList.bind(this);
 
-    this.state = {
-      deliverableCount: 0
-    };
+    this.deliverableListSize = 0;
   }
-  scrollElement() {
+  scrollList() {
     var _this = this;
     window.requestAnimationFrame(function() {
       var node = _this.refs.deliverableList.getDOMNode();
@@ -28,9 +26,9 @@ class DeliverableList extends Component {
 
   componentDidUpdate() {
     //TODO: find and alternative way to scroll on adding a new component.
-    if ( this.props.deliverables.size > this.state.deliverableCount ) {
-      this.setState({deliverableCount : this.props.deliverables.size});
-      this.scrollElement();
+    if ( this.props.deliverables.size > this.deliverableListSize ) {
+      this.deliverableListSize = this.props.deliverables.size;
+      this.scrollList();
     }
   }
 

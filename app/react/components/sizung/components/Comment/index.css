@@ -6,16 +6,6 @@
   border-width: 1px 0px;
 }
 
-.root-on-mouse-out {
-  composes: root;
-}
-
-.root-on-mouse-over {
-  composes: root;
-  border: 1px dashed #f0f0f0;
-  border-width: 1px 0px;
-}
-
 .user-container {
   display: table-cell;
   height: 40px;
@@ -34,25 +24,6 @@
   text-align: justify;
 }
 
-.options-on-mouse-over {
-  display: block;
-}
-
-.options-on-mouse-out {
-  display: none;
-}
-
-.delete-option {
-  margin-left: 1em;
-  position: absolute;
-  right: 15px;
-  top: 0px;
-}
-
-.delete-icon {
-  composes: fa fa-times fa-large text-muted from global;
-}
-
 .time-container {
   composes: text-muted from global;
   width: 100%;
@@ -67,4 +38,29 @@
 
 .gear-icon {
   composes: fa fa-gear fa-lg text-muted from global;
+}
+
+.gear-icon-toggle {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
+.options-menu {
+  position: absolute;
+  display:none;
+  margin-left: 1em;
+  right: 15px;
+  top: 0px;
+}
+
+.root:hover .options-menu {
+  display:block;
+}
+
+.root:hover {
+  border: 1px dashed #f0f0f0;
+  border-width: 1px 0px;
+}
+
+.comment-body {
+  padding-right: 20px;
 }
