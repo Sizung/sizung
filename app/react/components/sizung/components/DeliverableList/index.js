@@ -28,8 +28,8 @@ class DeliverableList extends Component {
 
   componentDidUpdate() {
     //TODO: find and alternative way to scroll on adding a new component.
-    if ( this.props.deliverables.length > this.state.deliverableCount ) {
-      this.setState({deliverableCount : this.props.deliverables.length});
+    if ( this.props.deliverables.size > this.state.deliverableCount ) {
+      this.setState({deliverableCount : this.props.deliverables.size});
       this.scrollElement();
     }
   }

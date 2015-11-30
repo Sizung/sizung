@@ -28,8 +28,8 @@ class AgendaItemList extends Component {
 
   componentDidUpdate() {
       //TODO: find and better alternative way to scroll on adding new component.
-    if ( this.props.agendaItems.length > this.state.agendaItemCount ) {
-      this.setState({agendaItemCount : this.props.agendaItems.length});
+    if ( this.props.agendaItems.size > this.state.agendaItemCount ) {
+      this.setState({agendaItemCount : this.props.agendaItems.size});
       this.scrollElement();
     }
   }
