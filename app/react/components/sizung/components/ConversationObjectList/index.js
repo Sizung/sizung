@@ -20,7 +20,7 @@ class ConversationObjectList extends Component {
 
       this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
     }
-    this.scrollElement = this.scrollElement.bind(this);
+    this.scrollList = this.scrollList.bind(this);
   }
 
   prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, parent) {
@@ -57,7 +57,7 @@ class ConversationObjectList extends Component {
     }
   }
 
-  scrollElement() {
+  scrollList() {
     var _this = this;
     window.requestAnimationFrame(function() {
       var node = _this.refs.conversationObjectList.getDOMNode();
@@ -69,7 +69,7 @@ class ConversationObjectList extends Component {
 
   componentDidUpdate() {
     if ( this.shouldScrollBottom ) {
-      this.scrollElement();
+      this.scrollList();
     }
   }
 

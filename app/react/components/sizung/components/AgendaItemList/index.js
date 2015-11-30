@@ -10,13 +10,13 @@ class AgendaItemList extends Component {
   constructor() {
     super();
 
-    this.scrollElement = this.scrollElement.bind(this);
+    this.scrollList = this.scrollList.bind(this);
 
-    this.state = {
-      agendaItemCount: 0
-    };
+    this.agendaItemListSize =  0;
+
   }
-  scrollElement() {
+
+  scrollList() {
     var _this = this;
     window.requestAnimationFrame(function() {
       var node = _this.refs.agendaItemList.getDOMNode();
@@ -28,9 +28,9 @@ class AgendaItemList extends Component {
 
   componentDidUpdate() {
       //TODO: find and better alternative way to scroll on adding new component.
-    if ( this.props.agendaItems.size > this.state.agendaItemCount ) {
-      this.setState({agendaItemCount : this.props.agendaItems.size});
-      this.scrollElement();
+    if ( this.props.agendaItems.size > this.agendaItemListSize ) {
+      this.agendaItemListSize =  this.props.agendaItems.size;
+      this.scrollList();
     }
   }
 
