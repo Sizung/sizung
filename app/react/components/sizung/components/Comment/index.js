@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Time from 'react-time'
-import User from './../User'
+import User from './../User/index'
 import { DropdownButton, Dropdown, Menu, MenuItem, Toggle, Glyphicon } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
@@ -55,7 +55,7 @@ class Comment extends React.Component {
       <div styleName='content-container'>
         <div styleName='options-menu'>
           <Dropdown id={"settings-dropdown-"+id} styleName='settings-dropdown' ref='settingsDropdown' pullRight>
-            <Dropdown.Toggle bsStyle='link' bsSize="small" noCaret>
+            <Dropdown.Toggle styleName='gear-icon-toggle' bsStyle='link' bsSize="small" noCaret>
               <i styleName='gear-icon'></i>
             </Dropdown.Toggle>
             <Dropdown.Menu style={{ position: 'absolute', top: '0px', right: '0px', zIndex: '99999'}}>
@@ -66,9 +66,9 @@ class Comment extends React.Component {
             </Dropdown.Menu>
           </Dropdown>
         </div>
-        <span ref='commentBody'>
+        <div styleName='comment-body' ref='commentBody'>
           {body}
-        </span>
+        </div>
         <div styleName='time-container'>
           <small><Time value={createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
         </div>

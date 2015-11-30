@@ -2,7 +2,7 @@
 
 import React, { Component, PropTypes } from 'react';
 import Time from 'react-time'
-import User from '../User'
+import User from '../User/index'
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 import CSSModules from 'react-css-modules';

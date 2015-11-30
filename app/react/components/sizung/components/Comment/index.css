@@ -24,14 +24,6 @@
   text-align: justify;
 }
 
-.options-on-mouse-over {
-  display: block;
-}
-
-.options-on-mouse-out {
-  display: none;
-}
-
 .time-container {
   composes: text-muted from global;
   width: 100%;
@@ -48,6 +40,10 @@
   composes: fa fa-gear fa-lg text-muted from global;
 }
 
+.gear-icon-toggle {
+  padding-top: 0px;
+  padding-bottom: 0px;
+}
 .options-menu {
   position: absolute;
   display:none;
@@ -63,4 +59,8 @@
 .root:hover {
   border: 1px dashed #f0f0f0;
   border-width: 1px 0px;
+}
+
+.comment-body {
+  padding-right: 20px;
 }
