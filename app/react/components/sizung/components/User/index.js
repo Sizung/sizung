@@ -25,8 +25,8 @@ class User extends React.Component {
 
     var userLogoSize = ( this.validSizes.indexOf(this.props.size) == -1 ) ? this.validSizes[0] : this.props.size ;
     return (
-      <div styleName={'circle-badge-' + userLogoSize}>
-        <span styleName={'circle-badge-' + userLogoSize + '-initials'} title={email} style={style}>{initials}</span>
+      <div styleName={'circle-badge-' + userLogoSize} title={email} style={style}>
+      {initials}
       </div>
     );
   }
