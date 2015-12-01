@@ -50,13 +50,8 @@
 
 .member-dropdown-container {
   position: absolute;
-  right: 0px;
+  right: 10px;
   top: 6px;
-}
-
-.member-dropdown {
-  text-decoration: none;
-  outline: none;
 }
 
 .conversation-dropdown {
@@ -97,4 +92,41 @@
   composes: text-muted from global;
   padding-top: 5px;
   text-decoration: none !important;
+}
+
+
+.member-dropdown {
+  padding: 0px;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  border-radius: 50%/50%;
+}
+
+.member-dropdown-toggle {
+  padding: 0px;
+  text-decoration: none;
+  /*border: none;*/
+  background: transparent;
+  outline: none;
+  border-radius: 50%/50%;
+}
+
+.member-badge {
+  position: relative;
+  border-radius: 50%/50%;
+  background-color: #ffffff;
+  width: 30px;
+  height: 30px;
+}
+
+.member-badge-contents {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  text-align: center;
+  color: #777777;
+  line-height: 30px;
 }

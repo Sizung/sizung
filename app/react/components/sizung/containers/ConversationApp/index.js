@@ -46,6 +46,7 @@ class ConversationApp extends React.Component {
 
 
 function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable) {
+  const users = state.getIn(['entities','users']);
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   var conversationObjectsList = {commentForm: {}};
 
@@ -64,6 +65,7 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
     conversationObjectsList.commentForm.canCreateDeliverable = canCreateDeliverable;
     conversationObjectsList.canCreateAgendaItem = canCreateAgendaItem;
     conversationObjectsList.canCreateDeliverable = canCreateDeliverable;
+    conversationObjectsList.users = users;
   }
 
   return conversationObjectsList;
@@ -79,7 +81,7 @@ function mapStateToProps(state) {
   return {
     conversationObjectsList: conversationObjectsList,
     currentConversation: currentConversation,
-    currentUser: currentUser
+    currentUser: currentUser,
   }
 }
 

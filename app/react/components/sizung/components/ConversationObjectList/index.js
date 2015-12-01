@@ -103,17 +103,22 @@ class ConversationObjectList extends Component {
           </Dropdown.Menu>
         </Dropdown>
         <div styleName='member-dropdown-container'>
-          <DropdownButton styleName='member-dropdown' bsStyle='default' bsSize="small" title='Members' pullRight noCaret>
-            <li>
-              <div styleName='member-list-container'>
-                <UserListApp/>
-              </div>
-            </li>
-            <li className='divider'></li>
-            <li>
-              <a href="/users/invitation/new">Invite member</a>
-            </li>
-          </DropdownButton>
+          <Dropdown styleName='member-dropdown' bsStyle='default' ref='memberDropdown' pullRight noCaret>
+            <Dropdown.Toggle styleName='member-dropdown-toggle' bsStyle='default' bsSize="small" pullRight noCaret>
+              <div styleName='member-badge'><div styleName='member-badge-contents'>{this.props.users.size}</div></div>
+            </Dropdown.Toggle>
+            <Dropdown.Menu>
+              <MenuItem href="#" style={{ padding: '0px' }}>
+                <div styleName='member-list-container'>
+                  <UserListApp/>
+                </div>
+              </MenuItem>
+              <MenuItem divider/>
+              <MenuItem href="/users/invitation/new">
+                Invite member
+              </MenuItem>
+            </Dropdown.Menu>
+          </Dropdown>
         </div>
       </div>
       <div ref='conversationObjectList' styleName='list'>
@@ -155,7 +160,8 @@ ConversationObjectList.propTypes = {
     title: PropTypes.string.isRequired
   }).isRequired,
   canCreateAgendaItem: PropTypes.bool.isRequired,
-  canCreateDeliverable: PropTypes.bool.isRequired
+  canCreateDeliverable: PropTypes.bool.isRequired,
+  users: PropTypes.array.isRequired
 };
 
 ConversationObjectList.defaultProps = {
