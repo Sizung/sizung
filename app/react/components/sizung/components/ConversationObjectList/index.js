@@ -23,7 +23,7 @@ class ConversationObjectList extends Component {
     this.scrollList = this.scrollList.bind(this);
   }
 
-  prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, parent) {
+  prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, parent) {
     if(conversationObjects) {
       return conversationObjects.map(function(conversationObject) {
         if (conversationObject.type === 'comments') {
@@ -35,11 +35,11 @@ class ConversationObjectList extends Component {
         }
         else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
-          return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem} updateAgendaItem={updateAgendaItem}/>
+          return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem} selectAgendaItem={selectAgendaItem} updateAgendaItem={updateAgendaItem}/>
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable} updateDeliverable={updateDeliverable}/>
+          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable} selectDeliverable={selectDeliverable} updateDeliverable={updateDeliverable}/>
         }
         else {
           console.log('Component not found for conversationObject: ', conversationObject);
@@ -80,10 +80,11 @@ class ConversationObjectList extends Component {
 
   render() {
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, updateAgendaItem,
-      createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem, canCreateDeliverable } = this.props;
+      createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
+      canCreateDeliverable, selectAgendaItem, selectDeliverable } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, commentForm.parent);
+    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent);
     return (
 
     <div styleName='list-container'>

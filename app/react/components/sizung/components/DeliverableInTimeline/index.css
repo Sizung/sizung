@@ -54,5 +54,10 @@
 
 .time-container {
   composes: text-muted from global;
-  margin: 5px 40px 5px 60px;
+  margin: 5px 0 5px 60px;
+}
+
+.discuss-link {
+  composes: hover-inline from '../../styles/modules/hover.css';
+  composes: pull-right from global;
 }
