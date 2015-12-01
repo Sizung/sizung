@@ -4,6 +4,7 @@ import React, { Component, PropTypes } from 'react';
 
 import Time from 'react-time'
 import User from '../User/index'
+import EditableUserApp from '../../containers/EditableUserApp';
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 import EditableDate from '../EditableDate';
@@ -18,6 +19,7 @@ class DeliverableInTimeline extends React.Component {
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
     this.handleDueOnUpdate = this.handleDueOnUpdate.bind(this);
+    this.handleAssigneeUpdate = this.handleAssigneeUpdate.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleDeleteClick = (e) => {
       e.preventDefault();
@@ -40,6 +42,10 @@ class DeliverableInTimeline extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, {due_on: newDueOn});
   }
 
+  handleAssigneeUpdate(newAssigneeId) {
+    this.props.updateDeliverable(this.props.deliverable.id, {assignee_id: newAssigneeId});
+  }
+
   toggleHover() {
     this.setState({hover: !this.state.hover});
   }
@@ -55,7 +61,7 @@ class DeliverableInTimeline extends React.Component {
 
   render() {
     const { deliverable } = this.props;
-    const { owner } = deliverable;
+    const { owner, assignee } = deliverable;
     var hoverStyle = (this.state.hover ? 'on-mouse-over' : 'on-mouse-out');
 
     return  <div styleName={'root-' + hoverStyle} onMouseOver={this.toggleHover.bind(this)} onMouseOut={this.toggleHover.bind(this)}>
@@ -70,7 +76,12 @@ class DeliverableInTimeline extends React.Component {
             <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} />
           </div>
           <div styleName="meta-container">
-            <EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} />
+            <div styleName="editable-date">
+              <EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} />
+            </div>
+            <div styleName="editable-user">
+              <EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} />
+            </div>
           </div>
         </div>
         <div styleName="time-container">

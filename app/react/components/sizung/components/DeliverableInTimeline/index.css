@@ -52,6 +52,16 @@
 
 }
 
+.editable-user {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.editable-date {
+  display: inline-block;
+  vertical-align: middle;
+}
+
 .time-container {
   composes: text-muted from global;
   margin: 5px 0 5px 60px;
