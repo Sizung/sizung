@@ -3,6 +3,7 @@
   margin-top: 0px;
   margin-bottom: 0px;
   background-color: #ffffff;
+  height: 51px;
 }
 
 .main-container {
@@ -15,15 +16,32 @@
 
 .organisation-dropdown-nav {
   composes: nav navbar-nav pull-left from global;
+  margin: 0px;
 }
 
 .user-dropdown-nav {
   composes: nav navbar-nav pull-right from global;
-  padding-top: 10px;
+  padding: 5px 10px 0px 0px;
+  margin: 0px;
 }
 
 .user-dropdown {
   color: #777777;
   outline: none;
   border: none;
+  border-radius: 50%/50%;
+}
+
+.user-dropdown-toggle {
+  composes: pull-right from global;
+  padding: 0px;
+  text-decoration: none;
+  /*border: none;*/
+  background: transparent;
+  outline: none;
+  border-radius: 50%/50%;
+}
+
+.user-dropdown-menu {
+
 }

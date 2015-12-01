@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import { DropdownButton, MenuItem } from 'react-bootstrap';
+import { Dropdown, DropdownButton, MenuItem } from 'react-bootstrap';
+import User from '../User';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
@@ -15,10 +16,19 @@ class NavigationHeader extends Component {
               <li><a href="/organizations">Organizations</a></li>
             </ul>
             <ul styleName='user-dropdown-nav'>
-              <DropdownButton styleName='user-dropdown' bsStyle='default' title={currentUserName} id='userDropdown' noCaret>
-                <li><a href="/users/edit">Edit Profile</a></li>
-                <li><a href="/users/sign_out" rel="nofollow" data-method="delete">Logout</a></li>
-              </DropdownButton>
+              <Dropdown styleName='user-dropdown' id='userDropdown' ref='userDropdown' pullRight>
+                <Dropdown.Toggle styleName='user-dropdown-toggle' bsStyle='default' bsSize="small" noCaret>
+                  <User user={this.props.currentUser} size='large'/>
+                </Dropdown.Toggle>
+                <Dropdown.Menu styleName='user-dropdown-menu'>
+                  <MenuItem href="/users/edit">
+                    Edit Profile
+                  </MenuItem>
+                  <MenuItem href="/users/sign_out">
+                    Sign Out
+                  </MenuItem>
+                </Dropdown.Menu>
+              </Dropdown>
             </ul>
           </div>
         </div>
