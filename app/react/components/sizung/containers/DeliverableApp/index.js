@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import * as CommentsActions from '../../actions/comments';
 import * as AgendaItemActions from '../../actions/agendaItems';
 import * as DeliverableActions from '../../actions/deliverables';
+import * as selectors from '../../utils/selectors';
 
 import DeliverableInTimeline from '../../components/DeliverableInTimeline';
 import ConversationObjectListApp from './../ConversationObjectListApp';
@@ -76,6 +77,7 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
     conversationObjectsList.commentForm.canCreateDeliverable = canCreateDeliverable;
     conversationObjectsList.canCreateAgendaItem = canCreateAgendaItem;
     conversationObjectsList.canCreateDeliverable = canCreateDeliverable;
+    conversationObjectsList.users = selectors.conversationMembers(state);
   }
 
   return conversationObjectsList;

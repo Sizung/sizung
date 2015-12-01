@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import * as CommentsActions from '../../actions/comments';
 import * as AgendaItemActions from '../../actions/agendaItems';
 import * as DeliverableActions from '../../actions/deliverables';
+import * as selectors from '../../utils/selectors';
 
 import AgendaItemListApp from './../AgendaItemListApp';
 import DeliverableListApp from './../DeliverableListApp';
@@ -46,7 +47,6 @@ class ConversationApp extends React.Component {
 
 
 function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable) {
-  const users = state.getIn(['entities','users']);
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   var conversationObjectsList = {commentForm: {}};
 
@@ -65,7 +65,7 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
     conversationObjectsList.commentForm.canCreateDeliverable = canCreateDeliverable;
     conversationObjectsList.canCreateAgendaItem = canCreateAgendaItem;
     conversationObjectsList.canCreateDeliverable = canCreateDeliverable;
-    conversationObjectsList.users = users;
+    conversationObjectsList.users = selectors.conversationMembers(state);
   }
 
   return conversationObjectsList;

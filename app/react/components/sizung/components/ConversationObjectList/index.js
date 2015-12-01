@@ -81,7 +81,7 @@ class ConversationObjectList extends Component {
   render() {
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, updateAgendaItem,
       createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
-      canCreateDeliverable, selectAgendaItem, selectDeliverable } = this.props;
+      canCreateDeliverable, selectAgendaItem, selectDeliverable, users } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
     var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent);
@@ -105,7 +105,7 @@ class ConversationObjectList extends Component {
         <div styleName='member-dropdown-container'>
           <Dropdown styleName='member-dropdown' bsStyle='default' ref='memberDropdown' pullRight noCaret>
             <Dropdown.Toggle styleName='member-dropdown-toggle' bsStyle='default' bsSize="small" pullRight noCaret>
-              <div styleName='member-badge'><div styleName='member-badge-contents'>{this.props.users.size}</div></div>
+              <div styleName='member-badge'><div styleName='member-badge-contents'>{users.size}</div></div>
             </Dropdown.Toggle>
             <Dropdown.Menu>
               <MenuItem href="#" style={{ padding: '0px' }}>
