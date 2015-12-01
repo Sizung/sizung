@@ -50,7 +50,7 @@ class Comment extends React.Component {
 
     return  <div styleName='root'>
       <div styleName='user-container'>
-        <User user={author} />
+        <User user={author}/>
       </div>
       <div styleName='content-container'>
         <div styleName='options-menu'>

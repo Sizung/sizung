@@ -1,8 +1,18 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
 import React, { Component, PropTypes } from 'react';
+import CSSModules from 'react-css-modules';
+import styles from "./index.css";
+
+@CSSModules(styles)
 
 class User extends React.Component {
+
+  constructor() {
+    super();
+    this.validSizes = ['normal','large'];
+  }
+
   render() {
     let { email, presenceStatus, firstName, lastName } = this.props.user;
 
@@ -13,9 +23,10 @@ class User extends React.Component {
       style = {color: '#7B7'}
     }
 
+    var userLogoSize = ( this.validSizes.indexOf(this.props.size) == -1 ) ? this.validSizes[0] : this.props.size ;
     return (
-      <div className="circle-sm">
-        <span className="circle-text-sm" title={email} style={style}>{initials}</span>
+      <div styleName={'circle-badge-' + userLogoSize}>
+        <span styleName={'circle-badge-' + userLogoSize + '-initials'} title={email} style={style}>{initials}</span>
       </div>
     );
   }
@@ -27,7 +38,8 @@ User.propTypes = {
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
     presenceStatus: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  size: PropTypes.string.isRequired
 };
 
 User.defaultProps = {
@@ -36,7 +48,8 @@ User.defaultProps = {
     firstName: 'Foo',
     lastName: 'Bar',
     presenceStatus: 'offline'
-  }
+  },
+  size: "normal"
 };
 
 export default User;
