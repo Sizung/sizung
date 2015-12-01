@@ -73,7 +73,7 @@ class CommentForm extends React.Component {
             <ButtonGroup styleName='input-btn-group'>
               <Button styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><i styleName='comment-icon'></i></Button>
               { buttons }
-              <Button key="createConversation" styleName='conversation-btn' type="submit" onClick={this.handleConversation}><i styleName='conversation-icon'></i></Button>
+              <Button href={"/organizations/" + this.props.parent.organization_id + "/conversations/new"} key="createConversation" styleName='conversation-btn'><i styleName='conversation-icon'></i></Button>
             </ButtonGroup>
         </form>
           </div>

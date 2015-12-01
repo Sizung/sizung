@@ -3,7 +3,7 @@ import CommentForm from './../CommentForm/index';
 import Comment from './../Comment/index';
 import AgendaItemInTimeline from './../AgendaItemInTimeline'
 import DeliverableInTimeline from './../DeliverableInTimeline'
-import { Glyphicon, DropdownButton, MenuItem } from 'react-bootstrap';
+import { Glyphicon, DropdownButton, MenuItem, Dropdown, Toggle } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 import UserListApp from "../../containers/UserListApp";
@@ -88,7 +88,19 @@ class ConversationObjectList extends Component {
 
     <div styleName='list-container'>
       <div styleName='list-header'>
-        <i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}
+        <Dropdown styleName='conversation-dropdown' ref='conversationDropdown'>
+          <Dropdown.Toggle styleName='conversation-dropdown-toggle' bsStyle='default' bsSize="small" pullRight>
+            <span styleName='conversation-dropdown-toggle-text'><i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}</span>
+          </Dropdown.Toggle>
+          <Dropdown.Menu>
+            <MenuItem href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
+              View All Conversations
+            </MenuItem>
+            <MenuItem href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations/new"}>
+              Add New Conversation
+            </MenuItem>
+          </Dropdown.Menu>
+        </Dropdown>
         <div styleName='member-dropdown-container'>
           <DropdownButton styleName='member-dropdown' bsStyle='default' bsSize="small" title='Members' pullRight noCaret>
             <li>
