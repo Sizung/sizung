@@ -8,6 +8,7 @@ import AgendaItemList from '../components/AgendaItemList/index';
 import * as AgendaItemListActions from '../actions/agendaItems';
 import Immutable from 'immutable';
 import { getPath, getAgendaItemIdFromPath } from '../utils/pathUtils';
+import { fillAgendaItem } from '../utils/entityUtils';
 
 function mapStateToProps(state) {
   const agendaItemIdsToShow = state.getIn(['agendaItemsByConversation', state.getIn(['currentConversation', 'id'])]) || Immutable.List();
@@ -17,15 +18,10 @@ function mapStateToProps(state) {
   }).toList();
 
   agendaItems = agendaItems.map(function(agendaItem) {
-      return {
-        id: agendaItem.id,
-        title: agendaItem.title,
-        status: agendaItem.status,
-        commentsCount: agendaItem.commentsCount,
-        conversationId: agendaItem.conversationId,
-        conversation: state.getIn(['entities', 'conversations', agendaItem.conversationId])
-      }
-    });
+    return fillAgendaItem(state, agendaItem.id);
+  }).sortBy(function(conversationObject) {
+    return conversationObject.createdAt;
+  });
 
   const selectedConversationObject = state.getIn(['selectedConversationObject', 'id']);
   const selectedAgendaItemId = getAgendaItemIdFromPath(getPath(state));

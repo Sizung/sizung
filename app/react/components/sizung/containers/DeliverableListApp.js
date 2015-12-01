@@ -14,7 +14,9 @@ function mapStateToProps(state) {
 
   var deliverables = state.getIn(['entities', 'deliverables']).map(function(deliverable) {
     return fillDeliverable(state, deliverable.id);
-  }).toList();
+  }).toList().sortBy(function(conversationObject) {
+    return conversationObject.createdAt;
+  });
 
   return {
     deliverables: deliverables,
