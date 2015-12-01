@@ -14,6 +14,7 @@ class AgendaItemInTimeline extends React.Component {
     super();
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
     this.state = {
       hover: false
     };
@@ -30,6 +31,12 @@ class AgendaItemInTimeline extends React.Component {
   toggleHover() {
     this.setState({hover: !this.state.hover});
   }
+
+  handleSelect(e) {
+    e.preventDefault();
+    this.props.selectAgendaItem(this.props.agendaItem.conversationId, this.props.agendaItem.id);
+  }
+
   render() {
     const { agendaItem } = this.props;
     const { title, status, owner } = agendaItem;
@@ -49,6 +56,7 @@ class AgendaItemInTimeline extends React.Component {
       </div>
       <div styleName="time-container">
         <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+        <span styleName="discuss-link"><a href="#" onClick={this.handleSelect}>discuss</a></span>
       </div>
     </div>;
   }

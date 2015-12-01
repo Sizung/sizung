@@ -18,6 +18,7 @@ class DeliverableInTimeline extends React.Component {
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
     this.handleDueOnUpdate = this.handleDueOnUpdate.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
     this.handleDeleteClick = (e) => {
       e.preventDefault();
       this.props.deleteComment(this.props.id);
@@ -43,6 +44,15 @@ class DeliverableInTimeline extends React.Component {
     this.setState({hover: !this.state.hover});
   }
 
+  handleSelect(e) {
+    e.preventDefault();
+    this.props.selectDeliverable(
+      this.props.deliverable.agendaItem.conversationId,
+      this.props.deliverable.agendaItem.id,
+      this.props.deliverable.id
+    );
+  }
+
   render() {
     const { deliverable } = this.props;
     const { owner } = deliverable;
@@ -65,6 +75,7 @@ class DeliverableInTimeline extends React.Component {
         </div>
         <div styleName="time-container">
           <small><Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+          <span styleName="discuss-link"><a href="#" onClick={this.handleSelect}>discuss</a></span>
         </div>
       </div>
   }

@@ -61,12 +61,18 @@ class EditableText extends React.Component {
     e.stopPropagation();
   }
 
-  textElement(persistedText) {
+  editLink(editable) {
+    if (editable) {
+      return <a styleName="edit-link" href="#" onClick={this.handleEditClick}><i className="fa fa-pencil" style={{marginLeft: '1em'}} /></a>;
+    }
+  }
+
+  textElement(persistedText, editable) {
     if (this.state.edit) {
       return <div styleName='edit-text-container'><form styleName='edit-text-form' onSubmit={this.handleSubmit}><input type="text" ref="input" onClick={this.handleInputClick} onKeyDown={this.handleKeyDown} onBlur={this.handleBlur} defaultValue={persistedText} styleName='edit-text-input'/></form></div>
     }
     else {
-      return <div styleName='persisted-text-container'>{persistedText}<a styleName="edit-link" href="#" onClick={this.handleEditClick}><i className="fa fa-pencil" style={{marginLeft: '1em'}} /></a></div>;
+      return <div styleName='persisted-text-container'>{persistedText} {this.editLink(editable)}</div>;
     }
   }
 
@@ -80,13 +86,18 @@ class EditableText extends React.Component {
   }
 
   render() {
-    return this.textElement(this.props.text);
+    return this.textElement(this.props.text, this.props.editable);
   }
 }
 
 EditableText.propTypes = {
   text: PropTypes.string.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
+  editable: PropTypes.bool
+};
+
+EditableText.defaultProps = {
+  editable: true
 };
 
 export default EditableText;

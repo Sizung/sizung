@@ -7,14 +7,24 @@ import { connect } from 'react-redux';
 import DeliverableList from '../components/DeliverableList/index';
 import * as DeliverableListActions from '../actions/deliverables';
 import { fillDeliverable } from '../utils/entityUtils';
+import { getPath, getAgendaItemIdFromPath, getDeliverableIdFromPath } from '../utils/pathUtils';
 
 function mapStateToProps(state) {
   const pathElements = state.get('routing').path.split('/');
   const selectedDeliverableId = pathElements.length >= 6 ? pathElements[6] : null;
+  const selectedAgendaItemId = getAgendaItemIdFromPath(getPath(state));
 
   var deliverables = state.getIn(['entities', 'deliverables']).map(function(deliverable) {
     return fillDeliverable(state, deliverable.id);
-  }).toList();
+  }).toList().sortBy(function(conversationObject) {
+    return conversationObject.createdAt;
+  });
+
+  if (selectedAgendaItemId) {
+    deliverables = deliverables.filter(function(deliverable) {
+      return deliverable.agendaItemId === selectedAgendaItemId;
+    });
+  }
 
   return {
     deliverables: deliverables,

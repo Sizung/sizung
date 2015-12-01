@@ -3,7 +3,6 @@
   "devDependencies": {
     "babel-eslint": "^4.1.1",
     "babel-plugin-react-transform": "^1.1.1",
-    "css-loader": "^0.23.0",
     "eslint": "^0.24.1",
     "eslint-plugin-react": "^3.3.1",
     "expect": "^1.9.0",
@@ -35,7 +34,7 @@
     "react": "^0.13.3",
     "react-bootstrap": "^0.25.2",
     "react-css-modules": "^3.6.1",
-    "react-date-picker": "^3.1.8",
+    "react-datepicker": "^0.13.0",
     "react-redux": "^3.0.0",
     "react-router": "^1.0.0",
     "react-time": "^4.0.0",

@@ -52,3 +52,8 @@
   composes: text-muted from global;
   margin: 5px 0px 5px 60px;
 }
+
+.discuss-link {
+  composes: hover-inline from '../../styles/modules/hover.css';
+  composes: pull-right from global;
+}

@@ -19,9 +19,9 @@ class EditableStatus extends React.Component {
   }
 
   render() {
-    const { status } = this.props;
+    const { status, editable } = this.props;
     return (
-      <span styleName={"root-" + status} onClick={this.handleStatusClick}>
+      <span styleName={"root-" + (editable ? 'editable-' : '') + status} onClick={editable ? this.handleStatusClick : null}>
         <span styleName="stack">
           <i styleName="circle"/>
           <i styleName="status"/>
@@ -33,7 +33,12 @@ class EditableStatus extends React.Component {
 
 EditableStatus.propTypes = {
   status: PropTypes.string.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
+  editable: PropTypes.bool
+};
+
+EditableStatus.defaultProps = {
+  editable: true
 };
 
 export default EditableStatus;

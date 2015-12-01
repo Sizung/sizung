@@ -1,7 +1,16 @@
-.root-open {
+.root-editable-open {
   composes: hover-inline from '../../styles/modules/hover.css';
   color: gray;
   cursor: pointer;
+}
+
+.root-editable-resolved {
+  color: green;
+  cursor: pointer;
+}
+
+.root-open {
+  display: none;
 }
 
 .root-resolved {

@@ -48,10 +48,10 @@ class Deliverable extends React.Component {
         <div styleName={styleName} onClick={this.handleClick}>
           <div styleName='row'>
             <div styleName='content-container'>
-              <EditableText text={title} onUpdate={this.handleTitleUpdate} />
+              <EditableText editable={false} text={title} onUpdate={this.handleTitleUpdate} />
             </div>
             <div styleName='status-container'>
-              <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
+              <EditableStatus editable={false} status={status} onUpdate={this.handleStatusUpdate} />
             </div>
           </div>
           <div styleName='details-row'>
