@@ -3,7 +3,7 @@ import CommentForm from './../CommentForm/index';
 import Comment from './../Comment/index';
 import AgendaItemInTimeline from './../AgendaItemInTimeline'
 import DeliverableInTimeline from './../DeliverableInTimeline'
-import { Glyphicon, DropdownButton, MenuItem, Dropdown, Toggle } from 'react-bootstrap';
+import { Glyphicon, DropdownButton, MenuItem, Dropdown, Toggle, Button } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 import UserListApp from "../../containers/UserListApp";
@@ -21,6 +21,8 @@ class ConversationObjectList extends Component {
       this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
     }
     this.scrollList = this.scrollList.bind(this);
+    this.adjustConversationListHeight = this.adjustConversationListHeight.bind(this);
+    this.handleBackClick = this.handleBackClick.bind(this);
   }
 
   prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, parent) {
@@ -67,10 +69,23 @@ class ConversationObjectList extends Component {
     });
   }
 
+  handleBackClick(e){
+    e.preventDefault();
+    this.props.backToConversation(this.props.currentConversation.id);
+  };
+
+  adjustConversationListHeight() {
+    var headerInTimelineNode = this.refs.headerInTimeline.getDOMNode();
+    var listNode = this.refs.conversationObjectList.getDOMNode();
+    var conversationHeaderNode = this.refs.conversationHeader.getDOMNode();
+    $(listNode).css('top',($(headerInTimelineNode).outerHeight() + $(conversationHeaderNode).outerHeight()));
+  }
+
   componentDidUpdate() {
     if ( this.shouldScrollBottom ) {
       this.scrollList();
     }
+    this.adjustConversationListHeight();
   }
 
   componentWillUpdate() {
@@ -85,10 +100,39 @@ class ConversationObjectList extends Component {
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
     var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent);
+    var conversationTimelineHeader = "";
+    switch ( this.props.commentForm.parent.type ) {
+      case "agendaItems" :
+        conversationTimelineHeader = (<div styleName='header-in-timeline' ref='headerInTimeline' >
+          <div styleName='back-to-conversation-link-container'>
+            <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
+              <i styleName='back-to-conversation-icon'></i>
+            </Button>
+          </div>
+          <AgendaItemInTimeline agendaItem={this.props.commentForm.parent} updateAgendaItem={this.props.updateAgendaItem}/>
+        </div>);
+      break;
+
+      case "deliverables" :
+        conversationTimelineHeader = (<div styleName='header-in-timeline' ref='headerInTimeline' >
+          <div styleName='back-to-conversation-link-container'>
+            <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
+              <i styleName='back-to-conversation-icon'></i>
+            </Button>
+          </div>
+          <DeliverableInTimeline deliverable={this.props.commentForm.parent} updateDeliverable={this.props.updateDeliverable}/>
+        </div>);
+      break;
+
+      default:
+        conversationTimelineHeader = "";
+      break;
+    }
+
     return (
 
     <div styleName='list-container'>
-      <div styleName='list-header'>
+      <div id='ani' styleName='list-header' ref='conversationHeader'>
         <Dropdown styleName='conversation-dropdown' ref='conversationDropdown'>
           <Dropdown.Toggle styleName='conversation-dropdown-toggle' bsStyle='default' bsSize="small" pullRight>
             <span styleName='conversation-dropdown-toggle-text'><i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}</span>
@@ -103,12 +147,13 @@ class ConversationObjectList extends Component {
           </Dropdown.Menu>
         </Dropdown>
         <div styleName='member-dropdown-container'>
+          <i styleName='user-icon'></i>{' '}
           <Dropdown styleName='member-dropdown' bsStyle='default' ref='memberDropdown' pullRight noCaret>
             <Dropdown.Toggle styleName='member-dropdown-toggle' bsStyle='default' bsSize="small" pullRight noCaret>
               <div styleName='member-badge'><div styleName='member-badge-contents'>{users.size}</div></div>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-              <MenuItem href="#" style={{ padding: '0px' }}>
+              <MenuItem href="#">
                 <div styleName='member-list-container'>
                   <UserListApp/>
                 </div>
@@ -121,6 +166,7 @@ class ConversationObjectList extends Component {
           </Dropdown>
         </div>
       </div>
+      { conversationTimelineHeader }
       <div ref='conversationObjectList' styleName='list'>
           { showMore }
           { conversationObjectElements }
@@ -161,7 +207,8 @@ ConversationObjectList.propTypes = {
   }).isRequired,
   canCreateAgendaItem: PropTypes.bool.isRequired,
   canCreateDeliverable: PropTypes.bool.isRequired,
-  users: PropTypes.array.isRequired
+  users: PropTypes.array.isRequired,
+  updateAgendaItem: PropTypes.func.isRequired
 };
 
 ConversationObjectList.defaultProps = {

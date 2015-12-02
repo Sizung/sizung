@@ -42,15 +42,9 @@ class DeliverableApp extends React.Component {
   render() {
     const { selectedDeliverable, closeAgendaItem, conversationObjectsList, currentConversation, currentUser, updateDeliverable } = this.props;
     if(selectedDeliverable && conversationObjectsList) {
-      return (<div styleName='root'>
-        <div styleName='header'>
-          <Button href="#" onClick={this.handleBackClick}>Close</Button>
-          <DeliverableInTimeline deliverable={selectedDeliverable} updateDeliverable={updateDeliverable}/>
-        </div>
-        <div styleName='list'>
-          <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation}/>
-        </div>
-      </div>);
+      return (
+          <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation} updateDeliverable={updateDeliverable}/>
+      );
     }
     else {
       return <div>Loading...</div>;
