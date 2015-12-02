@@ -74,11 +74,11 @@ class ConversationObjectList extends Component {
     this.props.backToConversation(this.props.currentConversation.id);
   };
 
-  adjustConversationListHeight() {
-    var headerInTimelineNode = this.refs.headerInTimeline.getDOMNode();
+  adjustConversationListHeight() {;
+    var headerInTimelineHeight = ( null == this.refs.headerInTimeline ) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
+    var conversationHeaderHeight = $(this.refs.conversationHeader.getDOMNode()).outerHeight();
     var listNode = this.refs.conversationObjectList.getDOMNode();
-    var conversationHeaderNode = this.refs.conversationHeader.getDOMNode();
-    $(listNode).css('top',($(headerInTimelineNode).outerHeight() + $(conversationHeaderNode).outerHeight()));
+    $(listNode).css('top',(headerInTimelineHeight + conversationHeaderHeight));
   }
 
   componentDidUpdate() {
@@ -101,32 +101,36 @@ class ConversationObjectList extends Component {
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
     var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent);
     var conversationTimelineHeader = "";
-    switch ( this.props.commentForm.parent.type ) {
-      case "agendaItems" :
-        conversationTimelineHeader = (<div styleName='header-in-timeline' ref='headerInTimeline' >
-          <div styleName='back-to-conversation-link-container'>
-            <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
-              <i styleName='back-to-conversation-icon'></i>
-            </Button>
-          </div>
-          <AgendaItemInTimeline agendaItem={this.props.commentForm.parent} updateAgendaItem={this.props.updateAgendaItem}/>
-        </div>);
-      break;
+    if ( null != this.props.commentForm.parent) {
+      switch (this.props.commentForm.parent.type) {
+        case "agendaItems" :
+          conversationTimelineHeader = (<div styleName='header-in-timeline' ref='headerInTimeline'>
+            <div styleName='back-to-conversation-link-container'>
+              <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
+                <i styleName='back-to-conversation-icon'></i>
+              </Button>
+            </div>
+            <AgendaItemInTimeline agendaItem={this.props.commentForm.parent}
+                                  updateAgendaItem={this.props.updateAgendaItem}/>
+          </div>);
+          break;
 
-      case "deliverables" :
-        conversationTimelineHeader = (<div styleName='header-in-timeline' ref='headerInTimeline' >
-          <div styleName='back-to-conversation-link-container'>
-            <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
-              <i styleName='back-to-conversation-icon'></i>
-            </Button>
-          </div>
-          <DeliverableInTimeline deliverable={this.props.commentForm.parent} updateDeliverable={this.props.updateDeliverable}/>
-        </div>);
-      break;
+        case "deliverables" :
+          conversationTimelineHeader = (<div styleName='header-in-timeline' ref='headerInTimeline'>
+            <div styleName='back-to-conversation-link-container'>
+              <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
+                <i styleName='back-to-conversation-icon'></i>
+              </Button>
+            </div>
+            <DeliverableInTimeline deliverable={this.props.commentForm.parent}
+                                   updateDeliverable={this.props.updateDeliverable}/>
+          </div>);
+          break;
 
-      default:
-        conversationTimelineHeader = "";
-      break;
+        default:
+          conversationTimelineHeader = "";
+          break;
+      }
     }
 
     return (

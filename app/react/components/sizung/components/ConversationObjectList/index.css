@@ -147,7 +147,7 @@
 }
 
 .back-to-conversation-link {
-  composes: col-xs-12 pull-right from global;
+  composes: pull-right from global;
   color: #333333;
   padding: 5px 15px;
   float: right;

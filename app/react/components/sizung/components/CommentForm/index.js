@@ -62,6 +62,21 @@ class CommentForm extends React.Component {
       buttons.push(<Button key="createDeliverable" styleName='deliverable-btn' type="submit" onClick={this.handleDeliverable}><i styleName='deliverable-icon'></i></Button>);
     }
 
+    var currentConversation = null;
+    if ( null != this.props.parent.type ) {
+      switch (this.props.parent.type) {
+        case 'agendaItems':
+          currentConversation = this.props.parent.conversation;
+          break;
+
+        case 'deliverables':
+          currentConversation = this.props.parent.agendaItem.conversation;
+          break;
+      }
+    } else {
+      currentConversation = this.props.parent;
+    }
+
     return (
       <div styleName='form-container'>
         <div styleName='user'>
@@ -73,7 +88,7 @@ class CommentForm extends React.Component {
             <ButtonGroup styleName='input-btn-group'>
               <Button styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><i styleName='comment-icon'></i></Button>
               { buttons }
-              <Button href={"/organizations/" + this.props.parent.organization_id + "/conversations/new"} key="createConversation" styleName='conversation-btn'><i styleName='conversation-icon'></i></Button>
+              <Button href={"/organizations/" + currentConversation.organization_id + "/conversations/new"} key="createConversation" styleName='conversation-btn'><i styleName='conversation-icon'></i></Button>
             </ButtonGroup>
         </form>
           </div>
