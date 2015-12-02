@@ -119,7 +119,7 @@ class EditableUser extends React.Component {
     const { user, users } = this.props;
     if (this.state.edit) {
       return (
-        <div>
+        <div styleName="root-container">
           {this.renderShow(user)}
           {this.renderEdit(user, users)}
         </div>
