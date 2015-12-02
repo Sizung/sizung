@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151130161525) do
+ActiveRecord::Schema.define(version: 20151202152655) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,6 +40,15 @@ ActiveRecord::Schema.define(version: 20151130161525) do
   add_index "comments", ["author_id"], name: "index_comments_on_author_id", using: :btree
   add_index "comments", ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
   add_index "comments", ["created_at"], name: "index_comments_on_created_at", order: {"created_at"=>:desc}, using: :btree
+
+  create_table "conversation_members", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "conversation_id"
+    t.uuid     "member_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+  add_index "conversation_members", ["conversation_id"], name: "index_conversation_members_on_conversation_id", using: :btree
+  add_index "conversation_members", ["member_id"], name: "index_conversation_members_on_member_id", using: :btree
 
   create_table "deliverables", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "agenda_item_id"
@@ -128,6 +137,8 @@ ActiveRecord::Schema.define(version: 20151130161525) do
   add_foreign_key "agenda_items", "conversations"
   add_foreign_key "agenda_items", "users", column: "owner_id"
   add_foreign_key "comments", "users", column: "author_id"
+  add_foreign_key "conversation_members", "conversations"
+  add_foreign_key "conversation_members", "users", column: "member_id"
   add_foreign_key "conversations", "organizations"
   add_foreign_key "deliverables", "agenda_items"
   add_foreign_key "deliverables", "users", column: "assignee_id"
