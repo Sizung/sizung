@@ -15,21 +15,15 @@ class AgendaItemInTimeline extends React.Component {
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
-    this.state = {
-      hover: false
-    };
   }
 
   handleTitleUpdate(newTitle) {
+    console.log("newTitle " + newTitle);
     this.props.updateAgendaItem(this.props.agendaItem.id, {title: newTitle});
   }
 
   handleStatusUpdate(newStatus) {
     this.props.updateAgendaItem(this.props.agendaItem.id, {status: newStatus});
-  }
-
-  toggleHover() {
-    this.setState({hover: !this.state.hover});
   }
 
   handleSelect(e) {
@@ -41,8 +35,7 @@ class AgendaItemInTimeline extends React.Component {
     const { agendaItem } = this.props;
     const { title, status, owner } = agendaItem;
 
-    var hoverStyle = (this.state.hover ? 'on-mouse-over' : 'on-mouse-out');
-    return  <div styleName={'root-' + hoverStyle} onMouseOver={this.toggleHover.bind(this)} onMouseOut={this.toggleHover.bind(this)}>
+    return  <div styleName='root'>
       <div styleName='user-container'>
         <User user={owner} />
       </div>

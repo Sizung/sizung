@@ -25,9 +25,6 @@ class DeliverableInTimeline extends React.Component {
       e.preventDefault();
       this.props.deleteComment(this.props.id);
     }
-    this.state = {
-      hover: false
-    };
   }
 
   handleTitleUpdate(newTitle) {
@@ -46,10 +43,6 @@ class DeliverableInTimeline extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, {assignee_id: newAssigneeId});
   }
 
-  toggleHover() {
-    this.setState({hover: !this.state.hover});
-  }
-
   handleSelect(e) {
     e.preventDefault();
     this.props.selectDeliverable(
@@ -62,9 +55,8 @@ class DeliverableInTimeline extends React.Component {
   render() {
     const { deliverable } = this.props;
     const { owner, assignee } = deliverable;
-    var hoverStyle = (this.state.hover ? 'on-mouse-over' : 'on-mouse-out');
 
-    return  <div styleName={'root-' + hoverStyle} onMouseOver={this.toggleHover.bind(this)} onMouseOut={this.toggleHover.bind(this)}>
+    return  <div styleName='root'>
         <div styleName='user-container'>
           <User user={owner} />
         </div>
