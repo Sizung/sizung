@@ -58,8 +58,9 @@ class EditableUser extends React.Component {
   }
 
   handleInputSubmit() {
-    const filteredOptions = this.filteredOptions(this.state.filter, this.props.users);
-    if (filteredOptions.size > 0) {
+    const { filter } = this.state;
+    const filteredOptions = this.filteredOptions(filter, this.props.users);
+    if (filter.length > 0 && filteredOptions.size > 0) {
       this.triggerUpdate(filteredOptions.first().id);
     }
   }
@@ -82,7 +83,6 @@ class EditableUser extends React.Component {
   }
 
   renderEdit(selectedUser, users) {
-
     const options = this.filteredOptions(this.state.filter, users).map((user) => {
       return (
         <div style={{lineHeight: '3em'}} onClick={() => this.handleUserClick(user.id)} key={user.id}>
