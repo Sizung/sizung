@@ -58,3 +58,9 @@
   composes: hover-inline from '../../styles/modules/hover.css';
   composes: pull-right from global;
 }
+
+.deliverable-icon {
+  composes: fa fa-tasks from global;
+  float: left;
+  padding: 5px 10px 0px 0px;
+}

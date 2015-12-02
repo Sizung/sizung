@@ -41,6 +41,7 @@ class AgendaItemInTimeline extends React.Component {
       </div>
       <div styleName="content-container">
         <div styleName="title-container">
+          <i styleName='agenda-item-icon'></i>
           <EditableText text={title} onUpdate={this.handleTitleUpdate} />
         </div>
         <div styleName="status-container">
