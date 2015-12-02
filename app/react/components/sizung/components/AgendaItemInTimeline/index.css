@@ -2,20 +2,7 @@
   composes: hover-container from '../../styles/modules/hover.css';
   width: 100%;
   position: relative;
-  margin: 5px 0px;
   padding: 5px 30px 5px 0px;
-  border: 1px solid #ffffff;
-  border-width: 1px 0px;
-}
-
-.root-on-mouse-out {
-  composes: root;
-}
-
-.root-on-mouse-over {
-  composes: root;
-  border: 1px dashed #f0f0f0;
-  border-width: 1px 0px;
 }
 
 .user-container {
