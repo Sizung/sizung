@@ -14,18 +14,16 @@ class User extends React.Component {
   }
 
   render() {
+    const {style} = this.props;
     let { email, presenceStatus, firstName, lastName } = this.props.user;
 
     const initials = (firstName && lastName) ? firstName.charAt(0) + lastName.charAt(0) : email.charAt(0);
 
-    let style = {};
-    if (presenceStatus === 'online') {
-      style = {color: '#7B7'}
-    }
+    const onlineState = presenceStatus === 'online' ? '-online' : '';
 
     var userLogoSize = ( this.validSizes.indexOf(this.props.size) == -1 ) ? this.validSizes[0] : this.props.size ;
     return (
-      <div styleName={'circle-badge-' + userLogoSize} title={email} style={style}>
+      <div styleName={'circle-badge-' + userLogoSize + onlineState} title={email} style={style}>
       {initials}
       </div>
     );
@@ -39,7 +37,8 @@ User.propTypes = {
     lastName: PropTypes.string.isRequired,
     presenceStatus: PropTypes.string.isRequired
   }).isRequired,
-  size: PropTypes.string.isRequired
+  size: PropTypes.string.isRequired,
+  style: PropTypes.object
 };
 
 User.defaultProps = {
@@ -49,7 +48,8 @@ User.defaultProps = {
     lastName: 'Bar',
     presenceStatus: 'offline'
   },
-  size: "normal"
+  size: "normal",
+  style: {}
 };
 
 export default User;

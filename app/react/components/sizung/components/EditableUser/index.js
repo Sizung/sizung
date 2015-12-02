@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
-import { Select, Placeholder, Option } from 'belle';
 
 import User from '../User/index';
 import UserListApp from '../../containers/UserListApp';
@@ -10,34 +9,125 @@ import UserListApp from '../../containers/UserListApp';
 class EditableUser extends React.Component {
   constructor() {
     super();
+    this.state = {edit: false, filter: ''};
 
+    this.handleEditClick = this.handleEditClick.bind(this);
     this.handleChange     = this.handleChange.bind(this);
+    this.handleKeyDown     = this.handleKeyDown.bind(this);
+    this.handleFilterChange     = this.handleFilterChange.bind(this);
+    this.handleUserClick = this.handleUserClick.bind(this);
+    this.handleInputSubmit = this.handleInputSubmit.bind(this);
+    this.triggerUpdate = this.triggerUpdate.bind(this);
+    this.triggerCancel = this.triggerCancel.bind(this);
+  }
+
+  handleEditClick(event) {
+    this.setState({edit: true});
   }
 
   handleChange(event) {
-    this.props.onUpdate(event.value);
+    this.triggerUpdate(event.value);
+  }
+
+  triggerUpdate(id) {
+    console.log('triggerUpdate: ', id);
+    this.props.onUpdate(id);
+    this.setState({edit: false, filter: ''});
+  }
+
+  triggerCancel() {
+    this.setState({edit: false, filter: ''});
+  }
+
+
+  handleFilterChange(event) {
+    this.setState({filter: event.target.value});
+  }
+
+  handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      this.handleInputSubmit();
+    }
+    else if (event.key === 'Escape') {
+      this.triggerCancel();
+    }
+  }
+
+  handleUserClick(id) {
+    this.triggerUpdate(id);
+  }
+
+  handleInputSubmit() {
+    const filteredOptions = this.filteredOptions(this.state.filter, this.props.users);
+    if (filteredOptions.size > 0) {
+      this.triggerUpdate(filteredOptions.first().id);
+    }
+  }
+
+  renderShow(selectedUser) {
+    return <div onClick={this.handleEditClick}><User user={selectedUser} /></div>
+  }
+
+  filteredOptions(filter, options) {
+    return options.filter(function(user){
+      const name = (user.firstName + ' ' + user.lastName).toLowerCase();
+      return name.toLowerCase().indexOf(filter.toLowerCase()) > -1;
+    })
+  }
+
+  selectedMarker(selectedUser, user) {
+    if (selectedUser === user) {
+      return <i className="fa fa-check pull-right" style={{color: 'green', marginTop: '1em'}}></i>
+    }
   }
 
   renderEdit(selectedUser, users) {
-    const options = users.map(function(user) {
-      return <Option value={user.id}><User user={user}/></Option>;
+
+    const options = this.filteredOptions(this.state.filter, users).map((user) => {
+      return (
+        <div style={{lineHeight: '3em'}} onClick={() => this.handleUserClick(user.id)} key={user.id}>
+          <User user={user} style={{display: 'inline-block'}}/>
+          &nbsp;&nbsp;
+          {user.firstName} {user.lastName}
+          {this.selectedMarker(selectedUser, user)}
+        </div>
+      );
     });
 
     return (
-      <div>
-        <Select defaultValue={selectedUser.id}
-                onUpdate={this.handleChange}
-                style={{width: '30px', borderBottom: '0'}}
-                caretToOpenStyle={{display: 'none'}}>
-          { options }
-        </Select>
+      <div styleName="root">
+        <div styleName="title">
+          Members
+          <i styleName="close-icon" onClick={this.triggerCancel}></i>
+        </div>
+        <input styleName="input" ref="filterInput" type="text" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange} placeholder="Search Members"/>
+        <div>
+          {options}
+        </div>
       </div>
     );
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.edit && !prevState.edit) {
+      var inputElem = React.findDOMNode(this.refs.filterInput);
+      inputElem.focus();
+    }
+  }
+
   render() {
     const { user, users } = this.props;
-    return this.renderEdit(user, users)
+    if (this.state.edit) {
+      return (
+        <div>
+          {this.renderShow(user)}
+          {this.renderEdit(user, users)}
+        </div>
+      );
+    }
+    else {
+      return this.renderShow(user);
+    }
   }
 }
 

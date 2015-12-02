@@ -21,3 +21,19 @@
   font-size: larger;
   line-height: 40px;
 }
+
+.circle-badge-online {
+  composes: circle-badge;
+  color: #7B7;
+}
+
+
+.circle-badge-normal-online {
+  composes: circle-badge-normal;
+  color: #7B7;
+}
+
+.circle-badge-large-online {
+  composes: circle-badge-large;
+  color: #7B7;
+}
