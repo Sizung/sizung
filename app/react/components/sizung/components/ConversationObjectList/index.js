@@ -74,11 +74,11 @@ class ConversationObjectList extends Component {
     this.props.backToConversation(this.props.currentConversation.id);
   };
 
-  adjustConversationListHeight() {
-    var headerInTimelineNode = this.refs.headerInTimeline.getDOMNode();
+  adjustConversationListHeight() {;
+    var headerInTimelineHeight = ( null == this.refs.headerInTimeline ) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
+    var conversationHeaderHeight = $(this.refs.conversationHeader.getDOMNode()).outerHeight();
     var listNode = this.refs.conversationObjectList.getDOMNode();
-    var conversationHeaderNode = this.refs.conversationHeader.getDOMNode();
-    $(listNode).css('top',($(headerInTimelineNode).outerHeight() + $(conversationHeaderNode).outerHeight()));
+    $(listNode).css('top',(headerInTimelineHeight + conversationHeaderHeight));
   }
 
   componentDidUpdate() {
