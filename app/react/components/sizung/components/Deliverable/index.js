@@ -55,14 +55,18 @@ class Deliverable extends React.Component {
             </div>
           </div>
           <div styleName='details-row'>
-            <div styleName="user-container">
-              <User user={assignee} />
+            <div styleName='details-row1'>
+              <div styleName="user-container">
+                <User user={assignee} />
+              </div>
+              <div styleName="due-on">
+                {dueOn}
+              </div>
             </div>
-            <div styleName="due-on">
-              {dueOn}
-            </div>
-            <div styleName="agenda-title-container">
-              # {agendaItem.title}
+            <div styleName='details-row2'>
+              <div styleName="agenda-title-container">
+                # {agendaItem.title}
+              </div>
             </div>
           </div>
         </div>

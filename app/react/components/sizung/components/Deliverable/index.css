@@ -16,7 +16,7 @@
   position: relative;
   width: 100%;
   min-height: 2em;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 
 .content-container {
@@ -35,16 +35,18 @@
 }
 
 .user-container {
-  composes: col-xs-2 from global;
+  composes: pull-left from global;
+  padding: 0px 5px;
 }
 
 .due-on {
-  composes: col-xs-5 from global;
+  composes: label label-info pull-right from global;
+  padding: 5px;
 }
 
 .agenda-title-container {
-  composes: col-xs-5 from global;
-  text-align: right;
+  composes: pull-right from global;
+  text-align: left;
 }
 
 .assignee {
@@ -55,4 +57,14 @@
 
 .comments-icon {
   composes: fa fa-comment-o from global;
+}
+
+.details-row1 {
+  composes: col-xs-12 from global;
+  padding: 0px 10px;
+}
+
+.details-row2 {
+  composes: col-xs-12 from global;
+  padding: 0px 15px;
 }
