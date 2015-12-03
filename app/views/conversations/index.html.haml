@@ -1,22 +1,32 @@
-%h1= "#{@organization.name} - Conversations"
+%h3.conversation-index-header
+  %i.fa.fa-comments
+  Conversations
 
-%table.table
-  %thead
-    %tr
-      %th Title
-      %th
-      %th
-      %th
-
-  %tbody
-    - @conversations.each do |conversation|
-      %tr
-        %td= link_to conversation.title, conversation, { data: { no_turbolink: true } }
-        %td= link_to 'Edit', edit_conversation_path(conversation)
-        %td= link_to 'Destroy', conversation, :method => :delete, :data => { :confirm => 'Are you sure?' }
+- @conversations.each do |conversation|
+  .conversation
+    .conversation-header
+      .conversation-title
+        = link_to conversation.title, conversation, { data: { no_turbolink: true } }
+      .conversation-last-updated
+        = time_ago_in_words conversation.updated_at
+        ago
+    .conversation-conversation-object
+      - last_conversation_object = conversation.conversation_objects.first
+      - if last_conversation_object
+        .conversation-conversation-object-owner
+          - user = last_conversation_object.owner
+          = react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name}}, {prerender: true})
+        .conversation-conversation-object-title
+          = last_conversation_object.title
+      - else
+        .conversation-empty
+          Jump right in and start the conversation.
 
 %br
 
-= link_to 'New Conversation', new_organization_conversation_path(@organization)
-\|
-= link_to 'Back', organization_path(@organization)
+.new-conversation-link
+  = link_to new_organization_conversation_path(@organization) do
+    %span.fa-stack.fa-lg
+      %i.fa.fa-circle.fa-stack-2x
+      %i.fa.fa-plus.fa-inverse.fa-stack-1x
+    %span Add Conversation

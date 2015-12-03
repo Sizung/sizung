@@ -1,0 +1,63 @@
+@import "card";
+
+.conversation-index-header {
+  margin-bottom: 1em;
+}
+
+.conversation {
+  @extend .card;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.conversation-header {
+  @extend .clearfix;
+  margin-bottom: 1em;
+}
+
+.conversation-title {
+  display: inline;
+  font-weight: bold;
+  font-size: 1.3em;
+}
+
+.conversation-last-updated {
+  display: inline;
+  float: right;
+
+  color: darkgray;
+}
+
+.conversation-empty {
+  color: darkgray;
+}
+
+.conversation-conversation-object {
+  @extend .clearfix;
+}
+
+.conversation-conversation-object-owner {
+  display: inline;
+  float: left;
+}
+
+.conversation-conversation-object-title {
+  display: inline;
+  float: left;
+  margin: 4px 10px;
+}
+
+.new-conversation-link {
+  text-align: right;
+  margin-bottom: 3em;
+  margin-right: 6px;
+  font-weight: bold;
+}

@@ -9,3 +9,6 @@ registerComponent('CommentForm', CommentForm);
 
 import ConversationRoot from './components/sizung/containers/ConversationRoot.js'
 registerComponent('ConversationRoot', ConversationRoot);
+
+import User from './components/sizung/components/User/index.js'
+registerComponent('User', User);

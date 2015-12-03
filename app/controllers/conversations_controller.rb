@@ -10,7 +10,7 @@ class ConversationsController < ApplicationController
   # GET /conversations
   # GET /conversations.json
   def index
-    @conversations = @organization.conversations
+    @conversations = @organization.conversations.order(:title)
   end
 
   # GET /conversations/1
