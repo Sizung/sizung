@@ -4,8 +4,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def update?
-    show?
-    # user == record.owner
+    user == record.owner
   end
 
   def destroy?

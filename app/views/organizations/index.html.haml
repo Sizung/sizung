@@ -6,15 +6,18 @@
       %th Name
       %th Owner
       %th
-      %th
 
   %tbody
     - @organizations.each do |organization|
       %tr
         %td= link_to organization.name, organization
         %td= organization.owner
-        %td= link_to 'Edit', edit_organization_path(organization)
-        %td= link_to 'Destroy', organization, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td
+          - if policy(organization).edit?
+            = link_to 'Edit', edit_organization_path(organization)
+        %td
+          - if policy(organization).destroy?
+            = link_to 'Destroy', organization, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
