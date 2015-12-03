@@ -22,7 +22,8 @@
   right: 0px;
   left: 0px;
   bottom: 85px;
-  overflow:auto;
+  overflow-y:auto;
+  overflow-x: hidden;
 
   -webkit-box-shadow: 1px 1px 1px 0px #aaaaaa;
   -moz-box-shadow: 1px 1px 1px 0px #aaaaaa;
