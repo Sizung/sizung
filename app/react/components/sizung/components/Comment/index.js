@@ -25,7 +25,6 @@ class Comment extends React.Component {
     this.commentBody = $(this.commentBodyNode).text();
     if(!this.commentBody) return;
     this.props.createAgendaItem({conversation_id: this.props.comment.parent.id, title: this.commentBody});
-    this.toggleHover();
   }
 
   handleDeliverable(e){
@@ -34,7 +33,6 @@ class Comment extends React.Component {
     this.commentBody = $(this.commentBodyNode).text();
     if(!this.commentBody) return;
     this.props.createDeliverable({agenda_item_id: this.props.comment.parent.id, title: this.commentBody});
-    this.toggleHover();
   }
 
   render() {
