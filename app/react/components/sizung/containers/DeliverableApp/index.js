@@ -36,7 +36,7 @@ class DeliverableApp extends React.Component {
    * on an deliverable to select it.
    */
   componentDidMount () {
-    this.props.selectDeliverable(this.props.currentConversation.id, this.props.selectedAgendaItemId, this.props.selectedDeliverableId)
+    this.props.selectDeliverable(this.props.currentConversation.id, this.props.selectedAgendaItemId, this.props.selectedDeliverableIdInPath)
   }
 
   render() {
@@ -81,14 +81,16 @@ function mapStateToProps(state) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
   const selectedAgendaItemId = getAgendaItemIdFromPath(getPath(state));
-  const selectedDeliverableId = getDeliverableIdFromPath(getPath(state));
-
-  const selectedDeliverable = fillDeliverable(state, selectedDeliverableId);
+  const selectedDeliverableIdInState = state.getIn(['selectedConversationObject', 'type']) === 'deliverables' ? state.getIn(['selectedConversationObject', 'id']) : null;
+  const selectedDeliverableIdInPath = getDeliverableIdFromPath(getPath(state));
+  const selectedDeliverableId = selectedDeliverableIdInState;
+  const selectedDeliverable = selectedDeliverableId ? fillDeliverable(state, selectedDeliverableId) : null;
 
   const objectsToShow = state.getIn(['conversationObjectsByDeliverable', selectedDeliverableId]);
   const conversationObjectsList = prepareConversationObjectList(state, objectsToShow, selectedDeliverable, false, false);
 
   return {
+    selectedDeliverableIdInPath: selectedDeliverableIdInPath,
     selectedAgendaItemId: selectedAgendaItemId,
     selectedDeliverableId: selectedDeliverableId,
     conversationObjectsList: conversationObjectsList,

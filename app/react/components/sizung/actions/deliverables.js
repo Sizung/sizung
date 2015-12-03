@@ -61,7 +61,7 @@ export function backToConversation(conversationId) {
   };
 }
 
-function selectDeliverableSuccess(deliverableId) {
+function selectDeliverableSuccess(agendaItemId, deliverableId) {
   return {
     type: SELECT_DELIVERABLE,
     status: STATUS_SUCCESS,
