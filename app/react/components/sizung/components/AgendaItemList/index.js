@@ -28,9 +28,12 @@ class AgendaItemList extends Component {
 
   componentDidUpdate() {
       //TODO: find and better alternative way to scroll on adding new component.
+    console.log("this.props.agendaItems.size > this.agendaItemListSize " + this.props.agendaItems.size  + ", " + this.agendaItemListSize);
     if ( this.props.agendaItems.size > this.agendaItemListSize ) {
       this.agendaItemListSize =  this.props.agendaItems.size;
       this.scrollList();
+    } else {
+      $(this.refs.agendaItemList.getDOMNode()).scrollTop(0);
     }
   }
 
