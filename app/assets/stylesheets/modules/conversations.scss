@@ -29,6 +29,19 @@
   font-size: 1.3em;
 }
 
+.conversation:hover .conversation-actions {
+  display: inline;
+}
+
+.conversation-actions {
+  display: none;
+  font-size: 85%;
+
+  a {
+    margin-left: 10px;
+  }
+}
+
 .conversation-last-updated {
   display: inline;
   float: right;

@@ -7,6 +7,13 @@
     .conversation-header
       .conversation-title
         = link_to conversation.title, conversation, { data: { no_turbolink: true } }
+      .conversation-actions
+        = link_to edit_conversation_path(conversation) do
+          %i.fa.fa-pencil
+          edit
+        = link_to conversation, method: :delete, data: { :confirm => 'Are you sure?' } do
+          %i.fa.fa-trash-o
+          delete
       .conversation-last-updated
         = time_ago_in_words conversation.updated_at
         ago
