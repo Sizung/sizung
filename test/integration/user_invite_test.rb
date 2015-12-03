@@ -29,6 +29,33 @@ class UserInviteTest < ActionDispatch::IntegrationTest
     assert_includes @user.organizations.first.members, @other_user
   end
 
+  test 'User can invite a pending user' do
+    @user       = FactoryGirl.create :user
+    @other_user = FactoryGirl.create :user
+    @other_organization = @other_user.organizations.first
+    login(@user)
+    invite(@other_user.email)
+    invite(@other_user.email)
+
+    #
+    # Accept the invitation
+    #
+    logout
+    visit(parse_email_for_explicit_link(open_email(@other_user.email), 'sign in'))
+    assert page.has_content? 'Login'
+
+    #
+    # Assert that they are in the same organization now
+    #
+    assert_equal 2, User.all.size
+    assert_equal 2, Organization.all.size
+    assert_equal 1, @other_organization.members.size
+    assert_equal 1, @user.organizations.size
+    assert_equal 2, @user.organizations.first.members.size
+    assert_includes @user.organizations.first.members, @user
+    assert_includes @user.organizations.first.members, @other_user
+  end
+
   test 'User can invite a new user to the current organization' do
     @user = FactoryGirl.create :user
     login(@user)
