@@ -14,7 +14,7 @@
   top: 10px;
 }
 
-.input-container {
+.input-form {
   position: relative;
   display: table-cell;
   height: 40px;
@@ -24,8 +24,13 @@
   vertical-align: middle;
 }
 
+.input-container {
+  width: 100%;
+  padding-right: 100px;
+}
+
 .input {
-  width: 80%;
+  width: 100%;
   padding: 0px 10px 0px 10px;
   -webkit-box-shadow: none !important;
   -moz-box-shadow: none !important;
