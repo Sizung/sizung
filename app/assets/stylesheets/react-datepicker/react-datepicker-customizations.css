@@ -4,6 +4,7 @@
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
+  background: transparent;
 }
 
 .datepicker__input-container .datepicker__input:focus {

@@ -36,17 +36,30 @@
 }
 
 .meta-container {
+  composes: row from global;
+  padding-top: 5px;
+}
 
+.meta-container-row {
+  composes: col-xs-12 from global;
+}
+
+.assignee-container {
+  composes: pull-left from global;
 }
 
 .editable-user {
+  composes: pull-right col-xs-6 from global;
   display: inline-block;
   vertical-align: middle;
+
 }
 
 .editable-date {
+  composes: pull-left col-xs-6 from global;
   display: inline-block;
   vertical-align: middle;
+  float: left;
 }
 
 .time-container {
@@ -63,4 +76,36 @@
   composes: fa fa-tasks from global;
   float: left;
   padding: 5px 10px 0px 0px;
+}
+
+.editable-user-container {
+  composes: pull-right from global;
+  border: none;
+  outline: none;
+  border-width: 0px;
+  background: transparent;
+  box-shadow: none;
+  padding: 0px;
+}
+
+.user-label {
+  composes: text-muted pull-right from global;
+  padding: 5px 5px 0px 0px;
+}
+
+.due-date-container {
+  composes: pull-right from global;
+}
+
+.editable-due-date-container {
+  border: none;
+  outline: none;
+  border-width: 0px;
+  background: #eeeeee;
+  padding: 5px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  box-shadow: none;
+  max-width: 100px;
 }

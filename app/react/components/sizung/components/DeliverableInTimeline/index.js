@@ -69,11 +69,20 @@ class DeliverableInTimeline extends React.Component {
             <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} />
           </div>
           <div styleName="meta-container">
-            <div styleName="editable-date">
-              <EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} />
-            </div>
-            <div styleName="editable-user">
-              <EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} />
+            <div styleName="meta-container-row">
+              <div styleName="assignee-container">
+                <div styleName='editable-user-container'>
+                  <EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} />
+                </div>
+                <small styleName='user-label'><strong>Assigned To</strong></small>
+
+              </div>
+              <div styleName='due-date-container'>
+                <small className="text-muted"><strong>Due Date</strong></small>
+                <div styleName='editable-due-date-container'>
+                  <EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
