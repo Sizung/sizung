@@ -81,7 +81,7 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
 function mapStateToProps(state) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
-  const selectedAgendaItemIdInState = state.getIn(['selectedConversationObject', 'id']);
+  const selectedAgendaItemIdInState = state.getIn(['selectedConversationObject', 'type']) === 'agendaItems' ? state.getIn(['selectedConversationObject', 'id']) : null;
   const selectedAgendaItemIdInPath = state.get('routing').path.split('/')[4];
   const selectedAgendaItemId = selectedAgendaItemIdInState;
 

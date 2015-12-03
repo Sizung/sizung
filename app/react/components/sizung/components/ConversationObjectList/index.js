@@ -60,10 +60,9 @@ class ConversationObjectList extends Component {
   }
 
   scrollList() {
-    var _this = this;
-    window.requestAnimationFrame(function() {
-      var node = _this.refs.conversationObjectList.getDOMNode();
-      if (node !== undefined) {
+    window.requestAnimationFrame(() => {
+      var node = this.refs.conversationObjectList ? this.refs.conversationObjectList.getDOMNode() : null;
+      if (node) {
         node.scrollTop = node.scrollHeight;
       }
     });
