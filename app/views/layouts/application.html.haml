@@ -39,7 +39,7 @@
                 %ul.dropdown-menu
                   - policy_scope(Organization).each do |organization|
                     %li
-                      = link_to organization.name, organization_conversations_path(organization)
+                      = link_to organization.name, organization_conversations_path(organization) if organization.id
                   %li.divider{role: 'separator'}
                   %li
                     = link_to new_organization_path do
