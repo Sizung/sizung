@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   end
 
   def name
-    (first_name && last_name) ? [first_name, last_name].join(' ') : email
+    (first_name.present? && last_name.present?) ? [first_name, last_name].join(' ') : email
   end
 
   def to_s

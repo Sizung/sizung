@@ -4,10 +4,16 @@ class OrganizationsController < ApplicationController
   after_action :verify_authorized,    except: :index
   after_action :verify_policy_scoped, only: :index
 
+  respond_to :json, :html
+
   # GET /organizations
   # GET /organizations.json
   def index
     @organizations = policy_scope(Organization)
+    respond_to do |format|
+      format.html
+      format.json { render json: @organizations }
+    end
   end
 
   # GET /organizations/1

@@ -12,14 +12,7 @@ class UserList extends Component {
       <div>
         {
           users.map(function(user) {
-            return(<div>
-              <div style={{ display: 'table-cell', padding: '5px;' , verticalAlign: 'top'}}>
-                <User key={user.id} user={user}/>
-              </div>
-              <div style={{ display: 'table-cell', padding: '5px;', verticalAlign: 'top'  }}>
-                {user.firstName + " " + user.lastName}
-              </div>
-            </div> );
+            return(<User key={user.id} user={user} showName={true} style={{display: 'block', marginTop: '5px', marginBottom: '5px'}} />);
           })
         }
       </div>

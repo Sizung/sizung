@@ -5,6 +5,7 @@ import comments from './comments';
 import agendaItems from './agendaItems';
 import currentUser from './currentUser';
 import currentConversation from './currentConversation';
+import organizations from './organizations';
 import conversations from './conversations';
 import deliverables from './deliverables';
 import users from './users';
@@ -16,6 +17,7 @@ import conversationObjectsByDeliverable from './conversationObjectsByDeliverable
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 
 const entities = combineReducers({
+  organizations,
   conversations,
   comments,
   agendaItems,

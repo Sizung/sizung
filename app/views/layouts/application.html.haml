@@ -29,15 +29,34 @@
           %span.icon-bar
           %span.icon-bar
           %span.icon-bar
-        %a.navbar-brand(href=root_path) Sizung
         .navbar-collapse.collapse.navbar-responsive-collapse
-          %ul.nav.navbar-nav
-            - if user_signed_in?
-              %li= link_to 'Organizations', organizations_path
+          - if user_signed_in?
+            %ul.nav.navbar-nav
+              %li.dropdown
+                %a.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button',  aria_haspopup: 'true',  aria_expanded: 'false'}
+                  Organizations
+                  %span.caret
+                %ul.dropdown-menu
+                  - policy_scope(Organization).each do |organization|
+                    %li
+                      = link_to organization.name, organization_conversations_path(organization)
+                  %li.divider{role: 'separator'}
+                  %li
+                    = link_to new_organization_path do
+                      %i.fa.fa-plus
+                      %span Add new organization
               %li= link_to 'Invite your team', new_user_invitation_path
-              %li= link_to current_user.name, edit_user_registration_path
-              %li= link_to 'Logout', destroy_user_session_path, method: :delete
-            - else
+            %ul.nav.navbar-nav.navbar-right
+              %li.dropdown
+                %a.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button',  aria_haspopup: 'true',  aria_expanded: 'false'}
+                  - user = current_user
+                  %span= react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name}, style: {display: 'inline-block'}, showName: true}, {tag: :span, prerender: true})
+                  %span.caret
+                %ul.dropdown-menu
+                  %li= link_to 'Edit Profile', edit_user_registration_path
+                  %li= link_to 'Logout', destroy_user_session_path, method: :delete
+          - else
+            %ul.nav.navbar-nav
               %li= link_to 'Login', new_user_session_path
               %li= link_to 'Sign up', new_user_registration_path
 

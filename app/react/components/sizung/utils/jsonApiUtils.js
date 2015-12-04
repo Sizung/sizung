@@ -5,6 +5,14 @@ function transformTypeFromJsonApi(type) {
   }
 }
 
+export function transformOrganizationFromJsonApi(organization) {
+  return {
+    id: organization.id,
+    type: transformTypeFromJsonApi(organization.type),
+    name: organization.attributes.name
+  };
+}
+
 export function transformDeliverableFromJsonApi(deliverable) {
   return {
     id: deliverable.id,

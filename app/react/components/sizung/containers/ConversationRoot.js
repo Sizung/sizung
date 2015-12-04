@@ -19,6 +19,7 @@ import UserListApp from './UserListApp';
 import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
 import {setConversationObjects, fetchConversationObjects} from '../actions/conversationObjects'
+import {fetchOrganizations} from '../actions/organizations';
 import {createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems, createAgendaItemRemoteOrigin, updateAgendaItemRemoteOrigin} from '../actions/agendaItems'
 import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi} from '../utils/jsonApiUtils';
@@ -39,18 +40,30 @@ const store = configureStore();
 const history = createBrowserHistory();
 syncReduxAndRouter(history, store, (state) => state.get('routing'));
 
+function transformConversationObjectFromPlainJson(conversationJson) {
+  var obj = {
+    id: conversationJson.id,
+    type: 'conversations',
+    title: conversationJson.title,
+    organization_id: conversationJson.organization_id,
+    created_at: conversationJson.created_at,
+    updated_at: conversationJson.updated_at
+  }
+  return obj;
+}
+
 export default class ConversationRoot extends Component {
   componentWillMount() {
     store.dispatch(setCurrentUser(this.props.currentUser));
-    //store.dispatch(setConversationObjects(this.props.currentConversation, this.props.conversationObjects));
     store.dispatch(setAgendaItems(this.props.agendaItems));
-    store.dispatch(setCurrentConversation(this.props.currentConversation));
+    store.dispatch(setCurrentConversation(transformConversationObjectFromPlainJson(this.props.currentConversation)));
     store.dispatch(setDeliverables(this.props.deliverables));
     store.dispatch(setUsers(this.props.users));
   }
 
   componentDidMount() {
     store.dispatch(fetchConversationObjects('conversations', this.props.currentConversation.id));
+    store.dispatch(fetchOrganizations());
 
     window.App.comments.setOnReceived(function (data) {
       if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {

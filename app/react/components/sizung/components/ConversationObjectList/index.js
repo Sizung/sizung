@@ -136,7 +136,7 @@ class ConversationObjectList extends Component {
 
     <div styleName='list-container'>
       <div id='ani' styleName='list-header' ref='conversationHeader'>
-        <Dropdown styleName='conversation-dropdown' ref='conversationDropdown'>
+        <Dropdown id="conversation-dropdown" styleName='conversation-dropdown' ref='conversationDropdown'>
           <Dropdown.Toggle styleName='conversation-dropdown-toggle' bsStyle='default' bsSize="small" pullRight>
             <span styleName='conversation-dropdown-toggle-text'><i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}</span>
           </Dropdown.Toggle>
@@ -151,7 +151,7 @@ class ConversationObjectList extends Component {
         </Dropdown>
         <div styleName='member-dropdown-container'>
           <i styleName='user-icon'></i>{' '}
-          <Dropdown styleName='member-dropdown' bsStyle='default' ref='memberDropdown' pullRight noCaret>
+          <Dropdown id="member-dropdown" styleName='member-dropdown' bsStyle='default' ref='memberDropdown' pullRight noCaret>
             <Dropdown.Toggle styleName='member-dropdown-toggle' bsStyle='default' bsSize="small" pullRight noCaret>
               <div styleName='member-badge'><div styleName='member-badge-contents'>{users.size}</div></div>
             </Dropdown.Toggle>
@@ -210,7 +210,7 @@ ConversationObjectList.propTypes = {
   }).isRequired,
   canCreateAgendaItem: PropTypes.bool.isRequired,
   canCreateDeliverable: PropTypes.bool.isRequired,
-  users: PropTypes.array.isRequired,
+  users: PropTypes.object.isRequired,
   updateAgendaItem: PropTypes.func.isRequired
 };
 

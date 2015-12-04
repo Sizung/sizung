@@ -25,9 +25,9 @@ import styles from "./index.css";
 class App extends Component {
 
   render() {
-    const { currentUser } = this.props;
+    const { currentUser, organizations } = this.props;
 
-    return (<ApplicationLayout currentUser={currentUser} >
+    return (<ApplicationLayout currentUser={currentUser} organizations={organizations} >
       <Row styleName='root'>
         <Col className='hidden-xs' sm={3} styleName='left-panel'>
           <AgendaItemListApp />
@@ -70,6 +70,9 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
 function mapStateToProps(state) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
+  const organizations = state.getIn(['entities', 'organizations']).map(function(organization){
+    return organization;
+  }).toList();
 
   var conversationObjectsList;
 
@@ -77,6 +80,7 @@ function mapStateToProps(state) {
   conversationObjectsList = prepareConversationObjectList(state, objectsToShow, currentConversation, true, false);
 
   return {
+    organizations: organizations,
     conversationObjectsList: conversationObjectsList,
     currentConversation: currentConversation,
     currentUser: currentUser

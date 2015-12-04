@@ -237,9 +237,3 @@ html, body {
 .borderless {
     border: none;
 }
-
-@media only screen and (max-width : 979px) {
-  .navbar-nav .open .dropdown-menu {
-    position: absolute; background: white; border: 2px solid #eeeeee;
-  }
-}

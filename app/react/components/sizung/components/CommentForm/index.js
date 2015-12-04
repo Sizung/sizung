@@ -63,18 +63,16 @@ class CommentForm extends React.Component {
     }
 
     var currentConversation = null;
-    if ( null != this.props.parent.type ) {
-      switch (this.props.parent.type) {
-        case 'agendaItems':
-          currentConversation = this.props.parent.conversation;
-          break;
-
-        case 'deliverables':
-          currentConversation = this.props.parent.agendaItem.conversation;
-          break;
-      }
-    } else {
-      currentConversation = this.props.parent;
+    switch (this.props.parent.type) {
+      case 'agendaItems':
+        currentConversation = this.props.parent.conversation;
+        break;
+      case 'deliverables':
+        currentConversation = this.props.parent.agendaItem.conversation;
+        break;
+      case 'conversations':
+        currentConversation = this.props.parent;
+        break;
     }
 
     return (

@@ -1,5 +1,13 @@
+.root {
+
+}
+
+.name {
+  margin-left: 5px;
+}
+
 .circle-badge {
-  position: relative;
+  display: inline-block;
   border-radius: 50%/50%;
   background-color: #eeeeee;
   text-align: center;
