@@ -1,0 +1,16 @@
+%ul.nav.navbar-nav
+  %li.dropdown
+    %a.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button',  aria_haspopup: 'true',  aria_expanded: 'false'}
+      = @organization.present? ? @organization.name : 'Organizations'
+      %span.caret
+    %ul.dropdown-menu
+      - policy_scope(Organization).each do |organization|
+        - unless @organization.present? && @organization.id == organization.id
+          %li
+            = link_to organization.name, organization_conversations_path(organization) if organization.id
+      %li.divider{role: 'separator'}
+      %li
+        = link_to new_organization_path do
+          %i.fa.fa-plus
+          %span Add new organization
+  %li= link_to 'Invite your team', new_user_invitation_path

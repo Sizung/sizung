@@ -19,10 +19,10 @@ import UserListApp from './UserListApp';
 import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
 import {setConversationObjects, fetchConversationObjects} from '../actions/conversationObjects'
-import {fetchOrganizations} from '../actions/organizations';
+import {fetchOrganizations, setCurrentOrganization} from '../actions/organizations';
 import {createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems, createAgendaItemRemoteOrigin, updateAgendaItemRemoteOrigin} from '../actions/agendaItems'
-import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi} from '../utils/jsonApiUtils';
+import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi, transformOrganizationFromJsonApi} from '../utils/jsonApiUtils';
 import {setDeliverables, createDeliverableRemoteOrigin, updateDeliverableRemoteOrigin} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
@@ -59,6 +59,7 @@ export default class ConversationRoot extends Component {
     store.dispatch(setCurrentConversation(transformConversationObjectFromPlainJson(this.props.currentConversation)));
     store.dispatch(setDeliverables(this.props.deliverables));
     store.dispatch(setUsers(this.props.users));
+    store.dispatch(setCurrentOrganization(transformOrganizationFromJsonApi(this.props.currentOrganization.data)));
   }
 
   componentDidMount() {

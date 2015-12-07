@@ -20,6 +20,7 @@ class ConversationsController < ApplicationController
     @deliverables_json = ActiveModel::SerializableResource.new(@conversation.deliverables).serializable_hash
     # @conversation_objects_json = ActiveModel::SerializableResource.new(@conversation.conversation_objects).serializable_hash
     @users_json = @conversation.organization.members
+    @current_organization_json = ActiveModel::SerializableResource.new(@conversation.organization).serializable_hash
   end
 
   # GET /conversations/new

@@ -5,6 +5,7 @@ import comments from './comments';
 import agendaItems from './agendaItems';
 import currentUser from './currentUser';
 import currentConversation from './currentConversation';
+import currentOrganization from './currentOrganization';
 import organizations from './organizations';
 import conversations from './conversations';
 import deliverables from './deliverables';
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   selectedConversationObject,
   currentUser,
   currentConversation,
+  currentOrganization,
   conversationObjectsByConversation,
   conversationObjectsByAgendaItem,
   conversationObjectsByDeliverable,

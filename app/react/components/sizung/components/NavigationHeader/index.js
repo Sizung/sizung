@@ -8,10 +8,13 @@ import styles from "./index.css";
 class NavigationHeader extends Component {
   render() {
     const currentUserName = this.props.currentUser.firstName + " " + this.props.currentUser.lastName;
-    const { organizations } = this.props;
-    const organizationElements = organizations.map(function(organization){
+    const { organizations, currentOrganization } = this.props;
+    const organizationElements = organizations.filter(function(organization){
+      return organization.id !== currentOrganization.id;
+    }).map(function(organization){
       return <li key={organization.id}><a href={'/organizations/' + organization.id + '/conversations'}>{organization.name}</a></li>;
     });
+
     return (
       <div className="navbar navbar-default navbar-static-top zero-vertical-margin white-bg">
         <div className='container full-width'>
@@ -24,7 +27,7 @@ class NavigationHeader extends Component {
             <ul className='nav navbar-nav'>
               <li>
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                  Organizations <span className="caret"></span>
+                  {currentOrganization.name} <span className="caret"></span>
                 </a>
                 <ul className="dropdown-menu">
                   {organizationElements}

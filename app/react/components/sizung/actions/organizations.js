@@ -4,6 +4,15 @@ import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGI
 import { transformOrganizationFromJsonApi } from '../utils/jsonApiUtils';
 
 export const FETCH_ORGANIZATIONS = 'FETCH_ORGANIZATIONS';
+export const SET_CURRENT_ORGANIZATION = 'SET_CURRENT_ORGANIZATION';
+
+export function setCurrentOrganization(organization) {
+  return {
+    type: SET_CURRENT_ORGANIZATION,
+    status: STATUS_SUCCESS,
+    organization: organization
+  }
+}
 
 function fetchOrganizationsSuccess(organizations) {
   return {

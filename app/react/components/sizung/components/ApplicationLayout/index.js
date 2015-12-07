@@ -6,11 +6,11 @@ import styles from "./index.css";
 @CSSModules(styles)
 class ApplicationLayout extends Component {
   render() {
-    const { organizations } = this.props;
+    const { organizations, currentOrganization } = this.props;
 
     return (
       <div styleName='root'>
-        <NavigationHeader currentUser={this.props.currentUser} organizations={organizations}/>
+        <NavigationHeader currentUser={this.props.currentUser} organizations={organizations} currentOrganization={currentOrganization}/>
         <div styleName='main-content' >
           { this.props.children }
         </div>
@@ -23,6 +23,7 @@ class ApplicationLayout extends Component {
 }
 
 ApplicationLayout.propTypes = {
+  currentOrganization: PropTypes.object.isRequired,
   organizations: PropTypes.object.isRequired,
   currentUser: PropTypes.shape({
     name: PropTypes.string.isRequired
