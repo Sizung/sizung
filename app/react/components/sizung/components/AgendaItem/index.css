@@ -36,6 +36,6 @@
 }
 
 .deliverables-icon {
-  composes: fa fa-tag from global;
+  composes: fa fa-tasks from global;
   margin-left: 2em;
 }
