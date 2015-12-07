@@ -29,6 +29,8 @@ class DeliverableList extends Component {
     if ( this.props.deliverables.size > this.deliverableListSize ) {
       this.deliverableListSize = this.props.deliverables.size;
       this.scrollList();
+    } else {
+      $(this.refs.deliverableList.getDOMNode()).scrollTop(0);
     }
   }
 
