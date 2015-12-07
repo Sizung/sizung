@@ -73,7 +73,7 @@ class ConversationObjectList extends Component {
     this.props.backToConversation(this.props.currentConversation.id);
   };
 
-  adjustConversationListHeight() {;
+  adjustConversationListHeight() {
     var headerInTimelineHeight = ( null == this.refs.headerInTimeline ) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
     var conversationHeaderHeight = $(this.refs.conversationHeader.getDOMNode()).outerHeight();
     var listNode = this.refs.conversationObjectList.getDOMNode();
@@ -136,27 +136,15 @@ class ConversationObjectList extends Component {
 
     <div styleName='list-container'>
       <div styleName='list-header' ref='conversationHeader'>
-        <div className="btn-group">
-          <a styleName='conversation-dropdown' className="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <span styleName='conversation-dropdown-toggle-text'>
-              <i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}
-            </span>
-            {" "}
-            <span className='caret'></span>
+        <div styleName="conversation-title-container">
+          <span styleName='conversation-title'>
+            <i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}
+          </span>
+          <a styleName='conversation-close-button' href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
+            <i styleName='conversation-close-icon' ></i>
           </a>
-          <ul className="dropdown-menu dropdown-menu-right">
-            <li>
-              <a href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
-                View All Conversations
-              </a>
-            </li>
-            <li>
-              <a href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations/new"}>
-                Add New Conversation
-              </a>
-            </li>
-          </ul>
         </div>
+
         <div styleName='member-dropdown-container'>
           <div className="btn-group">
             <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
