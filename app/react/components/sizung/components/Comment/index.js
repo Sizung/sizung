@@ -3,7 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import Time from 'react-time'
 import User from './../User/index'
-import { DropdownButton, Dropdown, Menu, MenuItem, Toggle, Glyphicon } from 'react-bootstrap';
+import { Glyphicon } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
@@ -40,10 +40,10 @@ class Comment extends React.Component {
 
     var commentActions = [];
     if (canCreateAgendaItem) {
-      commentActions.push(<MenuItem key={id + '-action-1'} onSelect={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</MenuItem>);
+      commentActions.push(<li><a href='#' onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
     }
     if (canCreateDeliverable) {
-      commentActions.push(<MenuItem key={id + '-action-2'} onSelect={this.handleDeliverable.bind(this)}>Escalate as Deliverable</MenuItem>);
+      commentActions.push(<li><a href='#' onClick={this.handleDeliverable.bind(this)}>Escalate as Deliverable</a></li>);
     }
 
     return  <div styleName='root'>
@@ -52,17 +52,15 @@ class Comment extends React.Component {
       </div>
       <div styleName='content-container'>
         <div styleName='options-menu'>
-          <Dropdown id={"settings-dropdown-"+id} styleName='settings-dropdown' ref='settingsDropdown' pullRight>
-            <Dropdown.Toggle styleName='gear-icon-toggle' bsStyle='link' bsSize="small" noCaret>
+          <div className="btn-group">
+            <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i styleName='gear-icon'></i>
-            </Dropdown.Toggle>
-            <Dropdown.Menu style={{ position: 'absolute', top: '0px', right: '0px', zIndex: '99999'}}>
-              <MenuItem onSelect={this.handleDeleteClick}>
-                Delete Comment
-              </MenuItem>
+            </a>
+            <ul className="dropdown-menu dropdown-menu-right">
+              <li><a href="#" onClick={this.handleDeleteClick}>Delete Comment</a></li>
               {commentActions}
-            </Dropdown.Menu>
-          </Dropdown>
+            </ul>
+          </div>
         </div>
         <div styleName='comment-body' ref='commentBody'>
           {body}

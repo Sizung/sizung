@@ -135,38 +135,47 @@ class ConversationObjectList extends Component {
     return (
 
     <div styleName='list-container'>
-      <div id='ani' styleName='list-header' ref='conversationHeader'>
-        <Dropdown id="conversation-dropdown" styleName='conversation-dropdown' ref='conversationDropdown'>
-          <Dropdown.Toggle styleName='conversation-dropdown-toggle' bsStyle='default' bsSize="small" pullRight>
-            <span styleName='conversation-dropdown-toggle-text'><i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}</span>
-          </Dropdown.Toggle>
-          <Dropdown.Menu>
-            <MenuItem href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
-              View All Conversations
-            </MenuItem>
-            <MenuItem href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations/new"}>
-              Add New Conversation
-            </MenuItem>
-          </Dropdown.Menu>
-        </Dropdown>
+      <div styleName='list-header' ref='conversationHeader'>
+        <div className="btn-group">
+          <a styleName='conversation-dropdown' className="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span styleName='conversation-dropdown-toggle-text'>
+              <i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}
+            </span>
+            {" "}
+            <span className='caret'></span>
+          </a>
+          <ul className="dropdown-menu dropdown-menu-right">
+            <li>
+              <a href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
+                View All Conversations
+              </a>
+            </li>
+            <li>
+              <a href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations/new"}>
+                Add New Conversation
+              </a>
+            </li>
+          </ul>
+        </div>
         <div styleName='member-dropdown-container'>
-          <i styleName='user-icon'></i>{' '}
-          <Dropdown id="member-dropdown" styleName='member-dropdown' bsStyle='default' ref='memberDropdown' pullRight noCaret>
-            <Dropdown.Toggle styleName='member-dropdown-toggle' bsStyle='default' bsSize="small" pullRight noCaret>
-              <div styleName='member-badge'><div styleName='member-badge-contents'>{users.size}</div></div>
-            </Dropdown.Toggle>
-            <Dropdown.Menu>
-              <MenuItem href="#">
-                <div styleName='member-list-container'>
+          <div className="btn-group">
+            <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div className="pull-right" styleName='member-badge'><div styleName='member-badge-contents'>{users.size}</div></div>
+              <i className="pull-right" styleName='user-icon'></i>
+            </a>
+            <ul className="dropdown-menu dropdown-menu-right">
+              <li>
+                <a href="#">
                   <UserListApp/>
-                </div>
-              </MenuItem>
-              <MenuItem divider/>
-              <MenuItem href="/users/invitation/new">
-                Invite member
-              </MenuItem>
-            </Dropdown.Menu>
-          </Dropdown>
+                </a>
+              </li>
+              <li>
+                <a href="/users/invitation/new">
+                  <i className="fa fa-plus"></i>{" "}Invite member
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
       { conversationTimelineHeader }

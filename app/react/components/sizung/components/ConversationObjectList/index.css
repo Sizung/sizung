@@ -58,24 +58,15 @@
 .conversation-dropdown {
   text-decoration: none;
   outline: none;
-}
-
-.conversation-dropdown-toggle {
-  padding: 0px 10px;
-  text-decoration: none;
+  color: black;
+  cursor: pointer;
   border: none;
   background: transparent;
-  outline: none;
 }
 
 .conversation-dropdown-toggle-text {
   text-decoration: none;
   font-size: 14px;
-}
-
-
-.member-list-container {
-  padding: 5px;
 }
 
 .loading-message {
@@ -96,29 +87,13 @@
 }
 
 
-.member-dropdown {
-  padding: 0px;
-  text-decoration: none;
-  outline: none;
-  border: none;
-  border-radius: 50%/50%;
-}
-
-.member-dropdown-toggle {
-  padding: 0px;
-  text-decoration: none;
-  /*border: none;*/
-  background: transparent;
-  outline: none;
-  border-radius: 50%/50%;
-}
-
 .member-badge {
   position: relative;
   border-radius: 50%/50%;
   background-color: #ffffff;
   width: 30px;
   height: 30px;
+  cursor: pointer;
 }
 
 .member-badge-contents {
@@ -161,4 +136,5 @@
 .user-icon {
   composes: fa fa-user fa-lg from global;
   color: #999999;
+  padding: 10px;
 }
