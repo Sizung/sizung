@@ -11,4 +11,8 @@ class AgendaItem < ActiveRecord::Base
   def comments_count
     comments.size
   end
+
+  def deliverables_count
+    deliverables.size
+  end
 end

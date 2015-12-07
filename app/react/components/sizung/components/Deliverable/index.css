@@ -48,8 +48,7 @@
 }
 
 .agenda-title-container {
-  composes: col-xs-8 col-xs-offset-4 from global;
-  padding: 0px;
+  composes: col-xs-8 from global;
   height: 1.5em;
   text-align: right;
   text-overflow: ellipsis;
@@ -74,6 +73,10 @@
 }
 
 .details-row2 {
-  composes: col-xs-12 from global;
+  composes: row from global;
   padding: 0px 15px;
+}
+
+.comments-count-container {
+  composes: col-xs-4 from global;
 }

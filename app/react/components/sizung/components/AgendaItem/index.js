@@ -53,6 +53,7 @@ class AgendaItem extends React.Component {
           </div>
           <div>
             <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>
+            <i styleName='deliverables-icon'></i>{" "}<small>{agendaItem.deliverablesCount}</small>
           </div>
         </div>
       </div>
@@ -67,6 +68,7 @@ AgendaItem.propTypes = {
     title: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
+    deliverablesCount: PropTypes.number.isRequired,
     conversation: PropTypes.shape({
       title: PropTypes.string.isRequired
     }).isRequired

@@ -34,3 +34,8 @@
 .comments-icon {
   composes: fa fa-comment-o from global;
 }
+
+.deliverables-icon {
+  composes: fa fa-tag from global;
+  margin-left: 2em;
+}
