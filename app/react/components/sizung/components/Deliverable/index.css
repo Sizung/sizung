@@ -49,6 +49,7 @@
 
 .agenda-title-container {
   composes: col-xs-8 from global;
+  padding: 0px;
   height: 1.5em;
   text-align: right;
   text-overflow: ellipsis;
@@ -60,7 +61,7 @@
 .assignee {
   display: inline-block;
   width: 50%;
-  padding: 0;
+  padding: 0px;
 }
 
 .comments-icon {
@@ -75,8 +76,10 @@
 .details-row2 {
   composes: row from global;
   padding: 0px 15px;
+  margin: 0px;
 }
 
 .comments-count-container {
   composes: col-xs-4 from global;
+  padding: 0px;
 }
