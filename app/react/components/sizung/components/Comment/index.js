@@ -40,10 +40,10 @@ class Comment extends React.Component {
 
     var commentActions = [];
     if (canCreateAgendaItem) {
-      commentActions.push(<li><a href='#' onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
+      commentActions.push(<li key={id + 'escalateAsAgendaItem'}><a href='#' onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
     }
     if (canCreateDeliverable) {
-      commentActions.push(<li><a href='#' onClick={this.handleDeliverable.bind(this)}>Escalate as Deliverable</a></li>);
+      commentActions.push(<li key={id + 'escalateAsDeliverable'}><a href='#' onClick={this.handleDeliverable.bind(this)}>Escalate as Deliverable</a></li>);
     }
 
     return  <div styleName='root'>
