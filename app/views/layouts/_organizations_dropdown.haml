@@ -1,7 +1,7 @@
 %ul.nav.navbar-nav
   %li.dropdown
     %a.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button',  aria_haspopup: 'true',  aria_expanded: 'false'}
-      = @organization.present? ? @organization.name : 'Organizations'
+      = @organization.try(:persisted?) ? @organization.name : 'Organizations'
       %span.caret
     %ul.dropdown-menu
       - policy_scope(Organization).each do |organization|
