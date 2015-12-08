@@ -68,7 +68,7 @@ AgendaItemInTimeline.propTypes = {
     createdAt: PropTypes.string.isRequired
   }).isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
-  isTimelineHeader: PropTypes.boolean
+  isTimelineHeader: PropTypes.bool
 };
 
 export default AgendaItemInTimeline;

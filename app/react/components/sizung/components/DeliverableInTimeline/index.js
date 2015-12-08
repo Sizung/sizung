@@ -110,7 +110,7 @@ DeliverableInTimeline.propTypes = {
     }).isRequired
   }).isRequired,
   updateDeliverable: PropTypes.func.isRequired,
-  isTimelineHeader: PropTypes.boolean
+  isTimelineHeader: PropTypes.bool
 };
 
 export default DeliverableInTimeline;
