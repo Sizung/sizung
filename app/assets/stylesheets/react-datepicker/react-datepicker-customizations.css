@@ -5,6 +5,7 @@
   -moz-box-shadow: none;
   box-shadow: none;
   background: transparent;
+  cursor: pointer;
 }
 
 .datepicker__input-container .datepicker__input:focus {

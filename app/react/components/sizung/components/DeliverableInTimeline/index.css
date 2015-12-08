@@ -84,11 +84,12 @@
 .editable-user-container {
   composes: pull-right from global;
   border: none;
+  box-shadow: none;
+  padding: 0px;
   outline: none;
   border-width: 0px;
   background: transparent;
-  box-shadow: none;
-  padding: 0px;
+  cursor: pointer;
 }
 
 .user-label {
@@ -101,14 +102,15 @@
 }
 
 .editable-due-date-container {
+  max-width: 100px;
+  padding: 5px;
+  box-shadow: none;
   border: none;
   outline: none;
   border-width: 0px;
-  background: #eeeeee;
-  padding: 5px;
   -webkit-border-radius: 3px;
   -moz-border-radius: 3px;
   border-radius: 3px;
-  box-shadow: none;
-  max-width: 100px;
+  background: #eeeeee;
+  cursor: pointer;
 }
