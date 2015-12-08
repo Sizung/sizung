@@ -11,7 +11,7 @@ class OrganizationsController < ApplicationController
   def index
     @organizations = policy_scope(Organization)
     respond_to do |format|
-      format.html
+      format.html { redirect_to current_user.organizations.first }
       format.json { render json: @organizations }
     end
   end

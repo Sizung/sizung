@@ -17,7 +17,7 @@ function mapStateToProps(state) {
   var deliverables = state.getIn(['entities', 'deliverables']).map(function(deliverable) {
     return fillDeliverable(state, deliverable.id);
   }).toList().sortBy(function(conversationObject) {
-    return conversationObject.createdAt;
+    return conversationObject.dueOn ? 'A' + conversationObject.dueOn : 'B' + conversationObject.createdAt;
   });
 
   if (selectedAgendaItemId) {
