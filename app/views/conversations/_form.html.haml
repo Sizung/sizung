@@ -1,4 +1,5 @@
-= simple_form_for([@organization, @conversation]) do |f|
+- path = @conversation.persisted? ? @conversation : [@organization, @conversation]
+= simple_form_for(path) do |f|
   = f.error_notification
 
   .form-inputs

@@ -1,7 +1,7 @@
-%h1 Editing organization
+%h3
+  = link_to @organization, @organization
+  %i.fa.fa-angle-right
+  Edit
+%br
 
 = render 'form'
-
-= link_to 'Show', @organization
-\|
-= link_to 'Back', organizations_path

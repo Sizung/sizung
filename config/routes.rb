@@ -20,6 +20,8 @@ Rails.application.routes.draw do
     resources :conversations do
       concerns :list_conversation_objects, parent_type: 'Conversation'
     end
+
+    resources :organization_members, only: [:index, :destroy]
   end
 
   get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: 'conversations#show'

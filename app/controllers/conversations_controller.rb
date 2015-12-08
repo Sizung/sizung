@@ -11,6 +11,10 @@ class ConversationsController < ApplicationController
   # GET /conversations.json
   def index
     @conversations = @organization.conversations.order(:title)
+    respond_to do |format|
+      format.html { redirect_to @organization }
+      format.json { render json: @conversations }
+    end
   end
 
   # GET /conversations/1
@@ -31,6 +35,7 @@ class ConversationsController < ApplicationController
 
   # GET /conversations/1/edit
   def edit
+    @organization = @conversation.organization
   end
 
   # POST /conversations
@@ -69,7 +74,7 @@ class ConversationsController < ApplicationController
   def destroy
     @conversation.destroy
     respond_to do |format|
-      format.html { redirect_to organization_conversations_url(@conversation.organization), notice: 'Conversation was successfully destroyed.' }
+      format.html { redirect_to organization_url(@conversation.organization), notice: 'Conversation was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

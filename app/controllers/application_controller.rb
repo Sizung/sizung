@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     stored_location_for(resource) ||
       if resource.is_a?(User)
         user = resource
-        organizations_path
+        organization_path(user.organizations.first)
       else
         super
       end

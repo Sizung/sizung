@@ -12,7 +12,7 @@ class NavigationHeader extends Component {
     const organizationElements = organizations.filter(function(organization){
       return organization.id !== currentOrganization.id;
     }).map(function(organization){
-      return <li key={organization.id}><a href={'/organizations/' + organization.id + '/conversations'}>{organization.name}</a></li>;
+      return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
     });
 
     return (

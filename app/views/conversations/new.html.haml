@@ -1,5 +1,7 @@
-%h1 New conversation
+%h3
+  = link_to @organization, @organization
+  %i.fa.fa-angle-right
+  New Conversation
+%br
 
 = render 'form'
-
-= link_to 'Back', organization_conversations_path(@organization)

@@ -87,7 +87,8 @@ class UserInviteTest < ActionDispatch::IntegrationTest
   private
 
   def invite(email_address)
-    click_on 'Invite your team'
+    @organization ||= @user.organizations.first
+    visit organization_organization_members_path(@organization)
     fill_in :user_email, with: email_address
     click_on 'Send an invitation'
     assert page.has_content?("An invitation email has been sent to #{email_address}.")

@@ -20,12 +20,17 @@ describe ConversationsController do
       sign_in @conversation.organization.owner
     end
 
-    it 'lists all conversations' do
-      get :index, organization_id: @conversation.organization_id
+    it 'lists all conversations for json' do
+      get :index, organization_id: @conversation.organization_id, format: :json
       assert_response :success
       conversations = assigns(:conversations)
       assert_not_nil conversations
       assert_equal 2, conversations.size
+    end
+
+    it 'lists all conversations for html redirects to organization overview page' do
+      get :index, organization_id: @conversation.organization_id
+      assert_response :redirect
     end
 
     it 'creates a new conversation' do
@@ -52,7 +57,7 @@ describe ConversationsController do
         delete :destroy, id: @conversation
       end
 
-      assert_redirected_to organization_conversations_path(@conversation.organization)
+      assert_redirected_to organization_path(@conversation.organization)
     end
   end
 end

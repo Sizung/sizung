@@ -10,7 +10,7 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
 
     click_on 'Log in'
     assert_equal 200, page.status_code
-    assert_equal organizations_path, page.current_path
+    assert_equal organization_path(@user.organizations.first), page.current_path
     assert page.has_content?('Signed in successfully.')
   end
 

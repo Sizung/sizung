@@ -1,9 +1,26 @@
 class Users::InvitationsController < Devise::InvitationsController
-
+  before_action :set_organization, only: [:create]
   # def new
   #   authorize current_account, :update?
   #   super
   # end
+
+  # POST /resource/invitation
+  def create
+    self.resource = invite_resource
+    resource_invited = resource.errors.empty?
+
+    yield resource if block_given?
+
+    if resource_invited
+      if is_flashing_format? && self.resource.invitation_sent_at
+        set_flash_message :notice, :send_instructions, :email => self.resource.email
+      end
+      respond_with resource, :location => after_invite_path_for(current_inviter)
+    else
+      redirect_to organization_organization_members_path(@organization)
+    end
+  end
 
   private
 
@@ -15,9 +32,7 @@ class Users::InvitationsController < Devise::InvitationsController
     #   u.skip_invitation = true
     # end
 
-    #TODO: Track the selected organization in the session or let the user select on the invite-user page
-    current_organization = current_user.organizations.first
-    InvitationService.new.invite(invite_params[:email], current_organization, current_inviter) do
+    InvitationService.new.invite(invite_params[:email], @organization, current_inviter) do
       set_flash_message :notice, :send_instructions, email: invite_params[:email]
     end
   end
@@ -31,4 +46,17 @@ class Users::InvitationsController < Devise::InvitationsController
 
     resource
   end
+
+  def after_invite_path_for(resource)
+    if @organization.present?
+      organization_organization_members_path(@organization)
+    else
+      super(resource)
+    end
+  end
+
+  private
+    def set_organization
+      @organization = policy_scope(Organization).find(params[:user][:organization_id])
+    end
 end
