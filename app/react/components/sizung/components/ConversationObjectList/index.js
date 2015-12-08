@@ -77,7 +77,8 @@ class ConversationObjectList extends Component {
     var headerInTimelineHeight = ( null == this.refs.headerInTimeline ) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
     var conversationHeaderHeight = $(this.refs.conversationHeader.getDOMNode()).outerHeight();
     var listNode = this.refs.conversationObjectList.getDOMNode();
-    $(listNode).css('top',(headerInTimelineHeight + conversationHeaderHeight));
+    var headerInTimelineBottomMargin = ( headerInTimelineHeight === 0 ? 0 : 2 );
+    $(listNode).css('top',(headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin ));
   }
 
   componentDidUpdate() {
@@ -103,7 +104,7 @@ class ConversationObjectList extends Component {
     if ( null != this.props.commentForm.parent) {
       switch (this.props.commentForm.parent.type) {
         case "agendaItems" :
-          conversationTimelineHeader = (<div styleName='header-in-timeline' ref='headerInTimeline'>
+          conversationTimelineHeader = (<div styleName='agenda-item-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
               <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
                 <i styleName='back-to-conversation-icon'></i>
@@ -115,7 +116,7 @@ class ConversationObjectList extends Component {
           break;
 
         case "deliverables" :
-          conversationTimelineHeader = (<div styleName='header-in-timeline' ref='headerInTimeline'>
+          conversationTimelineHeader = (<div styleName='deliverable-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
               <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
                 <i styleName='back-to-conversation-icon'></i>
@@ -138,7 +139,7 @@ class ConversationObjectList extends Component {
       <div styleName='list-header' ref='conversationHeader'>
         <div styleName="conversation-title-container">
           <span styleName='conversation-title'>
-            <i styleName='comments-icon'></i>{' '}Conv - {currentConversation.title}
+            <i styleName='comments-icon'></i>{" " + currentConversation.title}
           </span>
           <a styleName='conversation-close-button' href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
             <i styleName='conversation-close-icon' ></i>

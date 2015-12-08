@@ -1,12 +1,10 @@
 .root {
-  composes: navbar navbar-default navbar-static-top  from global;
-  margin-top: 0px;
-  margin-bottom: 0px;
+  composes: navbar navbar-default navbar-static-top zero-vertical-margin from global;
   background-color: #ffffff;
-  height: 51px;
 }
 
 .main-container {
+  composes: container from global;
   width: 100%;
 }
 
@@ -15,21 +13,15 @@
 }
 
 .organisation-dropdown-nav {
-  composes: nav navbar-nav pull-left from global;
-  margin: 0px;
+  composes: nav navbar-nav from global;
 }
 
 .user-dropdown-nav {
-  composes: nav navbar-nav pull-right from global;
-  padding: 5px 10px 0px 0px;
-  margin: 0px;
+  composes: nav navbar-nav navbar-right from global;
 }
 
 .user-dropdown {
-  color: #777777;
-  outline: none;
-  border: none;
-  border-radius: 50%/50%;
+  padding: 10px 15px !important;
 }
 
 .user-dropdown-toggle {
