@@ -19,12 +19,17 @@ describe OrganizationsController do
       sign_in @organization.owner
     end
 
-    it 'lists all organizations' do
-      get :index
+    it 'lists all organizations for json' do
+      get :index, format: :json
       assert_response :success
       organizations = assigns(:organizations)
       assert_not_nil organizations
       assert_equal 1, organizations.size
+    end
+
+    it 'lists all organizations for html redirects to first organization' do
+      get :index
+      assert_response :redirect
     end
 
     it 'creates a new organization' do
