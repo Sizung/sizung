@@ -12,7 +12,7 @@
 }
 
 .comments-icon {
-  composes: fa fa-comments-o from global;
+  composes: fa fa-comments-o fa-lg from global;
 }
 
 .list {
@@ -25,12 +25,13 @@
   overflow-y:auto;
   overflow-x: hidden;
 
-  -webkit-box-shadow: 1px 1px 1px 0px #aaaaaa;
-  -moz-box-shadow: 1px 1px 1px 0px #aaaaaa;
-  box-shadow: 1px 1px 1px 0px #aaaaaa;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  box-shadow: 0px 0px 5px 0px #aaaaaa;
+
+  border: 0px solid #ffffff;
+  border-top-width: 5px;
+  border-bottom-width: 5px;
 }
 
 .list-footer {
@@ -41,12 +42,9 @@
   right: 0px;
   height:60px;
 
-  -webkit-box-shadow: 1px 1px 1px 0px #aaaaaa;
-  -moz-box-shadow: 1px 1px 1px 0px #aaaaaa;
-  box-shadow: 1px 1px 1px 0px #aaaaaa;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
+  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  box-shadow: 0px 0px 5px 0px #aaaaaa;
 }
 
 .member-dropdown-container {
@@ -95,13 +93,27 @@
 
 .header-in-timeline {
   position: absolute;
+  margin-bottom: 5px;
   top: 45px;
-  background: #cccccc;
+  background: #ffffff;
 
-  -webkit-box-shadow: 1px 1px 1px 0px #aaaaaa;
-  -moz-box-shadow: 1px 1px 1px 0px #aaaaaa;
-  box-shadow: 1px 1px 1px 0px #aaaaaa;
+  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  box-shadow: 0px 0px 5px 0px #aaaaaa;
+
+  border: 5px solid #ffffff;
 }
+
+.agenda-item-header-in-timeline {
+  composes: header-in-timeline;
+  background-color: #87cefa;
+}
+
+.deliverable-header-in-timeline {
+  composes: header-in-timeline;
+  background-color: #99cc99;
+}
+
 
 .back-to-conversation-link-container {
   composes: row from global;
@@ -117,6 +129,7 @@
 
 .back-to-conversation-icon {
   composes: fa fa-times fa-lg pull-right from global;
+  color: #ffffff;
 }
 
 .user-icon {
@@ -146,6 +159,7 @@
 }
 
 .conversation-title {
+  padding: 0px;
   float: left;
   max-width: 80%;
   height: 45px;
@@ -154,5 +168,5 @@
   text-overflow: ellipsis;
   word-wrap: break-word;
   white-space: nowrap;
-  padding: 0px;
+  font-size: larger;
 }

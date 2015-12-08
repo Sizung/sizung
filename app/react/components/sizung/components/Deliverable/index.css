@@ -5,11 +5,17 @@
 .default {
   composes: card from '../../styles/modules/card.css';
   composes: hover-container from '../../styles/modules/hover.css';
+  -webkit-box-shadow: 0px 0px 5px 0px #99cc99;
+  -moz-box-shadow: 0px 0px 5px 0px #99cc99;
+  box-shadow: 0px 0px 5px 0px #99cc99;
 }
 .selected {
-  composes: card-selected from '../../styles/modules/card.css';
+  composes: default;
   composes: hover-container from '../../styles/modules/hover.css';
   background-color: #99cc99;
+  color: #FFFFFF;
+  border: 5px solid #ffffff;
+
 }
 
 .row {

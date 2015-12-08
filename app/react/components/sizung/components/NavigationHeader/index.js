@@ -16,15 +16,15 @@ class NavigationHeader extends Component {
     });
 
     return (
-      <div className="navbar navbar-default navbar-static-top zero-vertical-margin white-bg">
-        <div className='container full-width'>
+      <div styleName='root'>
+        <div styleName='main-container'>
           <button className="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
             <span className="icon-bar"></span>
           </button>
-          <div className='navbar-collapse collapse navbar-responsive-collapse'>
-            <ul className='nav navbar-nav'>
+          <div styleName='navbar-container'>
+            <ul styleName='organisation-dropdown-nav' >
               <li>
                 <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                   {currentOrganization.name} <span className="caret"></span>
@@ -41,9 +41,9 @@ class NavigationHeader extends Component {
                 </ul>
               </li>
             </ul>
-            <ul className="nav navbar-nav navbar-right">
+            <ul styleName='user-dropdown-nav'>
               <li className="dropdown">
-                <a className="dropdown-toggle" href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
+                <a styleName='user-dropdown' className="dropdown-toggle" href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
                   <User user={this.props.currentUser} size='normal' showName={true} /> <span className="caret"></span>
                 </a>
                 <ul className="dropdown-menu">
