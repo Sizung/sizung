@@ -1,3 +1,4 @@
+import 'babel-core/polyfill';
 window.React = require('react');
 
 //import HelloWorld from './components/hello-world';
