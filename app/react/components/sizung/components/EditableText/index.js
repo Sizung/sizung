@@ -63,7 +63,7 @@ class EditableText extends React.Component {
 
   editLink(editable) {
     if (editable) {
-      return <a styleName="edit-link" href="#" onClick={this.handleEditClick}><i className="fa fa-pencil" style={{marginLeft: '1em'}} /></a>;
+      return <a styleName="edit-link" href="#" onClick={this.handleEditClick}><i className="fa fa-pencil"/></a>;
     }
   }
 
@@ -72,7 +72,7 @@ class EditableText extends React.Component {
       return <div styleName='edit-text-container'><form styleName='edit-text-form' onSubmit={this.handleSubmit}><input type="text" ref="input" onClick={this.handleInputClick} onKeyDown={this.handleKeyDown} onBlur={this.handleBlur} defaultValue={persistedText} styleName='edit-text-input'/></form></div>
     }
     else {
-      return <div styleName='persisted-text-container'>{persistedText} {this.editLink(editable)}</div>;
+      return <div styleName='persisted-text-container'><div styleName='persisted-text'>{persistedText}</div><div styleName='edit-link-container'> {this.editLink(editable)}</div></div>;
     }
   }
 

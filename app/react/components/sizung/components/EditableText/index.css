@@ -20,4 +20,17 @@
 .persisted-text-container {
   width: 100%;
   padding: 0px;
+  display: inline;
+}
+
+.persisted-text {
+  display: inline-block;
+  max-width: 80%;
+  float: left;
+}
+
+.edit-link-container {
+  display: inline-block;
+  float: left;
+  padding-left: 1em;
 }
