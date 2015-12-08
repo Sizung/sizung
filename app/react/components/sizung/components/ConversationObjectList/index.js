@@ -90,7 +90,7 @@ class ConversationObjectList extends Component {
 
   componentWillUpdate() {
     var node = this.refs.conversationObjectList.getDOMNode();
-    this.shouldScrollBottom = node.scrollTop + node.offsetHeight === node.scrollHeight;
+    this.shouldScrollBottom = (Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) <= 20); // 20px is the offset tolerance considering borders and padding
   }
 
   render() {
