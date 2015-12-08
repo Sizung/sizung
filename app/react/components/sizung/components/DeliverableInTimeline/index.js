@@ -65,8 +65,8 @@ class DeliverableInTimeline extends React.Component {
           <User user={owner} />
         </div>
         <div styleName="content-container">
-          <i styleName='deliverable-icon'></i>
-          <div styleName="title">
+          <div styleName="title-container">
+            <i styleName='deliverable-icon'></i>
             <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} />
           </div>
           <div styleName="status-container">

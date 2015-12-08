@@ -52,7 +52,7 @@ class ConversationObjectList extends Component {
 
   prepareShowMore(isFetching, nextPageUrl) {
     if(isFetching) {
-      return <div styleName='loading-message'>Loading...</div>;
+      return <div className='col-xs-12' styleName='loading-message'>Loading...</div>;
     }
     else if(nextPageUrl) {
       return <div styleName='load-more-message'><a styleName='link' href="#" onClick={this.handleShowMore}>Show More</a></div>;
@@ -91,6 +91,10 @@ class ConversationObjectList extends Component {
   componentWillUpdate() {
     var node = this.refs.conversationObjectList.getDOMNode();
     this.shouldScrollBottom = (Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) <= 20); // 20px is the offset tolerance considering borders and padding
+  }
+
+  componentDidMount() {
+    window.addEventListener("resize", this.adjustConversationListHeight);
   }
 
   render() {
