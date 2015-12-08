@@ -47,6 +47,10 @@
   composes: pull-right from global;
 }
 
+.discuss-link-hide {
+  display: none;
+}
+
 .agenda-item-icon {
   composes: fa fa-tag from global;
   float: left;

@@ -56,6 +56,10 @@ class DeliverableInTimeline extends React.Component {
     const { deliverable } = this.props;
     const { owner, assignee } = deliverable;
 
+    var discussOptionStyle = "discuss-link";
+    if ( null != this.props.isTimelineHeader ) {
+      discussOptionStyle = ( this.props.isTimelineHeader ? "discuss-link-hide" : "discuss-link");
+    }
     return  <div styleName='root'>
         <div styleName='user-container'>
           <User user={owner} />
@@ -88,7 +92,7 @@ class DeliverableInTimeline extends React.Component {
         </div>
         <div styleName="time-container">
           <small><Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
-          <span styleName="discuss-link"><a href="#" onClick={this.handleSelect}>discuss</a></span>
+          <span styleName={discussOptionStyle}><a href="#" className="btn btn-xs btn-default" onClick={this.handleSelect}>discuss</a></span>
         </div>
       </div>
   }
@@ -105,7 +109,8 @@ DeliverableInTimeline.propTypes = {
       title: PropTypes.string.isRequired
     }).isRequired
   }).isRequired,
-  updateDeliverable: PropTypes.func.isRequired
+  updateDeliverable: PropTypes.func.isRequired,
+  isTimelineHeader: PropTypes.boolean
 };
 
 export default DeliverableInTimeline;

@@ -75,6 +75,10 @@
   composes: pull-right from global;
 }
 
+.discuss-link-hide {
+  display: none;
+}
+
 .deliverable-icon {
   composes: fa fa-tasks from global;
   float: left;

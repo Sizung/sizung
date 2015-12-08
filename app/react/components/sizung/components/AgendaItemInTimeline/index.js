@@ -35,6 +35,10 @@ class AgendaItemInTimeline extends React.Component {
     const { agendaItem } = this.props;
     const { title, status, owner } = agendaItem;
 
+    var discussOptionStyle = "discuss-link";
+    if ( null != this.props.isTimelineHeader ) {
+      discussOptionStyle = ( this.props.isTimelineHeader ? "discuss-link-hide" : "discuss-link");
+    }
     return  <div styleName='root'>
       <div styleName='user-container'>
         <User user={owner} />
@@ -50,7 +54,7 @@ class AgendaItemInTimeline extends React.Component {
       </div>
       <div styleName="time-container">
         <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
-        <span styleName="discuss-link"><a href="#" onClick={this.handleSelect}>discuss</a></span>
+        <span styleName={discussOptionStyle}><a href="#" className='btn btn-xs btn-default' onClick={this.handleSelect}>discuss</a></span>
       </div>
     </div>;
   }
@@ -63,7 +67,8 @@ AgendaItemInTimeline.propTypes = {
     commentsCount: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired
   }).isRequired,
-  updateAgendaItem: PropTypes.func.isRequired
+  updateAgendaItem: PropTypes.func.isRequired,
+  isTimelineHeader: PropTypes.boolean
 };
 
 export default AgendaItemInTimeline;

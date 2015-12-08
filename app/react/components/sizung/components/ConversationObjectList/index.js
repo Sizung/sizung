@@ -33,15 +33,15 @@ class ConversationObjectList extends Component {
           comment.canCreateAgendaItem = canCreateAgendaItem;
           comment.canCreateDeliverable = canCreateDeliverable;
           comment.parent = parent;
-          return(<Comment key={comment.id} comment={comment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable}/>);
+          return(<Comment key={comment.id} comment={comment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} isTimelineHeader={false}/>);
         }
         else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
-          return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem} selectAgendaItem={selectAgendaItem} updateAgendaItem={updateAgendaItem}/>
+          return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem} selectAgendaItem={selectAgendaItem} updateAgendaItem={updateAgendaItem} isTimelineHeader={false}/>
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable} selectDeliverable={selectDeliverable} updateDeliverable={updateDeliverable}/>
+          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable} selectDeliverable={selectDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>
         }
         else {
           console.log('Component not found for conversationObject: ', conversationObject);
@@ -101,9 +101,11 @@ class ConversationObjectList extends Component {
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
     var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent);
     var conversationTimelineHeader = "";
+    var isTimelineHeader = false;
     if ( null != this.props.commentForm.parent) {
       switch (this.props.commentForm.parent.type) {
         case "agendaItems" :
+          isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='agenda-item-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
               <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
@@ -111,11 +113,13 @@ class ConversationObjectList extends Component {
               </Button>
             </div>
             <AgendaItemInTimeline agendaItem={this.props.commentForm.parent}
-                                  updateAgendaItem={this.props.updateAgendaItem}/>
+                                  updateAgendaItem={this.props.updateAgendaItem}
+                                  isTimelineHeader={isTimelineHeader}/>
           </div>);
           break;
 
         case "deliverables" :
+          isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='deliverable-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
               <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
@@ -123,7 +127,8 @@ class ConversationObjectList extends Component {
               </Button>
             </div>
             <DeliverableInTimeline deliverable={this.props.commentForm.parent}
-                                   updateDeliverable={this.props.updateDeliverable}/>
+                                   updateDeliverable={this.props.updateDeliverable}
+                                   isTimelineHeader={isTimelineHeader}/>
           </div>);
           break;
 
