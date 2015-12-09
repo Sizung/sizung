@@ -1,6 +1,6 @@
 class OrganizationMembersController < ApplicationController
   before_action :set_organization, only: [:index]
-  before_action :set_organization_member, only: [:delete]
+  before_action :set_organization_member, only: [:destroy]
 
   # GET /organizations/123/organization_members
   def index
@@ -10,8 +10,12 @@ class OrganizationMembersController < ApplicationController
 
   # DELETE /organization_members/1
   def destroy
-    @organization_member.destroy
-    redirect_to organization_organization_members_path(@organization)
+    if @organization_member.member == @organization.owner
+      redirect_to :back, alert: 'You cannot remove the owner from an organization.'
+    else
+      @organization_member.destroy
+      redirect_to :back
+    end
   end
 
   private

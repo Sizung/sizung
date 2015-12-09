@@ -1,0 +1,61 @@
+%h3 Settings
+%br
+
+.row
+  .col-md-2
+    %ul.nav.nav-pills.nav-stacked{role: 'tablist'}
+      %li.active{role: 'presentation'}
+        %a{href: '#profile', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Profile
+      %li{role: 'presentation'}
+        %a{href: '#account', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Account
+      %li{role: 'presentation'}
+        %a{href: '#teams', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Teams
+  .col-md-10
+    .tab-content
+      .tab-pane.active#profile{role: 'tabpanel'}
+        %h4 Profile
+        = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
+          = f.error_notification
+
+          .row
+            .col-md-6
+              = f.input :email, required: true, autofocus: true
+              - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+                %p
+                  Currently waiting confirmation for:
+                  = resource.unconfirmed_email
+          .row
+            .col-md-3
+              = f.input :first_name, required: true
+            .col-md-3
+              = f.input :last_name, required: true
+          .row
+            .col-md-6
+              = f.input :current_password, hint: "we need your current password to confirm your changes", required: true
+          .row
+            .col-md-3
+              = f.input :password, autocomplete: "off", hint: "leave it blank if you don't want to change it", required: false
+            .col-md-3
+              = f.input :password_confirmation, required: false
+
+          .form-actions
+            = f.button :submit, "Update"
+
+      .tab-pane#account{role: 'tabpanel'}
+        %h4 Account
+        %p
+          Of course you could
+          = link_to 'cancel', registration_path(resource_name), data: { confirm: 'Are you sure?' }, method: :delete
+          your account at any time but we are happier when you stay with us. :)
+
+      .tab-pane#teams{role: 'tabpanel'}
+        .row
+          .col-md-6
+            %h4 Teams
+
+            %ul.list-group
+              - current_user.organization_members.each do |organization_member|
+                %li.list-group-item
+                  = organization_member.organization
+                  = link_to organization_member, method: :delete, data: { confirm: 'Are you sure?' }, class: 'pull-right' do
+                    leave
