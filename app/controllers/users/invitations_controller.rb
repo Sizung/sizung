@@ -1,5 +1,7 @@
 class Users::InvitationsController < Devise::InvitationsController
   before_action :set_organization, only: [:create]
+  before_filter :configure_permitted_parameters, if: :devise_controller?
+
   # def new
   #   authorize current_account, :update?
   #   super
@@ -53,6 +55,13 @@ class Users::InvitationsController < Devise::InvitationsController
     else
       super(resource)
     end
+  end
+
+  protected
+
+  def configure_permitted_parameters
+    # Only add some parameters
+    devise_parameter_sanitizer.for(:accept_invitation).concat [:first_name, :last_name]
   end
 
   private

@@ -68,6 +68,9 @@ class UserInviteTest < ActionDispatch::IntegrationTest
     logout
     visit(parse_email_for_explicit_link(open_email('new_user@example.com'), 'accept'))
 
+    fill_in :user_first_name, with: 'Sam'
+    fill_in :user_last_name, with: 'Sample'
+
     fill_in :user_password, with: 'SuperSecret'
     fill_in :user_password_confirmation, with: 'SuperSecret'
     click_on 'Set my password'

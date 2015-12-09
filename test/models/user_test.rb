@@ -16,9 +16,16 @@ class UserTest < ActiveSupport::TestCase
     assert user.persisted?
   end
 
-  test 'first_name and last_name are optional' do
-    user = FactoryGirl.build :user, first_name: nil, last_name: nil
-    assert user.valid?
+  test 'complains when first_name is missing' do
+    user = FactoryGirl.build :user, first_name: nil
+    assert_not user.valid?
+    assert_equal ["can't be blank"], user.errors.messages[:first_name]
+  end
+
+  test 'complains when last_name is missing' do
+    user = FactoryGirl.build :user, last_name: nil
+    assert_not user.valid?
+    assert_equal ["can't be blank"], user.errors.messages[:last_name]
   end
 
   test 'uses email address as name when first_name last_name are missing' do
