@@ -4,7 +4,7 @@ import styles from "./index.css";
 import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../../utils/MetaTagsManager';
 import {transformAgendaItemFromJsonApi} from '../../utils/jsonApiUtils';
-import Immutable from 'Immutable';
+import Immutable from 'immutable';
 
 @CSSModules(styles)
 class EditableAgendaItem extends React.Component {
