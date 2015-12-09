@@ -1,6 +1,7 @@
 .root {
-  composes: navbar navbar-default navbar-static-top zero-vertical-margin from global;
-  background-color: #ffffff;
+  composes: navbar navbar-inverse navbar-static-top zero-vertical-margin from global;
+  background-color: #326273;
+  color: #ffffff;
 }
 
 .main-container {
@@ -16,12 +17,17 @@
   composes: nav navbar-nav from global;
 }
 
+.organisation-dropdown {
+  color: #ffffff !important;
+}
+
 .user-dropdown-nav {
   composes: nav navbar-nav navbar-right from global;
 }
 
 .user-dropdown {
   padding: 10px 15px !important;
+  color: #ffffff !important;
 }
 
 .user-dropdown-toggle {

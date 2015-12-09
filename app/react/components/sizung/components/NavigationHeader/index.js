@@ -26,7 +26,7 @@ class NavigationHeader extends Component {
           <div styleName='navbar-container'>
             <ul styleName='organisation-dropdown-nav' >
               <li>
-                <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                <a styleName='organisation-dropdown' href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                   {currentOrganization.name} <span className="caret"></span>
                 </a>
                 <ul className="dropdown-menu">
