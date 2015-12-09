@@ -8,6 +8,7 @@ import EditableUserApp from '../../containers/EditableUserApp';
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 import EditableDate from '../EditableDate';
+import EditableAgendaItem from '../EditableAgendaItem';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
@@ -20,6 +21,7 @@ class DeliverableInTimeline extends React.Component {
     this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
     this.handleDueOnUpdate = this.handleDueOnUpdate.bind(this);
     this.handleAssigneeUpdate = this.handleAssigneeUpdate.bind(this);
+    this.handleAgendaItemUpdate = this.handleAgendaItemUpdate.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
     this.handleDeleteClick = (e) => {
       e.preventDefault();
@@ -43,6 +45,10 @@ class DeliverableInTimeline extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, {assignee_id: newAssigneeId});
   }
 
+  handleAgendaItemUpdate(newAgendaItemId) {
+    this.props.updateDeliverable(this.props.deliverable.id, {agenda_item_id: newAgendaItemId});
+  }
+
   handleSelect(e) {
     e.preventDefault();
     this.props.selectDeliverable(
@@ -54,7 +60,7 @@ class DeliverableInTimeline extends React.Component {
 
   render() {
     const { deliverable } = this.props;
-    const { owner, assignee } = deliverable;
+    const { owner, assignee, agendaItem } = deliverable;
 
     var discussOptionStyle = "discuss-link";
     if ( null != this.props.isTimelineHeader ) {
@@ -65,28 +71,29 @@ class DeliverableInTimeline extends React.Component {
           <User user={owner} />
         </div>
         <div styleName="content-container">
-          <div styleName="title-container">
-            <i styleName='deliverable-icon'></i>
-            <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} />
-          </div>
-          <div styleName="status-container">
-            <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} />
+          <div styleName="row">
+            <div styleName="full-width">
+              <div styleName="title-container">
+                <i styleName='deliverable-icon'></i>
+                <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} />
+              </div>
+              <div styleName="status-container">
+                <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} />
+              </div>
+            </div>
           </div>
           <div styleName="meta-container">
-            <div styleName="meta-container-row">
-              <div styleName="assignee-container">
-                <div styleName='editable-user-container'>
-                  <EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} />
-                </div>
-                <small styleName='user-label'><strong>Assigned To</strong></small>
-
-              </div>
-              <div styleName='due-date-container'>
-                <small className="text-muted"><strong>Due Date</strong></small>
-                <div styleName='editable-due-date-container'>
-                  <EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} />
-                </div>
-              </div>
+            <div styleName="meta-content">
+              <div styleName="meta-label">Assigned To</div>
+              <div><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} /></div>
+            </div>
+            <div styleName="meta-content">
+              <div styleName="meta-label">Due Date</div>
+              <div><EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} /></div>
+            </div>
+            <div styleName="meta-content">
+              <div styleName="meta-label">Agenda Item</div>
+              <div><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} /></div>
             </div>
           </div>
         </div>

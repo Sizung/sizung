@@ -1,8 +1,8 @@
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
 import { FETCH_CONVERSATION_OBJECTS } from '../actions/conversationObjects.js'
 import { CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
-import { CREATE_DELIVERABLE } from '../actions/deliverables';
-import { add, remove, fetchInProgress, fetched, toReference } from '../utils/paginationUtils';
+import { CREATE_DELIVERABLE, UPDATE_DELIVERABLE } from '../actions/deliverables';
+import { add, update, remove, fetchInProgress, fetched, toReference } from '../utils/paginationUtils';
 
 import Immutable from 'immutable';
 
@@ -39,6 +39,13 @@ export default function conversationObjectsByAgendaItem(state = initialState, ac
   case CREATE_DELIVERABLE:
     if(action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN) {
       return add(state, action.deliverable.agendaItemId, toReference(action.deliverable));
+    }
+    else {
+      return state;
+    }
+  case UPDATE_DELIVERABLE:
+    if(action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN) {
+      return update(state, action.deliverable.agendaItemId, toReference(action.deliverable));
     }
     else {
       return state;

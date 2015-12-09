@@ -5,6 +5,12 @@ class AgendaItemsController < ApplicationController
 
   respond_to :json
 
+  def index
+    @conversation = Conversation.find(params[:conversation_id])
+    authorize @conversation, :show?
+    render json: @conversation.agenda_items
+  end
+
   # POST /agenda_items.json
   def create
     @agenda_item = AgendaItem.new(agenda_item_params)

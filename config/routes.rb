@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   # end
   resources :organizations, shallow: true do
     resources :conversations do
+      resources :agenda_items, only: [:index]
       concerns :list_conversation_objects, parent_type: 'Conversation'
     end
 

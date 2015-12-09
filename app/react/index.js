@@ -13,3 +13,6 @@ registerComponent('ConversationRoot', ConversationRoot);
 
 import User from './components/sizung/components/User/index.js'
 registerComponent('User', User);
+
+import EditableAgendaItem from './components/sizung/components/EditableAgendaItem/index.js'
+registerComponent('EditableAgendaItem', EditableAgendaItem);

@@ -37,6 +37,19 @@ export function add(state, key, reference) {
   return state.set(key, newMap);
 }
 
+export function update(state, key, reference) {
+  return state.map((map, k) => {
+    if(k === key) {
+      return map.set('references', map.get('references').add(reference));
+    }
+    else {
+      return map.set('references', map.get('references').filter(ref => {
+        return ref.id !== reference.id;
+      }));
+    }
+  });
+}
+
 export function remove(state, key, reference) {
   const map = currentMap(state, key);
   const newMap = map.set('references', map.get('references').filter(function(refObject) { return refObject.id != reference.id }));
