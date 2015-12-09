@@ -2,9 +2,13 @@
   = @organization
   .hover-display-inline
     %small
-      = link_to edit_organization_path(@organization) do
+      = link_to edit_organization_path(@organization), class: 'organization-hover-action' do
         %i.fa.fa-pencil
         edit
+      = link_to organization_organization_members_path(@organization), class: 'organization-hover-action' do
+        %i.fa.fa-users
+        members
+
 
 %h4.conversation-index-header
   %i.fa.fa-comments
@@ -45,10 +49,3 @@
       %i.fa.fa-circle.fa-stack-2x
       %i.fa.fa-plus.fa-inverse.fa-stack-1x
     %span Add Conversation
-
-.organization-action
-  = link_to organization_organization_members_path(@organization) do
-    %span.fa-stack.fa-lg
-      %i.fa.fa-circle.fa-stack-2x
-      %i.fa.fa-users.fa-inverse.fa-stack-1x
-    %span Organization Members and Invites
