@@ -26,12 +26,16 @@ class DeliverableList extends Component {
 
   componentDidUpdate() {
     //TODO: find and alternative way to scroll on adding a new component.
-    if ( this.props.deliverables.size > this.deliverableListSize ) {
-      this.deliverableListSize = this.props.deliverables.size;
-      this.scrollList();
-    } else {
-      $(this.refs.deliverableList.getDOMNode()).scrollTop(0);
-    }
+    //if ( this.props.deliverables.size > this.deliverableListSize ) {
+    //  this.deliverableListSize = this.props.deliverables.size;
+    //  this.scrollList();
+    //} else {
+    //  $(this.refs.deliverableList.getDOMNode()).scrollTop(0);
+    //}
+  }
+
+  componentDidMount() {
+    $(this.refs.deliverableList.getDOMNode()).scrollTop(0);
   }
 
   render() {
