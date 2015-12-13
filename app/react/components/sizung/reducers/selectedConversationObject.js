@@ -6,11 +6,8 @@ const initialState = Immutable.Map();
 
 export default function agendaItems(state = initialState, action = null) {
   switch (action.type) {
-  case SELECT_AGENDA_ITEM:
-    return state.set('type', 'agendaItems').set('id', action.agendaItemId);
-  case SELECT_DELIVERABLE:
-    return state.set('type', 'deliverables').set('id', action.deliverableId);
-  default:
-    return state;
+    case SELECT_AGENDA_ITEM: return state.set('type', 'agendaItems').set('id', action.agendaItemId);
+    case SELECT_DELIVERABLE: return state.set('type', 'deliverables').set('id', action.deliverableId);
+    default: return state;
   }
 }

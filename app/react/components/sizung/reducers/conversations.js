@@ -12,8 +12,7 @@ const initialState = Immutable.Map();
 
 export default function comments(state = initialState, action = null) {
   switch (action.type) {
-  case SET_CURRENT_CONVERSATION: return setObject(state, action, 'conversation');
-  default:
-    return state;
+    case SET_CURRENT_CONVERSATION: return setObject(state, action, 'conversation');
+    default: return state;
   }
 }

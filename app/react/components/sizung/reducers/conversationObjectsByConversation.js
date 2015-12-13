@@ -2,47 +2,17 @@ import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGI
 import { FETCH_CONVERSATION_OBJECTS } from '../actions/conversationObjects.js';
 import { CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
 import { CREATE_AGENDA_ITEM } from '../actions/agendaItems';
-import { add, remove, fetchInProgress, fetched, toReference } from '../utils/paginationUtils';
-
+import { setObject, setObjects, setReference, setCommentReference, deleteCommentReference, handleFetchConversationObjects } from '../utils/reducerUtils';
 import Immutable from 'immutable';
+
 const initialState = Immutable.Map();
 
 export default function conversationObjectsByConversation(state = initialState, action = null) {
   switch (action.type) {
-  case FETCH_CONVERSATION_OBJECTS:
-    if(action.parentReference.type === 'conversations') {
-      if (action.status == STATUS_SUCCESS) {
-        const objects = action.conversationObjects.map(toReference);
-        return fetched(state, action.parentReference.id, objects, action);
-      } else {
-        return fetchInProgress(state, action.parentReference.id);
-      }
-    }
-    else {
-      return state;
-    }
-  case DELETE_COMMENT:
-    if((action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN) && action.comment.commentableType == 'conversations') {
-      return remove(state, action.comment.commentableId, toReference(action.comment));
-    }
-    else {
-      return state;
-    }
-  case CREATE_COMMENT:
-    if((action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN) && action.comment.commentableType == 'conversations') {
-      return add(state, action.comment.commentableId, toReference(action.comment));
-    }
-    else {
-      return state;
-    }
-  case CREATE_AGENDA_ITEM:
-    if(action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN) {
-      return add(state, action.agendaItem.conversationId, toReference(action.agendaItem));
-    }
-    else {
-      return state;
-    }
-  default:
-    return state;
+    case FETCH_CONVERSATION_OBJECTS: return handleFetchConversationObjects(state, action, 'conversations');
+    case DELETE_COMMENT: return deleteCommentReference(state, action, 'conversations');
+    case CREATE_COMMENT: return setCommentReference(state, action, 'conversations');
+    case CREATE_AGENDA_ITEM: return setReference(state, action, 'agendaItem', 'conversationId');
+    default: return state;
   }
 }

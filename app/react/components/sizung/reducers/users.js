@@ -7,9 +7,8 @@ const initialState = Immutable.Map();
 
 export default function users(state = initialState, action = null) {
   switch (action.type) {
-  case SET_USERS: return setObjects(state, action, 'users');
-  case UPDATE_USER: return setObject(state, action, 'user');
-  default:
-    return state;
+    case SET_USERS: return setObjects(state, action, 'users');
+    case UPDATE_USER: return setObject(state, action, 'user');
+    default: return state;
   }
 }

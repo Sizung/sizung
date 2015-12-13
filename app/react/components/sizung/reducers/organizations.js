@@ -8,7 +8,6 @@ export default function organizations(state = initialState, action = null) {
   switch (action.type) {
     case FETCH_ORGANIZATIONS: return setObjects(state, action, 'organizations');
     case SET_CURRENT_ORGANIZATION: return setObject(state, action, 'organization');
-    default:
-      return state;
+    default: return state;
   }
 }

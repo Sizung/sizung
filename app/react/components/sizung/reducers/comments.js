@@ -8,37 +8,17 @@ import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGI
 import { CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
 import { SET_CONVERSATION_OBJECTS } from '../actions/conversationObjects'
 import { CREATE_AGENDA_ITEM, FETCH_CONVERSATION_OBJECTS } from '../actions/agendaItems';
-import { setObject, deleteObject, setObjects } from '../utils/reducerUtils';
+import { setObject, deleteObject, setObjects, setObjectsFromConversationObjectsList } from '../utils/reducerUtils';
 import Immutable from 'immutable';
 
 const initialState = Immutable.Map();
 
 export default function comments(state = initialState, action = null) {
   switch (action.type) {
-  case CREATE_COMMENT: return setObject(state, action, 'comment');
-  case DELETE_COMMENT: return deleteObject(state, action, 'comment');
-  case SET_CONVERSATION_OBJECTS:
-    for(var i=0; i<action.conversationObjects.length; i++) {
-      const conversationObject = action.conversationObjects[i];
-      if (conversationObject.type === 'comments') {
-        state = state.set(conversationObject.id, conversationObject);
-      }
-    }
-    return state;
-  case FETCH_CONVERSATION_OBJECTS:
-    if (action.status == STATUS_SUCCESS) {
-      for(var i=0; i<action.conversationObjects.length; i++) {
-        const conversationObject = action.conversationObjects[i];
-        if (conversationObject.type === 'comments') {
-          state = state.set(conversationObject.id, conversationObject);
-        }
-      }
-      return state;
-    }
-    else {
-      return state;
-    }
-  default:
-    return state;
+    case CREATE_COMMENT: return setObject(state, action, 'comment');
+    case DELETE_COMMENT: return deleteObject(state, action, 'comment');
+    case SET_CONVERSATION_OBJECTS: return setObjectsFromConversationObjectsList(state, action, 'comments');
+    case FETCH_CONVERSATION_OBJECTS: return setObjectsFromConversationObjectsList(state, action, 'comments');
+    default: return state;
   }
 }
