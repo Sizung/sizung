@@ -6,7 +6,6 @@ describe OrganizationsController do
   describe 'visitor' do
     it 'should not see any organizations' do
       get :index
-      assert_response :redirect
       assert_redirected_to new_user_session_path
     end
   end

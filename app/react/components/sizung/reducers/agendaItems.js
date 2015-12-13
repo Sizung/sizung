@@ -7,6 +7,7 @@
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
 import { SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM, UPDATE_AGENDA_ITEM } from '../actions/agendaItems';
 import { FETCH_CONVERSATION_OBJECTS } from '../actions/conversationObjects';
+import { setObject, setObjects } from '../utils/reducerUtils';
 import Immutable from 'immutable';
 const initialState = Immutable.Map();
 
@@ -24,28 +25,9 @@ export default function agendaItems(state = initialState, action = null) {
     else {
       return state;
     }
-  case CREATE_AGENDA_ITEM:
-    if(action.status == STATUS_SUCCESS) {
-      return state.set(action.agendaItem.id, action.agendaItem);
-    }
-    else if(action.status == STATUS_REMOTE_ORIGIN) {
-      return state.set(action.agendaItem.id, action.agendaItem);
-    }
-    else {
-      return state;
-    }
-  case UPDATE_AGENDA_ITEM:
-    if(action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN) {
-      return state.set(action.agendaItem.id, action.agendaItem);
-    }
-    else {
-      return state;
-    }
-  case SET_AGENDA_ITEMS:
-    for(var i=0; i<action.agendaItems.length; i++) {
-      state = state.set(action.agendaItems[i].id, action.agendaItems[i]);
-    }
-    return state;
+  case CREATE_AGENDA_ITEM: return setObject(state, action, 'agendaItem');
+  case UPDATE_AGENDA_ITEM: return setObject(state, action, 'agendaItem');
+  case SET_AGENDA_ITEMS: return setObjects(state, action, 'agendaItems');
   default:
     return state;
   }

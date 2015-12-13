@@ -8,7 +8,6 @@ describe ConversationMembersController do
       conversation = FactoryGirl.create :conversation
       user = FactoryGirl.create :user
       post :create, conversation_member: {conversation_id: conversation.id, member_id: user.id}
-      assert_response :redirect
       assert_redirected_to new_user_session_path
     end
   end

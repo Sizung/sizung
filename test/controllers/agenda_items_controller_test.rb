@@ -6,7 +6,6 @@ describe AgendaItemsController do
   describe 'visitor' do
     it 'should not be allowed to create a new agenda item' do
       post :create, agenda_item: {title: 'Last weeks review'}
-      assert_response :redirect
       assert_redirected_to new_user_session_path
     end
   end

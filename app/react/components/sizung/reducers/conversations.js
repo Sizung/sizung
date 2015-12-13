@@ -5,14 +5,14 @@
 // create using the previous state and whatever they have to do because of the action they have to handle.
 
 import { SET_CURRENT_CONVERSATION } from '../actions/conversations';
+import { setObject, deleteObject, setObjects } from '../utils/reducerUtils';
 import Immutable from 'immutable';
 
 const initialState = Immutable.Map();
 
 export default function comments(state = initialState, action = null) {
   switch (action.type) {
-  case SET_CURRENT_CONVERSATION:
-    return state.set(action.conversation.id, action.conversation);
+  case SET_CURRENT_CONVERSATION: return setObject(state, action, 'conversation');
   default:
     return state;
   }

@@ -4,9 +4,8 @@ describe CommentsController do
   include Devise::TestHelpers
 
   describe 'visitor' do
-    it 'should not see any comments' do
-      get :index
-      assert_response :redirect
+    it 'should not be allowed to create a new comment' do
+      post :create, comment: {body: 'A comment from an unregistered visitor.'}
       assert_redirected_to new_user_session_path
     end
   end

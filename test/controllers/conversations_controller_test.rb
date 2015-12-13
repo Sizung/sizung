@@ -7,7 +7,6 @@ describe ConversationsController do
     it 'should not see any conversations' do
       @conversation = FactoryGirl.create(:conversation)
       get :index, organization_id: @conversation.organization
-      assert_response :redirect
       assert_redirected_to new_user_session_path
     end
   end
