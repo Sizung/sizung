@@ -27,9 +27,9 @@ import {setDeliverables, createDeliverableRemoteOrigin, updateDeliverableRemoteO
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setCurrentConversation} from '../actions/conversations'
 import App from './App/index';
-import AgendaItemApp from './AgendaItemApp/index';
-import DeliverableApp from './DeliverableApp/index';
-import ConversationApp from './ConversationApp/index';
+import AgendaItemApp from './AgendaItemApp';
+import DeliverableApp from './DeliverableApp';
+import ConversationApp from './ConversationApp';
 
 import { Router, Route } from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
