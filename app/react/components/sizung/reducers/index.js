@@ -15,6 +15,8 @@ import conversationObjectsByConversation from './conversationObjectsByConversati
 import selectedConversationObject from './selectedConversationObject';
 import conversationObjectsByAgendaItem from './conversationObjectsByAgendaItem';
 import conversationObjectsByDeliverable from './conversationObjectsByDeliverable';
+import conversationMembers from './conversationMembers';
+import conversationMembersByConversation from './conversationMembersByConversation';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 
 const entities = combineReducers({
@@ -23,6 +25,7 @@ const entities = combineReducers({
   comments,
   agendaItems,
   deliverables,
+  conversationMembers,
   users
 });
 
@@ -36,6 +39,7 @@ const rootReducer = combineReducers({
   conversationObjectsByAgendaItem,
   conversationObjectsByDeliverable,
   agendaItemsByConversation,
+  conversationMembersByConversation,
   entities
 });
 

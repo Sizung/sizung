@@ -26,7 +26,7 @@ export function fetched(state, key, references, action) {
   return state.set(key,
     map
       .set('references', newSet)
-      .set('nextPageUrl', action.links.next)
+      .set('nextPageUrl', action.links ? action.links.next : null)
       .set('isFetching', false)
   );
 }

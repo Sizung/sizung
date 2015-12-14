@@ -69,6 +69,15 @@ export function transformUserFromJsonApi(user) {
   };
 }
 
+export function transformConversationMemberFromJsonApi(conversationMember) {
+  return {
+    id: conversationMember.id,
+    type: 'conversationMembers',
+    conversationId: conversationMember.relationships.conversation.data.id,
+    memberId: conversationMember.relationships.member.data.id
+  }
+}
+
 export function transformConversationObjectFromJsonApi(conversationObject) {
   if (conversationObject.type === 'comments') {
     return transformCommentFromJsonApi(conversationObject);

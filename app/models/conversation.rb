@@ -4,6 +4,7 @@ class Conversation < ActiveRecord::Base
   has_many :agenda_items, dependent: :destroy
   has_many :deliverables, through: :agenda_items
   has_many :conversation_objects, foreign_key: :parent_id
+  has_many :conversation_members, dependent: :destroy
 
   validates_presence_of :organization, :title
 

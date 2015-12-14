@@ -7,7 +7,7 @@
 -#%p
 -#  %b Conversation:
 -#  = @conversation.title
-= react_component('ConversationRoot', {users: @users_json, currentUser: {id: current_user.id}, currentOrganization: @current_organization_json, currentConversation: @conversation, agendaItems: @agenda_items_json, deliverables: @deliverables_json}, {prerender: false} )
+= react_component('ConversationRoot', {conversationId: @conversation.id, conversationMembers: @conversation_members_json, users: @users_json, currentUser: {id: current_user.id}, currentOrganization: @current_organization_json, currentConversation: @conversation, agendaItems: @agenda_items_json, deliverables: @deliverables_json}, {prerender: false} )
 
 = link_to 'Edit', edit_conversation_path(@conversation)
 \|
