@@ -3,6 +3,7 @@
 import React, { Component, PropTypes } from 'react';
 import { Glyphicon, Grid, Row, Col } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
+import User from '../User/index';
 import styles from "./index.css";
 
 import EditableText from '../EditableText';
@@ -51,9 +52,12 @@ class AgendaItem extends React.Component {
               <EditableStatus editable={false} status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
             </div>
           </div>
-          <div>
-            <i styleName='comments-icon'></i>{" "}<small>{agendaItem.commentsCount}</small>
-            <i styleName='deliverables-icon'></i>{" "}<small>{agendaItem.deliverablesCount}</small>
+          <div styleName='bottom-row'>
+              <i styleName='comments-icon'>{" "}<small>{agendaItem.commentsCount}</small></i>
+              <i styleName='deliverables-icon'>{" "}<small>{agendaItem.deliverablesCount}</small></i>
+            <div className='pull-right'>
+              <User user={this.props.agendaItem.owner}/>
+            </div>
           </div>
         </div>
       </div>
