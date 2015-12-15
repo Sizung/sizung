@@ -4,12 +4,12 @@ import ConversationMemberList from '../components/ConversationMemberList/index';
 import * as ConversationMemberActions from '../actions/conversationMembers';
 
 function mapStateToProps(state) {
-  var organisationMembers = state.getIn(['entities', 'users']).toList();
-  var conversationMembers = state.getIn(['entities', 'conversationMembers']).toList();
+  var organizationMembers = state.getIn(['entities', 'users']).toList();
+  var conversationMembers = state.getIn(['entities', 'conversationMembers']).toArray();
   var currentConversation = state.getIn(['currentConversation']);
-  console.log("Conv members: " + conversationMembers);
+
   return {
-    organisationMembers: organisationMembers,
+    organizationMembers: organizationMembers,
     conversationMembers: conversationMembers,
     currentConversation: currentConversation
 

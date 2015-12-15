@@ -72,11 +72,8 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
 }
 
 function mapStateToProps(state) {
-  const conversationMembers = state.getIn(['entities', 'conversationMembersByConversation']);
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
-  console.log("con app conv members: " + conversationMembers);
-
   const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
   const conversationObjectsList = prepareConversationObjectList(state, objectsToShow, currentConversation, true, false);
 

@@ -6,9 +6,9 @@ import User from '../User/index';
 
 @CSSModules(styles)
 class SelectableUser extends React.Component {
-  constructor() {
-    super();
-    this.state = {selected: false};
+  constructor(props) {
+    super(props);
+    this.state = {selected: props.isSelected};
 
     this.handleSelect = this.handleSelect.bind(this);
   }
@@ -42,7 +42,8 @@ SelectableUser.propTypes = {
     presenceStatus: PropTypes.string.isRequired
   }).isRequired,
   addMemberToConversation: PropTypes.func.isRequired,
-  removeMemberFromConversation: PropTypes.func.isRequired
+  removeMemberFromConversation: PropTypes.func.isRequired,
+  isSelected: PropTypes.bool.isRequired
 };
 
 export default SelectableUser;
