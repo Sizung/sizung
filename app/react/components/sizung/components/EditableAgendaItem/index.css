@@ -25,6 +25,10 @@
   margin-bottom: 10px;
 }
 
+.current-title {
+  cursor: pointer;
+}
+
 .input {
   composes: form-control from global;
   margin-bottom: 10px;

@@ -66,24 +66,9 @@
   composes: text-muted from global;
 }
 
-.assignee-container {
-  composes: pull-left from global;
+.meta-content-user {
+  cursor: pointer;
 }
-
-.editable-user {
-  composes: pull-right col-xs-6 from global;
-  display: inline-block;
-  vertical-align: middle;
-
-}
-
-.editable-date {
-  composes: pull-left col-xs-6 from global;
-  display: inline-block;
-  vertical-align: middle;
-  float: left;
-}
-
 .time-container {
   composes: text-muted from global;
   margin: 5px 0 5px 60px;

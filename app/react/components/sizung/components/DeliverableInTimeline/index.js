@@ -85,7 +85,7 @@ class DeliverableInTimeline extends React.Component {
           <div styleName="meta-container">
             <div styleName="meta-content">
               <div styleName="meta-label">Assigned To</div>
-              <div><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} /></div>
+              <div styleName="meta-content-user"><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} /></div>
             </div>
             <div styleName="meta-content">
               <div styleName="meta-label">Due Date</div>
