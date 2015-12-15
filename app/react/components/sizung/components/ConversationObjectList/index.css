@@ -162,6 +162,7 @@
 
 .conversation-title {
   padding: 0px;
+  margin: 0px;
   float: left;
   max-width: 80%;
   height: 45px;
@@ -170,5 +171,24 @@
   text-overflow: ellipsis;
   word-wrap: break-word;
   white-space: nowrap;
-  font-size: larger;
+  /*font-size: larger;*/
+}
+
+.member-list {
+  background-color: #ffffff;
+  position: absolute;
+  top: 45px;
+  right: 0px;
+  left: 0px;
+  bottom: 25px;
+  overflow-y:auto;
+  overflow-x: hidden;
+
+  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  box-shadow: 0px 0px 5px 0px #aaaaaa;
+
+  border: 0px solid #ffffff;
+  border-top-width: 5px;
+  border-bottom-width: 5px;
 }

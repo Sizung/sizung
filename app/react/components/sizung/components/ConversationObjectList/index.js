@@ -7,6 +7,7 @@ import { Glyphicon, DropdownButton, MenuItem, Dropdown, Toggle, Button } from 'r
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 import UserListApp from "../../containers/UserListApp";
+import ConversationMemberListApp from "../../containers/ConversationMemberListApp";
 
 
 @CSSModules(styles)
@@ -23,6 +24,14 @@ class ConversationObjectList extends Component {
     this.scrollList = this.scrollList.bind(this);
     this.adjustConversationListHeight = this.adjustConversationListHeight.bind(this);
     this.handleBackClick = this.handleBackClick.bind(this);
+    this.toggleConversationMembersView = this.toggleConversationMembersView.bind(this);
+    this.renderConversationTimeLine = this.renderConversationTimeLine.bind(this);
+    this.renderListContainerContent = this.renderListContainerContent.bind(this);
+    this.renderListContainerContent = this.renderListContainerContent.bind(this);
+
+    this.state = {
+      isConversationMembersViewVisible: false
+    }
   }
 
   prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, parent) {
@@ -90,20 +99,40 @@ class ConversationObjectList extends Component {
 
   componentWillUpdate() {
     var node = this.refs.conversationObjectList.getDOMNode();
-    this.shouldScrollBottom = (Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) <= 20); // 20px is the offset tolerance considering borders and padding
+    console.log("node: " + node);
+    if (!node)
+      this.shouldScrollBottom = (Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) <= 20); // 20px is the offset tolerance considering borders and padding
   }
 
   componentDidMount() {
     window.addEventListener("resize", this.adjustConversationListHeight);
   }
 
-  render() {
+  toggleConversationMembersView() {
+    this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible});
+  }
+
+  renderListContainerContent() {
+    return (this.state.isConversationMembersViewVisible ? this.renderConversationMembersView() : this.renderConversationTimeLine());
+  }
+
+  renderConversationMembersView() {
+    console.log("Rendering renderConversationMembersView");
+    return (<div ref='conversationObjectList' styleName='member-list'>
+        <ConversationMemberListApp toggleConversationMembersView={this.toggleConversationMembersView}/>
+      </div>
+    );
+  }
+
+  renderConversationTimeLine() {
+    console.log("Rendering renderConversationTimeLine");
     const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, updateAgendaItem,
-      createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
-      canCreateDeliverable, selectAgendaItem, selectDeliverable, users } = this.props;
+        createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
+        canCreateDeliverable, selectAgendaItem, selectDeliverable, users } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
     var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent);
+
     var conversationTimelineHeader = "";
     var isTimelineHeader = false;
     if ( null != this.props.commentForm.parent) {
@@ -142,14 +171,35 @@ class ConversationObjectList extends Component {
       }
     }
 
-    return (
+    console.log("conversationObjectElements: " + conversationObjectElements);
+    return(<div style={{ width: '100%', height: '100%'}}>
+        { conversationTimelineHeader }
+        <div ref='conversationObjectList' styleName='list'>
+          { showMore }
+          { conversationObjectElements }
+        </div>
+        <div styleName='list-footer'>
+            <CommentForm createComment={createComment}
+                         createAgendaItem={createAgendaItem}
+                         createDeliverable={createDeliverable}
+                {...commentForm}/>
+        </div>
+      </div>
+    );
+  }
 
+
+  render() {
+
+    console.log("Rendering List: " + this.state.isConversationMembersViewVisible);
+    const { currentConversation, users } = this.props;
+    return(
     <div styleName='list-container'>
       <div styleName='list-header' ref='conversationHeader'>
         <div styleName="conversation-title-container">
-          <span styleName='conversation-title'>
+          <h4 styleName='conversation-title'>
             <i styleName='comments-icon'></i>{" " + currentConversation.title}
-          </span>
+          </h4>
           <a styleName='conversation-close-button' href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
             <i styleName='conversation-close-icon' ></i>
           </a>
@@ -158,37 +208,15 @@ class ConversationObjectList extends Component {
         <div styleName='member-dropdown-container'>
           <div className="btn-group">
             <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div className="pull-right" styleName='member-badge'><div styleName='member-badge-contents'>{users.size}</div></div>
+              <div className="pull-right" styleName='member-badge'><div onClick={this.toggleConversationMembersView} styleName='member-badge-contents'>{users.size}</div></div>
               <i className="pull-right" styleName='user-icon'></i>
             </a>
-            <ul className="dropdown-menu dropdown-menu-right">
-              <li>
-                <a href="#">
-                  <UserListApp/>
-                </a>
-              </li>
-              <li>
-                <a href="/users/invitation/new">
-                  <i className="fa fa-plus"></i>{" "}Invite member
-                </a>
-              </li>
-            </ul>
           </div>
         </div>
       </div>
-      { conversationTimelineHeader }
-      <div ref='conversationObjectList' styleName='list'>
-          { showMore }
-          { conversationObjectElements }
-      </div>
-      <div styleName='list-footer'>
-        <CommentForm createComment={createComment}
-                     createAgendaItem={createAgendaItem}
-                     createDeliverable={createDeliverable}
-                     {...commentForm}/>
-      </div>
+      {this.renderListContainerContent()}
     </div>
-    );
+  );
   }
 }
 
@@ -218,6 +246,7 @@ ConversationObjectList.propTypes = {
   canCreateAgendaItem: PropTypes.bool.isRequired,
   canCreateDeliverable: PropTypes.bool.isRequired,
   users: PropTypes.object.isRequired,
+  conversationMembers: PropTypes.object.isRequired,
   updateAgendaItem: PropTypes.func.isRequired
 };
 

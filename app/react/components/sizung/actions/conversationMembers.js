@@ -2,6 +2,7 @@ import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGI
 export const SET_CONVERSATION_MEMBERS = 'SET_CONVERSATION_MEMBERS';
 export const CREATE_CONVERSATION_MEMBER = 'CREATE_CONVERSATION_MEMBER';
 import { transformConversationMemberFromJsonApi } from '../utils/jsonApiUtils.js';
+import MetaTagsManager from '../utils/MetaTagsManager';
 
 export function setConversationMembers(conversationId, conversationMembers) {
   return {
@@ -21,6 +22,7 @@ export function createConversationMemberSuccess(conversationMember) {
 }
 
 export function createConversationMember(conversationId, userId) {
+  console.log("Creating Conversation Member");
   return function(dispatch) {
     return fetch('/conversation_members', {
       method: 'post',

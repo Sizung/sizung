@@ -1,0 +1,15 @@
+.user-logo {
+  display: table-cell;
+  padding: 5px;
+  vertical-align: top;
+}
+
+.user-name {
+  display: table-cell;
+  padding: 5px;
+  vertical-align: top;
+}
+
+.organization-member-container:hover {
+  background-color: #dddddd;
+}

@@ -1,0 +1,11 @@
+.root:hover {
+  background-color: #dddddd;
+}
+
+.selected {
+  composes: fa fa-check fa-lg from global;
+}
+
+.unselected {
+
+}

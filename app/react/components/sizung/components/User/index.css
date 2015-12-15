@@ -4,6 +4,10 @@
 
 .name {
   margin-left: 5px;
+  width: 5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .circle-badge {
