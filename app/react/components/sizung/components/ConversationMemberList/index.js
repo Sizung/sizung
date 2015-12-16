@@ -39,7 +39,6 @@ class ConversationMemberList extends React.Component {
   removeMemberFromConversation(id) {
     this.setState({ isConversationMemberListUpdated : true, filter: ""});
     this.props.deleteConversationMember(id);
-    console.log("Removed");
   }
 
   componentDidUpdate() {
@@ -62,10 +61,6 @@ class ConversationMemberList extends React.Component {
               return ( member.memberId === user.id);
             });
             var isSelected = ( null == existingMember ? false : true );
-            if ( null != existingMember ) {
-              console.log("existingMember: " + JSON.stringify(existingMember));
-            }
-            console.log("user selected " + user.email + ", " + isSelected + ", " + existingMember);
             return (
                 <SelectableUser user={user} key={i}
                                 onUpdate={_this.triggerUpdate.bind(_this,user.id)}
@@ -142,39 +137,37 @@ class ConversationMemberList extends React.Component {
   render() {
     var _this = this;
       return (
-
-          <div className="row" style={{ margin: '0px' }}>
-            <div className="col-xs-12">
-              <div className="pull-left">
-                <h4>Conversation Members</h4>
-              </div>
-          <span className="pull-right">
-            <i style={{ cursor: 'pointer' }} onClick={this.props.toggleConversationMembersView} className="fa fa-times fa-lg"></i>
-          </span>
+        <div styleName='root'>
+          <div styleName='full-width-container'>
+            <div styleName='conversation-member-title'>
+              <h4>Conversation Members</h4>
             </div>
-            <div className="col-xs-12">
-              {this.renderConversationMemberList()}
-            </div>
-            <div className="col-xs-12" style={{ marginTop: '10px'}}>
-              <form className="col-xs-12 zero-padding">
-                <div className="form-group col-xs-12 zero-padding">
-                  <div className="col-xs-12 zero-padding">
-                    <input ref="memberFilter" type="text" className="col-xs-12 form-control" id="memberName"
-                           placeholder="Filter by name"  onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}/>
-                  </div>
-                </div>
-              </form>
-            </div>
-
-            <div className="col-xs-12" style={{ marginTop: '10px'}}>
-              <div className="col-xs-12 zero-padding">
-                <div className="pull-left">
-                  <h4>Organization Members</h4>
-                </div>
-              </div>
-              {this.renderOrganizationMemberList()}
-            </div>
+            <span styleName='close-button-container'>
+              <i styleName='close-button' onClick={this.props.toggleConversationMembersView}></i>
+            </span>
           </div>
+          <div styleName='full-width-container'>
+            {this.renderConversationMemberList()}
+          </div>
+          <div styleName='full-width-container'>
+            <form styleName='form-container'>
+              <div styleName='input-container'>
+                  <input ref="memberFilter" type="text" styleName='input' id="memberName"
+                         placeholder="Filter by name"  onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}/>
+              </div>
+            </form>
+          </div>
+
+          <div styleName='full-width-container'>
+            <div styleName='organization-member-container'>
+              <div styleName='organization-member-title'>
+                <h4>Organization Members</h4>
+              </div>
+            </div>
+            {this.renderOrganizationMemberList()}
+          </div>
+        </div>
+
       );
   }
 }

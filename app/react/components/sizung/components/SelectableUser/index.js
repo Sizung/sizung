@@ -20,11 +20,11 @@ class SelectableUser extends React.Component {
     var selectionStyle = ( isSelected ? "selected" : "unselected");
     console.log("selectionStyle: " + selectionStyle);
     return (
-        <div onClick={this.handleSelect} styleName='root' className="col-xs-12 col-md-6" style={{ padding: '10px', cursor: 'pointer', border: '1px dashed #eeeeee'}}>
-          <div className="col-xs-10 zero-padding">
-            <User key={user.id} user={user} showName={true} style={{display: 'inline-block', marginTop: '5px', marginBottom: '5px', marginRight: '5px'}} />
+        <div onClick={this.handleSelect} styleName='root'>
+          <div styleName='user-container'>
+            <User key={user.id} user={user} showName={true} styleName='user'/>
           </div>
-          <div className="col-xs-2 zero-padding status" style={{ padding: '10px'}}>
+          <div styleName='status'>
             <i styleName={selectionStyle}></i>
           </div>
         </div>
