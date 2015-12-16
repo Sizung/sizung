@@ -12,10 +12,9 @@ class ConversationMemberList extends React.Component {
 
     this.state = {
       filter : "",
-      conversationMemberListUpdated: false,
+      isConversationMemberListUpdated: false
     };
 
-    this.handleSelect = this.handleSelect.bind(this);
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleInputSubmit = this.handleInputSubmit.bind(this);
@@ -23,6 +22,8 @@ class ConversationMemberList extends React.Component {
     this.renderConversationMemberList = this.renderConversationMemberList.bind(this);
     this.addMemberToConversation = this.addMemberToConversation.bind(this);
     this.removeMemberFromConversation = this.removeMemberFromConversation.bind(this);
+    this.triggerCancel = this.triggerCancel.bind(this);
+    this.triggerUpdate = this.triggerUpdate.bind(this);
 
     this.handleClick = (e) => {
       e.preventDefault();
@@ -30,31 +31,22 @@ class ConversationMemberList extends React.Component {
     };
   }
 
-  handleSelect(e) {
-    e.preventDefault();
-    if( !$(e.currentTarget).find('.status i').hasClass('fa-check-circle-o') ) {
-      $(e.currentTarget).find('.status i').removeClass('fa-circle-o');
-      $(e.currentTarget).find('.status i').addClass('fa-check-circle-o');
-    } else {
-      $(e.currentTarget).find('.status i').addClass('fa-circle-o');
-      $(e.currentTarget).find('.status i').removeClass('fa-check-circle-o');
-    }
-  }
-
   addMemberToConversation(id) {
-    this.setState({ conversationMemberListUpdated : true, filter: ""});
+    this.setState({ isConversationMemberListUpdated : true, filter: ""});
     this.props.createConversationMember(this.props.currentConversation.get('id'), id);
   }
 
   removeMemberFromConversation(id) {
-    this.setState({ conversationMemberListUpdated : true, filter: ""});
+    this.setState({ isConversationMemberListUpdated : true, filter: ""});
     this.props.deleteConversationMember(id);
+    console.log("Removed");
   }
 
   componentDidUpdate() {
-    if ( this.state.conversationMemberListUpdated )
-    this.setState({ conversationMemberListUpdated : false});
-
+    var inputElem = React.findDOMNode(this.refs.memberFilter);
+    inputElem.focus();
+    if ( this.state.isConversationMemberListUpdated )
+      this.setState({ isConversationMemberListUpdated : false});
   }
 
   handleFilterChange(event) {
@@ -66,18 +58,17 @@ class ConversationMemberList extends React.Component {
       var _this = this;
       return (
           _this.filteredOptions(_this.state.filter, _this.props.organizationMembers).map(function (user, i) {
-            var isSelected = false;
-            var selectedId = null;
-            _this.props.conversationMembers.map( function(c, index, arr){
-              if ( user.id === c.memberId ) {
-                isSelected = true;
-                selectedId = c.id;
-              }
+            var existingMember = _this.props.conversationMembers.find(function(member){
+              return ( member.memberId === user.id);
             });
+            var isSelected = ( null == existingMember ? false : true );
+            if ( null != existingMember ) {
+              console.log("existingMember: " + JSON.stringify(existingMember));
+            }
+            console.log("user selected " + user.email + ", " + isSelected + ", " + existingMember);
             return (
                 <SelectableUser user={user} key={i}
-                                addMemberToConversation={_this.addMemberToConversation.bind(_this,user.id)}
-                                removeMemberFromConversation={_this.removeMemberFromConversation.bind(_this,selectedId)}
+                                onUpdate={_this.triggerUpdate.bind(_this,user.id)}
                                 isSelected={isSelected}/>
             );
           }, this));
@@ -101,31 +92,50 @@ class ConversationMemberList extends React.Component {
           })
       );
     }
-    return null;
+    return;
   }
 
   handleKeyDown(event) {
     if (event.key === 'Enter') {
-      this.handleInputSubmit();
+      this.handleInputSubmit(event);
     }
     else if (event.key === 'Escape') {
       this.triggerCancel();
     }
   }
 
-  handleInputSubmit() {
+  triggerUpdate(id){
+    var existingMember = this.props.conversationMembers.find(function(member){
+      return ( member.memberId === id);
+    });
+    if ( null != existingMember ) {
+     this.removeMemberFromConversation(existingMember.id);
+    } else {
+      this.addMemberToConversation(id);
+    }
+    this.triggerCancel();
+  }
+
+  triggerCancel() {
+    this.state = {
+      filter : ""
+    };
+    React.findDOMNode(this.refs.memberFilter).value = "";
+  }
+
+  handleInputSubmit(event) {
+    event.preventDefault();
     const { filter } = this.state;
 
     const filteredOptions = this.filteredOptions(filter, this.props.organizationMembers);
-    if (filter.size > 0 && filteredOptions.size > 0) {
-      console.log('enter on ', filteredOptions.first().id);
+    if (filter.length > 0 && filteredOptions.size > 0) {
       this.triggerUpdate(filteredOptions.first().id);
     }
   }
 
   filteredOptions(filter, options) {
     return options.filter(function(option){
-      return ( ( option.firstName + " " + option.lastName ).toLowerCase().indexOf(filter.toLowerCase()) > -1 );
+      return ( ( option.firstName + " " + option.lastName ).toLowerCase().indexOf(filter.toLowerCase()) > -1 || (option.email).toLowerCase().indexOf(filter.toLowerCase()) > -1 );
     })
   }
 
@@ -146,11 +156,11 @@ class ConversationMemberList extends React.Component {
               {this.renderConversationMemberList()}
             </div>
             <div className="col-xs-12" style={{ marginTop: '10px'}}>
-              <form className="col-xs-10 zero-padding">
+              <form className="col-xs-12 zero-padding">
                 <div className="form-group col-xs-12 zero-padding">
                   <div className="col-xs-12 zero-padding">
                     <input ref="memberFilter" type="text" className="col-xs-12 form-control" id="memberName"
-                           placeholder="Enter member name"  onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}/>
+                           placeholder="Filter by name"  onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}/>
                   </div>
                 </div>
               </form>

@@ -6,23 +6,21 @@ import User from '../User/index';
 
 @CSSModules(styles)
 class SelectableUser extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {selected: props.isSelected};
-
+  constructor() {
+    super();
     this.handleSelect = this.handleSelect.bind(this);
   }
 
   handleSelect() {
-    !this.state.selected ? this.props.addMemberToConversation() : this.props.removeMemberFromConversation();
-    this.setState({selected: !this.state.selected});
+    this.props.onUpdate(this.props.user.id);
   }
 
   render() {
-    const { user, users } = this.props;
-    var selectionStyle = ( this.state.selected ? "selected" : "unselected");
+    const { user, users, isSelected } = this.props;
+    var selectionStyle = ( isSelected ? "selected" : "unselected");
+    console.log("selectionStyle: " + selectionStyle);
     return (
-        <div onClick={this.handleSelect} styleName='root' className="col-xs-12 col-md-6" style={{ padding: '10px', cursor: 'pointer'}}>
+        <div onClick={this.handleSelect} styleName='root' className="col-xs-12 col-md-6" style={{ padding: '10px', cursor: 'pointer', border: '1px dashed #eeeeee'}}>
           <div className="col-xs-10 zero-padding">
             <User key={user.id} user={user} showName={true} style={{display: 'inline-block', marginTop: '5px', marginBottom: '5px', marginRight: '5px'}} />
           </div>
@@ -43,7 +41,8 @@ SelectableUser.propTypes = {
   }).isRequired,
   addMemberToConversation: PropTypes.func.isRequired,
   removeMemberFromConversation: PropTypes.func.isRequired,
-  isSelected: PropTypes.bool.isRequired
+  isSelected: PropTypes.bool.isRequired,
+  onUpdate: PropTypes.func.isRequired
 };
 
 export default SelectableUser;
