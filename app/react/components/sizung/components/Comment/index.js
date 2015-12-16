@@ -12,10 +12,17 @@ class Comment extends React.Component {
   constructor() {
     super();
 
+    this.state = {
+      edit: false
+    }
+
     this.handleDeleteClick = (e) => {
       e.preventDefault();
       this.props.deleteComment(this.props.comment.id);
     }
+
+    this.closeEditForm = this.closeEditForm.bind(this);
+    this.openEditForm = this.openEditForm.bind(this);
   }
 
   handleAgendaItem(e){
@@ -35,9 +42,37 @@ class Comment extends React.Component {
     this.props.createDeliverable({agenda_item_id: this.props.comment.parent.id, title: this.commentBody});
   }
 
-  render() {
-    const {author, body, createdAt, id, canCreateAgendaItem, canCreateDeliverable} = this.props.comment;
+  closeEditForm(){
+    this.setState({ edit: false});
+  }
 
+  openEditForm(){
+    this.setState({ edit: true});
+  }
+
+  renderEditComment(body) {
+    return(<div styleName='content-container'>
+        <form className="form-horizontal">
+          <div className="form-group" style={{ marginBottom: "5px"}}>
+
+            <div className="col-xs-12">
+              <textarea className="form-control" rows="3">{body}</textarea>
+            </div>
+          </div>
+          <div className="form-group" style={{ marginBottom: "5px"}}>
+            <div className="col-xs-12">
+              <div className="btn btn-sm btn-success" style={{ marginRight: "5px"}}>Save</div>
+              <div className="btn btn-sm btn-default" onClick={this.closeEditForm}>Cancel</div>
+            </div>
+          </div>
+        </form>
+      </div>
+    );
+  }
+
+  renderShowComment() {
+    const {author, body, createdAt, id, canCreateAgendaItem, canCreateDeliverable} = this.props.comment;
+    console.log("renderShowComment");
     var commentActions = [];
     if (canCreateAgendaItem) {
       commentActions.push(<li key={id + 'escalateAsAgendaItem'}><a href='#' onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
@@ -46,17 +81,14 @@ class Comment extends React.Component {
       commentActions.push(<li key={id + 'escalateAsDeliverable'}><a href='#' onClick={this.handleDeliverable.bind(this)}>Escalate as Deliverable</a></li>);
     }
 
-    return  <div styleName='root'>
-      <div styleName='user-container'>
-        <User user={author}/>
-      </div>
-      <div styleName='content-container'>
+    return(<div styleName='content-container'>
         <div styleName='options-menu'>
           <div className="btn-group">
             <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i styleName='gear-icon'></i>
             </a>
-            <ul className="dropdown-menu dropdown-menu-right">
+            <ul style={{ zIndex: '3000'}} className="dropdown-menu dropdown-menu-right">
+              <li><a href="#" onClick={this.openEditForm}>Edit Comment</a></li>
               <li><a href="#" onClick={this.handleDeleteClick}>Delete Comment</a></li>
               {commentActions}
             </ul>
@@ -69,7 +101,19 @@ class Comment extends React.Component {
           <small><Time value={createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
         </div>
       </div>
-    </div>;
+    );
+  }
+
+  render() {
+    const {author, body} = this.props.comment;
+    console.log("edit state: " + this.state.edit);
+    return(<div styleName='root'>
+        <div styleName='user-container'>
+          <User user={author}/>
+        </div>
+        { this.state.edit ? this.renderEditComment(body) : this.renderShowComment() }
+      </div>
+    );
   }
 }
 
