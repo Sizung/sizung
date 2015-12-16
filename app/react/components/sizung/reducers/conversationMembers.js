@@ -7,7 +7,7 @@ const initialState = Immutable.Map();
 export default function conversationMembers(state = initialState, action = null) {
   switch (action.type) {
     case SET_CONVERSATION_MEMBERS: return setObjects(state, action, 'conversationMembers');
-    case CREATE_CONVERSATION_MEMBER: return deleteObject(state, action, 'conversationMember');
+    case CREATE_CONVERSATION_MEMBER: return setObject(state, action, 'conversationMember');
     case DELETE_CONVERSATION_MEMBER: return deleteObject(state, action, 'conversationMember');
     default: return state;
   }

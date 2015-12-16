@@ -12,14 +12,12 @@ class ConversationMemberList extends React.Component {
 
     this.state = {
       filter : "",
-      edit: false,
       conversationMemberListUpdated: false,
-      firstTime: true
     };
 
     this.handleSelect = this.handleSelect.bind(this);
-    this.handleKeyDown     = this.handleKeyDown.bind(this);
-    this.handleFilterChange     = this.handleFilterChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleInputSubmit = this.handleInputSubmit.bind(this);
     this.renderOrganizationMemberList = this.renderOrganizationMemberList.bind(this);
     this.renderConversationMemberList = this.renderConversationMemberList.bind(this);
@@ -28,7 +26,6 @@ class ConversationMemberList extends React.Component {
 
     this.handleClick = (e) => {
       e.preventDefault();
-      console.log("Clicked: " + $(e.currentTarget));
       $(e.currentTarget).find('.status').removeClass('fa-check-circle-o');
     };
   }
@@ -44,36 +41,14 @@ class ConversationMemberList extends React.Component {
     }
   }
 
-  addMemberToConversation(j) {
-    console.log("Adding member to conversation: " + j + ", " + JSON.stringify(this.props.organizationMembers.get(j)));
-    console.log("Before Conversation member count: " + this.props.conversationMembers.size);
-    this.props.conversationMembers.push(this.props.organizationMembers.get(j));
-    console.log("After Conversation member count: " + this.props.conversationMembers.size);
-    this.setState({ conversationMemberListUpdated : true});
-
-    console.log("~~~~Conversation ID: " + this.props.currentConversation.get('id'));
-    this.props.createConversationMember(this.props.currentConversation.get('id'), this.props.organizationMembers.get(j).id);
-
+  addMemberToConversation(id) {
+    this.setState({ conversationMemberListUpdated : true, filter: ""});
+    this.props.createConversationMember(this.props.currentConversation.get('id'), id);
   }
 
-  removeMemberFromConversation(j) {
-    this.setState({ conversationMemberListUpdated : true});
-    console.log("!!! Conv members: " + JSON.stringify(this.props.conversationMembers));
-    console.log("~~~~Member ID: " + <this className="props conversationMembers"></this>[j].id);
-    this.props.deleteConversationMember(this.props.conversationMembers[j].id);
-    //console.log("Removing member from conversation: " + j + ", " + this.props.organizationMembers.get(j).email);
-    //for ( var i=0 ; i<this.props.conversationMembers.size ; i++ ) {
-    //  if ( this.props.conversationMembers.get(i).id == this.props.organizationMembers.get(j).id ) {
-    //    console.log("Found");
-    //    this.props.conversationMembers.splice(i,1);
-    //    this.setState({ conversationMemberListUpdated : true});
-    //    break;
-    //  }
-    //}
-  }
-
-  handleMemberSelection(i) {
-    console.log("Member Clicked :" + this.props.organizationMembers[i].email);
+  removeMemberFromConversation(id) {
+    this.setState({ conversationMemberListUpdated : true, filter: ""});
+    this.props.deleteConversationMember(id);
   }
 
   componentDidUpdate() {
@@ -82,41 +57,30 @@ class ConversationMemberList extends React.Component {
 
   }
 
-  componentDidMount() {
-    this.setState({ firstTime : false});
-    //console.log("this.props.organizationMembers, this.props.conversationMembers: " + this.props.organizationMembers + ", " + this.props.conversationMembers);
-    this.allOrganizationMembers = this.props.organizationMembers.slice(0);
-    this.props.organizationMembers = this.props.organizationMembers;
-    this.props.conversationMembers = this.props.conversationMembers.size == 0? new Array() : this.props.conversationMembers;
-  }
-
   handleFilterChange(event) {
     this.setState({filter: event.target.value});
-    console.log("filter: " + event.target.value);
-
-    const filteredOptions = this.filteredOptions(event.target.value, this.allOrganizationMembers);
+    const filteredOptions = this.filteredOptions(event.target.value, this.props.organizationMembers);
     this.props.organizationMembers = filteredOptions;
     console.log("Filtered objects : " + filteredOptions.size);
   }
 
   renderOrganizationMemberList() {
     if ( null != this.props.conversationMembers) {
-      console.log("Organization members: " + JSON.stringify(this.props.organizationMembers));
       var _this = this;
       return (
           _this.props.organizationMembers.map(function (user, i) {
-            console.log("Rendering Organization member: " + user.email);
             var isSelected = false;
-            _this.props.conversationMembers.forEach( function(a, index, arr){
-              console.log("Comparing: " + user.id + ", " + a.memberId);
-              if ( user.id === a.memberId ) {
+            var selectedId = null;
+            _this.props.conversationMembers.map( function(c, index, arr){
+              if ( user.id === c.memberId ) {
                 isSelected = true;
+                selectedId = c.id;
               }
-            })
+            });
             return (
                 <SelectableUser user={user} key={i}
-                                addMemberToConversation={_this.addMemberToConversation.bind(_this,i)}
-                                removeMemberFromConversation={_this.removeMemberFromConversation.bind(_this,i)}
+                                addMemberToConversation={_this.addMemberToConversation.bind(_this,user.id)}
+                                removeMemberFromConversation={_this.removeMemberFromConversation.bind(_this,selectedId)}
                                 isSelected={isSelected}/>
             );
           }, this));
@@ -124,28 +88,18 @@ class ConversationMemberList extends React.Component {
     return null;
   }
 
-  getObjectIndex(arr, obj) {
-    var ind = -1;
-    arr.forEach(function(a, index, arr ) {
-      console.log('index: ' + index);
-      if ( a.id == obj.memberId ) {
-        console.log('found: ' + index);
-        ind = index;
-      }
-    });
-    return ind;
-
-  }
-
   renderConversationMemberList() {
     if ( null != this.props.conversationMembers) {
-      console.log("Conversation members: " + JSON.stringify(this.props.conversationMembers));
       var _this = this;
       return (
           _this.props.conversationMembers.map(function (user) {
-             var usr = _this.props.organizationMembers.get(_this.getObjectIndex(_this.props.organizationMembers, user));
-              console.log('User: ' + JSON.stringify(usr));
-             return (<User key={usr.id} user={usr} showName={false}
+            var conversationMember = null;
+            _this.props.organizationMembers.forEach(function(obj){
+              if( obj.id === user.memberId ) {
+                conversationMember = obj;
+              }
+            });
+             return (<User key={conversationMember.id} user={conversationMember} showName={false}
                             style={{display: 'inline-block', marginTop: '5px', marginBottom: '5px', marginRight: '5px'}}/>);
           })
       );
@@ -198,7 +152,7 @@ class ConversationMemberList extends React.Component {
               <form className="col-xs-10 zero-padding">
                 <div className="form-group col-xs-12 zero-padding">
                   <div className="col-xs-12 zero-padding">
-                    <input ref="filterMemberName" type="text" className="col-xs-12 form-control" id="memberName"
+                    <input ref="memberFilter" type="text" className="col-xs-12 form-control" id="memberName"
                            placeholder="Enter member name"  onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}/>
                   </div>
                 </div>
@@ -220,7 +174,7 @@ class ConversationMemberList extends React.Component {
 
 ConversationMemberList.propTypes = {
   organizationMembers: PropTypes.object.isRequired,
-  conversationMembers: PropTypes.array.isRequired,
+  conversationMembers: PropTypes.object.isRequired,
   toggleConversationMembersView: PropTypes.func.isRequired,
   createConversationMember: PropTypes.func.isRequired,
   deleteConversationMember: PropTypes.func.isRequired,
