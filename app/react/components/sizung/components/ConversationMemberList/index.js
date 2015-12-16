@@ -153,7 +153,7 @@ class ConversationMemberList extends React.Component {
             <form styleName='form-container'>
               <div styleName='input-container'>
                   <input ref="memberFilter" type="text" styleName='input' id="memberName"
-                         placeholder="Filter by name"  onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}/>
+                         placeholder="Filter by name, email"  onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}/>
               </div>
             </form>
           </div>
