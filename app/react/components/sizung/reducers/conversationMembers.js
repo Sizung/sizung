@@ -1,6 +1,6 @@
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
 import { SET_CONVERSATION_MEMBERS, CREATE_CONVERSATION_MEMBER, DELETE_CONVERSATION_MEMBER } from '../actions/conversationMembers';
-import { setObjects, deleteObject } from '../utils/reducerUtils';
+import { setObject, setObjects, deleteObject } from '../utils/reducerUtils';
 import Immutable from 'immutable';
 const initialState = Immutable.Map();
 
