@@ -79,7 +79,11 @@ class ConversationObjectList extends Component {
 
   handleBackClick(e){
     e.preventDefault();
-    this.props.backToConversation(this.props.currentConversation.id);
+    if ( null != this.props.commentForm.parent && this.props.commentForm.parent.type == "deliverables" ){
+      this.props.selectAgendaItem(this.props.currentConversation.id, this.props.commentForm.parent.agendaItem.id);
+    } else {
+      this.props.backToConversation(this.props.currentConversation.id);
+    }
   };
 
   adjustConversationListHeight() {
