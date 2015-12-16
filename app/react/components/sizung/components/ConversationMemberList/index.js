@@ -59,16 +59,13 @@ class ConversationMemberList extends React.Component {
 
   handleFilterChange(event) {
     this.setState({filter: event.target.value});
-    const filteredOptions = this.filteredOptions(event.target.value, this.props.organizationMembers);
-    this.props.organizationMembers = filteredOptions;
-    console.log("Filtered objects : " + filteredOptions.size);
   }
 
   renderOrganizationMemberList() {
     if ( null != this.props.conversationMembers) {
       var _this = this;
       return (
-          _this.props.organizationMembers.map(function (user, i) {
+          _this.filteredOptions(_this.state.filter, _this.props.organizationMembers).map(function (user, i) {
             var isSelected = false;
             var selectedId = null;
             _this.props.conversationMembers.map( function(c, index, arr){
