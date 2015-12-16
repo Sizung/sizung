@@ -56,7 +56,7 @@ class Comment extends React.Component {
           <div className="form-group" style={{ marginBottom: "5px"}}>
 
             <div className="col-xs-12">
-              <textarea className="form-control" rows="3">{body}</textarea>
+              <textarea ref='input' className="form-control" rows="3">{body}</textarea>
             </div>
           </div>
           <div className="form-group" style={{ marginBottom: "5px"}}>
@@ -102,6 +102,12 @@ class Comment extends React.Component {
         </div>
       </div>
     );
+  }
+
+  componentDidUpdate() {
+    if ( this.state.edit ) {
+      React.findDOMNode(this.refs.input).focus();
+    }
   }
 
   render() {
