@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_comment, only: [:destroy]
+  before_action :set_comment, only: [:edit, :update, :destroy]
   after_action :verify_authorized
 
   respond_to :json
@@ -27,6 +27,21 @@ class CommentsController < ApplicationController
     render json: @comment, serializer: CommentSerializer
   end
 
+  # PATCH/PUT /comments/1
+  # PATCH/PUT /comments/1.json
+  def update
+    authorize @comment
+    @comment.author = current_user
+    @comment.update(comment_params)
+    respond_to do |format|
+      if @comment.persisted?
+        payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
+        CommentRelayJob.perform_later(payload: payload, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type, actor_id: current_user.id, action: 'create')
+      end
+      render json: @comment, serializer: CommentSerializer
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_comment
@@ -38,4 +53,5 @@ class CommentsController < ApplicationController
     def comment_params
       params.require(:comment).permit(:commentable_id, :commentable_type, :author_id, :body)
     end
+
 end

@@ -34,7 +34,7 @@ class ConversationObjectList extends Component {
     }
   }
 
-  prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, parent) {
+  prepareChildElements(conversationObjects, updateComment, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, parent) {
     if(conversationObjects) {
       return conversationObjects.map(function(conversationObject) {
         if (conversationObject.type === 'comments') {
@@ -42,7 +42,7 @@ class ConversationObjectList extends Component {
           comment.canCreateAgendaItem = canCreateAgendaItem;
           comment.canCreateDeliverable = canCreateDeliverable;
           comment.parent = parent;
-          return(<Comment key={comment.id} comment={comment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} isTimelineHeader={false}/>);
+          return(<Comment key={comment.id} comment={comment} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} isTimelineHeader={false}/>);
         }
         else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
@@ -130,12 +130,12 @@ class ConversationObjectList extends Component {
 
   renderConversationTimeLine() {
     console.log("Rendering renderConversationTimeLine");
-    const { currentConversation, conversationObjects, createComment, deleteComment, createAgendaItem, updateAgendaItem,
+    const { currentConversation, conversationObjects, createComment, updateComment, deleteComment, createAgendaItem, updateAgendaItem,
         createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
         canCreateDeliverable, selectAgendaItem, selectDeliverable, users } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    var conversationObjectElements = this.prepareChildElements(conversationObjects, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent);
+    var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent);
 
     var conversationTimelineHeader = "";
     var isTimelineHeader = false;
@@ -240,6 +240,7 @@ ConversationObjectList.propTypes = {
   createDeliverable: PropTypes.func.isRequired,
   updateDeliverable: PropTypes.func.isRequired,
   createComment: PropTypes.func.isRequired,
+  updateComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
   conversationObjects: PropTypes.array,

@@ -23,6 +23,8 @@ class Comment extends React.Component {
 
     this.closeEditForm = this.closeEditForm.bind(this);
     this.openEditForm = this.openEditForm.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.lastUpdatedTime = this.lastUpdatedTime.bind(this);
   }
 
   handleAgendaItem(e){
@@ -50,6 +52,13 @@ class Comment extends React.Component {
     this.setState({ edit: true});
   }
 
+  handleSubmit(){
+    var commentText = React.findDOMNode(this.refs.input).value.trim();
+    console.log("Updating comment text: " + commentText);
+    this.props.updateComment({id: this.props.comment.id, commentable_id: this.props.comment.parent.id, commentable_type: this.props.comment.parent.type, body: commentText});
+    this.closeEditForm();
+  }
+
   renderEditComment(body) {
     return(<div styleName='content-container'>
         <form className="form-horizontal">
@@ -61,7 +70,7 @@ class Comment extends React.Component {
           </div>
           <div className="form-group" style={{ marginBottom: "5px"}}>
             <div className="col-xs-12">
-              <div className="btn btn-sm btn-success" style={{ marginRight: "5px"}}>Save</div>
+              <div className="btn btn-sm btn-success" onClick={this.handleSubmit} style={{ marginRight: "5px"}}>Save</div>
               <div className="btn btn-sm btn-default" onClick={this.closeEditForm}>Cancel</div>
             </div>
           </div>
@@ -70,9 +79,18 @@ class Comment extends React.Component {
     );
   }
 
+  lastUpdatedTime() {
+    const {createdAt, updatedAt} = this.props.comment;
+    var lastUpdatedAt = ( createdAt != updatedAt ? updatedAt : createdAt);
+    var editedIndicator = ( createdAt != updatedAt ? "Edited " : "");
+    console.log("createdAt, updatedAt " + createdAt + ", " +  updatedAt);
+    return(<div styleName='time-container'>
+      <small>{editedIndicator}<Time value={lastUpdatedAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+    </div>);
+  }
+
   renderShowComment() {
-    const {author, body, createdAt, id, canCreateAgendaItem, canCreateDeliverable} = this.props.comment;
-    console.log("renderShowComment");
+    const {author, body, createdAt, updatedAt, id, canCreateAgendaItem, canCreateDeliverable} = this.props.comment;
     var commentActions = [];
     if (canCreateAgendaItem) {
       commentActions.push(<li key={id + 'escalateAsAgendaItem'}><a href='#' onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
@@ -97,9 +115,7 @@ class Comment extends React.Component {
         <div styleName='comment-body' ref='commentBody'>
           {body}
         </div>
-        <div styleName='time-container'>
-          <small><Time value={createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
-        </div>
+          {this.lastUpdatedTime()}
       </div>
     );
   }
@@ -112,7 +128,6 @@ class Comment extends React.Component {
 
   render() {
     const {author, body} = this.props.comment;
-    console.log("edit state: " + this.state.edit);
     return(<div styleName='root'>
         <div styleName='user-container'>
           <User user={author}/>
@@ -129,6 +144,7 @@ Comment.propTypes = {
     body: PropTypes.string.isRequired,
     author: PropTypes.object.isRequired,
     createdAt: PropTypes.string.isRequired,
+    updatedAt: PropTypes.string.isRequired,
     canCreateAgendaItem: PropTypes.bool.isRequired,
     canCreateDeliverable: PropTypes.bool.isRequired,
     parent: PropTypes.shape({
