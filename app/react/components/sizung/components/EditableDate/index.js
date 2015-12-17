@@ -21,7 +21,7 @@ class EditableDate extends React.Component {
 
   textElement(persistedText) {
     var value = persistedText ? moment(persistedText) : null;
-    return <DatePicker selected={value} placeholderText="When is it due?" onChange={this.handleChange} dateFormat="YYYY-MM-DD"/>;
+    return <DatePicker selected={value} placeholderText="When is it due?" onChange={this.handleChange} dateFormat="YYYY-MM-DD" weekStart='0'/>;
   }
 
   render() {
