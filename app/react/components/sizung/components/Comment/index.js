@@ -55,7 +55,6 @@ class Comment extends React.Component {
 
   handleSubmit(){
     var commentText = React.findDOMNode(this.refs.input).value.trim();
-    console.log("Updating comment text: " + commentText);
     this.props.updateComment({id: this.props.comment.id, commentable_id: this.props.comment.parent.id, commentable_type: this.props.comment.parent.type, body: commentText});
     this.closeEditForm();
   }
@@ -84,7 +83,6 @@ class Comment extends React.Component {
     const {createdAt, updatedAt} = this.props.comment;
     var lastUpdatedAt = ( createdAt != updatedAt ? updatedAt : createdAt);
     var editedIndicator = ( createdAt != updatedAt ? "Edited " : "");
-    console.log("createdAt, updatedAt " + createdAt + ", " +  updatedAt);
     return(<div styleName='time-container'>
       <small>{editedIndicator}<Time value={lastUpdatedAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
     </div>);

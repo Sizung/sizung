@@ -103,8 +103,7 @@ class ConversationObjectList extends Component {
 
   componentWillUpdate() {
     var node = this.refs.conversationObjectList.getDOMNode();
-    console.log("node: " + node);
-    if (!node)
+    if (null != node)
       this.shouldScrollBottom = (Math.abs(node.scrollTop + node.offsetHeight - node.scrollHeight) <= 20); // 20px is the offset tolerance considering borders and padding
   }
 
@@ -121,7 +120,6 @@ class ConversationObjectList extends Component {
   }
 
   renderConversationMembersView() {
-    console.log("Rendering renderConversationMembersView");
     return (<div ref='conversationObjectList' styleName='member-list'>
         <ConversationMemberListApp toggleConversationMembersView={this.toggleConversationMembersView}/>
       </div>
@@ -129,7 +127,6 @@ class ConversationObjectList extends Component {
   }
 
   renderConversationTimeLine() {
-    console.log("Rendering renderConversationTimeLine");
     const { currentConversation, conversationObjects, createComment, updateComment, deleteComment, createAgendaItem, updateAgendaItem,
         createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
         canCreateDeliverable, selectAgendaItem, selectDeliverable, users } = this.props;
@@ -175,7 +172,6 @@ class ConversationObjectList extends Component {
       }
     }
 
-    console.log("conversationObjectElements: " + conversationObjectElements);
     return(<div style={{ width: '100%', height: '100%'}}>
         { conversationTimelineHeader }
         <div ref='conversationObjectList' styleName='list'>
@@ -194,8 +190,6 @@ class ConversationObjectList extends Component {
 
 
   render() {
-
-    console.log("Rendering List: " + this.state.isConversationMembersViewVisible);
     const { currentConversation, users } = this.props;
     return(
     <div styleName='list-container'>
