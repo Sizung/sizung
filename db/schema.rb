@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151203112044) do
+ActiveRecord::Schema.define(version: 20151217131553) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -66,7 +66,62 @@ ActiveRecord::Schema.define(version: 20151203112044) do
   add_index "deliverables", ["owner_id"], name: "index_deliverables_on_owner_id", using: :btree
 
   create_view "conversation_objects", <<-'END_VIEW_CONVERSATION_OBJECTS', :force => true
-(SELECT comments.id, 'Comment'::text AS type, comments.commentable_id AS parent_id, comments.created_at, comments.updated_at, comments.commentable_id, comments.commentable_type, NULL::uuid AS conversation_id, comments.author_id, NULL::uuid AS owner_id, NULL::character varying AS title, comments.body, NULL::character varying AS status, NULL::uuid AS agenda_item_id, NULL::text AS description, NULL::uuid AS assignee_id, NULL::date AS due_on FROM comments UNION ALL SELECT agenda_items.id, 'AgendaItem'::text AS type, agenda_items.conversation_id AS parent_id, agenda_items.created_at, agenda_items.updated_at, NULL::uuid AS commentable_id, NULL::character varying AS commentable_type, agenda_items.conversation_id, NULL::uuid AS author_id, agenda_items.owner_id, agenda_items.title, NULL::text AS body, agenda_items.status, NULL::uuid AS agenda_item_id, NULL::text AS description, NULL::uuid AS assignee_id, NULL::date AS due_on FROM agenda_items) UNION ALL SELECT deliverables.id, 'Deliverable'::text AS type, deliverables.agenda_item_id AS parent_id, deliverables.created_at, deliverables.updated_at, NULL::uuid AS commentable_id, NULL::character varying AS commentable_type, NULL::uuid AS conversation_id, NULL::uuid AS author_id, deliverables.owner_id, deliverables.title, NULL::text AS body, deliverables.status, deliverables.agenda_item_id, deliverables.description, deliverables.assignee_id, deliverables.due_on FROM deliverables
+SELECT comments.id,
+    'Comment'::text AS type,
+    comments.commentable_id AS parent_id,
+    comments.created_at,
+    comments.updated_at,
+    comments.commentable_id,
+    comments.commentable_type,
+    NULL::uuid AS conversation_id,
+    comments.author_id,
+    NULL::uuid AS owner_id,
+    NULL::character varying AS title,
+    comments.body,
+    NULL::character varying AS status,
+    NULL::uuid AS agenda_item_id,
+    NULL::text AS description,
+    NULL::uuid AS assignee_id,
+    NULL::date AS due_on
+   FROM comments
+UNION ALL
+ SELECT agenda_items.id,
+    'AgendaItem'::text AS type,
+    agenda_items.conversation_id AS parent_id,
+    agenda_items.created_at,
+    agenda_items.updated_at,
+    NULL::uuid AS commentable_id,
+    NULL::character varying AS commentable_type,
+    agenda_items.conversation_id,
+    NULL::uuid AS author_id,
+    agenda_items.owner_id,
+    agenda_items.title,
+    NULL::text AS body,
+    agenda_items.status,
+    NULL::uuid AS agenda_item_id,
+    NULL::text AS description,
+    NULL::uuid AS assignee_id,
+    NULL::date AS due_on
+   FROM agenda_items
+UNION ALL
+ SELECT deliverables.id,
+    'Deliverable'::text AS type,
+    deliverables.agenda_item_id AS parent_id,
+    deliverables.created_at,
+    deliverables.updated_at,
+    NULL::uuid AS commentable_id,
+    NULL::character varying AS commentable_type,
+    NULL::uuid AS conversation_id,
+    NULL::uuid AS author_id,
+    deliverables.owner_id,
+    deliverables.title,
+    NULL::text AS body,
+    deliverables.status,
+    deliverables.agenda_item_id,
+    deliverables.description,
+    deliverables.assignee_id,
+    deliverables.due_on
+   FROM deliverables
   END_VIEW_CONVERSATION_OBJECTS
 
   create_table "conversations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|

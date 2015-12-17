@@ -19,6 +19,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/1.json
   def show
+    @conversations = policy_scope(Conversation).where(organization: @organization).order(:title)
   end
 
   # GET /organizations/new
