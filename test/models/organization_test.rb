@@ -5,5 +5,6 @@ class OrganizationTest < ActiveSupport::TestCase
     organization = FactoryGirl.create :organization
     assert organization.persisted?
     assert organization.owner.persisted?
+    assert_equal 1, organization.conversations.size
   end
 end

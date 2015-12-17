@@ -47,10 +47,10 @@ class ConversationsController < ApplicationController
 
     respond_to do |format|
       if @conversation.save
-        format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
-        format.json { render :show, status: :created, location: @conversation }
         # TODO: Need to check if there is a better way of achieving the below case of adding conv creator as default member
         @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>current_user.id)
+        format.html { redirect_to @conversation, notice: 'Conversation was successfully created.' }
+        format.json { render :show, status: :created, location: @conversation }
       else
         format.html { render :new }
         format.json { render json: @conversation.errors, status: :unprocessable_entity }

@@ -37,6 +37,8 @@ class UserFlowsTest < ActionDispatch::IntegrationTest
     assert_equal 'sam.sample@example.com', user.email
     assert_equal 1, Organization.all.size
     assert_equal Organization::DEFAULT_NAME, User.order(:created_at).last.organizations.order(:created_at).last.name
+    assert_equal 1, user.conversation_members.size
+    assert_equal user, Conversation.first.conversation_members.first.member
   end
 
 end

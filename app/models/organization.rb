@@ -8,11 +8,11 @@ class Organization < ActiveRecord::Base
 
   DEFAULT_NAME = 'Default Organization Name'
 
-  before_create :add_account_user_for_owner
+  after_create :add_default_conversation
 
-  def add_account_user_for_owner
-    organization_members.build(member: owner) if owner
-    conversations.build(title: Conversation::DEFAULT_TITLE)
+  def add_default_conversation
+    conversation = conversations.create!(title: Conversation::DEFAULT_TITLE)
+    conversation.conversation_members.create!(member: owner)
   end
 
   def to_s

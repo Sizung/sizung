@@ -38,9 +38,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   def create
     super do |user|
-      organization = user.organizations.first
-      organization.owner = user
-      organization.save!
+      if user.persisted?
+        user.organizations.create!(name: Organization::DEFAULT_NAME, owner: user)
+      end
     end
   end
 
@@ -60,9 +60,6 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # temporary session data to the newly created user.
   def build_resource(hash=nil)
     self.resource = resource_class.new_with_session(hash || {}, session)
-    if resource.organizations.empty?
-      resource.organizations.build(name: Organization::DEFAULT_NAME)
-    end
   end
 
   def after_inactive_sign_up_path_for(resource)
