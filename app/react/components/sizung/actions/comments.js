@@ -22,6 +22,14 @@ export function createCommentRemoteOrigin(comment) {
   };
 }
 
+export function updateCommentRemoteOrigin(comment) {
+  return {
+    type: UPDATE_COMMENT,
+    status: STATUS_REMOTE_ORIGIN,
+    comment: comment
+  };
+}
+
 export function deleteCommentRemoteOrigin(comment) {
   return {
     type: DELETE_COMMENT,

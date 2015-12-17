@@ -20,7 +20,7 @@ import configureStore from '../store/configureStore';
 import {setCurrentUser} from '../actions/users'
 import {setConversationObjects, fetchConversationObjects} from '../actions/conversationObjects'
 import {fetchOrganizations, setCurrentOrganization} from '../actions/organizations';
-import {createCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
+import {createCommentRemoteOrigin, updateCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems, createAgendaItemRemoteOrigin, updateAgendaItemRemoteOrigin} from '../actions/agendaItems'
 import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi, transformOrganizationFromJsonApi, transformConversationMemberFromJsonApi} from '../utils/jsonApiUtils';
 import {setDeliverables, createDeliverableRemoteOrigin, updateDeliverableRemoteOrigin} from '../actions/deliverables'
@@ -72,6 +72,9 @@ export default class ConversationRoot extends Component {
       if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
         if(data.action == 'create') {
           store.dispatch(createCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));
+        }
+        else if(data.action == 'update') {
+          store.dispatch(updateCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));
         }
         else if(data.action == 'delete') {
           store.dispatch(deleteCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));

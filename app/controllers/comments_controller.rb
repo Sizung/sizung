@@ -1,6 +1,6 @@
 class CommentsController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_comment, only: [:edit, :update, :destroy]
+  before_action :set_comment, only: [:update, :destroy]
   after_action :verify_authorized
 
   respond_to :json
@@ -27,7 +27,6 @@ class CommentsController < ApplicationController
     render json: @comment, serializer: CommentSerializer
   end
 
-  # PATCH/PUT /comments/1
   # PATCH/PUT /comments/1.json
   def update
     authorize @comment
