@@ -22,7 +22,7 @@ class SelectableUser extends React.Component {
     return (
         <div onClick={this.handleSelect} styleName='root'>
           <div styleName='user-container'>
-            <User key={user.id} user={user} showName={true} styleName='user'/>
+            <User key={user.id} user={user} showName={true} showEmail={true} styleName='user'/>
           </div>
           <div styleName='status'>
             <i styleName={selectionStyle}></i>

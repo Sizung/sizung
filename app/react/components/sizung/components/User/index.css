@@ -4,7 +4,17 @@
 
 .name {
   margin-left: 5px;
-  width: 5em;
+}
+
+.email {
+  margin-left: 5px;
+}
+
+.user-title {
+  display: inline-block;
+  max-width: 80%;
+  height: 20px;
+  line-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;

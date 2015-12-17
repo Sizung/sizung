@@ -14,19 +14,23 @@ class User extends React.Component {
   }
 
   render() {
-    const {style, showName} = this.props;
+    const {style, showName, showEmail} = this.props;
     let { email, presenceStatus, firstName, lastName } = this.props.user;
     const initials = (firstName && lastName) ? firstName.charAt(0) + lastName.charAt(0) : email.charAt(0);
     const onlineState = presenceStatus === 'online' ? '-online' : '';
     var userLogoSize = ( this.validSizes.indexOf(this.props.size) == -1 ) ? this.validSizes[0] : this.props.size ;
     const name = showName ? <span styleName="name">{firstName + ' ' + lastName}</span> : '';
+    const userEmail = showEmail ? <span styleName="email"><small>({email})</small></span> : '';
 
     return (
       <span styleName='root' title={email} style={style}>
         <div styleName={'circle-badge-' + userLogoSize + onlineState}>
           {initials}
         </div>
-        {name}
+        <span styleName='user-title'>
+          {name}
+          {userEmail}
+        </span>
       </span>
     );
   }
@@ -41,6 +45,7 @@ User.propTypes = {
   }).isRequired,
   size: PropTypes.string.isRequired,
   showName: PropTypes.bool,
+  showEmail: PropTypes.bool,
   style: PropTypes.object
 };
 
@@ -53,6 +58,7 @@ User.defaultProps = {
   },
   size: "normal",
   showName: false,
+  showEmail: false,
   style: {}
 };
 
