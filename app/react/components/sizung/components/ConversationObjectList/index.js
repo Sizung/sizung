@@ -34,7 +34,7 @@ class ConversationObjectList extends Component {
     }
   }
 
-  prepareChildElements(conversationObjects, updateComment, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, parent) {
+  prepareChildElements(conversationObjects, updateComment, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, parent, currentUser) {
     if(conversationObjects) {
       return conversationObjects.map(function(conversationObject) {
         if (conversationObject.type === 'comments') {
@@ -42,7 +42,7 @@ class ConversationObjectList extends Component {
           comment.canCreateAgendaItem = canCreateAgendaItem;
           comment.canCreateDeliverable = canCreateDeliverable;
           comment.parent = parent;
-          return(<Comment key={comment.id} comment={comment} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} isTimelineHeader={false}/>);
+          return(<Comment key={comment.id} comment={comment} currentUser={currentUser} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} isTimelineHeader={false}/>);
         }
         else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
@@ -135,7 +135,7 @@ class ConversationObjectList extends Component {
         canCreateDeliverable, selectAgendaItem, selectDeliverable, users } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent);
+    var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent, commentForm.currentUser);
 
     var conversationTimelineHeader = "";
     var isTimelineHeader = false;

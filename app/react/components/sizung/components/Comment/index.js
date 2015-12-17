@@ -25,6 +25,7 @@ class Comment extends React.Component {
     this.openEditForm = this.openEditForm.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.lastUpdatedTime = this.lastUpdatedTime.bind(this);
+    this.renderCommentSettingsOptions = this.renderCommentSettingsOptions.bind(this);
   }
 
   handleAgendaItem(e){
@@ -89,8 +90,8 @@ class Comment extends React.Component {
     </div>);
   }
 
-  renderShowComment() {
-    const {author, body, createdAt, updatedAt, id, canCreateAgendaItem, canCreateDeliverable} = this.props.comment;
+  renderCommentSettingsOptions() {
+    const {author, canCreateAgendaItem, canCreateDeliverable, id} = this.props.comment;
     var commentActions = [];
     if (canCreateAgendaItem) {
       commentActions.push(<li key={id + 'escalateAsAgendaItem'}><a href='#' onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
@@ -98,6 +99,15 @@ class Comment extends React.Component {
     if (canCreateDeliverable) {
       commentActions.push(<li key={id + 'escalateAsDeliverable'}><a href='#' onClick={this.handleDeliverable.bind(this)}>Escalate as Deliverable</a></li>);
     }
+    if ( this.props.currentUser.id === author.id ){
+      commentActions.push(<li><a href="#" onClick={this.openEditForm}>Edit Comment</a></li>);
+      commentActions.push(<li><a href="#" onClick={this.handleDeleteClick}>Delete Comment</a></li>);
+    }
+    return commentActions;
+  }
+
+  renderShowComment() {
+    const {body} = this.props.comment;
 
     return(<div styleName='content-container'>
         <div styleName='options-menu'>
@@ -105,10 +115,8 @@ class Comment extends React.Component {
             <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i styleName='gear-icon'></i>
             </a>
-            <ul style={{ zIndex: '3000'}} className="dropdown-menu dropdown-menu-right">
-              <li><a href="#" onClick={this.openEditForm}>Edit Comment</a></li>
-              <li><a href="#" onClick={this.handleDeleteClick}>Delete Comment</a></li>
-              {commentActions}
+            <ul className="dropdown-menu dropdown-menu-right">
+              {this.renderCommentSettingsOptions()}
             </ul>
           </div>
         </div>
@@ -151,8 +159,8 @@ Comment.propTypes = {
       id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired
     }).isRequired,
-
   }).isRequired,
+  currentUser: PropTypes.object.isRequired
 };
 
 export default Comment;
