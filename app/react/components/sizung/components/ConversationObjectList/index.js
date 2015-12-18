@@ -112,7 +112,9 @@ class ConversationObjectList extends Component {
 
   componentWillUpdate() {
     //Intializing DOM nodes references using refs to be used in the component
-    this.commentFormNode = this.refs.listFooter.getDOMNode();
+    if ( !this.state.isConversationMembersViewVisible ) {
+      this.commentFormNode = this.refs.listFooter.getDOMNode();
+    }
     this.listNode = this.refs.conversationObjectList.getDOMNode();
 
     if (null != this.listNode)
