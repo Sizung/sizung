@@ -26,6 +26,7 @@ class Comment extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.lastUpdatedTime = this.lastUpdatedTime.bind(this);
     this.renderCommentSettingsOptions = this.renderCommentSettingsOptions.bind(this);
+    this.handleScroll = this.handleScroll.bind(this);
   }
 
   handleAgendaItem(e){
@@ -104,16 +105,25 @@ class Comment extends React.Component {
     return commentActions;
   }
 
+  handleScroll() {
+    console.log("Inside handleScroll");
+    var node = React.findDOMNode(this.refs.gearDropDown);
+    console.log("node: " + node);
+    if (node){
+      this.props.handleCommentSettingsDropdownScroll(node);
+    }
+  }
+
   renderShowComment() {
     const {body} = this.props.comment;
-
+    var _this = this;
     return(<div styleName='content-container'>
         <div styleName='options-menu'>
           <div className="btn-group">
-            <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={_this.handleScroll}>
               <i styleName='gear-icon'></i>
             </a>
-            <ul className="dropdown-menu dropdown-menu-right">
+            <ul ref="gearDropDown" className="dropdown-menu dropdown-menu-right">
               {this.renderCommentSettingsOptions()}
             </ul>
           </div>
@@ -158,7 +168,8 @@ Comment.propTypes = {
       type: PropTypes.string.isRequired
     }).isRequired,
   }).isRequired,
-  currentUser: PropTypes.object.isRequired
+  currentUser: PropTypes.object.isRequired,
+  handleCommentSettingsDropdownScroll: PropTypes.func.isRequired
 };
 
 export default Comment;
