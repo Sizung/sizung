@@ -18,8 +18,10 @@ import conversationObjectsByDeliverable from './conversationObjectsByDeliverable
 import conversationMembers from './conversationMembers';
 import conversationMembersByConversation from './conversationMembersByConversation';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
+import entityReducerForType from './entityReducer';
 
 const entities = combineReducers({
+  unseenObjects: entityReducerForType('unseenObjects'),
   organizations,
   conversations,
   comments,

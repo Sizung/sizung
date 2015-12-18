@@ -11,4 +11,20 @@ class Comment < ActiveRecord::Base
   def owner
     author
   end
+
+  def deliverable
+    commentable.deliverable
+  end
+
+  def agenda_item
+    commentable.agenda_item
+  end
+
+  def conversation
+    commentable.conversation
+  end
+
+  def organization
+    commentable.organization
+  end
 end

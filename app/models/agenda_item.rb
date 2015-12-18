@@ -15,4 +15,16 @@ class AgendaItem < ActiveRecord::Base
   def deliverables_count
     deliverables.size
   end
+
+  def deliverable
+    nil
+  end
+
+  def agenda_item
+    self
+  end
+
+  def organization
+    conversation.organization
+  end
 end

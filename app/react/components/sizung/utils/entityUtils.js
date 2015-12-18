@@ -11,6 +11,9 @@ export function fillAgendaItem(state, id) {
   var agendaItem = state.getIn(['entities', 'agendaItems', id]);
   agendaItem.conversation = state.getIn(['entities', 'conversations', agendaItem.conversationId]);
   agendaItem.owner = state.getIn(['entities', 'users', agendaItem.ownerId]);
+  agendaItem.unseenCount = state.getIn(['entities', 'unseenObjects']).filter((unseenObject) => {
+    return unseenObject.agendaItemId === id;
+  }).size;
 
   return agendaItem;
 }

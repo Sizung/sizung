@@ -11,4 +11,16 @@ class Deliverable < ActiveRecord::Base
   def comments_count
     comments.size
   end
+
+  def deliverable
+    self
+  end
+
+  def conversation
+    agenda_item.conversation
+  end
+
+  def organization
+    conversation.organization
+  end
 end

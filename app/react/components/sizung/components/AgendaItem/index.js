@@ -56,6 +56,7 @@ class AgendaItem extends React.Component {
               <i styleName='comments-icon'>{" "}<small>{agendaItem.commentsCount}</small></i>
               <i styleName='deliverables-icon'>{" "}<small>{agendaItem.deliverablesCount}</small></i>
             <div className='pull-right'>
+              <small>{agendaItem.unseenCount} new</small>
               <User user={this.props.agendaItem.owner}/>
             </div>
           </div>

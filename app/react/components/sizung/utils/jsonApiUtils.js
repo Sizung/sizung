@@ -1,7 +1,25 @@
 function transformTypeFromJsonApi(type) {
   switch(type) {
     case 'agenda_items': return 'agendaItems';
+    case 'unseen_objects': return 'unseenObjects';
     default: return type
+  }
+}
+
+function relId(obj, name) {
+  return obj.relationships[name].data ? obj.relationships[name].data.id : null;
+}
+
+export function transformUnseenObjectFromJsonApi(obj) {
+  return {
+    id: obj.id,
+    type: transformTypeFromJsonApi(obj.type),
+    userId: relId(obj, 'user'),
+    targetId: relId(obj, 'target'),
+    deliverableId: relId(obj, 'deliverable'),
+    agendaItemId: relId(obj, 'agenda_item'),
+    conversationId: relId(obj, 'conversation'),
+    organizationId: relId(obj, 'organization')
   }
 }
 
