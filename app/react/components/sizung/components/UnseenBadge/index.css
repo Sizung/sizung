@@ -1,0 +1,14 @@
+.container {
+  position: relative;
+}
+
+.badge {
+  display: inline;
+  position: absolute;
+  z-index: 100;
+  top: 0;
+  right: 10px;
+  padding: 2px 4px;
+  color: #ffffff;
+  background-color: #ff2222;
+}

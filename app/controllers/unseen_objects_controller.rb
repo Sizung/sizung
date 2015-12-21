@@ -11,10 +11,7 @@ class UnseenObjectsController < ApplicationController
 
   def destroy_all
     # authorize parent, :show?
-    @unseen_objects = current_user.unseen_objects.where(agenda_item: parent).where(target_type: %w(Comment Deliverable))
-    p UnseenObject.all.size
-    deleted_unseen_objects = @unseen_objects.destroy_all
-    p deleted_unseen_objects.size
+    deleted_unseen_objects = scope_to_delete(current_user.unseen_objects)
     render json: deleted_unseen_objects
   end
 
@@ -25,5 +22,16 @@ class UnseenObjectsController < ApplicationController
 
     def parent
       @parent ||= parent_type.constantize.find(params["#{parent_type.underscore}_id"])
+    end
+
+    def scope_to_delete(scope)
+      case params[:parent_type]
+        when 'AgendaItem'
+          scope.where(agenda_item: parent, deliverable: nil).where(target_type: %w(Comment Deliverable)).destroy_all
+        when 'Deliverable'
+          scope.where(deliverable: parent).where(target_type: 'Comment').destroy_all
+        else
+          []
+      end
     end
 end

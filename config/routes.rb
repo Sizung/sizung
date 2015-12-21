@@ -15,6 +15,7 @@ Rails.application.routes.draw do
 
   resources :deliverables, only: [:create, :update] do
     concerns :list_conversation_objects, parent_type: 'Deliverable'
+    concerns :unseen_objects, parent_type: 'Deliverable'
   end
 
   resources :conversation_members, only: [:create, :destroy]
