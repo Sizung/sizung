@@ -35,7 +35,7 @@ class OrganizationsController < ApplicationController
   # POST /organizations
   # POST /organizations.json
   def create
-    @organization = Organization.new(organization_params)
+    @organization = current_user.organizations.create(organization_params.merge(owner: current_user))
     authorize @organization
 
     respond_to do |format|
