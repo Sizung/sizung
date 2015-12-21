@@ -8,6 +8,7 @@ import ConversationObjectList from '../components/ConversationObjectList/index';
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as DeliverableActions from '../actions/deliverables';
+import * as UnseenObjectsActions from '../actions/unseenObjects';
 import { fetchConversationObjects } from '../actions/conversationObjects';
 import { fillConversationObject } from '../utils/entityUtils';
 
@@ -16,7 +17,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...AgendaItemActions, ...CommentsActions, ...DeliverableActions, fetchConversationObjects}, dispatch);
+  return bindActionCreators({...AgendaItemActions, ...CommentsActions, ...DeliverableActions, fetchConversationObjects, ...UnseenObjectsActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationObjectList);

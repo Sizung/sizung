@@ -7,7 +7,15 @@ export default function entityReducerForType(type) {
     if (action.entity && action.entity.type === type && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
       return state.set(action.entity.id, action.entity);
     }
-    if (action.entities && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
+    else if (action.entities && action.verb === 'DELETE' && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
+      action.entities.forEach((entity) => {
+        if(entity.type === type) {
+          state = state.delete(entity.id);
+        }
+      });
+      return state;
+    }
+    else if (action.entities && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
       action.entities.forEach((entity) => {
         if(entity.type === type) {
           state = state.set(entity.id, entity);

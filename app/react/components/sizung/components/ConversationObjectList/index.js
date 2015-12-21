@@ -94,11 +94,16 @@ class ConversationObjectList extends Component {
     $(listNode).css('top',(headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin ));
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if ( this.shouldScrollBottom ) {
       this.scrollList();
     }
     this.adjustConversationListHeight();
+    if (this.props.commentForm.parent !== prevProps.commentForm.parent) {
+      console.log('something changed: ', this.props.commentForm.parent);
+      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    }
+    //console.log('componentDidUpdate for: ', this.props.commentForm.parent, prevProps, prevState);
   }
 
   componentWillUpdate() {
