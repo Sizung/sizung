@@ -21,14 +21,14 @@
   padding: 0px;
 }
 
-.organisation-dropdown-nav li.orgDropdown a.user-dropdown:hover,
-.organisation-dropdown-nav li.orgDropdown.open a.dropdown-toggle:hover {
-  background-color: transparent;
+.organisation-dropdown-nav li a.user-dropdown{
+  background-color: #326273 !important;
 }
 
-.organisation-dropdown-nav .open a.dropdown-toggle {
-  background-color: yellow;
+.organisation-dropdown-nav li a.user-dropdown:hover{
+  background-color: #000000 !important;
 }
+
 .organisation-dropdown {
   color: #ffffff !important;
   width: 100%;
@@ -44,6 +44,14 @@
   composes: nav from global;
   margin: 0px;
   padding: 0px;
+}
+
+.user-dropdown-nav li a.user-dropdown{
+  background-color: #326273 !important;
+}
+
+.user-dropdown-nav li a.user-dropdown:hover{
+  background-color: #000000 !important;
 }
 
 .user-dropdown {
