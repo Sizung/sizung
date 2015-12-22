@@ -209,21 +209,12 @@ class ConversationObjectList extends Component {
     <div styleName='list-container'>
       <div styleName='list-header' ref='conversationHeader'>
         <div styleName="conversation-title-container">
-          <h4 styleName='conversation-title'>
-            <i styleName='comments-icon'></i>{" " + currentConversation.title}
-          </h4>
+          <h5 styleName='conversation-title'>
+            <i styleName='comments-icon'></i>{" Chat"}
+          </h5>
           <a styleName='conversation-close-button' href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
             <i styleName='conversation-close-icon' ></i>
           </a>
-        </div>
-
-        <div styleName='member-dropdown-container'>
-          <div className="btn-group">
-            <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div className="pull-right" styleName='member-badge'><div onClick={this.toggleConversationMembersView} styleName='member-badge-contents'>{users.size}</div></div>
-              <i className="pull-right" styleName='user-icon'></i>
-            </a>
-          </div>
         </div>
       </div>
       {this.renderListContainerContent()}

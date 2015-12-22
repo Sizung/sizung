@@ -23,15 +23,15 @@ class User extends React.Component {
     const userEmail = showEmail ? <span styleName="email"><small>({email})</small></span> : '';
 
     return (
-      <span styleName='root' title={email} style={style}>
+      <div styleName='root' title={email} style={style}>
         <div styleName={'circle-badge-' + userLogoSize + onlineState}>
           {initials}
         </div>
-        <span styleName='user-title'>
+        <div styleName='user-title'>
           {name}
           {userEmail}
-        </span>
-      </span>
+        </div>
+      </div>
     );
   }
 }

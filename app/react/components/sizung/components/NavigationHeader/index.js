@@ -8,7 +8,7 @@ import styles from "./index.css";
 class NavigationHeader extends Component {
   render() {
     const currentUserName = this.props.currentUser.firstName + " " + this.props.currentUser.lastName;
-    const { organizations, currentOrganization } = this.props;
+    const { organizations, currentOrganization, currentConversation, users } = this.props;
     const organizationElements = organizations.filter(function(organization){
       return organization.id !== currentOrganization.id;
     }).map(function(organization){
@@ -18,44 +18,62 @@ class NavigationHeader extends Component {
     return (
       <div styleName='root'>
         <div styleName='main-container'>
-          <button className="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-responsive-collapse">
-            <span className="icon-bar"></span>
-            <span className="icon-bar"></span>
-            <span className="icon-bar"></span>
-          </button>
           <div styleName='navbar-container'>
-            <ul styleName='organisation-dropdown-nav' >
-              <li>
-                <a styleName='organisation-dropdown' href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                  {currentOrganization.name} <span className="caret"></span>
-                </a>
-                <ul className="dropdown-menu">
-                  {organizationElements}
-                  <li className="divider" role="separator"></li>
-                  <li>
-                    <a href="/organizations/new">
-                      <i className="fa fa-plus"></i>&nbsp;
-                      <span>Add new organization</span>
+            <div className='col-xs-3 zero-padding zero-margin'>
+              <ul styleName='organisation-dropdown-nav' style={{ display: 'inline-block', maxWidth: '100%'}}>
+                <li >
+                  <a style={{ padding: '15px'}}  styleName='organisation-dropdown' href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    {currentOrganization.name} <span className="caret hidden"></span>
+                  </a>
+                  <ul className="dropdown-menu">
+                    {organizationElements}
+                    <li className="divider" role="separator"></li>
+                    <li>
+                      <a href="/organizations/new">
+                        <i className="fa fa-plus"></i>&nbsp;
+                        <span>Add new organization</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+            <div className='col-xs-6 nav navbar-nav zero-padding zero-margin' style={{ padding: '0px 10px'}}>
+                <div styleName="conversation-title-container">
+                  <h5 styleName='conversation-title'>
+                    {" " + currentConversation.title}
+                  </h5>
+                  <a styleName='conversation-close-button' href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
+                    <i styleName='conversation-close-icon' ></i>
+                  </a>
+                </div>
+
+                <div styleName='member-dropdown-container'>
+                  <div className="btn-group">
+                    <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <div className="pull-right" styleName='member-badge'><div onClick={this.toggleConversationMembersView} styleName='member-badge-contents'>{users.size}</div></div>
+                      <i className="pull-right" styleName='user-icon'></i>
                     </a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
-            <ul styleName='user-dropdown-nav'>
-              <li className="dropdown">
-                <a styleName='user-dropdown' className="dropdown-toggle" href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                  <User user={this.props.currentUser} size='normal' showName={true} /> <span className="caret"></span>
-                </a>
-                <ul className="dropdown-menu">
-                  <li>
-                    <a href="/users/edit">Edit Profile</a>
-                  </li>
-                  <li>
-                    <a href="/users/sign_out" data-method="delete">Sign out</a>
-                  </li>
-                </ul>
-              </li>
-            </ul>
+                  </div>
+                </div>
+            </div>
+            <div className='col-xs-3 zero-padding zero-margin'>
+              <ul styleName='user-dropdown-nav'className='pull-right' >
+                <li className="dropdown">
+                  <a styleName='user-dropdown' className="dropdown-toggle" href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
+                    <User user={this.props.currentUser} size='normal' showName={false}/>
+                  </a>
+                  <ul className="dropdown-menu pull-right">
+                    <li>
+                      <a href="/users/edit">Edit Profile</a>
+                    </li>
+                    <li>
+                      <a href="/users/sign_out" data-method="delete">Sign out</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -67,7 +85,8 @@ NavigationHeader.propTypes = {
   organizations: PropTypes.object.isRequired,
   currentUser: PropTypes.shape({
     name: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  users: PropTypes.object.isRequired
 };
 
 export default NavigationHeader;
