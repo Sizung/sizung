@@ -20,26 +20,92 @@ import ApplicationLayout from '../../components/ApplicationLayout/index';
 import ConversationObjectList from '../../components/ConversationObjectList/index';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
+import Swipeable from "react-swipeable";
 
 @CSSModules(styles)
 class App extends Component {
 
-  render() {
-    const { currentUser, organizations, currentOrganization } = this.props;
+  constructor() {
 
-    return (<ApplicationLayout currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} >
+    super();
+    this.handleLeftPanelLeftSwipe = this.handleLeftPanelLeftSwipe.bind(this);
+    this.handleCenterPanelLeftSwipe = this.handleCenterPanelLeftSwipe.bind(this);
+    this.handleCenterPanelRightSwipe = this.handleCenterPanelRightSwipe.bind(this);
+    this.handleRightPanelRightSwipe = this.handleRightPanelRightSwipe.bind(this);
+    this.handleResetPanelVisibility = this.handleResetPanelVisibility.bind(this);
+  }
+
+  handleLeftPanelLeftSwipe() {
+    $(this.leftPanelNode).addClass('hidden-xs');
+    $(this.centerPanelNode).removeClass('hidden-xs');
+    $(this.centerPanelNode).addClass('col-xs-12');
+  }
+
+  handleCenterPanelLeftSwipe() {
+    $(this.centerPanelNode).addClass('hidden-xs');
+    $(this.rightPanelNode).removeClass('hidden-xs');
+    $(this.rightPanelNode).addClass('col-xs-12');
+  }
+
+  handleCenterPanelRightSwipe() {
+    $(this.centerPanelNode).addClass('hidden-xs');
+    $(this.leftPanelNode).removeClass('hidden-xs');
+    $(this.leftPanelNode).addClass('col-xs-12');
+  }
+
+  handleRightPanelRightSwipe() {
+    $(this.rightPanelNode).addClass('hidden-xs');
+    $(this.centerPanelNode).removeClass('hidden-xs');
+    $(this.centerPanelNode).addClass('col-xs-12');
+  }
+
+  handleResetPanelVisibility() {
+    console.log("Resetting Panels");
+    $(this.centerPanelNode).removeClass('hidden-xs');
+    $(this.centerPanelNode).addClass('col-xs-12');
+    $(this.rightPanelNode).addClass('hidden-xs');
+    $(this.rightPanelNode).removeClass('col-xs-12');
+    $(this.leftPanelNode).addClass('hidden-xs');
+    $(this.leftPanelNode).removeClass('col-xs-12');
+  }
+
+  render() {
+    const { currentUser, organizations, currentOrganization, currentConversation} = this.props;
+
+    return (<ApplicationLayout currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation}>
       <Row styleName='root'>
-        <Col className='hidden-xs' sm={3} styleName='left-panel'>
-          <AgendaItemListApp />
+        <Col className='hidden-xs' sm={3} styleName='left-panel' ref='leftPanel'>
+          <Swipeable styleName='swipe-container' onSwipingLeft={this.handleLeftPanelLeftSwipe}>
+            <AgendaItemListApp />
+          </Swipeable>
         </Col>
-        <Col xs={12} sm={6} styleName='center-panel'>
-          {this.props.children}
+        <Col xs={12} sm={6} styleName='center-panel' ref='centerPanel'>
+          <Swipeable styleName='swipe-container' onSwipingLeft={this.handleCenterPanelLeftSwipe} onSwipingRight={this.handleCenterPanelRightSwipe}>
+            {this.props.children}
+          </Swipeable>
         </Col>
-        <Col className='hidden-xs' sm={3} styleName='right-panel'>
-          <DeliverableListApp />
+        <Col className='hidden-xs' sm={3} styleName='right-panel' ref='rightPanel'>
+          <Swipeable styleName='swipe-container' onSwipingRight={this.handleRightPanelRightSwipe}>
+            <DeliverableListApp />
+          </Swipeable>
         </Col>
       </Row>
     </ApplicationLayout>);
+  }
+
+  componentDidMount() {
+    this.leftPanelNode = React.findDOMNode(this.refs.leftPanel);
+    this.centerPanelNode = React.findDOMNode(this.refs.centerPanel);
+    this.rightPanelNode = React.findDOMNode(this.refs.rightPanel);
+  }
+
+  componentWillReceiveProps() {
+    if (null != this.props.selectedAgendaItemIdInState) {
+      this.handleResetPanelVisibility();
+    }
+    if (null != this.props.selectedDeliverableIdInState) {
+      this.handleResetPanelVisibility();
+    }
   }
 }
 
@@ -75,6 +141,9 @@ function mapStateToProps(state) {
     return organization;
   }).toList();
 
+  const selectedAgendaItemIdInState = state.getIn(['selectedConversationObject', 'type']) === 'agendaItems' ? state.getIn(['selectedConversationObject', 'id']) : null;
+  const selectedDeliverableIdInState = state.getIn(['selectedConversationObject', 'type']) === 'deliverables' ? state.getIn(['selectedConversationObject', 'id']) : null;
+
   var conversationObjectsList;
 
   const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
@@ -85,7 +154,9 @@ function mapStateToProps(state) {
     currentOrganization: currentOrganization,
     conversationObjectsList: conversationObjectsList,
     currentConversation: currentConversation,
-    currentUser: currentUser
+    currentUser: currentUser,
+    selectedAgendaItemIdInState: selectedAgendaItemIdInState,
+    selectedDeliverableIdInState: selectedDeliverableIdInState
   }
 }
 

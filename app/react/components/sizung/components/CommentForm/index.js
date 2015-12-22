@@ -79,7 +79,6 @@ class CommentForm extends React.Component {
 
     var commentActionsStyleName = 'input-btn-group';
     var inputValue = "";
-    console.log("inputValue: " + this.state.hasInput);
     if ( !this.state.hasInput ) {
       commentActionsStyleName = 'hide-input-btn-group';
       inputValue = "";

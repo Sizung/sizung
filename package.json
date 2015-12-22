@@ -38,6 +38,7 @@
     "react-datepicker": "^0.13.0",
     "react-redux": "^3.0.0",
     "react-router": "^1.0.0",
+    "react-swipeable": "^3.1.0",
     "react-time": "^4.0.0",
     "react-tools": "*",
     "redux": "^3.0.3",
