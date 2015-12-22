@@ -197,10 +197,6 @@ class ConversationObjectList extends Component {
                          createAgendaItem={createAgendaItem}
                          createDeliverable={createDeliverable}
                 {...commentForm}/>
-            <div style={{ position: 'fixed', bottom: '0px', zIndex: '3000', width: '100%'}}>
-              <div style={{color: 'white'}} className="pull-left"><small>Home</small></div>
-              <div style={{color: 'white'}} className="pull-right"><small>Back</small></div>
-            </div>
         </div>
       </div>
     );
@@ -216,9 +212,6 @@ class ConversationObjectList extends Component {
           <h5 styleName='conversation-title'>
             <i styleName='comments-icon'></i>{" Chat"}
           </h5>
-          <a styleName='conversation-close-button' href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
-            <i styleName='conversation-close-icon' ></i>
-          </a>
         </div>
 
         <div styleName='member-dropdown-container'>

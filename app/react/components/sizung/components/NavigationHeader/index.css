@@ -21,6 +21,14 @@
   padding: 0px;
 }
 
+.organisation-dropdown-nav li.orgDropdown a.user-dropdown:hover,
+.organisation-dropdown-nav li.orgDropdown.open a.dropdown-toggle:hover {
+  background-color: transparent;
+}
+
+.organisation-dropdown-nav .open a.dropdown-toggle {
+  background-color: yellow;
+}
 .organisation-dropdown {
   color: #ffffff !important;
   width: 100%;
@@ -44,7 +52,7 @@
 }
 
 .user-dropdown-toggle {
-  composes: pull-right from global;
+  /*composes: pull-right from global;*/
   padding: 0px;
   text-decoration: none;
   /*border: none;*/
@@ -63,13 +71,7 @@
   display: inline;
 }
 
-.conversation-title-container:hover .conversation-title{
-  opacity: 0.2;
-}
-
 .conversation-close-button {
-  position: absolute;
-  right: 10px;
   display: none;
   padding: 15px 10px;
   float: left;
