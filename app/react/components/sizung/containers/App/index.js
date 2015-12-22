@@ -60,7 +60,6 @@ class App extends Component {
   }
 
   handleResetPanelVisibility() {
-    console.log("Resetting Panels");
     $(this.centerPanelNode).removeClass('hidden-xs');
     $(this.centerPanelNode).addClass('col-xs-12');
     $(this.rightPanelNode).addClass('hidden-xs');

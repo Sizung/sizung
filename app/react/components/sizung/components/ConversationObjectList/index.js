@@ -97,12 +97,17 @@ class ConversationObjectList extends Component {
 
   adjustConversationListHeight() {
     var headerInTimelineHeight = ( null == this.refs.headerInTimeline ) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
-    var conversationHeaderHeight = $(this.refs.conversationHeader.getDOMNode()).outerHeight();
+    var conversationHeaderHeight = ( null == this.refs.conversationHeader ) ? 0 : $(this.refs.conversationHeader.getDOMNode()).outerHeight();
     var headerInTimelineBottomMargin = ( headerInTimelineHeight === 0 ? 0 : 2 );
     $(this.listNode).css('top',(headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin ));
   }
 
   componentDidUpdate() {
+    if ( !this.state.isConversationMembersViewVisible ) {
+      this.commentFormNode = this.refs.listFooter.getDOMNode();
+    }
+    this.listNode = this.refs.conversationObjectList.getDOMNode();
+
     if ( this.shouldScrollBottom ) {
       this.scrollListToBottom();
     }
@@ -112,10 +117,6 @@ class ConversationObjectList extends Component {
 
   componentWillUpdate() {
     //Intializing DOM nodes references using refs to be used in the component
-    if ( !this.state.isConversationMembersViewVisible ) {
-      this.commentFormNode = this.refs.listFooter.getDOMNode();
-    }
-    this.listNode = this.refs.conversationObjectList.getDOMNode();
 
     if (null != this.listNode)
       this.shouldScrollBottom = (Math.abs(this.listNode.scrollTop + this.listNode.offsetHeight - this.listNode.scrollHeight) <= 20); // 20px is the offset tolerance considering borders and padding
@@ -149,11 +150,11 @@ class ConversationObjectList extends Component {
     var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent, commentForm.currentUser);
 
     var conversationTimelineHeader = "";
-    var isTimelineHeader = false;
+    this.isTimelineHeader = false;
     if ( null != this.props.commentForm.parent) {
       switch (this.props.commentForm.parent.type) {
         case "agendaItems" :
-          isTimelineHeader = true;
+          this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='agenda-item-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
               <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
@@ -162,12 +163,12 @@ class ConversationObjectList extends Component {
             </div>
             <AgendaItemInTimeline agendaItem={this.props.commentForm.parent}
                                   updateAgendaItem={this.props.updateAgendaItem}
-                                  isTimelineHeader={isTimelineHeader}/>
+                                  isTimelineHeader={this.isTimelineHeader}/>
           </div>);
           break;
 
         case "deliverables" :
-          isTimelineHeader = true;
+          this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='deliverable-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
               <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
@@ -176,7 +177,7 @@ class ConversationObjectList extends Component {
             </div>
             <DeliverableInTimeline deliverable={this.props.commentForm.parent}
                                    updateDeliverable={this.props.updateDeliverable}
-                                   isTimelineHeader={isTimelineHeader}/>
+                                   isTimelineHeader={this.isTimelineHeader}/>
           </div>);
           break;
 
