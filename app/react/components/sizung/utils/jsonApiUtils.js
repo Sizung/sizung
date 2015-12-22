@@ -11,7 +11,6 @@ function relId(obj, name) {
 }
 
 export function transformUnseenObjectFromJsonApi(obj) {
-  console.log('transform unseen: ', obj);
   return {
     id: obj.id,
     type: transformTypeFromJsonApi(obj.type),

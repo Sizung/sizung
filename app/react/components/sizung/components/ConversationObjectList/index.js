@@ -99,11 +99,11 @@ class ConversationObjectList extends Component {
       this.scrollList();
     }
     this.adjustConversationListHeight();
-    if (this.props.commentForm.parent !== prevProps.commentForm.parent) {
-      console.log('something changed: ', this.props.commentForm.parent);
+    const unseenPrev = prevProps.conversationObjects.some((obj) => { return obj.unseen; });
+    const unseenNow = this.props.conversationObjects.some((obj) => { return obj.unseen; });
+    if (!unseenPrev && unseenNow || prevProps.commentForm.parent.id !== this.props.commentForm.parent.id && unseenNow) {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     }
-    //console.log('componentDidUpdate for: ', this.props.commentForm.parent, prevProps, prevState);
   }
 
   componentWillUpdate() {
@@ -114,6 +114,7 @@ class ConversationObjectList extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.adjustConversationListHeight);
+    this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
   }
 
   toggleConversationMembersView() {

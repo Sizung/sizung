@@ -7,7 +7,6 @@ import Immutable from 'immutable';
 function mapStateToProps(state) {
   var organizationMembers = state.getIn(['entities', 'users']).toList();
   var conversationMembers = state.getIn(['entities', 'conversationMembers']).toList();
-  console.log("conversation member map: " + JSON.stringify(conversationMembers));
   var currentConversation = state.getIn(['currentConversation']);
 
   return {

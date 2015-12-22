@@ -17,8 +17,11 @@
 - @conversations.each do |conversation|
   .conversation
     .conversation-header
+      -#= react_component('UnseenBadge', {count: conversation.unseen_objects.count, selected: false}, {prerender: true} )
       .conversation-title
         = link_to conversation.title, conversation, { data: { no_turbolink: true } }
+        - if conversation.unseen_objects.where(user: current_user).count > 0
+          = "(#{conversation.unseen_objects.where(user: current_user).count})"
       .conversation-actions
         = link_to edit_conversation_path(conversation) do
           %i.fa.fa-pencil

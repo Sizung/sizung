@@ -19,6 +19,7 @@ export function deleteUnseenObjectsSuccess(unseenObjects) {
 }
 
 export function markAsSeen(seenType, seenId) {
+  console.log('markAsSeen', seenType, seenId);
   if(seenType === 'agendaItems') {
     seenType = 'agenda_items';
   }

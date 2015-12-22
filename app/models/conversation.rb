@@ -6,6 +6,7 @@ class Conversation < ActiveRecord::Base
   has_many :conversation_objects, foreign_key: :parent_id
   has_many :conversation_members, dependent: :destroy
   has_many :members, through: :conversation_members
+  has_many :unseen_objects, dependent: :destroy
 
   validates_presence_of :organization, :title
 

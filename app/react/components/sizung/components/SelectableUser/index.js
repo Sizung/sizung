@@ -18,7 +18,6 @@ class SelectableUser extends React.Component {
   render() {
     const { user, users, isSelected } = this.props;
     var selectionStyle = ( isSelected ? "selected" : "unselected");
-    console.log("selectionStyle: " + selectionStyle);
     return (
         <div onClick={this.handleSelect} styleName='root'>
           <div styleName='user-container'>

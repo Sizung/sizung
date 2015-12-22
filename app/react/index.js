@@ -16,3 +16,6 @@ registerComponent('User', User);
 
 import EditableAgendaItem from './components/sizung/components/EditableAgendaItem/index.js'
 registerComponent('EditableAgendaItem', EditableAgendaItem);
+
+import UnseenBadge from './components/sizung/components/UnseenBadge/index.js'
+registerComponent('UnseenBadge', UnseenBadge);

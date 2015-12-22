@@ -26,10 +26,12 @@ class UnseenObjectsController < ApplicationController
 
     def scope_to_delete(scope)
       case params[:parent_type]
+        when 'Conversation'
+          scope.where(conversation: parent).where("target_type = 'AgendaItem' OR (target_type = 'Comment' AND agenda_item_id IS NULL)").destroy_all
         when 'AgendaItem'
-          scope.where(agenda_item: parent, deliverable: nil).where(target_type: %w(Comment Deliverable)).destroy_all
+          scope.where(agenda_item: parent).where("target_type = 'Deliverable' OR (target_type = 'Comment' AND deliverable_id IS NULL)").destroy_all
         when 'Deliverable'
-          scope.where(deliverable: parent).where(target_type: 'Comment').destroy_all
+          scope.where(deliverable: parent).destroy_all
         else
           []
       end

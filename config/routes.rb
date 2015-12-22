@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     resources :conversations do
       resources :agenda_items, only: [:index]
       concerns :list_conversation_objects, parent_type: 'Conversation'
+      concerns :unseen_objects, parent_type: 'Conversation'
     end
 
     resources :organization_members, only: [:index, :destroy]
