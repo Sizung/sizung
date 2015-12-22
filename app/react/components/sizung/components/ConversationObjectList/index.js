@@ -205,12 +205,25 @@ class ConversationObjectList extends Component {
 
   render() {
     const { currentConversation, users } = this.props;
+    var chatType = this.props.commentForm.parent.type;
+    if ( null != chatType ) {
+      if ( chatType == 'agendaItems') {
+        chatType = '( Agenda Item )';
+      } else if (chatType == 'deliverables'){
+        chatType = '( Deliverable )';
+      } else if (chatType == 'conversations'){
+        chatType = '';
+      }
+    } else {
+      chatType = ""
+    }
+
     return(
     <div styleName='list-container'>
       <div styleName='list-header' ref='conversationHeader'>
         <div styleName="conversation-title-container">
           <h5 styleName='conversation-title'>
-            <i styleName='comments-icon'></i>{" Chat"}
+            <i styleName='comments-icon'></i>{" Chat " + chatType}
           </h5>
         </div>
 

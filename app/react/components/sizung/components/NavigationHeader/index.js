@@ -68,7 +68,7 @@ class NavigationHeader extends Component {
           <div styleName='navbar-container'>
             <div className='col-xs-3 zero-padding zero-margin'>
               <ul  styleName='organisation-dropdown-nav' style={{ display: 'inline-block', maxWidth: '100%'}}>
-                <li styleName='orgDropdown'>
+                <li>
                   <a onClick={this.handleCurrentOrganizationClick} styleName='user-dropdown' className="dropdown-toggle" href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
                     <i className='fa fa-home fa-2x'></i>
                   </a>
