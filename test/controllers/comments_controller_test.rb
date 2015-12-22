@@ -23,8 +23,6 @@ describe CommentsController do
         post :create, comment: { body: @comment.body, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type }
       }.must_change 'Comment.count'
 
-      expect(UnseenObject.all.size).must_equal 1
-
       assert_response :success
     end
 
