@@ -197,6 +197,10 @@ class ConversationObjectList extends Component {
                          createAgendaItem={createAgendaItem}
                          createDeliverable={createDeliverable}
                 {...commentForm}/>
+            <div style={{ position: 'fixed', bottom: '0px', zIndex: '3000', width: '100%'}}>
+              <div style={{color: 'white'}} className="pull-left"><small>Home</small></div>
+              <div style={{color: 'white'}} className="pull-right"><small>Back</small></div>
+            </div>
         </div>
       </div>
     );
@@ -215,6 +219,15 @@ class ConversationObjectList extends Component {
           <a styleName='conversation-close-button' href={"/organizations/" + this.props.currentConversation.organization_id + "/conversations"}>
             <i styleName='conversation-close-icon' ></i>
           </a>
+        </div>
+
+        <div styleName='member-dropdown-container'>
+          <div className="btn-group">
+            <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div className="pull-right" styleName='member-badge'><div onClick={this.toggleConversationMembersView} styleName='member-badge-contents'>{users.size}</div></div>
+              <i className="pull-right" styleName='user-icon'></i>
+            </a>
+          </div>
         </div>
       </div>
       {this.renderListContainerContent()}

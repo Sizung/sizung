@@ -6,6 +6,11 @@ import styles from "./index.css";
 
 @CSSModules(styles)
 class NavigationHeader extends Component {
+
+  toggleConversationMembersView() {
+
+  }
+
   render() {
     const currentUserName = this.props.currentUser.firstName + " " + this.props.currentUser.lastName;
     const { organizations, currentOrganization, currentConversation, users } = this.props;
@@ -44,26 +49,17 @@ class NavigationHeader extends Component {
                     {" " + currentConversation.title}
                   </h5>
                   <a styleName='conversation-close-button' href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
-                    <i styleName='conversation-close-icon' ></i>
+                    <small style={{ color: 'white'}}>(Back)</small>
                   </a>
-                </div>
-
-                <div styleName='member-dropdown-container'>
-                  <div className="btn-group">
-                    <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                      <div className="pull-right" styleName='member-badge'><div onClick={this.toggleConversationMembersView} styleName='member-badge-contents'>{users.size}</div></div>
-                      <i className="pull-right" styleName='user-icon'></i>
-                    </a>
-                  </div>
                 </div>
             </div>
             <div className='col-xs-3 zero-padding zero-margin'>
-              <ul styleName='user-dropdown-nav'className='pull-right' >
+              <ul styleName='user-dropdown-nav' style={{display: 'inline-block'}} className='pull-right' >
                 <li className="dropdown">
                   <a styleName='user-dropdown' className="dropdown-toggle" href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
                     <User user={this.props.currentUser} size='normal' showName={false}/>
                   </a>
-                  <ul className="dropdown-menu pull-right">
+                  <ul className="dropdown-menu dropdown-menu-right">
                     <li>
                       <a href="/users/edit">Edit Profile</a>
                     </li>
