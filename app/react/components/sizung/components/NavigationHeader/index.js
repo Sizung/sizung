@@ -43,7 +43,7 @@ class NavigationHeader extends Component {
               <ul styleName='organisation-dropdown-nav'>
                 <li>
                   <a onClick={this.handleCurrentOrganizationClick} styleName='organisation-dropdown' href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                    <img styleName='logo' src={'/assets/sizung_logo_white_on_black.gif'}/>
+                    <i className='fa fa-home fa-2x'></i>
                   </a>
                   <ul className="dropdown-menu">
                     {organizationElements}
