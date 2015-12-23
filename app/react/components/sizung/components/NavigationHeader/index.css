@@ -2,36 +2,100 @@
   composes: navbar navbar-inverse navbar-static-top zero-vertical-margin from global;
   background-color: #326273;
   color: #ffffff;
+  max-height: 50px;
 }
 
 .main-container {
-  composes: container from global;
+  composes: container navbar-header from global;
   width: 100%;
+  padding: 0px;
 }
 
 .navbar-container {
-  composes: navbar-collapse collapse navbar-responsive-collapse from global;
+  /*composes: navbar-collapse collapse navbar-responsive-collapse from global;*/
+}
+
+.organization-dropdown-container {
+  composes: col-xs-3 from global;
+  padding: 0px;
+  margin: 0px;
 }
 
 .organisation-dropdown-nav {
-  composes: nav navbar-nav from global;
+  composes: nav dropdown from global;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+  max-width: 100%;
 }
 
-.organisation-dropdown {
-  color: #ffffff !important;
+.organisation-dropdown-nav li a.organisation-dropdown{
+  background-color: #326273 !important;
+}
+
+.organisation-dropdown-nav li a.organisation-dropdown:hover{
+  background-color: #264957 !important;
+}
+
+/*.organisation-dropdown {*/
+  /*color: #ffffff !important;*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*max-width: 100%;*/
+  /*text-overflow: ellipsis;*/
+  /*word-wrap: break-word;*/
+  /*overflow: hidden;*/
+  /*white-space: nowrap;*/
+/*}*/
+
+.user-dropdown-container {
+  composes: col-xs-3 from global;
+  height: 50px;
+  padding: 0px;
+  margin: 0px;
 }
 
 .user-dropdown-nav {
-  composes: nav navbar-nav navbar-right from global;
+  composes: nav pull-right from global;
+  display: inline-block;
+  max-width: 100%;
+  height: 100%;
+  margin: 0px;
+  padding: 0px;
+}
+.user-dropdown-nav-item {
+  composes: dropdown from global;
+  display: inline-block;
+  height: 100%
+}
+.user-dropdown-nav li a.user-dropdown{
+  background-color: #326273 !important;
 }
 
-.user-dropdown {
+.user-dropdown-nav li a.user-dropdown:hover{
+  background-color: #264957 !important;
+}
+.nav-dropdown {
+  composes: dropdown-toggle from global;
+  display: inline-block;
+  /*width: 100%;*/
+  height: 100%;
   padding: 10px 15px !important;
   color: #ffffff !important;
 }
 
+.user-dropdown {
+  composes: nav-dropdown;
+}
+
+.organisation-dropdown {
+  composes: nav-dropdown;
+}
+
+
+
 .user-dropdown-toggle {
-  composes: pull-right from global;
+  /*composes: pull-right from global;*/
   padding: 0px;
   text-decoration: none;
   /*border: none;*/
@@ -40,6 +104,103 @@
   border-radius: 50%/50%;
 }
 
-.user-dropdown-menu {
+.user-container-visible-xs {
+  composes: visible-xs pull-right from global;
+  max-width: 100%;
+}
+
+.user-container-hidden-xs {
+  composes: hidden-xs pull-right from global;
+  max-width: 100%;
+}
+
+.conversation-title-container {
+  composes: col-xs-6 nav navbar-nav from global;
+  padding: 0px 10px;
+  margin: 0px;
+  cursor: pointer;
+}
+
+.conversation-close-button {
+  /*composes: hidden from global;*/
+  display: none;
+  padding: 15px 10px;
+  float: right;
+}
+
+.conversation-close-icon {
+  composes: pull-right fa fa-times fa-lg from global;
+  color: #ffffff;
+}
+
+.conversation-title {
+  /*composes: col-xs-12 from global;*/
+  width: 100%;
+  padding: 0px;
+  margin: 0px;
+  float: left;
+  max-width: 100%;
+  height: 50px;
+  line-height: 50px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: nowrap;
+  /*font-size: larger;*/
+}
+
+.conversation-title-container:hover .conversation-title{
+  /*composes: col-xs-10 from global;*/
+  width: 80%;
+}
+
+.conversation-title-container:hover .conversation-close-button{
+  /*composes: col-xs-2 from global;*/
+  display: inline-block;
+  width: 20%;
+}
+
+.comments-icon {
+  composes: fa fa-comments-o fa-lg from global;
+}
+.member-dropdown-container {
+  position: absolute;
+  right: 0px;
+  top: 10px;
+}
+
+.member-badge {
+  position: relative;
+  border-radius: 50%/50%;
+  background-color: #ffffff;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.member-badge-contents {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  text-align: center;
+  color: #777777;
+  line-height: 30px;
+}
+
+.user-icon {
+  composes: fa fa-user fa-lg from global;
+  color: #999999;
+  padding: 10px;
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #eeeeee;
+  -webkit-border-radius: 50%/50%;
+  -moz-border-radius: 50%/50%;
+  border-radius: 50%/50%;
 
 }

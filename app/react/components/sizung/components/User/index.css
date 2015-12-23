@@ -11,14 +11,22 @@
 }
 
 .user-title {
-  display: inline-block;
-  max-width: 80%;
-  height: 20px;
-  line-height: 20px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
+}
+
+.user-title-normal {
+  composes: user-title;
+  height: 30px;
+  line-height: 30px;
+}
+
+.user-title-large {
+  composes: user-title;
+  height: 40px;
+  line-height: 40px;
 }
 
 .circle-badge {
@@ -35,6 +43,7 @@
   width: 30px;
   height: 30px;
   line-height: 30px;
+  float: left;
 }
 
 .circle-badge-large {

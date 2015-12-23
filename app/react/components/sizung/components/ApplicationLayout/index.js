@@ -6,11 +6,11 @@ import styles from "./index.css";
 @CSSModules(styles)
 class ApplicationLayout extends Component {
   render() {
-    const { organizations, currentOrganization } = this.props;
+    const { organizations, currentOrganization, currentConversation, users } = this.props;
 
     return (
       <div styleName='root'>
-        <NavigationHeader currentUser={this.props.currentUser} organizations={organizations} currentOrganization={currentOrganization}/>
+        <NavigationHeader currentUser={this.props.currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation} users={users}/>
         <div styleName='main-content' >
           { this.props.children }
         </div>
@@ -24,10 +24,12 @@ class ApplicationLayout extends Component {
 
 ApplicationLayout.propTypes = {
   currentOrganization: PropTypes.object.isRequired,
+  currentConversation: PropTypes.object.isRequired,
   organizations: PropTypes.object.isRequired,
   currentUser: PropTypes.shape({
     name: PropTypes.string.isRequired
-  }).isRequired
+  }).isRequired,
+  users: PropTypes.object.isRequired
 };
 
 export default ApplicationLayout;

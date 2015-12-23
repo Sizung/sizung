@@ -6,6 +6,7 @@ import { Button, Row, Col } from 'react-bootstrap';
 import * as CommentsActions from '../../actions/comments';
 import * as AgendaItemActions from '../../actions/agendaItems';
 import * as DeliverableActions from '../../actions/deliverables';
+import * as selectors from '../../utils/selectors';
 
 import AgendaItemListApp from './../AgendaItemListApp';
 import DeliverableListApp from './../DeliverableListApp';
@@ -69,9 +70,9 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, organizations, currentOrganization, currentConversation} = this.props;
+    const { currentUser, organizations, currentOrganization, currentConversation, users} = this.props;
 
-    return (<ApplicationLayout currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation}>
+    return (<ApplicationLayout currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation} users={users}>
       <Row styleName='root'>
         <Col className='hidden-xs' sm={3} styleName='left-panel' ref='leftPanel'>
           <Swipeable styleName='swipe-container' onSwipingLeft={this.handleLeftPanelLeftSwipe}>
@@ -148,6 +149,8 @@ function mapStateToProps(state) {
   const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
   conversationObjectsList = prepareConversationObjectList(state, objectsToShow, currentConversation, true, false);
 
+  const users = selectors.conversationMembers(state);
+  console.log("Appjs: " + JSON.stringify(users));
   return {
     organizations: organizations,
     currentOrganization: currentOrganization,
@@ -155,7 +158,8 @@ function mapStateToProps(state) {
     currentConversation: currentConversation,
     currentUser: currentUser,
     selectedAgendaItemIdInState: selectedAgendaItemIdInState,
-    selectedDeliverableIdInState: selectedDeliverableIdInState
+    selectedDeliverableIdInState: selectedDeliverableIdInState,
+    users: users
   }
 }
 
