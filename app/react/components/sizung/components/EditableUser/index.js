@@ -30,7 +30,6 @@ class EditableUser extends React.Component {
   }
 
   triggerUpdate(id) {
-    console.log('triggerUpdate: ', id);
     this.props.onUpdate(id);
     this.setState({edit: false, filter: ''});
   }

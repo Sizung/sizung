@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   has_many :organizations, through: :organization_members
   has_many :conversation_members, foreign_key: 'member_id',  dependent: :destroy
   has_many :conversations, through: :conversation_members
+  has_many :unseen_objects, dependent: :destroy
 
   validates_presence_of :first_name, :last_name
 

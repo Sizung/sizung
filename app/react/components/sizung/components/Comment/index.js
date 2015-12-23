@@ -30,7 +30,6 @@ class Comment extends React.Component {
   }
 
   handleAgendaItem(e){
-    //console.log("Comment body: " + this.props.comment.body);
     e.preventDefault();
     this.commentBodyNode = this.refs.commentBody.getDOMNode();
     this.commentBody = $(this.commentBodyNode).text();
@@ -136,14 +135,14 @@ class Comment extends React.Component {
     );
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if ( this.state.edit ) {
       React.findDOMNode(this.refs.input).focus();
     }
   }
 
   render() {
-    const {author, body} = this.props.comment;
+    const {author, body, unseen} = this.props.comment;
     return(<div styleName='root'>
         <div styleName='user-container'>
           <User user={author}/>

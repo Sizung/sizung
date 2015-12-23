@@ -15,6 +15,7 @@ class DeliverablesController < ApplicationController
 
     if @deliverable.persisted?
       DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'create')
+      UnseenService.new.handle_with(@deliverable, current_user)
     end
 
     render json: @deliverable, serializer: DeliverableSerializer

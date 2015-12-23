@@ -8,6 +8,7 @@ import styles from "./index.css";
 
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
+import UnseenBadge from '../UnseenBadge';
 
 @CSSModules(styles)
 class AgendaItem extends React.Component {
@@ -33,6 +34,12 @@ class AgendaItem extends React.Component {
     this.props.updateAgendaItem(this.props.agendaItem.id, {status: newStatus});
   }
 
+  renderUnseenBadge(count, selected) {
+    if(!selected) {
+      return <UnseenBadge count={count} />
+    }
+  }
+
   render() {
     const {agendaItem, selected} = this.props;
 
@@ -43,6 +50,7 @@ class AgendaItem extends React.Component {
 
     return (
       <div styleName='root'>
+        {this.renderUnseenBadge(agendaItem.unseenCount, selected)}
         <div styleName={styleName} onClick={this.handleClick}>
           <div styleName="row">
             <div styleName='content-container'>

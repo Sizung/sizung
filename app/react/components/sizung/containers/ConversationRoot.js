@@ -22,7 +22,8 @@ import {setConversationObjects, fetchConversationObjects} from '../actions/conve
 import {fetchOrganizations, setCurrentOrganization} from '../actions/organizations';
 import {createCommentRemoteOrigin, updateCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems, createAgendaItemRemoteOrigin, updateAgendaItemRemoteOrigin} from '../actions/agendaItems'
-import {transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi, transformOrganizationFromJsonApi, transformConversationMemberFromJsonApi} from '../utils/jsonApiUtils';
+import {setUnseenObjects, createUnseenObjectRemoteOrigin} from '../actions/unseenObjects';
+import {transformUnseenObjectFromJsonApi, transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi, transformOrganizationFromJsonApi, transformConversationMemberFromJsonApi} from '../utils/jsonApiUtils';
 import {setDeliverables, createDeliverableRemoteOrigin, updateDeliverableRemoteOrigin} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
 import {setConversationMembers} from '../actions/conversationMembers';
@@ -65,6 +66,7 @@ export default class ConversationRoot extends Component {
   }
 
   componentDidMount() {
+    store.dispatch(setUnseenObjects(this.props.unseenObjects.data.map(transformUnseenObjectFromJsonApi)));
     store.dispatch(fetchConversationObjects('conversations', this.props.currentConversation.id));
     store.dispatch(fetchOrganizations());
 
@@ -82,6 +84,13 @@ export default class ConversationRoot extends Component {
       }
     });
 
+    window.App.userChannel.setOnReceived(function (data) {
+      console.log('Activity in userChannel: ', data);
+      if (data.payload.data.type === 'unseen_objects') {
+        store.dispatch(createUnseenObjectRemoteOrigin(transformUnseenObjectFromJsonApi(data.payload.data)));
+      }
+      //store.dispatch(updateUserRemoteOrigin(data.user));
+    });
 
     window.App.appearance.setOnReceived(function (data) {
       console.log('Activity in appearance: ', data);

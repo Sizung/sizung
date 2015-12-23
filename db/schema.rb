@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151217131553) do
+ActiveRecord::Schema.define(version: 20151217210525) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -151,6 +151,24 @@ UNION ALL
   end
   add_index "organizations", ["owner_id"], name: "index_organizations_on_owner_id", using: :btree
 
+  create_table "unseen_objects", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "organization_id"
+    t.uuid     "conversation_id"
+    t.uuid     "agenda_item_id"
+    t.uuid     "deliverable_id"
+    t.uuid     "target_id"
+    t.string   "target_type"
+    t.uuid     "user_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+  add_index "unseen_objects", ["agenda_item_id"], name: "index_unseen_objects_on_agenda_item_id", using: :btree
+  add_index "unseen_objects", ["conversation_id"], name: "index_unseen_objects_on_conversation_id", using: :btree
+  add_index "unseen_objects", ["deliverable_id"], name: "index_unseen_objects_on_deliverable_id", using: :btree
+  add_index "unseen_objects", ["organization_id"], name: "index_unseen_objects_on_organization_id", using: :btree
+  add_index "unseen_objects", ["target_type", "target_id"], name: "index_unseen_objects_on_target_type_and_target_id", using: :btree
+  add_index "unseen_objects", ["user_id"], name: "index_unseen_objects_on_user_id", using: :btree
+
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -203,4 +221,9 @@ UNION ALL
   add_foreign_key "organization_members", "organizations"
   add_foreign_key "organization_members", "users", column: "member_id"
   add_foreign_key "organizations", "users", column: "owner_id"
+  add_foreign_key "unseen_objects", "agenda_items"
+  add_foreign_key "unseen_objects", "conversations"
+  add_foreign_key "unseen_objects", "deliverables"
+  add_foreign_key "unseen_objects", "organizations"
+  add_foreign_key "unseen_objects", "users"
 end

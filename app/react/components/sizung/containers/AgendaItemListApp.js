@@ -33,7 +33,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(AgendaItemListActions, dispatch);
+  return bindActionCreators({...AgendaItemListActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AgendaItemList);
