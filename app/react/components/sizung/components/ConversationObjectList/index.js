@@ -103,7 +103,6 @@ class ConversationObjectList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-  componentDidUpdate() {
     if ( !this.state.isConversationMembersViewVisible ) {
       this.commentFormNode = this.refs.listFooter.getDOMNode();
     }
