@@ -18,16 +18,16 @@ class User extends React.Component {
     let { email, presenceStatus, firstName, lastName } = this.props.user;
     const initials = (firstName && lastName) ? firstName.charAt(0) + lastName.charAt(0) : email.charAt(0);
     const onlineState = presenceStatus === 'online' ? '-online' : '';
-    var userLogoSize = ( this.validSizes.indexOf(this.props.size) == -1 ) ? this.validSizes[0] : this.props.size ;
+    var size = ( this.validSizes.indexOf(this.props.size) == -1 ) ? this.validSizes[0] : this.props.size ;
     const name = showName ? <span styleName="name">{firstName + ' ' + lastName}</span> : '';
     const userEmail = showEmail ? <span styleName="email"><small>({email})</small></span> : '';
 
     return (
       <div styleName='root' title={email} style={style}>
-        <div styleName={'circle-badge-' + userLogoSize + onlineState}>
+        <div styleName={'circle-badge-' + size + onlineState}>
           {initials}
         </div>
-        <div styleName='user-title'>
+        <div styleName={'user-title-' + size} >
           {name}
           {userEmail}
         </div>

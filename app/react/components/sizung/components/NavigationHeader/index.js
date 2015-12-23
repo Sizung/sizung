@@ -10,8 +10,6 @@ class NavigationHeader extends Component {
   constructor(){
     super();
     this.handleCurrentOrganizationClick = this.handleCurrentOrganizationClick.bind(this);
-    this.handleConversationTitleMouseEnter = this.handleConversationTitleMouseEnter.bind(this);
-    this.handleConversationTitleMouseLeave = this.handleConversationTitleMouseLeave.bind(this);
   }
 
   handleCurrentOrganizationClick(event) {
@@ -19,26 +17,6 @@ class NavigationHeader extends Component {
       location.href = '/organizations/' + this.props.currentOrganization.id;
     }
 
-  }
-
-  handleConversationTitleMouseEnter() {
-    $(this.conversationTitleNode).removeClass('col-xs-12');
-    $(this.conversationTitleNode).addClass('col-xs-10');
-    $(this.conversationOptionsNode).removeClass('hidden');
-    $(this.conversationOptionsNode).addClass('col-xs-2');
-  }
-
-  handleConversationTitleMouseLeave() {
-    $(this.conversationTitleNode).removeClass('col-xs-10');
-    $(this.conversationTitleNode).addClass('col-xs-12');
-    $(this.conversationOptionsNode).removeClass('col-xs-2');
-    $(this.conversationOptionsNode).addClass('hidden');
-
-  }
-
-  componentDidMount() {
-    this.conversationTitleNode = React.findDOMNode(this.refs.conversationTitle);
-    this.conversationOptionsNode = React.findDOMNode(this.refs.conversationOptions);
   }
 
   render() {
@@ -57,20 +35,15 @@ class NavigationHeader extends Component {
       }
     });
 
-    this.dummyUser = {
-      firstName: currentOrganization.name,
-      lastName: currentOrganization.name
-    }
-
     return (
       <div styleName='root'>
         <div styleName='main-container'>
           <div styleName='navbar-container'>
-            <div className='col-xs-3 zero-padding zero-margin'>
-              <ul  styleName='organisation-dropdown-nav' style={{ display: 'inline-block', maxWidth: '100%'}}>
+            <div styleName='organization-dropdown-container'>
+              <ul styleName='organisation-dropdown-nav'>
                 <li>
-                  <a onClick={this.handleCurrentOrganizationClick} styleName='user-dropdown' className="dropdown-toggle" href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                    <i className='fa fa-home fa-2x'></i>
+                  <a onClick={this.handleCurrentOrganizationClick} styleName='organisation-dropdown' href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
+                    <img styleName='logo' src={'/assets/sizung_logo_white_on_black.gif'}/>
                   </a>
                   <ul className="dropdown-menu">
                     {organizationElements}
@@ -85,38 +58,24 @@ class NavigationHeader extends Component {
                 </li>
               </ul>
             </div>
-            <div className='col-xs-6 nav navbar-nav zero-padding zero-margin' style={{ padding: '0px 10px'}}>
-                <div onMouseEnter={this.handleConversationTitleMouseEnter} onMouseLeave={this.handleConversationTitleMouseLeave} styleName="conversation-title-container">
-                  <h5 ref='conversationTitle' styleName='conversation-title' className='col-xs-12'>
+            <div styleName='conversation-title-container'>
+                  <h5 styleName='conversation-title' >
                     {" " + currentConversation.title}
                   </h5>
-                  <a ref='conversationOptions' className='hidden' styleName='conversation-close-button' href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
-                    <span className='pull-right' style={{ color: 'white'}}><i className='fa fa-times fa-lg'></i></span>
+                  <a styleName='conversation-close-button' href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
+                    <i styleName='conversation-close-icon'></i>
                   </a>
-                </div>
             </div>
-            <div className='hidden-xs col-xs-3 zero-padding zero-margin'>
-              <ul styleName='user-dropdown-nav' className='pull-right' >
-                <li className="dropdown">
-                  <a styleName='user-dropdown' className="dropdown-toggle" href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                    <User user={this.props.currentUser} size='normal' showName={true}/>
-                  </a>
-                  <ul className="dropdown-menu dropdown-menu-right">
-                    <li>
-                      <a href="/users/edit">Edit Profile</a>
-                    </li>
-                    <li>
-                      <a href="/users/sign_out" data-method="delete">Sign out</a>
-                    </li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-            <div className='visible-xs col-xs-3 zero-padding zero-margin'>
-              <ul styleName='user-dropdown-nav' style={{display: 'inline-block'}} className='pull-right' >
-                <li className="dropdown">
-                  <a styleName='user-dropdown' className="dropdown-toggle" href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                    <User user={this.props.currentUser} size='normal' showName={false}/>
+            <div styleName='user-dropdown-container'>
+              <ul styleName='user-dropdown-nav'>
+                <li styleName='user-dropdown-nav-item'>
+                  <a styleName='user-dropdown' href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
+                    <div styleName='user-container-visible-xs'>
+                      <User  user={this.props.currentUser} size='normal' showName={false}/>
+                    </div>
+                    <div styleName='user-container-hidden-xs'>
+                      <User  user={this.props.currentUser} size='normal' showName={true}/>
+                    </div>
                   </a>
                   <ul className="dropdown-menu dropdown-menu-right">
                     <li>

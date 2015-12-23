@@ -15,37 +15,59 @@
   /*composes: navbar-collapse collapse navbar-responsive-collapse from global;*/
 }
 
-.organisation-dropdown-nav {
-  composes: nav dropdown from global;
-  margin: 0px;
+.organization-dropdown-container {
+  composes: col-xs-3 from global;
   padding: 0px;
+  margin: 0px;
 }
 
-.organisation-dropdown-nav li a.user-dropdown{
+.organisation-dropdown-nav {
+  composes: nav dropdown from global;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+  max-width: 100%;
+}
+
+.organisation-dropdown-nav li a.organisation-dropdown{
   background-color: #326273 !important;
 }
 
-.organisation-dropdown-nav li a.user-dropdown:hover{
+.organisation-dropdown-nav li a.organisation-dropdown:hover{
   background-color: #264957 !important;
 }
 
-.organisation-dropdown {
-  color: #ffffff !important;
-  width: 100%;
-  height: 100%;
-  max-width: 100%;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  overflow: hidden;
-  white-space: nowrap;
+/*.organisation-dropdown {*/
+  /*color: #ffffff !important;*/
+  /*width: 100%;*/
+  /*height: 100%;*/
+  /*max-width: 100%;*/
+  /*text-overflow: ellipsis;*/
+  /*word-wrap: break-word;*/
+  /*overflow: hidden;*/
+  /*white-space: nowrap;*/
+/*}*/
+
+.user-dropdown-container {
+  composes: col-xs-3 from global;
+  height: 50px;
+  padding: 0px;
+  margin: 0px;
 }
 
 .user-dropdown-nav {
-  composes: nav from global;
+  composes: nav pull-right from global;
+  display: inline-block;
+  max-width: 100%;
+  height: 100%;
   margin: 0px;
   padding: 0px;
 }
-
+.user-dropdown-nav-item {
+  composes: dropdown from global;
+  display: inline-block;
+  height: 100%
+}
 .user-dropdown-nav li a.user-dropdown{
   background-color: #326273 !important;
 }
@@ -53,11 +75,24 @@
 .user-dropdown-nav li a.user-dropdown:hover{
   background-color: #264957 !important;
 }
-
-.user-dropdown {
+.nav-dropdown {
+  composes: dropdown-toggle from global;
+  display: inline-block;
+  /*width: 100%;*/
+  height: 100%;
   padding: 10px 15px !important;
   color: #ffffff !important;
 }
+
+.user-dropdown {
+  composes: nav-dropdown;
+}
+
+.organisation-dropdown {
+  composes: nav-dropdown;
+}
+
+
 
 .user-dropdown-toggle {
   /*composes: pull-right from global;*/
@@ -69,27 +104,38 @@
   border-radius: 50%/50%;
 }
 
-.conversation-title-container {
-  position: relative;
-  cursor: pointer;
-  height: 50px;
+.user-container-visible-xs {
+  composes: visible-xs pull-right from global;
+  max-width: 100%;
 }
 
-.conversation-title-container:hover .conversation-close-button{
-  display: inline;
+.user-container-hidden-xs {
+  composes: hidden-xs pull-right from global;
+  max-width: 100%;
+}
+
+.conversation-title-container {
+  composes: col-xs-6 nav navbar-nav from global;
+  padding: 0px 10px;
+  margin: 0px;
+  cursor: pointer;
 }
 
 .conversation-close-button {
+  /*composes: hidden from global;*/
   display: none;
   padding: 15px 10px;
-  float: left;
+  float: right;
 }
 
 .conversation-close-icon {
-  composes: fa fa-times from global;
+  composes: pull-right fa fa-times fa-lg from global;
+  color: #ffffff;
 }
 
 .conversation-title {
+  /*composes: col-xs-12 from global;*/
+  width: 100%;
   padding: 0px;
   margin: 0px;
   float: left;
@@ -101,6 +147,17 @@
   word-wrap: break-word;
   white-space: nowrap;
   /*font-size: larger;*/
+}
+
+.conversation-title-container:hover .conversation-title{
+  /*composes: col-xs-10 from global;*/
+  width: 80%;
+}
+
+.conversation-title-container:hover .conversation-close-button{
+  /*composes: col-xs-2 from global;*/
+  display: inline-block;
+  width: 20%;
 }
 
 .comments-icon {
@@ -136,4 +193,14 @@
   composes: fa fa-user fa-lg from global;
   color: #999999;
   padding: 10px;
+}
+
+.logo {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #eeeeee;
+  -webkit-border-radius: 50%/50%;
+  -moz-border-radius: 50%/50%;
+  border-radius: 50%/50%;
+
 }

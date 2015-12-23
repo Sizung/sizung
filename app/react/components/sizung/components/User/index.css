@@ -11,12 +11,22 @@
 }
 
 .user-title {
-  height: 30px;
-  line-height: 30px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
+}
+
+.user-title-normal {
+  composes: user-title;
+  height: 30px;
+  line-height: 30px;
+}
+
+.user-title-large {
+  composes: user-title;
+  height: 40px;
+  line-height: 40px;
 }
 
 .circle-badge {
