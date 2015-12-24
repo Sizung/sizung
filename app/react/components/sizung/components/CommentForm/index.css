@@ -13,11 +13,11 @@
 
 .input-btn-group {
   position: absolute;
-  right: 3px;
-  top: 3px;
+  right: 10px;
+  top: 0px;
   /*float: right;*/
-  z-index: 3000;
-  opacity: 0.8;
+  z-index: 2;
+  /*opacity: 0.8;*/
   display: inline;
 }
 
@@ -32,36 +32,31 @@
   width: 100%;
   margin: 0px;
   padding: 0px;
-  vertical-align: middle;
+  vertical-align: bottom;
 }
 
 .input-container {
   width: 100%;
-  padding: 0px 30px 0px 10px;
+  padding: 0px 10px 0px 0px;
 }
 
 .input {
   width: 100%;
-  padding: 0px;
-  margin: 0px;
-  -webkit-box-shadow: none !important;
-  -moz-box-shadow: none !important;
-  box-shadow: none !important;
-
-  border: none;
-  outline: none;
+  min-height: 20px;
+  max-height: 100px;
 }
 
 .user {
   display: table-cell;
   height: 40px;
   width: 60px;
-  vertical-align: middle;
+  vertical-align: bottom;
   padding: 0px 15px 0px 15px;
 }
 
 .form-container {
   width: 100%;
+  min-height: 70px;
   height: 70px;
   padding: 20px 0px 10px 0px;
   border: 0px solid #eeeeee;

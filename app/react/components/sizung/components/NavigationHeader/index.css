@@ -122,9 +122,9 @@
 }
 
 .conversation-close-button {
-  /*composes: hidden from global;*/
-  display: none;
-  padding: 15px 10px;
+  /*display: none;*/
+  width: 20%;
+  padding: 18px 10px;
   float: right;
 }
 
@@ -135,7 +135,7 @@
 
 .conversation-title {
   /*composes: col-xs-12 from global;*/
-  width: 100%;
+  width: 80%;
   padding: 0px;
   margin: 0px;
   float: left;
@@ -149,16 +149,14 @@
   /*font-size: larger;*/
 }
 
-.conversation-title-container:hover .conversation-title{
-  /*composes: col-xs-10 from global;*/
-  width: 80%;
-}
+/*.conversation-title-container:hover .conversation-title{*/
+  /*width: 80%;*/
+/*}*/
 
-.conversation-title-container:hover .conversation-close-button{
-  /*composes: col-xs-2 from global;*/
-  display: inline-block;
-  width: 20%;
-}
+/*.conversation-title-container:hover .conversation-close-button{*/
+  /*display: inline-block;*/
+  /*width: 20%;*/
+/*}*/
 
 .comments-icon {
   composes: fa fa-comments-o fa-lg from global;

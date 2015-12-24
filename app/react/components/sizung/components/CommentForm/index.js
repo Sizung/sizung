@@ -3,6 +3,7 @@ import { Input,Button, ButtonGroup } from 'react-bootstrap';
 import User from './../User/index';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
+import TextareaAutosize from "react-autosize-textarea";
 
 
 @CSSModules(styles)
@@ -17,44 +18,45 @@ class CommentForm extends React.Component {
     this.handleSubmit = (e) => {
       e.preventDefault();
 
-      //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
-      name = this.refs.name.getInputDOMNode().value.trim();
+      //React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
+      name = this.inputNode.value.trim();
       //name = React.findDOMNode(this.refs.name).value.trim();
       //if(!name) return;
 
       this.props.createComment({commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name});
-      this.refs.name.getInputDOMNode().value = '';
+      this.inputNode.value = '';
       this.setState({ hasInput: false });
     };
 
     this.handleAgendaItem = (e) => {
       e.preventDefault();
 
-      //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
-      name = this.refs.name.getInputDOMNode().value.trim();
+      //React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
+      name = this.inputNode.value.trim();
       //if(!name) return;
 
       this.props.createAgendaItem({conversation_id: this.props.parent.id, title: name});
-      this.refs.name.getInputDOMNode().value = '';
+      this.inputNode.value = '';
       this.setState({ hasInput: false });
     }
 
     this.handleDeliverable = (e) => {
       e.preventDefault();
 
-      //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
-      name = this.refs.name.getInputDOMNode().value.trim();
+      //React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
+      name = this.inputNode.value.trim();
       //if(!name) return;
 
       this.props.createDeliverable({agenda_item_id: this.props.parent.id, title: name});
-      this.refs.name.getInputDOMNode().value = '';
+      this.inputNode.value = '';
       this.setState({ hasInput: false });
 
     }
 
     this.handleChange = (e) => {
-      //React.findDOMNode fails while using React-Bootstrap components. Instead getInputDOMNode() used
-      name = this.refs.name.getInputDOMNode().value.trim();
+      //React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
+      console.log("Input changed ");
+      name = this.inputNode.value.trim();
       if (!name){
         if (this.state.hasInput) {
           this.setState({hasInput: false});
@@ -64,9 +66,24 @@ class CommentForm extends React.Component {
           this.setState({hasInput: true});
         }
       }
-    };
+    }
+
+    this.handleOnResize = (e) => {
+      var heightDifference = $(this.inputNode).height() - parseInt($(this.inputNode).css('min-height').split('px')[0]);
+      $(this.formNode).css('height', parseInt($(this.formNode).css('min-height').split('px')[0]) + heightDifference + 'px');
+      this.props.onResize($(this.formNode).outerHeight());
+    }
+
   }
 
+  componentDidUpdate() {
+    this.inputNode = React.findDOMNode(this.refs.name);
+    this.formNode = React.findDOMNode(this.refs.formContainer);
+    if ( !this.state.hasInput ) {
+      //TODO: Find a better alternative to correct this dirty way of dispatching a change event to resize textarea on submit
+      this.inputNode.dispatchEvent(new Event('input'));
+    }
+  }
   render() {
     const { currentUser } = this.props;
     var buttons = [];
@@ -78,10 +95,8 @@ class CommentForm extends React.Component {
     }
 
     var commentActionsStyleName = 'input-btn-group';
-    var inputValue = "";
     if ( !this.state.hasInput ) {
       commentActionsStyleName = 'hide-input-btn-group';
-      inputValue = "";
     }
 
     var currentConversation = null;
@@ -104,16 +119,15 @@ class CommentForm extends React.Component {
           { buttons }
           <Button tabIndex='5' href={"/organizations/" + currentConversation.organization_id + "/conversations/new"} key="createConversation" styleName='conversation-btn'><i styleName='conversation-icon'></i>{' '}Create Conversation</Button>
         </ButtonGroup>
-      <div styleName='form-container'>
+      <div ref='formContainer' styleName='form-container'>
         <div styleName='user'>
           <User user={currentUser} />
         </div>
         <div styleName='input-form'>
           <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
             <div styleName='input-container'>
-              <Input tabIndex='1' groupClassName='zero-margin' styleName='input' type="text" placeholder="Type your comment here" ref="name" onChange={this.handleChange}/>
+              <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
             </div>
-
           </form>
         </div>
       </div>
@@ -132,7 +146,8 @@ CommentForm.propTypes = {
   }).isRequired,
   currentUser : PropTypes.object.isRequired,
   canCreateAgendaItem: PropTypes.bool.isRequired,
-  canCreateDeliverable: PropTypes.bool.isRequired
+  canCreateDeliverable: PropTypes.bool.isRequired,
+  onResize: PropTypes.func
 };
 
 export default CommentForm;

@@ -29,6 +29,7 @@ class ConversationObjectList extends Component {
     this.renderListContainerContent = this.renderListContainerContent.bind(this);
     this.renderListContainerContent = this.renderListContainerContent.bind(this);
     this.handleCommentSettingsDropdownScroll = this.handleCommentSettingsDropdownScroll.bind(this);
+    this.onCommentFormResize = this.onCommentFormResize.bind(this);
 
     this.state = {
       isConversationMembersViewVisible: false
@@ -141,6 +142,11 @@ class ConversationObjectList extends Component {
     );
   }
 
+  onCommentFormResize(commentBoxHeight) {
+    $(this.commentFormNode).css('height',commentBoxHeight);
+    $(this.listNode).css('bottom',commentBoxHeight + $(this.commentFormNode).css('bottom') +'px');
+  }
+
   renderConversationTimeLine() {
     const { currentConversation, conversationObjects, createComment, updateComment, deleteComment, createAgendaItem, updateAgendaItem,
         createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
@@ -197,6 +203,7 @@ class ConversationObjectList extends Component {
             <CommentForm createComment={createComment}
                          createAgendaItem={createAgendaItem}
                          createDeliverable={createDeliverable}
+                         onResize={this.onCommentFormResize}
                 {...commentForm}/>
         </div>
       </div>
