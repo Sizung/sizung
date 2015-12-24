@@ -55,7 +55,6 @@ class CommentForm extends React.Component {
 
     this.handleChange = (e) => {
       //React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
-      console.log("Input changed ");
       name = this.inputNode.value.trim();
       if (!name){
         if (this.state.hasInput) {
@@ -69,21 +68,27 @@ class CommentForm extends React.Component {
     }
 
     this.handleOnResize = (e) => {
-      var heightDifference = $(this.inputNode).height() - parseInt($(this.inputNode).css('min-height').split('px')[0]);
-      $(this.formNode).css('height', parseInt($(this.formNode).css('min-height').split('px')[0]) + heightDifference + 'px');
-      this.props.onResize($(this.formNode).outerHeight());
+      if ( null != this.inputNode && null != this.formNode ) {
+        var resizedHeightDifference = $(this.inputNode).height() - parseInt($(this.inputNode).css('min-height').split('px')[0]);
+        $(this.formNode).css('height', parseInt($(this.formNode).css('min-height').split('px')[0]) + resizedHeightDifference + 'px');
+        this.props.onResize($(this.formNode).outerHeight());
+      }
     }
 
   }
 
-  componentDidUpdate() {
+  componentDidMount() {
     this.inputNode = React.findDOMNode(this.refs.name);
     this.formNode = React.findDOMNode(this.refs.formContainer);
+  }
+
+  componentDidUpdate() {
     if ( !this.state.hasInput ) {
       //TODO: Find a better alternative to correct this dirty way of dispatching a change event to resize textarea on submit
       this.inputNode.dispatchEvent(new Event('input'));
     }
   }
+
   render() {
     const { currentUser } = this.props;
     var buttons = [];
