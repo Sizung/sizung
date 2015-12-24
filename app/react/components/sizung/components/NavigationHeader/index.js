@@ -60,13 +60,10 @@ class NavigationHeader extends Component {
             </div>
             <div styleName='conversation-title-container'>
                   <h5 title={currentConversation.title} styleName='conversation-title' >
-                    {" " + currentConversation.title}
+                      <a href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
+                        <i styleName='conversation-close-icon'></i>
+                      </a>{" " + currentConversation.title}
                   </h5>
-                  <div styleName='conversation-close-button' >
-                    <a className='pull-right' href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
-                      <i styleName='conversation-close-icon'></i>
-                    </a>
-                  </div>
             </div>
             <div styleName='user-dropdown-container'>
               <ul styleName='user-dropdown-nav'>

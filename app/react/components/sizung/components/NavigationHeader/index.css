@@ -129,13 +129,13 @@
 }
 
 .conversation-close-icon {
-  composes: pull-right fa fa-times fa-lg from global;
+  composes: fa fa-chevron-left fa-lg from global;
   color: #ffffff;
 }
 
 .conversation-title {
   /*composes: col-xs-12 from global;*/
-  width: 80%;
+  width: 100%;
   padding: 0px;
   margin: 0px;
   float: left;
