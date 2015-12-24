@@ -17,6 +17,7 @@
 - @conversations.each do |conversation|
   .conversation
     .conversation-header
+      = react_component('UnseenBadge', {count: conversation.unseen_objects.where(user: current_user).count, selected: false}, {prerender: true} )
       .conversation-title
         = link_to conversation.title, conversation, { data: { no_turbolink: true } }
       .conversation-actions
@@ -26,10 +27,6 @@
         = link_to conversation, method: :delete, data: { :confirm => 'Are you sure?' } do
           %i.fa.fa-trash-o
           delete
-      .conversation-last-updated
-        Created
-        = time_ago_in_words conversation.updated_at
-        ago
     .conversation-conversation-object
       - last_conversation_object = conversation.conversation_objects.first
       - if last_conversation_object

@@ -103,7 +103,7 @@ class ConversationObjectList extends Component {
     $(this.listNode).css('top',(headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin ));
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     if ( !this.state.isConversationMembersViewVisible ) {
       this.commentFormNode = this.refs.listFooter.getDOMNode();
     }
@@ -113,7 +113,11 @@ class ConversationObjectList extends Component {
       this.scrollListToBottom();
     }
     this.adjustConversationListHeight();
-
+    const unseenPrev = prevProps.conversationObjects.some((obj) => { return obj.unseen; });
+    const unseenNow = this.props.conversationObjects.some((obj) => { return obj.unseen; });
+    if (!unseenPrev && unseenNow || prevProps.commentForm.parent.id !== this.props.commentForm.parent.id && unseenNow) {
+      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    }
   }
 
   componentWillUpdate() {
@@ -125,6 +129,7 @@ class ConversationObjectList extends Component {
 
   componentDidMount() {
     window.addEventListener("resize", this.adjustConversationListHeight);
+    this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
   }
 
   toggleConversationMembersView() {

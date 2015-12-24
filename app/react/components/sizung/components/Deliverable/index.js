@@ -6,6 +6,7 @@ import styles from "./index.css";
 import User from '../User/index';
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
+import UnseenBadge from '../UnseenBadge';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
@@ -34,9 +35,15 @@ class Deliverable extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, {status: newStatus});
   }
 
+  renderUnseenBadge(count, selected) {
+    if(!selected) {
+      return <UnseenBadge count={count} />
+    }
+  }
+
   render() {
     const { deliverable, selected } = this.props;
-    const { status, title, agendaItem, assignee, dueOn, commentsCount } = deliverable;
+    const { status, title, agendaItem, assignee, dueOn, commentsCount, unseenCount } = deliverable;
 
     var styleName = 'default';
     if(selected === true) {
@@ -45,6 +52,7 @@ class Deliverable extends React.Component {
 
     return (
       <div styleName='root'>
+        {this.renderUnseenBadge(unseenCount, selected)}
         <div styleName={styleName} onClick={this.handleClick}>
           <div styleName='row'>
             <div styleName='content-container'>

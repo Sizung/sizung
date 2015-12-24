@@ -14,6 +14,7 @@ class CommentsController < ApplicationController
     if @comment.persisted?
       payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
       CommentRelayJob.perform_later(payload: payload, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type, actor_id: current_user.id, action: 'create')
+      UnseenService.new.handle_with(@comment, current_user)
     end
     render json: @comment, serializer: CommentSerializer
   end

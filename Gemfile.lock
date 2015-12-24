@@ -196,7 +196,6 @@ GEM
     rack (1.6.4)
     rack-test (0.6.3)
       rack (>= 1.0)
-    rack-timeout (0.3.2)
     rails (4.2.4)
       actionmailer (= 4.2.4)
       actionpack (= 4.2.4)
@@ -328,7 +327,6 @@ DEPENDENCIES
   pg
   puma
   pundit
-  rack-timeout
   rails (= 4.2.4)
   rails_12factor
   react_webpack_rails

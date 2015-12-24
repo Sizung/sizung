@@ -18,7 +18,6 @@ class AgendaItemInTimeline extends React.Component {
   }
 
   handleTitleUpdate(newTitle) {
-    console.log("newTitle " + newTitle);
     this.props.updateAgendaItem(this.props.agendaItem.id, {title: newTitle});
   }
 

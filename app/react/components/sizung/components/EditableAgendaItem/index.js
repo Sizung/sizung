@@ -44,7 +44,6 @@ class EditableAgendaItem extends React.Component {
   }
 
   triggerUpdate(id) {
-    console.log('triggerUpdate: ', id);
     this.props.onUpdate(id);
     this.setState({edit: false, filter: ''});
   }
@@ -75,7 +74,6 @@ class EditableAgendaItem extends React.Component {
     const { filter, agendaItems } = this.state;
     const filteredOptions = this.filteredOptions(filter, agendaItems);
     if (filter.length > 0 && filteredOptions.size > 0) {
-      console.log('enter on ', filteredOptions.first().id);
       this.triggerUpdate(filteredOptions.first().id);
     }
   }

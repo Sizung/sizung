@@ -20,6 +20,7 @@ class ConversationsController < ApplicationController
   # GET /conversations/1
   # GET /conversations/1.json
   def show
+    @unseen_objects_json = ActiveModel::SerializableResource.new(@current_user.unseen_objects).serializable_hash
     @agenda_items_json = ActiveModel::SerializableResource.new(@conversation.agenda_items).serializable_hash
     @deliverables_json = ActiveModel::SerializableResource.new(@conversation.deliverables).serializable_hash
     @conversation_members_json = ActiveModel::SerializableResource.new(@conversation.conversation_members).serializable_hash
