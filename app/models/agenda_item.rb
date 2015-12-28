@@ -1,4 +1,6 @@
 class AgendaItem < ActiveRecord::Base
+  include Archival
+
   belongs_to :conversation
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
 

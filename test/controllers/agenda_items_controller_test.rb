@@ -16,7 +16,7 @@ describe AgendaItemsController do
       @request.env['devise.mapping'] = Devise.mappings[:user]
       @current_user = @conversation.organization.owner
       sign_in @current_user
-      @agenda_item  = FactoryGirl.create(:agenda_item, owner: @current_user)
+      @agenda_item  = FactoryGirl.create(:agenda_item, conversation: @conversation, owner: @current_user)
     end
 
     it 'creates agenda item' do
@@ -28,6 +28,22 @@ describe AgendaItemsController do
       agenda_item = JSON.parse(response.body)
       assert_equal 'Last months review', agenda_item['data']['attributes']['title']
       assert_equal @current_user.id, agenda_item['data']['relationships']['owner']['data']['id']
+    end
+
+    it 'updates the agenda item' do
+      patch :update, id: @agenda_item.id, agenda_item: { title: 'Changed title' }, format: :json
+
+      assert_response :success
+      agenda_item = JSON.parse(response.body)
+      assert_equal 'Changed title', agenda_item['data']['attributes']['title']
+    end
+
+    it 'archive agenda item' do
+      patch :update, id: @agenda_item.id, agenda_item: { archived: true }
+
+      assert_response :success
+
+      expect(@agenda_item.reload).must_be :archived?
     end
   end
 end

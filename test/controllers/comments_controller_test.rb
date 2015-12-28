@@ -26,6 +26,26 @@ describe CommentsController do
       assert_response :success
     end
 
+    it 'updates comment' do
+      expect {
+        patch :update, id: @comment.id, comment: { body: 'changed body' }
+      }.wont_change 'Comment.count'
+
+      assert_response :success
+
+      expect(@comment.reload.body).must_equal 'changed body'
+    end
+
+    it 'archive comment' do
+      expect {
+        patch :update, id: @comment.id, comment: { archived: true }
+      }.wont_change 'Comment.count'
+
+      assert_response :success
+
+      expect(@comment.reload).must_be :archived?
+    end
+
     it 'destroys comment' do
       expect {
         delete :destroy, id: @comment
