@@ -33,6 +33,10 @@ export function updateAgendaItemSuccess(agendaItem) {
   };
 }
 
+export function archiveAgendaItem(id) {
+  return updateAgendaItem(id, { archived: true });
+}
+
 export function updateAgendaItem(id, changedFields) {
   return function(dispatch) {
     return fetch('/agenda_items/' + id, {

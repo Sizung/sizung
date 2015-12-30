@@ -44,6 +44,9 @@ describe AgendaItemsController do
       assert_response :success
 
       expect(@agenda_item.reload).must_be :archived?
+
+      agenda_item = JSON.parse(response.body)
+      assert_equal true, agenda_item['data']['attributes']['archived']
     end
   end
 end

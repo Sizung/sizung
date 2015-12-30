@@ -5,6 +5,10 @@ module Archival
     acts_as_archival
   end
 
+  def archived
+    !!archived?
+  end
+
   # Toggles the archive state of the model
   #
   # Returns true only if the archive state was toggled

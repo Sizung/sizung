@@ -19,6 +19,8 @@ function mapStateToProps(state) {
 
   agendaItems = agendaItems.map(function(agendaItem) {
     return fillAgendaItem(state, agendaItem.id);
+  }).filter((agendaItem) => {
+    return !agendaItem.archived;
   }).sortBy(function(conversationObject) {
     return conversationObject.createdAt;
   });
