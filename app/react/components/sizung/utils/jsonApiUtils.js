@@ -57,6 +57,7 @@ export function transformAgendaItemFromJsonApi(agendaItem) {
     conversationId: agendaItem.relationships.conversation.data.id,
     commentsCount: agendaItem.attributes.comments_count,
     deliverablesCount: agendaItem.attributes.deliverables_count,
+    archived: agendaItem.attributes.archived,
     createdAt: agendaItem.attributes.created_at,
     updatedAt: agendaItem.attributes.updated_at
   };

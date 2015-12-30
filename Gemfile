@@ -58,6 +58,7 @@ gem 'hiredis'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'schema_plus_views'
 gem 'kaminari'
+gem 'acts_as_archival'
 
 group :production do
   gem 'rails_12factor'

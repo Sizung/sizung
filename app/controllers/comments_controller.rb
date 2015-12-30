@@ -32,7 +32,8 @@ class CommentsController < ApplicationController
   def update
     authorize @comment
     @comment.author = current_user
-    if @comment.update(comment_params)
+
+    if @comment.toggle_archive(params[:comment][:archived]) || @comment.update(comment_params)
       payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
       CommentRelayJob.perform_later(payload: payload, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type, actor_id: current_user.id, action: 'update')
     end

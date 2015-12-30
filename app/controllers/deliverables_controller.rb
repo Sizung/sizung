@@ -23,7 +23,7 @@ class DeliverablesController < ApplicationController
 
   # PUT/PATCH /deliverables/1.json
   def update
-    if @deliverable.update(deliverable_params)
+    if @deliverable.toggle_archive(params[:deliverable][:archived]) || @deliverable.update(deliverable_params)
       DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')
     end
     render json: @deliverable

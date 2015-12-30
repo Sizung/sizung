@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151217210525) do
+ActiveRecord::Schema.define(version: 20151228085908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 20151217210525) do
     t.string   "status",          default: "open", null: false
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.string   "archive_number"
+    t.datetime "archived_at"
   end
   add_index "agenda_items", ["conversation_id"], name: "index_agenda_items_on_conversation_id", using: :btree
   add_index "agenda_items", ["created_at"], name: "index_agenda_items_on_created_at", order: {"created_at"=>:desc}, using: :btree
@@ -36,6 +38,8 @@ ActiveRecord::Schema.define(version: 20151217210525) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "commentable_type", default: "Conversation"
+    t.string   "archive_number"
+    t.datetime "archived_at"
   end
   add_index "comments", ["author_id"], name: "index_comments_on_author_id", using: :btree
   add_index "comments", ["commentable_type", "commentable_id"], name: "index_comments_on_commentable_type_and_commentable_id", using: :btree
@@ -61,6 +65,8 @@ ActiveRecord::Schema.define(version: 20151217210525) do
     t.uuid     "assignee_id",    null: false
     t.date     "due_on"
     t.string   "status",         default: "open", null: false
+    t.string   "archive_number"
+    t.datetime "archived_at"
   end
   add_index "deliverables", ["agenda_item_id"], name: "index_deliverables_on_agenda_item_id", using: :btree
   add_index "deliverables", ["owner_id"], name: "index_deliverables_on_owner_id", using: :btree
@@ -82,7 +88,9 @@ SELECT comments.id,
     NULL::uuid AS agenda_item_id,
     NULL::text AS description,
     NULL::uuid AS assignee_id,
-    NULL::date AS due_on
+    NULL::date AS due_on,
+    comments.archive_number,
+    comments.archived_at
    FROM comments
 UNION ALL
  SELECT agenda_items.id,
@@ -101,7 +109,9 @@ UNION ALL
     NULL::uuid AS agenda_item_id,
     NULL::text AS description,
     NULL::uuid AS assignee_id,
-    NULL::date AS due_on
+    NULL::date AS due_on,
+    agenda_items.archive_number,
+    agenda_items.archived_at
    FROM agenda_items
 UNION ALL
  SELECT deliverables.id,
@@ -120,7 +130,9 @@ UNION ALL
     deliverables.agenda_item_id,
     deliverables.description,
     deliverables.assignee_id,
-    deliverables.due_on
+    deliverables.due_on,
+    deliverables.archive_number,
+    deliverables.archived_at
    FROM deliverables
   END_VIEW_CONVERSATION_OBJECTS
 
