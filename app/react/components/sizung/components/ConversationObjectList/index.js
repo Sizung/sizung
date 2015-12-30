@@ -109,6 +109,13 @@ class ConversationObjectList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    var _this = this;
+    $(this.listNode).scroll(function() {
+      if($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
+        _this.hideNewActivityMarker();
+      }
+    });
+
     if ( !this.state.isConversationMembersViewVisible ) {
       this.commentFormNode = this.refs.listFooter.getDOMNode();
       this.newActivityMarkerNode = this.refs.newActivityMarker.getDOMNode();
@@ -138,7 +145,7 @@ class ConversationObjectList extends Component {
     if ( !this.newActivityTimerId ) {
       this.newActivityTimerId = setInterval(function () {
         if (_this.newActivityTimer == 0) {
-          $(_this.markerNode).fadeOut();
+          _this.hideNewActivityMarker();
           clearInterval(_this.newActivityTimerId);
           _this.newActivityTimerId = null;
         } else {
