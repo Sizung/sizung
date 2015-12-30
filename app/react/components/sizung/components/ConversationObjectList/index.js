@@ -126,7 +126,7 @@ class ConversationObjectList extends Component {
       this.scrollListToBottom();
     } else {
       this.markerNode = React.findDOMNode(this.refs.newActivityMarker);
-      if ( this.props.conversationObjects.length > prevProps.conversationObjects.length ) {
+      if ( this.props.conversationObjects.length - prevProps.conversationObjects.length == 1) {
         this.newActivityTimer = 5;
         this.showNewActivityMarker();
       }

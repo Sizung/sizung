@@ -63,7 +63,10 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
       return conversationObject.createdAt;
     }).toJS();
 
-    conversationObjectsList.nextPageUrl = objectsToShow.get('nextPageUrl');
+    if ( parseInt(decodeURIComponent(objectsToShow.get('nextPageUrl')).split("page[size]=")[1]) == 0 )
+      conversationObjectsList.nextPageUrl = null;
+    else
+      conversationObjectsList.nextPageUrl = objectsToShow.get('nextPageUrl');
     conversationObjectsList.isFetching = objectsToShow.get('isFetching');
     conversationObjectsList.commentForm.currentUser = currentUser;
     conversationObjectsList.commentForm.parent = parentObject;
