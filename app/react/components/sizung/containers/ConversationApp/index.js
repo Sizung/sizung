@@ -40,7 +40,7 @@ class ConversationApp extends React.Component {
       return <ConversationObjectListApp {...conversationObjectsList} currentConversation={currentConversation} styleName='root' />
     }
     else {
-      return <div>Loading...</div>;
+      return <div className='text-center'><h5>Loading...</h5></div>;
     }
   }
 }

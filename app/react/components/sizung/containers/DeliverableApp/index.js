@@ -47,7 +47,7 @@ class DeliverableApp extends React.Component {
       );
     }
     else {
-      return <div>Loading...</div>;
+      return <div className='text-center'><h5>Loading...</h5></div>;
     }
   }
 }
