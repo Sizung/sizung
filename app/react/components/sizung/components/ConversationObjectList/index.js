@@ -30,6 +30,10 @@ class ConversationObjectList extends Component {
     this.renderListContainerContent = this.renderListContainerContent.bind(this);
     this.handleCommentSettingsDropdownScroll = this.handleCommentSettingsDropdownScroll.bind(this);
     this.onCommentFormResize = this.onCommentFormResize.bind(this);
+    this.scrolDownToNewActivity =  this.scrolDownToNewActivity.bind(this);
+    this.showNewActivityMarker = this.showNewActivityMarker.bind(this);
+    this.hideNewActivityMarker = this.hideNewActivityMarker.bind(this);
+    this.newActivityTimer = 5;
 
     this.state = {
       isConversationMembersViewVisible: false
@@ -83,6 +87,7 @@ class ConversationObjectList extends Component {
     window.requestAnimationFrame(() => {
       if (this.listNode) {
         this.listNode.scrollTop = this.listNode.scrollHeight;
+        this.hideNewActivityMarker();
       }
     });
   }
@@ -106,11 +111,18 @@ class ConversationObjectList extends Component {
   componentDidUpdate(prevProps, prevState) {
     if ( !this.state.isConversationMembersViewVisible ) {
       this.commentFormNode = this.refs.listFooter.getDOMNode();
+      this.newActivityMarkerNode = this.refs.newActivityMarker.getDOMNode();
     }
-    this.listNode = this.refs.conversationObjectList.getDOMNode();
+    //this.listNode = this.refs.conversationObjectList.getDOMNode();
 
     if ( this.shouldScrollBottom ) {
       this.scrollListToBottom();
+    } else {
+      this.markerNode = React.findDOMNode(this.refs.newActivityMarker);
+      if ( this.props.conversationObjects.length > prevProps.conversationObjects.length ) {
+        this.newActivityTimer = 5;
+        this.showNewActivityMarker();
+      }
     }
     this.adjustConversationListHeight();
     const unseenPrev = prevProps.conversationObjects.some((obj) => { return obj.unseen; });
@@ -118,6 +130,31 @@ class ConversationObjectList extends Component {
     if (!unseenPrev && unseenNow || prevProps.commentForm.parent.id !== this.props.commentForm.parent.id && unseenNow) {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     }
+  }
+
+  showNewActivityMarker() {
+    $(this.markerNode).css('display','block');
+    var _this = this;
+    if ( !this.newActivityTimerId ) {
+      this.newActivityTimerId = setInterval(function () {
+        if (_this.newActivityTimer == 0) {
+          $(_this.markerNode).fadeOut();
+          clearInterval(_this.newActivityTimerId);
+          _this.newActivityTimerId = null;
+        } else {
+          _this.newActivityTimer--;
+        }
+      }, 1000);
+    }
+  }
+
+  hideNewActivityMarker() {
+    $(this.markerNode).fadeOut();
+  }
+
+  scrolDownToNewActivity() {
+    this.hideNewActivityMarker();
+    this.scrollListToBottom();
   }
 
   componentWillUpdate() {
@@ -128,8 +165,10 @@ class ConversationObjectList extends Component {
   }
 
   componentDidMount() {
+    this.listNode = this.refs.conversationObjectList.getDOMNode();
     window.addEventListener("resize", this.adjustConversationListHeight);
     this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    this.scrollListToBottom();
   }
 
   toggleConversationMembersView() {
@@ -149,7 +188,9 @@ class ConversationObjectList extends Component {
 
   onCommentFormResize(commentBoxHeight) {
     $(this.commentFormNode).css('height',commentBoxHeight);
-    $(this.listNode).css('bottom',commentBoxHeight + $(this.commentFormNode).css('bottom') +'px');
+    var listNodeBottomOffset = commentBoxHeight + parseInt($(this.commentFormNode).css('bottom').split('px')[0]);
+    $(this.listNode).css('bottom', listNodeBottomOffset +'px');
+    $(this.newActivityMarkerNode).css('bottom',( listNodeBottomOffset + 5) +'px');
   }
 
   renderConversationTimeLine() {
@@ -162,6 +203,7 @@ class ConversationObjectList extends Component {
 
     var conversationTimelineHeader = "";
     this.isTimelineHeader = false;
+    var _this = this;
     if ( null != this.props.commentForm.parent) {
       switch (this.props.commentForm.parent.type) {
         case "agendaItems" :
@@ -203,6 +245,7 @@ class ConversationObjectList extends Component {
         <div ref='conversationObjectList' styleName='list'>
           { showMore }
           { conversationObjectElements }
+
         </div>
         <div ref='listFooter' styleName='list-footer'>
             <CommentForm createComment={createComment}
@@ -211,6 +254,11 @@ class ConversationObjectList extends Component {
                          onResize={this.onCommentFormResize}
                 {...commentForm}/>
         </div>
+          <div ref='newActivityMarker' styleName='timeline-new-activity-marker'>
+              <span onClick={_this.scrolDownToNewActivity} styleName='timeline-new-activity-scroll'>
+                <i styleName='timeline-new-activity-scroll-icon'></i>
+              </span>
+          </div>
       </div>
     );
   }
