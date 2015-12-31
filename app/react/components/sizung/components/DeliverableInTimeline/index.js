@@ -92,30 +92,33 @@ class DeliverableInTimeline extends React.Component {
             <div styleName="full-width">
               <div styleName="title-container">
                 <i styleName='deliverable-icon'></i>
-                <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} />
+                <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} />
               </div>
               <div styleName="status-container">
-                <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} />
+                <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} editable={!archived} />
               </div>
             </div>
           </div>
           <div styleName="meta-container">
             <div styleName="meta-content">
               <div styleName="meta-label">Assigned To</div>
-              <div styleName="meta-content-user"><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} /></div>
+              <div><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} /></div>
             </div>
             <div styleName="meta-content">
               <div styleName="meta-label">Due Date</div>
-              <div><EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} /></div>
+              <div><EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} /></div>
             </div>
             <div styleName="meta-content">
               <div styleName="meta-label">Agenda Item</div>
-              <div><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} /></div>
+              <div><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} editable={!archived} /></div>
             </div>
           </div>
         </div>
         <div styleName="time-container">
-          <small><Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+          <small>
+            <Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
+            { archived ? ' (archived)' : '' }
+          </small>
           { archived ? '' : this.renderActionButtons() }
         </div>
       </div>

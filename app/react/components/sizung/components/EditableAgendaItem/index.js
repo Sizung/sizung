@@ -82,8 +82,8 @@ class EditableAgendaItem extends React.Component {
     return option.title;
   }
 
-  renderShow(selectedOption) {
-    return <div styleName="current-title" onClick={this.handleEditClick}>{this.displayOption(selectedOption)}</div>
+  renderShow(selectedOption, editable) {
+    return <div styleName={"current-title" + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}>{this.displayOption(selectedOption)}</div>
   }
 
   filteredOptions(filter, options) {
@@ -131,29 +131,34 @@ class EditableAgendaItem extends React.Component {
   }
 
   render() {
-    const { agendaItem } = this.props;
+    const { agendaItem, editable } = this.props;
     if (this.state.edit) {
       const agendaItems = this.state.agendaItems;
       return (
         <div styleName="root-container">
-          {this.renderShow(agendaItem)}
+          {this.renderShow(agendaItem, editable)}
           {this.renderEdit(agendaItem, agendaItems)}
         </div>
       );
     }
     else {
-      return this.renderShow(agendaItem);
+      return this.renderShow(agendaItem, editable);
     }
   }
 }
 
 EditableAgendaItem.propTypes = {
+  editable: PropTypes.bool,
   agendaItem: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     conversationId: PropTypes.string.isRequired
   }).isRequired,
   onUpdate: PropTypes.func.isRequired
+};
+
+EditableAgendaItem.defaultProps = {
+  editable: true
 };
 
 export default EditableAgendaItem;

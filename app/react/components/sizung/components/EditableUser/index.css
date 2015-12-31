@@ -14,6 +14,13 @@
   background-color: #ffffff;
 }
 
+.current-user {
+}
+
+.current-user-editable {
+  cursor: pointer;
+}
+
 .title {
   text-align: center;
   color: grey;

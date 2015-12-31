@@ -66,9 +66,6 @@
   composes: text-muted from global;
 }
 
-.meta-content-user {
-  cursor: pointer;
-}
 .time-container {
   composes: text-muted from global;
   margin: 5px 0 5px 60px;

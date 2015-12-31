@@ -26,6 +26,9 @@
 }
 
 .current-title {
+}
+
+.current-title-editable {
   cursor: pointer;
 }
 
