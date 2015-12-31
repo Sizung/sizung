@@ -34,9 +34,10 @@
   composes: blue-background from '../../styles/theme.css';
   display: inline-block;
   border-radius: 50%/50%;
-  background-color: #57C1E8;
+  background-color: #ffffff;
   text-align: center;
-  color: #ffffff;
+  color: #57C1E8;
+  border: 1px solid #57C1E8;
 }
 
 
@@ -58,19 +59,24 @@
 
 .circle-badge-online {
   composes: circle-badge;
-  background-color: #39819B;
+  background-color: #57C1E8;
   opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
 }
-
 
 .circle-badge-normal-online {
   composes: circle-badge-normal;
-  background-color: #39819B;
+  background-color: #57C1E8;
   opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
 }
 
 .circle-badge-large-online {
   composes: circle-badge-large;
-  background-color: #39819B;
+  background-color: #57C1E8;
   opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
 }
