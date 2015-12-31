@@ -6,7 +6,7 @@ class UnseenBadge extends React.Component {
     return (
       <div className={styles.container}>
         <div className={styles.badge}>
-          {count}
+          &nbsp;
         </div>
       </div>
     );

@@ -17,8 +17,10 @@ class AgendaItemsController < ApplicationController
     authorize @agenda_item
     @agenda_item.owner = current_user
     @agenda_item.save
+
     if @agenda_item.persisted?
       AgendaItemRelayJob.perform_later(agenda_item: @agenda_item, actor_id: current_user.id, action: 'create')
+      UnseenService.new.handle_with(@agenda_item, current_user)
     end
     render json: @agenda_item, serializer: AgendaItemSerializer
   end
