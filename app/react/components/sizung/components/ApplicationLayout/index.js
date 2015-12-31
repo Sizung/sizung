@@ -15,7 +15,7 @@ class ApplicationLayout extends Component {
           { this.props.children }
         </div>
         <footer styleName='footer'>
-          &copy; Sizung 2015
+          &copy; Sizung 2016
         </footer>
       </div>
     );
