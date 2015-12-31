@@ -25,9 +25,9 @@
   overflow-y:auto;
   overflow-x: hidden;
 
-  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  box-shadow: 0px 0px 5px 0px #aaaaaa;
+  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
 
   border: 0px solid #ffffff;
   border-top-width: 5px;
@@ -100,21 +100,21 @@
   left: 0px;
   background: #ffffff;
 
-  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  box-shadow: 0px 0px 5px 0px #aaaaaa;
+  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
 
-  border: 5px solid #ffffff;
+  /*border: 5px solid #ffffff;*/
 }
 
 .agenda-item-header-in-timeline {
   composes: header-in-timeline;
-  background-color: #87cefa;
+  background-color: #57C1E8;
 }
 
 .deliverable-header-in-timeline {
   composes: header-in-timeline;
-  background-color: #99cc99;
+  background-color: #505964;
 }
 
 
@@ -185,9 +185,9 @@
   overflow-y:auto;
   overflow-x: hidden;
 
-  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  box-shadow: 0px 0px 5px 0px #aaaaaa;
+  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
 
   border: 0px solid #ffffff;
   border-top-width: 5px;

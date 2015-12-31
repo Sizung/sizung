@@ -11,10 +11,9 @@
 .selected {
   composes: default;
   composes: hover-container from '../../styles/modules/hover.css';
-  background-color: #99cc99;
+  background-color: #505964;;
   color: #FFFFFF;
-  border: 5px solid #ffffff;
-
+  /*border: 5px solid #ffffff;*/
 }
 
 .row {
@@ -37,6 +36,7 @@
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+  font-weight: 600;
 
 }
 
