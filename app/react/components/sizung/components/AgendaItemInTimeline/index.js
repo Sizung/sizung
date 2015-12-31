@@ -62,14 +62,17 @@ class AgendaItemInTimeline extends React.Component {
       <div styleName="content-container">
         <div styleName="title-container">
           <i styleName='agenda-item-icon'></i>
-          <EditableText text={title} onUpdate={this.handleTitleUpdate} />
+          <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} />
         </div>
         <div styleName="status-container">
-          <EditableStatus status={status} onUpdate={this.handleStatusUpdate} />
+          <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
         </div>
       </div>
       <div styleName="time-container">
-        <small><Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+        <small>
+          <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
+          { archived ? ' (archived)' : '' }
+        </small>
         { archived ? '' : this.renderActionButtons() }
       </div>
     </div>;
