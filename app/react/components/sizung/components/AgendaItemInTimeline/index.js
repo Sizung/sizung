@@ -55,9 +55,12 @@ class AgendaItemInTimeline extends React.Component {
     const { agendaItem } = this.props;
     const { title, status, owner, archived } = agendaItem;
 
+    const timeStyle = ( this.props.isTimelineHeader ? "time-container-inverse" : "time-container");
+    const userStyle = ( this.props.isTimelineHeader ? {border:'1px solid #ffffff'} : {});
+
     return  <div styleName='root'>
       <div styleName='user-container'>
-        <User user={owner} />
+        <User user={owner} innerStyle={userStyle}/>
       </div>
       <div styleName="content-container">
         <div styleName="title-container">
@@ -68,7 +71,7 @@ class AgendaItemInTimeline extends React.Component {
           <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
         </div>
       </div>
-      <div styleName="time-container">
+      <div styleName={timeStyle}>
         <small>
           <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
           { archived ? ' (archived)' : '' }

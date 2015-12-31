@@ -11,7 +11,7 @@
 .selected {
   composes: default;
   composes: hover-container from '../../styles/modules/hover.css';
-  background-color: #505964;;
+  background-color: #505964;
   color: #FFFFFF;
   /*border: 5px solid #ffffff;*/
 }
@@ -56,9 +56,12 @@
 }
 
 .due-on {
-  composes: label label-info pull-right from global;
+  composes: pull-right from global;
   padding: 5px;
   margin-top: 5px;
+  font-size: smaller;
+  font-weight: 600;
+  color: #57C1E8;
 }
 
 .agenda-title-container {

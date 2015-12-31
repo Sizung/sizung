@@ -30,6 +30,20 @@
 
 .current-title-editable {
   cursor: pointer;
+  max-height: 3em;
+  overflow: hidden;
+  text-align: right;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  text-overflow: ellipsis;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+
 }
 
 .input {

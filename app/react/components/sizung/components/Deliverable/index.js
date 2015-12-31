@@ -44,6 +44,9 @@ class Deliverable extends React.Component {
   render() {
     const { deliverable, selected } = this.props;
     const { status, title, agendaItem, assignee, dueOn, commentsCount, unseenCount } = deliverable;
+    const baseUrl = window.location.protocol + "//" + window.location.host;
+    const chatIconImage = baseUrl + ( selected ?  "/icons/chat-icon-white.png" : "/icons/chat-icon-gray.png");
+    const agendaItemIconImage = baseUrl + ( selected ? "/icons/agenda-item-icon-white.png" : "/icons/agenda-item-icon-gray.png");
 
     var styleName = 'default';
     if(selected === true) {
@@ -73,10 +76,10 @@ class Deliverable extends React.Component {
             </div>
             <div styleName='details-row2'>
               <div styleName="comments-count-container">
-                <img height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/chat-icon-gray.png"}></img>{" "}<small>{commentsCount}</small>
+                <img height='15px' src={chatIconImage}></img>{" "}<small>{commentsCount}</small>
               </div>
               <div styleName="agenda-title-container">
-                <img style={{ marginRight: '5px'}} height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/agenda-item-icon-gray.png"}></img>{agendaItem.title}
+                <img style={{ marginRight: '5px'}} height='15px' src={agendaItemIconImage}></img>{agendaItem.title}
               </div>
             </div>
           </div>

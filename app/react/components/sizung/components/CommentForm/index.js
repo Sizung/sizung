@@ -16,8 +16,6 @@ class CommentForm extends React.Component {
     };
 
     this.handleSubmit = (e) => {
-      e.preventDefault();
-
       //React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
       name = this.inputNode.value.trim();
       //name = React.findDOMNode(this.refs.name).value.trim();
@@ -67,6 +65,17 @@ class CommentForm extends React.Component {
       }
     }
 
+
+    this.handleKeyPress = (e) => {
+      name = this.inputNode.value.trim();
+      if (name){
+        if ( e.charCode === 13 && !e.altKey ){
+          e.preventDefault();
+          this.handleSubmit();
+        }
+      }
+    }
+
     this.handleOnResize = (e) => {
       if ( null != this.inputNode && null != this.formNode ) {
         var resizedHeightDifference = $(this.inputNode).height() - parseInt($(this.inputNode).css('min-height').split('px')[0]);
@@ -80,11 +89,13 @@ class CommentForm extends React.Component {
   componentDidMount() {
     this.inputNode = React.findDOMNode(this.refs.name);
     this.formNode = React.findDOMNode(this.refs.formContainer);
+    this.commentButtonNode = React.findDOMNode(this.refs.commentButton);
   }
 
   componentDidUpdate() {
     if ( !this.state.hasInput ) {
       //TODO: Find a better alternative to correct this dirty way of dispatching a change event to resize textarea on submit
+      console.log("dispatcing: " + this.inputNode.value.length);
       this.inputNode.dispatchEvent(new Event('input'));
     }
   }
@@ -120,7 +131,7 @@ class CommentForm extends React.Component {
     return (
       <div styleName='root'>
         <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
-          <Button tabIndex='2' styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><img style={{ marginRight: '5px'}} height='12px' src={window.location.protocol + "//" + window.location.host + "/icons/chat-icon-gray.png"}></img>Comment</Button>
+          <Button tabIndex='2' ref='commentButton' styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><img style={{ marginRight: '5px'}} height='12px' src={window.location.protocol + "//" + window.location.host + "/icons/chat-icon-gray.png"}></img>Comment</Button>
           { buttons }
           <Button tabIndex='5' href={"/organizations/" + currentConversation.organization_id + "/conversations/new"} key="createConversation" styleName='conversation-btn'><img style={{ marginRight: '5px'}} height='12px' src={window.location.protocol + "//" + window.location.host + "/icons/conversation-icon-gray.png"}></img>Create Conversation</Button>
         </ButtonGroup>
@@ -131,7 +142,7 @@ class CommentForm extends React.Component {
         <div styleName='input-form'>
           <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
             <div styleName='input-container'>
-              <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
+              <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
             </div>
           </form>
         </div>

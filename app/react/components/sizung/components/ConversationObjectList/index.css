@@ -107,6 +107,7 @@
   /*border: 5px solid #ffffff;*/
 }
 
+
 .agenda-item-header-in-timeline {
   composes: header-in-timeline;
   background-color: #57C1E8;

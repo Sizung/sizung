@@ -40,8 +40,13 @@
 }
 
 .time-container {
-  composes: text-muted from global;
   margin: 5px 0px 5px 60px;
+  color : #9aa5af;
+}
+
+.time-container-inverse {
+  composes: time-container;
+  color : #ffffff;
 }
 
 .discuss-link {

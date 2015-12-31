@@ -26,10 +26,10 @@
 }
 
 .time-container {
-  composes: text-muted from global;
   width: 100%;
   padding: 0px;
   margin: 5px 0px;
+  color : #9aa5af;
 }
 
 .gear-icon {
