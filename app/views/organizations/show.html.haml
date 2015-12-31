@@ -1,5 +1,3 @@
-= javascript_include_tag "jquery.touchSwipe.min.js"
-
 %h3.conversation-index-header.hover-container
   = @organization
   .hover-display-inline
@@ -67,7 +65,7 @@
   .row
     %h4.deliverable-index-header.col-xs-6.col-sm-12
       %i.fa.fa-tasks
-      Deliverables
+      My Deliverables
 
     %h5.col-xs-6.conversations-link.visible-xs
       .pull-right
@@ -78,7 +76,7 @@
 
 
   - deliverables.each do |deliverable|
-    - if deliverable
+    - if deliverable and ( deliverable.assignee.id === current_user.id )
       .deliverable.row
         .deliverable-header.col-xs-12
           .deliverable-due-date.pull-right
