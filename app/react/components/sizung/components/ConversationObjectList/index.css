@@ -1,0 +1,217 @@
+.list-container {
+  position: relative;
+  min-height: 100%;
+  height: 100%;
+  width: 100%;
+}
+
+.list-header {
+  width: 100%;
+  height: 45px;
+  padding: 0px 15px;
+}
+
+.comments-icon {
+  composes: fa fa-comments-o fa-lg from global;
+}
+
+.list {
+  background-color: #ffffff;
+  position: absolute;
+  top: 45px;
+  right: 0px;
+  left: 0px;
+  bottom: 95px;
+  overflow-y:auto;
+  overflow-x: hidden;
+
+  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  box-shadow: 0px 0px 5px 0px #aaaaaa;
+
+  border: 0px solid #ffffff;
+  border-top-width: 5px;
+  border-bottom-width: 5px;
+}
+
+.list-footer {
+  background-color: #ffffff;
+  position: absolute;
+  bottom: 25px;
+  left: 0px;
+  right: 0px;
+  height:70px;
+
+  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+}
+
+.member-dropdown-container {
+  position: absolute;
+  right: 15px;
+  top: 6px;
+}
+
+.loading-message {
+  text-align: center;
+  font-size: smaller;
+}
+
+.load-more-message {
+  composes: text-center from global;
+  padding-top: 5px;
+  font-size: smaller;
+}
+
+.link {
+  composes: text-muted from global;
+  padding-top: 5px;
+  text-decoration: none !important;
+}
+
+
+.member-badge {
+  position: relative;
+  border-radius: 50%/50%;
+  background-color: #ffffff;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+}
+
+.member-badge-contents {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  text-align: center;
+  color: #777777;
+  line-height: 30px;
+}
+
+.header-in-timeline {
+  position: absolute;
+  margin-bottom: 5px;
+  top: 45px;
+  right: 0px;
+  left: 0px;
+  background: #ffffff;
+
+  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  box-shadow: 0px 0px 5px 0px #aaaaaa;
+
+  border: 5px solid #ffffff;
+}
+
+.agenda-item-header-in-timeline {
+  composes: header-in-timeline;
+  background-color: #87cefa;
+}
+
+.deliverable-header-in-timeline {
+  composes: header-in-timeline;
+  background-color: #99cc99;
+}
+
+
+.back-to-conversation-link-container {
+  composes: row from global;
+  padding: 0px 5px;
+}
+
+.back-to-conversation-link {
+  composes: pull-right from global;
+  color: #333333;
+  padding: 5px 15px;
+  float: right;
+}
+
+.back-to-conversation-icon {
+  composes: fa fa-times fa-lg pull-right from global;
+  color: #ffffff;
+}
+
+.user-icon {
+  composes: fa fa-user fa-lg from global;
+  color: #999999;
+  padding: 10px;
+}
+
+.conversation-title-container {
+  height: 45px;
+  padding-right: 100px;
+}
+
+.conversation-title-container:hover .conversation-close-button{
+  display: inline;
+}
+
+.conversation-close-button {
+  display: none;
+  padding: 12px 10px;
+  float: left;
+}
+
+.conversation-close-icon {
+  composes: fa fa-times from global;
+}
+
+.conversation-title {
+  padding: 0px;
+  margin: 0px;
+  float: left;
+  max-width: 80%;
+  height: 45px;
+  line-height: 45px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  white-space: nowrap;
+  /*font-size: larger;*/
+}
+
+.member-list {
+  background-color: #ffffff;
+  position: absolute;
+  top: 45px;
+  right: 0px;
+  left: 0px;
+  bottom: 25px;
+  overflow-y:auto;
+  overflow-x: hidden;
+
+  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
+  box-shadow: 0px 0px 5px 0px #aaaaaa;
+
+  border: 0px solid #ffffff;
+  border-top-width: 5px;
+  border-bottom-width: 5px;
+}
+
+.timeline-new-activity-marker {
+  position: fixed;
+  bottom: 100px;
+  z-index: 100;
+  padding: 0px 10px;
+  left: 0px;
+  right: 0px;
+  display: none;
+  background-color: transparent;
+  text-align: center;
+  font-size: smaller;
+}
+
+.timeline-new-activity-scroll {
+  font-weight: bold;
+}
+
+.timeline-new-activity-scroll-icon {
+  composes: fa fa-chevron-circle-down fa-lg from global;
+  cursor: pointer;
+  color: #FF8C00;
+}
+

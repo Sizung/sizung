@@ -1,10 +1,11 @@
 source 'https://rubygems.org'
 
+ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.4'
-# Use sqlite3 as the database for Active Record
-gem 'sqlite3'
+# Use postgresql as the database for Active Record
+gem 'pg'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -32,15 +33,46 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
-gem 'react-rails', '~> 1.3.0'
+# gem 'react-rails', '~> 1.3.0'
+# gem 'browserify-rails'
+gem 'react_webpack_rails'
+
+
 gem 'therubyracer'
 gem 'less-rails'
 gem 'twitter-bootstrap-rails', '~> 3.2.0'
-gem 'react-bootstrap-rails', github: 'gugl/react-bootstrap-rails'
+# gem 'react-bootstrap-rails', github: 'gugl/react-bootstrap-rails'
+
+gem 'haml'
+gem 'haml-rails'
+gem 'devise'
+gem 'devise_invitable'
+gem 'puma'
+# gem 'rack-timeout'
+gem 'simple_form'
+gem 'pundit'
+gem 'figaro'
+gem 'actioncable', github: 'gugl/actioncable'
+gem 'redis'
+gem 'hiredis'
+gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
+gem 'schema_plus_views'
+gem 'kaminari'
+gem 'acts_as_archival'
+
+group :production do
+  gem 'rails_12factor'
+end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'factory_girl_rails'
+  gem 'capybara'
+  gem 'minitest-rails'
+  gem 'minitest-reporters'
+  gem 'minitest-rails-capybara'
+  gem 'email_spec'
 end
 
 group :development do
@@ -49,5 +81,7 @@ group :development do
 
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
+
+  gem 'letter_opener'
 end
 

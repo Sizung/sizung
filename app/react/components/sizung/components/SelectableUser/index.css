@@ -1,0 +1,33 @@
+.root {
+  composes: col-xs-12 col-md-6 from global;
+  padding: 10px;
+  cursor: pointer;
+  border: 1px dashed #eeeeee;
+}
+
+.root:hover {
+  background-color: #dddddd;
+}
+
+.selected {
+  composes: fa fa-check fa-lg from global;
+}
+
+.unselected {
+
+}
+
+.user-container {
+  composes: col-xs-10 from global;
+  padding: 0px;
+}
+
+.user {
+  display: inline-block;
+  margin: 5px 5px 5px 0px;
+}
+
+.status {
+  composes: col-xs-2 from global;
+  padding: 5px 10px;
+}

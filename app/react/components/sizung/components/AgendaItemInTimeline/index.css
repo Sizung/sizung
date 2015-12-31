@@ -1,0 +1,58 @@
+.root {
+  composes: hover-container from '../../styles/modules/hover.css';
+  width: 100%;
+  position: relative;
+  padding: 5px 30px 5px 0px;
+}
+
+.user-container {
+  display: table-cell;
+  height: 40px;
+  width: 60px;
+  padding: 0px 15px;
+  vertical-align: top;
+}
+
+.title-container {
+  font-weight: bold;
+  padding-right: 80px;
+}
+
+.content-container {
+  display: table-cell;
+  width: 100%;
+  padding: 10px;
+
+  border: 2px solid #eeeeee;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  background-color: #ffffff;
+}
+
+.status-container {
+  position: absolute;
+  top: 10px;
+  right: 35px;
+}
+
+.time-container {
+  composes: text-muted from global;
+  margin: 5px 0px 5px 60px;
+}
+
+.discuss-link {
+  composes: hover-inline from '../../styles/modules/hover.css';
+  composes: pull-right from global;
+}
+
+.discuss-link-hide {
+  display: none;
+}
+
+.agenda-item-icon {
+  composes: fa fa-tag from global;
+  float: left;
+  padding: 5px 10px 0px 0px;
+}

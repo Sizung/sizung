@@ -1,0 +1,24 @@
+.container {
+  position: relative;
+}
+
+.badge {
+  display: inline;
+  position: absolute;
+  z-index: 100;
+  top: -5px;
+  right: -5px;
+  width: 20px;
+  height: 20px;
+
+  -webkit-border-radius: 50%/50%;
+  -moz-border-radius: 50%/50%;
+  border-radius: 50%/50%;
+
+  background-color: #ff2222;
+  font-size: smaller;
+  line-height: 20px;
+  text-align: center;
+  color: #ffffff;
+
+}

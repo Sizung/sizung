@@ -1,0 +1,25 @@
+.row
+  .col-sm-12.col-md-offset-3.col-md-6.col-lg-offset-4.col-lg-4
+    %h3 Sign Up for Sizung
+    %br
+
+    = simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+      = f.error_notification
+
+      .form-inputs
+        .row
+          .col-md-6
+            = f.input :first_name, required: true, autofocus: true
+          .col-md-6
+            = f.input :last_name, required: true
+        .row
+          .col-md-6
+            = f.input :email, required: true
+        .row
+          .col-md-6
+            = f.input :password, required: true, hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length)
+          .col-md-6
+            = f.input :password_confirmation, required: true
+
+      .form-actions
+        = f.button :submit, 'Sign up'

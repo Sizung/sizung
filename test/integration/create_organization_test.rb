@@ -1,0 +1,20 @@
+require 'test_helper'
+
+class CreateOrganizationTest < ActionDispatch::IntegrationTest
+  test 'User can create a new organization' do
+    visit user_session_path
+    assert_equal 200, page.status_code
+    @user = FactoryGirl.create :user
+    fill_in :user_email, with: @user.email
+    fill_in :user_password, with: 'SuperSecret'
+
+    click_on 'Log in'
+
+    visit new_organization_path
+    fill_in :organization_name, with: 'gugl test organization'
+    click_on 'Create Organization'
+
+    assert_equal 2, Organization.all.size
+    assert page.has_content?('Organization was successfully created.')
+  end
+end

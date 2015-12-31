@@ -1,0 +1,10 @@
+- path = @conversation.persisted? ? @conversation : [@organization, @conversation]
+= simple_form_for(path) do |f|
+  = f.error_notification
+
+  .form-inputs
+    = f.input :title
+    = f.input :organization_id, as: :hidden
+
+  .form-actions
+    = f.button :submit

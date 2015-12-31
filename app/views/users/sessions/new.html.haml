@@ -1,0 +1,20 @@
+.row
+  .col-sm-12.col-md-offset-3.col-md-6.col-lg-offset-4.col-lg-4
+    %h3 Login
+    %br
+
+    = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+      = f.error_notification
+      .form-group
+        - if devise_mapping.registerable?
+          = link_to 'Sign up', new_registration_path(resource_name), class: 'pull-right'
+        = f.label :email
+        = f.email_field :email, autofocus: true, class: 'form-control'
+      .form-group
+        - if devise_mapping.recoverable?
+          = link_to 'Forgot password?', new_password_path(resource_name), class: 'pull-right'
+        = f.label :password
+        = f.password_field :password, class: 'form-control'
+      .pull-right
+        = f.input :remember_me, as: :boolean if devise_mapping.rememberable?
+      = f.button :submit, 'Log in'

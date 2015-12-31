@@ -1,12 +1,1 @@
-<!-- Using default values -->
-<%= react_component('Sample') %>
-
-<!-- Using parameter values -->
-<%= react_component('Sample', name: 'Sam Sample') %>
-
-<!-- Using server side rendering -->
-<%= react_component('Sample', { name: 'Sam Sample (prerendered)' }, { prerender: true }) %>
-
-<!-- Twitter Bootstrap Components in view files -->
-<!-- See http://react-bootstrap.github.io/components.html for a list of React Bootstrap Components -->
-<%= react_component('ReactBootstrap.Button', { bsStyle: 'primary', children: 'Primary Button' }) %>
+<%= react_component('EditableAgendaItem', {agendaItem: {id: '1', title: 'Todos', conversationId: '234'}}) %>

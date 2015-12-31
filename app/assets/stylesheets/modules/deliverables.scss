@@ -1,0 +1,74 @@
+@import "card";
+
+.deliverable-index-header {
+  margin-bottom: 1em;
+}
+
+.deliverable {
+  @extend .card;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.deliverable-header {
+  @extend .clearfix;
+  margin-bottom: 1em;
+}
+
+.deliverable-title {
+  display: inline;
+  font-weight: bold;
+  font-size: 1.3em;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  cursor: pointer;
+}
+
+.deliverable-object {
+  @extend .clearfix;
+}
+
+.deliverable-assignee {
+  display: inline;
+  float: left;
+  max-width: 20%;
+}
+
+.deliverable-agenda-item-title {
+  display: inline;
+  float: right;
+  max-width: 80%;
+  text-align: right;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.deliverable-due-date{
+  display: inline;
+  float: right;
+  text-align: right;
+}

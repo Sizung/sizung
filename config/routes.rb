@@ -1,7 +1,55 @@
 Rails.application.routes.draw do
+  concern :list_conversation_objects do |options|
+    resources :conversation_objects, options.merge(only: [:index])
+  end
+
+  concern :unseen_objects do |options|
+    delete 'unseen_objects', to: 'unseen_objects#destroy_all', defaults: options
+    # resources :unseen_objects, options.merge(only: [:destroy_all])
+  end
+
+  resources :agenda_items, only: [:create, :update] do
+    concerns :list_conversation_objects, parent_type: 'AgendaItem'
+    concerns :unseen_objects, parent_type: 'AgendaItem'
+  end
+
+  resources :deliverables, only: [:create, :update] do
+    concerns :list_conversation_objects, parent_type: 'Deliverable'
+    concerns :unseen_objects, parent_type: 'Deliverable'
+  end
+
+  resources :conversation_members, only: [:create, :destroy]
+  resources :comments
+  # resources :conversations do
+  #   concerns :list_conversation_objects, parent_type: 'Conversation'
+  # end
+  resources :organizations, shallow: true do
+    resources :conversations do
+      resources :agenda_items, only: [:index]
+      concerns :list_conversation_objects, parent_type: 'Conversation'
+      concerns :unseen_objects, parent_type: 'Conversation'
+    end
+
+    resources :organization_members, only: [:index, :destroy]
+  end
+
+  get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: 'conversations#show'
+  get 'conversations/:id/agenda_items/:agenda_item_id', to: 'conversations#show'
+
+  devise_for :users, controllers: {
+                       registrations: 'users/registrations',
+                       sessions:      'users/sessions',
+                       invitations:   'users/invitations'
+                   }
   resources :samples, only: [:index]
 
-  root 'samples#index'
+  authenticated :user do
+    root to: 'organizations#index', as: :authenticated_root
+  end
+
+  match '/websocket', to: ActionCable.server, via: [:get, :post]
+
+  root 'landing_page#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

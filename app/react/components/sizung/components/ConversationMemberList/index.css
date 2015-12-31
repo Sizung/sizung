@@ -1,0 +1,58 @@
+.user-logo {
+  display: table-cell;
+  padding: 5px;
+  vertical-align: top;
+}
+
+.user-name {
+  display: table-cell;
+  padding: 5px;
+  vertical-align: top;
+}
+
+.root {
+  composes: row from global;
+  margin: 0px;
+}
+
+.full-width-container {
+  composes: col-xs-12 from global;
+}
+
+.conversation-member-title {
+  float: left;
+}
+
+.close-button-container {
+  float: right;
+}
+
+.close-button {
+  composes: fa fa-times fa-lg from global;
+  cursor: pointer;
+}
+
+.form-container {
+  composes: col-xs-12 from global;
+  padding: 0px;
+  margin-top: 10px;
+}
+
+.input-container {
+  composes: form-group col-xs-12 from global;
+  padding: 0px;
+}
+
+.input {
+  composes: col-xs-12 form-control from global;
+}
+
+.organization-member-container {
+  composes: col-xs-12 from global;
+  padding: 0px;
+  margin-top: 10px;
+}
+
+.organization-member-title {
+  float: left;
+}

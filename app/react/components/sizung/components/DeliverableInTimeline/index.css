@@ -1,0 +1,138 @@
+.root {
+  composes: hover-container from '../../styles/modules/hover.css';
+  width: 100%;
+  position: relative;
+  padding: 5px 30px 5px 0px;
+}
+
+.user-container {
+  display: table-cell;
+  height: 40px;
+  width: 60px;
+  padding: 0px 15px;
+  vertical-align: top;
+}
+
+.row {
+  composes: row from global;
+  min-height: 2em;
+}
+
+.full-width {
+  composes: col-sm-12 from global;
+}
+
+.title-container {
+  font-weight: bold;
+  padding-right: 80px;
+}
+
+.content-container {
+  display: table-cell;
+  width: 100%;
+  padding: 10px;
+
+  border: 2px solid #eeeeee;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+
+  background-color: #ffffff;
+
+}
+
+.status-container {
+  composes: pull-right from global;
+}
+
+.meta-container {
+  composes: row from global;
+  padding-top: 5px;
+}
+
+.meta-container-row {
+  composes: col-xs-12 from global;
+}
+
+.meta-content {
+  composes: col-xs-12 col-md-4 from global;
+}
+
+.meta-content:last-of-type {
+  text-align: right;
+}
+
+.meta-label {
+  composes: text-muted from global;
+}
+
+.time-container {
+  composes: text-muted from global;
+  margin: 5px 0 5px 60px;
+}
+
+.discuss-link {
+  composes: hover-inline from '../../styles/modules/hover.css';
+  composes: pull-right from global;
+}
+
+.discuss-link-hide {
+  display: none;
+}
+
+.deliverable-icon {
+  composes: fa fa-tasks from global;
+  float: left;
+  padding: 5px 10px 0px 0px;
+}
+
+.editable-user-container {
+  composes: pull-right from global;
+  border: none;
+  box-shadow: none;
+  padding: 0px;
+  outline: none;
+  border-width: 0px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.user-label {
+  composes: text-muted pull-right from global;
+  padding: 5px 5px 0px 0px;
+}
+
+.due-date-container {
+  composes: pull-right from global;
+}
+
+.editable-due-date-container {
+  max-width: 100px;
+  padding: 5px;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  border-width: 0px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #eeeeee;
+  cursor: pointer;
+}
+
+.agenda-item-container {
+}
+
+.editable-agenda-item-container {
+  max-width: 100px;
+  padding: 5px;
+  box-shadow: none;
+  border: none;
+  outline: none;
+  border-width: 0px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  border-radius: 3px;
+  background: #eeeeee;
+  cursor: pointer;
+}

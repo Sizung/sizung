@@ -1,0 +1,63 @@
+{
+  "name": "Sizung",
+  "devDependencies": {
+    "babel-eslint": "^4.1.1",
+    "babel-plugin-react-transform": "^1.1.1",
+    "eslint": "^0.24.1",
+    "eslint-plugin-react": "^3.3.1",
+    "expect": "^1.9.0",
+    "express": "^4.13.3",
+    "karma": "^0.13.9",
+    "karma-chrome-launcher": "^0.2.0",
+    "karma-mocha": "^0.2.0",
+    "karma-sinon": "^1.0.4",
+    "karma-sourcemap-loader": "^0.3.5",
+    "karma-webpack": "^1.7.0",
+    "react-swipeable": "^3.1.0",
+    "react-transform-hmr": "^1.0.1",
+    "redux-devtools": "^2.1.5",
+    "webpack-dev-middleware": "^1.2.0",
+    "webpack-hot-middleware": "^2.4.1",
+    "webpack-notifier": "^1.2.1"
+  },
+  "dependencies": {
+    "babel-core": "^5.8.19",
+    "babel-loader": "^5.3.2",
+    "belle": "^1.2.2",
+    "css-loader": "^0.23.0",
+    "es6-promise": "^3.0.2",
+    "extract-text-webpack-plugin": "^0.8.2",
+    "history": "^1.13.1",
+    "immutable": "^3.7.5",
+    "isomorphic-fetch": "^2.1.1",
+    "moment": "^2.10.6",
+    "node-sass": "^3.2.0",
+    "radium": "^0.14.3",
+    "react": "^0.13.3",
+    "react-autosize-textarea": "^0.2.6",
+    "react-bootstrap": "^0.25.2",
+    "react-css-modules": "^3.6.1",
+    "react-datepicker": "^0.13.0",
+    "react-redux": "^3.0.0",
+    "react-router": "^1.0.0",
+    "react-swipeable": "^3.1.0",
+    "react-time": "^4.0.0",
+    "react-tools": "*",
+    "redux": "^3.0.3",
+    "redux-immutablejs": "0.0.7",
+    "redux-simple-router": "0.0.8",
+    "redux-thunk": "^1.0.0",
+    "sass-loader": "^2.0.1",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.1"
+  },
+  "scripts": {
+    "test": "karma start",
+    "start": "node devServer.js",
+    "build": "webpack --config webpack/production.config.js"
+  },
+  "license": "",
+  "engines": {
+    "node": ">= 0.10"
+  }
+}

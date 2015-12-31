@@ -1,0 +1,71 @@
+.root {
+
+}
+
+.name {
+  margin-left: 5px;
+}
+
+.email {
+  margin-left: 5px;
+}
+
+.user-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.user-title-normal {
+  composes: user-title;
+  height: 30px;
+  line-height: 30px;
+}
+
+.user-title-large {
+  composes: user-title;
+  height: 40px;
+  line-height: 40px;
+}
+
+.circle-badge {
+  display: inline-block;
+  border-radius: 50%/50%;
+  background-color: #eeeeee;
+  text-align: center;
+  color: #777777;
+}
+
+
+.circle-badge-normal {
+  composes: circle-badge;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  float: left;
+}
+
+.circle-badge-large {
+  composes: circle-badge;
+  width: 40px;
+  height: 40px;
+  font-size: larger;
+  line-height: 40px;
+}
+
+.circle-badge-online {
+  composes: circle-badge;
+  color: #7B7;
+}
+
+
+.circle-badge-normal-online {
+  composes: circle-badge-normal;
+  color: #7B7;
+}
+
+.circle-badge-large-online {
+  composes: circle-badge-large;
+  color: #7B7;
+}

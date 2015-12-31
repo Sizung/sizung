@@ -1,0 +1,26 @@
+%h3
+  = link_to @organization, @organization
+  %i.fa.fa-angle-right
+  Members
+%br
+
+.row
+  .col-xs-12
+    %h4 Invite Team Members
+    = simple_form_for @user, url: invitation_path(@user), html: { method: :post} do |f|
+      = f.input :email, label: 'Enter Email'
+      = f.input :organization_id, as: :hidden, input_html: { value: @organization.id }
+      = f.button :submit, t('devise.invitations.new.submit_button')
+
+.organization-members
+  .row
+    - @organization_members.each do |org_member|
+      .col-xs-12.col-md-4
+        .organization-member
+          - user = org_member.member
+          = react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name}}, {prerender: true, tag: :span})
+          = org_member.member
+          .organization-member-actions
+            = link_to org_member, method: :delete, data: { confirm: 'Are you sure?' } do
+              %i.fa.fa-trash-o
+              delete

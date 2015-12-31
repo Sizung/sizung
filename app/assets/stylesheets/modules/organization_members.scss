@@ -1,0 +1,18 @@
+.organization-members {
+  background-color: #ffffff;
+  padding: 1em;
+  margin-top: 2em;
+}
+
+.organization-member {
+  margin-bottom: 2em;
+}
+
+.organization-member-actions {
+  display: none;
+}
+
+.organization-member:hover .organization-member-actions {
+  display: inline-block;
+  margin-left: 1em;
+}
