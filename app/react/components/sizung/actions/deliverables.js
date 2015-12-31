@@ -18,6 +18,10 @@ export const UPDATE_DELIVERABLE = 'UPDATE_DELIVERABLE';
 export const SELECT_DELIVERABLE = 'SELECT_DELIVERABLE';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
 
+export function archiveDeliverable(id) {
+  return updateDeliverable(id, { archived: true });
+}
+
 export function updateDeliverableRemoteOrigin(deliverable) {
   return {
     type: UPDATE_DELIVERABLE,

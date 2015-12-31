@@ -43,8 +43,17 @@ describe DeliverablesController do
       patch :update, id: @deliverable.id, deliverable: { archived: true }
 
       assert_response :success
-
       expect(@deliverable.reload).must_be :archived?
+
+      deliverable = JSON.parse(response.body)
+      assert_equal true, deliverable['data']['attributes']['archived']
+    end
+
+    it 'should freeze archived deliverables' do
+      patch :update, id: @deliverable.id, deliverable: { archived: true }
+      expect {
+        patch :update, id: @deliverable.id, deliverable: { title: 'changed title' }
+      }.must_raise ActiveRecord::RecordNotFound
     end
   end
 end

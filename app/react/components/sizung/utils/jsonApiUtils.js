@@ -42,6 +42,7 @@ export function transformDeliverableFromJsonApi(deliverable) {
     assigneeId: deliverable.relationships.assignee.data.id,
     agendaItemId: deliverable.relationships.agenda_item.data.id,
     commentsCount: deliverable.attributes.comments_count,
+    archived: deliverable.attributes.archived,
     createdAt: deliverable.attributes.created_at,
     updatedAt: deliverable.attributes.updated_at
   };

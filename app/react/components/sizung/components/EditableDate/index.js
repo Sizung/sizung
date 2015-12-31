@@ -19,19 +19,30 @@ class EditableDate extends React.Component {
     this.props.onUpdate(newValue);
   }
 
-  textElement(persistedText) {
+  textElement(persistedText, editable) {
     var value = persistedText ? moment(persistedText) : null;
-    return <DatePicker selected={value} placeholderText="When is it due?" onChange={this.handleChange} dateFormat="YYYY-MM-DD" weekStart='0'/>;
+    return <DatePicker selected={value}
+                       placeholderText="When is it due?"
+                       onChange={this.handleChange}
+                       dateFormat="YYYY-MM-DD"
+                       weekStart='0'
+                       disabled={!editable} />;
   }
 
   render() {
-    return this.textElement(this.props.value);
+    const {value, editable} = this.props;
+    return this.textElement(value, editable);
   }
 }
 
 EditableDate.propTypes = {
+  editable: PropTypes.bool,
   value: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired
+};
+
+EditableDate.defaultProps = {
+  editable: true
 };
 
 export default EditableDate;

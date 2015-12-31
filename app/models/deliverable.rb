@@ -8,6 +8,8 @@ class Deliverable < ActiveRecord::Base
   has_many :conversation_objects, foreign_key: :parent_id
   has_many :comments, as: :commentable, dependent: :destroy
 
+  default_scope -> { where(archived_at: nil) }
+
   validates_presence_of :agenda_item, :owner, :title, :assignee, :status
 
   def comments_count

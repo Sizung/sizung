@@ -27,23 +27,24 @@ describe CommentsController do
     end
 
     it 'updates comment' do
-      expect {
-        patch :update, id: @comment.id, comment: { body: 'changed body' }
-      }.wont_change 'Comment.count'
+      patch :update, id: @comment.id, comment: { body: 'changed body' }
 
       assert_response :success
-
       expect(@comment.reload.body).must_equal 'changed body'
     end
 
     it 'archive comment' do
-      expect {
-        patch :update, id: @comment.id, comment: { archived: true }
-      }.wont_change 'Comment.count'
+      patch :update, id: @comment.id, comment: { archived: true }
 
       assert_response :success
-
       expect(@comment.reload).must_be :archived?
+    end
+
+    it 'should freeze archived comments' do
+      patch :update, id: @comment.id, comment: { archived: true }
+      expect {
+        patch :update, id: @comment.id, comment: { body: 'changed body' }
+      }.must_raise ActiveRecord::RecordNotFound
     end
 
     it 'destroys comment' do

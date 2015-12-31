@@ -64,8 +64,8 @@ class EditableUser extends React.Component {
     }
   }
 
-  renderShow(selectedUser) {
-    return <div onClick={this.handleEditClick}><User user={selectedUser} /></div>
+  renderShow(selectedUser, editable) {
+    return <div styleName={"current-user" + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser} /></div>
   }
 
   filteredOptions(filter, options) {
@@ -115,22 +115,23 @@ class EditableUser extends React.Component {
   }
 
   render() {
-    const { user, users } = this.props;
+    const { user, users, editable } = this.props;
     if (this.state.edit) {
       return (
         <div styleName="root-container">
-          {this.renderShow(user)}
+          {this.renderShow(user, editable)}
           {this.renderEdit(user, users)}
         </div>
       );
     }
     else {
-      return this.renderShow(user);
+      return this.renderShow(user, editable);
     }
   }
 }
 
 EditableUser.propTypes = {
+  editable: PropTypes.bool,
   users: PropTypes.object.isRequired,
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
@@ -139,6 +140,10 @@ EditableUser.propTypes = {
     presenceStatus: PropTypes.string.isRequired
   }).isRequired,
   onUpdate: PropTypes.func.isRequired
+};
+
+EditableUser.defaultProps = {
+  editable: true
 };
 
 export default EditableUser;
