@@ -73,10 +73,10 @@ class Deliverable extends React.Component {
             </div>
             <div styleName='details-row2'>
               <div styleName="comments-count-container">
-                <i styleName='comments-icon'></i>{" "}<small>{commentsCount}</small>
+                <img height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/chat-icon-gray.png"}></img>{" "}<small>{commentsCount}</small>
               </div>
               <div styleName="agenda-title-container">
-                # {agendaItem.title}
+                <img style={{ marginRight: '5px'}} height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/agenda-item-icon-gray.png"}></img>{agendaItem.title}
               </div>
             </div>
           </div>

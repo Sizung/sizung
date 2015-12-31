@@ -93,10 +93,10 @@ class CommentForm extends React.Component {
     const { currentUser } = this.props;
     var buttons = [];
     if (this.props.canCreateAgendaItem) {
-      buttons.push(<Button tabIndex='3' key="createAgendaItem" styleName='agenda-item-btn' type="submit" onClick={this.handleAgendaItem}><i styleName='agenda-item-icon'></i>{' '}Create Agenda Item</Button>);
+      buttons.push(<Button tabIndex='3' key="createAgendaItem" styleName='agenda-item-btn' type="submit" onClick={this.handleAgendaItem}><img style={{ marginRight: '5px'}} height='12px' src={window.location.protocol + "//" + window.location.host + "/icons/agenda-item-icon-gray.png"}></img>Create Agenda Item</Button>);
     }
     if (this.props.canCreateDeliverable) {
-      buttons.push(<Button tabIndex='4' key="createDeliverable" styleName='deliverable-btn' type="submit" onClick={this.handleDeliverable}><i styleName='deliverable-icon'></i>{' '}Create Deliverable</Button>);
+      buttons.push(<Button tabIndex='4' key="createDeliverable" styleName='deliverable-btn' type="submit" onClick={this.handleDeliverable}><img style={{ marginRight: '5px'}} height='12px' src={window.location.protocol + "//" + window.location.host + "/icons/deliverable-icon-gray.png"}></img>Create Deliverable</Button>);
     }
 
     var commentActionsStyleName = 'input-btn-group';
@@ -120,9 +120,9 @@ class CommentForm extends React.Component {
     return (
       <div styleName='root'>
         <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
-          <Button tabIndex='2' styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><i styleName='comment-icon'></i>{' '}Comment</Button>
+          <Button tabIndex='2' styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><img style={{ marginRight: '5px'}} height='12px' src={window.location.protocol + "//" + window.location.host + "/icons/chat-icon-gray.png"}></img>Comment</Button>
           { buttons }
-          <Button tabIndex='5' href={"/organizations/" + currentConversation.organization_id + "/conversations/new"} key="createConversation" styleName='conversation-btn'><i styleName='conversation-icon'></i>{' '}Create Conversation</Button>
+          <Button tabIndex='5' href={"/organizations/" + currentConversation.organization_id + "/conversations/new"} key="createConversation" styleName='conversation-btn'><img style={{ marginRight: '5px'}} height='12px' src={window.location.protocol + "//" + window.location.host + "/icons/conversation-icon-gray.png"}></img>Create Conversation</Button>
         </ButtonGroup>
       <div ref='formContainer' styleName='form-container'>
         <div styleName='user'>

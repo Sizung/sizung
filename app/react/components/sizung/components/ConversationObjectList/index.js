@@ -293,15 +293,16 @@ class ConversationObjectList extends Component {
       <div styleName='list-header' ref='conversationHeader'>
         <div styleName="conversation-title-container">
           <h5 styleName='conversation-title'>
-            <i styleName='comments-icon'></i>{" CHAT " + chatType}
+            <img src={window.location.protocol + "//" + window.location.host + "/icons/chat-icon-white.png"}></img>
+            {" CHAT " + chatType}
           </h5>
         </div>
 
         <div styleName='member-dropdown-container'>
           <div className="btn-group">
-            <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div className="pull-right" styleName='member-badge'><div onClick={this.toggleConversationMembersView} styleName='member-badge-contents'>{users.size}</div></div>
-              <i className="pull-right" styleName='user-icon'></i>
+            <a onClick={this.toggleConversationMembersView} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              <div className="pull-right" styleName='member-badge'><div styleName='member-badge-contents'>{users.size}</div></div>
+              <img height='25px' width='25px' src={window.location.protocol + "//" + window.location.host + "/icons/user-icon-white.png"}></img>
             </a>
           </div>
         </div>

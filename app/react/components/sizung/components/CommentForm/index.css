@@ -3,6 +3,7 @@
 }
 .agenda-item-btn {
   composes: btn btn-xs from global;
+  color : #89949E;
 
   /*border: none;*/
 }
@@ -69,6 +70,7 @@
 
 .comment-btn {
   composes: btn btn-xs from global;
+  color : #89949E;
   /*border: none;*/
 }
 
@@ -78,6 +80,7 @@
 
 .deliverable-btn {
   composes: btn btn-xs from global;
+  color : #89949E;
   /*border: none;*/
 }
 
@@ -87,6 +90,7 @@
 
 .conversation-btn {
   composes: btn btn-xs from global;
+  color : #89949E;
   /*border: none;*/
 }
 

@@ -13,7 +13,7 @@
   composes: card;
   composes: blue-background from '../theme.css';
   border: 5px solid #ffffff;
-  background-color: #87cefa;
+  background-color: #57C1E8;
   color: #FFFFFF;
 }
 

@@ -61,11 +61,14 @@ class AgendaItem extends React.Component {
             </div>
           </div>
           <div styleName='bottom-row'>
-              <i styleName='comments-icon'>{" "}<small>{agendaItem.commentsCount}</small></i>
-              <i styleName='deliverables-icon'>{" "}<small>{agendaItem.deliverablesCount}</small></i>
-            <div className='pull-right'>
-              <User user={this.props.agendaItem.owner}/>
-            </div>
+              <span style={{ marginRight: '10px'}} >
+                <img height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/chat-icon-gray.png"}></img>
+                {" "}<small>{agendaItem.commentsCount}</small>
+              </span>
+              <span>
+                <img height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/deliverable-icon-gray.png"}></img>
+                {" "}<small>{agendaItem.deliverablesCount}</small>
+              </span>
           </div>
         </div>
       </div>

@@ -8,7 +8,7 @@
 .list-header {
   width: 100%;
   height: 45px;
-  padding: 0px 15px;
+  padding: 0px 10px;
 }
 
 .comments-icon {
@@ -49,8 +49,8 @@
 
 .member-dropdown-container {
   position: absolute;
-  right: 15px;
-  top: 6px;
+  right: 0px;
+  top: 10px;
 }
 
 .loading-message {
@@ -74,9 +74,9 @@
 .member-badge {
   position: relative;
   border-radius: 50%/50%;
-  background-color: #ffffff;
-  width: 30px;
-  height: 30px;
+  background-color: transparent;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 }
 
@@ -87,8 +87,9 @@
   left: 0px;
   right: 0px;
   text-align: center;
-  color: #777777;
+  color: #ffffff;
   line-height: 30px;
+  font-weight: bold;
 }
 
 .header-in-timeline {

@@ -61,7 +61,7 @@ class AgendaItemInTimeline extends React.Component {
       </div>
       <div styleName="content-container">
         <div styleName="title-container">
-          <i styleName='agenda-item-icon'></i>
+          <img className="pull-left" style={{ marginRight: '5px', marginTop: '3px'}} height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/agenda-item-icon-gray.png"}></img>
           <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} />
         </div>
         <div styleName="status-container">

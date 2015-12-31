@@ -15,8 +15,9 @@
 }
 
 .title-container {
-  font-weight: bold;
   padding-right: 80px;
+  font-weight: 600;
+  color : #89949E;
 }
 
 .content-container {
