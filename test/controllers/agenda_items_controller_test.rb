@@ -47,5 +47,12 @@ describe AgendaItemsController do
       agenda_item = JSON.parse(response.body)
       assert_equal true, agenda_item['data']['attributes']['archived']
     end
+
+    it 'should freeze archived agenda items' do
+      patch :update, id: @agenda_item.id, agenda_item: { archived: true }
+      expect {
+        patch :update, id: @agenda_item.id, agenda_item: { title: 'changed title' }
+      }.must_raise ActiveRecord::RecordNotFound
+    end
   end
 end
