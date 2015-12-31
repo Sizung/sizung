@@ -42,7 +42,6 @@ describe AgendaItemsController do
       patch :update, id: @agenda_item.id, agenda_item: { archived: true }
 
       assert_response :success
-
       expect(@agenda_item.reload).must_be :archived?
 
       agenda_item = JSON.parse(response.body)

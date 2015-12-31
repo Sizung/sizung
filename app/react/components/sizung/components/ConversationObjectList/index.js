@@ -36,7 +36,7 @@ class ConversationObjectList extends Component {
     }
   }
 
-  prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, parent, currentUser) {
+  prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, parent, currentUser) {
     if(conversationObjects) {
       var _this = this;
       return conversationObjects.map(function(conversationObject) {
@@ -53,7 +53,7 @@ class ConversationObjectList extends Component {
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable} selectDeliverable={selectDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>
+          return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable} selectDeliverable={selectDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>
         }
         else {
           console.log('Component not found for conversationObject: ', conversationObject);
@@ -154,11 +154,11 @@ class ConversationObjectList extends Component {
 
   renderConversationTimeLine() {
     const { currentConversation, conversationObjects, createComment, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
-        createDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
+        createDeliverable, archiveDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
         canCreateDeliverable, selectAgendaItem, selectDeliverable, users } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent, commentForm.currentUser);
+    var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, selectAgendaItem, selectDeliverable, commentForm.parent, commentForm.currentUser);
 
     var conversationTimelineHeader = "";
     this.isTimelineHeader = false;
@@ -188,6 +188,7 @@ class ConversationObjectList extends Component {
               </Button>
             </div>
             <DeliverableInTimeline deliverable={this.props.commentForm.parent}
+                                   archiveDeliverable={archiveDeliverable}
                                    updateDeliverable={this.props.updateDeliverable}
                                    isTimelineHeader={this.isTimelineHeader}/>
           </div>);

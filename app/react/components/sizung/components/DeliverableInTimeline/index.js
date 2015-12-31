@@ -17,13 +17,15 @@ class DeliverableInTimeline extends React.Component {
   constructor() {
     super();
 
-    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
-    this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
-    this.handleDueOnUpdate = this.handleDueOnUpdate.bind(this);
-    this.handleAssigneeUpdate = this.handleAssigneeUpdate.bind(this);
+    this.renderActionButtons    = this.renderActionButtons.bind(this);
+    this.handleArchive          = this.handleArchive.bind(this);
+    this.handleTitleUpdate      = this.handleTitleUpdate.bind(this);
+    this.handleStatusUpdate     = this.handleStatusUpdate.bind(this);
+    this.handleDueOnUpdate      = this.handleDueOnUpdate.bind(this);
+    this.handleAssigneeUpdate   = this.handleAssigneeUpdate.bind(this);
     this.handleAgendaItemUpdate = this.handleAgendaItemUpdate.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.handleDeleteClick = (e) => {
+    this.handleSelect           = this.handleSelect.bind(this);
+    this.handleDeleteClick      = (e) => {
       e.preventDefault();
       this.props.deleteComment(this.props.id);
     }
@@ -49,6 +51,11 @@ class DeliverableInTimeline extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, {agenda_item_id: newAgendaItemId});
   }
 
+  handleArchive(e) {
+    e.preventDefault();
+    this.props.archiveDeliverable(this.props.deliverable.id);
+  }
+
   handleSelect(e) {
     e.preventDefault();
     this.props.selectDeliverable(
@@ -58,14 +65,24 @@ class DeliverableInTimeline extends React.Component {
     );
   }
 
-  render() {
-    const { deliverable } = this.props;
-    const { owner, assignee, agendaItem } = deliverable;
-
+  renderActionButtons() {
     var discussOptionStyle = "discuss-link";
     if ( null != this.props.isTimelineHeader ) {
       discussOptionStyle = ( this.props.isTimelineHeader ? "discuss-link-hide" : "discuss-link");
     }
+
+    return (
+      <span>
+        <span styleName='discuss-link'><a href="#" className='btn btn-xs btn-default' onClick={this.handleArchive}>archive</a></span>
+        <span styleName={discussOptionStyle}><a href="#" className='btn btn-xs btn-default' onClick={this.handleSelect}>discuss</a></span>
+      </span>
+    )
+  }
+
+  render() {
+    const { deliverable } = this.props;
+    const { owner, assignee, agendaItem, archived } = deliverable;
+
     return  <div styleName='root'>
         <div styleName='user-container'>
           <User user={owner} />
@@ -99,7 +116,7 @@ class DeliverableInTimeline extends React.Component {
         </div>
         <div styleName="time-container">
           <small><Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
-          <span styleName={discussOptionStyle}><a href="#" className="btn btn-xs btn-default" onClick={this.handleSelect}>discuss</a></span>
+          { archived ? '' : this.renderActionButtons() }
         </div>
       </div>
   }
