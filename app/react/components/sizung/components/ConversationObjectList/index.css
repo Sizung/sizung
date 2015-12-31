@@ -170,6 +170,7 @@
   text-overflow: ellipsis;
   word-wrap: break-word;
   white-space: nowrap;
+  font-weight: bold;
   /*font-size: larger;*/
 }
 

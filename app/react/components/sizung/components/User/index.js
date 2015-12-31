@@ -16,7 +16,7 @@ class User extends React.Component {
   render() {
     const {style, showName, showEmail} = this.props;
     let { email, presenceStatus, firstName, lastName } = this.props.user;
-    const initials = (firstName && lastName) ? firstName.charAt(0) + lastName.charAt(0) : email.charAt(0);
+    const initials = (firstName && lastName) ? firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase() : email.charAt(0).toUpperCase();
     const onlineState = presenceStatus === 'online' ? '-online' : '';
     var size = ( this.validSizes.indexOf(this.props.size) == -1 ) ? this.validSizes[0] : this.props.size ;
     const name = showName ? <span styleName="name">{firstName + ' ' + lastName}</span> : '';

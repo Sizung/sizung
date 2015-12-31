@@ -292,7 +292,7 @@ class ConversationObjectList extends Component {
       <div styleName='list-header' ref='conversationHeader'>
         <div styleName="conversation-title-container">
           <h5 styleName='conversation-title'>
-            <i styleName='comments-icon'></i>{" Chat " + chatType}
+            <i styleName='comments-icon'></i>{" CHAT " + chatType}
           </h5>
         </div>
 

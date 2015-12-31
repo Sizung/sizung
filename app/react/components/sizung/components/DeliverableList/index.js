@@ -44,7 +44,7 @@ class DeliverableList extends Component {
     return (
       <div styleName='root'>
         <div styleName='header'>
-          <h5 style={{margin: '5px'}}><i className='fa fa-tasks'></i>{" "}Deliverables</h5>
+          <h5 style={{margin: '5px', fontWeight: 'bold'}}><i className='fa fa-tasks'></i>{" "}DELIVERABLES</h5>
         </div>
         <div ref='deliverableList' styleName='list'>
           {

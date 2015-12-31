@@ -45,7 +45,7 @@ class AgendaItemList extends Component {
     return (
       <div styleName='root'>
         <div styleName='header'>
-          <h5 style={{margin: '5px'}}><i className="fa fa-tag"></i>{" "}Agenda</h5>
+          <h5 style={{margin: '5px', fontWeight: 'bold'}}><i className="fa fa-tag"></i>{" "}AGENDA</h5>
         </div>
         <div ref='agendaItemList' styleName='list'>
           {
