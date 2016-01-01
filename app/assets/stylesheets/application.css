@@ -261,19 +261,22 @@ html, body {
   /*max-height: 50px;*/
 }
 
-.navbar-nav li a.user-dropdown {
+.nav li a.user-dropdown {
   padding: 10px;
+  background-color: transparent !important;
 }
 
-.navbar-nav li a.organization-dropdown {
+.nav li a.organization-dropdown {
+  color: #ffffff;
+  padding: 15px;
+  background-color: transparent !important;
+}
+
+.nav li#login-nav a {
   color: #ffffff;
 }
 
-.navbar-nav li#login-nav a {
-  color: #ffffff;
-}
-
-.navbar-nav li#signup-nav a {
+.nav li#signup-nav a {
   color: #ffffff;
 }
 
