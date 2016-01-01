@@ -61,7 +61,7 @@
 
 - deliverables = deliverables.select(&:due_on).sort_by(&:due_on) + deliverables.reject(&:due_on)
 
-- if deliverables.size > 0
+- if deliverables.select{ |deliverable| deliverable.assignee[:id] === current_user.id }.size > 0
   .hidden-xs.col-sm-6#deliverable-column
     .row
       %h4.deliverable-index-header.col-xs-6.col-sm-12.white-color
