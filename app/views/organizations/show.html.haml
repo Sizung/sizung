@@ -1,4 +1,4 @@
-%h3.conversation-index-header.hover-container
+%h3.organization-index-header.hover-container.white-color
   = @organization
   .hover-display-inline
     %small
@@ -11,24 +11,24 @@
 
 - deliverables = []
 .col-xs-12.col-sm-6#conversation-column
-  %h4.conversation-index-header
-    %i.fa.fa-comments
+  %h4.conversation-index-header.white-color
+    %img{ src: "/icons/conversation-icon-white.png", height: '30px'}
     Conversations
 
-    .organization-action.pull-right.hidden-xs
-      = link_to new_organization_conversation_path(@organization) do
+    .organization-action.pull-right.hidden-xs.white-color
+      = link_to new_organization_conversation_path(@organization), class: 'white-color' do
         %i.fa.fa-plus
         Add Conversation
 
-  %h5.conversation-index-header.row.visible-xs
+  %h5.conversation-index-header.row.visible-xs.white-color
     .col-xs-12
       .pull-left
-        = link_to new_organization_conversation_path(@organization) do
+        = link_to new_organization_conversation_path(@organization), class: 'white-color' do
           %i.fa.fa-plus
           Add Conversation
       .pull-right
-        %a#deliverables-link
-          %i.fa.fa-tasks
+        %a#deliverables-link.white-color
+          %img{ src: "/icons/deliverable-icon-white.png", height: '10px', style: 'margin: 5px;'}
           deliverables
           %i.fa.fa-chevron-right
 
@@ -63,16 +63,16 @@
 
 .hidden-xs.col-sm-6#deliverable-column
   .row
-    %h4.deliverable-index-header.col-xs-6.col-sm-12
-      %i.fa.fa-tasks
+    %h4.deliverable-index-header.col-xs-6.col-sm-12.white-color
+      %img{ src: "/icons/deliverable-icon-white.png", height: '20px', style: 'margin: 5px;'}
       My Deliverables
 
-    %h5.col-xs-6.conversations-link.visible-xs
+    %h5.col-xs-6.conversations-link.visible-xs.white-color
       .pull-right
-        %a#conversations-link
+        %a#conversations-link.white-color{ style: 'padding-top: 10px;'}
           %i.fa.fa-chevron-left
           conversations
-          %i.fa.fa-comments
+          %img{ src: "/icons/conversation-icon-white.png", height: '20px'}
 
 
   - deliverables.each do |deliverable|

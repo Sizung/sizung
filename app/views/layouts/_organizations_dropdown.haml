@@ -1,6 +1,6 @@
-%ul.nav.navbar-nav
+%ul.nav.navbar-nav.dropdown-container
   %li.dropdown
-    %a.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button',  aria_haspopup: 'true',  aria_expanded: 'false'}
+    %a.organization-dropdown.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button',  aria_haspopup: 'true',  aria_expanded: 'false'}
       = @organization.try(:persisted?) ? @organization.name : 'Organizations'
       %span.caret
     %ul.dropdown-menu
