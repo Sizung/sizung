@@ -15,6 +15,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
+  color : #89949E;
 }
 
 .user-title-normal {
@@ -30,11 +31,13 @@
 }
 
 .circle-badge {
+  composes: blue-background from '../../styles/theme.css';
   display: inline-block;
   border-radius: 50%/50%;
-  background-color: #eeeeee;
+  background-color: #ffffff;
   text-align: center;
-  color: #777777;
+  color: #57C1E8;
+  border: 1px solid #57C1E8;
 }
 
 
@@ -56,16 +59,24 @@
 
 .circle-badge-online {
   composes: circle-badge;
-  color: #7B7;
+  background-color: #57C1E8;
+  opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
 }
-
 
 .circle-badge-normal-online {
   composes: circle-badge-normal;
-  color: #7B7;
+  background-color: #57C1E8;
+  opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
 }
 
 .circle-badge-large-online {
   composes: circle-badge-large;
-  color: #7B7;
+  background-color: #57C1E8;
+  opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
 }

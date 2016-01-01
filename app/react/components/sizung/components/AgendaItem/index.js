@@ -42,12 +42,13 @@ class AgendaItem extends React.Component {
 
   render() {
     const {agendaItem, selected} = this.props;
-
+    const baseUrl = window.location.protocol + "//" + window.location.host;
+    const chatIconImage = baseUrl + ( selected ?  "/icons/chat-icon-white.png" : "/icons/chat-icon-gray.png");
+    const deliverableIconImage = baseUrl + ( selected ? "/icons/deliverable-icon-white.png" : "/icons/deliverable-icon-gray.png");
     var styleName = 'default';
     if(selected === true) {
       styleName = 'selected';
     }
-
     return (
       <div styleName='root'>
         {this.renderUnseenBadge(agendaItem.unseenCount, selected)}
@@ -61,11 +62,14 @@ class AgendaItem extends React.Component {
             </div>
           </div>
           <div styleName='bottom-row'>
-              <i styleName='comments-icon'>{" "}<small>{agendaItem.commentsCount}</small></i>
-              <i styleName='deliverables-icon'>{" "}<small>{agendaItem.deliverablesCount}</small></i>
-            <div className='pull-right'>
-              <User user={this.props.agendaItem.owner}/>
-            </div>
+              <span style={{ marginRight: '10px'}} >
+                <img height='15px' src={chatIconImage}></img>
+                {" "}<small>{agendaItem.commentsCount}</small>
+              </span>
+              <span>
+                <img height='15px' src={deliverableIconImage}></img>
+                {" "}<small>{agendaItem.deliverablesCount}</small>
+              </span>
           </div>
         </div>
       </div>

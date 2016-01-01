@@ -14,9 +14,9 @@ class User extends React.Component {
   }
 
   render() {
-    const {style, showName, showEmail} = this.props;
+    const {style, showName, showEmail, innerStyle} = this.props;
     let { email, presenceStatus, firstName, lastName } = this.props.user;
-    const initials = (firstName && lastName) ? firstName.charAt(0) + lastName.charAt(0) : email.charAt(0);
+    const initials = (firstName && lastName) ? firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase() : email.charAt(0).toUpperCase();
     const onlineState = presenceStatus === 'online' ? '-online' : '';
     var size = ( this.validSizes.indexOf(this.props.size) == -1 ) ? this.validSizes[0] : this.props.size ;
     const name = showName ? <span styleName="name">{firstName + ' ' + lastName}</span> : '';
@@ -24,7 +24,7 @@ class User extends React.Component {
 
     return (
       <div styleName='root' title={email} style={style}>
-        <div styleName={'circle-badge-' + size + onlineState}>
+        <div styleName={'circle-badge-' + size + onlineState} style={innerStyle}>
           {initials}
         </div>
         <div styleName={'user-title-' + size} >
@@ -46,7 +46,8 @@ User.propTypes = {
   size: PropTypes.string.isRequired,
   showName: PropTypes.bool,
   showEmail: PropTypes.bool,
-  style: PropTypes.object
+  style: PropTypes.object,
+  innerStyle: PropTypes.object,
 };
 
 User.defaultProps = {
@@ -59,7 +60,8 @@ User.defaultProps = {
   size: "normal",
   showName: false,
   showEmail: false,
-  style: {}
+  style: {},
+  innerStyle: {}
 };
 
 export default User;

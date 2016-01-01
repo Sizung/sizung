@@ -6,16 +6,16 @@
   display: inline;
   position: absolute;
   z-index: 100;
-  top: -5px;
-  right: -5px;
-  width: 20px;
-  height: 20px;
+  top: 3px;
+  right: 3px;
+  width: 6px;
+  height: 6px;
 
   -webkit-border-radius: 50%/50%;
   -moz-border-radius: 50%/50%;
   border-radius: 50%/50%;
 
-  background-color: #ff2222;
+  background-color: #F37E6F;
   font-size: smaller;
   line-height: 20px;
   text-align: center;

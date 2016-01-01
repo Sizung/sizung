@@ -11,6 +11,7 @@
 
 .selected {
   composes: fa fa-check fa-lg from global;
+  color : #89949E;
 }
 
 .unselected {

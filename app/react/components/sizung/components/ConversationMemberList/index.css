@@ -21,10 +21,12 @@
 
 .conversation-member-title {
   float: left;
+  color : #89949E;
 }
 
 .close-button-container {
   float: right;
+  color : #89949E;
 }
 
 .close-button {
@@ -55,4 +57,5 @@
 
 .organization-member-title {
   float: left;
+  color : #89949E;
 }

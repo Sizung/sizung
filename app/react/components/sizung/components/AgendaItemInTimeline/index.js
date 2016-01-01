@@ -55,20 +55,23 @@ class AgendaItemInTimeline extends React.Component {
     const { agendaItem } = this.props;
     const { title, status, owner, archived } = agendaItem;
 
+    const timeStyle = ( this.props.isTimelineHeader ? "time-container-inverse" : "time-container");
+    const userStyle = ( this.props.isTimelineHeader ? {border:'1px solid #ffffff'} : {});
+
     return  <div styleName='root'>
       <div styleName='user-container'>
-        <User user={owner} />
+        <User user={owner} innerStyle={userStyle}/>
       </div>
       <div styleName="content-container">
         <div styleName="title-container">
-          <i styleName='agenda-item-icon'></i>
+          <img className="pull-left" style={{ marginRight: '5px', marginTop: '3px'}} height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/agenda-item-icon-gray.png"}></img>
           <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} />
         </div>
         <div styleName="status-container">
           <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
         </div>
       </div>
-      <div styleName="time-container">
+      <div styleName={timeStyle}>
         <small>
           <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
           { archived ? ' (archived)' : '' }

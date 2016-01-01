@@ -8,7 +8,7 @@
 .list-header {
   width: 100%;
   height: 45px;
-  padding: 0px 15px;
+  padding: 0px 10px;
 }
 
 .comments-icon {
@@ -25,9 +25,9 @@
   overflow-y:auto;
   overflow-x: hidden;
 
-  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  box-shadow: 0px 0px 5px 0px #aaaaaa;
+  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
 
   border: 0px solid #ffffff;
   border-top-width: 5px;
@@ -49,8 +49,8 @@
 
 .member-dropdown-container {
   position: absolute;
-  right: 15px;
-  top: 6px;
+  right: 0px;
+  top: 10px;
 }
 
 .loading-message {
@@ -74,9 +74,9 @@
 .member-badge {
   position: relative;
   border-radius: 50%/50%;
-  background-color: #ffffff;
-  width: 30px;
-  height: 30px;
+  background-color: transparent;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 }
 
@@ -87,8 +87,9 @@
   left: 0px;
   right: 0px;
   text-align: center;
-  color: #777777;
+  color: #ffffff;
   line-height: 30px;
+  font-weight: bold;
 }
 
 .header-in-timeline {
@@ -99,21 +100,22 @@
   left: 0px;
   background: #ffffff;
 
-  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  box-shadow: 0px 0px 5px 0px #aaaaaa;
+  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
 
-  border: 5px solid #ffffff;
+  /*border: 5px solid #ffffff;*/
 }
+
 
 .agenda-item-header-in-timeline {
   composes: header-in-timeline;
-  background-color: #87cefa;
+  background-color: #57C1E8;
 }
 
 .deliverable-header-in-timeline {
   composes: header-in-timeline;
-  background-color: #99cc99;
+  background-color: #505964;
 }
 
 
@@ -170,6 +172,7 @@
   text-overflow: ellipsis;
   word-wrap: break-word;
   white-space: nowrap;
+  font-weight: bold;
   /*font-size: larger;*/
 }
 
@@ -183,9 +186,9 @@
   overflow-y:auto;
   overflow-x: hidden;
 
-  -webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  -moz-box-shadow: 0px 0px 5px 0px #aaaaaa;
-  box-shadow: 0px 0px 5px 0px #aaaaaa;
+  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
 
   border: 0px solid #ffffff;
   border-top-width: 5px;

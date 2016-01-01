@@ -62,7 +62,9 @@ class NavigationHeader extends Component {
                   <h5 title={currentConversation.title} styleName='conversation-title' >
                       <a href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
                         <i styleName='conversation-close-icon'></i>
-                      </a>{" " + currentConversation.title}
+                      </a>{" "}
+                      <img src={window.location.protocol + "//" + window.location.host + "/icons/conversation-icon-white.png"}></img>
+                      {" " + currentConversation.title}
                   </h5>
             </div>
             <div styleName='user-dropdown-container'>

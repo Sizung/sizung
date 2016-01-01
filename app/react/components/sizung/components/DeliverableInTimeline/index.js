@@ -91,7 +91,7 @@ class DeliverableInTimeline extends React.Component {
           <div styleName="row">
             <div styleName="full-width">
               <div styleName="title-container">
-                <i styleName='deliverable-icon'></i>
+                <img style={{ marginRight: '5px', marginTop: '3px', float: 'left', clear: 'right'}} height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/deliverable-icon-gray.png"}></img>
                 <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} />
               </div>
               <div styleName="status-container">

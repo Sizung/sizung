@@ -1,8 +1,9 @@
 .root {
   composes: navbar navbar-inverse navbar-static-top zero-vertical-margin from global;
-  background-color: #326273;
+  composes: nav-background from '../../styles/theme.css' !important;
   color: #ffffff;
   max-height: 50px;
+  border-width: 0px;
 }
 
 .main-container {
@@ -30,7 +31,7 @@
 }
 
 .organisation-dropdown-nav li a.organisation-dropdown{
-  background-color: #326273 !important;
+
 }
 
 .organisation-dropdown-nav li a.organisation-dropdown:hover{
@@ -69,7 +70,7 @@
   height: 100%
 }
 .user-dropdown-nav li a.user-dropdown{
-  background-color: #326273 !important;
+
 }
 
 .user-dropdown-nav li a.user-dropdown:hover{
@@ -86,10 +87,12 @@
 
 .user-dropdown {
   composes: nav-dropdown;
+  composes: nav-background from '../../styles/theme.css' !important;
 }
 
 .organisation-dropdown {
   composes: nav-dropdown;
+  composes: nav-background from '../../styles/theme.css' !important;
 }
 
 
