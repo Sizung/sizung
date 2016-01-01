@@ -97,7 +97,8 @@
             - user = deliverable.assignee
             = react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name}}, {prerender: true})
           .deliverable-agenda-item-title
-            = '# ' + deliverable.agenda_item.title
+            %img{ src: "/icons/agenda-item-icon-gray.png", height: '12px', style: 'margin: 5px;'}
+            = deliverable.agenda_item.title
 
 %script{:type => "text/javascript"}
   :plain

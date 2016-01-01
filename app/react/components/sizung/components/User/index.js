@@ -60,7 +60,8 @@ User.defaultProps = {
   size: "normal",
   showName: false,
   showEmail: false,
-  style: {}
+  style: {},
+  innerStyle: {}
 };
 
 export default User;
