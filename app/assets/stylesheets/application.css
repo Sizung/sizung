@@ -16,7 +16,9 @@
  */
 html, body {
   height: 100%;
-  width: 100%
+  width: 100%;
+  font-family: 'Open Sans';
+
 }
 
 .gray-bg {
@@ -236,4 +238,68 @@ html, body {
 
 .borderless {
     border: none;
+}
+
+.nav-background {
+  background : -moz-linear-gradient(50% 15.89% -90deg,rgba(34, 31, 31, 1) 0%,rgba(57, 129, 155, 1) 100%) !important;
+  background : -webkit-linear-gradient(-90deg, rgba(34, 31, 31, 1) 0%, rgba(57, 129, 155, 1) 100%) !important;
+  background : -webkit-gradient(linear,50% 15.89% ,50% 352.94% ,color-stop(0,rgba(34, 31, 31, 1) ),color-stop(1,rgba(57, 129, 155, 1) )) !important;
+  background : -o-linear-gradient(-90deg, rgba(34, 31, 31, 1) 0%, rgba(57, 129, 155, 1) 100%) !important;
+  background : -ms-linear-gradient(-90deg, rgba(34, 31, 31, 1) 0%, rgba(57, 129, 155, 1) 100%) !important;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#221F1F', endColorstr='#39819B' ,GradientType=0)";
+  background : linear-gradient(180deg, rgba(34, 31, 31, 1) 0%, rgba(57, 129, 155, 1) 100%) !important;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#221F1F',endColorstr='#39819B' , GradientType=0) !important;
+  color: #ffffff;
+  border-width: 0px;
+}
+
+.blue-background {
+  background : #57C1E8;
+}
+
+.dropdown-container {
+  /*max-height: 50px;*/
+}
+
+.nav li a.user-dropdown {
+  padding: 10px;
+  background-color: transparent !important;
+}
+
+.nav li a.organization-dropdown {
+  color: #ffffff;
+  padding: 15px;
+  background-color: transparent !important;
+}
+
+.nav li#login-nav a {
+  color: #ffffff;
+}
+
+.nav li#signup-nav a {
+  color: #ffffff;
+}
+
+.gradient-bg {
+  opacity: 0.9;
+  background : -moz-linear-gradient(50% 15.98% -90deg,rgba(183, 185, 187, 1) 0%, rgb(59, 127, 153) 100%);
+  background : -webkit-linear-gradient(-90deg, rgba(183, 185, 187, 1) 0%,  rgb(59, 127, 153) 100%);
+  background : -webkit-gradient(linear,50% 15.98% ,50% 110.11% ,color-stop(0,rgba(183, 185, 187, 1) ),color-stop(1, rgb(59, 127, 153) ));
+  background : -o-linear-gradient(-90deg, rgba(183, 185, 187, 1) 0%,  rgb(59, 127, 153) 100%);
+  background : -ms-linear-gradient(-90deg, rgba(183, 185, 187, 1) 0%,  rgb(59, 127, 153) 100%);
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#B7B9BB', endColorstr='#3B7F99' ,GradientType=0)";
+  background : linear-gradient(180deg, rgba(183, 185, 187, 1) 0%,  rgb(59, 127, 153)100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B7B9BB',endColorstr='#3B7F99' , GradientType=0);
+}
+
+.white-color {
+  color: #ffffff;
+}
+
+.app-body {
+  padding: 0px 10px;
+}
+
+.simple_form .hint {
+  color: yellow;
 }

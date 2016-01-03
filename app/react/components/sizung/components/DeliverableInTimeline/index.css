@@ -23,8 +23,11 @@
 }
 
 .title-container {
-  font-weight: bold;
   padding-right: 80px;
+  font-weight: 600;
+  color : #89949E;
+  text-align: left;
+  /*overflow: hidden;*/
 }
 
 .content-container {
@@ -56,6 +59,7 @@
 
 .meta-content {
   composes: col-xs-12 col-md-4 from global;
+  color : #89949E;
 }
 
 .meta-content:last-of-type {
@@ -67,8 +71,8 @@
 }
 
 .time-container {
-  composes: text-muted from global;
   margin: 5px 0 5px 60px;
+  color : #9aa5af;
 }
 
 .discuss-link {

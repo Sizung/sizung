@@ -6,24 +6,21 @@
 .default {
   composes: card from '../../styles/modules/card.css';
   composes: hover-container from '../../styles/modules/hover.css';
-  -webkit-box-shadow: 0px 0px 5px 0px #99cc99;
-  -moz-box-shadow: 0px 0px 5px 0px #99cc99;
-  box-shadow: 0px 0px 5px 0px #99cc99;
 }
+
 .selected {
   composes: default;
   composes: hover-container from '../../styles/modules/hover.css';
-  background-color: #99cc99;
+  background-color: #505964;
   color: #FFFFFF;
-  border: 5px solid #ffffff;
-
+  /*border: 5px solid #ffffff;*/
 }
 
 .row {
   position: relative;
   max-width: 100%;
-  min-height: 2em;
-  margin-bottom: 0.5em;
+  min-height: 1em;
+  margin-bottom: 1em;
 }
 
 .content-container {
@@ -39,6 +36,7 @@
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+  font-weight: 600;
 
 }
 
@@ -58,9 +56,12 @@
 }
 
 .due-on {
-  composes: label label-info pull-right from global;
+  composes: pull-right from global;
   padding: 5px;
   margin-top: 5px;
+  font-size: smaller;
+  font-weight: 600;
+  color: #57C1E8;
 }
 
 .agenda-title-container {
@@ -86,7 +87,7 @@
 
 .details-row1 {
   composes: col-xs-12 from global;
-  padding: 0px 10px;
+  padding: 0px 10px 5px 10px;
 }
 
 .details-row2 {

@@ -1,4 +1,4 @@
-%h3.conversation-index-header.hover-container
+%h3.organization-index-header.hover-container.white-color
   = @organization
   .hover-display-inline
     %small
@@ -11,24 +11,24 @@
 
 - deliverables = []
 .col-xs-12.col-sm-6#conversation-column
-  %h4.conversation-index-header
-    %i.fa.fa-comments
+  %h4.conversation-index-header.white-color
+    %img{ src: "/icons/conversation-icon-white.png", height: '30px'}
     Conversations
 
-    .organization-action.pull-right.hidden-xs
-      = link_to new_organization_conversation_path(@organization) do
+    .organization-action.pull-right.hidden-xs.white-color
+      = link_to new_organization_conversation_path(@organization), class: 'white-color' do
         %i.fa.fa-plus
         Add Conversation
 
-  %h5.conversation-index-header.row.visible-xs
+  %h5.conversation-index-header.row.visible-xs.white-color
     .col-xs-12
       .pull-left
-        = link_to new_organization_conversation_path(@organization) do
+        = link_to new_organization_conversation_path(@organization), class: 'white-color' do
           %i.fa.fa-plus
           Add Conversation
       .pull-right
-        %a#deliverables-link
-          %i.fa.fa-tasks
+        %a#deliverables-link.white-color
+          %img{ src: "/icons/deliverable-icon-white.png", height: '10px', style: 'margin: 5px;'}
           deliverables
           %i.fa.fa-chevron-right
 
@@ -61,52 +61,56 @@
 
 - deliverables = deliverables.select(&:due_on).sort_by(&:due_on) + deliverables.reject(&:due_on)
 
-.hidden-xs.col-sm-6#deliverable-column
-  .row
-    %h4.deliverable-index-header.col-xs-6.col-sm-12
-      %i.fa.fa-tasks
-      My Deliverables
+- if deliverables.select{ |deliverable| deliverable.assignee[:id] === current_user.id }.size > 0
+  .hidden-xs.col-sm-6#deliverable-column
+    .row
+      %h4.deliverable-index-header.col-xs-6.col-sm-12.white-color
+        %img{ src: "/icons/deliverable-icon-white.png", height: '20px', style: 'margin: 5px;'}
+        My Deliverables
 
-    %h5.col-xs-6.conversations-link.visible-xs
-      .pull-right
-        %a#conversations-link
-          %i.fa.fa-chevron-left
-          conversations
-          %i.fa.fa-comments
+      %h5.col-xs-6.conversations-link.visible-xs.white-color
+        .pull-right
+          %a#conversations-link.white-color{ style: 'padding-top: 10px;'}
+            %i.fa.fa-chevron-left
+            conversations
+            %img{ src: "/icons/conversation-icon-white.png", height: '20px'}
 
 
-  - deliverables.each do |deliverable|
-    - if deliverable and ( deliverable.assignee.id === current_user.id )
-      .deliverable.row
-        .deliverable-header.col-xs-12
-          .deliverable-due-date.pull-right
-            - if ( deliverable.due_on )
-              - if ( deliverable.due_on <= Time.new )
-                %span.label.label-danger
-                  = deliverable.due_on
+    - deliverables.each do |deliverable|
+      - if deliverable and ( deliverable.assignee.id === current_user.id )
+        .deliverable.row
+          .deliverable-header.col-xs-12
+            .deliverable-due-date.pull-right
+              - if ( deliverable.due_on )
+                - if ( deliverable.due_on <= Time.new )
+                  %span.label.label-danger
+                    = deliverable.due_on
+                - else
+                  %span.label.label-info
+                    = deliverable.due_on
               - else
-                %span.label.label-info
-                  = deliverable.due_on
-            - else
-              = deliverable.due_on
-          .deliverable-title.pull-left
-            = link_to deliverable.title, "/conversations/#{deliverable.conversation.id}/agenda_items/#{deliverable.agenda_item.id}/deliverables/#{deliverable.id}", { data: { no_turbolink: true } }
+                = deliverable.due_on
+            .deliverable-title.pull-left
+              = link_to deliverable.title, "/conversations/#{deliverable.conversation.id}/agenda_items/#{deliverable.agenda_item.id}/deliverables/#{deliverable.id}", { data: { no_turbolink: true } }
 
-        .deliverable-object.col-xs-12
-          .deliverable-assignee
-            - user = deliverable.assignee
-            = react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name}}, {prerender: true})
-          .deliverable-agenda-item-title
-            = '# ' + deliverable.agenda_item.title
+          .deliverable-object.col-xs-12
+            .deliverable-assignee
+              - user = deliverable.assignee
+              = react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name}}, {prerender: true})
+            .deliverable-agenda-item-title
+              %img{ src: "/icons/agenda-item-icon-gray.png", height: '12px', style: 'margin: 5px;'}
+              = deliverable.agenda_item.title
 
 %script{:type => "text/javascript"}
   :plain
     $('#deliverables-link').on(
         'click', function() {
+        if ( $('#deliverable-column').length > 0 ) {
           $('#conversation-column').removeClass('col-xs-12');
           $('#conversation-column').addClass('hidden-xs');
           $('#deliverable-column').addClass('col-xs-12');
           $('#deliverable-column').removeClass('hidden-xs');
+          }
     });
     $('#conversations-link').on(
         'click', function() {

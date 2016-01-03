@@ -2,8 +2,12 @@
 
 .conversation-index-header {
   margin-bottom: 1em;
+  font-weight: 600;
 }
 
+.conversation-index-header.a {
+  color: #ffffff;
+}
 .conversation {
   @extend .card;
 }
@@ -25,10 +29,8 @@
 
 .conversation-title {
   display: inline;
-  font-weight: bold;
+  font-weight: 600;
   font-size: 1.3em;
-
-
 }
 
 .conversation:hover .conversation-actions {
@@ -82,6 +84,6 @@
 }
 
 .conversations-link {
-  height: 20px;
-  line-height: 20px;
+  height: 30px;
+  line-height: 30px;
 }

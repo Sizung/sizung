@@ -44,7 +44,7 @@ class DeliverableList extends Component {
     return (
       <div styleName='root'>
         <div styleName='header'>
-          <h5 style={{margin: '5px'}}><i className='fa fa-tasks'></i>{" "}Deliverables</h5>
+          <h5 style={{margin: '5px', fontWeight: 'bold'}}><img className='pull-right' src={window.location.protocol + "//" + window.location.host + "/icons/deliverable-icon-white.png"}></img>DELIVERABLES</h5>
         </div>
         <div ref='deliverableList' styleName='list'>
           {
