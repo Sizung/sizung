@@ -10,9 +10,18 @@ import DeliverableList from './index';
 
 describe ('DeliverableList', () => {
   it('lists one single deliverable', () => {
+    const noop = () => {}
     const props = {
-      deliverables: [{id: '123', title: 'Write the DeliverableLiec.', status: 'open'}]
+      deliverables: new Immutable.List([{
+        id: '123',
+        title: 'Write the DeliverableLiec.',
+        status: 'open',
+        agendaItem: {}
+      }]),
+      selectDeliverable: noop,
+      updateDeliverable: noop
     };
+
     const result = shallow(<DeliverableList {...props} />);
 
     expect(result.contains(<div>Write the DeliverableList spec.</div>)).to.be.true;
