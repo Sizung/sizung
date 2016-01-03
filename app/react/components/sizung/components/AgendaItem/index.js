@@ -35,16 +35,15 @@ class AgendaItem extends React.Component {
   }
 
   renderUnseenBadge(count, selected) {
-    if(!selected) {
+    if(!selected && count && count > 0) {
       return <UnseenBadge count={count} />
     }
   }
 
   render() {
     const {agendaItem, selected} = this.props;
-    const baseUrl = window.location.protocol + "//" + window.location.host;
-    const chatIconImage = baseUrl + ( selected ?  "/icons/chat-icon-white.png" : "/icons/chat-icon-gray.png");
-    const deliverableIconImage = baseUrl + ( selected ? "/icons/deliverable-icon-white.png" : "/icons/deliverable-icon-gray.png");
+    const chatIconImage = selected ?  "/icons/chat-icon-white.png" : "/icons/chat-icon-gray.png";
+    const deliverableIconImage = selected ? "/icons/deliverable-icon-white.png" : "/icons/deliverable-icon-gray.png";
     var styleName = 'default';
     if(selected === true) {
       styleName = 'selected';

@@ -45,7 +45,7 @@ class AgendaItemList extends Component {
     return (
       <div styleName='root'>
         <div styleName='header'>
-          <h5 style={{margin: '5px', fontWeight: 'bold'}}><img className='pull-right' src={window.location.protocol + "//" + window.location.host + "/icons/agenda-item-icon-white.png"}></img>AGENDA</h5>
+          <h5 style={{margin: '5px', fontWeight: 'bold'}}><img className='pull-right' src={"/icons/agenda-item-icon-white.png"}></img>AGENDA</h5>
         </div>
         <div ref='agendaItemList' styleName='list'>
           {
