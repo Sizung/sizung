@@ -7,7 +7,7 @@
 
 import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../utils/MetaTagsManager';
-import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses.js';
+import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from './statuses.js';
 import { transformCommentFromJsonApi } from '../utils/jsonApiUtils.js';
 
 export const CREATE_COMMENT = 'CREATE_COMMENT';
@@ -18,7 +18,7 @@ export function createCommentRemoteOrigin(comment) {
   return {
     type: CREATE_COMMENT,
     status: STATUS_REMOTE_ORIGIN,
-    comment: comment
+    comment,
   };
 }
 
@@ -26,7 +26,7 @@ export function updateCommentRemoteOrigin(comment) {
   return {
     type: UPDATE_COMMENT,
     status: STATUS_REMOTE_ORIGIN,
-    comment: comment
+    comment,
   };
 }
 
@@ -34,7 +34,7 @@ export function deleteCommentRemoteOrigin(comment) {
   return {
     type: DELETE_COMMENT,
     status: STATUS_REMOTE_ORIGIN,
-    comment: comment
+    comment,
   };
 }
 
@@ -42,7 +42,7 @@ export function createCommentSuccess(comment) {
   return {
     type: CREATE_COMMENT,
     status: STATUS_SUCCESS,
-    comment: comment
+    comment,
   };
 }
 
@@ -50,7 +50,7 @@ export function updateCommentSuccess(comment) {
   return {
     type: UPDATE_COMMENT,
     status: STATUS_SUCCESS,
-    comment: comment
+    comment,
   };
 }
 
@@ -60,36 +60,34 @@ export function deleteCommentSuccess(comment) {
   return {
     type: DELETE_COMMENT,
     status: STATUS_SUCCESS,
-    comment: comment
+    comment,
   };
 }
 
 export function createComment(comment) {
   if (comment.commentable_type === 'conversations') {
     comment.commentable_type = 'Conversation';
-  }
-  else if (comment.commentable_type === 'agendaItems') {
+  } else if (comment.commentable_type === 'agendaItems') {
     comment.commentable_type = 'AgendaItem';
-  }
-  else if (comment.commentable_type === 'deliverables') {
+  } else if (comment.commentable_type === 'deliverables') {
     comment.commentable_type = 'Deliverable';
   }
 
-  return function(dispatch) {
+  return (dispatch) => {
     return fetch('/comments', {
       method: 'post',
       credentials: 'include', // send cookies with it
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
+        'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
       },
       body: JSON.stringify({
-        comment: comment
-      })
+        comment,
+      }),
     })
     .then(response => response.json())
-    .then(function(json) {
+    .then((json) => {
       dispatch(createCommentSuccess(transformCommentFromJsonApi(json.data)));
     });
   };
@@ -98,51 +96,49 @@ export function createComment(comment) {
 export function updateComment(comment) {
   if (comment.commentable_type === 'conversations') {
     comment.commentable_type = 'Conversation';
-  }
-  else if (comment.commentable_type === 'agendaItems') {
+  } else if (comment.commentable_type === 'agendaItems') {
     comment.commentable_type = 'AgendaItem';
-  }
-  else if (comment.commentable_type === 'deliverables') {
+  } else if (comment.commentable_type === 'deliverables') {
     comment.commentable_type = 'Deliverable';
   }
 
-  return function(dispatch) {
+  return (dispatch) => {
     return fetch('/comments/' + comment.id, {
       method: 'put',
       credentials: 'include', // send cookies with it
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
+        'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
       },
       body: JSON.stringify({
-        comment: comment
-      })
+        comment,
+      }),
     })
         .then(response => response.json())
-        .then(function(json) {
+        .then((json) => {
           dispatch(updateCommentSuccess(transformCommentFromJsonApi(json.data)));
         });
   };
 }
 
-export function deleteComment(comment_id) {
-  return function(dispatch) {
-    return fetch('/comments/' + comment_id, {
+export function deleteComment(commentId) {
+  return (dispatch) => {
+    return fetch('/comments/' + commentId, {
       method: 'delete',
       credentials: 'include', // send cookies with it
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
-      }}
+        'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
+      } }
     )
     .then(response => response.json())
-    .then(function(json) {
+    .then((json) => {
       dispatch(deleteCommentSuccess(transformCommentFromJsonApi(json.data)));
-      //if(response.status == 200) {
-      //  dispatch(deleteCommentSuccess(response.json()));
-      //}
+      // if(response.status == 200) {
+      //   dispatch(deleteCommentSuccess(response.json()));
+      // }
     });
   };
 }
