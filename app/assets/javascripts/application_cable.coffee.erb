@@ -1,0 +1,4 @@
+#= require cable
+
+@App = {}
+App.cable = Cable.createConsumer '<%=Rails.configuration.x.websockets_protocol %>://' + window.location.host + '/websocket'

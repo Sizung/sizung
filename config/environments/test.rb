@@ -45,4 +45,6 @@ Rails.application.configure do
   # config.after_initialize do
   #   ActiveRecord::Base.logger = nil
   # end
+
+  config.x.websockets_protocol = 'ws'
 end
