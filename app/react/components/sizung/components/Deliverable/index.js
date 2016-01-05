@@ -7,6 +7,7 @@ import User from '../User/index';
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
+import CommentsCounter from '../CommentsCounter';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
@@ -36,7 +37,7 @@ class Deliverable extends React.Component {
   }
 
   renderUnseenBadge(count, selected) {
-    if(!selected) {
+    if(!selected && count && count > 0) {
       return <UnseenBadge count={count} />
     }
   }
@@ -44,9 +45,7 @@ class Deliverable extends React.Component {
   render() {
     const { deliverable, selected } = this.props;
     const { status, title, agendaItem, assignee, dueOn, commentsCount, unseenCount } = deliverable;
-    const baseUrl = window.location.protocol + "//" + window.location.host;
-    const chatIconImage = baseUrl + ( selected ?  "/icons/chat-icon-white.png" : "/icons/chat-icon-gray.png");
-    const agendaItemIconImage = baseUrl + ( selected ? "/icons/agenda-item-icon-white.png" : "/icons/agenda-item-icon-gray.png");
+    const agendaItemIconImage = selected ? "/icons/agenda-item-icon-white.png" : "/icons/agenda-item-icon-gray.png";
 
     var styleName = 'default';
     if(selected === true) {
@@ -76,7 +75,7 @@ class Deliverable extends React.Component {
             </div>
             <div styleName='details-row2'>
               <div styleName="comments-count-container">
-                <img height='15px' src={chatIconImage}></img>{" "}<small>{commentsCount}</small>
+                <CommentsCounter count={commentsCount} inverted={selected} />
               </div>
               <div styleName="agenda-title-container">
                 <img style={{ marginRight: '5px'}} height='15px' src={agendaItemIconImage}></img>{agendaItem.title}

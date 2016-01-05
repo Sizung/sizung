@@ -92,4 +92,6 @@ Rails.application.configure do
   # TODO: This line might get obsolete with the CORS initializer that comes with Rails 5.
   # Let's find out when Rails 5 is released.
   ActionCable.server.config.allowed_request_origins = [ENV['SIZUNG_HOST']]
+
+  config.x.websockets_protocol = 'wss'
 end

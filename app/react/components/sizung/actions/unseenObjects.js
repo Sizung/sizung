@@ -56,3 +56,12 @@ export function createUnseenObjectRemoteOrigin(unseenObject) {
     entity: unseenObject
   };
 }
+
+export function deleteUnseenObjectRemoteOrigin(unseenObject) {
+  return {
+    type: DELETE_UNSEEN_OBJECTS,
+    verb: DELETE,
+    status: STATUS_REMOTE_ORIGIN,
+    entity: unseenObject,
+  };
+}

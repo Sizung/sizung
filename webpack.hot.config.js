@@ -48,6 +48,10 @@ var config = {
                                     "transform": "react-transform-hmr",
                                     "imports": ["react"],
                                     "locals": ["module"]
+                                  },
+                                  {
+                                    transform: "react-transform-catch-errors",
+                                    imports: ["react", "redbox-react"]
                                   }]
                                 }
                             }

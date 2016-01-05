@@ -22,7 +22,7 @@ import {setConversationObjects, fetchConversationObjects} from '../actions/conve
 import {fetchOrganizations, setCurrentOrganization} from '../actions/organizations';
 import {createCommentRemoteOrigin, updateCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
 import {setAgendaItems, createAgendaItemRemoteOrigin, updateAgendaItemRemoteOrigin} from '../actions/agendaItems'
-import {setUnseenObjects, createUnseenObjectRemoteOrigin} from '../actions/unseenObjects';
+import {setUnseenObjects, createUnseenObjectRemoteOrigin, deleteUnseenObjectRemoteOrigin} from '../actions/unseenObjects';
 import {transformUnseenObjectFromJsonApi, transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi, transformOrganizationFromJsonApi, transformConversationMemberFromJsonApi} from '../utils/jsonApiUtils';
 import {setDeliverables, createDeliverableRemoteOrigin, updateDeliverableRemoteOrigin} from '../actions/deliverables'
 import {setUsers, updateUserRemoteOrigin} from '../actions/users'
@@ -87,7 +87,14 @@ export default class ConversationRoot extends Component {
     window.App.userChannel.setOnReceived(function (data) {
       console.log('Activity in userChannel: ', data);
       if (data.payload.data.type === 'unseen_objects') {
-        store.dispatch(createUnseenObjectRemoteOrigin(transformUnseenObjectFromJsonApi(data.payload.data)));
+        console.log('unseen objects: ', data);
+        if (data.action == 'create') {
+          console.log('create: ', data);
+          store.dispatch(createUnseenObjectRemoteOrigin(transformUnseenObjectFromJsonApi(data.payload.data)));
+        } else if (data.action == 'delete') {
+          console.log('delete: ', data);
+          store.dispatch(deleteUnseenObjectRemoteOrigin(transformUnseenObjectFromJsonApi(data.payload.data)));
+        }
       }
       //store.dispatch(updateUserRemoteOrigin(data.user));
     });

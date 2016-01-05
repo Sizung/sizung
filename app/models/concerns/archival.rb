@@ -17,6 +17,7 @@ module Archival
 
     if should_archive
       archive
+      UnseenService.new.remove(self)
     else
       unarchive
     end

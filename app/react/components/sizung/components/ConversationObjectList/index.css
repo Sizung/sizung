@@ -34,6 +34,20 @@
   border-bottom-width: 5px;
 }
 
+.agenda-item-comment-list {
+  composes: list;
+  border: 3px solid #57C1E8;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+
+.deliverable-comment-list {
+  composes: list;
+  border: 3px solid #505964;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+
 .list-footer {
   background-color: #ffffff;
   position: absolute;
@@ -46,6 +60,21 @@
   /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
   /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
 }
+
+.agenda-item-comment-list-footer {
+  composes: list-footer;
+  border: 3px solid #57C1E8;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+
+.deliverable-comment-list-footer {
+  composes: list-footer;
+  border: 3px solid #505964;
+  border-top-width: 0px;
+  border-bottom-width: 0px;
+}
+
 
 .member-dropdown-container {
   position: absolute;
