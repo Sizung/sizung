@@ -170,7 +170,7 @@ export function createAgendaItem(agendaItem) {
         'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
       },
       body: JSON.stringify({
-        agendaItem,
+        agenda_item: agendaItem,
       }),
     })
     .then(response => response.json())
