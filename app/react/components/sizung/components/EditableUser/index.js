@@ -85,9 +85,7 @@ class EditableUser extends React.Component {
     const options = this.filteredOptions(this.state.filter, users).map((user) => {
       return (
         <div style={{lineHeight: '3em'}} onClick={() => this.handleUserClick(user.id)} key={user.id}>
-          <User user={user} style={{display: 'inline-block'}}/>
-          &nbsp;&nbsp;
-          {user.firstName} {user.lastName}
+          <User user={user} style={{display: 'inline-block'}} showName={true}/>
           {this.selectedMarker(selectedUser, user)}
         </div>
       );
