@@ -14,10 +14,11 @@
  *= require_tree .
  *= require_self
  */
+
 html, body {
   height: 100%;
   width: 100%;
-  font-family: 'Open Sans';
+  font-family: 'GothamRnd, OpenSans, Helvetica, Arial';
 
 }
 
@@ -302,4 +303,46 @@ html, body {
 
 .simple_form .hint {
   color: yellow;
+}
+
+/*
+Fonts
+*/
+
+@font-face {
+  font-family: GothamRnd;
+  src: url("/fonts/GothamRnd-Book.otf") format("opentype");
+}
+
+@font-face {
+  font-family: GothamRnd;
+  font-style: italic;
+  src: url("/fonts/GothamRnd-BookItal.otf") format("opentype");
+}
+
+
+@font-face {
+  font-family: GothamRnd;
+  font-weight: 600;
+  src: url("/fonts/GothamRnd-Medium.otf") format("opentype");
+}
+
+@font-face {
+  font-family: GothamRnd;
+  font-weight: 600;
+  font-style: italic;
+  src: url("/fonts/GothamRnd-MedItal.otf") format("opentype");
+}
+
+@font-face {
+  font-family: GothamRnd;
+  font-weight: bold;
+  src: url("/fonts/GothamRnd-Bold.otf") format("opentype");
+}
+
+@font-face {
+  font-family: GothamRnd;
+  font-weight: bold;
+  font-style: italic;
+  src: url("/fonts/GothamRnd-BoldItal.otf") format("opentype");
 }
