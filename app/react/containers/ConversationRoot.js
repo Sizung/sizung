@@ -12,22 +12,17 @@
 
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-import AgendaItemListApp from './AgendaItemListApp';
-import DeliverableListApp from './DeliverableListApp';
-import ConversationObjectListApp from './ConversationObjectListApp';
-import UserListApp from './UserListApp';
 import configureStore from '../store/configureStore';
-import {setCurrentUser} from '../actions/users'
-import {setConversationObjects, fetchConversationObjects} from '../actions/conversationObjects'
-import {fetchOrganizations, setCurrentOrganization} from '../actions/organizations';
-import {createCommentRemoteOrigin, updateCommentRemoteOrigin, deleteCommentRemoteOrigin} from '../actions/comments'
-import {setAgendaItems, createAgendaItemRemoteOrigin, updateAgendaItemRemoteOrigin} from '../actions/agendaItems'
-import {setUnseenObjects, createUnseenObjectRemoteOrigin, deleteUnseenObjectRemoteOrigin} from '../actions/unseenObjects';
-import {transformUnseenObjectFromJsonApi, transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi, transformOrganizationFromJsonApi, transformConversationMemberFromJsonApi} from '../utils/jsonApiUtils';
-import {setDeliverables, createDeliverableRemoteOrigin, updateDeliverableRemoteOrigin} from '../actions/deliverables'
-import {setUsers, updateUserRemoteOrigin} from '../actions/users'
-import {setConversationMembers} from '../actions/conversationMembers';
-import {setCurrentConversation} from '../actions/conversations'
+import { setCurrentUser } from '../actions/users';
+import { fetchConversationObjects } from '../actions/conversationObjects';
+import { fetchOrganizations, setCurrentOrganization } from '../actions/organizations';
+import { setAgendaItems } from '../actions/agendaItems';
+import { setUnseenObjects } from '../actions/unseenObjects';
+import { transformUnseenObjectFromJsonApi, transformOrganizationFromJsonApi, transformConversationMemberFromJsonApi } from '../utils/jsonApiUtils';
+import { setDeliverables } from '../actions/deliverables';
+import { setUsers } from '../actions/users';
+import { setConversationMembers } from '../actions/conversationMembers';
+import { setCurrentConversation } from '../actions/conversations';
 import App from './App/index';
 import AgendaItemApp from './AgendaItemApp';
 import DeliverableApp from './DeliverableApp';
@@ -35,23 +30,22 @@ import ConversationApp from './ConversationApp';
 
 import { Router, Route } from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
-import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
-import Deliverable from '../components/Deliverable/index';
+import { syncReduxAndRouter } from 'redux-simple-router';
+import { setupWebSocket } from '../utils/websocketUtils';
 
 const store = configureStore();
 const history = createBrowserHistory();
 syncReduxAndRouter(history, store, (state) => state.get('routing'));
 
 function transformConversationObjectFromPlainJson(conversationJson) {
-  var obj = {
+  return {
     id: conversationJson.id,
     type: 'conversations',
     title: conversationJson.title,
     organization_id: conversationJson.organization_id,
     created_at: conversationJson.created_at,
-    updated_at: conversationJson.updated_at
-  }
-  return obj;
+    updated_at: conversationJson.updated_at,
+  };
 }
 
 export default class ConversationRoot extends Component {
@@ -69,65 +63,7 @@ export default class ConversationRoot extends Component {
     store.dispatch(setUnseenObjects(this.props.unseenObjects.data.map(transformUnseenObjectFromJsonApi)));
     store.dispatch(fetchConversationObjects('conversations', this.props.currentConversation.id));
     store.dispatch(fetchOrganizations());
-
-    window.App.comments.setOnReceived(function (data) {
-      if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
-        if(data.action == 'create') {
-          store.dispatch(createCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));
-        }
-        else if(data.action == 'update') {
-          store.dispatch(updateCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));
-        }
-        else if(data.action == 'delete') {
-          store.dispatch(deleteCommentRemoteOrigin(transformCommentFromJsonApi(data.payload.data)));
-        }
-      }
-    });
-
-    window.App.userChannel.setOnReceived(function (data) {
-      console.log('Activity in userChannel: ', data);
-      if (data.payload.data.type === 'unseen_objects') {
-        console.log('unseen objects: ', data);
-        if (data.action == 'create') {
-          console.log('create: ', data);
-          store.dispatch(createUnseenObjectRemoteOrigin(transformUnseenObjectFromJsonApi(data.payload.data)));
-        } else if (data.action == 'delete') {
-          console.log('delete: ', data);
-          store.dispatch(deleteUnseenObjectRemoteOrigin(transformUnseenObjectFromJsonApi(data.payload.data)));
-        }
-      }
-      //store.dispatch(updateUserRemoteOrigin(data.user));
-    });
-
-    window.App.appearance.setOnReceived(function (data) {
-      console.log('Activity in appearance: ', data);
-      store.dispatch(updateUserRemoteOrigin(data.user));
-    });
-
-    window.App.agenda_items.setOnReceived(function (data) {
-      console.log('Activity in agenda_items: ', data);
-      if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
-        if (data.action == 'create') {
-          store.dispatch(createAgendaItemRemoteOrigin(transformAgendaItemFromJsonApi(data.payload.data)));
-        }
-        else if (data.action == 'update') {
-          store.dispatch(updateAgendaItemRemoteOrigin(transformAgendaItemFromJsonApi(data.payload.data)));
-        }
-      }
-    });
-
-    window.App.deliverables.setOnReceived(function (data) {
-      console.log('Activity in deliverables: ', data);
-      if(store.getState().getIn(['currentUser', 'id']) !== data.actor_id) {
-        if (data.action == 'create') {
-          store.dispatch(createDeliverableRemoteOrigin(transformDeliverableFromJsonApi(data.payload.data)));
-        }
-        else if (data.action == 'update') {
-          store.dispatch(updateDeliverableRemoteOrigin(transformDeliverableFromJsonApi(data.payload.data)));
-        }
-      }
-    });
-
+    setupWebSocket(store);
   }
   render() {
     const toRender = () =>
@@ -140,8 +76,8 @@ export default class ConversationRoot extends Component {
           </Route>
         </Router>
       );
-    //<App />
 
+    /* global __DEVTOOLS__ */
     if (__DEVTOOLS__) {
       // React components for Redux DevTools
       const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
@@ -155,14 +91,14 @@ export default class ConversationRoot extends Component {
           </DebugPanel>
         </div>
       );
-    } else {
-      return (
-        <div>
-          <Provider store={store}>
-            { toRender }
-          </Provider>
-        </div>
-      );
     }
+
+    return (
+      <div>
+        <Provider store={store}>
+          { toRender }
+        </Provider>
+      </div>
+    );
   }
 }

@@ -1,39 +1,44 @@
-import React, { Component, PropTypes } from 'react';
-import {connect} from 'react-redux';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Button, Row, Col } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
 
-import * as CommentsActions from '../../actions/comments';
 import * as AgendaItemActions from '../../actions/agendaItems';
-import * as DeliverableActions from '../../actions/deliverables';
 import * as selectors from '../../utils/selectors';
 
 import AgendaItemListApp from './../AgendaItemListApp';
 import DeliverableListApp from './../DeliverableListApp';
-import ConversationObjectListApp from './../ConversationObjectListApp';
-import UserListApp from './../UserListApp';
-import CommentForm from '../../components/CommentForm/index';
-import Comment from '../../components/Comment/index';
-import DeliverableInTimeline from '../../components/DeliverableInTimeline';
-import AgendaItemInTimeline from '../../components/AgendaItemInTimeline';
-import {fillConversationObject, fillAgendaItem} from '../../utils/entityUtils';
+import { fillConversationObject } from '../../utils/entityUtils';
 import ApplicationLayout from '../../components/ApplicationLayout/index';
-import ConversationObjectList from '../../components/ConversationObjectList/index';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
-import Swipeable from "react-swipeable";
+import styles from './index.css';
+import Swipeable from 'react-swipeable';
 
 @CSSModules(styles)
 class App extends Component {
 
   constructor() {
-
     super();
     this.handleLeftPanelLeftSwipe = this.handleLeftPanelLeftSwipe.bind(this);
     this.handleCenterPanelLeftSwipe = this.handleCenterPanelLeftSwipe.bind(this);
     this.handleCenterPanelRightSwipe = this.handleCenterPanelRightSwipe.bind(this);
     this.handleRightPanelRightSwipe = this.handleRightPanelRightSwipe.bind(this);
     this.handleResetPanelVisibility = this.handleResetPanelVisibility.bind(this);
+  }
+
+  componentDidMount() {
+    this.leftPanelNode = React.findDOMNode(this.refs.leftPanel);
+    this.centerPanelNode = React.findDOMNode(this.refs.centerPanel);
+    this.rightPanelNode = React.findDOMNode(this.refs.rightPanel);
+  }
+
+  componentWillReceiveProps() {
+    if (this.props.selectedAgendaItemIdInState !== null) {
+      this.handleResetPanelVisibility();
+    }
+    if (this.props.selectedDeliverableIdInState !== null) {
+      this.handleResetPanelVisibility();
+    }
   }
 
   handleLeftPanelLeftSwipe() {
@@ -70,101 +75,56 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, organizations, currentOrganization, currentConversation, users} = this.props;
+    const { currentUser, organizations, currentOrganization, currentConversation, users } = this.props;
 
     return (<ApplicationLayout currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation} users={users}>
-      <Row styleName='root'>
-        <Col className='hidden-xs' sm={3} styleName='left-panel' ref='leftPanel'>
-          <Swipeable styleName='swipe-container' onSwipingLeft={this.handleLeftPanelLeftSwipe}>
+      <Row styleName="root">
+        <Col className="hidden-xs" sm={3} styleName="left-panel" ref="leftPanel">
+          <Swipeable styleName="swipe-container" onSwipingLeft={this.handleLeftPanelLeftSwipe}>
             <AgendaItemListApp />
           </Swipeable>
         </Col>
-        <Col xs={12} sm={6} styleName='center-panel' ref='centerPanel'>
-          <Swipeable styleName='swipe-container' onSwipingLeft={this.handleCenterPanelLeftSwipe} onSwipingRight={this.handleCenterPanelRightSwipe}>
+        <Col xs={12} sm={6} styleName="center-panel" ref="centerPanel">
+          <Swipeable styleName="swipe-container" onSwipingLeft={this.handleCenterPanelLeftSwipe} onSwipingRight={this.handleCenterPanelRightSwipe}>
             {this.props.children}
           </Swipeable>
         </Col>
-        <Col className='hidden-xs' sm={3} styleName='right-panel' ref='rightPanel'>
-          <Swipeable styleName='swipe-container' onSwipingRight={this.handleRightPanelRightSwipe}>
+        <Col className="hidden-xs" sm={3} styleName="right-panel" ref="rightPanel">
+          <Swipeable styleName="swipe-container" onSwipingRight={this.handleRightPanelRightSwipe}>
             <DeliverableListApp />
           </Swipeable>
         </Col>
       </Row>
     </ApplicationLayout>);
   }
-
-  componentDidMount() {
-    this.leftPanelNode = React.findDOMNode(this.refs.leftPanel);
-    this.centerPanelNode = React.findDOMNode(this.refs.centerPanel);
-    this.rightPanelNode = React.findDOMNode(this.refs.rightPanel);
-  }
-
-  componentWillReceiveProps() {
-    if (null != this.props.selectedAgendaItemIdInState) {
-      this.handleResetPanelVisibility();
-    }
-    if (null != this.props.selectedDeliverableIdInState) {
-      this.handleResetPanelVisibility();
-    }
-  }
-}
-
-function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable) {
-  const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
-  var conversationObjectsList = {commentForm: {}};
-
-  if (objectsToShow) {
-    conversationObjectsList.conversationObjects = objectsToShow.get('references').map(function(objectReference){
-      return fillConversationObject(state, objectReference);
-    }).toList().sortBy(function(conversationObject) {
-      return conversationObject.createdAt;
-    }).toJS();
-
-    conversationObjectsList.nextPageUrl = objectsToShow.get('nextPageUrl');
-    conversationObjectsList.isFetching = objectsToShow.get('isFetching');
-    conversationObjectsList.commentForm.currentUser = currentUser;
-    conversationObjectsList.commentForm.parent = parentObject;
-    conversationObjectsList.commentForm.canCreateAgendaItem = canCreateAgendaItem;
-    conversationObjectsList.commentForm.canCreateDeliverable = canCreateDeliverable;
-    conversationObjectsList.canCreateAgendaItem = canCreateAgendaItem;
-    conversationObjectsList.canCreateDeliverable = canCreateDeliverable;
-  }
-
-  return conversationObjectsList;
 }
 
 function mapStateToProps(state) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
   const currentOrganization = state.getIn(['entities', 'organizations', state.getIn(['currentOrganization', 'id'])]);
-  const organizations = state.getIn(['entities', 'organizations']).map(function(organization){
+  const organizations = state.getIn(['entities', 'organizations']).map((organization) => {
     return organization;
   }).toList();
 
   const selectedAgendaItemIdInState = state.getIn(['selectedConversationObject', 'type']) === 'agendaItems' ? state.getIn(['selectedConversationObject', 'id']) : null;
   const selectedDeliverableIdInState = state.getIn(['selectedConversationObject', 'type']) === 'deliverables' ? state.getIn(['selectedConversationObject', 'id']) : null;
 
-  var conversationObjectsList;
-
-  const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
-  conversationObjectsList = prepareConversationObjectList(state, objectsToShow, currentConversation, true, false);
-
   const users = selectors.conversationMembers(state);
-  console.log("Appjs: " + JSON.stringify(users));
+
   return {
-    organizations: organizations,
-    currentOrganization: currentOrganization,
-    conversationObjectsList: conversationObjectsList,
-    currentConversation: currentConversation,
-    currentUser: currentUser,
-    selectedAgendaItemIdInState: selectedAgendaItemIdInState,
-    selectedDeliverableIdInState: selectedDeliverableIdInState,
-    users: users
-  }
+    organizations,
+    currentOrganization,
+    currentConversation,
+    currentUser,
+    selectedAgendaItemIdInState,
+    selectedDeliverableIdInState,
+    users,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...AgendaItemActions}, dispatch);
+  return bindActionCreators({ ...AgendaItemActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -6,7 +6,9 @@ import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
 
 let finalCreateStore;
-if (__DEVELOPMENT__  && __DEVTOOLS__) {
+
+/* global __DEVELOPMENT__, __DEVTOOLS__ */
+if (__DEVELOPMENT__ && __DEVTOOLS__) {
   const { devTools, persistState } = require('redux-devtools');
 
   finalCreateStore = compose(
@@ -22,9 +24,10 @@ if (__DEVELOPMENT__  && __DEVTOOLS__) {
   )(createStore);
 }
 
-export default function configureStore() {
+const configureStore = () => {
   const initialState = Immutable.fromJS({});
   const store = finalCreateStore(rootReducer, initialState);
+  /* global __DEVELOPMENT__ */
   if (__DEVELOPMENT__ && module.hot) {
     // Enable Webpack hot module replacement for reducers
     module.hot.accept('../reducers', () => {
@@ -33,4 +36,6 @@ export default function configureStore() {
     });
   }
   return store;
-}
+};
+
+export default configureStore;
