@@ -1,16 +1,15 @@
 import { expect } from 'chai';
 import Immutable from 'immutable';
-import { shallow, mount, render } from 'enzyme';
-import hook from 'css-modules-require-hook';
+import { render } from 'enzyme';
 import React from 'react';
 
-//import { stub } from 'sinon'; ... to mock api calls https://github.com/pure-ui/react-pure-ui/blob/master/test/unit/components/BooleanControl.js
+// import { stub } from 'sinon'; ... to mock api calls https://github.com/pure-ui/react-pure-ui/blob/master/test/unit/components/BooleanControl.js
 
 import AgendaItemList from './index';
 
-describe ('AgendaItemList', () => {
+describe('AgendaItemList', () => {
   it('lists one single agenda item', () => {
-    const noOp = () => {}
+    const noOp = () => {};
     const props = {
       agendaItems: new Immutable.List([{
         id: '123',
@@ -19,15 +18,15 @@ describe ('AgendaItemList', () => {
         commentsCount: 0,
         deliverablesCount: 0,
         conversationId: '234',
-        conversation: { title: 'The main conversation'}
+        conversation: { title: 'The main conversation' },
       }]),
       selectAgendaItem: noOp,
-      updateAgendaItem: noOp
+      updateAgendaItem: noOp,
     };
 
     const result = render(<AgendaItemList {...props} />);
     expect(result.text()).to.be.eq('AGENDADiscuss the AgendaItemList spec.  0 0');
-    //expect(result.contains(<div>Write the DeliverableList spec.</div>)).to.be.true;
+    // expect(result.contains(<div>Write the DeliverableList spec.</div>)).to.be.true;
   });
 });
 

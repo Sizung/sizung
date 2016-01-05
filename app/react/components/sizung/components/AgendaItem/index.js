@@ -1,10 +1,8 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
-import React, { Component, PropTypes } from 'react';
-import { Glyphicon, Grid, Row, Col } from 'react-bootstrap';
+import React, { PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
-import User from '../User/index';
-import styles from "./index.css";
+import styles from './index.css';
 
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
@@ -16,8 +14,8 @@ class AgendaItem extends React.Component {
   constructor() {
     super();
 
-    this.handleTitleUpdate  = this.handleTitleUpdate.bind(this);
-    this.handleStatusUpdate  = this.handleStatusUpdate.bind(this);
+    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
+    this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
 
     this.handleClick = (e) => {
       e.preventDefault();
@@ -27,46 +25,46 @@ class AgendaItem extends React.Component {
   }
 
   handleTitleUpdate(newTitle) {
-    this.props.updateAgendaItem(this.props.agendaItem.id, {title: newTitle});
+    this.props.updateAgendaItem(this.props.agendaItem.id, { title: newTitle });
   }
 
   handleStatusUpdate(newStatus) {
-    this.props.updateAgendaItem(this.props.agendaItem.id, {status: newStatus});
+    this.props.updateAgendaItem(this.props.agendaItem.id, { status: newStatus });
   }
 
-  renderUnseenBadge(count, selected) {
-    if(!selected && count && count > 0) {
-      return <UnseenBadge count={count} />
+  static renderUnseenBadge(count, selected) {
+    if (!selected && count && count > 0) {
+      return <UnseenBadge count={count} />;
     }
   }
 
   render() {
-    const {agendaItem, selected} = this.props;
-    const chatIconImage = selected ?  "/icons/chat-icon-white.png" : "/icons/chat-icon-gray.png";
-    const deliverableIconImage = selected ? "/icons/deliverable-icon-white.png" : "/icons/deliverable-icon-gray.png";
-    var styleName = 'default';
-    if(selected === true) {
+    const { agendaItem, selected } = this.props;
+    const chatIconImage = selected ? '/icons/chat-icon-white.png' : '/icons/chat-icon-gray.png';
+    const deliverableIconImage = selected ? '/icons/deliverable-icon-white.png' : '/icons/deliverable-icon-gray.png';
+    let styleName = 'default';
+    if (selected === true) {
       styleName = 'selected';
     }
     return (
-      <div styleName='root'>
-        {this.renderUnseenBadge(agendaItem.unseenCount, selected)}
+      <div styleName="root">
+        {AgendaItem.renderUnseenBadge(agendaItem.unseenCount, selected)}
         <div styleName={styleName} onClick={this.handleClick}>
           <div styleName="row">
-            <div styleName='content-container'>
+            <div styleName="content-container">
               <EditableText editable={false} text={agendaItem.title} onUpdate={this.handleTitleUpdate} />
             </div>
-            <div styleName='status-container'>
+            <div styleName="status-container">
               <EditableStatus editable={false} status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
             </div>
           </div>
-          <div styleName='bottom-row'>
-              <span style={{ marginRight: '10px'}} >
-                <img height='15px' src={chatIconImage}></img>
+          <div styleName="bottom-row">
+              <span style={{ marginRight: '10px' }} >
+                <img height="15px" src={chatIconImage}></img>
                 {" "}<small>{agendaItem.commentsCount}</small>
               </span>
               <span>
-                <img height='15px' src={deliverableIconImage}></img>
+                <img height="15px" src={deliverableIconImage}></img>
                 {" "}<small>{agendaItem.deliverablesCount}</small>
               </span>
           </div>
@@ -85,11 +83,11 @@ AgendaItem.propTypes = {
     commentsCount: PropTypes.number.isRequired,
     deliverablesCount: PropTypes.number.isRequired,
     conversation: PropTypes.shape({
-      title: PropTypes.string.isRequired
-    }).isRequired
+      title: PropTypes.string.isRequired,
+    }).isRequired,
   }).isRequired,
   selectAgendaItem: PropTypes.func.isRequired,
-  updateAgendaItem: PropTypes.func.isRequired
+  updateAgendaItem: PropTypes.func.isRequired,
 };
 
 export default AgendaItem;
