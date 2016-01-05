@@ -109,6 +109,7 @@ class ConversationObjectList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    this.listNode = this.refs.conversationObjectList.getDOMNode();
     var _this = this;
     $(this.listNode).scroll(function() {
       if($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
