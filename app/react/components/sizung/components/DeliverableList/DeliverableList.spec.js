@@ -26,7 +26,7 @@ describe ('DeliverableList', () => {
 
     const result = render(<DeliverableList {...props} />);
 
-    expect(result.text()).to.be.eq('DELIVERABLESWrite the DeliverableList spec. GG 0');
+    expect(result.text()).to.be.eq('DELIVERABLESWrite the DeliverableList spec. GG0');
     //expect(result.contains(<div>Write the DeliverableList spec.</div>)).to.be.true;
   });
 });

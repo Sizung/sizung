@@ -7,6 +7,8 @@ import styles from './index.css';
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
+import CommentsCounter from '../CommentsCounter';
+import DeliverablesCounter from '../DeliverablesCounter';
 
 @CSSModules(styles)
 class AgendaItem extends React.Component {
@@ -40,8 +42,6 @@ class AgendaItem extends React.Component {
 
   render() {
     const { agendaItem, selected } = this.props;
-    const chatIconImage = selected ? '/icons/chat-icon-white.png' : '/icons/chat-icon-gray.png';
-    const deliverableIconImage = selected ? '/icons/deliverable-icon-white.png' : '/icons/deliverable-icon-gray.png';
     let styleName = 'default';
     if (selected === true) {
       styleName = 'selected';
@@ -59,14 +59,8 @@ class AgendaItem extends React.Component {
             </div>
           </div>
           <div styleName="bottom-row">
-              <span style={{ marginRight: '10px' }} >
-                <img height="15px" src={chatIconImage}></img>
-                {" "}<small>{agendaItem.commentsCount}</small>
-              </span>
-              <span>
-                <img height="15px" src={deliverableIconImage}></img>
-                {" "}<small>{agendaItem.deliverablesCount}</small>
-              </span>
+            <CommentsCounter count={agendaItem.commentsCount} inverted={selected} style={{ marginRight: '10px' }} />
+            <DeliverablesCounter count={agendaItem.deliverablesCount} inverted={selected} />
           </div>
         </div>
       </div>

@@ -81,10 +81,6 @@
   padding: 0px;
 }
 
-.comments-icon {
-  composes: fa fa-comment-o from global;
-}
-
 .details-row1 {
   composes: col-xs-12 from global;
   padding: 0px 10px 5px 10px;
