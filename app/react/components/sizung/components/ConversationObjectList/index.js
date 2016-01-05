@@ -27,7 +27,6 @@ class ConversationObjectList extends Component {
     this.toggleConversationMembersView = this.toggleConversationMembersView.bind(this);
     this.renderConversationTimeLine = this.renderConversationTimeLine.bind(this);
     this.renderListContainerContent = this.renderListContainerContent.bind(this);
-    this.renderListContainerContent = this.renderListContainerContent.bind(this);
     this.handleCommentSettingsDropdownScroll = this.handleCommentSettingsDropdownScroll.bind(this);
     this.onCommentFormResize = this.onCommentFormResize.bind(this);
     this.scrolDownToNewActivity =  this.scrolDownToNewActivity.bind(this);
@@ -212,9 +211,13 @@ class ConversationObjectList extends Component {
     var conversationTimelineHeader = "";
     this.isTimelineHeader = false;
     var _this = this;
+    var listStyle = "list";
+    var listFooterStyle = "list-footer";
     if ( null != this.props.commentForm.parent) {
       switch (this.props.commentForm.parent.type) {
         case "agendaItems" :
+            listStyle = "agenda-item-comment-list";
+            listFooterStyle = "agenda-item-comment-list-footer";
           this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='agenda-item-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
@@ -230,6 +233,8 @@ class ConversationObjectList extends Component {
           break;
 
         case "deliverables" :
+          listStyle = "deliverable-comment-list";
+          listFooterStyle = "deliverable-comment-list-footer";
           this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='deliverable-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
@@ -252,12 +257,12 @@ class ConversationObjectList extends Component {
 
     return(<div>
         { conversationTimelineHeader }
-        <div ref='conversationObjectList' styleName='list'>
+        <div ref='conversationObjectList' styleName={listStyle}>
           { showMore }
           { conversationObjectElements }
 
         </div>
-        <div ref='listFooter' styleName='list-footer'>
+        <div ref='listFooter' styleName={listFooterStyle}>
             <CommentForm createComment={createComment}
                          createAgendaItem={createAgendaItem}
                          createDeliverable={createDeliverable}
