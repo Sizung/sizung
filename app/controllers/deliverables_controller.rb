@@ -23,8 +23,12 @@ class DeliverablesController < ApplicationController
 
   # PUT/PATCH /deliverables/1.json
   def update
+    original_agenda_item_id = @deliverable.agenda_item_id
     if @deliverable.toggle_archive(params[:deliverable][:archived]) || @deliverable.update(deliverable_params)
       DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')
+      if(deliverable_params[:agenda_item_id].present? && deliverable_params[:agenda_item_id] != original_agenda_item_id)
+        UnseenService.new.moved(@deliverable, current_user)
+      end
     end
     render json: @deliverable
   end

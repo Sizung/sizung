@@ -15,7 +15,7 @@ class UnseenService
 
     unseen_objects = case object
       when Comment
-        UnseenObject.all.where(target: object.id)
+        UnseenObject.all.where(target: object)
       else
         UnseenObject.all.where("#{object.class.name.underscore}_id = ?", object.id)
     end
@@ -26,5 +26,17 @@ class UnseenService
                                    action: 'delete'
     end
     unseen_objects.destroy_all
+  end
+
+  def moved(object, actor)
+    unseen_objects = UnseenObject.all.where(target: object)
+    unseen_objects.each do |unseen_object|
+      ActionCable.server.broadcast "users:#{unseen_object.user_id}",
+                                   payload: ActiveModel::SerializableResource.new(unseen_object).serializable_hash,
+                                   action: 'delete'
+    end
+    unseen_objects.destroy_all
+
+    handle_with(object, actor)
   end
 end

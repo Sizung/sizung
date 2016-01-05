@@ -67,5 +67,21 @@ describe DeliverablesController do
 
       expect(conversation_member.member.reload.unseen_objects.count).must_equal 0
     end
+
+    it 'handles unseen objects when a deliverable gets moved to another agenda item' do
+      conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
+      other_agenda_item = FactoryGirl.create :agenda_item, conversation: @agenda_item.conversation
+
+      post :create, deliverable: { title: 'Another big thing', agenda_item_id: @agenda_item.id }, format: :json
+
+      expect(conversation_member.member.unseen_objects.count).must_equal 1
+      expect(conversation_member.member.unseen_objects.first.agenda_item_id).must_equal @agenda_item.id
+
+      deliverable = Deliverable.find(JSON.parse(response.body)['data']['id'])
+      patch :update, id: deliverable.id, deliverable: { agenda_item_id: other_agenda_item.id }
+
+      expect(conversation_member.member.unseen_objects.reload.count).must_equal 1
+      expect(conversation_member.member.unseen_objects.reload.first.agenda_item_id).must_equal other_agenda_item.id
+    end
   end
 end
