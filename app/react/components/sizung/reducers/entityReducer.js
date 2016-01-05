@@ -4,16 +4,22 @@ const initialState = Immutable.Map();
 
 export default function entityReducerForType(type) {
   return function entityReducer(state = initialState, action = null) {
-    if (action.entity && action.entity.type === type && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
-      return state.set(action.entity.id, action.entity);
-    }
-    else if (action.entities && action.verb === 'DELETE' && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
+    if (action.entities && action.verb === 'DELETE' && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
       action.entities.forEach((entity) => {
         if(entity.type === type) {
           state = state.delete(entity.id);
         }
       });
       return state;
+    }
+    else if (action.entity && action.verb === 'DELETE' && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
+      if(action.entity.type === type) {
+        state = state.delete(action.entity.id);
+      }
+      return state;
+    }
+    else if (action.entity && action.entity.type === type && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
+      return state.set(action.entity.id, action.entity);
     }
     else if (action.entities && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
       action.entities.forEach((entity) => {

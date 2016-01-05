@@ -55,5 +55,17 @@ describe DeliverablesController do
         patch :update, id: @deliverable.id, deliverable: { title: 'changed title' }
       }.must_raise ActiveRecord::RecordNotFound
     end
+
+    it 'removes the unseen objects when a deliverable gets archived' do
+      conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
+      post :create, deliverable: { title: 'Another big thing', agenda_item_id: @agenda_item.id }, format: :json
+
+      expect(conversation_member.member.unseen_objects.count).must_equal 1
+
+      deliverable = Deliverable.find(JSON.parse(response.body)['data']['id'])
+      patch :update, id: deliverable.id, deliverable: { archived: true }
+
+      expect(conversation_member.member.reload.unseen_objects.count).must_equal 0
+    end
   end
 end

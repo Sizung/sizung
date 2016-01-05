@@ -54,5 +54,17 @@ describe AgendaItemsController do
         patch :update, id: @agenda_item.id, agenda_item: { title: 'changed title' }
       }.must_raise ActiveRecord::RecordNotFound
     end
+
+    it 'removes the unseen objects when an agenda item gets archived' do
+      conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
+      post :create, agenda_item: { title: 'Another big thing to discuss', conversation_id: @agenda_item.conversation.id }, format: :json
+
+      expect(conversation_member.member.unseen_objects.count).must_equal 1
+
+      agenda_item = AgendaItem.find(JSON.parse(response.body)['data']['id'])
+      patch :update, id: agenda_item.id, agenda_item: { archived: true }
+
+      expect(conversation_member.member.reload.unseen_objects.count).must_equal 0
+    end
   end
 end

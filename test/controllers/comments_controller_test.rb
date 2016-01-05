@@ -47,12 +47,38 @@ describe CommentsController do
       }.must_raise ActiveRecord::RecordNotFound
     end
 
+    it 'removes the unseen objects when a comment gets archived' do
+      conversation = @comment.commentable
+      conversation_member = FactoryGirl.create :conversation_member, conversation: conversation
+      post :create, comment: { body: 'Thats what I say about it. :)', commentable_id: conversation.id, commentable_type: 'Conversation' }, format: :json
+
+      expect(conversation_member.member.unseen_objects.count).must_equal 1
+
+      comment = Comment.find(JSON.parse(response.body)['data']['id'])
+      patch :update, id: comment.id, comment: { archived: true }
+
+      expect(conversation_member.member.reload.unseen_objects.count).must_equal 0
+    end
+
     it 'destroys comment' do
       expect {
         delete :destroy, id: @comment
       }.must_change 'Comment.count', -1
 
       assert_response :success
+    end
+
+    it 'removes the unseen objects when a comment gets removed' do
+      conversation = @comment.commentable
+      conversation_member = FactoryGirl.create :conversation_member, conversation: conversation
+      post :create, comment: { body: 'Thats what I say about it. :)', commentable_id: conversation.id, commentable_type: 'Conversation' }, format: :json
+
+      expect(conversation_member.member.unseen_objects.count).must_equal 1
+
+      comment = Comment.find(JSON.parse(response.body)['data']['id'])
+      delete :destroy, id: comment
+
+      expect(conversation_member.member.reload.unseen_objects.count).must_equal 0
     end
   end
 end
