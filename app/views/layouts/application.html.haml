@@ -32,8 +32,8 @@
             %li.dropdown
               %a.user-dropdown.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button',  aria_haspopup: 'true',  aria_expanded: 'false', style: 'padding: 10px;'}
                 - user = current_user
-                %span.hidden-xs= react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name}, style: {display: 'inline-block'}, showName: true}, {tag: :span, prerender: true})
-                %span.visible-xs= react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name}, style: {display: 'inline-block'}, showName: false}, {tag: :span, prerender: true})
+                %span.hidden-xs= react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name, presenceStatus: user.presence_status}, style: {display: 'inline-block'}, showName: true}, {tag: :span, prerender: true})
+                %span.visible-xs= react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name, presenceStatus: user.presence_status}, style: {display: 'inline-block'}, showName: false}, {tag: :span, prerender: true})
               %ul.dropdown-menu.dropdown-menu-right
                 %li= link_to 'Edit Profile', edit_user_registration_path
                 %li= link_to 'Logout', destroy_user_session_path, method: :delete
