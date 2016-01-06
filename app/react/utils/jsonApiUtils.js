@@ -31,6 +31,14 @@ export function transformOrganizationFromJsonApi(organization) {
   };
 }
 
+export function transformConversationFromJsonApi(conversation) {
+  return {
+    id: conversation.id,
+    type: transformTypeFromJsonApi(conversation.type),
+    title: conversation.attributes.title,
+  };
+}
+
 export function transformDeliverableFromJsonApi(deliverable) {
   return {
     id: deliverable.id,
