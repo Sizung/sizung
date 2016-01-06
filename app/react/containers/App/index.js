@@ -8,7 +8,6 @@ import * as selectors from '../../utils/selectors';
 
 import AgendaItemListApp from './../AgendaItemListApp';
 import DeliverableListApp from './../DeliverableListApp';
-import { fillConversationObject } from '../../utils/entityUtils';
 import ApplicationLayout from '../../components/ApplicationLayout/index';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
@@ -41,6 +40,9 @@ class App extends Component {
     }
   }
 
+  // TODO: That really has to be done the react way. It will definitely cause problems to change the dom that way.
+  // The better way is to save the state in which the view currently is in the component state, render accordingly to
+  // that state and change the state when the user swipes.
   handleLeftPanelLeftSwipe() {
     $(this.leftPanelNode).addClass('hidden-xs');
     $(this.centerPanelNode).removeClass('hidden-xs');
