@@ -175,6 +175,7 @@ class ConversationObjectList extends Component {
     this.listNode = this.refs.conversationObjectList.getDOMNode();
     window.addEventListener("resize", this.adjustConversationListHeight);
     this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+
     this.scrollListToBottom();
   }
 
