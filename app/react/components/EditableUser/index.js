@@ -65,7 +65,7 @@ class EditableUser extends React.Component {
   }
 
   renderShow(selectedUser, editable) {
-    return <div styleName={"current-user" + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser} /></div>
+    return <div styleName={"current-user" + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser}  size="small" /></div>
   }
 
   filteredOptions(filter, options) {

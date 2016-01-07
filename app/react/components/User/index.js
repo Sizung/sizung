@@ -10,7 +10,7 @@ class User extends React.Component {
 
   constructor() {
     super();
-    this.validSizes = ['normal','large'];
+    this.validSizes = ['normal','large','small'];
   }
 
   render() {

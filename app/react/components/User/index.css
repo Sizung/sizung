@@ -30,6 +30,12 @@
   line-height: 40px;
 }
 
+.user-title-small {
+  composes: user-title;
+  height: 20px;
+  line-height: 20px;
+}
+
 .circle-badge {
   composes: blue-background from '../../styles/theme.css';
   display: inline-block;
@@ -57,6 +63,14 @@
   line-height: 40px;
 }
 
+.circle-badge-small {
+  composes: circle-badge;
+  width: 20px;
+  height: 20px;
+  font-size: xx-small;
+  line-height: 20px;
+}
+
 .circle-badge-online {
   composes: circle-badge;
   background-color: #57C1E8;
@@ -75,6 +89,14 @@
 
 .circle-badge-large-online {
   composes: circle-badge-large;
+  background-color: #57C1E8;
+  opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
+}
+
+.circle-badge-small-online {
+  composes: circle-badge-small;
   background-color: #57C1E8;
   opacity: 0.8;
   color: #ffffff;
