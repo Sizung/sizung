@@ -122,8 +122,13 @@ function fetchObjects(conversationId, agendaItemId, dispatch) {
       )
     );
     dispatch(selectAgendaItemSuccess(agendaItemId));
-    dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
   });
+}
+
+export function visitAgendaItem(conversationId, agendaItemId) {
+  return (dispatch) => {
+    dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
+  };
 }
 
 export function selectAgendaItem(conversationId, agendaItemId) {

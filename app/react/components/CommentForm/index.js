@@ -95,7 +95,6 @@ class CommentForm extends React.Component {
   componentDidUpdate() {
     if ( !this.state.hasInput ) {
       //TODO: Find a better alternative to correct this dirty way of dispatching a change event to resize textarea on submit
-      console.log("dispatcing: " + this.inputNode.value.length);
       this.inputNode.dispatchEvent(new Event('input'));
     }
   }

@@ -23,7 +23,8 @@ import { setDeliverables } from '../actions/deliverables';
 import { setUsers } from '../actions/users';
 import { setConversationMembers } from '../actions/conversationMembers';
 import { setCurrentConversation } from '../actions/conversations';
-import App from './App/index';
+import ApplicationLayoutApp from './ApplicationLayoutApp';
+import ConversationLayoutApp from './ConversationLayoutApp';
 import AgendaItemApp from './AgendaItemApp';
 import DeliverableApp from './DeliverableApp';
 import ConversationApp from './ConversationApp';
@@ -49,7 +50,7 @@ function transformConversationObjectFromPlainJson(conversationJson) {
   };
 }
 
-export default class ConversationRoot extends Component {
+export default class Root extends Component {
   componentWillMount() {
     store.dispatch(setCurrentUser(this.props.currentUser));
     store.dispatch(setAgendaItems(this.props.agendaItems));
@@ -66,14 +67,17 @@ export default class ConversationRoot extends Component {
     store.dispatch(fetchOrganizations());
     setupWebSocket(store);
   }
+
   render() {
     const toRender = () =>
       (
         <Router history={history}>
-          <Route path="/" component={App}>
-            <Route path="conversations/:id" component={ConversationApp} />
-            <Route path="conversations/:id/agenda_items/:agendaItemId/deliverables/:deliverableId" component={DeliverableApp}/>
-            <Route path="conversations/:id/agenda_items/:agendaItemId" component={AgendaItemApp}/>
+          <Route path="/" component={ApplicationLayoutApp}>
+            <Route path="/conversations" component={ConversationLayoutApp}>
+              <Route path="/conversations/:conversationId" component={ConversationApp} />
+              <Route path="/conversations/:conversationId/agenda_items/:agendaItemId" component={AgendaItemApp}/>
+              <Route path="/conversations/:conversationId/agenda_items/:agendaItemId/deliverables/:deliverableId" component={DeliverableApp}/>
+            </Route>
           </Route>
         </Router>
       );

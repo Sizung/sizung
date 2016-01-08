@@ -9,7 +9,6 @@ export const DELETE_UNSEEN_OBJECTS = 'DELETE_UNSEEN_OBJECTS';
 export const DELETE = 'DELETE';
 
 export function deleteUnseenObjectsSuccess(unseenObjects) {
-  console.log('deleteUnseenObjectsSuccess: ', unseenObjects);
   return {
     type: DELETE_UNSEEN_OBJECTS,
     verb: DELETE,
@@ -19,7 +18,6 @@ export function deleteUnseenObjectsSuccess(unseenObjects) {
 }
 
 export function markAsSeen(seenType, seenId) {
-  console.log('markAsSeen', seenType, seenId);
   if(seenType === 'agendaItems') {
     seenType = 'agenda_items';
   }
@@ -35,7 +33,6 @@ export function markAsSeen(seenType, seenId) {
     )
     .then(response => response.json())
     .then(function(json) {
-        console.log('got delete unseen: ', json.data);
         dispatch(deleteUnseenObjectsSuccess(json.data.map(transformUnseenObjectFromJsonApi)));
     });
   }
