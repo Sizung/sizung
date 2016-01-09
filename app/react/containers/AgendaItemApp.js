@@ -21,7 +21,6 @@ class AgendaItemApp extends React.Component {
    * on an agenda item to select it.
    */
   componentDidMount() {
-    console.log(this.props);
     const { conversationId, agendaItemId } = this.props.params;
     this.props.selectAgendaItem(conversationId, agendaItemId);
   }
@@ -36,7 +35,7 @@ class AgendaItemApp extends React.Component {
   }
 
   render() {
-    const { conversationObjectsList} = this.props;
+    const { conversationObjectsList } = this.props;
     if (conversationObjectsList.conversationObjects) {
       return (
         <ConversationObjectList
@@ -50,7 +49,7 @@ class AgendaItemApp extends React.Component {
   }
 }
 
-function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable, createDeliverable) {
+function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable) {
   const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
   const conversationObjectsList = {commentForm: {}};
 
@@ -73,7 +72,6 @@ function prepareConversationObjectList(state, objectsToShow, parentObject, canCr
     conversationObjectsList.commentForm.canCreateDeliverable = canCreateDeliverable;
     conversationObjectsList.canCreateAgendaItem = canCreateAgendaItem;
     conversationObjectsList.canCreateDeliverable = canCreateDeliverable;
-    conversationObjectsList.createDeliverable = createDeliverable;
     conversationObjectsList.users = selectors.conversationMembers(state);
   }
 

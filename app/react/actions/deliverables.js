@@ -152,7 +152,7 @@ export function createDeliverableRemoteOrigin(deliverable) {
 }
 
 export function createDeliverable(deliverable) {
-  return function(dispatch) {
+  return (dispatch) => {
     return fetch('/deliverables', {
       method: 'post',
       credentials: 'include', // send cookies with it
@@ -162,14 +162,12 @@ export function createDeliverable(deliverable) {
         'X-CSRF-Token': MetaTagsManager.getCSRFToken()
       },
       body: JSON.stringify({
-        deliverable: deliverable
-      })
+        deliverable,
+      }),
     })
     .then(response => response.json())
-    .then(function(json) {
+    .then((json) => {
       dispatch(createDeliverableSuccess(transformDeliverableFromJsonApi(json.data)));
     });
   };
 }
-
-

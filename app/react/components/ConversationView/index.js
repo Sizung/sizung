@@ -19,7 +19,6 @@ class ConversationView extends React.Component {
         <ConversationLayoutApp>
           <ConversationObjectList
             {...this.props}
-            createDeliverable={this.props.createDeliverable}
             {...conversationObjectsList}
             currentConversation={currentConversation}
             conversationMembers={conversationMembers}
