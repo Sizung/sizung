@@ -1,4 +1,4 @@
-import { fillConversationObject } from './entityUtils';
+import { fillConversationObject, fillAgendaItem } from './entityUtils';
 
 const currentUser = (state) => state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
 const currentConversation = (state) => state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
@@ -18,6 +18,18 @@ const conversationObjects = (state, objectsToShow) => {
   }).toJS();
 };
 
+const agendaItemsList = (state, agendaItemIds) => {
+  return agendaItemIds.map((agendaItemId) => {
+    return state.getIn(['entities', 'agendaItems', agendaItemId]);
+  }).toList().map((agendaItem) => {
+    return fillAgendaItem(state, agendaItem.id);
+  }).filter((agendaItem) => {
+    return !agendaItem.archived;
+  }).sortBy((conversationObject) => {
+    return conversationObject.createdAt;
+  });
+};
+
 export {
   currentUser,
   currentConversation,
@@ -25,4 +37,5 @@ export {
   organizations,
   conversationMembers,
   conversationObjects,
+  agendaItemsList,
 };

@@ -75,7 +75,7 @@ class ConversationLayout extends Component {
       <Row styleName="root">
         <Col className="hidden-xs" sm={3} styleName="left-panel" ref="leftPanel">
           <Swipeable styleName="swipe-container" onSwipingLeft={this.handleLeftPanelLeftSwipe}>
-            <AgendaItemListApp />
+            <AgendaItemListApp params={this.props.params} />
           </Swipeable>
         </Col>
         <Col xs={12} sm={6} styleName="center-panel" ref="centerPanel">
