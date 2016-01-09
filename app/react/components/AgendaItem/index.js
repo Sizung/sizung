@@ -80,7 +80,6 @@ AgendaItem.propTypes = {
       title: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
-  selectAgendaItem: PropTypes.func.isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
 };

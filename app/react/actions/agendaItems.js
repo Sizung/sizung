@@ -14,7 +14,6 @@ import { transformAgendaItemFromJsonApi, transformConversationObjectFromJsonApi 
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 export const UPDATE_AGENDA_ITEM = 'UPDATE_AGENDA_ITEM';
-export const SELECT_AGENDA_ITEM = 'SELECT_AGENDA_ITEM';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
 
 export function updateAgendaItemRemoteOrigin(agendaItem) {
@@ -73,14 +72,6 @@ export function backToConversation(conversationId) {
   };
 }
 
-function selectAgendaItemSuccess(agendaItemId) {
-  return {
-    type: SELECT_AGENDA_ITEM,
-    status: STATUS_SUCCESS,
-    agendaItemId,
-  };
-}
-
 function fetchConversationObjectsSuccess(parentReference, conversationObjects, links) {
   return {
     type: FETCH_CONVERSATION_OBJECTS,
@@ -121,7 +112,6 @@ function fetchObjects(conversationId, agendaItemId, dispatch) {
         json.links
       )
     );
-    dispatch(selectAgendaItemSuccess(agendaItemId));
   });
 }
 
@@ -136,8 +126,6 @@ export function selectAgendaItem(conversationId, agendaItemId) {
     if (shouldFetch(getState, agendaItemId)) {
       return fetchObjects(conversationId, agendaItemId, dispatch);
     }
-    dispatch(selectAgendaItemSuccess(agendaItemId));
-    dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
   };
 }
 
