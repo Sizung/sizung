@@ -35,42 +35,36 @@ class AgendaItemApp extends React.Component {
   }
 }
 
-function selectedAgendaItem(state) {
-  const selectedAgendaItemId = state.getIn(['selectedConversationObject', 'type']) === 'agendaItems' ? state.getIn(['selectedConversationObject', 'id']) : null;
-  return selectedAgendaItemId ? fillAgendaItem(state, selectedAgendaItemId) : null;
+function objectsToShow(state, props) {
+  return state.getIn(['conversationObjectsByAgendaItem', props.params.agendaItemId]);
 }
 
-function objectsToShow(state) {
-  const selectedAgendaItemId = state.getIn(['selectedConversationObject', 'type']) === 'agendaItems' ? state.getIn(['selectedConversationObject', 'id']) : null;
-  return state.getIn(['conversationObjectsByAgendaItem', selectedAgendaItemId]);
-}
-
-function isFetching(state) {
-  const list = objectsToShow(state);
+function isFetching(state, props) {
+  const list = objectsToShow(state, props);
   return list ? list.get('isFetching') : false;
 }
 
-function nextPageUrl(state) {
-  const list = objectsToShow(state);
+function nextPageUrl(state, props) {
+  const list = objectsToShow(state, props);
   if (list && parseInt(decodeURIComponent(list.get('nextPageUrl')).split("page[size]=")[1]) !== 0) {
     return list.get('nextPageUrl');
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
   return {
-    conversationObjects: selectors.conversationObjects(state, objectsToShow(state)),
+    conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
       currentUser: selectors.currentUser(state),
-      parent: selectedAgendaItem(state),
+      parent: fillAgendaItem(state, props.params.agendaItemId),
       canCreateAgendaItem: false,
       canCreateDeliverable: true,
     },
     users: selectors.conversationMembers(state),
     canCreateAgendaItem: false,
     canCreateDeliverable: true,
-    isFetching: isFetching(state),
-    nextPageUrl: nextPageUrl(state),
+    isFetching: isFetching(state, props),
+    nextPageUrl: nextPageUrl(state, props),
     currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
   };
