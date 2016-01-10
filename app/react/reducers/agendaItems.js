@@ -5,7 +5,7 @@
 // create using the previous state and whatever they have to do because of the action they have to handle.
 
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
-import { SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM, UPDATE_AGENDA_ITEM } from '../actions/agendaItems';
+import { FETCH_AGENDA_ITEM, SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM, UPDATE_AGENDA_ITEM } from '../actions/agendaItems';
 import { FETCH_CONVERSATION_OBJECTS } from '../actions/conversationObjects';
 import { setObject, setObjects, setObjectsFromConversationObjectsList } from '../utils/reducerUtils';
 import Immutable from 'immutable';
@@ -16,7 +16,17 @@ export default function agendaItems(state = initialState, action = null) {
     case FETCH_CONVERSATION_OBJECTS: return setObjectsFromConversationObjectsList(state, action, 'agendaItems');
     case CREATE_AGENDA_ITEM: return setObject(state, action, 'agendaItem');
     case UPDATE_AGENDA_ITEM: return setObject(state, action, 'agendaItem');
+    case FETCH_AGENDA_ITEM: return setObject(state, action, 'agendaItem');
     case SET_AGENDA_ITEMS: return setObjects(state, action, 'agendaItems');
+    //else if (action.entities && (action.status == STATUS_SUCCESS || action.status == STATUS_REMOTE_ORIGIN)) {
+    //  action.entities.forEach((entity) => {
+    //    if(entity.type === type) {
+    //      state = state.set(entity.id, entity);
+    //    }
+    //  });
+    //  return state;
+    //}
+
     default: return state;
   }
 }

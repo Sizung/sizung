@@ -16,6 +16,10 @@ export function fillDeliverable(state, id) {
 }
 
 export function fillAgendaItem(state, id) {
+  if (!id || !state.getIn(['entities', 'agendaItems', id])) {
+    return null;
+  }
+
   const agendaItem = Immutable.fromJS(state.getIn(['entities', 'agendaItems', id])).toJS();
   agendaItem.conversation = state.getIn(['entities', 'conversations', agendaItem.conversationId]);
   agendaItem.owner = state.getIn(['entities', 'users', agendaItem.ownerId]);

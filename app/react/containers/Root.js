@@ -53,9 +53,9 @@ function transformConversationObjectFromPlainJson(conversationJson) {
 export default class Root extends Component {
   componentWillMount() {
     store.dispatch(setCurrentUser(this.props.currentUser));
-    store.dispatch(setAgendaItems(this.props.agendaItems));
+    //store.dispatch(setAgendaItems(this.props.agendaItems));
     store.dispatch(setCurrentConversation(transformConversationObjectFromPlainJson(this.props.currentConversation)));
-    store.dispatch(setDeliverables(this.props.deliverables));
+    //store.dispatch(setDeliverables(this.props.deliverables));
     store.dispatch(setUsers(this.props.users));
     store.dispatch(setConversationMembers(this.props.conversationId, this.props.conversationMembers.data.map(transformConversationMemberFromJsonApi)));
     store.dispatch(setCurrentOrganization(transformOrganizationFromJsonApi(this.props.currentOrganization.data)));

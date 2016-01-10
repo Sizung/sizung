@@ -174,8 +174,9 @@ class ConversationObjectList extends Component {
   componentDidMount() {
     this.listNode = this.refs.conversationObjectList.getDOMNode();
     window.addEventListener("resize", this.adjustConversationListHeight);
-    this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
-
+    if (this.props.parent) {
+      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    }
     this.scrollListToBottom();
   }
 
@@ -284,7 +285,7 @@ class ConversationObjectList extends Component {
 
   render() {
     const { currentConversation, users } = this.props;
-    var chatType = this.props.commentForm.parent.type;
+    var chatType = this.props.commentForm.parent ? this.props.commentForm.parent.type : null;
     if ( null != chatType ) {
       if ( chatType == 'agendaItems') {
         chatType = '( Agenda Item )';

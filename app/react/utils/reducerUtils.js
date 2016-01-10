@@ -76,6 +76,20 @@ export function handleFetchConversationObjects(state, action, parentReferenceTyp
   }
 }
 
+export function setObjectsFrom(state, action, list, objectType) {
+  var newState = state;
+  if (action.status === STATUS_SUCCESS) {
+    list.forEach((obj) => {
+      if (obj.type === objectType) {
+        newState = newState.set(obj.id, obj);
+      }
+    });
+    return newState;
+  };
+
+  return state;
+}
+
 export function setObjectsFromConversationObjectsList(state, action, objectType) {
   if (action.status == STATUS_SUCCESS) {
     action.conversationObjects.forEach(conversationObject => {

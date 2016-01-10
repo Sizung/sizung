@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     # resources :unseen_objects, options.merge(only: [:destroy_all])
   end
 
-  resources :agenda_items, only: [:create, :update] do
+  resources :agenda_items, only: [:create, :show, :update] do
     concerns :list_conversation_objects, parent_type: 'AgendaItem'
     concerns :unseen_objects, parent_type: 'AgendaItem'
   end

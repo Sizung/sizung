@@ -9,11 +9,12 @@ import fetch from 'isomorphic-fetch';
 import { updatePath } from 'redux-simple-router';
 import MetaTagsManager from '../utils/MetaTagsManager';
 import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from './statuses.js';
-import { transformAgendaItemFromJsonApi, transformConversationObjectFromJsonApi } from '../utils/jsonApiUtils.js';
+import { transformObjectFromJsonApi, transformAgendaItemFromJsonApi, transformConversationObjectFromJsonApi } from '../utils/jsonApiUtils.js';
 
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 export const UPDATE_AGENDA_ITEM = 'UPDATE_AGENDA_ITEM';
+export const FETCH_AGENDA_ITEM = 'FETCH_AGENDA_ITEM';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
 
 export function updateAgendaItemRemoteOrigin(agendaItem) {
@@ -29,6 +30,18 @@ export function updateAgendaItemSuccess(agendaItem) {
     type: UPDATE_AGENDA_ITEM,
     status: STATUS_SUCCESS,
     agendaItem,
+  };
+}
+
+export function fetchAgendaItemSuccess(agendaItem, included) {
+  console.log('included: ', included);
+
+  return {
+    type: FETCH_AGENDA_ITEM,
+    verb: 'FETCH',
+    status: STATUS_SUCCESS,
+    agendaItem,
+    included,
   };
 }
 
@@ -82,18 +95,28 @@ function fetchConversationObjectsSuccess(parentReference, conversationObjects, l
   };
 }
 
-// export function selectAgendaItem(conversationId, agendaItemId) {
-//   return function(dispatch) {
-//     dispatch(selectAgendaItemWithFetch(agendaItemId));
-//     dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
-//   };
-// }
-
 function shouldFetch(getState, agendaItemId) {
   return !getState().getIn(['conversationObjectsByAgendaItem', agendaItemId]);
 }
 
-function fetchObjects(conversationId, agendaItemId, dispatch) {
+function fetchAgendaItem(agendaItemId, dispatch) {
+  return fetch('/agenda_items/' + agendaItemId, {
+    method: 'get',
+    credentials: 'include', // send cookies with it
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
+    },
+  })
+  .then(response => response.json())
+  .then((json) => {
+    console.log(json);
+    dispatch(fetchAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data), json.included.map(transformObjectFromJsonApi)));
+  });
+}
+
+function fetchObjects(agendaItemId, dispatch) {
   return fetch('/agenda_items/' + agendaItemId + '/conversation_objects', {
     method: 'get',
     credentials: 'include', // send cookies with it
@@ -105,6 +128,7 @@ function fetchObjects(conversationId, agendaItemId, dispatch) {
   })
   .then(response => response.json())
   .then((json) => {
+    console.log(json);
     dispatch(
       fetchConversationObjectsSuccess(
         { type: 'agendaItems', id: agendaItemId },
@@ -122,10 +146,9 @@ export function visitAgendaItem(conversationId, agendaItemId) {
 }
 
 export function selectAgendaItem(conversationId, agendaItemId) {
-  return (dispatch, getState) => {
-    if (shouldFetch(getState, agendaItemId)) {
-      return fetchObjects(conversationId, agendaItemId, dispatch);
-    }
+  return (dispatch) => {
+    fetchAgendaItem(agendaItemId, dispatch);
+    fetchObjects(agendaItemId, dispatch);
   };
 }
 

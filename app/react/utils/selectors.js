@@ -19,8 +19,9 @@ const conversationObjects = (state, objectsToShow) => {
 };
 
 const agendaItemsList = (state, agendaItemIds) => {
-  return agendaItemIds.map((agendaItemId) => {
-    return state.getIn(['entities', 'agendaItems', agendaItemId]);
+  console.log('agendaItemIds: ', agendaItemIds.toJS());
+  return agendaItemIds.map((ref) => {
+    return state.getIn(['entities', 'agendaItems', ref.id]);
   }).toList().map((agendaItem) => {
     return fillAgendaItem(state, agendaItem.id);
   }).filter((agendaItem) => {

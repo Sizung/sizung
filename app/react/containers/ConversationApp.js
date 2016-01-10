@@ -11,21 +11,6 @@ import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
 
 class ConversationApp extends React.Component {
-  //componentDidMount() {
-  //  console.log(this.props);
-  //  const { conversationId, agendaItemId } = this.props.params;
-  //  this.props.selectAgendaItem(conversationId, agendaItemId);
-  //}
-  //
-  //componentDidUpdate(prevProps) {
-  //  const { conversationId, agendaItemId } = this.props.params;
-  //  const oldId = prevProps.params.agendaItemId;
-  //
-  //  if (agendaItemId !== oldId) {
-  //    this.props.selectAgendaItem(conversationId, agendaItemId);
-  //  }
-  //}
-  //
   render() {
     return <ConversationView {...this.props} />;
   }

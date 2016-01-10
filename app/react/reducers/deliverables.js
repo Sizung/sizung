@@ -7,12 +7,15 @@
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses';
 import { SET_DELIVERABLES, CREATE_DELIVERABLE, UPDATE_DELIVERABLE } from '../actions/deliverables';
 import { FETCH_CONVERSATION_OBJECTS } from '../actions/agendaItems';
-import { setObject, deleteObject, setObjects, setObjectsFromConversationObjectsList } from '../utils/reducerUtils';
+import { setObject, deleteObject, setObjects, setObjectsFromConversationObjectsList, setObjectsFrom } from '../utils/reducerUtils';
 import Immutable from 'immutable';
 
 const initialState = Immutable.Map();
 
 export default function deliverables(state = initialState, action = null) {
+  if (action.included) {
+    return setObjectsFrom(state, action, action.included, 'deliverables');
+  }
   switch (action.type) {
     case CREATE_DELIVERABLE: return setObject(state, action, 'deliverable');
     case UPDATE_DELIVERABLE: return setObject(state, action, 'deliverable');

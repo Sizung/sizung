@@ -106,17 +106,20 @@ export function transformConversationMemberFromJsonApi(conversationMember) {
   }
 }
 
+const transformObjectFromJsonApi = (obj) => {
+  switch (obj.type) {
+    case 'comments': return transformCommentFromJsonApi(obj);
+    case 'agenda_items': return transformAgendaItemFromJsonApi(obj);
+    case 'deliverables': return transformDeliverableFromJsonApi(obj);
+    case 'unseen_objects': return transformUnseenObjectFromJsonApi(obj);
+    default: console.warn('Unknown type of Object to transform: ', obj);
+  }
+};
+
+export {
+  transformObjectFromJsonApi,
+};
+
 export function transformConversationObjectFromJsonApi(conversationObject) {
-  if (conversationObject.type === 'comments') {
-    return transformCommentFromJsonApi(conversationObject);
-  }
-  else if  (conversationObject.type === 'agenda_items') {
-    return transformAgendaItemFromJsonApi(conversationObject);
-  }
-  else if  (conversationObject.type === 'deliverables') {
-    return transformDeliverableFromJsonApi(conversationObject);
-  }
-  else {
-    console.warn('Unknown type of ConversationObject to transform: ', conversationObject);
-  }
+  return transformObjectFromJsonApi(conversationObject);
 }
