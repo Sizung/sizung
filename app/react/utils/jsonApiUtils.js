@@ -93,11 +93,11 @@ export function transformUserFromJsonApi(user) {
   return {
     id: user.id,
     type: 'users',
-    email: user.email,
-    firstName: user.first_name,
-    lastName: user.last_name,
-    name: user.first_name + user.last_name,
-    presenceStatus: user.presence_status
+    email: user.attributes ? user.attributes.email : user.email,
+    firstName: user.attributes ? user.attributes.first_name : user.first_name,
+    lastName: user.attributes ? user.attributes.last_name : user.last_name,
+    name: (user.attributes ? user.attributes.first_name : user.first_name) + (user.attributes ? user.attributes.last_name : user.last_name),
+    presenceStatus: user.attributes ? user.attributes.presence_status : user.presence_status,
   };
 }
 
@@ -110,12 +110,26 @@ export function transformConversationMemberFromJsonApi(conversationMember) {
   }
 }
 
+export function transformOrganizationMemberFromJsonApi(orgMember) {
+  return {
+    id: orgMember.id,
+    type: 'organizationMembers',
+    organizationId: orgMember.relationships.organization.data.id,
+    memberId: orgMember.relationships.member.data.id,
+  };
+}
+
 const transformObjectFromJsonApi = (obj) => {
   switch (obj.type) {
+    case 'users': return transformUserFromJsonApi(obj);
     case 'comments': return transformCommentFromJsonApi(obj);
+    case 'conversations': return transformConversationFromJsonApi(obj);
     case 'agenda_items': return transformAgendaItemFromJsonApi(obj);
     case 'deliverables': return transformDeliverableFromJsonApi(obj);
     case 'unseen_objects': return transformUnseenObjectFromJsonApi(obj);
+    case 'conversation_members': return transformConversationMemberFromJsonApi(obj);
+    case 'organization_members': return transformOrganizationMemberFromJsonApi(obj);
+    case 'organizations': return transformOrganizationFromJsonApi(obj);
     default: console.warn('Unknown type of Object to transform: ', obj);
   }
 };

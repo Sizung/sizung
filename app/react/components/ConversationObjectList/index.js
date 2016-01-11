@@ -59,7 +59,7 @@ class ConversationObjectList extends Component {
           return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable} selectDeliverable={selectDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>
         }
         else {
-          console.log('Component not found for conversationObject: ', conversationObject);
+          console.warn('Component not found for conversationObject: ', conversationObject);
         }
       });
     }
@@ -108,15 +108,18 @@ class ConversationObjectList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.listNode = this.refs.conversationObjectList.getDOMNode();
-    var _this = this;
-    $(this.listNode).scroll(function() {
-      if($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
-        _this.hideNewActivityMarker();
-      }
-    });
+    const conversationObjectList = this.refs.conversationObjectList;
+    if (conversationObjectList) {
+      this.listNode = this.refs.conversationObjectList.getDOMNode();
+      var _this = this;
+      $(this.listNode).scroll(function () {
+        if ($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
+          _this.hideNewActivityMarker();
+        }
+      });
+    };
 
-    if ( !this.state.isConversationMembersViewVisible ) {
+    if ( this.refs.listFooter && !this.state.isConversationMembersViewVisible ) {
       this.commentFormNode = this.refs.listFooter.getDOMNode();
       this.newActivityMarkerNode = this.refs.newActivityMarker.getDOMNode();
     }
@@ -172,12 +175,15 @@ class ConversationObjectList extends Component {
   }
 
   componentDidMount() {
-    this.listNode = this.refs.conversationObjectList.getDOMNode();
-    window.addEventListener("resize", this.adjustConversationListHeight);
-    if (this.props.parent) {
-      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
-    }
-    this.scrollListToBottom();
+    const conversationObjectList = this.refs.conversationObjectList;
+    if (conversationObjectList) {
+      this.listNode = conversationObjectList.getDOMNode();
+      window.addEventListener("resize", this.adjustConversationListHeight);
+      if (this.props.parent) {
+        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      }
+      this.scrollListToBottom();
+    };
   }
 
   toggleConversationMembersView() {
@@ -205,7 +211,7 @@ class ConversationObjectList extends Component {
   renderConversationTimeLine() {
     const { conversationObjects, createComment, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
-        canCreateDeliverable, visitAgendaItem, selectDeliverable, users } = this.props;
+        canCreateDeliverable, visitAgendaItem, selectDeliverable } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
     var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, selectDeliverable, commentForm.parent, commentForm.currentUser);

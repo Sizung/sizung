@@ -42,12 +42,11 @@ export default class Root extends Component {
   componentWillMount() {
     store.dispatch(setCurrentUser(this.props.currentUser));
     store.dispatch(setUsers(this.props.users));
-    store.dispatch(setConversationMembers(this.props.conversationId, this.props.conversationMembers.data.map(transformConversationMemberFromJsonApi)));
     store.dispatch(setCurrentOrganization(transformOrganizationFromJsonApi(this.props.currentOrganization.data)));
   }
 
   componentDidMount() {
-    store.dispatch(setUnseenObjects(this.props.unseenObjects.data.map(transformUnseenObjectFromJsonApi)));
+    //store.dispatch(setUnseenObjects(this.props.unseenObjects.data.map(transformUnseenObjectFromJsonApi)));
     store.dispatch(fetchConversationObjects('conversations', this.props.currentConversation.id));
     store.dispatch(fetchOrganizations());
     setupWebSocket(store);

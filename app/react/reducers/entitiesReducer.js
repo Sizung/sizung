@@ -5,6 +5,10 @@ const initialState = new Immutable.Map({
   unseenObjects: new Immutable.Map(),
 });
 
+const isEntity = (candidate) => {
+  return Object.keys(candidate).length > 2;
+};
+
 const entitiesReducer = (state = initialState, action = null) => {
   if (action.verb === 'DELETE' && (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN)) {
     let newState = state;
@@ -26,13 +30,17 @@ const entitiesReducer = (state = initialState, action = null) => {
 
     if (action.entities) {
       action.entities.forEach((entity) => {
-        const type = entity.type;
-        newState = newState.setIn([type, entity.id], entity);
+        if (isEntity(entity)) {
+          const type = entity.type;
+          newState = newState.setIn([type, entity.id], entity);
+        }
       });
     }
 
     if (action.entity) {
-      newState = newState.setIn([action.entity.type, action.entity.id], action.entity);
+      if (isEntity(action.entity)) {
+        newState = newState.setIn([action.entity.type, action.entity.id], action.entity);
+      }
     }
 
     return newState;
