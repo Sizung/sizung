@@ -8,10 +8,6 @@ import styles from './index.css';
 
 @CSSModules(styles)
 class ConversationView extends React.Component {
-  componentWillMount() {
-    console.log('ConversationView', this.props, this.props.createDeliverable);
-  }
-
   render() {
     const { conversationObjectsList, currentConversation, conversationMembers } = this.props;
     if (conversationObjectsList.conversationObjects) {

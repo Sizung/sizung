@@ -105,9 +105,7 @@ class Comment extends React.Component {
   }
 
   handleScroll() {
-    console.log("Inside handleScroll");
     var node = React.findDOMNode(this.refs.gearDropDown);
-    console.log("node: " + node);
     if (node){
       this.props.handleCommentSettingsDropdownScroll(node);
     }

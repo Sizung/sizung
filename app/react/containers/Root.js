@@ -38,24 +38,9 @@ const store = configureStore();
 const history = createBrowserHistory();
 syncReduxAndRouter(history, store, (state) => state.get('routing'));
 
-function transformConversationObjectFromPlainJson(conversationJson) {
-  return {
-    id: conversationJson.id,
-    type: 'conversations',
-    title: conversationJson.title,
-    organization_id: conversationJson.organization_id,
-    organizationId: conversationJson.organization_id,
-    created_at: conversationJson.created_at,
-    updated_at: conversationJson.updated_at,
-  };
-}
-
 export default class Root extends Component {
   componentWillMount() {
     store.dispatch(setCurrentUser(this.props.currentUser));
-    //store.dispatch(setAgendaItems(this.props.agendaItems));
-    store.dispatch(setCurrentConversation(transformConversationObjectFromPlainJson(this.props.currentConversation)));
-    //store.dispatch(setDeliverables(this.props.deliverables));
     store.dispatch(setUsers(this.props.users));
     store.dispatch(setConversationMembers(this.props.conversationId, this.props.conversationMembers.data.map(transformConversationMemberFromJsonApi)));
     store.dispatch(setCurrentOrganization(transformOrganizationFromJsonApi(this.props.currentOrganization.data)));

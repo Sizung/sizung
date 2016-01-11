@@ -1,5 +1,6 @@
+import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from '../actions/statuses';
 import { SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM } from '../actions/agendaItems';
-import { setReference } from '../utils/reducerUtils';
+import * as reducerUtils from '../utils/reducerUtils';
 
 import Immutable from 'immutable';
 
@@ -14,16 +15,24 @@ const initialState = new Immutable.Map();
 // }
 
 export default function agendaItemsByConversation(state = initialState, action = null) {
-  switch (action.type) {
-    case SET_AGENDA_ITEMS:
-      let conversationId = null;
-      const ids = action.agendaItems.map((agendaItem) => {
-        conversationId = agendaItem.conversationId;
-        return agendaItem.id;
-      });
+  if (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) {
+    let newState = state;
 
-      return state.set(conversationId, new Immutable.List(ids));
-    case CREATE_AGENDA_ITEM: return setReference(state, action, 'agendaItem', 'conversationId');
-    default: return state;
+    if (action.entities) {
+      action.entities.forEach((entity) => {
+        const type = entity.type;
+        if (type === 'agendaItems') {
+          newState = reducerUtils.setReferenceByObject(newState, entity, entity.conversationId);
+        }
+      });
+    }
+
+    if (action.entity && action.entity.type === 'agendaItems') {
+      newState = reducerUtils.setReferenceByObject(newState, action.entity, action.entity.conversationId);
+    }
+
+    return newState;
   }
+
+  return state;
 }

@@ -10,11 +10,8 @@ import Immutable from 'immutable';
 import * as selectors from '../utils/selectors';
 
 function mapStateToProps(state, props) {
-  console.log(props.params.conversationId);
-  const agendaItemIdsToShow = state.getIn(['agendaItemsByConversation', props.params.conversationId]);
-
   return {
-    agendaItems: agendaItemIdsToShow ? selectors.agendaItemsList(state, agendaItemIdsToShow.get('references')) : [],
+    agendaItems: selectors.agendaItemsList(state, props.params.conversationId),
     selectedId: props.params.agendaItemId,
   };
 }

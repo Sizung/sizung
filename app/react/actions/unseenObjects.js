@@ -13,7 +13,7 @@ export function deleteUnseenObjectsSuccess(unseenObjects) {
     type: DELETE_UNSEEN_OBJECTS,
     verb: DELETE,
     status: STATUS_SUCCESS,
-    entities: unseenObjects
+    entities: unseenObjects,
   };
 }
 
@@ -42,7 +42,7 @@ export function setUnseenObjects(unseenObjects) {
   return {
     type: SET_UNSEEN_OBJECTS,
     status: STATUS_REMOTE_ORIGIN,
-    entities: unseenObjects
+    entities: unseenObjects,
   };
 }
 
@@ -50,7 +50,7 @@ export function createUnseenObjectRemoteOrigin(unseenObject) {
   return {
     type: CREATE_UNSEEN_OBJECT,
     status: STATUS_REMOTE_ORIGIN,
-    entity: unseenObject
+    entity: unseenObject,
   };
 }
 

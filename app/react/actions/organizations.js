@@ -10,7 +10,8 @@ export function setCurrentOrganization(organization) {
   return {
     type: SET_CURRENT_ORGANIZATION,
     status: STATUS_SUCCESS,
-    organization: organization
+    organization: organization,
+    entity: organization,
   }
 }
 
@@ -18,7 +19,8 @@ function fetchOrganizationsSuccess(organizations) {
   return {
     type: FETCH_ORGANIZATIONS,
     status: STATUS_SUCCESS,
-    organizations: organizations
+    organizations: organizations,
+    entities: organizations,
   };
 }
 

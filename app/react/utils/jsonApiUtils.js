@@ -36,6 +36,10 @@ export function transformConversationFromJsonApi(conversation) {
     id: conversation.id,
     type: transformTypeFromJsonApi(conversation.type),
     title: conversation.attributes.title,
+    organization_id: conversation.relationships.organization.data.id,
+    organizationId: conversation.relationships.organization.data.id,
+    created_at: conversation.created_at,
+    updated_at: conversation.updated_at,
   };
 }
 
@@ -88,7 +92,7 @@ export function transformCommentFromJsonApi(comment) {
 export function transformUserFromJsonApi(user) {
   return {
     id: user.id,
-    type: user.type,
+    type: 'users',
     email: user.email,
     firstName: user.first_name,
     lastName: user.last_name,

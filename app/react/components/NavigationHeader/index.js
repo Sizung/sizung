@@ -7,21 +7,30 @@ import styles from "./index.css";
 @CSSModules(styles)
 class NavigationHeader extends Component {
 
-  constructor(){
-    super();
-    this.handleCurrentOrganizationClick = this.handleCurrentOrganizationClick.bind(this);
-  }
-
-  handleCurrentOrganizationClick(event) {
-    if ( !$(event.currentTarget).parent().hasClass('open')) {
+  handleCurrentOrganizationClick = (event) => {
+    if (!$(event.currentTarget).parent().hasClass('open')) {
       location.href = '/organizations/' + this.props.currentOrganization.id;
     }
+  };
 
-  }
+  conversationTitle = () => {
+    const { currentConversation } = this.props;
+    if (currentConversation) {
+      return (
+        <h5 title={currentConversation.title} styleName='conversation-title' >
+          <a href={'/organizations/' + currentConversation.organization_id + '/conversations'}>
+            <i styleName="conversation-close-icon"></i>
+          </a>{" "}
+          <img src={window.location.protocol + '//' + window.location.host + '/icons/conversation-icon-white.png'}></img>
+          {' ' + currentConversation.title}
+        </h5>
+      );
+    }
+  };
 
   render() {
     const currentUserName = this.props.currentUser.firstName + " " + this.props.currentUser.lastName;
-    const { organizations, currentOrganization, currentConversation, users } = this.props;
+    const { organizations, currentOrganization, users } = this.props;
     //const organizationElements = organizations.filter(function(organization){
     //  return organization.id !== currentOrganization.id;
     //}).map(function(organization){
@@ -59,13 +68,7 @@ class NavigationHeader extends Component {
               </ul>
             </div>
             <div styleName='conversation-title-container'>
-                  <h5 title={currentConversation.title} styleName='conversation-title' >
-                      <a href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
-                        <i styleName='conversation-close-icon'></i>
-                      </a>{" "}
-                      <img src={window.location.protocol + "//" + window.location.host + "/icons/conversation-icon-white.png"}></img>
-                      {" " + currentConversation.title}
-                  </h5>
+              { this.conversationTitle() }
             </div>
             <div styleName='user-dropdown-container'>
               <ul styleName='user-dropdown-nav'>
@@ -99,9 +102,9 @@ class NavigationHeader extends Component {
 NavigationHeader.propTypes = {
   organizations: PropTypes.object.isRequired,
   currentUser: PropTypes.shape({
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
   }).isRequired,
-  users: PropTypes.object.isRequired
+  users: PropTypes.object.isRequired,
 };
 
 export default NavigationHeader;

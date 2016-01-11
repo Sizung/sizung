@@ -22,6 +22,7 @@ export function updateAgendaItemRemoteOrigin(agendaItem) {
     type: UPDATE_AGENDA_ITEM,
     status: STATUS_REMOTE_ORIGIN,
     agendaItem,
+    entity: agendaItem,
   };
 }
 
@@ -30,18 +31,19 @@ export function updateAgendaItemSuccess(agendaItem) {
     type: UPDATE_AGENDA_ITEM,
     status: STATUS_SUCCESS,
     agendaItem,
+    entity: agendaItem,
   };
 }
 
 export function fetchAgendaItemSuccess(agendaItem, included) {
-  console.log('included: ', included);
-
   return {
     type: FETCH_AGENDA_ITEM,
     verb: 'FETCH',
     status: STATUS_SUCCESS,
     agendaItem,
     included,
+    entity: agendaItem,
+    entities: included,
   };
 }
 
@@ -92,6 +94,7 @@ function fetchConversationObjectsSuccess(parentReference, conversationObjects, l
     parentReference,
     conversationObjects,
     links,
+    entities: conversationObjects,
   };
 }
 
@@ -111,7 +114,6 @@ function fetchAgendaItem(agendaItemId, dispatch) {
   })
   .then(response => response.json())
   .then((json) => {
-    console.log(json);
     dispatch(fetchAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data), json.included.map(transformObjectFromJsonApi)));
   });
 }
@@ -128,7 +130,6 @@ function fetchObjects(agendaItemId, dispatch) {
   })
   .then(response => response.json())
   .then((json) => {
-    console.log(json);
     dispatch(
       fetchConversationObjectsSuccess(
         { type: 'agendaItems', id: agendaItemId },
@@ -156,6 +157,7 @@ export function setAgendaItems(agendaItems) {
   return {
     type: SET_AGENDA_ITEMS,
     agendaItems: agendaItems.data.map(transformAgendaItemFromJsonApi),
+    entities: agendaItems.data.map(transformAgendaItemFromJsonApi),
   };
 }
 
@@ -164,6 +166,7 @@ export function createAgendaItemSuccess(agendaItem) {
     type: CREATE_AGENDA_ITEM,
     status: STATUS_SUCCESS,
     agendaItem,
+    entity: agendaItem,
   };
 }
 
@@ -172,6 +175,7 @@ export function createAgendaItemRemoteOrigin(agendaItem) {
     type: CREATE_AGENDA_ITEM,
     status: STATUS_REMOTE_ORIGIN,
     agendaItem,
+    entity: agendaItem,
   };
 }
 

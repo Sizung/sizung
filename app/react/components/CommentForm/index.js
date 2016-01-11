@@ -95,7 +95,7 @@ class CommentForm extends React.Component {
   componentDidUpdate() {
     if ( !this.state.hasInput ) {
       //TODO: Find a better alternative to correct this dirty way of dispatching a change event to resize textarea on submit
-      this.inputNode.dispatchEvent(new Event('input'));
+      //this.inputNode.dispatchEvent(new Event('input'));
     }
   }
 
@@ -132,7 +132,6 @@ class CommentForm extends React.Component {
         <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
           <Button tabIndex='2' ref='commentButton' styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><img style={{ marginRight: '5px'}} height='12px' src={window.location.protocol + "//" + window.location.host + "/icons/chat-icon-gray.png"}></img>Comment</Button>
           { buttons }
-          <Button tabIndex='5' href={"/organizations/" + currentConversation.organization_id + "/conversations/new"} key="createConversation" styleName='conversation-btn'><img style={{ marginRight: '5px'}} height='12px' src={window.location.protocol + "//" + window.location.host + "/icons/conversation-icon-gray.png"}></img>Conversation</Button>
         </ButtonGroup>
       <div ref='formContainer' styleName='form-container'>
         <div styleName='user'>

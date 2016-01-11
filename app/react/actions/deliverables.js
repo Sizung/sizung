@@ -26,7 +26,8 @@ export function updateDeliverableRemoteOrigin(deliverable) {
   return {
     type: UPDATE_DELIVERABLE,
     status: STATUS_REMOTE_ORIGIN,
-    deliverable: deliverable
+    deliverable: deliverable,
+    entity: deliverable,
   };
 }
 
@@ -34,7 +35,8 @@ export function updateDeliverableSuccess(deliverable) {
   return {
     type: UPDATE_DELIVERABLE,
     status: STATUS_SUCCESS,
-    deliverable: deliverable
+    deliverable: deliverable,
+    entity: deliverable,
   };
 }
 
@@ -79,7 +81,8 @@ function fetchConversationObjectsSuccess(parentReference, conversationObjects, l
     status: STATUS_SUCCESS,
     parentReference: parentReference,
     conversationObjects: conversationObjects,
-    links: links
+    links: links,
+    entities: conversationObjects,
   };
 }
 
@@ -131,7 +134,8 @@ export function selectDeliverable(conversationId, agendaItemId, deliverableId) {
 export function setDeliverables(deliverables = []) {
   return {
     type: SET_DELIVERABLES,
-    deliverables: deliverables.data.map(transformDeliverableFromJsonApi)
+    deliverables: deliverables.data.map(transformDeliverableFromJsonApi),
+    entities: deliverables,
   };
 }
 
@@ -139,7 +143,8 @@ function createDeliverableSuccess(deliverable) {
   return {
     type: CREATE_DELIVERABLE,
     status: STATUS_SUCCESS,
-    deliverable: deliverable
+    deliverable: deliverable,
+    entity: deliverable,
   };
 }
 
@@ -147,7 +152,8 @@ export function createDeliverableRemoteOrigin(deliverable) {
   return {
     type: CREATE_DELIVERABLE,
     status: STATUS_REMOTE_ORIGIN,
-    deliverable: deliverable
+    deliverable: deliverable,
+    entity: deliverable,
   };
 }
 

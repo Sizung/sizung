@@ -10,7 +10,8 @@ export function setConversationMembers(conversationId, conversationMembers) {
     type: SET_CONVERSATION_MEMBERS,
     status: STATUS_SUCCESS,
     conversationId,
-    conversationMembers
+    conversationMembers,
+    entities: conversationMembers,
   };
 }
 
@@ -18,7 +19,8 @@ export function createConversationMemberSuccess(conversationMember) {
   return {
     type: CREATE_CONVERSATION_MEMBER,
     status: STATUS_SUCCESS,
-    conversationMember
+    conversationMember,
+    entity: conversationMember,
   }
 }
 
@@ -68,6 +70,7 @@ export function deleteConversationMemberSuccess(conversationMember) {
   return {
     type: DELETE_CONVERSATION_MEMBER,
     status: STATUS_SUCCESS,
-    conversationMember: conversationMember
+    conversationMember: conversationMember,
+    entity: conversationMember,
   };
 }

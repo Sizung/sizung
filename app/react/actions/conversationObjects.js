@@ -11,7 +11,8 @@ export function setConversationObjects(conversation, conversationObjects) {
   return {
     type: SET_CONVERSATION_OBJECTS,
     conversation: conversation,
-    conversationObjects: conversationObjects.data.map(transformConversationObjectFromJsonApi)
+    conversationObjects: conversationObjects.data.map(transformConversationObjectFromJsonApi),
+    entities: conversationObjects,
   };
 }
 
@@ -21,7 +22,8 @@ function fetchConversationObjectsSuccess(parentReference, conversationObjects, l
     status: STATUS_SUCCESS,
     parentReference: parentReference,
     conversationObjects: conversationObjects,
-    links: links
+    links: links,
+    entities: conversationObjects,
   };
 }
 
