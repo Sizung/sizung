@@ -1,20 +1,22 @@
 import { connect } from 'react-redux';
 import EditableUser from '../components/EditableUser';
+import Immutable from 'immutable';
 
 function mapStateToProps(state) {
-  var users = state.getIn(['entities', 'users']).toList();
-  var conversationMemberReferences = state.getIn(['entities', 'conversationMembers']).toList();
-  var conversationMembers = new Array();
-  users.map(function(user){
-    conversationMemberReferences.map(function(conversationMemberReference){
-      if ( user.id == conversationMemberReference.memberId ) {
-        conversationMembers.push(user);
+  const users = state.getIn(['entities', 'users']).toList();
+  const conversationMemberReferences = state.getIn(['entities', 'conversationMembers']).toList();
+  let conversationMembers = new Immutable.List();
+
+  users.map((user) => {
+    conversationMemberReferences.map((conversationMemberReference) => {
+      if (user.id === conversationMemberReference.memberId) {
+        conversationMembers = conversationMembers.push(user);
       }
     });
   });
   return {
-    users: conversationMembers
-  }
+    users: conversationMembers,
+  };
 }
 
 export default connect(mapStateToProps)(EditableUser);

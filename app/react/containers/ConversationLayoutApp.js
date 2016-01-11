@@ -27,7 +27,7 @@ class ConversationLayoutApp extends React.Component {
 }
 
 ConversationLayoutApp.propTypes = {
-  currentConversation: PropTypes.object.isRequired,
+  currentConversation: PropTypes.object,
   currentUser: PropTypes.object.isRequired,
   fetchConversation: PropTypes.func.isRequired,
 };

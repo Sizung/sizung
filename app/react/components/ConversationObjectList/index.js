@@ -94,9 +94,9 @@ class ConversationObjectList extends Component {
   handleBackClick(e){
     e.preventDefault();
     if ( null != this.props.commentForm.parent && this.props.commentForm.parent.type == "deliverables" ){
-      this.props.visitAgendaItem(this.props.currentConversation.id, this.props.commentForm.parent.agendaItem.id);
+      this.props.visitAgendaItem(this.props.currentConversationId, this.props.commentForm.parent.agendaItem.id);
     } else {
-      this.props.backToConversation(this.props.currentConversation.id);
+      this.props.backToConversation(this.props.currentConversationId);
     }
   };
 
@@ -203,7 +203,7 @@ class ConversationObjectList extends Component {
   }
 
   renderConversationTimeLine() {
-    const { currentConversation, conversationObjects, createComment, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
+    const { conversationObjects, createComment, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
         canCreateDeliverable, visitAgendaItem, selectDeliverable, users } = this.props;
 
@@ -284,7 +284,7 @@ class ConversationObjectList extends Component {
 
 
   render() {
-    const { currentConversation, users } = this.props;
+    const { users } = this.props;
     var chatType = this.props.commentForm.parent ? this.props.commentForm.parent.type : null;
     if ( null != chatType ) {
       if ( chatType == 'agendaItems') {
@@ -343,10 +343,7 @@ ConversationObjectList.propTypes = {
   createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
   conversationObjects: PropTypes.array,
-  currentConversation: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired
-  }).isRequired,
+  currentConversationId: PropTypes.string.isRequired,
   canCreateAgendaItem: PropTypes.bool.isRequired,
   canCreateDeliverable: PropTypes.bool.isRequired,
   users: PropTypes.object.isRequired,

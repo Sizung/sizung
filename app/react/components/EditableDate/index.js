@@ -37,7 +37,7 @@ class EditableDate extends React.Component {
 
 EditableDate.propTypes = {
   editable: PropTypes.bool,
-  value: PropTypes.string.isRequired,
+  value: PropTypes.string,
   onUpdate: PropTypes.func.isRequired
 };
 

@@ -65,7 +65,7 @@ function mapStateToProps(state, props) {
     canCreateDeliverable: true,
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
-    currentConversation: selectors.currentConversation(state),
+    currentConversationId: props.params.conversationId,
     conversationMembers: selectors.conversationMembers(state),
   };
 }

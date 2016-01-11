@@ -129,7 +129,7 @@ DeliverableInTimeline.propTypes = {
   deliverable: PropTypes.shape({
     title: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
-    dueOn: PropTypes.string.isRequired,
+    dueOn: PropTypes.string,
     commentsCount: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
     agendaItem: PropTypes.shape({

@@ -30,7 +30,7 @@ class ApplicationLayout extends Component {
 
 ApplicationLayout.propTypes = {
   currentOrganization: PropTypes.object.isRequired,
-  currentConversation: PropTypes.object.isRequired,
+  currentConversation: PropTypes.object,
   organizations: PropTypes.object.isRequired,
   currentUser: PropTypes.shape({
     name: PropTypes.string.isRequired,

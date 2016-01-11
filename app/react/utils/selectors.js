@@ -20,9 +20,7 @@ const conversationObjects = (state, objectsToShow) => {
 };
 
 const agendaItemsList = (state, conversationId) => {
-  console.log('agendaItemsList: ', conversationId);
   const agendaItemIdsToShow = state.getIn(['agendaItemsByConversation', conversationId]);
-  console.log('agendaItemsList: ', agendaItemIdsToShow);
 
   if (!agendaItemIdsToShow) {
     return new Immutable.List();

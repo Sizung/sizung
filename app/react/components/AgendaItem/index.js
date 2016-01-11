@@ -76,9 +76,6 @@ AgendaItem.propTypes = {
     status: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     deliverablesCount: PropTypes.number.isRequired,
-    conversation: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-    }).isRequired,
   }).isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
   visitAgendaItem: PropTypes.func.isRequired,

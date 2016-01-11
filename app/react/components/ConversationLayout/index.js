@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 import AgendaItemListApp from '../../containers/AgendaItemListApp';
@@ -92,5 +92,11 @@ class ConversationLayout extends Component {
     );
   }
 }
+
+ConversationLayout.propTypes = {
+  currentConversation: PropTypes.object,
+  currentUser: PropTypes.object.isRequired,
+  fetchConversation: PropTypes.func.isRequired,
+};
 
 export default ConversationLayout;
