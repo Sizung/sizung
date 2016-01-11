@@ -4,15 +4,23 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import Immutable from 'immutable';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
+import createLogger from 'redux-logger';
 
 let finalCreateStore;
 
 /* global __DEVELOPMENT__, __DEVTOOLS__ */
 if (__DEVELOPMENT__ && __DEVTOOLS__) {
   const { devTools, persistState } = require('redux-devtools');
+  const logger = createLogger({
+    collapsed: true,
+    duration: true,
+    stateTransformer: (state) => {
+      return state.toJS();
+    },
+  });
 
   finalCreateStore = compose(
-    applyMiddleware(thunk),
+    applyMiddleware(thunk, logger),
     // Provides support for DevTools:
     devTools(),
     // Lets you write ?debug_session=<name> in address bar to persist debug sessions
