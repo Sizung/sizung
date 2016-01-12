@@ -4,6 +4,7 @@ import { STATUS_SUCCESS } from './statuses.js';
 import { setCurrentOrganization } from './organizations';
 
 export const CONVERSATION = 'CONVERSATION';
+export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
 
 const setCurrentConversation = (conversation, included, json) => {
   const conversationMembers = json.data.relationships.conversation_members.data;
@@ -32,6 +33,37 @@ const fetchConversation = (conversationId) => {
   };
 };
 
+const fetchConversationObjectsSuccess = (parentReference, conversationObjects, links) => {
+  return {
+    type: FETCH_CONVERSATION_OBJECTS,
+    status: STATUS_SUCCESS,
+    parentReference,
+    conversationObjects,
+    links,
+    entities: conversationObjects,
+  };
+}
+
+const fetchObjects = (conversationId, dispatch) => {
+  return api.fetchJson('/conversations/' + conversationId + '/conversation_objects', (json) => {
+    dispatch(
+      fetchConversationObjectsSuccess(
+        { type: 'conversations', id: conversationId },
+        json.data.map(transform.transformObjectFromJsonApi),
+        json.links
+      )
+    );
+  });
+};
+
+const selectConversation = (conversationId) => {
+  return (dispatch) => {
+    fetchConversation(conversationId, dispatch);
+    fetchObjects(conversationId, dispatch);
+  };
+};
+
 export {
   fetchConversation,
+  selectConversation,
 }

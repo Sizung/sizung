@@ -37,6 +37,23 @@ export function fillAgendaItem(state, id) {
   return agendaItem;
 }
 
+export function fillConversation(state, id) {
+  if (!id || !state.getIn(['entities', 'conversations', id])) {
+    return null;
+  }
+
+  const conversation = Immutable.fromJS(state.getIn(['entities', 'conversations', id])).toJS();
+  conversation.organization = state.getIn(['entities', 'organization', conversation.organizationId]);
+  conversation.unseen = state.getIn(['entities', 'unseenObjects']).some((unseenObject) => {
+    return unseenObject.targetId === id;
+  });
+  conversation.unseenCount = state.getIn(['entities', 'unseenObjects']).filter((unseenObject) => {
+    return unseenObject.conversationId === id;
+  }).size;
+
+  return conversation;
+}
+
 export function fillComment(state, id) {
   var comment = Immutable.fromJS(state.getIn(['entities', 'comments', id])).toJS();
   comment.author = state.getIn(['entities', 'users', comment.authorId]);

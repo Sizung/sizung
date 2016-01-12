@@ -1,64 +1,83 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import * as selectors from '../utils/selectors';
-import ConversationView from '../components/ConversationView';
-import { fillConversationObject } from '../utils/entityUtils';
+
+import * as ConversationActions from '../actions/conversations';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as CommentActions from '../actions/comments';
 import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
+import * as selectors from '../utils/selectors';
+
+import ConversationObjectList from '../components/ConversationObjectList';
+import { fillConversation } from '../utils/entityUtils';
 
 class ConversationApp extends React.Component {
-  render() {
-    return <ConversationView {...this.props} />;
+  componentDidMount() {
+    this.fetchData();
   }
-}
 
-function prepareConversationObjectList(state, objectsToShow, parentObject, canCreateAgendaItem, canCreateDeliverable) {
-  const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
-  const conversationObjectsList = { commentForm: {} };
+  componentDidUpdate(prevProps) {
+    if (this.props.params.conversationId !== prevProps.params.conversationId) {
+      this.fetchData();
+    }
+  }
 
-  if (objectsToShow) {
-    conversationObjectsList.conversationObjects = objectsToShow.get('references').map((objectReference) => {
-      return fillConversationObject(state, objectReference);
-    }).toList().sortBy((conversationObject) => {
-      return conversationObject.createdAt;
-    }).toJS();
+  fetchData = () => {
+    const { conversationId } = this.props.params;
+    this.props.selectConversation(conversationId);
+  };
 
-    if (parseInt(decodeURIComponent(objectsToShow.get('nextPageUrl')).split('page[size]=')[1]) === 0) {
-      conversationObjectsList.nextPageUrl = null;
-    } else {
-      conversationObjectsList.nextPageUrl = objectsToShow.get('nextPageUrl');
+  render() {
+    const { conversationObjects, commentForm } = this.props;
+    const { parent } = commentForm;
+
+    if (conversationObjects && parent) {
+      return <ConversationObjectList {...this.props} />;
     }
 
-    conversationObjectsList.isFetching = objectsToShow.get('isFetching');
-    conversationObjectsList.commentForm.currentUser = currentUser;
-    conversationObjectsList.commentForm.parent = parentObject;
-    conversationObjectsList.commentForm.canCreateAgendaItem = canCreateAgendaItem;
-    conversationObjectsList.commentForm.canCreateDeliverable = canCreateDeliverable;
-    conversationObjectsList.canCreateAgendaItem = canCreateAgendaItem;
-    conversationObjectsList.canCreateDeliverable = canCreateDeliverable;
-    conversationObjectsList.users = selectors.conversationMembers(state);
+    return <div className="text-center"><h5>Loading Conversation...</h5></div>;
   }
-
-  return conversationObjectsList;
 }
 
-function mapStateToProps(state) {
-  const objectsToShow = state.getIn(['conversationObjectsByConversation', state.getIn(['currentConversation', 'id'])]);
-  const conversationObjectsList = prepareConversationObjectList(state, objectsToShow, selectors.currentConversation(state), true, false);
+function objectsToShow(state, props) {
+  return state.getIn(['conversationObjectsByConversation', props.params.conversationId]);
+}
 
+function isFetching(state, props) {
+  const list = objectsToShow(state, props);
+  return list ? list.get('isFetching') : false;
+}
+
+function nextPageUrl(state, props) {
+  const list = objectsToShow(state, props);
+  if (list && parseInt(decodeURIComponent(list.get('nextPageUrl')).split("page[size]=")[1]) !== 0) {
+    return list.get('nextPageUrl');
+  }
+}
+
+function mapStateToProps(state, props) {
   return {
-    conversationObjectsList,
-    currentConversation: selectors.currentConversation(state),
+    conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
+    commentForm: {
+      currentUser: selectors.currentUser(state),
+      parent: fillConversation(state, props.params.conversationId),
+      canCreateAgendaItem: true,
+      canCreateDeliverable: false,
+    },
+    users: selectors.conversationMembers(state),
+    canCreateAgendaItem: true,
+    canCreateDeliverable: false,
+    isFetching: isFetching(state, props),
+    nextPageUrl: nextPageUrl(state, props),
+    currentConversationId: props.params.conversationId,
     conversationMembers: selectors.conversationMembers(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
+  return bindActionCreators({ ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationApp);
