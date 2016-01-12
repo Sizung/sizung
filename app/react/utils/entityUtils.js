@@ -1,7 +1,11 @@
 import Immutable from 'immutable';
 
 export function fillDeliverable(state, id) {
-  var deliverable = Immutable.fromJS(state.getIn(['entities', 'deliverables', id])).toJS();
+  if (!id || !state.getIn(['entities', 'deliverables', id])) {
+    return null;
+  }
+
+  const deliverable = Immutable.fromJS(state.getIn(['entities', 'deliverables', id])).toJS();
   deliverable.agendaItem = fillAgendaItem(state, deliverable.agendaItemId);
   deliverable.owner = state.getIn(['entities', 'users', deliverable.ownerId]);
   deliverable.assignee = state.getIn(['entities', 'users', deliverable.assigneeId]);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
@@ -10,38 +10,37 @@ import * as ConversationObjectsActions from '../actions/conversationObjects';
 import * as selectors from '../utils/selectors';
 
 import ConversationObjectList from '../components/ConversationObjectList';
-import { fillAgendaItem } from '../utils/entityUtils';
+import { fillDeliverable } from '../utils/entityUtils';
 
-class AgendaItemApp extends React.Component {
+class DeliverableApp extends React.Component {
   componentDidMount() {
     this.fetchData();
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.params.agendaItemId !== prevProps.params.agendaItemId) {
+    if (this.props.params.deliverableId !== prevProps.params.deliverableId) {
       this.fetchData();
     }
   }
 
   fetchData = () => {
-    const { conversationId, agendaItemId } = this.props.params;
-    this.props.selectAgendaItem(conversationId, agendaItemId);
+    const { conversationId, agendaItemId, deliverableId } = this.props.params;
+    this.props.selectDeliverable(conversationId, agendaItemId, deliverableId);
   };
 
   render() {
     const { conversationObjects, commentForm } = this.props;
     const { parent } = commentForm;
-
     if (conversationObjects && parent) {
       return <ConversationObjectList {...this.props} />;
     }
 
-    return <div className="text-center"><h5>Loading Agenda Item...</h5></div>;
+    return <div className="text-center"><h5>Loading Deliverable...</h5></div>;
   }
 }
 
 function objectsToShow(state, props) {
-  return state.getIn(['conversationObjectsByAgendaItem', props.params.agendaItemId]);
+  return state.getIn(['conversationObjectsByDeliverable', props.params.deliverableId]);
 }
 
 function isFetching(state, props) {
@@ -61,13 +60,13 @@ function mapStateToProps(state, props) {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
       currentUser: selectors.currentUser(state),
-      parent: fillAgendaItem(state, props.params.agendaItemId),
+      parent: fillDeliverable(state, props.params.deliverableId),
       canCreateAgendaItem: false,
-      canCreateDeliverable: true,
+      canCreateDeliverable: false,
     },
     users: selectors.conversationMembers(state),
     canCreateAgendaItem: false,
-    canCreateDeliverable: true,
+    canCreateDeliverable: false,
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
     currentConversationId: props.params.conversationId,
@@ -79,4 +78,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AgendaItemApp);
+export default connect(mapStateToProps, mapDispatchToProps)(DeliverableApp);

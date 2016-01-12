@@ -94,7 +94,7 @@ class ConversationObjectList extends Component {
   handleBackClick(e){
     e.preventDefault();
     if ( null != this.props.commentForm.parent && this.props.commentForm.parent.type == "deliverables" ){
-      this.props.visitAgendaItem(this.props.currentConversationId, this.props.commentForm.parent.agendaItem.id);
+      this.props.visitAgendaItem(this.props.commentForm.parent.agendaItem.conversationId, this.props.commentForm.parent.agendaItem.id);
     } else {
       this.props.backToConversation(this.props.currentConversationId);
     }
