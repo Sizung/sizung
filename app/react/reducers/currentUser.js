@@ -5,7 +5,7 @@ const initialState = Immutable.Map();
 
 export default function currentUser(state = initialState, action = null) {
   switch (action.type) {
-    case SET_CURRENT_USER: return Immutable.fromJS(action.currentUser);
+    case SET_CURRENT_USER: return new Immutable.Map({ id: action.currentUser.id, type: action.currentUser.type });
     default: return state;
   }
 }

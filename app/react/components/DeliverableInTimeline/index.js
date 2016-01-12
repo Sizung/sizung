@@ -82,6 +82,7 @@ class DeliverableInTimeline extends React.Component {
   render() {
     const { deliverable } = this.props;
     const { owner, assignee, agendaItem, archived } = deliverable;
+    const { conversationId } = agendaItem;
 
     return  <div styleName='root'>
         <div styleName='user-container'>
@@ -102,7 +103,7 @@ class DeliverableInTimeline extends React.Component {
           <div styleName="meta-container">
             <div styleName="meta-content">
               <div styleName="meta-label">Assigned To</div>
-              <div><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} /></div>
+              <div><EditableUserApp user={assignee} conversationId={conversationId} onUpdate={this.handleAssigneeUpdate} editable={!archived} /></div>
             </div>
             <div styleName="meta-content">
               <div styleName="meta-label">Due Date</div>

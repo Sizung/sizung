@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 const initialState = new Immutable.Map({
   deliverables: new Immutable.Map(),
   unseenObjects: new Immutable.Map(),
+  organizations: new Immutable.Map(),
 });
 
 const isEntity = (candidate) => {

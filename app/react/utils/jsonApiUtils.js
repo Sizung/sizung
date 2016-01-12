@@ -93,11 +93,11 @@ export function transformUserFromJsonApi(user) {
   return {
     id: user.id,
     type: 'users',
-    email: user.attributes ? user.attributes.email : user.email,
-    firstName: user.attributes ? user.attributes.first_name : user.first_name,
-    lastName: user.attributes ? user.attributes.last_name : user.last_name,
-    name: (user.attributes ? user.attributes.first_name : user.first_name) + (user.attributes ? user.attributes.last_name : user.last_name),
-    presenceStatus: user.attributes ? user.attributes.presence_status : user.presence_status,
+    email: user.attributes.email,
+    firstName: user.attributes.first_name,
+    lastName: user.attributes.last_name,
+    name: user.attributes.first_name + user.attributes.last_name,
+    presenceStatus: user.attributes.presence_status,
   };
 }
 

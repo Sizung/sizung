@@ -3,9 +3,27 @@ import Immutable from 'immutable';
 
 const currentUser = (state) => state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
 const currentConversation = (state) => state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
-const currentOrganization = (state) => state.getIn(['entities', 'organizations', state.getIn(['currentOrganization', 'id'])]);
+const currentOrganization = (state) => {
+  const currentOrgId = state.getIn(['currentOrganization', 'id']);
+  if (!currentOrgId) {
+    return null;
+  }
+  return state.getIn(['entities', 'organizations', currentOrgId]);
+};
 const organizations = (state) => state.getIn(['entities', 'organizations']).map((organization) => { return organization; }).toList();
 const conversationMembers = (state) => state.getIn(['entities', 'conversationMembers']);
+
+const conversationMembersAsUsers = (state, conversationId) => {
+  const references = state.getIn(['conversationMembersByConversation', conversationId, 'references']);
+  if (!references) {
+    return null;
+  }
+
+  return references.map((reference) => {
+    const conversationMember = state.getIn(['entities', 'conversationMembers', reference.id]);
+    return state.getIn(['entities', 'users', conversationMember.memberId]);
+  });
+};
 
 const conversationObjects = (state, objectsToShow) => {
   if (!objectsToShow) {
@@ -47,4 +65,5 @@ export {
   conversationMembers,
   conversationObjects,
   agendaItemsList,
+  conversationMembersAsUsers,
 };

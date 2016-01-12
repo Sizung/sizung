@@ -14,15 +14,9 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from '../store/configureStore';
 import { setCurrentUser } from '../actions/users';
-import { fetchConversationObjects } from '../actions/conversationObjects';
-import { fetchOrganizations, setCurrentOrganization } from '../actions/organizations';
-import { setAgendaItems } from '../actions/agendaItems';
-import { setUnseenObjects } from '../actions/unseenObjects';
-import { transformUnseenObjectFromJsonApi, transformOrganizationFromJsonApi, transformConversationMemberFromJsonApi } from '../utils/jsonApiUtils';
-import { setDeliverables } from '../actions/deliverables';
+import { fetchOrganizationsSuccess } from '../actions/organizations';
+import { transformUserFromJsonApi, transformOrganizationFromJsonApi } from '../utils/jsonApiUtils';
 import { setUsers } from '../actions/users';
-import { setConversationMembers } from '../actions/conversationMembers';
-import { setCurrentConversation } from '../actions/conversations';
 import ApplicationLayoutApp from './ApplicationLayoutApp';
 import ConversationLayoutApp from './ConversationLayoutApp';
 import AgendaItemApp from './AgendaItemApp';
@@ -40,15 +34,12 @@ syncReduxAndRouter(history, store, (state) => state.get('routing'));
 
 export default class Root extends Component {
   componentWillMount() {
+    store.dispatch(fetchOrganizationsSuccess(this.props.organizations.data.map(transformOrganizationFromJsonApi)));
+    store.dispatch(setUsers(this.props.users.data.map(transformUserFromJsonApi)));
     store.dispatch(setCurrentUser(this.props.currentUser));
-    store.dispatch(setUsers(this.props.users));
-    store.dispatch(setCurrentOrganization(transformOrganizationFromJsonApi(this.props.currentOrganization.data)));
   }
 
   componentDidMount() {
-    //store.dispatch(setUnseenObjects(this.props.unseenObjects.data.map(transformUnseenObjectFromJsonApi)));
-    store.dispatch(fetchConversationObjects('conversations', this.props.currentConversation.id));
-    store.dispatch(fetchOrganizations());
     setupWebSocket(store);
   }
 

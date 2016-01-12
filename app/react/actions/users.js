@@ -4,12 +4,11 @@ export const SET_USERS = 'SET_USERS';
 export const UPDATE_USER = 'UPDATE_USER';
 import { transformUserFromJsonApi } from '../utils/jsonApiUtils.js';
 
-export function setCurrentUser(currentUser) {
+export function setCurrentUser(currentUserReference) {
   return {
     type: SET_CURRENT_USER,
     status: STATUS_SUCCESS,
-    currentUser: transformUserFromJsonApi(currentUser),
-    entity: transformUserFromJsonApi(currentUser),
+    currentUser: currentUserReference,
   };
 }
 
@@ -17,8 +16,8 @@ export function setUsers(users) {
   return {
     type: SET_USERS,
     status: STATUS_SUCCESS,
-    users: users.map(transformUserFromJsonApi),
-    entities: users.map(transformUserFromJsonApi),
+    users,
+    entities: users,
   };
 }
 

@@ -17,6 +17,41 @@ const fetchJson = (path, successJsonCallback) => {
   });
 };
 
+const postJson = (path, body, successJsonCallback) => {
+  return fetch(path, {
+    method: 'post',
+    credentials: 'include', // send cookies with it
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
+    },
+    body: JSON.stringify(body),
+  })
+  .then((response) => response.json())
+  .then((json) => {
+    successJsonCallback(json);
+  });
+};
+
+const deleteJson = (path, successJsonCallback) => {
+  return fetch(path, {
+    method: 'delete',
+    credentials: 'include', // send cookies with it
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
+    },
+  })
+  .then((response) => response.json())
+  .then((json) => {
+    successJsonCallback(json);
+  });
+};
+
 export {
   fetchJson,
+  postJson,
+  deleteJson,
 };

@@ -24,10 +24,8 @@ class ConversationsController < ApplicationController
       format.html do
         @conversation = Conversation.find(params[:id])
         authorize @conversation
-        @unseen_objects_json = ActiveModel::SerializableResource.new(@current_user.unseen_objects).serializable_hash
-        @conversation_members_json = ActiveModel::SerializableResource.new(@conversation.conversation_members).serializable_hash
-        @users_json = @conversation.organization.members
-        @current_organization_json = ActiveModel::SerializableResource.new(@conversation.organization).serializable_hash
+        @organizations_json = ActiveModel::SerializableResource.new(policy_scope(Organization)).serializable_hash
+        @users_json = ActiveModel::SerializableResource.new(@conversation.organization.members).serializable_hash
 
         render :show
       end

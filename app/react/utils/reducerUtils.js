@@ -13,6 +13,13 @@ export function setReference(state, action, objectName, referenceName) {
   return state;
 }
 
+export function removeReference(state, action, objectName, referenceName) {
+  if ((action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN)) {
+    return remove(state, action[objectName][referenceName], toReference(action[objectName]));
+  }
+  return state;
+}
+
 export function updateReference(state, action, objectName, referenceName) {
   if (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) {
     return update(state, action[objectName][referenceName], toReference(action[objectName]));

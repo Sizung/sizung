@@ -29,19 +29,12 @@ class NavigationHeader extends Component {
   };
 
   render() {
-    const currentUserName = this.props.currentUser.firstName + " " + this.props.currentUser.lastName;
-    const { organizations, currentOrganization, users } = this.props;
-    //const organizationElements = organizations.filter(function(organization){
-    //  return organization.id !== currentOrganization.id;
-    //}).map(function(organization){
-    //  return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
-    //});
-    const organizationElements = organizations.map(function(organization){
-      if ( organization.id !== currentOrganization.id ) {
-        return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
-      } else {
-        return <li className='active' key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
+    const { organizations, currentOrganization } = this.props;
+    const organizationElements = organizations.map((organization) => {
+      if (currentOrganization && organization.id === currentOrganization.id) {
+        return <li key={organization.id} className='active'><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
       }
+      return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
     });
 
     return (
@@ -104,7 +97,6 @@ NavigationHeader.propTypes = {
   currentUser: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
-  users: PropTypes.object.isRequired,
 };
 
 export default NavigationHeader;

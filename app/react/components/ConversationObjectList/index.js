@@ -317,7 +317,7 @@ class ConversationObjectList extends Component {
         <div styleName='member-dropdown-container'>
           <div className="btn-group">
             <a onClick={this.toggleConversationMembersView} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div className="pull-right" styleName='member-badge'><div styleName='member-badge-contents'>{users.size}</div></div>
+              <div className="pull-right" styleName='member-badge'><div styleName='member-badge-contents'>{users ? users.size : ''}</div></div>
               <img height='25px' width='25px' src={window.location.protocol + "//" + window.location.host + "/icons/user-icon-white.png"}></img>
             </a>
           </div>
