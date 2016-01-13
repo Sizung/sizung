@@ -85,7 +85,7 @@ class ConversationLayout extends Component {
         </Col>
         <Col className="hidden-xs" sm={3} styleName="right-panel" ref="rightPanel">
           <Swipeable styleName="swipe-container" onSwipingRight={this.handleRightPanelRightSwipe}>
-            <DeliverableListApp />
+            <DeliverableListApp params={this.props.params} />
           </Swipeable>
         </Col>
       </Row>
