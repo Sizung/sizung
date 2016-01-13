@@ -114,7 +114,8 @@ function fetchAgendaItem(agendaItemId, dispatch) {
   })
   .then(response => response.json())
   .then((json) => {
-    dispatch(fetchAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data), json.included.map(transformObjectFromJsonApi)));
+    const included = json.included ? json.included.map(transformObjectFromJsonApi) : null;
+    dispatch(fetchAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data), included));
   });
 }
 

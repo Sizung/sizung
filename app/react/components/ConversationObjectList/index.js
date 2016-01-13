@@ -135,12 +135,19 @@ class ConversationObjectList extends Component {
       }
     }
     this.adjustConversationListHeight();
-    const unseenPrev = prevProps.conversationObjects.some((obj) => { return obj.unseen; });
-    const unseenNow = this.props.conversationObjects.some((obj) => { return obj.unseen; });
-    if (!unseenPrev && unseenNow || prevProps.commentForm.parent.id !== this.props.commentForm.parent.id && unseenNow) {
+
+    if (ConversationObjectList.shouldMarkAsSeen(prevProps, this.props)) {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     }
   }
+
+  static shouldMarkAsSeen = (prevProps, props) => {
+    const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
+
+    const unseenPrev = prevProps.conversationObjects.some((obj) => { return obj.unseen; });
+    const unseenNow = props.conversationObjects.some((obj) => { return obj.unseen; });
+    return (notHandledByMount || !unseenPrev && unseenNow || prevProps.commentForm.parent.id !== props.commentForm.parent.id && unseenNow);
+  };
 
   showNewActivityMarker() {
     $(this.markerNode).css('display','block');
@@ -179,7 +186,7 @@ class ConversationObjectList extends Component {
     if (conversationObjectList) {
       this.listNode = conversationObjectList.getDOMNode();
       window.addEventListener("resize", this.adjustConversationListHeight);
-      if (this.props.parent) {
+      if (this.props.commentForm.parent) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
       }
       this.scrollListToBottom();

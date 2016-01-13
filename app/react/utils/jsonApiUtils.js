@@ -10,16 +10,21 @@ function relId(obj, name) {
   return obj.relationships[name].data ? obj.relationships[name].data.id : null;
 }
 
+function relType(obj, name) {
+  return obj.relationships[name].data ? obj.relationships[name].data.type : null;
+}
+
 export function transformUnseenObjectFromJsonApi(obj) {
   return {
     id: obj.id,
     type: transformTypeFromJsonApi(obj.type),
     userId: relId(obj, 'user'),
     targetId: relId(obj, 'target'),
+    targetType: relType(obj, 'target'),
     deliverableId: relId(obj, 'deliverable'),
     agendaItemId: relId(obj, 'agenda_item'),
     conversationId: relId(obj, 'conversation'),
-    organizationId: relId(obj, 'organization')
+    organizationId: relId(obj, 'organization'),
   }
 }
 

@@ -2,6 +2,7 @@ import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
 import { STATUS_SUCCESS } from './statuses.js';
 import { setCurrentOrganization } from './organizations';
+import { setUnseenObjects } from './unseenObjects';
 
 export const CONVERSATION = 'CONVERSATION';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
@@ -25,6 +26,10 @@ const setCurrentConversation = (conversation, included, json) => {
 
 const fetchConversation = (conversationId) => {
   return (dispatch) => {
+    api.fetchJson('/conversations/' + conversationId + '/unseen_objects', (json) => {
+      dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
+    });
+
     api.fetchJson('/conversations/' + conversationId, (json) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
