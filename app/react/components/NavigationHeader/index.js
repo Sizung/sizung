@@ -1,22 +1,21 @@
 import React, { Component, PropTypes } from 'react';
-import { Dropdown, DropdownButton, MenuItem } from 'react-bootstrap';
 import User from '../User';
+import ConversationIcon from '../ConversationIcon';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
+import styles from './index.css';
 
 @CSSModules(styles)
 class NavigationHeader extends Component {
 
-  constructor(){
+  constructor() {
     super();
     this.handleCurrentOrganizationClick = this.handleCurrentOrganizationClick.bind(this);
   }
 
   handleCurrentOrganizationClick(event) {
-    if ( !$(event.currentTarget).parent().hasClass('open')) {
+    if (!$(event.currentTarget).parent().hasClass('open')) {
       location.href = '/organizations/' + this.props.currentOrganization.id;
     }
-
   }
 
   render() {
@@ -27,8 +26,8 @@ class NavigationHeader extends Component {
     //}).map(function(organization){
     //  return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
     //});
-    const organizationElements = organizations.map(function(organization){
-      if ( organization.id !== currentOrganization.id ) {
+    const organizationElements = organizations.map(function (organization) {
+      if (organization.id !== currentOrganization.id) {
         return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
       } else {
         return <li className='active' key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
@@ -43,7 +42,7 @@ class NavigationHeader extends Component {
               <ul styleName='organisation-dropdown-nav'>
                 <li>
                   <a onClick={this.handleCurrentOrganizationClick} styleName='organisation-dropdown' href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                    <img styleName='logo' src={window.location.protocol + "//" + window.location.host + "/sizung_logo_white_on_black.gif"}/>
+                    <img styleName='logo' src={"/sizung_logo_white_on_black.gif"}/>
                   </a>
                   <ul className="dropdown-menu">
                     {organizationElements}
@@ -63,8 +62,8 @@ class NavigationHeader extends Component {
                       <a href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
                         <i styleName='conversation-close-icon'></i>
                       </a>{" "}
-                      <img src={window.location.protocol + "//" + window.location.host + "/icons/conversation-icon-white.png"}></img>
-                      {" " + currentConversation.title}
+                      <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>
+                      {currentConversation.title}
                   </h5>
             </div>
             <div styleName='user-dropdown-container'>
@@ -75,7 +74,7 @@ class NavigationHeader extends Component {
                       <User  user={this.props.currentUser} size='normal' showName={false}/>
                     </div>
                     <div styleName='user-container-hidden-xs'>
-                      <User  user={this.props.currentUser} size='normal' showName={true}/>
+                      <User user={this.props.currentUser} size='normal' showName={true}/>
                     </div>
                   </a>
                   <ul className="dropdown-menu dropdown-menu-right">
@@ -99,9 +98,9 @@ class NavigationHeader extends Component {
 NavigationHeader.propTypes = {
   organizations: PropTypes.object.isRequired,
   currentUser: PropTypes.shape({
-    name: PropTypes.string.isRequired
+    name: PropTypes.string.isRequired,
   }).isRequired,
-  users: PropTypes.object.isRequired
+  users: PropTypes.object.isRequired,
 };
 
 export default NavigationHeader;

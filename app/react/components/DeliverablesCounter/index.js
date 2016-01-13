@@ -1,14 +1,19 @@
 import React, { PropTypes } from 'react';
+import DeliverableIcon from '../DeliverableIcon';
+import CSSModules from 'react-css-modules';
 import styles from './index.css';
+
+@CSSModules(styles)
 
 class DeliverablesCounter extends React.Component {
   render() {
     const { count, inverted } = this.props;
 
     return (
-      <span className={inverted ? styles.inverted : styles.normal}>
-        <small>{count}</small>
-      </span>
+      <div styleName='root'>
+        <DeliverableIcon inverted={inverted}/>
+        <small>{' ' + count}</small>
+      </div>
     );
   }
 }
