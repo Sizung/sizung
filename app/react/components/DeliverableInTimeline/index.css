@@ -23,24 +23,23 @@
 }
 
 .title-container {
-  padding-right: 80px;
+  /*padding-right: 80px;*/
   font-weight: 600;
   color : #89949E;
   text-align: left;
-  /*overflow: hidden;*/
 }
 
 .content-container {
   display: table-cell;
   width: 100%;
-  padding: 10px;
+  /*padding: 10px;*/
 
-  border: 2px solid #eeeeee;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  /*border: 2px solid #eeeeee;*/
+  /*-webkit-border-radius: 5px;*/
+  /*-moz-border-radius: 5px;*/
+  /*border-radius: 5px;*/
 
-  background-color: #ffffff;
+  /*background-color: #ffffff;*/
 
 }
 
@@ -58,7 +57,7 @@
 }
 
 .meta-content {
-  composes: col-xs-12 col-md-4 from global;
+  composes: col-xs-12 col-md-6 from global;
   color : #89949E;
 }
 

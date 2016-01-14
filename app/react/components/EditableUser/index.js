@@ -65,7 +65,7 @@ class EditableUser extends React.Component {
   }
 
   renderShow(selectedUser, editable) {
-    return <div styleName={"current-user" + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser}  size="small" /></div>
+    return <span styleName={"current-user" + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser}/></span>
   }
 
   filteredOptions(filter, options) {
@@ -85,14 +85,14 @@ class EditableUser extends React.Component {
     const options = this.filteredOptions(this.state.filter, users).map((user) => {
       return (
         <div style={{lineHeight: '3em'}} onClick={() => this.handleUserClick(user.id)} key={user.id}>
-          <User user={user} style={{display: 'inline-block'}} showName={true}/>
-          {this.selectedMarker(selectedUser, user)}
+          <span className='col-xs-10'><User user={user} showName={true}/></span>
+          <span className='col-xs-2'>{this.selectedMarker(selectedUser, user)}</span>
         </div>
       );
     });
 
     return (
-      <div styleName="root">
+      <span styleName="root">
         <div styleName="title">
           Members
           <i styleName="close-icon" onClick={this.triggerCancel}></i>
@@ -101,7 +101,7 @@ class EditableUser extends React.Component {
         <div>
           {options}
         </div>
-      </div>
+      </span>
     );
   }
 

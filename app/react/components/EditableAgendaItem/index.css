@@ -3,7 +3,7 @@
 }
 
 .root {
-  z-index: 100;
+  z-index: 300;
   position: absolute;
   width: 30ch;
   top: 0;

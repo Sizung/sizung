@@ -57,16 +57,17 @@ class AgendaItemInTimeline extends React.Component {
     const { title, status, owner, archived } = agendaItem;
 
     const timeStyle = ( this.props.isTimelineHeader ? "time-container-inverse" : "time-container");
-    const userStyle = ( this.props.isTimelineHeader ? {border:'1px solid #ffffff'} : {});
-
+    if ( this.props.isTimelineHeader ) {
+      console.log("this.props.isTimelineHeader: " + this.props.isTimelineHeader);
+    }
     return (
       <div styleName='root'>
         <div styleName='user-container'>
-          <User user={owner} innerStyle={userStyle}/>
+          <div style={{padding: '0px 10px'}}><AgendaItemIcon inverted={this.props.isTimelineHeader}/></div>
+          <div style={{marginTop: '5px'}}><User user={owner}/></div>
         </div>
         <div styleName="content-container">
           <div styleName="title-container">
-            <span className="pull-left"><AgendaItemIcon style={{ marginRight: '5px' }}/></span>
             <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} />
           </div>
           <div styleName="status-container">

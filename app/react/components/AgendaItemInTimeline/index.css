@@ -23,14 +23,14 @@
 .content-container {
   display: table-cell;
   width: 100%;
-  padding: 10px;
+  /*padding: 10px;*/
 
-  border: 2px solid #eeeeee;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
+  /*border: 2px solid #eeeeee;*/
+  /*-webkit-border-radius: 5px;*/
+  /*-moz-border-radius: 5px;*/
+  /*border-radius: 5px;*/
 
-  background-color: #ffffff;
+  /*background-color: #ffffff;*/
 }
 
 .status-container {

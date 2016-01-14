@@ -83,7 +83,7 @@ class EditableAgendaItem extends React.Component {
   }
 
   renderShow(selectedOption, editable) {
-    return <div styleName={"current-title" + (editable ? '-editable' : '')} title={selectedOption.title} onClick={editable ? this.handleEditClick : null}>{this.displayOption(selectedOption)}</div>
+    return <span styleName={"current-title" + (editable ? '-editable' : '')} title={selectedOption.title} onClick={editable ? this.handleEditClick : null}>{this.displayOption(selectedOption)}</span>
   }
 
   filteredOptions(filter, options) {

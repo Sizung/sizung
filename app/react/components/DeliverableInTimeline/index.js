@@ -10,6 +10,7 @@ import EditableStatus from '../EditableStatus';
 import EditableDate from '../EditableDate';
 import EditableAgendaItem from '../EditableAgendaItem';
 import DeliverableIcon from '../DeliverableIcon';
+import AgendaItemIcon from '../AgendaItemIcon';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
@@ -87,32 +88,32 @@ class DeliverableInTimeline extends React.Component {
     return (
       <div styleName='root'>
         <div styleName='user-container'>
-          <User user={owner} />
+          <DeliverableIcon size={'small'} inverted={this.props.isTimelineHeader}/>
+          <User style={{ marginTop: '5px' }} user={owner}/>
         </div>
         <div styleName="content-container">
           <div styleName="row">
             <div styleName="full-width">
               <div styleName="title-container">
-                <span className="pull-left"><DeliverableIcon style={{ marginRight: '5px' }} size={'small'}/></span>
-                <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} />
-              </div>
-              <div styleName="status-container">
-                <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+                <div className='col-xs-12 col-sm-8 zero-padding'>
+                  <span>{deliverable.title}</span>
+                </div>
+                <div className='col-xs-6-pull-right col-sm-4 zero-padding'>
+                    <span className="pull-right"><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} /></span>
+                    <span className="pull-right" styleName="meta-label" style={{ marginRight: '5px' }}>{'Assigned To'}</span>
+                </div>
               </div>
             </div>
           </div>
           <div styleName="meta-container">
             <div styleName="meta-content">
-              <div styleName="meta-label">Assigned To</div>
-              <div><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} /></div>
+              {"Due Date: "}
+              <EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
+
             </div>
             <div styleName="meta-content">
-              <div styleName="meta-label">Due Date</div>
-              <div><EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} /></div>
-            </div>
-            <div styleName="meta-content">
-              <div styleName="meta-label">Agenda Item</div>
-              <div><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} editable={!archived} /></div>
+              <AgendaItemIcon size={'small'} style={{marginRight: '5px'}}/>
+              <span><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} editable={!archived} /></span>
             </div>
           </div>
         </div>
@@ -121,7 +122,7 @@ class DeliverableInTimeline extends React.Component {
             <Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
             { archived ? ' (archived)' : '' }
           </small>
-          { archived ? '' : this.renderActionButtons() }
+          { archived ? '' : ''}
         </div>
       </div>
     );

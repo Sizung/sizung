@@ -1,13 +1,14 @@
 .root-container {
   position: relative;
+  display: inline-block;
 }
 
 .root {
   z-index: 100;
   position: absolute;
   width: 30ch;
-  top: 0;
-
+  top: 3ch;
+  right: 0ch;
   border: 1px solid lightgray;
   border-radius: 4px;
   padding: 10px;
