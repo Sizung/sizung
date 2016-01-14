@@ -96,7 +96,6 @@ AgendaItemInTimeline.propTypes = {
   updateAgendaItem: PropTypes.func.isRequired,
   isTimelineHeader: PropTypes.bool,
   visitAgendaItem: PropTypes.func.isRequired,
-  isTimelineHeader: PropTypes.bool
 };
 
 export default AgendaItemInTimeline;
