@@ -6,7 +6,7 @@ class UnseenObjectsController < ApplicationController
 
   def index
     authorize parent, :show?
-    render json: parent.conversation_objects.page(page_number).per(page_size)
+    render json: parent.unseen_objects.where(user: current_user)
   end
 
   def destroy_all

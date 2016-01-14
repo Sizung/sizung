@@ -11,6 +11,12 @@ class AgendaItemsController < ApplicationController
     render json: @conversation.agenda_items
   end
 
+  def show
+    @agenda_item = AgendaItem.includes({ deliverables: [:owner, :assignee, :comments] }, :owner, :comments).find(params[:id])
+    authorize @agenda_item
+    render json: @agenda_item, include: %w(deliverables)
+  end
+
   # POST /agenda_items.json
   def create
     @agenda_item = AgendaItem.new(agenda_item_params)

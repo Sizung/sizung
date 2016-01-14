@@ -22,7 +22,7 @@ class AgendaItem extends React.Component {
     this.handleClick = (e) => {
       e.preventDefault();
 
-      this.props.selectAgendaItem(this.props.agendaItem.conversationId, this.props.agendaItem.id);
+      this.props.visitAgendaItem(this.props.agendaItem.conversationId, this.props.agendaItem.id);
     };
   }
 
@@ -76,12 +76,9 @@ AgendaItem.propTypes = {
     status: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     deliverablesCount: PropTypes.number.isRequired,
-    conversation: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-    }).isRequired,
   }).isRequired,
-  selectAgendaItem: PropTypes.func.isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
+  visitAgendaItem: PropTypes.func.isRequired,
 };
 
 export default AgendaItem;

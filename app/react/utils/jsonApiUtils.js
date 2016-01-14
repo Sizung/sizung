@@ -10,16 +10,21 @@ function relId(obj, name) {
   return obj.relationships[name].data ? obj.relationships[name].data.id : null;
 }
 
+function relType(obj, name) {
+  return obj.relationships[name].data ? obj.relationships[name].data.type : null;
+}
+
 export function transformUnseenObjectFromJsonApi(obj) {
   return {
     id: obj.id,
     type: transformTypeFromJsonApi(obj.type),
     userId: relId(obj, 'user'),
     targetId: relId(obj, 'target'),
+    targetType: relType(obj, 'target'),
     deliverableId: relId(obj, 'deliverable'),
     agendaItemId: relId(obj, 'agenda_item'),
     conversationId: relId(obj, 'conversation'),
-    organizationId: relId(obj, 'organization')
+    organizationId: relId(obj, 'organization'),
   }
 }
 
@@ -36,6 +41,10 @@ export function transformConversationFromJsonApi(conversation) {
     id: conversation.id,
     type: transformTypeFromJsonApi(conversation.type),
     title: conversation.attributes.title,
+    organization_id: conversation.relationships.organization.data.id,
+    organizationId: conversation.relationships.organization.data.id,
+    created_at: conversation.created_at,
+    updated_at: conversation.updated_at,
   };
 }
 
@@ -88,12 +97,12 @@ export function transformCommentFromJsonApi(comment) {
 export function transformUserFromJsonApi(user) {
   return {
     id: user.id,
-    type: user.type,
-    email: user.email,
-    firstName: user.first_name,
-    lastName: user.last_name,
-    name: user.first_name + user.last_name,
-    presenceStatus: user.presence_status
+    type: 'users',
+    email: user.attributes.email,
+    firstName: user.attributes.first_name,
+    lastName: user.attributes.last_name,
+    name: user.attributes.first_name + user.attributes.last_name,
+    presenceStatus: user.attributes.presence_status,
   };
 }
 
@@ -106,17 +115,34 @@ export function transformConversationMemberFromJsonApi(conversationMember) {
   }
 }
 
+export function transformOrganizationMemberFromJsonApi(orgMember) {
+  return {
+    id: orgMember.id,
+    type: 'organizationMembers',
+    organizationId: orgMember.relationships.organization.data.id,
+    memberId: orgMember.relationships.member.data.id,
+  };
+}
+
+const transformObjectFromJsonApi = (obj) => {
+  switch (obj.type) {
+    case 'users': return transformUserFromJsonApi(obj);
+    case 'comments': return transformCommentFromJsonApi(obj);
+    case 'conversations': return transformConversationFromJsonApi(obj);
+    case 'agenda_items': return transformAgendaItemFromJsonApi(obj);
+    case 'deliverables': return transformDeliverableFromJsonApi(obj);
+    case 'unseen_objects': return transformUnseenObjectFromJsonApi(obj);
+    case 'conversation_members': return transformConversationMemberFromJsonApi(obj);
+    case 'organization_members': return transformOrganizationMemberFromJsonApi(obj);
+    case 'organizations': return transformOrganizationFromJsonApi(obj);
+    default: console.warn('Unknown type of Object to transform: ', obj);
+  }
+};
+
+export {
+  transformObjectFromJsonApi,
+};
+
 export function transformConversationObjectFromJsonApi(conversationObject) {
-  if (conversationObject.type === 'comments') {
-    return transformCommentFromJsonApi(conversationObject);
-  }
-  else if  (conversationObject.type === 'agenda_items') {
-    return transformAgendaItemFromJsonApi(conversationObject);
-  }
-  else if  (conversationObject.type === 'deliverables') {
-    return transformDeliverableFromJsonApi(conversationObject);
-  }
-  else {
-    console.warn('Unknown type of ConversationObject to transform: ', conversationObject);
-  }
+  return transformObjectFromJsonApi(conversationObject);
 }

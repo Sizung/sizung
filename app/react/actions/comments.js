@@ -19,6 +19,7 @@ export function createCommentRemoteOrigin(comment) {
     type: CREATE_COMMENT,
     status: STATUS_REMOTE_ORIGIN,
     comment,
+    entity: comment,
   };
 }
 
@@ -27,6 +28,7 @@ export function updateCommentRemoteOrigin(comment) {
     type: UPDATE_COMMENT,
     status: STATUS_REMOTE_ORIGIN,
     comment,
+    entity: comment,
   };
 }
 
@@ -35,6 +37,7 @@ export function deleteCommentRemoteOrigin(comment) {
     type: DELETE_COMMENT,
     status: STATUS_REMOTE_ORIGIN,
     comment,
+    entity: comment,
   };
 }
 
@@ -43,6 +46,7 @@ export function createCommentSuccess(comment) {
     type: CREATE_COMMENT,
     status: STATUS_SUCCESS,
     comment,
+    entity: comment,
   };
 }
 
@@ -51,6 +55,7 @@ export function updateCommentSuccess(comment) {
     type: UPDATE_COMMENT,
     status: STATUS_SUCCESS,
     comment,
+    entity: comment,
   };
 }
 
@@ -61,6 +66,7 @@ export function deleteCommentSuccess(comment) {
     type: DELETE_COMMENT,
     status: STATUS_SUCCESS,
     comment,
+    entity: comment,
   };
 }
 

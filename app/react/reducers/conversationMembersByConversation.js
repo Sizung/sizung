@@ -1,17 +1,17 @@
-import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
-import { SET_CONVERSATION_MEMBERS, CREATE_CONVERSATION_MEMBER } from '../actions/conversationMembers';
-import { setObject, setObjects, setReference, setCommentReference, deleteCommentReference, handleFetchConversationObjects } from '../utils/reducerUtils';
-import { toReference, fetched } from '../utils/paginationUtils';
+import { CREATE_CONVERSATION_MEMBER, DELETE_CONVERSATION_MEMBER } from '../actions/conversationMembers';
+import { CONVERSATION } from '../actions/conversations';
+import { setReference, removeReference } from '../utils/reducerUtils';
+import { fetched } from '../utils/paginationUtils';
 import Immutable from 'immutable';
 
-const initialState = Immutable.Map();
+const initialState = new Immutable.Map();
 
 export default function conversationMembersByConversation(state = initialState, action = null) {
   switch (action.type) {
-    case SET_CONVERSATION_MEMBERS:
-      const objects = action.conversationMembers.map(toReference);
-      return fetched(state, action.conversationId, objects, action);
+    case CONVERSATION:
+      return fetched(state, action.entity.id, action.conversationMembers, {});
     case CREATE_CONVERSATION_MEMBER: return setReference(state, action, 'conversationMember', 'conversationId');
+    case DELETE_CONVERSATION_MEMBER: return removeReference(state, action, 'conversationMember', 'conversationId');
     default: return state;
   }
 }

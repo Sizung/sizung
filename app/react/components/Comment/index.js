@@ -98,16 +98,14 @@ class Comment extends React.Component {
       commentActions.push(<li key={id + 'escalateAsDeliverable'}><a href='#' onClick={this.handleDeliverable.bind(this)}>Escalate as Deliverable</a></li>);
     }
     if ( this.props.currentUser.id === author.id ){
-      commentActions.push(<li><a href="#" onClick={this.openEditForm}>Edit Comment</a></li>);
-      commentActions.push(<li><a href="#" onClick={this.handleDeleteClick}>Delete Comment</a></li>);
+      commentActions.push(<li key={id + 'editComment'}><a href="#" onClick={this.openEditForm}>Edit Comment</a></li>);
+      commentActions.push(<li key={id + 'deleteComment'}><a href="#" onClick={this.handleDeleteClick}>Delete Comment</a></li>);
     }
     return commentActions;
   }
 
   handleScroll() {
-    console.log("Inside handleScroll");
     var node = React.findDOMNode(this.refs.gearDropDown);
-    console.log("node: " + node);
     if (node){
       this.props.handleCommentSettingsDropdownScroll(node);
     }

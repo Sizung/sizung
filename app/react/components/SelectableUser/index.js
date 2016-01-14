@@ -38,8 +38,6 @@ SelectableUser.propTypes = {
     lastName: PropTypes.string.isRequired,
     presenceStatus: PropTypes.string.isRequired
   }).isRequired,
-  addMemberToConversation: PropTypes.func.isRequired,
-  removeMemberFromConversation: PropTypes.func.isRequired,
   isSelected: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired
 };

@@ -4,8 +4,8 @@ window.React = require('react');
 import CommentForm from './components/CommentForm/index.js';
 registerComponent('CommentForm', CommentForm);
 
-import ConversationRoot from './containers/ConversationRoot.js';
-registerComponent('ConversationRoot', ConversationRoot);
+import Root from './containers/Root.js';
+registerComponent('Root', Root);
 
 import User from './components/User/index.js';
 registerComponent('User', User);

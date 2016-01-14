@@ -9,17 +9,15 @@ export const DELETE_UNSEEN_OBJECTS = 'DELETE_UNSEEN_OBJECTS';
 export const DELETE = 'DELETE';
 
 export function deleteUnseenObjectsSuccess(unseenObjects) {
-  console.log('deleteUnseenObjectsSuccess: ', unseenObjects);
   return {
     type: DELETE_UNSEEN_OBJECTS,
     verb: DELETE,
     status: STATUS_SUCCESS,
-    entities: unseenObjects
+    entities: unseenObjects,
   };
 }
 
 export function markAsSeen(seenType, seenId) {
-  console.log('markAsSeen', seenType, seenId);
   if(seenType === 'agendaItems') {
     seenType = 'agenda_items';
   }
@@ -35,7 +33,6 @@ export function markAsSeen(seenType, seenId) {
     )
     .then(response => response.json())
     .then(function(json) {
-        console.log('got delete unseen: ', json.data);
         dispatch(deleteUnseenObjectsSuccess(json.data.map(transformUnseenObjectFromJsonApi)));
     });
   }
@@ -45,7 +42,7 @@ export function setUnseenObjects(unseenObjects) {
   return {
     type: SET_UNSEEN_OBJECTS,
     status: STATUS_REMOTE_ORIGIN,
-    entities: unseenObjects
+    entities: unseenObjects,
   };
 }
 
@@ -53,7 +50,7 @@ export function createUnseenObjectRemoteOrigin(unseenObject) {
   return {
     type: CREATE_UNSEEN_OBJECT,
     status: STATUS_REMOTE_ORIGIN,
-    entity: unseenObject
+    entity: unseenObject,
   };
 }
 

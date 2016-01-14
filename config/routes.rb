@@ -5,10 +5,11 @@ Rails.application.routes.draw do
 
   concern :unseen_objects do |options|
     delete 'unseen_objects', to: 'unseen_objects#destroy_all', defaults: options
+    get 'unseen_objects', to: 'unseen_objects#index', defaults: options
     # resources :unseen_objects, options.merge(only: [:destroy_all])
   end
 
-  resources :agenda_items, only: [:create, :update] do
+  resources :agenda_items, only: [:create, :show, :update] do
     concerns :list_conversation_objects, parent_type: 'AgendaItem'
     concerns :unseen_objects, parent_type: 'AgendaItem'
   end

@@ -9,12 +9,12 @@ import fetch from 'isomorphic-fetch';
 import { updatePath } from 'redux-simple-router';
 import MetaTagsManager from '../utils/MetaTagsManager';
 import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from './statuses.js';
-import { transformAgendaItemFromJsonApi, transformConversationObjectFromJsonApi } from '../utils/jsonApiUtils.js';
+import { transformObjectFromJsonApi, transformAgendaItemFromJsonApi, transformConversationObjectFromJsonApi } from '../utils/jsonApiUtils.js';
 
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
 export const UPDATE_AGENDA_ITEM = 'UPDATE_AGENDA_ITEM';
-export const SELECT_AGENDA_ITEM = 'SELECT_AGENDA_ITEM';
+export const FETCH_AGENDA_ITEM = 'FETCH_AGENDA_ITEM';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
 
 export function updateAgendaItemRemoteOrigin(agendaItem) {
@@ -22,6 +22,7 @@ export function updateAgendaItemRemoteOrigin(agendaItem) {
     type: UPDATE_AGENDA_ITEM,
     status: STATUS_REMOTE_ORIGIN,
     agendaItem,
+    entity: agendaItem,
   };
 }
 
@@ -30,6 +31,19 @@ export function updateAgendaItemSuccess(agendaItem) {
     type: UPDATE_AGENDA_ITEM,
     status: STATUS_SUCCESS,
     agendaItem,
+    entity: agendaItem,
+  };
+}
+
+export function fetchAgendaItemSuccess(agendaItem, included) {
+  return {
+    type: FETCH_AGENDA_ITEM,
+    verb: 'FETCH',
+    status: STATUS_SUCCESS,
+    agendaItem,
+    included,
+    entity: agendaItem,
+    entities: included,
   };
 }
 
@@ -73,14 +87,6 @@ export function backToConversation(conversationId) {
   };
 }
 
-function selectAgendaItemSuccess(agendaItemId) {
-  return {
-    type: SELECT_AGENDA_ITEM,
-    status: STATUS_SUCCESS,
-    agendaItemId,
-  };
-}
-
 function fetchConversationObjectsSuccess(parentReference, conversationObjects, links) {
   return {
     type: FETCH_CONVERSATION_OBJECTS,
@@ -88,21 +94,32 @@ function fetchConversationObjectsSuccess(parentReference, conversationObjects, l
     parentReference,
     conversationObjects,
     links,
+    entities: conversationObjects,
   };
 }
-
-// export function selectAgendaItem(conversationId, agendaItemId) {
-//   return function(dispatch) {
-//     dispatch(selectAgendaItemWithFetch(agendaItemId));
-//     dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
-//   };
-// }
 
 function shouldFetch(getState, agendaItemId) {
   return !getState().getIn(['conversationObjectsByAgendaItem', agendaItemId]);
 }
 
-function fetchObjects(conversationId, agendaItemId, dispatch) {
+function fetchAgendaItem(agendaItemId, dispatch) {
+  return fetch('/agenda_items/' + agendaItemId, {
+    method: 'get',
+    credentials: 'include', // send cookies with it
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
+    },
+  })
+  .then(response => response.json())
+  .then((json) => {
+    const included = json.included ? json.included.map(transformObjectFromJsonApi) : null;
+    dispatch(fetchAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data), included));
+  });
+}
+
+function fetchObjects(agendaItemId, dispatch) {
   return fetch('/agenda_items/' + agendaItemId + '/conversation_objects', {
     method: 'get',
     credentials: 'include', // send cookies with it
@@ -121,18 +138,19 @@ function fetchObjects(conversationId, agendaItemId, dispatch) {
         json.links
       )
     );
-    dispatch(selectAgendaItemSuccess(agendaItemId));
-    dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
   });
 }
 
-export function selectAgendaItem(conversationId, agendaItemId) {
-  return (dispatch, getState) => {
-    if (shouldFetch(getState, agendaItemId)) {
-      return fetchObjects(conversationId, agendaItemId, dispatch);
-    }
-    dispatch(selectAgendaItemSuccess(agendaItemId));
+export function visitAgendaItem(conversationId, agendaItemId) {
+  return (dispatch) => {
     dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
+  };
+}
+
+export function selectAgendaItem(conversationId, agendaItemId) {
+  return (dispatch) => {
+    fetchAgendaItem(agendaItemId, dispatch);
+    fetchObjects(agendaItemId, dispatch);
   };
 }
 
@@ -140,6 +158,7 @@ export function setAgendaItems(agendaItems) {
   return {
     type: SET_AGENDA_ITEMS,
     agendaItems: agendaItems.data.map(transformAgendaItemFromJsonApi),
+    entities: agendaItems.data.map(transformAgendaItemFromJsonApi),
   };
 }
 
@@ -148,6 +167,7 @@ export function createAgendaItemSuccess(agendaItem) {
     type: CREATE_AGENDA_ITEM,
     status: STATUS_SUCCESS,
     agendaItem,
+    entity: agendaItem,
   };
 }
 
@@ -156,6 +176,7 @@ export function createAgendaItemRemoteOrigin(agendaItem) {
     type: CREATE_AGENDA_ITEM,
     status: STATUS_REMOTE_ORIGIN,
     agendaItem,
+    entity: agendaItem,
   };
 }
 

@@ -10,10 +10,9 @@ import * as AgendaItemActions from '../actions/agendaItems';
 import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import { fetchConversationObjects } from '../actions/conversationObjects';
-import { fillConversationObject } from '../utils/entityUtils';
 
 function mapStateToProps(state) {
-  return {}
+  return {};
 }
 
 function mapDispatchToProps(dispatch) {

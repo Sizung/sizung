@@ -7,35 +7,17 @@ import { connect } from 'react-redux';
 import AgendaItemList from '../components/AgendaItemList/index';
 import * as AgendaItemListActions from '../actions/agendaItems';
 import Immutable from 'immutable';
-import { getPath, getAgendaItemIdFromPath } from '../utils/pathUtils';
-import { fillAgendaItem } from '../utils/entityUtils';
+import * as selectors from '../utils/selectors';
 
-function mapStateToProps(state) {
-  const agendaItemIdsToShow = state.getIn(['agendaItemsByConversation', state.getIn(['currentConversation', 'id'])]) || Immutable.List();
-
-  var agendaItems = agendaItemIdsToShow.map(function(agendaItemId){
-    return state.getIn(['entities', 'agendaItems', agendaItemId]);
-  }).toList();
-
-  agendaItems = agendaItems.map(function(agendaItem) {
-    return fillAgendaItem(state, agendaItem.id);
-  }).filter((agendaItem) => {
-    return !agendaItem.archived;
-  }).sortBy(function(conversationObject) {
-    return conversationObject.createdAt;
-  });
-
-  const selectedConversationObject = state.getIn(['selectedConversationObject', 'id']);
-  const selectedAgendaItemId = getAgendaItemIdFromPath(getPath(state));
-
+function mapStateToProps(state, props) {
   return {
-    agendaItems: agendaItems,
-    selectedId: selectedAgendaItemId
-  }
+    agendaItems: selectors.agendaItemsList(state, props.params.conversationId),
+    selectedId: props.params.agendaItemId,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...AgendaItemListActions}, dispatch);
+  return bindActionCreators({ ...AgendaItemListActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AgendaItemList);
