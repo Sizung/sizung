@@ -33,8 +33,8 @@ class AgendaItemList extends Component {
     return (
       <div styleName='root'>
         <div styleName='header'>
-          <h5 style={{margin: '5px', fontWeight: 'bold'}}>
-            <span className='pull-right'><AgendaItemIcon inverted={true} size={'large'}/></span>AGENDA</h5>
+          <h5 style={{marginTop: '5px', fontWeight: 'bold'}}>
+            <AgendaItemIcon inverted={true} size={'large'} style={{ marginRight: '5px' }}/>AGENDA</h5>
         </div>
         <div ref="agendaItemList" styleName="list">
           {
