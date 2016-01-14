@@ -57,30 +57,29 @@ class AgendaItemInTimeline extends React.Component {
     const { title, status, owner, archived } = agendaItem;
 
     const timeStyle = ( this.props.isTimelineHeader ? "time-container-inverse" : "time-container");
-    if ( this.props.isTimelineHeader ) {
-      console.log("this.props.isTimelineHeader: " + this.props.isTimelineHeader);
-    }
+
     return (
       <div styleName='root'>
         <div styleName='user-container'>
           <div style={{padding: '0px 10px'}}><AgendaItemIcon inverted={this.props.isTimelineHeader}/></div>
-          <div style={{marginTop: '5px'}}><User user={owner}/></div>
+          <div style={{marginTop: '5px'}}><User user={owner} inverted={this.props.isTimelineHeader}/></div>
         </div>
-        <div styleName="content-container">
+        <div styleName={"content-container"+ (this.props.isTimelineHeader ? '-inverted' : '')}>
           <div styleName="title-container">
-            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} />
+            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
           </div>
           <div styleName="status-container">
             <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
           </div>
+          <div styleName={timeStyle}>
+            <small>
+              <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
+              { archived ? ' (archived)' : '' }
+            </small>
+            { archived ? '' : this.renderActionButtons() }
+          </div>
         </div>
-        <div styleName={timeStyle}>
-          <small>
-            <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
-            { archived ? ' (archived)' : '' }
-          </small>
-          { archived ? '' : this.renderActionButtons() }
-        </div>
+
       </div>
     );
   }

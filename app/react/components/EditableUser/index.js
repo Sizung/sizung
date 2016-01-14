@@ -65,7 +65,7 @@ class EditableUser extends React.Component {
   }
 
   renderShow(selectedUser, editable) {
-    return <span styleName={"current-user" + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser}/></span>
+    return <span styleName={"current-user" + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser} size={this.props.size}/></span>
   }
 
   filteredOptions(filter, options) {
@@ -85,7 +85,7 @@ class EditableUser extends React.Component {
     const options = this.filteredOptions(this.state.filter, users).map((user) => {
       return (
         <div style={{lineHeight: '3em'}} onClick={() => this.handleUserClick(user.id)} key={user.id}>
-          <span className='col-xs-10'><User user={user} showName={true}/></span>
+          <span className='col-xs-10'><User user={user} showName={true} size={this.props.size}/></span>
           <span className='col-xs-2'>{this.selectedMarker(selectedUser, user)}</span>
         </div>
       );
@@ -137,7 +137,8 @@ EditableUser.propTypes = {
     lastName: PropTypes.string.isRequired,
     presenceStatus: PropTypes.string.isRequired
   }).isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
+  size: PropTypes.string,
 };
 
 EditableUser.defaultProps = {

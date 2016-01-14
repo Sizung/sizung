@@ -83,7 +83,7 @@ class EditableAgendaItem extends React.Component {
   }
 
   renderShow(selectedOption, editable) {
-    return <span styleName={"current-title" + (editable ? '-editable' : '')} title={selectedOption.title} onClick={editable ? this.handleEditClick : null}>{this.displayOption(selectedOption)}</span>
+    return <span styleName={"current-title" + (editable ? '-editable' : '') + (this.props.inverted ? '-inverted' : '') } title={selectedOption.title} onClick={editable ? this.handleEditClick : null}>{this.displayOption(selectedOption)}</span>
   }
 
   filteredOptions(filter, options) {
@@ -154,7 +154,8 @@ EditableAgendaItem.propTypes = {
     title: PropTypes.string.isRequired,
     conversationId: PropTypes.string.isRequired
   }).isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
+  inverted: PropTypes.bool,
 };
 
 EditableAgendaItem.defaultProps = {

@@ -31,6 +31,11 @@
   word-wrap: break-word;
 }
 
+.persisted-text-inverted {
+  composes: persisted-text;
+  color: #ffffff;
+}
+
 .edit-link-container {
   position: relative;
   display: inline-block;

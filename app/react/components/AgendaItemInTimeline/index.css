@@ -2,7 +2,7 @@
   composes: hover-container from '../../styles/modules/hover.css';
   width: 100%;
   position: relative;
-  padding: 5px 30px 5px 0px;
+  padding: 5px 40px 5px 0px;
   color : #89949E;
 }
 
@@ -31,6 +31,16 @@
   /*border-radius: 5px;*/
 
   /*background-color: #ffffff;*/
+  padding: 10px;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  background-color: #eeeeee;
+}
+
+.content-container-inverted {
+  display: table-cell;
+  width: 100%;
 }
 
 .status-container {
@@ -40,7 +50,8 @@
 }
 
 .time-container {
-  margin: 5px 0px 5px 60px;
+  composes: col-xs-12 from global;
+  padding: 0px;
   color : #9aa5af;
 }
 

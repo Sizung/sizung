@@ -89,41 +89,42 @@ class DeliverableInTimeline extends React.Component {
     return (
       <div styleName='root'>
         <div styleName='user-container'>
-          <DeliverableIcon size={'small'} inverted={this.props.isTimelineHeader}/>
+          <DeliverableIcon inverted={this.props.isTimelineHeader} size={'small'}/>
           <User style={{ marginTop: '5px' }} user={owner}/>
         </div>
-        <div styleName="content-container">
+        <div styleName={"content-container"+ (this.props.isTimelineHeader ? '-inverted' : '')}>
           <div styleName="row">
             <div styleName="full-width">
-              <div styleName="title-container">
+              <div styleName={"title-container" + (this.props.isTimelineHeader ? '-inverted' : '')}>
                 <div className='col-xs-12 col-sm-8 zero-padding'>
                   <span>{deliverable.title}</span>
                 </div>
                 <div className='col-xs-6-pull-right col-sm-4 zero-padding'>
-                    <span className="pull-right"><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} /></span>
-                    <span className="pull-right" styleName="meta-label" style={{ marginRight: '5px' }}>{'Assigned To'}</span>
+                    <span className="pull-right"><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} size={'small'}/></span>
+                    <span className="pull-right" styleName={"meta-label" + (this.props.isTimelineHeader ? '-inverted' : '')} style={{padding: '5px'}}>{'ASSIGNED TO'}</span>
                 </div>
               </div>
             </div>
           </div>
           <div styleName="meta-container">
             <div styleName="meta-content">
-              {"Due Date: "}
-              <EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
+              <span styleName={'due-on-label'+  (this.props.isTimelineHeader ? '-inverted' : '')}>{"DUE DATE: "}</span>
+              <span styleName='due-on'><EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} /></span>
             </div>
             <div styleName="meta-content">
-              <AgendaItemIcon size={'small'} style={{marginRight: '5px'}}/>
-              <span><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} editable={!archived} /></span>
+              <AgendaItemIcon size={'small'} style={{marginRight: '5px'}} inverted={this.props.isTimelineHeader}/>
+              <span><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/></span>
             </div>
           </div>
+          <div styleName="time-container">
+            <small>
+              <Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
+              { archived ? ' (archived)' : '' }
+            </small>
+            { archived ? '' : ''}
+          </div>
         </div>
-        <div styleName="time-container">
-          <small>
-            <Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
-            { archived ? ' (archived)' : '' }
-          </small>
-          { archived ? '' : ''}
-        </div>
+
       </div>
     );
   }

@@ -28,6 +28,10 @@
 .current-title {
 }
 
+.current-title-inverted {
+  color: #ffffff;
+}
+
 .current-title-editable {
   cursor: pointer;
   max-height: 3em;
@@ -44,6 +48,10 @@
   -webkit-hyphens: auto;
   hyphens: auto;
 
+}
+
+.current-title-editable-inverted {
+  composes: current-title-editable current-title-inverted;
 }
 
 .input {

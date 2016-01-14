@@ -2,12 +2,12 @@
   composes: hover-container from '../../styles/modules/hover.css';
   width: 100%;
   position: relative;
-  padding: 5px 30px 5px 0px;
+  padding: 5px 40px 5px 0px;
 }
 
 .user-container {
   display: table-cell;
-  height: 40px;
+  /*height: 40px;*/
   width: 60px;
   padding: 0px 15px;
   vertical-align: top;
@@ -29,9 +29,20 @@
   text-align: left;
 }
 
+.title-container-inverted {
+  composes: title-container;
+  color: #ffffff;
+}
+
 .content-container {
   display: table-cell;
   width: 100%;
+  padding: 10px;
+
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  background-color: #eeeeee;
   /*padding: 10px;*/
 
   /*border: 2px solid #eeeeee;*/
@@ -43,13 +54,20 @@
 
 }
 
+.content-container-inverted {
+  display: table-cell;
+  width: 100%;
+}
+
 .status-container {
   composes: pull-right from global;
 }
 
 .meta-container {
   composes: row from global;
+  margin: 0px;
   padding-top: 5px;
+  border-top: 1px solid #ffffff;
 }
 
 .meta-container-row {
@@ -58,6 +76,7 @@
 
 .meta-content {
   composes: col-xs-12 col-md-6 from global;
+  padding: 0px;
   color : #89949E;
 }
 
@@ -67,10 +86,15 @@
 
 .meta-label {
   composes: text-muted from global;
+  font-weight: 100;
+}
+
+.meta-label-inverted {
+  composes: meta-label;
+  color: #cccccc;
 }
 
 .time-container {
-  margin: 5px 0 5px 60px;
   color : #9aa5af;
 }
 
@@ -138,4 +162,17 @@
   border-radius: 3px;
   background: #eeeeee;
   cursor: pointer;
+}
+
+.due-on {
+  font-weight: 600;
+  color: #57C1E8;
+}
+
+.due-on-label {
+  color: #89949e;
+}
+
+.due-on-label-inverted {
+  color: #cccccc;
 }

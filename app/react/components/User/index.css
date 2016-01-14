@@ -2,6 +2,12 @@
   max-width: 100%;
 }
 
+.root-inverted {
+  max-width: 100%;
+  border-radius: 50%/50%;
+  border: 1px solid #ffffff;
+}
+
 .name {
   margin-left: 5px;
 }
@@ -32,8 +38,8 @@
 
 .user-title-small {
   composes: user-title;
-  height: 20px;
-  line-height: 20px;
+  height: 25px;
+  line-height: 25px;
 }
 
 .circle-badge {
@@ -65,10 +71,10 @@
 
 .circle-badge-small {
   composes: circle-badge;
-  width: 20px;
-  height: 20px;
-  font-size: xx-small;
-  line-height: 20px;
+  width: 25px;
+  height: 25px;
+  font-size: x-small;
+  line-height: 25px;
 }
 
 .circle-badge-online {

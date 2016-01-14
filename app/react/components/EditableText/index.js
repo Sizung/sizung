@@ -72,7 +72,8 @@ class EditableText extends React.Component {
       return <div styleName='edit-text-container'><form styleName='edit-text-form' onSubmit={this.handleSubmit}><input type="text" ref="input" onClick={this.handleInputClick} onKeyDown={this.handleKeyDown} onBlur={this.handleBlur} defaultValue={persistedText} styleName='edit-text-input'/></form></div>
     }
     else {
-      return <div styleName='persisted-text-container'><div styleName='persisted-text'>{persistedText}</div><div styleName='edit-link-container'> {this.editLink(editable)}</div></div>;
+      const persistedTextStyle =  this.props.inverted ?  'persisted-text-inverted' : 'persisted-text';
+      return <div styleName='persisted-text-container'><div styleName={persistedTextStyle}>{persistedText}</div><div styleName='edit-link-container'> {this.editLink(editable)}</div></div>;
     }
   }
 
@@ -93,7 +94,8 @@ class EditableText extends React.Component {
 EditableText.propTypes = {
   text: PropTypes.string.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  editable: PropTypes.bool
+  editable: PropTypes.bool,
+  inverted: PropTypes.bool,
 };
 
 EditableText.defaultProps = {

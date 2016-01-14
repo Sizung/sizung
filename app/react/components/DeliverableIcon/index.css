@@ -19,8 +19,8 @@
 
 .small {
   composes: normal;
-  background-size: 28px 13px;
-  padding-left: 33px;
+  background-size: 25px 12px;
+  padding-left: 30px;
 }
 
 .large {
