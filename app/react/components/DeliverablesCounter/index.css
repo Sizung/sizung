@@ -1,15 +1,4 @@
-.common {
-  background-repeat: no-repeat;
-  background-size: 33px 15px;
-  padding-left: 38px;
-}
-
-.normal {
-  composes: common;
-  background-image: url("/icons/deliverable-icon-gray.png");
-}
-
-.inverted {
-  composes: common;
-  background-image: url("/icons/deliverable-icon-white.png");
+.root {
+  display: inline-block;
+  margin-right: 5px;
 }

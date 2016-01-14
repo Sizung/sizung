@@ -16,7 +16,8 @@ describe UnseenObjectsController do
       @comment = FactoryGirl.create(:comment, commentable: @agenda_item)
       @unseen_object = UnseenObject.create_from!(@comment, @agenda_item.owner)
       @request.env['devise.mapping'] = Devise.mappings[:user]
-      sign_in @agenda_item.owner
+      @current_user = @agenda_item.owner
+      sign_in @current_user
     end
 
     it 'destroys unseen objects' do
@@ -31,6 +32,16 @@ describe UnseenObjectsController do
       @conversation = @agenda_item.conversation
       @comment = FactoryGirl.create(:comment, commentable: @conversation)
       @unseen_object = UnseenObject.create_from!(@comment, @agenda_item.owner)
+      expect {
+        delete :destroy_all, conversation_id: @conversation, parent_type: 'Conversation'
+      }.must_change 'UnseenObject.count', -1
+
+      assert_response :success
+    end
+
+    it 'destroys unseen objects for a conversation' do
+      @conversation = @agenda_item.conversation
+      @unseen_object = UnseenObject.create_from!(@conversation, @current_user)
       expect {
         delete :destroy_all, conversation_id: @conversation, parent_type: 'Conversation'
       }.must_change 'UnseenObject.count', -1

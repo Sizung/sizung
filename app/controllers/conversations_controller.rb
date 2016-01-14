@@ -10,7 +10,7 @@ class ConversationsController < ApplicationController
   # GET /conversations
   # GET /conversations.json
   def index
-    @conversations = @organization.conversations.order(:title)
+    @conversations = policy_scope(Conversation).where(organization: @organization).order(:title)
     respond_to do |format|
       format.html { redirect_to @organization }
       format.json { render json: @conversations }

@@ -43,6 +43,7 @@ function transformConversationObjectFromPlainJson(conversationJson) {
     type: 'conversations',
     title: conversationJson.title,
     organization_id: conversationJson.organization_id,
+    organizationId: conversationJson.organization_id,
     created_at: conversationJson.created_at,
     updated_at: conversationJson.updated_at,
   };

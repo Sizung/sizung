@@ -9,6 +9,7 @@ class ConversationMembersController < ApplicationController
     @conversation_member = ConversationMember.new(conversation_member_params)
     authorize @conversation_member
     @conversation_member.save
+    UnseenService.new.create(@conversation_member.conversation, @conversation_member.member)
     render json: @conversation_member, serializer: ConversationMemberSerializer
   end
 

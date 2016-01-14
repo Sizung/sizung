@@ -16,7 +16,7 @@ export function fillDeliverable(state, id) {
 }
 
 export function fillAgendaItem(state, id) {
-  var agendaItem = Immutable.fromJS(state.getIn(['entities', 'agendaItems', id])).toJS();
+  const agendaItem = Immutable.fromJS(state.getIn(['entities', 'agendaItems', id])).toJS();
   agendaItem.conversation = state.getIn(['entities', 'conversations', agendaItem.conversationId]);
   agendaItem.owner = state.getIn(['entities', 'users', agendaItem.ownerId]);
   agendaItem.unseen = state.getIn(['entities', 'unseenObjects']).some((unseenObject) => {

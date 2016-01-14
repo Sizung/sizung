@@ -2,53 +2,54 @@
 
 import React, { Component, PropTypes } from 'react';
 
-import Time from 'react-time'
-import User from '../User/index'
+import Time from 'react-time';
+import User from '../User/index';
 import EditableUserApp from '../../containers/EditableUserApp';
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 import EditableDate from '../EditableDate';
 import EditableAgendaItem from '../EditableAgendaItem';
+import DeliverableIcon from '../DeliverableIcon';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
+import styles from './index.css';
 
 @CSSModules(styles)
 class DeliverableInTimeline extends React.Component {
   constructor() {
     super();
 
-    this.renderActionButtons    = this.renderActionButtons.bind(this);
-    this.handleArchive          = this.handleArchive.bind(this);
-    this.handleTitleUpdate      = this.handleTitleUpdate.bind(this);
-    this.handleStatusUpdate     = this.handleStatusUpdate.bind(this);
-    this.handleDueOnUpdate      = this.handleDueOnUpdate.bind(this);
-    this.handleAssigneeUpdate   = this.handleAssigneeUpdate.bind(this);
+    this.renderActionButtons = this.renderActionButtons.bind(this);
+    this.handleArchive = this.handleArchive.bind(this);
+    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
+    this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
+    this.handleDueOnUpdate = this.handleDueOnUpdate.bind(this);
+    this.handleAssigneeUpdate = this.handleAssigneeUpdate.bind(this);
     this.handleAgendaItemUpdate = this.handleAgendaItemUpdate.bind(this);
-    this.handleSelect           = this.handleSelect.bind(this);
-    this.handleDeleteClick      = (e) => {
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleDeleteClick = (e) => {
       e.preventDefault();
       this.props.deleteComment(this.props.id);
-    }
+    };
   }
 
   handleTitleUpdate(newTitle) {
-    this.props.updateDeliverable(this.props.deliverable.id, {title: newTitle});
+    this.props.updateDeliverable(this.props.deliverable.id, { title: newTitle });
   }
 
   handleStatusUpdate(newStatus) {
-    this.props.updateDeliverable(this.props.deliverable.id, {status: newStatus});
+    this.props.updateDeliverable(this.props.deliverable.id, { status: newStatus });
   }
 
   handleDueOnUpdate(newDueOn) {
-    this.props.updateDeliverable(this.props.deliverable.id, {due_on: newDueOn});
+    this.props.updateDeliverable(this.props.deliverable.id, { due_on: newDueOn });
   }
 
   handleAssigneeUpdate(newAssigneeId) {
-    this.props.updateDeliverable(this.props.deliverable.id, {assignee_id: newAssigneeId});
+    this.props.updateDeliverable(this.props.deliverable.id, { assignee_id: newAssigneeId });
   }
 
   handleAgendaItemUpdate(newAgendaItemId) {
-    this.props.updateDeliverable(this.props.deliverable.id, {agenda_item_id: newAgendaItemId});
+    this.props.updateDeliverable(this.props.deliverable.id, { agenda_item_id: newAgendaItemId });
   }
 
   handleArchive(e) {
@@ -66,9 +67,9 @@ class DeliverableInTimeline extends React.Component {
   }
 
   renderActionButtons() {
-    var discussOptionStyle = "discuss-link";
-    if ( null != this.props.isTimelineHeader ) {
-      discussOptionStyle = ( this.props.isTimelineHeader ? "discuss-link-hide" : "discuss-link");
+    let discussOptionStyle = 'discuss-link';
+    if (this.props.isTimelineHeader !== null) {
+      discussOptionStyle = (this.props.isTimelineHeader ? 'discuss-link-hide' : 'discuss-link');
     }
 
     return (
@@ -76,14 +77,15 @@ class DeliverableInTimeline extends React.Component {
         <span styleName='discuss-link'><a href="#" className='btn btn-xs btn-default' onClick={this.handleArchive}>archive</a></span>
         <span styleName={discussOptionStyle}><a href="#" className='btn btn-xs btn-default' onClick={this.handleSelect}>discuss</a></span>
       </span>
-    )
+    );
   }
 
   render() {
     const { deliverable } = this.props;
     const { owner, assignee, agendaItem, archived } = deliverable;
 
-    return  <div styleName='root'>
+    return (
+      <div styleName='root'>
         <div styleName='user-container'>
           <User user={owner} />
         </div>
@@ -91,7 +93,7 @@ class DeliverableInTimeline extends React.Component {
           <div styleName="row">
             <div styleName="full-width">
               <div styleName="title-container">
-                <img style={{ marginRight: '5px', marginTop: '3px', float: 'left', clear: 'right'}} height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/deliverable-icon-gray.png"}></img>
+                <span className="pull-left"><DeliverableIcon style={{ marginRight: '5px' }} size={'small'}/></span>
                 <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} />
               </div>
               <div styleName="status-container">
@@ -122,6 +124,7 @@ class DeliverableInTimeline extends React.Component {
           { archived ? '' : this.renderActionButtons() }
         </div>
       </div>
+    );
   }
 }
 
@@ -133,11 +136,14 @@ DeliverableInTimeline.propTypes = {
     commentsCount: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
     agendaItem: PropTypes.shape({
-      title: PropTypes.string.isRequired
-    }).isRequired
+      title: PropTypes.string.isRequired,
+      conversation: PropTypes.shape({
+        organizationId: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
   }).isRequired,
   updateDeliverable: PropTypes.func.isRequired,
-  isTimelineHeader: PropTypes.bool
+  isTimelineHeader: PropTypes.bool,
 };
 
 export default DeliverableInTimeline;
