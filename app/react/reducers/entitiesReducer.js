@@ -1,9 +1,11 @@
 import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
 import Immutable from 'immutable';
 const initialState = new Immutable.Map({
+  organizations: new Immutable.Map(),
+  conversations: new Immutable.Map(),
+  agendaItems: new Immutable.Map(),
   deliverables: new Immutable.Map(),
   unseenObjects: new Immutable.Map(),
-  organizations: new Immutable.Map(),
 });
 
 const isEntity = (candidate) => {

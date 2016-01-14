@@ -25,7 +25,7 @@ export function updateUserRemoteOrigin(user) {
   return {
     type: UPDATE_USER,
     status: STATUS_REMOTE_ORIGIN,
-    user: transformUserFromJsonApi(user),
-    entity: transformUserFromJsonApi(user),
+    user: user,
+    entity: user,
   };
 }

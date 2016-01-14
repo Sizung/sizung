@@ -58,7 +58,6 @@ class AgendaItemList extends Component {
 
 AgendaItemList.propTypes = {
   agendaItems: PropTypes.object.isRequired,
-  selectAgendaItem: PropTypes.func.isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
 };
 

@@ -17,7 +17,10 @@ class DeliverableList extends Component {
   }
 
   componentDidMount() {
-    $(this.refs.deliverableList.getDOMNode()).scrollTop(0);
+    const deliverableList = this.refs.deliverableList;
+    if (deliverableList) {
+      $(deliverableList.getDOMNode()).scrollTop(0);
+    }
   }
 
   componentDidUpdate() {
@@ -45,7 +48,7 @@ class DeliverableList extends Component {
         </div>
         <div ref='deliverableList' styleName='list'>
           {
-            deliverables.map(function(deliverable) {
+            deliverables.map((deliverable) => {
               return(<Deliverable
                       key={deliverable.id}
                       deliverable={deliverable}
@@ -65,7 +68,7 @@ DeliverableList.propTypes = {
   selectedDeliverableId: PropTypes.string,
   selectDeliverable: PropTypes.func.isRequired,
   deliverables: PropTypes.object.isRequired,
-  updateDeliverable: PropTypes.func.isRequired,
+  updateDeliverable: PropTypes.func,
 };
 
 export default DeliverableList;

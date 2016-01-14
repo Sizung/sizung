@@ -6,7 +6,6 @@ class ConversationsController < ApplicationController
   after_action :verify_policy_scoped, only: :index
   layout 'conversation', only: [:show]
 
-
   # GET /conversations
   # GET /conversations.json
   def index

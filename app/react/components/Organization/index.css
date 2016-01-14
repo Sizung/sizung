@@ -1,0 +1,26 @@
+.root {
+  padding: 0 15px;
+  margin-bottom: 1em;
+  font-weight: 600;
+  font-weight: 600;
+
+}
+
+.actions {
+  display: none;
+}
+
+.root:hover .actions {
+  display: inline;
+}
+
+.action {
+  margin-left: 1em;
+
+  font-size: smaller;
+  color: #ffffff;
+}
+
+.action:hover {
+  color: #ffffff;
+}

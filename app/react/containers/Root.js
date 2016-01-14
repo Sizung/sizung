@@ -22,6 +22,7 @@ import ConversationLayoutApp from './ConversationLayoutApp';
 import AgendaItemApp from './AgendaItemApp';
 import DeliverableApp from './DeliverableApp';
 import ConversationApp from './ConversationApp';
+import OrganizationApp from './OrganizationApp';
 
 import { Router, Route } from 'react-router';
 import createBrowserHistory from 'history/lib/createBrowserHistory';
@@ -48,6 +49,7 @@ export default class Root extends Component {
       (
         <Router history={history}>
           <Route path="/" component={ApplicationLayoutApp}>
+            <Route path="/organizations/:organizationId" component={OrganizationApp} />
             <Route path="/conversations" component={ConversationLayoutApp}>
               <Route path="/conversations/:conversationId" component={ConversationApp} />
               <Route path="/conversations/:conversationId/agenda_items/:agendaItemId" component={AgendaItemApp}/>

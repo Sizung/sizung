@@ -1,6 +1,22 @@
 import { fillConversationObject, fillAgendaItem } from './entityUtils';
 import Immutable from 'immutable';
 
+const organization = (state, organizationId) => {
+  return state.getIn(['entities', 'organizations', organizationId]);
+};
+
+const agendaItemsForOrganization = (state, organizationId) => {
+  return state.getIn(['entities', 'agendaItems']).toList();
+};
+
+const deliverablesForOrganization = (state, organizationId) => {
+  return state.getIn(['entities', 'deliverables']).map(deliverable => fillConversationObject(state, deliverable)).toList();
+};
+
+const conversationsForOrganization = (state, organizationId) => {
+  return state.getIn(['entities', 'conversations']).toList();
+};
+
 const currentUser = (state) => state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
 const currentConversation = (state) => state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
 const currentOrganization = (state) => {
@@ -66,4 +82,8 @@ export {
   conversationObjects,
   agendaItemsList,
   conversationMembersAsUsers,
+  agendaItemsForOrganization,
+  deliverablesForOrganization,
+  conversationsForOrganization,
+  organization,
 };
