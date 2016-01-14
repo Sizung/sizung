@@ -5,7 +5,7 @@
 }
 
 .organization-member {
-  margin-bottom: 2em;
+  padding: 10px 0px;
 }
 
 .organization-member-actions {
@@ -14,5 +14,4 @@
 
 .organization-member:hover .organization-member-actions {
   display: inline-block;
-  margin-left: 1em;
 }
