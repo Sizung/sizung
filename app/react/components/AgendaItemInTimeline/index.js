@@ -30,7 +30,7 @@ class AgendaItemInTimeline extends React.Component {
 
   handleSelect(e) {
     e.preventDefault();
-    this.props.selectAgendaItem(this.props.agendaItem.conversationId, this.props.agendaItem.id);
+    this.props.visitAgendaItem(this.props.agendaItem.conversationId, this.props.agendaItem.id);
   }
 
   handleArchive(e) {
@@ -91,10 +91,12 @@ AgendaItemInTimeline.propTypes = {
     title: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
-    createdAt: PropTypes.string.isRequired
+    createdAt: PropTypes.string.isRequired,
   }).isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
   isTimelineHeader: PropTypes.bool,
+  visitAgendaItem: PropTypes.func.isRequired,
+  isTimelineHeader: PropTypes.bool
 };
 
 export default AgendaItemInTimeline;

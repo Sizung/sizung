@@ -7,30 +7,41 @@ import styles from './index.css';
 @CSSModules(styles)
 class NavigationHeader extends Component {
 
-  constructor() {
-    super();
-    this.handleCurrentOrganizationClick = this.handleCurrentOrganizationClick.bind(this);
-  }
-
-  handleCurrentOrganizationClick(event) {
+  handleCurrentOrganizationClick = (event) => {
     if (!$(event.currentTarget).parent().hasClass('open')) {
       location.href = '/organizations/' + this.props.currentOrganization.id;
     }
-  }
+  };
+
+  conversationTitle = (currentConversation) => {
+    if (currentConversation) {
+      return (
+        <div styleName='conversation-title-container'>
+              <h5 title={currentConversation.title} styleName='conversation-title' >
+                  <a href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
+                    <i styleName='conversation-close-icon'></i>
+                  </a>{" "}
+                  <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>
+                  {currentConversation.title}
+              </h5>
+        </div>
+      );
+    }
+  };
 
   render() {
     const currentUserName = this.props.currentUser.firstName + " " + this.props.currentUser.lastName;
-    const { organizations, currentOrganization, currentConversation, users } = this.props;
+    const { organizations, currentOrganization, currentConversation } = this.props;
     //const organizationElements = organizations.filter(function(organization){
     //  return organization.id !== currentOrganization.id;
     //}).map(function(organization){
     //  return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
     //});
     const organizationElements = organizations.map(function (organization) {
-      if (organization.id !== currentOrganization.id) {
-        return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
-      } else {
+      if (currentOrganization && organization.id === currentOrganization.id) {
         return <li className='active' key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
+      } else {
+        return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
       }
     });
 
@@ -57,15 +68,7 @@ class NavigationHeader extends Component {
                 </li>
               </ul>
             </div>
-            <div styleName='conversation-title-container'>
-                  <h5 title={currentConversation.title} styleName='conversation-title' >
-                      <a href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
-                        <i styleName='conversation-close-icon'></i>
-                      </a>{" "}
-                      <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>
-                      {currentConversation.title}
-                  </h5>
-            </div>
+            { this.conversationTitle(currentConversation) }
             <div styleName='user-dropdown-container'>
               <ul styleName='user-dropdown-nav'>
                 <li styleName='user-dropdown-nav-item'>
@@ -100,7 +103,6 @@ NavigationHeader.propTypes = {
   currentUser: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
-  users: PropTypes.object.isRequired,
 };
 
 export default NavigationHeader;

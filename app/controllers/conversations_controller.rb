@@ -1,6 +1,6 @@
 class ConversationsController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_conversation, only: [:show, :edit, :update, :destroy]
+  before_action :set_conversation, only: [:edit, :update, :destroy]
   before_action :set_organization, only: [:new, :create, :index]
   after_action :verify_authorized,    except: :index
   after_action :verify_policy_scoped, only: :index
@@ -20,13 +20,27 @@ class ConversationsController < ApplicationController
   # GET /conversations/1
   # GET /conversations/1.json
   def show
-    @unseen_objects_json = ActiveModel::SerializableResource.new(@current_user.unseen_objects).serializable_hash
-    @agenda_items_json = ActiveModel::SerializableResource.new(@conversation.agenda_items).serializable_hash
-    @deliverables_json = ActiveModel::SerializableResource.new(@conversation.deliverables).serializable_hash
-    @conversation_members_json = ActiveModel::SerializableResource.new(@conversation.conversation_members).serializable_hash
-    # @conversation_objects_json = ActiveModel::SerializableResource.new(@conversation.conversation_objects).serializable_hash
-    @users_json = @conversation.organization.members
-    @current_organization_json = ActiveModel::SerializableResource.new(@conversation.organization).serializable_hash
+    respond_to do |format|
+      format.html do
+        @conversation = Conversation.find(params[:id])
+        authorize @conversation
+        @organizations_json = ActiveModel::SerializableResource.new(policy_scope(Organization)).serializable_hash
+        @users_json = ActiveModel::SerializableResource.new(@conversation.organization.members).serializable_hash
+
+        render :show
+      end
+      format.json do
+        @conversation = Conversation.includes(
+            { agenda_items: [:owner, :comments, :deliverables] },
+            { deliverables: [:owner, :assignee, :comments] },
+            { organization: { organization_members: :member }},
+            :conversation_members
+        ).find(params[:id])
+        authorize @conversation
+
+        render json: @conversation, include: %w(agenda_items deliverables organization organization.organization_members.member conversation_members)
+      end
+    end
   end
 
   # GET /conversations/new

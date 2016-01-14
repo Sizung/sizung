@@ -1,20 +1,14 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component, PropTypes } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
-import * as AgendaItemActions from '../../actions/agendaItems';
-import * as selectors from '../../utils/selectors';
-
-import AgendaItemListApp from './../AgendaItemListApp';
-import DeliverableListApp from './../DeliverableListApp';
-import ApplicationLayout from '../../components/ApplicationLayout/index';
+import AgendaItemListApp from '../../containers/AgendaItemListApp';
+import DeliverableListApp from '../../containers/DeliverableListApp';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import Swipeable from 'react-swipeable';
 
 @CSSModules(styles)
-class App extends Component {
+class ConversationLayout extends Component {
 
   constructor() {
     super();
@@ -77,13 +71,11 @@ class App extends Component {
   }
 
   render() {
-    const { currentUser, organizations, currentOrganization, currentConversation, users } = this.props;
-
-    return (<ApplicationLayout currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation} users={users}>
+    return (
       <Row styleName="root">
         <Col className="hidden-xs" sm={3} styleName="left-panel" ref="leftPanel">
           <Swipeable styleName="swipe-container" onSwipingLeft={this.handleLeftPanelLeftSwipe}>
-            <AgendaItemListApp />
+            <AgendaItemListApp params={this.props.params} />
           </Swipeable>
         </Col>
         <Col xs={12} sm={6} styleName="center-panel" ref="centerPanel">
@@ -93,40 +85,18 @@ class App extends Component {
         </Col>
         <Col className="hidden-xs" sm={3} styleName="right-panel" ref="rightPanel">
           <Swipeable styleName="swipe-container" onSwipingRight={this.handleRightPanelRightSwipe}>
-            <DeliverableListApp />
+            <DeliverableListApp params={this.props.params} />
           </Swipeable>
         </Col>
       </Row>
-    </ApplicationLayout>);
+    );
   }
 }
 
-function mapStateToProps(state) {
-  const currentUser = state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
-  const currentConversation = state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
-  const currentOrganization = state.getIn(['entities', 'organizations', state.getIn(['currentOrganization', 'id'])]);
-  const organizations = state.getIn(['entities', 'organizations']).map((organization) => {
-    return organization;
-  }).toList();
+ConversationLayout.propTypes = {
+  currentConversation: PropTypes.object,
+  currentUser: PropTypes.object.isRequired,
+  fetchConversation: PropTypes.func.isRequired,
+};
 
-  const selectedAgendaItemIdInState = state.getIn(['selectedConversationObject', 'type']) === 'agendaItems' ? state.getIn(['selectedConversationObject', 'id']) : null;
-  const selectedDeliverableIdInState = state.getIn(['selectedConversationObject', 'type']) === 'deliverables' ? state.getIn(['selectedConversationObject', 'id']) : null;
-
-  const users = selectors.conversationMembers(state);
-
-  return {
-    organizations,
-    currentOrganization,
-    currentConversation,
-    currentUser,
-    selectedAgendaItemIdInState,
-    selectedDeliverableIdInState,
-    users,
-  };
-}
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...AgendaItemActions }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default ConversationLayout;

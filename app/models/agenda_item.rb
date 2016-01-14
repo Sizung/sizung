@@ -7,6 +7,7 @@ class AgendaItem < ActiveRecord::Base
   has_many :deliverables, dependent: :destroy
   has_many :conversation_objects, foreign_key: :parent_id
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :unseen_objects
 
   default_scope -> { where(archived_at: nil) }
 

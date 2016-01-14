@@ -1,33 +1,28 @@
-import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
-import { SET_AGENDA_ITEMS, CREATE_AGENDA_ITEM } from '../actions/agendaItems';
-import { DELETE_COMMENT } from '../actions/comments';
-
+import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from '../actions/statuses';
+import * as reducerUtils from '../utils/reducerUtils';
 import Immutable from 'immutable';
 
-const initialState = Immutable.Map();
+const initialState = new Immutable.Map();
 
 export default function agendaItemsByConversation(state = initialState, action = null) {
-  switch (action.type) {
-    case SET_AGENDA_ITEMS:
-      var conversationId;
-      var ids = action.agendaItems.map(function(agendaItem) {
-        conversationId = agendaItem.conversationId;
-        return agendaItem.id
-      });
+  if (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) {
+    let newState = state;
 
-      return state.set(conversationId, Immutable.List(ids));
-    case CREATE_AGENDA_ITEM:
-      if(action.status == STATUS_SUCCESS) {
-        const convList = state.get(action.agendaItem.conversationId) || Immutable.List();
-        return state.set(action.agendaItem.conversationId, convList.push(action.agendaItem.id));
-      }
-      else if(action.status == STATUS_REMOTE_ORIGIN) {
-        const convList = state.get(action.agendaItem.conversationId) || Immutable.List();
-        return state.set(action.agendaItem.conversationId, convList.push(action.agendaItem.id));
-      }
-      else {
-        return state;
-      }
-    default: return state;
+    if (action.entities) {
+      action.entities.forEach((entity) => {
+        const type = entity.type;
+        if (type === 'agendaItems') {
+          newState = reducerUtils.setReferenceByObject(newState, entity, entity.conversationId);
+        }
+      });
+    }
+
+    if (action.entity && action.entity.type === 'agendaItems') {
+      newState = reducerUtils.setReferenceByObject(newState, action.entity, action.entity.conversationId);
+    }
+
+    return newState;
   }
+
+  return state;
 }

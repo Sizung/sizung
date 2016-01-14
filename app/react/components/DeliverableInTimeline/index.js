@@ -84,6 +84,7 @@ class DeliverableInTimeline extends React.Component {
   render() {
     const { deliverable } = this.props;
     const { owner, assignee, agendaItem, archived } = deliverable;
+    const { conversationId } = agendaItem;
 
     return (
       <div styleName='root'>
@@ -109,7 +110,6 @@ class DeliverableInTimeline extends React.Component {
             <div styleName="meta-content">
               {"Due Date: "}
               <EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
-
             </div>
             <div styleName="meta-content">
               <AgendaItemIcon size={'small'} style={{marginRight: '5px'}}/>
@@ -133,14 +133,12 @@ DeliverableInTimeline.propTypes = {
   deliverable: PropTypes.shape({
     title: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
-    dueOn: PropTypes.string.isRequired,
+    dueOn: PropTypes.string,
     commentsCount: PropTypes.number.isRequired,
     createdAt: PropTypes.string.isRequired,
     agendaItem: PropTypes.shape({
       title: PropTypes.string.isRequired,
-      conversation: PropTypes.shape({
-        organizationId: PropTypes.string.isRequired,
-      }).isRequired,
+      conversationId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
   updateDeliverable: PropTypes.func.isRequired,

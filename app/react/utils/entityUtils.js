@@ -1,7 +1,11 @@
 import Immutable from 'immutable';
 
 export function fillDeliverable(state, id) {
-  var deliverable = Immutable.fromJS(state.getIn(['entities', 'deliverables', id])).toJS();
+  if (!id || !state.getIn(['entities', 'deliverables', id])) {
+    return null;
+  }
+
+  const deliverable = Immutable.fromJS(state.getIn(['entities', 'deliverables', id])).toJS();
   deliverable.agendaItem = fillAgendaItem(state, deliverable.agendaItemId);
   deliverable.owner = state.getIn(['entities', 'users', deliverable.ownerId]);
   deliverable.assignee = state.getIn(['entities', 'users', deliverable.assigneeId]);
@@ -16,6 +20,10 @@ export function fillDeliverable(state, id) {
 }
 
 export function fillAgendaItem(state, id) {
+  if (!id || !state.getIn(['entities', 'agendaItems', id])) {
+    return null;
+  }
+
   const agendaItem = Immutable.fromJS(state.getIn(['entities', 'agendaItems', id])).toJS();
   agendaItem.conversation = state.getIn(['entities', 'conversations', agendaItem.conversationId]);
   agendaItem.owner = state.getIn(['entities', 'users', agendaItem.ownerId]);
@@ -27,6 +35,23 @@ export function fillAgendaItem(state, id) {
   }).size;
 
   return agendaItem;
+}
+
+export function fillConversation(state, id) {
+  if (!id || !state.getIn(['entities', 'conversations', id])) {
+    return null;
+  }
+
+  const conversation = Immutable.fromJS(state.getIn(['entities', 'conversations', id])).toJS();
+  conversation.organization = state.getIn(['entities', 'organization', conversation.organizationId]);
+  conversation.unseen = state.getIn(['entities', 'unseenObjects']).some((unseenObject) => {
+    return unseenObject.targetId === id;
+  });
+  conversation.unseenCount = state.getIn(['entities', 'unseenObjects']).filter((unseenObject) => {
+    return unseenObject.conversationId === id;
+  }).size;
+
+  return conversation;
 }
 
 export function fillComment(state, id) {

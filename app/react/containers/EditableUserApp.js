@@ -1,20 +1,12 @@
 import { connect } from 'react-redux';
 import EditableUser from '../components/EditableUser';
+import * as selectors from '../utils/selectors';
 
-function mapStateToProps(state) {
-  var users = state.getIn(['entities', 'users']).toList();
-  var conversationMemberReferences = state.getIn(['entities', 'conversationMembers']).toList();
-  var conversationMembers = new Array();
-  users.map(function(user){
-    conversationMemberReferences.map(function(conversationMemberReference){
-      if ( user.id == conversationMemberReference.memberId ) {
-        conversationMembers.push(user);
-      }
-    });
-  });
+function mapStateToProps(state, props) {
+  const { conversationId } = props;
   return {
-    users: conversationMembers
-  }
+    users: selectors.conversationMembersAsUsers(state, conversationId),
+  };
 }
 
 export default connect(mapStateToProps)(EditableUser);

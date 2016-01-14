@@ -20,6 +20,7 @@ describe('AgendaItemList', () => {
         conversationId: '234',
         conversation: { title: 'The main conversation' },
       }]),
+      visitAgendaItem: noOp,
       selectAgendaItem: noOp,
       updateAgendaItem: noOp,
     };

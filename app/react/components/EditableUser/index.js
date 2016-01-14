@@ -107,7 +107,7 @@ class EditableUser extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.edit && !prevState.edit) {
-      var inputElem = React.findDOMNode(this.refs.filterInput);
+      const inputElem = React.findDOMNode(this.refs.filterInput);
       inputElem.focus();
     }
   }
@@ -130,7 +130,7 @@ class EditableUser extends React.Component {
 
 EditableUser.propTypes = {
   editable: PropTypes.bool,
-  users: PropTypes.object.isRequired,
+  users: PropTypes.object,
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
