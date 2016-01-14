@@ -20,7 +20,6 @@ class ChatIcon extends React.Component {
       iconStyle = (inverted ? 'inverted-' : '') + size;
     }
 
-    console.log("Chat Icon Style: " + iconStyle);
     return (
       <span styleName={iconStyle} style={style}>
       </span>
@@ -31,7 +30,7 @@ class ChatIcon extends React.Component {
 ChatIcon.propTypes = {
   inverted: PropTypes.bool,
   style: PropTypes.object,
-  size: PropTypes.String,
+  size: PropTypes.string,
 };
 
 ChatIcon.defaultProps = {

@@ -30,7 +30,7 @@ class DeliverableIcon extends React.Component {
 DeliverableIcon.propTypes = {
   inverted: PropTypes.bool,
   style: PropTypes.object,
-  size: PropTypes.String,
+  size: PropTypes.string,
 };
 
 DeliverableIcon.defaultProps = {

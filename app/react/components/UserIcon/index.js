@@ -30,7 +30,7 @@ class UserIcon extends React.Component {
 UserIcon.propTypes = {
   inverted: PropTypes.bool,
   style: PropTypes.object,
-  size: PropTypes.String,
+  size: PropTypes.string,
 };
 
 UserIcon.defaultProps = {

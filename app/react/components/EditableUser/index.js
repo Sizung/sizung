@@ -130,7 +130,7 @@ class EditableUser extends React.Component {
 
 EditableUser.propTypes = {
   editable: PropTypes.bool,
-  users: PropTypes.object.isRequired,
+  users: PropTypes.object,
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,

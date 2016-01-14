@@ -31,7 +31,7 @@ class AgendaItemIcon extends React.Component {
 AgendaItemIcon.propTypes = {
   inverted: PropTypes.bool,
   style: PropTypes.object,
-  size: PropTypes.String,
+  size: PropTypes.string,
 };
 
 AgendaItemIcon.defaultProps = {

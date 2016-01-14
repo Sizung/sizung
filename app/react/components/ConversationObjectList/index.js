@@ -295,7 +295,7 @@ class ConversationObjectList extends Component {
 
 
   render() {
-    const { currentConversation, users } = this.props;
+    const { users } = this.props;
     let chatType = this.props.commentForm.parent.type;
     if (chatType !== null) {
       if (chatType === 'agendaItems') {
@@ -354,15 +354,10 @@ ConversationObjectList.propTypes = {
   createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
   conversationObjects: PropTypes.array,
-  currentConversation: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-  }).isRequired,
   currentConversationId: PropTypes.string.isRequired,
   canCreateAgendaItem: PropTypes.bool.isRequired,
   canCreateDeliverable: PropTypes.bool.isRequired,
-  users: PropTypes.object.isRequired,
-  conversationMembers: PropTypes.object.isRequired,
+  users: PropTypes.object,
   updateAgendaItem: PropTypes.func.isRequired,
 };
 

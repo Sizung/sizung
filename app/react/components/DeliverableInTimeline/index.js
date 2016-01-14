@@ -138,9 +138,7 @@ DeliverableInTimeline.propTypes = {
     createdAt: PropTypes.string.isRequired,
     agendaItem: PropTypes.shape({
       title: PropTypes.string.isRequired,
-      conversation: PropTypes.shape({
-        organizationId: PropTypes.string.isRequired,
-      }).isRequired,
+      conversationId: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
   updateDeliverable: PropTypes.func.isRequired,

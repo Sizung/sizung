@@ -30,7 +30,7 @@ class ConversationIcon extends React.Component {
 ConversationIcon.propTypes = {
   inverted: PropTypes.bool,
   style: PropTypes.object,
-  size: PropTypes.String,
+  size: PropTypes.string,
 };
 
 ConversationIcon.defaultProps = {
