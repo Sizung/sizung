@@ -1,14 +1,18 @@
 import React, { PropTypes } from 'react';
+import ChatIcon from '../ChatIcon';
 import styles from './index.css';
+import CSSModules from 'react-css-modules';
 
+@CSSModules(styles)
 class CommentsCounter extends React.Component {
   render() {
     const { count, inverted, style } = this.props;
 
     return (
-      <span className={inverted ? styles.inverted : styles.normal} style={style}>
-        <small>{count}</small>
-      </span>
+      <div styleName='root' style={style}>
+        <ChatIcon inverted={inverted}/>
+        <small>{' ' + count}</small>
+      </div>
     );
   }
 }

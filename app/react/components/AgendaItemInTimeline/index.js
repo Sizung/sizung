@@ -1,30 +1,31 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
 import React, { Component, PropTypes } from 'react';
-import Time from 'react-time'
-import User from '../User/index'
+import Time from 'react-time';
+import User from '../User/index';
 import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
+import AgendaItemIcon from '../AgendaItemIcon';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
+import styles from './index.css';
 
 @CSSModules(styles)
 class AgendaItemInTimeline extends React.Component {
   constructor() {
     super();
-    this.handleTitleUpdate    = this.handleTitleUpdate.bind(this);
-    this.handleStatusUpdate   = this.handleStatusUpdate.bind(this);
-    this.handleSelect         = this.handleSelect.bind(this);
-    this.handleArchive        = this.handleArchive.bind(this);
-    this.renderActionButtons  = this.renderActionButtons.bind(this);
+    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
+    this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
+    this.handleArchive = this.handleArchive.bind(this);
+    this.renderActionButtons = this.renderActionButtons.bind(this);
   }
 
   handleTitleUpdate(newTitle) {
-    this.props.updateAgendaItem(this.props.agendaItem.id, {title: newTitle});
+    this.props.updateAgendaItem(this.props.agendaItem.id, { title: newTitle });
   }
 
   handleStatusUpdate(newStatus) {
-    this.props.updateAgendaItem(this.props.agendaItem.id, {status: newStatus});
+    this.props.updateAgendaItem(this.props.agendaItem.id, { status: newStatus });
   }
 
   handleSelect(e) {
@@ -38,9 +39,9 @@ class AgendaItemInTimeline extends React.Component {
   }
 
   renderActionButtons() {
-    var discussOptionStyle = "discuss-link";
-    if ( null != this.props.isTimelineHeader ) {
-      discussOptionStyle = ( this.props.isTimelineHeader ? "discuss-link-hide" : "discuss-link");
+    let discussOptionStyle = "discuss-link";
+    if (this.props.isTimelineHeader !== null) {
+      discussOptionStyle = (this.props.isTimelineHeader ? 'discuss-link-hide' : 'discuss-link');
     }
 
     return (
@@ -48,7 +49,7 @@ class AgendaItemInTimeline extends React.Component {
         <span styleName='discuss-link'><a href="#" className='btn btn-xs btn-default' onClick={this.handleArchive}>archive</a></span>
         <span styleName={discussOptionStyle}><a href="#" className='btn btn-xs btn-default' onClick={this.handleSelect}>discuss</a></span>
       </span>
-    )
+    );
   }
 
   render() {
@@ -58,27 +59,29 @@ class AgendaItemInTimeline extends React.Component {
     const timeStyle = ( this.props.isTimelineHeader ? "time-container-inverse" : "time-container");
     const userStyle = ( this.props.isTimelineHeader ? {border:'1px solid #ffffff'} : {});
 
-    return  <div styleName='root'>
-      <div styleName='user-container'>
-        <User user={owner} innerStyle={userStyle}/>
-      </div>
-      <div styleName="content-container">
-        <div styleName="title-container">
-          <img className="pull-left" style={{ marginRight: '5px', marginTop: '3px'}} height='15px' src={window.location.protocol + "//" + window.location.host + "/icons/agenda-item-icon-gray.png"}></img>
-          <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} />
+    return (
+      <div styleName='root'>
+        <div styleName='user-container'>
+          <User user={owner} innerStyle={userStyle}/>
         </div>
-        <div styleName="status-container">
-          <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+        <div styleName="content-container">
+          <div styleName="title-container">
+            <span className="pull-left"><AgendaItemIcon style={{ marginRight: '5px' }}/></span>
+            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} />
+          </div>
+          <div styleName="status-container">
+            <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+          </div>
+        </div>
+        <div styleName={timeStyle}>
+          <small>
+            <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
+            { archived ? ' (archived)' : '' }
+          </small>
+          { archived ? '' : this.renderActionButtons() }
         </div>
       </div>
-      <div styleName={timeStyle}>
-        <small>
-          <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
-          { archived ? ' (archived)' : '' }
-        </small>
-        { archived ? '' : this.renderActionButtons() }
-      </div>
-    </div>;
+    );
   }
 }
 
@@ -90,6 +93,7 @@ AgendaItemInTimeline.propTypes = {
     createdAt: PropTypes.string.isRequired,
   }).isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
+  isTimelineHeader: PropTypes.bool,
   visitAgendaItem: PropTypes.func.isRequired,
   isTimelineHeader: PropTypes.bool
 };

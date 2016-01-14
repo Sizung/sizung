@@ -1,8 +1,8 @@
 import React, { Component, PropTypes } from 'react';
-import { Dropdown, DropdownButton, MenuItem } from 'react-bootstrap';
 import User from '../User';
+import ConversationIcon from '../ConversationIcon';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
+import styles from './index.css';
 
 @CSSModules(styles)
 class NavigationHeader extends Component {
@@ -13,28 +13,36 @@ class NavigationHeader extends Component {
     }
   };
 
-  conversationTitle = () => {
-    const { currentConversation } = this.props;
+  conversationTitle = (currentConversation) => {
     if (currentConversation) {
       return (
-        <h5 title={currentConversation.title} styleName='conversation-title' >
-          <a href={'/organizations/' + currentConversation.organization_id + '/conversations'}>
-            <i styleName="conversation-close-icon"></i>
-          </a>{" "}
-          <img src={window.location.protocol + '//' + window.location.host + '/icons/conversation-icon-white.png'}></img>
-          {' ' + currentConversation.title}
-        </h5>
+        <div styleName='conversation-title-container'>
+              <h5 title={currentConversation.title} styleName='conversation-title' >
+                  <a href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
+                    <i styleName='conversation-close-icon'></i>
+                  </a>{" "}
+                  <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>
+                  {currentConversation.title}
+              </h5>
+        </div>
       );
     }
   };
 
   render() {
-    const { organizations, currentOrganization } = this.props;
-    const organizationElements = organizations.map((organization) => {
+    const currentUserName = this.props.currentUser.firstName + " " + this.props.currentUser.lastName;
+    const { organizations, currentOrganization, currentConversation } = this.props;
+    //const organizationElements = organizations.filter(function(organization){
+    //  return organization.id !== currentOrganization.id;
+    //}).map(function(organization){
+    //  return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
+    //});
+    const organizationElements = organizations.map(function (organization) {
       if (currentOrganization && organization.id === currentOrganization.id) {
-        return <li key={organization.id} className='active'><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
+        return <li className='active' key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
+      } else {
+        return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
       }
-      return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
     });
 
     return (
@@ -45,7 +53,7 @@ class NavigationHeader extends Component {
               <ul styleName='organisation-dropdown-nav'>
                 <li>
                   <a onClick={this.handleCurrentOrganizationClick} styleName='organisation-dropdown' href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                    <img styleName='logo' src={window.location.protocol + "//" + window.location.host + "/sizung_logo_white_on_black.gif"}/>
+                    <img styleName='logo' src={"/sizung_logo_white_on_black.gif"}/>
                   </a>
                   <ul className="dropdown-menu">
                     {organizationElements}
@@ -60,9 +68,7 @@ class NavigationHeader extends Component {
                 </li>
               </ul>
             </div>
-            <div styleName='conversation-title-container'>
-              { this.conversationTitle() }
-            </div>
+            { this.conversationTitle(currentConversation) }
             <div styleName='user-dropdown-container'>
               <ul styleName='user-dropdown-nav'>
                 <li styleName='user-dropdown-nav-item'>
@@ -71,7 +77,7 @@ class NavigationHeader extends Component {
                       <User  user={this.props.currentUser} size='normal' showName={false}/>
                     </div>
                     <div styleName='user-container-hidden-xs'>
-                      <User  user={this.props.currentUser} size='normal' showName={true}/>
+                      <User user={this.props.currentUser} size='normal' showName={true}/>
                     </div>
                   </a>
                   <ul className="dropdown-menu dropdown-menu-right">

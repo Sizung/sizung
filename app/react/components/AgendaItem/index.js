@@ -59,7 +59,7 @@ class AgendaItem extends React.Component {
             </div>
           </div>
           <div styleName="bottom-row">
-            <CommentsCounter count={agendaItem.commentsCount} inverted={selected} style={{ marginRight: '10px' }} />
+            <CommentsCounter count={agendaItem.commentsCount} inverted={selected}/>
             <DeliverablesCounter count={agendaItem.deliverablesCount} inverted={selected} />
           </div>
         </div>

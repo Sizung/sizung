@@ -1,13 +1,14 @@
 import React, { Component, PropTypes } from 'react';
 import CommentForm from './../CommentForm/index';
 import Comment from './../Comment/index';
-import AgendaItemInTimeline from './../AgendaItemInTimeline'
-import DeliverableInTimeline from './../DeliverableInTimeline'
-import { Glyphicon, DropdownButton, MenuItem, Dropdown, Toggle, Button } from 'react-bootstrap';
+import AgendaItemInTimeline from './../AgendaItemInTimeline';
+import DeliverableInTimeline from './../DeliverableInTimeline';
+import { Button } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
-import UserListApp from "../../containers/UserListApp";
-import ConversationMemberListApp from "../../containers/ConversationMemberListApp";
+import styles from './index.css';
+import ConversationMemberListApp from '../../containers/ConversationMemberListApp';
+import ChatIcon from '../ChatIcon';
+import UserIcon from '../UserIcon';
 
 
 @CSSModules(styles)
@@ -16,8 +17,9 @@ class ConversationObjectList extends Component {
     super();
 
     this.handleShowMore = (e) => {
+      let parentType;
       e.preventDefault();
-      var parentType = this.props.commentForm.parent.type ? this.props.commentForm.parent.type : 'conversations';
+      parentType = this.props.commentForm.parent.type ? this.props.commentForm.parent.type : 'conversations';
 
       this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
     }
@@ -29,14 +31,14 @@ class ConversationObjectList extends Component {
     this.renderListContainerContent = this.renderListContainerContent.bind(this);
     this.handleCommentSettingsDropdownScroll = this.handleCommentSettingsDropdownScroll.bind(this);
     this.onCommentFormResize = this.onCommentFormResize.bind(this);
-    this.scrolDownToNewActivity =  this.scrolDownToNewActivity.bind(this);
+    this.scrolDownToNewActivity = this.scrolDownToNewActivity.bind(this);
     this.showNewActivityMarker = this.showNewActivityMarker.bind(this);
     this.hideNewActivityMarker = this.hideNewActivityMarker.bind(this);
     this.newActivityTimer = 5;
 
     this.state = {
-      isConversationMembersViewVisible: false
-    }
+      isConversationMembersViewVisible: false,
+    };
   }
 
   prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, selectDeliverable, parent, currentUser) {
@@ -48,17 +50,15 @@ class ConversationObjectList extends Component {
           comment.canCreateAgendaItem = canCreateAgendaItem;
           comment.canCreateDeliverable = canCreateDeliverable;
           comment.parent = parent;
-          return(<Comment key={comment.id} comment={comment} currentUser={currentUser} handleCommentSettingsDropdownScroll={_this.handleCommentSettingsDropdownScroll.bind(_this)} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} isTimelineHeader={false}/>);
-        }
-        else if (conversationObject.type === 'agendaItems') {
+          return (<Comment key={comment.id} comment={comment} currentUser={currentUser} handleCommentSettingsDropdownScroll={_this.handleCommentSettingsDropdownScroll.bind(_this)} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} isTimelineHeader={false}/>);
+        } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
           return <AgendaItemInTimeline key={agendaItem.id} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} isTimelineHeader={false}/>
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
           return <DeliverableInTimeline key={deliverable.id} deliverable={deliverable} selectDeliverable={selectDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>
-        }
-        else {
+        } else {
           console.warn('Component not found for conversationObject: ', conversationObject);
         }
       });
@@ -66,17 +66,16 @@ class ConversationObjectList extends Component {
   }
 
   prepareShowMore(isFetching, nextPageUrl) {
-    if(isFetching) {
+    if (isFetching) {
       return <div className='col-xs-12' styleName='loading-message'>Loading...</div>;
-    }
-    else if(nextPageUrl) {
+    } else if (nextPageUrl) {
       return <div styleName='load-more-message'><a styleName='link' href="#" onClick={this.handleShowMore}>Show More</a></div>;
     }
   }
 
   handleCommentSettingsDropdownScroll(commentGearIconNode) {
-    if (commentGearIconNode && this.commentFormNode){
-      if( ($(commentGearIconNode).offset().top + $(commentGearIconNode).outerHeight()) - $(this.commentFormNode).offset().top > 0 ) {
+    if (commentGearIconNode && this.commentFormNode) {
+      if (($(commentGearIconNode).offset().top + $(commentGearIconNode).outerHeight()) - $(this.commentFormNode).offset().top > 0) {
         this.listNode.scrollTop += $(commentGearIconNode).outerHeight();
       }
     }
@@ -98,38 +97,35 @@ class ConversationObjectList extends Component {
     } else {
       this.props.backToConversation(this.props.currentConversationId);
     }
-  };
+  }
 
   adjustConversationListHeight() {
-    var headerInTimelineHeight = ( null == this.refs.headerInTimeline ) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
-    var conversationHeaderHeight = ( null == this.refs.conversationHeader ) ? 0 : $(this.refs.conversationHeader.getDOMNode()).outerHeight();
-    var headerInTimelineBottomMargin = ( headerInTimelineHeight === 0 ? 0 : 2 );
-    $(this.listNode).css('top',(headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin ));
+    const headerInTimelineHeight = (this.refs.headerInTimeline === null) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
+    const conversationHeaderHeight = ( this.refs.conversationHeader === null) ? 0 : $(this.refs.conversationHeader.getDOMNode()).outerHeight();
+    const headerInTimelineBottomMargin = (headerInTimelineHeight === 0 ? 0 : 2);
+    $(this.listNode).css('top', (headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin));
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const conversationObjectList = this.refs.conversationObjectList;
-    if (conversationObjectList) {
-      this.listNode = this.refs.conversationObjectList.getDOMNode();
-      var _this = this;
-      $(this.listNode).scroll(function () {
-        if ($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
-          _this.hideNewActivityMarker();
-        }
-      });
-    };
+    this.listNode = this.refs.conversationObjectList.getDOMNode();
+    let _this = this;
+    $(this.listNode).scroll(function() {
+      if($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
+        _this.hideNewActivityMarker();
+      }
+    });
 
-    if ( this.refs.listFooter && !this.state.isConversationMembersViewVisible ) {
+    if (!this.state.isConversationMembersViewVisible) {
       this.commentFormNode = this.refs.listFooter.getDOMNode();
       this.newActivityMarkerNode = this.refs.newActivityMarker.getDOMNode();
     }
-    //this.listNode = this.refs.conversationObjectList.getDOMNode();
+    // this.listNode = this.refs.conversationObjectList.getDOMNode();
 
-    if ( this.shouldScrollBottom ) {
+    if (this.shouldScrollBottom) {
       this.scrollListToBottom();
     } else {
       this.markerNode = React.findDOMNode(this.refs.newActivityMarker);
-      if ( this.props.conversationObjects.length - prevProps.conversationObjects.length == 1) {
+      if (this.props.conversationObjects.length - prevProps.conversationObjects.length === 1) {
         this.newActivityTimer = 5;
         this.showNewActivityMarker();
       }
@@ -150,9 +146,9 @@ class ConversationObjectList extends Component {
   };
 
   showNewActivityMarker() {
-    $(this.markerNode).css('display','block');
-    var _this = this;
-    if ( !this.newActivityTimerId ) {
+    $(this.markerNode).css('display', 'block');
+    let _this = this;
+    if (!this.newActivityTimerId) {
       this.newActivityTimerId = setInterval(function () {
         if (_this.newActivityTimer == 0) {
           _this.hideNewActivityMarker();
@@ -197,10 +193,6 @@ class ConversationObjectList extends Component {
     this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible});
   }
 
-  renderListContainerContent() {
-    return (this.state.isConversationMembersViewVisible ? this.renderConversationMembersView() : this.renderConversationTimeLine());
-  }
-
   renderConversationMembersView() {
     return (<div ref='conversationObjectList' styleName='member-list'>
         <ConversationMemberListApp toggleConversationMembersView={this.toggleConversationMembersView}/>
@@ -210,9 +202,13 @@ class ConversationObjectList extends Component {
 
   onCommentFormResize(commentBoxHeight) {
     $(this.commentFormNode).css('height',commentBoxHeight);
-    var listNodeBottomOffset = commentBoxHeight + parseInt($(this.commentFormNode).css('bottom').split('px')[0]);
+    const listNodeBottomOffset = commentBoxHeight + parseInt($(this.commentFormNode).css('bottom').split('px')[0]);
     $(this.listNode).css('bottom', listNodeBottomOffset +'px');
-    $(this.newActivityMarkerNode).css('bottom',( listNodeBottomOffset + 5) +'px');
+    $(this.newActivityMarkerNode).css('bottom', (listNodeBottomOffset + 5) + 'px');
+  }
+
+  renderListContainerContent() {
+    return (this.state.isConversationMembersViewVisible ? this.renderConversationMembersView() : this.renderConversationTimeLine());
   }
 
   renderConversationTimeLine() {
@@ -223,16 +219,16 @@ class ConversationObjectList extends Component {
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
     var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, selectDeliverable, commentForm.parent, commentForm.currentUser);
 
-    var conversationTimelineHeader = "";
+    let conversationTimelineHeader = '';
     this.isTimelineHeader = false;
-    var _this = this;
-    var listStyle = "list";
-    var listFooterStyle = "list-footer";
-    if ( null != this.props.commentForm.parent) {
+    const _this = this;
+    let listStyle = 'list';
+    let listFooterStyle = 'list-footer';
+    if (this.props.commentForm.parent != null) {
       switch (this.props.commentForm.parent.type) {
-        case "agendaItems" :
-            listStyle = "agenda-item-comment-list";
-            listFooterStyle = "agenda-item-comment-list-footer";
+        case 'agendaItems' :
+          listStyle = 'agenda-item-comment-list';
+          listFooterStyle = 'agenda-item-comment-list-footer';
           this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='agenda-item-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
@@ -249,9 +245,9 @@ class ConversationObjectList extends Component {
           </div>);
           break;
 
-        case "deliverables" :
-          listStyle = "deliverable-comment-list";
-          listFooterStyle = "deliverable-comment-list-footer";
+        case 'deliverables' :
+          listStyle = 'deliverable-comment-list';
+          listFooterStyle = 'deliverable-comment-list-footer';
           this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='deliverable-header-in-timeline' ref='headerInTimeline'>
             <div styleName='back-to-conversation-link-container'>
@@ -260,14 +256,15 @@ class ConversationObjectList extends Component {
               </Button>
             </div>
             <DeliverableInTimeline deliverable={this.props.commentForm.parent}
-                                   archiveDeliverable={archiveDeliverable}
-                                   updateDeliverable={this.props.updateDeliverable}
-                                   isTimelineHeader={this.isTimelineHeader}/>
+              archiveDeliverable={archiveDeliverable}
+              updateDeliverable={this.props.updateDeliverable}
+              isTimelineHeader={this.isTimelineHeader}
+            />
           </div>);
           break;
 
         default:
-          conversationTimelineHeader = "";
+          conversationTimelineHeader = '';
           break;
       }
     }
@@ -280,11 +277,12 @@ class ConversationObjectList extends Component {
 
         </div>
         <div ref='listFooter' styleName={listFooterStyle}>
-            <CommentForm createComment={createComment}
-                         createAgendaItem={createAgendaItem}
-                         createDeliverable={createDeliverable}
-                         onResize={this.onCommentFormResize}
-                {...commentForm}/>
+          <CommentForm createComment={createComment}
+            createAgendaItem={createAgendaItem}
+            createDeliverable={createDeliverable}
+            onResize={this.onCommentFormResize}
+            {...commentForm}
+          />
         </div>
           <div ref='newActivityMarker' styleName='timeline-new-activity-marker'>
               <span onClick={_this.scrolDownToNewActivity} styleName='timeline-new-activity-scroll'>
@@ -297,18 +295,18 @@ class ConversationObjectList extends Component {
 
 
   render() {
-    const { users } = this.props;
-    var chatType = this.props.commentForm.parent ? this.props.commentForm.parent.type : null;
-    if ( null != chatType ) {
-      if ( chatType == 'agendaItems') {
+    const { currentConversation, users } = this.props;
+    let chatType = this.props.commentForm.parent.type;
+    if (chatType !== null) {
+      if (chatType === 'agendaItems') {
         chatType = '( Agenda Item )';
-      } else if (chatType == 'deliverables'){
+      } else if (chatType === 'deliverables') {
         chatType = '( Deliverable )';
-      } else if (chatType == 'conversations'){
+      } else if (chatType === 'conversations') {
         chatType = '';
       }
     } else {
-      chatType = ""
+      chatType = '';
     }
 
     return(
@@ -316,8 +314,8 @@ class ConversationObjectList extends Component {
       <div styleName='list-header' ref='conversationHeader'>
         <div styleName="conversation-title-container">
           <h5 styleName='conversation-title'>
-            <img src={window.location.protocol + "//" + window.location.host + "/icons/chat-icon-white.png"}></img>
-            {" CHAT " + chatType}
+            <ChatIcon inverted={true} size={'large'} style={{ marginRight: '5px' }}/>
+            {' CHAT ' + chatType}
           </h5>
         </div>
 
@@ -325,7 +323,7 @@ class ConversationObjectList extends Component {
           <div className="btn-group">
             <a onClick={this.toggleConversationMembersView} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div className="pull-right" styleName='member-badge'><div styleName='member-badge-contents'>{users ? users.size : ''}</div></div>
-              <img height='25px' width='25px' src={window.location.protocol + "//" + window.location.host + "/icons/user-icon-white.png"}></img>
+              <UserIcon inverted={true} size={'x-large'}/>
             </a>
           </div>
         </div>
@@ -340,11 +338,11 @@ ConversationObjectList.propTypes = {
   commentForm: PropTypes.shape({
     currentUser: PropTypes.shape({
       name: PropTypes.string.isRequired,
-      email: PropTypes.string.isRequired
+      email: PropTypes.string.isRequired,
     }),
     parent: PropTypes.object.isRequired,
     canCreateAgendaItem: PropTypes.bool.isRequired,
-    canCreateDeliverable: PropTypes.bool.isRequired
+    canCreateDeliverable: PropTypes.bool.isRequired,
   }).isRequired,
   nextPageUrl: PropTypes.string,
   isFetching: PropTypes.bool,
@@ -356,17 +354,21 @@ ConversationObjectList.propTypes = {
   createAgendaItem: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
   conversationObjects: PropTypes.array,
+  currentConversation: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }).isRequired,
   currentConversationId: PropTypes.string.isRequired,
   canCreateAgendaItem: PropTypes.bool.isRequired,
   canCreateDeliverable: PropTypes.bool.isRequired,
   users: PropTypes.object.isRequired,
   conversationMembers: PropTypes.object.isRequired,
-  updateAgendaItem: PropTypes.func.isRequired
+  updateAgendaItem: PropTypes.func.isRequired,
 };
 
 ConversationObjectList.defaultProps = {
   nextPageUrl: null,
-  isFetching: false
+  isFetching: false,
 };
 
 export default ConversationObjectList;
