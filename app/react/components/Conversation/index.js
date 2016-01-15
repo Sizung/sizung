@@ -1,6 +1,7 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
@@ -27,7 +28,9 @@ class Conversation extends React.Component {
         <div styleName="default" onClick={visitConversation}>
           <div styleName="row">
             <div styleName="content-container">
-              { conversation.title }
+              <Link to={'/conversations/' + conversation.id}>
+                { conversation.title }
+              </Link>
               <div styleName="actions">
                 <small>
                   <a href={'/conversations/' + conversation.id + '/edit'} styleName="action">

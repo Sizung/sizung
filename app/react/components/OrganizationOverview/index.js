@@ -33,7 +33,7 @@ class OrganizationOverview extends Component {
             <div styleName='header'>
               <h5 style={{margin: '5px', fontWeight: 'bold'}}>
                 <span className='pull-right'>
-                  <a href="/conversations/new">
+                  <a href={'/organizations/' + organization.id + '/conversations/new'}>
                     <i className="fa fa-plus" />
                     Add Conversation
                   </a>
