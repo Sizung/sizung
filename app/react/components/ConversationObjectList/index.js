@@ -185,8 +185,9 @@ class ConversationObjectList extends Component {
       if (this.props.commentForm.parent) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
       }
+      this.adjustConversationListHeight();
       this.scrollListToBottom();
-    };
+    }
   }
 
   toggleConversationMembersView() {
