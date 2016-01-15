@@ -14,7 +14,7 @@ class User extends React.Component {
   }
 
   render() {
-    const {style, showName, showEmail, innerStyle, inverted} = this.props;
+    const {style, showName, showEmail, innerStyle} = this.props;
     let { email, presenceStatus, firstName, lastName } = this.props.user;
     const initials = (firstName && lastName) ? firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase() : email.charAt(0).toUpperCase();
     const onlineState = presenceStatus === 'online' ? '-online' : '';
@@ -23,15 +23,22 @@ class User extends React.Component {
     const userEmail = showEmail ? <span styleName="email"><small>({email})</small></span> : '';
 
     return (
-      <div styleName={'root'+ (inverted ? '-inverted' : '')} title={email} style={style}>
-        <div styleName={'circle-badge-' + size + onlineState} style={innerStyle}>
-          {initials}
+        <div styleName={'root'} title={email} style={style}>
+          <div styleName={'circle-badge-' + size + onlineState} style={innerStyle}>
+            {initials}
+          </div>
+          {
+            (showName ?
+              <div styleName={'user-title-' + size} >
+                {name}
+                {userEmail}
+              </div>
+              :
+              ''
+            )
+          }
+
         </div>
-        <div styleName={'user-title-' + size} >
-          {name}
-          {userEmail}
-        </div>
-      </div>
     );
   }
 }
@@ -48,7 +55,6 @@ User.propTypes = {
   showEmail: PropTypes.bool,
   style: PropTypes.object,
   innerStyle: PropTypes.object,
-  inverted: PropTypes.bool,
 };
 
 User.defaultProps = {

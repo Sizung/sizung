@@ -37,21 +37,8 @@
 .content-container {
   display: table-cell;
   width: 100%;
-  padding: 10px;
-
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
+  padding: 15px;
   background-color: #E1F2FE;
-  /*padding: 10px;*/
-
-  /*border: 2px solid #eeeeee;*/
-  /*-webkit-border-radius: 5px;*/
-  /*-moz-border-radius: 5px;*/
-  /*border-radius: 5px;*/
-
-  /*background-color: #ffffff;*/
-
 }
 
 .content-container-inverted {

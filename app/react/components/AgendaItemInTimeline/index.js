@@ -62,7 +62,7 @@ class AgendaItemInTimeline extends React.Component {
       <div styleName='root'>
         <div styleName='user-container'>
           <div style={{padding: '0px 10px'}}><AgendaItemIcon inverted={this.props.isTimelineHeader}/></div>
-          <div style={{marginTop: '5px'}}><User user={owner} inverted={this.props.isTimelineHeader}/></div>
+          <div style={{marginTop: '5px'}}><User user={owner} inverted={this.props.isTimelineHeader} innerStyle={{ border: '1px solid #ffffff'}}/></div>
         </div>
         <div styleName={"content-container"+ (this.props.isTimelineHeader ? '-inverted' : '')}>
           <div styleName="title-container">
