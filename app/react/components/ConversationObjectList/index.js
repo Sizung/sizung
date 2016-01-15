@@ -102,7 +102,7 @@ class ConversationObjectList extends Component {
   adjustConversationListHeight() {
     const headerInTimelineHeight = (this.refs.headerInTimeline === undefined) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
     const conversationHeaderHeight = ( this.refs.conversationHeader === undefined) ? 0 : $(this.refs.conversationHeader.getDOMNode()).outerHeight();
-    const headerInTimelineBottomMargin = (headerInTimelineHeight === 0 ? 0 : 2);
+    const headerInTimelineBottomMargin = 0;
     $(this.listNode).css('top', (headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin));
   }
 

@@ -22,6 +22,7 @@
 .conversation-member-title {
   float: left;
   color : #89949E;
+  font-weight: 600;
 }
 
 .close-button-container {
@@ -58,4 +59,5 @@
 .organization-member-title {
   float: left;
   color : #89949E;
+  font-weight: 600;
 }

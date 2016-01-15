@@ -139,9 +139,9 @@ class ConversationMemberList extends React.Component {
       return (
         <div styleName='root'>
           <div styleName='full-width-container'>
-            <div styleName='conversation-member-title'>
-              <h4>Conversation Members</h4>
-            </div>
+            <h4 styleName='conversation-member-title'>
+              <span>Conversation Members</span>
+            </h4>
             <span styleName='close-button-container'>
               <i styleName='close-button' onClick={this.props.toggleConversationMembersView}></i>
             </span>
@@ -160,9 +160,9 @@ class ConversationMemberList extends React.Component {
 
           <div styleName='full-width-container'>
             <div styleName='organization-member-container'>
-              <div styleName='organization-member-title'>
-                <h4>Organization Members</h4>
-              </div>
+              <h4 styleName='organization-member-title'>
+                <span>Organization Members</span>
+              </h4>
             </div>
             {this.renderOrganizationMemberList()}
           </div>

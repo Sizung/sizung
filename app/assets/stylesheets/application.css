@@ -299,6 +299,10 @@ html, body {
   color: #ffffff;
 }
 
+.black-color {
+  color: #000000;
+}
+
 .app-body {
   padding: 0px 10px;
 }

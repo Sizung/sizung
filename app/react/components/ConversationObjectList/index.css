@@ -35,27 +35,21 @@
   overflow-y:auto;
   overflow-x: hidden;
 
-  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
-  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
-  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
-
-  border: 0px solid #ffffff;
-  border-top-width: 5px;
-  border-bottom-width: 10px;
+  border-top: 5px solid #ffffff;
+  border-bottom: 10px solid #ffffff;
 }
 
 .agenda-item-comment-list {
   composes: list;
-  border: 3px solid #57C1E8;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
+  border-left: 3px solid #57C1E8;
+  border-right: 3px solid #57C1E8;
 }
 
 .deliverable-comment-list {
   composes: list;
-  border: 3px solid #505964;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
+  border-left: 3px solid #505964;
+  border-right: 3px solid #505964;
+
 }
 
 .list-footer {
@@ -133,7 +127,7 @@
 
 .header-in-timeline {
   position: absolute;
-  margin-bottom: 5px;
+  /*margin-bottom: 5px;*/
   top: 45px;
   right: 0px;
   left: 0px;
