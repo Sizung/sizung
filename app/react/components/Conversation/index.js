@@ -28,6 +28,16 @@ class Conversation extends React.Component {
           <div styleName="row">
             <div styleName="content-container">
               { conversation.title }
+              <div styleName="actions">
+                <small>
+                  <a href={'/conversations/' + conversation.id + '/edit'} styleName="action">
+                    <i className="fa fa-pencil" /> edit
+                  </a>
+                  <a href={'/conversations/' + conversation.id} styleName="action" data-confirm="Are you sure?" rel="nofollow" data-method="delete">
+                    <i className="fa fa-trash-o"></i> delete
+                  </a>
+                </small>
+              </div>
             </div>
           </div>
         </div>

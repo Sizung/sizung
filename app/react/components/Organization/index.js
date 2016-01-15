@@ -5,11 +5,9 @@ import styles from './index.css';
 @CSSModules(styles)
 class Organization extends React.Component {
 
-  render() {
-    const { organization } = this.props;
-    return (
-      <h3 styleName="root">
-        { organization.name }
+  actions = (organization) => {
+    if (organization.editable) {
+      return (
         <div styleName="actions">
           <small>
             <a href={'/organizations/' + organization.id + '/edit'} styleName="action">
@@ -20,6 +18,16 @@ class Organization extends React.Component {
             </a>
           </small>
         </div>
+      );
+    }
+  };
+
+  render() {
+    const { organization } = this.props;
+    return (
+      <h3 styleName="root">
+        { organization.name }
+        { this.actions(organization) }
       </h3>
     );
   }
@@ -29,6 +37,7 @@ Organization.propTypes = {
   organization: PropTypes.shape({
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    editable: PropTypes.string.isRequired,
   }).isRequired,
 };
 

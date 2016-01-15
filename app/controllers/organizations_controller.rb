@@ -39,7 +39,9 @@ class OrganizationsController < ApplicationController
         ).find(params[:id])
         authorize @organization
 
-        render json: @organization, include: %w(conversations agenda_items deliverables organization_members)
+        render json: @organization,
+               include: %w(conversations agenda_items deliverables organization_members),
+               meta: { editable: policy(@organization).edit? }
       end
     end
 

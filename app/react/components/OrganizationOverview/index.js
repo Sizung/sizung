@@ -4,7 +4,6 @@ import Organization from '../Organization';
 import Conversation from '../Conversation';
 import AgendaItemList from '../AgendaItemList';
 import DeliverableList from '../DeliverableList';
-import ConversationIcon from '../ConversationIcon';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
@@ -15,7 +14,6 @@ class OrganizationOverview extends Component {
       return <Conversation key={ conversation.id } conversation={ conversation }/>;
     }).toJS();
 
-    console.log(elements);
     return elements;
   };
 
@@ -35,7 +33,10 @@ class OrganizationOverview extends Component {
             <div styleName='header'>
               <h5 style={{margin: '5px', fontWeight: 'bold'}}>
                 <span className='pull-right'>
-                  <ConversationIcon inverted={true} size={'large'}/>
+                  <a href="/conversations/new">
+                    <i className="fa fa-plus" />
+                    Add Conversation
+                  </a>
                 </span>
                 CONVERSATIONS
               </h5>

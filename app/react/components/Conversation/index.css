@@ -1,11 +1,34 @@
 .root {
   position: relative;
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+  margin: 0 0 1px 0;
+
+  background-color: #ffffff;
+  color : #89949E;
   cursor: pointer;
 }
 
+.actions {
+  display: none;
+}
+
+.root:hover .actions {
+  display: inline;
+}
+
+.action {
+  margin-left: 1em;
+  font-size: smaller;
+  color: #89949E;
+}
+
+.action:hover {
+  color: #89949E;
+}
+
 .default {
-  composes: card from '../../styles/modules/card.css';
-  composes: hover-container from '../../styles/modules/hover.css';
   font-weight: 600;
   font-size: 1.3em;
 }

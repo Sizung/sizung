@@ -28,11 +28,13 @@ export function transformUnseenObjectFromJsonApi(obj) {
   }
 }
 
-export function transformOrganizationFromJsonApi(organization) {
+export function transformOrganizationFromJsonApi(organization, meta) {
   return {
     id: organization.id,
     type: transformTypeFromJsonApi(organization.type),
-    name: organization.attributes.name
+    name: organization.attributes.name,
+    ownerId: relId(organization, 'owner'),
+    editable: meta ? meta.editable : null,
   };
 }
 
@@ -124,7 +126,7 @@ export function transformOrganizationMemberFromJsonApi(orgMember) {
   };
 }
 
-const transformObjectFromJsonApi = (obj) => {
+const transformObjectFromJsonApi = (obj, meta) => {
   switch (obj.type) {
     case 'users': return transformUserFromJsonApi(obj);
     case 'comments': return transformCommentFromJsonApi(obj);
@@ -134,7 +136,7 @@ const transformObjectFromJsonApi = (obj) => {
     case 'unseen_objects': return transformUnseenObjectFromJsonApi(obj);
     case 'conversation_members': return transformConversationMemberFromJsonApi(obj);
     case 'organization_members': return transformOrganizationMemberFromJsonApi(obj);
-    case 'organizations': return transformOrganizationFromJsonApi(obj);
+    case 'organizations': return transformOrganizationFromJsonApi(obj, meta);
     default: console.warn('Unknown type of Object to transform: ', obj);
   }
 };
