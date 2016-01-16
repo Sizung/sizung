@@ -94,17 +94,16 @@ class EditableAgendaItem extends React.Component {
 
   selectedMarker(selectedOption, option) {
     if (selectedOption.id === option.id) {
-      return <i className="fa fa-check pull-right" style={{color: 'green', marginTop: '1em'}}></i>
+      return <i className="fa fa-check pull-right" style={{color: 'green', padding: '5px'}}></i>
     }
   }
 
   renderEdit(selectedOption, options) {
     const optionElementList = this.filteredOptions(this.state.filter, options).map((option) => {
       return (
-        <div style={{lineHeight: '3em'}} onClick={() => this.handleOptionClick(option.id)} key={option.id}>
-          {this.displayOption(option)}
-          &nbsp;&nbsp;
-          {this.selectedMarker(selectedOption, option)}
+        <div styleName='agenda-item-row' onClick={() => this.handleOptionClick(option.id)} key={option.id}>
+          <span styleName='agenda-item-column'>{this.displayOption(option)}</span>
+          <span styleName='marker-column'>{this.selectedMarker(selectedOption, option)}</span>
         </div>
       );
     });

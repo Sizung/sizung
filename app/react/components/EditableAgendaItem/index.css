@@ -72,3 +72,33 @@
   height: 10px;
   border: 1px solid red;
 }
+
+.agenda-item-row {
+  composes: col-xs-12 from global;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.agenda-item-row:hover {
+  background-color: #eeeeee;
+}
+
+.agenda-item-column {
+  composes: col-xs-10 from global;
+  padding: 0px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.marker-column {
+  composes: col-xs-2 from global;
+  padding: 0px;
+}

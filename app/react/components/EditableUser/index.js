@@ -77,16 +77,16 @@ class EditableUser extends React.Component {
 
   selectedMarker(selectedUser, user) {
     if (selectedUser === user) {
-      return <i className="fa fa-check pull-right" style={{color: 'green', marginTop: '1em'}}></i>
+      return <i className="fa fa-check pull-right" style={{color: 'green', padding: '5px'}}></i>
     }
   }
 
   renderEdit(selectedUser, users) {
     const options = this.filteredOptions(this.state.filter, users).map((user) => {
       return (
-        <div style={{lineHeight: '3em'}} onClick={() => this.handleUserClick(user.id)} key={user.id}>
-          <span className='col-xs-10'><User user={user} showName={true} size={this.props.size}/></span>
-          <span className='col-xs-2'>{this.selectedMarker(selectedUser, user)}</span>
+        <div styleName='user-row' onClick={() => this.handleUserClick(user.id)} key={user.id}>
+            <span styleName='user-column'><User user={user} showName={true}/></span>
+            <span styleName='marker-column'>{this.selectedMarker(selectedUser, user)}</span>
         </div>
       );
     });

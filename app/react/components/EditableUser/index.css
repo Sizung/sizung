@@ -48,3 +48,23 @@
   height: 10px;
   border: 1px solid red;
 }
+
+.user-row {
+  composes: col-xs-12 from global;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.user-row:hover {
+  background-color: #eeeeee;
+}
+
+.user-column {
+  composes: col-xs-10 from global;
+  padding: 0px;
+}
+
+.marker-column {
+  composes: col-xs-2 from global;
+  padding: 0px;
+}
