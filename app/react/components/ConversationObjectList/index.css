@@ -35,8 +35,8 @@
   overflow-y:auto;
   overflow-x: hidden;
 
-  border-top: 5px solid #ffffff;
-  border-bottom: 10px solid #ffffff;
+  /*border-top: 5px solid #ffffff;*/
+  /*border-bottom: 10px solid #ffffff;*/
 }
 
 .agenda-item-comment-list {
@@ -152,16 +152,17 @@
 }
 
 
-.back-to-conversation-link-container {
-  composes: row from global;
-  padding: 0px 5px;
-}
-
 .back-to-conversation-link {
-  composes: pull-right from global;
-  color: #333333;
-  padding: 5px 15px;
-  float: right;
+  composes: close from global;
+  padding: 5px;
+  margin-right: 10px;
+  font-weight: 100;
+  font-size: 24px;
+  color: #ffffff;
+  opacity: 1;
+  cursor: pointer;
+  text-shadow: none;
+  /*z-index: 3000;*/
 }
 
 .back-to-conversation-icon {

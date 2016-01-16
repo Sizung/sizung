@@ -142,9 +142,7 @@ class ConversationMemberList extends React.Component {
             <div styleName='conversation-member-title'>
               <h4>Conversation Members</h4>
             </div>
-            <span styleName='close-button-container'>
-              <i styleName='close-button' onClick={this.props.toggleConversationMembersView}></i>
-            </span>
+            <a styleName='close-button' onClick={this.props.toggleConversationMembersView}><span aria-hidden="true">&times;</span></a>
           </div>
           <div styleName='full-width-container'>
             {this.renderConversationMemberList()}

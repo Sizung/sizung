@@ -25,13 +25,13 @@
   font-weight: 600;
 }
 
-.close-button-container {
-  float: right;
-  color : #89949E;
-}
-
 .close-button {
-  composes: fa fa-times fa-lg from global;
+  composes: close from global;
+  /*padding: 5px;*/
+  font-weight: 100;
+  font-size: 24px;
+  color : #89949E;
+  opacity: 1;
   cursor: pointer;
 }
 

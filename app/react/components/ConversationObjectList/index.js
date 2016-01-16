@@ -232,11 +232,7 @@ class ConversationObjectList extends Component {
           listFooterStyle = 'agenda-item-comment-list-footer';
           this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='agenda-item-header-in-timeline' ref='headerInTimeline'>
-            <div styleName='back-to-conversation-link-container'>
-              <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
-                <i styleName='back-to-conversation-icon'></i>
-              </Button>
-            </div>
+            <a className='pull-right' styleName='back-to-conversation-link' onClick={this.handleBackClick.bind(this)}><span aria-hidden="true">&times;</span></a>
             <AgendaItemInTimeline agendaItem={this.props.commentForm.parent}
                                   archiveAgendaItem={archiveAgendaItem}
                                   updateAgendaItem={this.props.updateAgendaItem}
@@ -251,11 +247,7 @@ class ConversationObjectList extends Component {
           listFooterStyle = 'deliverable-comment-list-footer';
           this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='deliverable-header-in-timeline' ref='headerInTimeline'>
-            <div styleName='back-to-conversation-link-container'>
-              <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
-                <i styleName='back-to-conversation-icon'></i>
-              </Button>
-            </div>
+            <a styleName='back-to-conversation-link' onClick={this.handleBackClick.bind(this)}><span aria-hidden="true">&times;</span></a>
             <DeliverableInTimeline deliverable={this.props.commentForm.parent}
               archiveDeliverable={archiveDeliverable}
               updateDeliverable={this.props.updateDeliverable}
