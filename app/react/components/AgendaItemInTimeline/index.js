@@ -57,31 +57,32 @@ class AgendaItemInTimeline extends React.Component {
     const { title, status, owner, archived } = agendaItem;
 
     const timeStyle = ( this.props.isTimelineHeader ? "time-container-inverse" : "time-container");
-
+    const archiveStyle = ( archived ? 'archive-wrapper' : '');
     return (
-      <div styleName='root'>
-        <div styleName='user-container'>
-          <div style={{padding: '0px 10px'}}><AgendaItemIcon inverted={this.props.isTimelineHeader}/></div>
-          <div style={{marginTop: '5px'}}><User user={owner} inverted={this.props.isTimelineHeader} innerStyle={ (this.props.isTimelineHeader? { border: '1px solid #ffffff'} : {})}/></div>
-        </div>
-        <div styleName={"content-container"+ (this.props.isTimelineHeader ? '-inverted' : '')}>
-          <div styleName="title-container">
-            <div className='pull-right'>
-              <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+        <div styleName='root'>
+          <div styleName='user-container'>
+            <div style={{padding: '0px 10px'}}><AgendaItemIcon inverted={this.props.isTimelineHeader}/></div>
+            <div style={{marginTop: '5px'}}><User user={owner} inverted={this.props.isTimelineHeader} innerStyle={ (this.props.isTimelineHeader? { border: '1px solid #ffffff'} : {})}/></div>
+          </div>
+          <div styleName={"content-container"+ (this.props.isTimelineHeader ? '-inverted' : '')}>
+            <div styleName="title-container">
+              <div styleName='status-container'>
+                <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+              </div>
+              <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
             </div>
-            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
+            <div styleName={timeStyle}>
+              <small>
+                <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
+                { archived ? <strong>&nbsp;(ARCHIVED)</strong>  : '' }
+              </small>
+              { archived ? '' : this.renderActionButtons() }
+            </div>
           </div>
-          <div styleName={timeStyle}>
-            <small>
-              <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
-              { archived ? ' (archived)' : '' }
-            </small>
-            { archived ? '' : this.renderActionButtons() }
-          </div>
+          { archived ? <div styleName={archiveStyle}></div> : '' }
         </div>
-
-      </div>
     );
+    console.log("Archive Style: " + archiveStyle);
   }
 }
 
