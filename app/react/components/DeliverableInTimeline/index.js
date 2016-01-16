@@ -101,7 +101,7 @@ class DeliverableInTimeline extends React.Component {
                   <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
                 </div>
                 <div className='col-xs-6-pull-right col-sm-4 zero-padding'>
-                    <span className="pull-right"><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} size={'small'}/></span>
+                    <span className="pull-right"><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} size={'small'} conversationId={conversationId}/></span>
                     <span className="pull-right" styleName={"meta-label" + (this.props.isTimelineHeader ? '-inverted' : '')} style={{padding: '5px'}}>{'ASSIGNED TO'}</span>
                 </div>
               </div>
