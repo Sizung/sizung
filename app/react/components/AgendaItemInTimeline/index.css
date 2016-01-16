@@ -14,7 +14,6 @@
 }
 
 .title-container {
-  padding-right: 80px;
   font-weight: 600;
   color : #89949E;
 }
@@ -28,14 +27,9 @@
 }
 
 .content-container-inverted {
-  display: table-cell;
-  width: 100%;
-}
-
-.status-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+  composes: content-container;
+  padding: 0px;
+  background-color: transparent;
 }
 
 .time-container {
@@ -62,4 +56,9 @@
   composes: fa fa-tag from global;
   float: left;
   padding: 5px 10px 0px 0px;
+}
+
+.action-btn {
+  composes: btn btn-xs btn-default from global;
+  margin: -1px 0px;
 }

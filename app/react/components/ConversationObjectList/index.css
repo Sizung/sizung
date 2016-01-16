@@ -144,11 +144,15 @@
 .agenda-item-header-in-timeline {
   composes: header-in-timeline;
   background-color: #57C1E8;
+  border-left: 3px solid #57C1E8;
+  border-right: 3px solid #57C1E8;
 }
 
 .deliverable-header-in-timeline {
   composes: header-in-timeline;
   background-color: #505964;
+  border-left: 3px solid #505964;
+  border-right: 3px solid #505964;
 }
 
 

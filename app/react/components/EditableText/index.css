@@ -37,8 +37,7 @@
 }
 
 .edit-link-container {
-  position: relative;
-  display: inline-block;
+  display: inline;
   float: left;
-  padding-left: 5px;
+  margin-left: 5px;
 }

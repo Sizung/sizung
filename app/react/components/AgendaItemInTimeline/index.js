@@ -46,8 +46,8 @@ class AgendaItemInTimeline extends React.Component {
 
     return (
       <span>
-        <span styleName='discuss-link'><a href="#" className='btn btn-xs btn-default' onClick={this.handleArchive}>archive</a></span>
-        <span styleName={discussOptionStyle}><a href="#" className='btn btn-xs btn-default' onClick={this.handleSelect}>discuss</a></span>
+        <span styleName='discuss-link'><a href="#" styleName='action-btn' onClick={this.handleArchive}>archive</a></span>
+        <span styleName={discussOptionStyle}><a href="#" styleName='action-btn' onClick={this.handleSelect}>discuss</a></span>
       </span>
     );
   }
@@ -62,14 +62,14 @@ class AgendaItemInTimeline extends React.Component {
       <div styleName='root'>
         <div styleName='user-container'>
           <div style={{padding: '0px 10px'}}><AgendaItemIcon inverted={this.props.isTimelineHeader}/></div>
-          <div style={{marginTop: '5px'}}><User user={owner} inverted={this.props.isTimelineHeader} innerStyle={{ border: '1px solid #ffffff'}}/></div>
+          <div style={{marginTop: '5px'}}><User user={owner} inverted={this.props.isTimelineHeader} innerStyle={ (this.props.isTimelineHeader? { border: '1px solid #ffffff'} : {})}/></div>
         </div>
         <div styleName={"content-container"+ (this.props.isTimelineHeader ? '-inverted' : '')}>
           <div styleName="title-container">
+            <div className='pull-right'>
+              <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+            </div>
             <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
-          </div>
-          <div styleName="status-container">
-            <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
           </div>
           <div styleName={timeStyle}>
             <small>
