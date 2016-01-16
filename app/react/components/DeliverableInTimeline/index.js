@@ -75,8 +75,8 @@ class DeliverableInTimeline extends React.Component {
 
     return (
       <span>
-        <span styleName='discuss-link'><a href="#" className='btn btn-xs btn-default' onClick={this.handleArchive}>archive</a></span>
-        <span styleName={discussOptionStyle}><a href="#" className='btn btn-xs btn-default' onClick={this.handleSelect}>discuss</a></span>
+        <span styleName='discuss-link'><a href="#" styleName='action-btn' onClick={this.handleArchive}>archive</a></span>
+        <span styleName={discussOptionStyle}><a href="#" styleName='action-btn' onClick={this.handleSelect}>discuss</a></span>
       </span>
     );
   }
@@ -85,6 +85,7 @@ class DeliverableInTimeline extends React.Component {
     const { deliverable } = this.props;
     const { owner, assignee, agendaItem, archived } = deliverable;
     const { conversationId } = agendaItem;
+    const archiveStyle = ( archived ? 'archive-wrapper' : '');
 
     return (
       <div styleName='root'>
@@ -97,7 +98,7 @@ class DeliverableInTimeline extends React.Component {
             <div styleName="full-width">
               <div styleName={"title-container" + (this.props.isTimelineHeader ? '-inverted' : '')}>
                 <div className='col-xs-12 col-sm-8 zero-padding'>
-                  <span>{deliverable.title}</span>
+                  <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
                 </div>
                 <div className='col-xs-6-pull-right col-sm-4 zero-padding'>
                     <span className="pull-right"><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} size={'small'}/></span>
@@ -117,14 +118,17 @@ class DeliverableInTimeline extends React.Component {
             </div>
           </div>
           <div styleName="time-container">
+            <div styleName='status-container'>
+              <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+            </div>
             <small>
               <Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
-              { archived ? ' (archived)' : '' }
+              { archived ? <strong>&nbsp;(ARCHIVED)</strong> : '' }
             </small>
-            { archived ? '' : ''}
+            { archived ? '' : this.renderActionButtons() }
           </div>
         </div>
-
+        { archived ? <div styleName={archiveStyle}></div> : '' }
       </div>
     );
   }

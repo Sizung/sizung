@@ -48,6 +48,8 @@
 
 .status-container {
   composes: pull-right from global;
+  margin-top: -5px;
+  margin-right: 0px;
 }
 
 .meta-container {
@@ -83,6 +85,7 @@
 
 .time-container {
   color : #9aa5af;
+  min-height: 23px;
 }
 
 .discuss-link {
@@ -162,4 +165,20 @@
 
 .due-on-label-inverted {
   color: #cccccc;
+}
+
+.action-btn {
+  composes: btn btn-xs btn-default from global;
+  margin: -1px 0px;
+}
+
+.archive-wrapper {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: #ffffff;
+  opacity: 0.6;
+  z-index: 100;
 }

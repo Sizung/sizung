@@ -66,12 +66,12 @@ class AgendaItemInTimeline extends React.Component {
           </div>
           <div styleName={"content-container"+ (this.props.isTimelineHeader ? '-inverted' : '')}>
             <div styleName="title-container">
-              <div styleName='status-container'>
-                <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
-              </div>
               <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
             </div>
             <div styleName={timeStyle}>
+              <div styleName='status-container'>
+                <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+              </div>
               <small>
                 <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
                 { archived ? <strong>&nbsp;(ARCHIVED)</strong>  : '' }
