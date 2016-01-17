@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import TextareaAutosize from 'react-autosize-textarea';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
+import styles from './index.css';
 
 function SelectInputText(element) {
   element.setSelectionRange(0, element.value.length);
@@ -11,36 +11,43 @@ function SelectInputText(element) {
 class EditableText extends React.Component {
   constructor() {
     super();
-    this.state = {edit: false};
+    this.state = { edit: false };
 
-    this.saveEdit         = this.saveEdit.bind(this);
-    this.cancelEdit       = this.cancelEdit.bind(this);
-
-    this.handleEditClick  = this.handleEditClick.bind(this);
-    this.handleKeyDown    = this.handleKeyDown.bind(this);
-    this.handleSubmit     = this.handleSubmit.bind(this);
-    this.handleBlur       = this.handleBlur.bind(this);
+    this.saveEdit = this.saveEdit.bind(this);
+    this.cancelEdit = this.cancelEdit.bind(this);
+    this.handleEditClick = this.handleEditClick.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBlur = this.handleBlur.bind(this);
     this.handleInputClick = this.handleInputClick.bind(this);
     this.handleKeyPress = this.handleKeyPress.bind(this);
-}
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.edit && !prevState.edit) {
+      const inputElem = React.findDOMNode(this.refs.input);
+      inputElem.focus();
+      SelectInputText(inputElem);
+    }
+  }
 
   saveEdit() {
-    var inputElem = React.findDOMNode(this.refs.input);
+    const inputElem = React.findDOMNode(this.refs.input);
     const title = inputElem.value.trim();
-    if(!title) return;
+    if (!title) return;
 
     this.props.onUpdate(title);
-    this.setState({edit: false})
+    this.setState({ edit: false });
   }
 
   cancelEdit() {
-    this.setState({edit: false})
+    this.setState({ edit: false });
   }
 
   handleEditClick(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.setState({edit: true})
+    this.setState({ edit: true });
   }
 
   handleKeyDown(e) {
@@ -71,8 +78,7 @@ class EditableText extends React.Component {
     }
   }
 
-  handleKeyPress(e){
-    console.log("Event Key Press: " + e);
+  handleKeyPress(e) {
     this.inputNode = React.findDOMNode(this.refs.input);
     const name = this.inputNode.value.trim();
     if (name) {
@@ -85,28 +91,20 @@ class EditableText extends React.Component {
 
   textElement(persistedText, editable) {
     if (this.state.edit) {
-      return <div styleName='edit-text-container'>
-        <form className="form-horizontal">
-          <div className="form-group" style={{ marginBottom: "5px"}}>
-            <div className="col-xs-12">
-              <TextareaAutosize ref="input" className='form-control' rows="1" styleName='edit-text-input' onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onBlur={this.handleBlur} defaultValue={persistedText}/>
+      return (
+        <div styleName='edit-text-container'>
+          <form className="form-horizontal">
+            <div className="form-group" style={{ marginBottom: "5px"}}>
+              <div className="col-xs-12">
+                <TextareaAutosize ref="input" className='form-control' rows="1" styleName='edit-text-input' onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onBlur={this.handleBlur} defaultValue={persistedText}/>
+              </div>
             </div>
-          </div>
-        </form>
-      </div>
-    }
-    else {
-      const persistedTextStyle =  this.props.inverted ?  'persisted-text-inverted' : 'persisted-text';
-      return <div styleName='persisted-text-container'><div styleName={persistedTextStyle}>{persistedText}</div><div styleName='edit-link-container'> {this.editLink(editable)}</div></div>;
-    }
-  }
-
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.edit && !prevState.edit) {
-      //var inputElem = ReactDOM.findDOMNode(this.refs.input);
-      var inputElem = React.findDOMNode(this.refs.input);
-      inputElem.focus();
-      SelectInputText(inputElem);
+          </form>
+        </div>
+      );
+    } else {
+      const persistedTextStyle = this.props.inverted ? 'persisted-text-inverted' : 'persisted-text';
+      return <div styleName='persisted-text-container'><div styleName={persistedTextStyle}>{persistedText}</div><div styleName='edit-link-container'>{this.editLink(editable)}</div></div>;
     }
   }
 
@@ -123,7 +121,7 @@ EditableText.propTypes = {
 };
 
 EditableText.defaultProps = {
-  editable: true
+  editable: true,
 };
 
 export default EditableText;

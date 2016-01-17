@@ -7,7 +7,6 @@
 
 .user-container {
   display: table-cell;
-  /*height: 40px;*/
   width: 60px;
   padding: 0px 15px;
   vertical-align: top;
@@ -23,7 +22,6 @@
 }
 
 .title-container {
-  /*padding-right: 80px;*/
   font-weight: 600;
   color : #89949E;
   text-align: left;
@@ -188,4 +186,13 @@
   background-color: #ffffff;
   opacity: 0.6;
   z-index: 100;
+}
+.title {
+  composes: col-xs-12 col-sm-8 from global;
+  padding: 0px;
+}
+
+.assignee {
+  composes: col-xs-6-pull-right col-sm-4 from global;
+  padding: 0px;
 }

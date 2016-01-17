@@ -1,20 +1,18 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
-
+import styles from './index.css';
 import User from '../User/index';
-import UserListApp from '../../containers/UserListApp';
 
 @CSSModules(styles)
 class EditableUser extends React.Component {
   constructor() {
     super();
-    this.state = {edit: false, filter: ''};
+    this.state = { edit: false, filter: '' };
 
     this.handleEditClick = this.handleEditClick.bind(this);
-    this.handleChange     = this.handleChange.bind(this);
-    this.handleKeyDown     = this.handleKeyDown.bind(this);
-    this.handleFilterChange     = this.handleFilterChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleFilterChange = this.handleFilterChange.bind(this);
     this.handleUserClick = this.handleUserClick.bind(this);
     this.handleInputSubmit = this.handleInputSubmit.bind(this);
     this.triggerUpdate = this.triggerUpdate.bind(this);
@@ -22,7 +20,7 @@ class EditableUser extends React.Component {
   }
 
   handleEditClick(event) {
-    this.setState({edit: true});
+    this.setState({ edit: true });
   }
 
   handleChange(event) {
@@ -31,23 +29,22 @@ class EditableUser extends React.Component {
 
   triggerUpdate(id) {
     this.props.onUpdate(id);
-    this.setState({edit: false, filter: ''});
+    this.setState({ edit: false, filter: '' });
   }
 
   triggerCancel() {
-    this.setState({edit: false, filter: ''});
+    this.setState({ edit: false, filter: '' });
   }
 
 
   handleFilterChange(event) {
-    this.setState({filter: event.target.value});
+    this.setState({ filter: event.target.value });
   }
 
   handleKeyDown(event) {
     if (event.key === 'Enter') {
       this.handleInputSubmit();
-    }
-    else if (event.key === 'Escape') {
+    } else if (event.key === 'Escape') {
       this.triggerCancel();
     }
   }
@@ -65,19 +62,19 @@ class EditableUser extends React.Component {
   }
 
   renderShow(selectedUser, editable) {
-    return <span styleName={"current-user" + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser} size={this.props.size}/></span>
+    return <span styleName={'current-user' + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser} size={this.props.size}/></span>;
   }
 
   filteredOptions(filter, options) {
-    return options.filter(function(user){
+    return options.filter(function (user) {
       const name = (user.firstName + ' ' + user.lastName).toLowerCase();
       return name.toLowerCase().indexOf(filter.toLowerCase()) > -1;
-    })
+    });
   }
 
   selectedMarker(selectedUser, user) {
     if (selectedUser === user) {
-      return <i className="fa fa-check pull-right" style={{color: 'green', padding: '5px'}}></i>
+      return <i className="fa fa-check pull-right" style={{ color: 'green', padding: '5px' }}></i>;
     }
   }
 
@@ -116,13 +113,12 @@ class EditableUser extends React.Component {
     const { user, users, editable } = this.props;
     if (this.state.edit) {
       return (
-        <div styleName="root-container">
+        <div styleName='root-container'>
           {this.renderShow(user, editable)}
           {this.renderEdit(user, users)}
         </div>
       );
-    }
-    else {
+    } else {
       return this.renderShow(user, editable);
     }
   }
@@ -142,7 +138,7 @@ EditableUser.propTypes = {
 };
 
 EditableUser.defaultProps = {
-  editable: true
+  editable: true,
 };
 
 export default EditableUser;

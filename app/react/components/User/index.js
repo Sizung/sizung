@@ -1,8 +1,8 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
+import styles from './index.css';
 
 @CSSModules(styles)
 
@@ -10,16 +10,25 @@ class User extends React.Component {
 
   constructor() {
     super();
-    this.validSizes = ['normal','large','small'];
+    this.validSizes = ['normal', 'large', 'small'];
   }
 
   render() {
-    const {style, showName, showEmail, innerStyle} = this.props;
-    let { email, presenceStatus, firstName, lastName } = this.props.user;
+    const { style, showName, showEmail, innerStyle } = this.props;
+    const { email, presenceStatus, firstName, lastName } = this.props.user;
     const initials = (firstName && lastName) ? firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase() : email.charAt(0).toUpperCase();
     const onlineState = presenceStatus === 'online' ? '-online' : '';
-    var size = ( this.validSizes.indexOf(this.props.size) == -1 ) ? this.validSizes[0] : this.props.size ;
-    const name = showName ? ((firstName && lastName) ? <span styleName="name">{firstName + ' ' + lastName}</span>: <span styleName="name">{email}</span>) : '';
+    const size = (this.validSizes.indexOf(this.props.size) === -1) ? this.validSizes[0] : this.props.size ;
+    let name;
+    if (showName) {
+      if (firstName && lastName) {
+        name = <span styleName='name'>{firstName + ' ' + lastName}</span>;
+      } else {
+        name =  <span styleName="name">{email}</span>;
+      }
+    } else {
+      name = '';
+    }
     const userEmail = showEmail ? <span styleName="email"><small>({email})</small></span> : '';
 
     return (
@@ -37,7 +46,6 @@ class User extends React.Component {
               ''
             )
           }
-
         </div>
     );
   }
@@ -48,7 +56,7 @@ User.propTypes = {
     email: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
-    presenceStatus: PropTypes.string.isRequired
+    presenceStatus: PropTypes.string.isRequired,
   }).isRequired,
   size: PropTypes.string.isRequired,
   showName: PropTypes.bool,
@@ -62,13 +70,13 @@ User.defaultProps = {
     email: 'sizung@example.com',
     firstName: 'n',
     lastName: 'A',
-    presenceStatus: 'offline'
+    presenceStatus: 'offline',
   },
   size: "normal",
   showName: false,
   showEmail: false,
   style: {},
-  innerStyle: {}
+  innerStyle: {},
 };
 
 export default User;
