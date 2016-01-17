@@ -21,6 +21,7 @@ class EditableText extends React.Component {
     this.handleSubmit     = this.handleSubmit.bind(this);
     this.handleBlur       = this.handleBlur.bind(this);
     this.handleInputClick = this.handleInputClick.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
 }
 
   saveEdit() {
@@ -49,7 +50,9 @@ class EditableText extends React.Component {
   }
 
   handleSubmit(e) {
-    e.preventDefault();
+    if(e) {
+      e.preventDefault();
+    }
     this.saveEdit();
   }
 
@@ -68,13 +71,25 @@ class EditableText extends React.Component {
     }
   }
 
+  handleKeyPress(e){
+    console.log("Event Key Press: " + e);
+    this.inputNode = React.findDOMNode(this.refs.input);
+    const name = this.inputNode.value.trim();
+    if (name) {
+      if (e.charCode === 13 && !e.shiftKey) {
+        e.preventDefault();
+        this.handleSubmit();
+      }
+    }
+  }
+
   textElement(persistedText, editable) {
     if (this.state.edit) {
       return <div styleName='edit-text-container'>
         <form className="form-horizontal">
           <div className="form-group" style={{ marginBottom: "5px"}}>
             <div className="col-xs-12">
-              <TextareaAutosize ref="input" className='form-control' rows="1" styleName='edit-text-input' onBlur={this.handleBlur} defaultValue={persistedText}/>
+              <TextareaAutosize ref="input" className='form-control' rows="1" styleName='edit-text-input' onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onBlur={this.handleBlur} defaultValue={persistedText}/>
             </div>
           </div>
         </form>
