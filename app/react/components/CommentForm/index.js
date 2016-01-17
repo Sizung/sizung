@@ -72,7 +72,7 @@ class CommentForm extends React.Component {
     this.handleKeyPress = (e) => {
       const name = this.inputNode.value.trim();
       if (name) {
-        if (e.charCode === 13 && !e.altKey) {
+        if (e.charCode === 13 && !e.shiftKey) {
           e.preventDefault();
           this.handleSubmit();
         }

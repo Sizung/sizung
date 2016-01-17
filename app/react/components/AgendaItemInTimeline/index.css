@@ -40,6 +40,7 @@
 
 .time-container {
   composes: col-xs-12 from global;
+  margin-top: 5px;
   padding: 0px;
   color : #9aa5af;
   min-height: 23px;

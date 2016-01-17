@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import TextareaAutosize from 'react-autosize-textarea';
 import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
@@ -20,7 +21,7 @@ class EditableText extends React.Component {
     this.handleSubmit     = this.handleSubmit.bind(this);
     this.handleBlur       = this.handleBlur.bind(this);
     this.handleInputClick = this.handleInputClick.bind(this);
-  }
+}
 
   saveEdit() {
     var inputElem = React.findDOMNode(this.refs.input);
@@ -69,7 +70,15 @@ class EditableText extends React.Component {
 
   textElement(persistedText, editable) {
     if (this.state.edit) {
-      return <div styleName='edit-text-container'><form styleName='edit-text-form' onSubmit={this.handleSubmit}><input type="text" ref="input" onClick={this.handleInputClick} onKeyDown={this.handleKeyDown} onBlur={this.handleBlur} defaultValue={persistedText} styleName='edit-text-input'/></form></div>
+      return <div styleName='edit-text-container'>
+        <form className="form-horizontal">
+          <div className="form-group" style={{ marginBottom: "5px"}}>
+            <div className="col-xs-12">
+              <TextareaAutosize ref="input" className='form-control' rows="1" styleName='edit-text-input' onBlur={this.handleBlur} defaultValue={persistedText}/>
+            </div>
+          </div>
+        </form>
+      </div>
     }
     else {
       const persistedTextStyle =  this.props.inverted ?  'persisted-text-inverted' : 'persisted-text';
