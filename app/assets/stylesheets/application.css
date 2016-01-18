@@ -175,9 +175,9 @@ html, body {
 }
 
 .box-shadow {
-    -webkit-box-shadow: 1px 1px 1px 0px rgba(170,170,170,1);
-    -moz-box-shadow: 1px 1px 1px 0px rgba(170,170,170,1);
-    box-shadow: 1px 1px 1px 0px rgba(170,170,170,1);
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 
 .circle-xs {
@@ -283,7 +283,8 @@ html, body {
 }
 
 .content-bg {
-  background-color: #09BC8A;
+  background-color: #508991;
+  color: #333333  ;
   /*opacity: 0.9;*/
   /*background : -moz-linear-gradient(50% 15.98% -90deg,rgba(183, 185, 187, 1) 0%, rgb(59, 127, 153) 100%);*/
   /*background : -webkit-linear-gradient(-90deg, rgba(183, 185, 187, 1) 0%,  rgb(59, 127, 153) 100%);*/

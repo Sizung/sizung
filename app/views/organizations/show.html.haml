@@ -11,31 +11,32 @@
 
 - deliverables = []
 .col-xs-12.col-sm-6#conversation-column
-  %h4.conversation-index-header.white-color
-    %img{ src: "/icons/conversation-icon-white.png", height: '30px'}
-    Conversations
+  %div.box-shadow
+    %h4.conversation-index-header.white-color
+      %img{ src: "/icons/conversation-icon-white.png", height: '30px'}
+      Conversations
 
-    .organization-action.pull-right.hidden-xs.white-color
-      = link_to new_organization_conversation_path(@organization), class: 'white-color' do
-        %i.fa.fa-plus
-        Add Conversation
-
-  %h5.conversation-index-header.row.visible-xs.white-color
-    .col-xs-12
-      .pull-left
+      .organization-action.pull-right.hidden-xs.white-color
         = link_to new_organization_conversation_path(@organization), class: 'white-color' do
           %i.fa.fa-plus
           Add Conversation
-      .pull-right
-        %a#deliverables-link.white-color
-          %img{ src: "/icons/deliverable-icon-white.png", height: '10px', style: 'margin: 5px;'}
-          deliverables
-          %i.fa.fa-chevron-right
+
+    %h5.conversation-index-header.row.visible-xs.white-color
+      .col-xs-12
+        .pull-left
+          = link_to new_organization_conversation_path(@organization), class: 'white-color' do
+            %i.fa.fa-plus
+            Add Conversation
+        .pull-right
+          %a#deliverables-link.white-color
+            %img{ src: "/icons/deliverable-icon-white.png", height: '10px', style: 'margin: 5px;'}
+            deliverables
+            %i.fa.fa-chevron-right
 
 
   - @conversations.each do |conversation|
     - deliverables = deliverables | conversation.deliverables
-    .conversation
+    .conversation.card
       .conversation-header
         = react_component('UnseenBadge', {count: conversation.unseen_objects.where(user: current_user).count, selected: false}, {prerender: true} )
         .conversation-title
@@ -63,12 +64,12 @@
 
 - if deliverables.select{ |deliverable| deliverable.assignee[:id] === current_user.id }.size > 0
   .hidden-xs.col-sm-6#deliverable-column
-    .row
+    .row.zero-margin.box-shadow
       %h4.deliverable-index-header.col-xs-6.col-sm-12.white-color
         %img{ src: "/icons/deliverable-icon-white.png", height: '20px', style: 'margin: 5px;'}
         My Deliverables
 
-      %h5.col-xs-6.conversations-link.visible-xs.white-color
+      %h5.col-xs-6.deliverable-index-header.visible-xs.white-color.padding-lg-vertical
         .pull-right
           %a#conversations-link.white-color{ style: 'padding-top: 10px;'}
             %i.fa.fa-chevron-left
@@ -78,7 +79,7 @@
 
     - deliverables.each do |deliverable|
       - if deliverable and ( deliverable.assignee.id === current_user.id )
-        .deliverable.row
+        .deliverable.row.card
           .deliverable-header.col-xs-12
             .deliverable-due-date.pull-right
               - if ( deliverable.due_on )
