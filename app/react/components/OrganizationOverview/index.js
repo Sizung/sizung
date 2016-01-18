@@ -22,7 +22,7 @@ class OrganizationOverview extends Component {
     const { organization, conversations, agendaItems, visitAgendaItem, deliverables, selectDeliverable } = this.props;
 
     return (
-      <div>
+      <div styleName='root'>
         <Organization organization={organization}/>
         <ConversationLayout
           left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } /> }
