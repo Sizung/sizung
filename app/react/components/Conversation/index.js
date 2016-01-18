@@ -55,7 +55,7 @@ Conversation.propTypes = {
     title: PropTypes.string.isRequired,
     unseenCount: PropTypes.number.isRequired,
   }).isRequired,
-  visitConversation: PropTypes.func.isRequired,
+  visitConversation: PropTypes.number.isRequired,
 };
 
 export default Conversation;

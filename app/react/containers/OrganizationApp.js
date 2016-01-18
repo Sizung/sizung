@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Immutable from 'immutable';
 
 import * as OrganizationActions from '../actions/organizations';
 import * as ConversationActions from '../actions/conversations';
@@ -29,13 +30,13 @@ class OrganizationApp extends React.Component {
   render() {
     const { organization, conversations, agendaItems, deliverables, visitAgendaItem, selectDeliverable } = this.props;
 
-    if (organization && conversations && agendaItems && deliverables) {
+    if (organization && conversations) {
       return (
         <OrganizationOverview
           organization={organization}
           conversations={conversations}
-          agendaItems={agendaItems}
-          deliverables={deliverables}
+          agendaItems={agendaItems || new Immutable.List()}
+          deliverables={deliverables || new Immutable.List()}
           visitAgendaItem={visitAgendaItem}
           selectDeliverable={selectDeliverable}
         />

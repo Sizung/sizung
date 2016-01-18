@@ -51,9 +51,9 @@ class OrganizationOverview extends Component {
           right={ <DeliverableList deliverables={ deliverables } selectDeliverable={ selectDeliverable } /> }
         >
           <div styleName='center-panel'>
-            <div styleName='header'>
-              <h5 style={{ margin: '5px', fontWeight: 'bold' }}>
-                <span className='pull-right'>
+            <div styleName="header-container">
+              <h5 styleName="header">
+                <span styleName="action" className="pull-right">
                   <a href={'/organizations/' + organization.id + '/conversations/new'}>
                     <i className="fa fa-plus" />
                     Add Conversation
@@ -70,41 +70,6 @@ class OrganizationOverview extends Component {
       </div>
     );
   }
-
-
-  //render() {
-  //  const { organization, conversations, agendaItems, visitAgendaItem, deliverables, selectDeliverable } = this.props;
-  //
-  //  return (
-  //    <div>
-  //      <div>
-  //        <Organization organization={organization}/>
-  //      </div>
-  //      <div className="row" styleName="root">
-  //        <div className="col-sm-3" styleName="left-panel">
-  //          <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } />
-  //        </div>
-  //        <div className="col-xs-12 col-sm-6" styleName="center-panel">
-  //          <div styleName='header'>
-  //            <h5 style={{margin: '5px', fontWeight: 'bold'}}>
-  //              <span className='pull-right'>
-  //                <a href={'/organizations/' + organization.id + '/conversations/new'}>
-  //                  <i className="fa fa-plus" />
-  //                  Add Conversation
-  //                </a>
-  //              </span>
-  //              CONVERSATIONS
-  //            </h5>
-  //          </div>
-  //          { this.conversationElements(conversations) }
-  //        </div>
-  //        <div className="col-sm-3" styleName="right-panel">
-  //          <DeliverableList deliverables={ deliverables } selectDeliverable={ selectDeliverable } />
-  //        </div>
-  //      </div>
-  //    </div>
-  //  );
-  //}
 }
 
 OrganizationOverview.propTypes = {

@@ -1,5 +1,9 @@
 import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
-import { toReference, fetched, fetchInProgress, add, update, remove } from '../utils/paginationUtils';
+import { toReference, fetched, fetchInProgress, init, add, update, remove } from '../utils/paginationUtils';
+
+export function initReferences(state, reference) {
+  return init(state, reference);
+}
 
 export function setReferenceByObject(state, object, reference) {
   return add(state, reference, toReference(object));

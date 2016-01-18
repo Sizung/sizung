@@ -36,8 +36,8 @@ class Organization extends React.Component {
 Organization.propTypes = {
   organization: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    editable: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    editable: PropTypes.bool,
   }).isRequired,
 };
 

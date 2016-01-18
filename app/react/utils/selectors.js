@@ -5,16 +5,43 @@ const organization = (state, organizationId) => {
   return state.getIn(['entities', 'organizations', organizationId]);
 };
 
+const conversation = (state, conversationId) => {
+  return state.getIn(['entities', 'conversations', conversationId]);
+};
+
 const agendaItemsForOrganization = (state, organizationId) => {
-  return state.getIn(['entities', 'agendaItems']).toList();
+  const references = state.getIn(['agendaItemsByOrganization', organizationId, 'references']);
+  if (!references) {
+    return null;
+  }
+
+  return references.map((reference) => {
+    return fillConversationObject(state, reference);
+  });
 };
 
 const deliverablesForOrganization = (state, organizationId) => {
-  return state.getIn(['entities', 'deliverables']).map(deliverable => fillConversationObject(state, deliverable)).toList();
+  const references = state.getIn(['deliverablesByOrganization', organizationId, 'references']);
+  if (!references) {
+    return null;
+  }
+
+  return references.map((reference) => {
+    return fillConversationObject(state, reference);
+  }).sortBy((deliverable) => {
+    return deliverable.dueOn ? 'A' + deliverable.dueOn : 'B' + deliverable.createdAt;
+  });
 };
 
 const conversationsForOrganization = (state, organizationId) => {
-  return state.getIn(['entities', 'conversations']).toList();
+  const references = state.getIn(['conversationsByOrganization', organizationId, 'references']);
+  if (!references) {
+    return null;
+  }
+
+  return references.map((reference) => {
+    return fillConversationObject(state, reference);
+  });
 };
 
 const currentUser = (state) => state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
@@ -86,4 +113,5 @@ export {
   deliverablesForOrganization,
   conversationsForOrganization,
   organization,
+  conversation,
 };

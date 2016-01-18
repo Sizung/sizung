@@ -1,6 +1,7 @@
 import { STATUS_SUCCESS } from './statuses.js';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
+import { setUnseenObjects } from './unseenObjects';
 
 export const FETCH_ORGANIZATION = 'FETCH_ORGANIZATION';
 export const FETCH_ORGANIZATIONS = 'FETCH_ORGANIZATIONS';
@@ -23,12 +24,15 @@ const fetchOrganizationsSuccess = (organizations) => {
   };
 };
 
-const fetchOrganizationSuccess = (organization, included) => {
+const fetchOrganizationSuccess = (organization, included, conversations, agendaItems, deliverables) => {
   return {
     type: FETCH_ORGANIZATION,
     status: STATUS_SUCCESS,
     entity: organization,
     entities: included,
+    conversations,
+    agendaItems,
+    deliverables,
   };
 };
 
@@ -36,10 +40,17 @@ const fetchOrganization = (organizationId, dispatch) => {
   api.fetchJson('/organizations/' + organizationId, (json) => {
     console.log('json: ', json.meta);
     const organization = transform.transformObjectFromJsonApi(json.data, json.meta);
-    const included = json.included.map(transform.transformObjectFromJsonApi);
+    const conversations = json.meta.conversations.data.map(transform.transformObjectFromJsonApi);
+    const agendaItems = json.meta.agenda_items.data.map(transform.transformObjectFromJsonApi);
+    const deliverables = json.meta.deliverables.data.map(transform.transformObjectFromJsonApi);
+    const included = json.included.map(transform.transformObjectFromJsonApi).concat(conversations).concat(agendaItems).concat(deliverables);
 
-    dispatch(fetchOrganizationSuccess(organization, included));
+    dispatch(fetchOrganizationSuccess(organization, included, conversations, agendaItems, deliverables));
     dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
+  });
+
+  api.fetchJson('/organizations/' + organizationId + '/unseen_objects', (json) => {
+    dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
   });
 };
 
