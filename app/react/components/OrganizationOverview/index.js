@@ -5,6 +5,7 @@ import Conversation from '../Conversation';
 import AgendaItemList from '../AgendaItemList';
 import DeliverableList from '../DeliverableList';
 import ConversationLayout from '../ConversationLayout';
+import ConversationIcon from '../ConversationIcon';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
@@ -59,7 +60,7 @@ class OrganizationOverview extends Component {
                     Add Conversation
                   </a>
                 </span>
-                CONVERSATIONS
+                <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>CONVERSATIONS
               </h5>
             </div>
             <div styleName='center-panel-list'>
