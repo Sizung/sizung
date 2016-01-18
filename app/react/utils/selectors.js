@@ -28,6 +28,8 @@ const deliverablesForOrganization = (state, organizationId) => {
 
   return references.map((reference) => {
     return fillConversationObject(state, reference);
+  }).sortBy((deliverable) => {
+    return deliverable.dueOn ? 'A' + deliverable.dueOn : 'B' + deliverable.createdAt;
   });
 };
 

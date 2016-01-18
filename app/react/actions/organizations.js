@@ -1,6 +1,7 @@
 import { STATUS_SUCCESS } from './statuses.js';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
+import { setUnseenObjects } from './unseenObjects';
 
 export const FETCH_ORGANIZATION = 'FETCH_ORGANIZATION';
 export const FETCH_ORGANIZATIONS = 'FETCH_ORGANIZATIONS';
@@ -46,6 +47,10 @@ const fetchOrganization = (organizationId, dispatch) => {
 
     dispatch(fetchOrganizationSuccess(organization, included, conversations, agendaItems, deliverables));
     dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
+  });
+
+  api.fetchJson('/organizations/' + organizationId + '/unseen_objects', (json) => {
+    dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
   });
 };
 
