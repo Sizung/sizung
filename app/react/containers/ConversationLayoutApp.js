@@ -27,14 +27,12 @@ class ConversationLayoutApp extends React.Component {
 }
 
 ConversationLayoutApp.propTypes = {
-  currentConversation: PropTypes.object,
   currentUser: PropTypes.object.isRequired,
   fetchConversation: PropTypes.func.isRequired,
 };
 
 function mapStateToProps(state) {
   return {
-    currentConversation: selectors.currentConversation(state),
     currentUser: selectors.currentUser(state),
   };
 }

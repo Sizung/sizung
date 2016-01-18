@@ -68,6 +68,9 @@ export function fillConversationObject(state, {id, type}) {
   if(type === 'agendaItems') {
     return fillAgendaItem(state, id);
   }
+  else if(type === 'conversations') {
+    return fillConversation(state, id);
+  }
   else if(type === 'comments') {
     return fillComment(state, id);
   }
