@@ -22,16 +22,16 @@ class OrganizationOverview extends Component {
     const { organization, conversations, agendaItems, visitAgendaItem, deliverables, selectDeliverable } = this.props;
 
     return (
-      <div styleName='root'>
+      <div styleName="root">
         <Organization organization={organization}/>
         <ConversationLayout
           left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } /> }
           right={ <DeliverableList deliverables={ deliverables } selectDeliverable={ selectDeliverable } /> }
         >
           <div>
-            <div styleName='header'>
-              <h5 style={{ margin: '5px', fontWeight: 'bold' }}>
-                <span className='pull-right'>
+            <div styleName="header-container">
+              <h5 styleName="header">
+                <span styleName="action" className="pull-right">
                   <a href={'/organizations/' + organization.id + '/conversations/new'}>
                     <i className="fa fa-plus" />
                     Add Conversation
