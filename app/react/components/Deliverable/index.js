@@ -78,7 +78,7 @@ class Deliverable extends React.Component {
                 <CommentsCounter count={commentsCount} inverted={selected} />
               </div>
               <div styleName="agenda-title-container">
-                <AgendaItemIcon size={'small'} style={{ marginRight: '5px' }}/>{agendaItem.title}
+                <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }}/>{agendaItem.title}
               </div>
             </div>
           </div>

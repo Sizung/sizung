@@ -4,13 +4,13 @@ import { compose, createStore, applyMiddleware } from 'redux';
 import Immutable from 'immutable';
 import thunk from 'redux-thunk';
 import rootReducer from '../reducers';
-import createLogger from 'redux-logger';
 
 let finalCreateStore;
 
 /* global __DEVELOPMENT__, __DEVTOOLS__ */
 if (__DEVELOPMENT__ && __DEVTOOLS__) {
   const { devTools, persistState } = require('redux-devtools');
+  const createLogger = require('redux-logger');
   const logger = createLogger({
     collapsed: true,
     duration: true,

@@ -3,12 +3,22 @@
   min-height: 100%;
   height: 100%;
   width: 100%;
+
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(85,85,85,1);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(85,85,85,1);
+  box-shadow: 0px 0px 5px 0px rgba(85,85,85,1);
 }
 
 .list-header {
   width: 100%;
   height: 45px;
   padding: 0px 10px;
+  margin-top: 5px;
+  background-color: #004346;
+
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 
 .comments-icon {
@@ -25,33 +35,27 @@
   overflow-y:auto;
   overflow-x: hidden;
 
-  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
-  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
-  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
-
-  border: 0px solid #ffffff;
-  border-top-width: 5px;
-  border-bottom-width: 5px;
+  /*border-top: 5px solid #ffffff;*/
+  /*border-bottom: 10px solid #ffffff;*/
 }
 
 .agenda-item-comment-list {
   composes: list;
-  border: 3px solid #57C1E8;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
+  border-left: 3px solid #57C1E8;
+  border-right: 3px solid #57C1E8;
 }
 
 .deliverable-comment-list {
   composes: list;
-  border: 3px solid #505964;
-  border-top-width: 0px;
-  border-bottom-width: 0px;
+  border-left: 3px solid #505964;
+  border-right: 3px solid #505964;
+
 }
 
 .list-footer {
   background-color: #ffffff;
   position: absolute;
-  bottom: 25px;
+  bottom: 30px;
   left: 0px;
   right: 0px;
   height:70px;
@@ -123,7 +127,7 @@
 
 .header-in-timeline {
   position: absolute;
-  margin-bottom: 5px;
+  /*margin-bottom: 5px;*/
   top: 45px;
   right: 0px;
   left: 0px;
@@ -140,24 +144,29 @@
 .agenda-item-header-in-timeline {
   composes: header-in-timeline;
   background-color: #57C1E8;
+  border-left: 3px solid #57C1E8;
+  border-right: 3px solid #57C1E8;
 }
 
 .deliverable-header-in-timeline {
   composes: header-in-timeline;
   background-color: #505964;
+  border-left: 3px solid #505964;
+  border-right: 3px solid #505964;
 }
 
-
-.back-to-conversation-link-container {
-  composes: row from global;
-  padding: 0px 5px;
-}
 
 .back-to-conversation-link {
-  composes: pull-right from global;
-  color: #333333;
-  padding: 5px 15px;
-  float: right;
+  composes: close from global;
+  padding: 5px;
+  margin-right: 10px;
+  font-weight: 100;
+  font-size: 24px;
+  color: #ffffff;
+  opacity: 1;
+  cursor: pointer;
+  text-shadow: none;
+  /*z-index: 3000;*/
 }
 
 .back-to-conversation-icon {
@@ -215,9 +224,10 @@
   overflow-y:auto;
   overflow-x: hidden;
 
-  /*-webkit-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
-  /*-moz-box-shadow: 0px 0px 5px 0px #aaaaaa;*/
-  /*box-shadow: 0px 0px 5px 0px #aaaaaa;*/
+    /*-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,1);*/
+    /*-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,1);*/
+    /*box-shadow: 0px 0px 5px 0px rgba(0,0,0,1);*/
+
 
   border: 0px solid #ffffff;
   border-top-width: 5px;

@@ -1,6 +1,6 @@
 .common {
   background: no-repeat center;
-  padding: 10px 0px;
+  padding: 5px 0px;
 }
 
 .normal {
@@ -13,6 +13,8 @@
 .inverted {
   composes: common;
   background-image: url("/icons/agenda-item-icon-white.png");
+  background-size: 3px 15px;
+  padding-left: 8px;
 }
 
 .small {

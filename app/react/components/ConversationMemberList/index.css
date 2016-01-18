@@ -22,15 +22,16 @@
 .conversation-member-title {
   float: left;
   color : #89949E;
-}
-
-.close-button-container {
-  float: right;
-  color : #89949E;
+  font-weight: 600;
 }
 
 .close-button {
-  composes: fa fa-times fa-lg from global;
+  composes: close from global;
+  /*padding: 5px;*/
+  font-weight: 100;
+  font-size: 24px;
+  color : #89949E;
+  opacity: 1;
   cursor: pointer;
 }
 
@@ -58,4 +59,5 @@
 .organization-member-title {
   float: left;
   color : #89949E;
+  font-weight: 600;
 }

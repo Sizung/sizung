@@ -1,6 +1,6 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 
 import Time from 'react-time';
 import User from '../User/index';
@@ -10,6 +10,7 @@ import EditableStatus from '../EditableStatus';
 import EditableDate from '../EditableDate';
 import EditableAgendaItem from '../EditableAgendaItem';
 import DeliverableIcon from '../DeliverableIcon';
+import AgendaItemIcon from '../AgendaItemIcon';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
@@ -74,8 +75,8 @@ class DeliverableInTimeline extends React.Component {
 
     return (
       <span>
-        <span styleName='discuss-link'><a href="#" className='btn btn-xs btn-default' onClick={this.handleArchive}>archive</a></span>
-        <span styleName={discussOptionStyle}><a href="#" className='btn btn-xs btn-default' onClick={this.handleSelect}>discuss</a></span>
+        <span styleName='discuss-link'><a href="#" styleName='action-btn' onClick={this.handleArchive}>archive</a></span>
+        <span styleName={discussOptionStyle}><a href="#" styleName='action-btn' onClick={this.handleSelect}>discuss</a></span>
       </span>
     );
   }
@@ -84,46 +85,50 @@ class DeliverableInTimeline extends React.Component {
     const { deliverable } = this.props;
     const { owner, assignee, agendaItem, archived } = deliverable;
     const { conversationId } = agendaItem;
+    const archiveStyle = (archived ? 'archive-wrapper' : '');
 
     return (
       <div styleName='root'>
         <div styleName='user-container'>
-          <User user={owner} />
+          <DeliverableIcon inverted={this.props.isTimelineHeader} size={'small'}/>
+          <User style={{ marginTop: '5px' }} user={owner}/>
         </div>
-        <div styleName="content-container">
-          <div styleName="row">
-            <div styleName="full-width">
-              <div styleName="title-container">
-                <span className="pull-left"><DeliverableIcon style={{ marginRight: '5px' }} size={'small'}/></span>
-                <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} />
-              </div>
-              <div styleName="status-container">
-                <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+        <div styleName={'content-container' + (this.props.isTimelineHeader ? '-inverted' : '')}>
+          <div styleName='row'>
+            <div styleName='full-width'>
+              <div styleName={'title-container' + (this.props.isTimelineHeader ? '-inverted' : '')}>
+                <div styleName='title'>
+                  <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
+                </div>
+                <div styleName='assignee'>
+                    <span className='pull-right'><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} size={'small'} conversationId={conversationId}/></span>
+                    <span className='pull-right' styleName={'meta-label' + (this.props.isTimelineHeader ? '-inverted' : '')} style={{ padding: '5px' }}>{'ASSIGNED TO'}</span>
+                </div>
               </div>
             </div>
           </div>
-          <div styleName="meta-container">
-            <div styleName="meta-content">
-              <div styleName="meta-label">Assigned To</div>
-              <div><EditableUserApp user={assignee} conversationId={conversationId} onUpdate={this.handleAssigneeUpdate} editable={!archived} /></div>
+          <div styleName='meta-container'>
+            <div styleName='meta-content'>
+              <span styleName={'due-on-label' + (this.props.isTimelineHeader ? '-inverted' : '')}>{'DUE DATE: '}</span>
+              <span styleName='due-on'><EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} /></span>
             </div>
-            <div styleName="meta-content">
-              <div styleName="meta-label">Due Date</div>
-              <div><EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} /></div>
-            </div>
-            <div styleName="meta-content">
-              <div styleName="meta-label">Agenda Item</div>
-              <div><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} editable={!archived} /></div>
+            <div styleName='meta-content'>
+              <AgendaItemIcon size={'small'} style={{marginRight: '5px'}} inverted={this.props.isTimelineHeader}/>
+              <span><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/></span>
             </div>
           </div>
+          <div styleName='time-container'>
+            <div styleName='status-container'>
+              <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+            </div>
+            <small>
+              <Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
+              { archived ? <strong>&nbsp;(ARCHIVED)</strong> : '' }
+            </small>
+            { archived ? '' : this.renderActionButtons() }
+          </div>
         </div>
-        <div styleName="time-container">
-          <small>
-            <Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
-            { archived ? ' (archived)' : '' }
-          </small>
-          { archived ? '' : this.renderActionButtons() }
-        </div>
+        { archived ? <div styleName={archiveStyle}></div> : '' }
       </div>
     );
   }

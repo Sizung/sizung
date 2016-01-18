@@ -20,7 +20,6 @@ class AgendaItemIcon extends React.Component {
     } else {
       iconStyle = (inverted ? 'inverted-' : '') + size;
     }
-
     return (
         <span styleName={iconStyle} style={style}>
       </span>

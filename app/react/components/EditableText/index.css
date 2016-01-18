@@ -1,5 +1,12 @@
 .edit-link {
   composes: hover-over from '../../styles/modules/hover.css';
+  -webkit-border-radius: 50%/50%;
+  -moz-border-radius:50%/50% ;
+  border-radius: 50%/50%;
+  width: 20px;
+  height: 20px;
+  margin-top: -5px;
+  background-color: #ffffff;
 }
 
 .edit-text-container {
@@ -31,9 +38,13 @@
   word-wrap: break-word;
 }
 
+.persisted-text-inverted {
+  composes: persisted-text;
+  color: #ffffff;
+}
+
 .edit-link-container {
-  position: relative;
-  display: inline-block;
+  display: inline;
   float: left;
-  padding-left: 5px;
+  margin-left: 5px;
 }

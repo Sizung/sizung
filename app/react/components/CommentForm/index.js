@@ -8,7 +8,6 @@ import DeliverableIcon from '../DeliverableIcon';
 import ChatIcon from '../ChatIcon';
 import TextareaAutosize from 'react-autosize-textarea';
 
-
 @CSSModules(styles)
 class CommentForm extends React.Component {
   constructor() {
@@ -19,11 +18,7 @@ class CommentForm extends React.Component {
     };
 
     this.handleSubmit = (e) => {
-      // React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
       const name = this.inputNode.value.trim();
-      //name = React.findDOMNode(this.refs.name).value.trim();
-      // if(!name) return;
-
       this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
       this.inputNode.value = '';
       this.setState({ hasInput: false });
@@ -31,31 +26,21 @@ class CommentForm extends React.Component {
 
     this.handleAgendaItem = (e) => {
       e.preventDefault();
-
-      // React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
       const name = this.inputNode.value.trim();
-      // if(!name) return;
-
       this.props.createAgendaItem({ conversation_id: this.props.parent.id, title: name });
       this.inputNode.value = '';
       this.setState({ hasInput: false });
-    }
+    };
 
     this.handleDeliverable = (e) => {
       e.preventDefault();
-
-      // React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
       const name = this.inputNode.value.trim();
-      // if(!name) return;
-
-      this.props.createDeliverable({agenda_item_id: this.props.parent.id, title: name});
+      this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title: name });
       this.inputNode.value = '';
       this.setState({ hasInput: false });
-
-    }
+    };
 
     this.handleChange = (e) => {
-      // React.findDOMNode fails while using React-Bootstrap components. Instead getDOMNode() used
       const name = this.inputNode.value.trim();
       if (!name) {
         if (this.state.hasInput) {
@@ -66,33 +51,31 @@ class CommentForm extends React.Component {
           this.setState({ hasInput: true });
         }
       }
-    }
-
+    };
 
     this.handleKeyPress = (e) => {
       const name = this.inputNode.value.trim();
       if (name) {
-        if (e.charCode === 13 && !e.altKey) {
+        if (e.charCode === 13 && !e.shiftKey) {
           e.preventDefault();
           this.handleSubmit();
         }
       }
-    }
+    };
 
-    this.handleOnResize = (e) => {
-      var resizedHeightDifference;
-      if (this.inputNode !== null && this.formNode !== null ) {
+    this.handleOnResize = () => {
+      let resizedHeightDifference;
+      if (this.inputNode !== null && this.formNode !== null) {
         resizedHeightDifference = $(this.inputNode).height() - parseInt($(this.inputNode).css('min-height').split('px')[0]);
         $(this.formNode).css('height', parseInt($(this.formNode).css('min-height').split('px')[0]) + resizedHeightDifference + 'px');
         this.props.onResize($(this.formNode).outerHeight());
       }
-    }
+    };
   }
 
   componentDidMount() {
     this.inputNode = React.findDOMNode(this.refs.name);
     this.formNode = React.findDOMNode(this.refs.formContainer);
-    this.commentButtonNode = React.findDOMNode(this.refs.commentButton);
   }
 
   componentDidUpdate() {
@@ -103,7 +86,6 @@ class CommentForm extends React.Component {
   }
 
   render() {
-    let currentConversation;
     let commentActionsStyleName;
     const { currentUser } = this.props;
     let buttons = [];
@@ -119,34 +101,25 @@ class CommentForm extends React.Component {
       commentActionsStyleName = 'hide-input-btn-group';
     }
 
-    currentConversation = null;
-    if (this.props.parent.type === 'agendaItems') {
-      currentConversation = this.props.parent.conversation;
-    } else if (this.props.parent.type === 'deliverables') {
-      currentConversation = this.props.parent.agendaItem.conversation;
-    } else if (this.props.parent.type === 'conversations') {
-      currentConversation = this.props.parent;
-    }
-
     return (
       <div styleName='root'>
         <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
           <Button tabIndex='2' ref='commentButton' styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><ChatIcon size={'small'}/>Comment</Button>
           { buttons }
         </ButtonGroup>
-      <div ref='formContainer' styleName='form-container'>
-        <div styleName='user'>
-          <User user={currentUser} />
-        </div>
-        <div styleName='input-form'>
-          <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
-            <div styleName='input-container'>
-              <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
-            </div>
-          </form>
+        <div ref='formContainer' styleName='form-container'>
+          <div styleName='user'>
+            <User user={currentUser} />
+          </div>
+          <div styleName='input-form'>
+            <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
+              <div styleName='input-container'>
+                <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-        </div>
     );
   }
 }

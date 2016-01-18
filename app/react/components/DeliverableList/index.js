@@ -42,9 +42,8 @@ class DeliverableList extends Component {
     return (
       <div styleName={'root'}>
         <div styleName={'header'}>
-          <span style={{ margin: '5px', fontWeight: 'bold' }} className={'pull-left'}>
-            DELIVERABLES</span>
-          <div className={'pull-right'}><DeliverableIcon inverted={true} size={'large'}/></div>
+          <h5 style={{marginTop: '5px', fontWeight: 'bold'}}>
+            <DeliverableIcon inverted={true} size={'large'} style={{ marginRight: '5px' }}/>DELIVERABLES</h5>
         </div>
         <div ref='deliverableList' styleName='list'>
           {

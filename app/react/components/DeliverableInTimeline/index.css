@@ -1,13 +1,12 @@
 .root {
   composes: hover-container from '../../styles/modules/hover.css';
-  width: 100%;
   position: relative;
-  padding: 5px 30px 5px 0px;
+  margin: 5px 40px 5px 0px;
+  padding: 5px 0px;
 }
 
 .user-container {
   display: table-cell;
-  height: 40px;
   width: 60px;
   padding: 0px 15px;
   vertical-align: top;
@@ -23,34 +22,45 @@
 }
 
 .title-container {
-  padding-right: 80px;
   font-weight: 600;
   color : #89949E;
   text-align: left;
-  /*overflow: hidden;*/
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+}
+
+.title-container-inverted {
+  composes: title-container;
+  color: #ffffff;
 }
 
 .content-container {
   display: table-cell;
   width: 100%;
-  padding: 10px;
+  padding: 15px;
+  background-color: #E1F2FE;
+}
 
-  border: 2px solid #eeeeee;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-
-  background-color: #ffffff;
-
+.content-container-inverted {
+  display: table-cell;
+  width: 100%;
 }
 
 .status-container {
   composes: pull-right from global;
+  margin-top: -5px;
+  margin-right: 0px;
 }
 
 .meta-container {
   composes: row from global;
+  margin: 0px;
   padding-top: 5px;
+  border-top: 1px solid #ffffff;
 }
 
 .meta-container-row {
@@ -58,7 +68,8 @@
 }
 
 .meta-content {
-  composes: col-xs-12 col-md-4 from global;
+  composes: col-xs-12 col-md-6 from global;
+  padding: 0px;
   color : #89949E;
 }
 
@@ -68,11 +79,18 @@
 
 .meta-label {
   composes: text-muted from global;
+  font-weight: 100;
+}
+
+.meta-label-inverted {
+  composes: meta-label;
+  color: #cccccc;
 }
 
 .time-container {
-  margin: 5px 0 5px 60px;
   color : #9aa5af;
+  min-height: 23px;
+  margin-top: 5px;
 }
 
 .discuss-link {
@@ -139,4 +157,42 @@
   border-radius: 3px;
   background: #eeeeee;
   cursor: pointer;
+}
+
+.due-on {
+  font-weight: 600;
+  color: #57C1E8;
+}
+
+.due-on-label {
+  color: #89949e;
+}
+
+.due-on-label-inverted {
+  color: #cccccc;
+}
+
+.action-btn {
+  composes: btn btn-xs btn-default from global;
+  margin: -1px 0px;
+}
+
+.archive-wrapper {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: #ffffff;
+  opacity: 0.6;
+  z-index: 100;
+}
+.title {
+  composes: col-xs-12 col-sm-8 from global;
+  padding: 0px;
+}
+
+.assignee {
+  composes: col-xs-6-pull-right col-sm-4 from global;
+  padding: 0px;
 }

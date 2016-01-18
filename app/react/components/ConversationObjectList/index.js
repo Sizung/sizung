@@ -31,7 +31,7 @@ class ConversationObjectList extends Component {
     this.renderListContainerContent = this.renderListContainerContent.bind(this);
     this.handleCommentSettingsDropdownScroll = this.handleCommentSettingsDropdownScroll.bind(this);
     this.onCommentFormResize = this.onCommentFormResize.bind(this);
-    this.scrolDownToNewActivity = this.scrolDownToNewActivity.bind(this);
+    this.scrollDownToNewActivity = this.scrollDownToNewActivity.bind(this);
     this.showNewActivityMarker = this.showNewActivityMarker.bind(this);
     this.hideNewActivityMarker = this.hideNewActivityMarker.bind(this);
     this.newActivityTimer = 5;
@@ -100,16 +100,70 @@ class ConversationObjectList extends Component {
   }
 
   adjustConversationListHeight() {
-    const headerInTimelineHeight = (this.refs.headerInTimeline === null) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
-    const conversationHeaderHeight = ( this.refs.conversationHeader === null) ? 0 : $(this.refs.conversationHeader.getDOMNode()).outerHeight();
-    const headerInTimelineBottomMargin = (headerInTimelineHeight === 0 ? 0 : 2);
+    const headerInTimelineHeight = (this.refs.headerInTimeline === undefined) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
+    const conversationHeaderHeight = ( this.refs.conversationHeader === undefined) ? 0 : $(this.refs.conversationHeader.getDOMNode()).outerHeight();
+    const headerInTimelineBottomMargin = 0;
     $(this.listNode).css('top', (headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin));
+  }
+
+
+  static shouldMarkAsSeen = (prevProps, props) => {
+    const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
+
+    const unseenPrev = prevProps.conversationObjects.some((obj) => { return obj.unseen; });
+    const unseenNow = props.conversationObjects.some((obj) => { return obj.unseen; });
+    return (notHandledByMount || !unseenPrev && unseenNow || prevProps.commentForm.parent.id !== props.commentForm.parent.id && unseenNow);
+  };
+
+  showNewActivityMarker() {
+    $(this.markerNode).css('display', 'block');
+    let _this = this;
+    if (!this.newActivityTimerId) {
+      this.newActivityTimerId = setInterval(function () {
+        if (_this.newActivityTimer === 0) {
+          _this.hideNewActivityMarker();
+          clearInterval(_this.newActivityTimerId);
+          _this.newActivityTimerId = null;
+        } else {
+          _this.newActivityTimer--;
+        }
+      }, 1000);
+    }
+  }
+
+  hideNewActivityMarker() {
+    $(this.markerNode).fadeOut();
+  }
+
+  scrollDownToNewActivity() {
+    this.hideNewActivityMarker();
+    this.scrollListToBottom();
+  }
+
+  componentDidMount() {
+    const conversationObjectList = this.refs.conversationObjectList;
+    if (conversationObjectList) {
+      this.listNode = conversationObjectList.getDOMNode();
+      window.addEventListener("resize", this.adjustConversationListHeight);
+      if (this.props.commentForm.parent) {
+        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      }
+      this.adjustConversationListHeight();
+      this.scrollListToBottom();
+    }
+  }
+
+  componentWillUpdate() {
+    //Intializing DOM nodes references using refs to be used in the component
+    if (this.listNode !== null) {
+      this.shouldScrollBottom = (Math.abs(this.listNode.scrollTop + this.listNode.offsetHeight - this.listNode.scrollHeight) <= 20); // 20px is the offset tolerance considering borders and padding
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
     this.listNode = this.refs.conversationObjectList.getDOMNode();
     let _this = this;
-    $(this.listNode).scroll(function() {
+    $(this.listNode).scroll(function () {
       if($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
         _this.hideNewActivityMarker();
       }
@@ -137,58 +191,6 @@ class ConversationObjectList extends Component {
     }
   }
 
-  static shouldMarkAsSeen = (prevProps, props) => {
-    const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
-
-    const unseenPrev = prevProps.conversationObjects.some((obj) => { return obj.unseen; });
-    const unseenNow = props.conversationObjects.some((obj) => { return obj.unseen; });
-    return (notHandledByMount || !unseenPrev && unseenNow || prevProps.commentForm.parent.id !== props.commentForm.parent.id && unseenNow);
-  };
-
-  showNewActivityMarker() {
-    $(this.markerNode).css('display', 'block');
-    let _this = this;
-    if (!this.newActivityTimerId) {
-      this.newActivityTimerId = setInterval(function () {
-        if (_this.newActivityTimer == 0) {
-          _this.hideNewActivityMarker();
-          clearInterval(_this.newActivityTimerId);
-          _this.newActivityTimerId = null;
-        } else {
-          _this.newActivityTimer--;
-        }
-      }, 1000);
-    }
-  }
-
-  hideNewActivityMarker() {
-    $(this.markerNode).fadeOut();
-  }
-
-  scrolDownToNewActivity() {
-    this.hideNewActivityMarker();
-    this.scrollListToBottom();
-  }
-
-  componentWillUpdate() {
-    //Intializing DOM nodes references using refs to be used in the component
-
-    if (null != this.listNode)
-      this.shouldScrollBottom = (Math.abs(this.listNode.scrollTop + this.listNode.offsetHeight - this.listNode.scrollHeight) <= 20); // 20px is the offset tolerance considering borders and padding
-  }
-
-  componentDidMount() {
-    const conversationObjectList = this.refs.conversationObjectList;
-    if (conversationObjectList) {
-      this.listNode = conversationObjectList.getDOMNode();
-      window.addEventListener("resize", this.adjustConversationListHeight);
-      if (this.props.commentForm.parent) {
-        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
-      }
-      this.scrollListToBottom();
-    };
-  }
-
   toggleConversationMembersView() {
     this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible});
   }
@@ -203,7 +205,7 @@ class ConversationObjectList extends Component {
   onCommentFormResize(commentBoxHeight) {
     $(this.commentFormNode).css('height',commentBoxHeight);
     const listNodeBottomOffset = commentBoxHeight + parseInt($(this.commentFormNode).css('bottom').split('px')[0]);
-    $(this.listNode).css('bottom', listNodeBottomOffset +'px');
+    $(this.listNode).css('bottom', listNodeBottomOffset + 'px');
     $(this.newActivityMarkerNode).css('bottom', (listNodeBottomOffset + 5) + 'px');
   }
 
@@ -224,23 +226,19 @@ class ConversationObjectList extends Component {
     const _this = this;
     let listStyle = 'list';
     let listFooterStyle = 'list-footer';
-    if (this.props.commentForm.parent != null) {
+    if (this.props.commentForm.parent !== null) {
       switch (this.props.commentForm.parent.type) {
         case 'agendaItems' :
           listStyle = 'agenda-item-comment-list';
           listFooterStyle = 'agenda-item-comment-list-footer';
           this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='agenda-item-header-in-timeline' ref='headerInTimeline'>
-            <div styleName='back-to-conversation-link-container'>
-              <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
-                <i styleName='back-to-conversation-icon'></i>
-              </Button>
-            </div>
+            <a className='pull-right' styleName='back-to-conversation-link' onClick={this.handleBackClick.bind(this)}><span aria-hidden="true">&times;</span></a>
             <AgendaItemInTimeline agendaItem={this.props.commentForm.parent}
-                                  archiveAgendaItem={archiveAgendaItem}
-                                  updateAgendaItem={this.props.updateAgendaItem}
-                                  isTimelineHeader={this.isTimelineHeader}
-                                  visitAgendaItem={visitAgendaItem}
+              archiveAgendaItem={archiveAgendaItem}
+              updateAgendaItem={this.props.updateAgendaItem}
+              isTimelineHeader={this.isTimelineHeader}
+              visitAgendaItem={visitAgendaItem}
             />
           </div>);
           break;
@@ -250,11 +248,7 @@ class ConversationObjectList extends Component {
           listFooterStyle = 'deliverable-comment-list-footer';
           this.isTimelineHeader = true;
           conversationTimelineHeader = (<div styleName='deliverable-header-in-timeline' ref='headerInTimeline'>
-            <div styleName='back-to-conversation-link-container'>
-              <Button bsStyle='link' onClick={this.handleBackClick} styleName='back-to-conversation-link'>
-                <i styleName='back-to-conversation-icon'></i>
-              </Button>
-            </div>
+            <a styleName='back-to-conversation-link' onClick={this.handleBackClick.bind(this)}><span aria-hidden="true">&times;</span></a>
             <DeliverableInTimeline deliverable={this.props.commentForm.parent}
               archiveDeliverable={archiveDeliverable}
               updateDeliverable={this.props.updateDeliverable}
@@ -285,7 +279,7 @@ class ConversationObjectList extends Component {
           />
         </div>
           <div ref='newActivityMarker' styleName='timeline-new-activity-marker'>
-              <span onClick={_this.scrolDownToNewActivity} styleName='timeline-new-activity-scroll'>
+              <span onClick={_this.scrollDownToNewActivity} styleName='timeline-new-activity-scroll'>
                 <i styleName='timeline-new-activity-scroll-icon'></i>
               </span>
           </div>

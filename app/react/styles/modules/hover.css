@@ -11,17 +11,8 @@
 }
 
 .hover-container:hover .hover-over {
-  display: inline-block;
-  -webkit-border-radius: 50%/50%;
-  -moz-border-radius:50%/50% ;
-  border-radius: 50%/50%;
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  top: 0px;
-  right: -20px;
-  background-color: #ffffff;
-  /*opacity: 0.5;*/
+  display: inline;
+  float: right;
   text-align: center;
   z-index: 200;
 }
