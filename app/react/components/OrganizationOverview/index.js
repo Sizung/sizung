@@ -5,11 +5,34 @@ import Conversation from '../Conversation';
 import AgendaItemList from '../AgendaItemList';
 import DeliverableList from '../DeliverableList';
 import ConversationLayout from '../ConversationLayout';
+import ConversationIcon from '../ConversationIcon';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
 @CSSModules(styles)
 class OrganizationOverview extends Component {
+  constructor() {
+    super();
+
+    this.handleResize = this.handleResize.bind(this);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.handleResize);
+  }
+
+  componentDidUpdate() {
+    this.handleResize();
+  }
+
+  handleResize() {
+    console.log('Resizing!');
+    const organizationNode = React.findDOMNode(this.refs.organization);
+    const rootNode = React.findDOMNode(this.refs.root);
+    if (organizationNode !== null && rootNode !== null) {
+      $(rootNode).css('padding-bottom',$(organizationNode).outerHeight(true)+'px');
+    }
+  }
   conversationElements = (conversations) => {
     const elements = conversations.map((conversation) => {
       return <Conversation key={ conversation.id } conversation={ conversation }/>;
@@ -22,13 +45,13 @@ class OrganizationOverview extends Component {
     const { organization, conversations, agendaItems, visitAgendaItem, deliverables, selectDeliverable } = this.props;
 
     return (
-      <div styleName="root">
-        <Organization organization={organization}/>
+      <div styleName='root' ref='root'>
+        <Organization organization={organization} ref='organization'/>
         <ConversationLayout
           left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } /> }
           right={ <DeliverableList deliverables={ deliverables } selectDeliverable={ selectDeliverable } /> }
         >
-          <div>
+          <div styleName='center-panel'>
             <div styleName="header-container">
               <h5 styleName="header">
                 <span styleName="action" className="pull-right">
@@ -37,10 +60,12 @@ class OrganizationOverview extends Component {
                     Add Conversation
                   </a>
                 </span>
-                CONVERSATIONS
+                <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>CONVERSATIONS
               </h5>
             </div>
-            { this.conversationElements(conversations) }
+            <div styleName='center-panel-list'>
+              { this.conversationElements(conversations) }
+            </div>
           </div>
         </ConversationLayout>
       </div>
