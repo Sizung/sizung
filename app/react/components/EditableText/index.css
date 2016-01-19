@@ -11,12 +11,12 @@
 
 .edit-text-container {
   width: 100%;
-  padding: 0px;
+  padding: 0;
 }
 
 .edit-text-form {
   width: 100%;
-  padding: 0px;
+  padding: 0;
 }
 
 .edit-text-input {
@@ -27,7 +27,7 @@
 .persisted-text-container {
   position: relative;
   width: 100%;
-  padding: 0px;
+  padding: 0;
   display: inline;
 }
 
