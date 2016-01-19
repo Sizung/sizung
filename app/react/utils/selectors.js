@@ -1,6 +1,49 @@
 import { fillConversationObject, fillAgendaItem } from './entityUtils';
 import Immutable from 'immutable';
 
+const organization = (state, organizationId) => {
+  return state.getIn(['entities', 'organizations', organizationId]);
+};
+
+const conversation = (state, conversationId) => {
+  return state.getIn(['entities', 'conversations', conversationId]);
+};
+
+const agendaItemsForOrganization = (state, organizationId) => {
+  const references = state.getIn(['agendaItemsByOrganization', organizationId, 'references']);
+  if (!references) {
+    return null;
+  }
+
+  return references.map((reference) => {
+    return fillConversationObject(state, reference);
+  });
+};
+
+const deliverablesForOrganization = (state, organizationId) => {
+  const references = state.getIn(['deliverablesByOrganization', organizationId, 'references']);
+  if (!references) {
+    return null;
+  }
+
+  return references.map((reference) => {
+    return fillConversationObject(state, reference);
+  }).sortBy((deliverable) => {
+    return deliverable.dueOn ? 'A' + deliverable.dueOn : 'B' + deliverable.createdAt;
+  });
+};
+
+const conversationsForOrganization = (state, organizationId) => {
+  const references = state.getIn(['conversationsByOrganization', organizationId, 'references']);
+  if (!references) {
+    return null;
+  }
+
+  return references.map((reference) => {
+    return fillConversationObject(state, reference);
+  });
+};
+
 const currentUser = (state) => state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
 const currentConversation = (state) => state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
 const currentOrganization = (state) => {
@@ -66,4 +109,9 @@ export {
   conversationObjects,
   agendaItemsList,
   conversationMembersAsUsers,
+  agendaItemsForOrganization,
+  deliverablesForOrganization,
+  conversationsForOrganization,
+  organization,
+  conversation,
 };

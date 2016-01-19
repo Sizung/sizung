@@ -71,21 +71,24 @@ class ConversationLayout extends Component {
   }
 
   render() {
+    const left = this.props.left || <AgendaItemListApp params={this.props.params} />;
+    const right = this.props.right || <DeliverableListApp params={this.props.params} />;
+
     return (
       <Row styleName="root">
         <Col className="hidden-xs" sm={3} styleName="left-panel" ref="leftPanel">
           <Swipeable styleName="swipe-container" onSwipingLeft={this.handleLeftPanelLeftSwipe}>
-            <AgendaItemListApp params={this.props.params} />
+            { left }
           </Swipeable>
         </Col>
         <Col xs={12} sm={6} styleName="center-panel" ref="centerPanel">
           <Swipeable styleName="swipe-container" onSwipingLeft={this.handleCenterPanelLeftSwipe} onSwipingRight={this.handleCenterPanelRightSwipe}>
-            {this.props.children}
+            { this.props.children }
           </Swipeable>
         </Col>
         <Col className="hidden-xs" sm={3} styleName="right-panel" ref="rightPanel">
           <Swipeable styleName="swipe-container" onSwipingRight={this.handleRightPanelRightSwipe}>
-            <DeliverableListApp params={this.props.params} />
+            { right }
           </Swipeable>
         </Col>
       </Row>
@@ -94,9 +97,9 @@ class ConversationLayout extends Component {
 }
 
 ConversationLayout.propTypes = {
-  currentConversation: PropTypes.object,
-  currentUser: PropTypes.object.isRequired,
-  fetchConversation: PropTypes.func.isRequired,
+  left: PropTypes.object,
+  children: PropTypes.object.isRequired,
+  right: PropTypes.object,
 };
 
 export default ConversationLayout;

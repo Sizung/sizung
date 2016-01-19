@@ -77,7 +77,6 @@ AgendaItem.propTypes = {
     commentsCount: PropTypes.number.isRequired,
     deliverablesCount: PropTypes.number.isRequired,
   }).isRequired,
-  updateAgendaItem: PropTypes.func.isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
 };
 

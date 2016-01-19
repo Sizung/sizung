@@ -95,7 +95,7 @@ Deliverable.propTypes = {
     agendaItem: PropTypes.object.isRequired,
   }).isRequired,
   selectDeliverable: PropTypes.func.isRequired,
-  updateDeliverable: PropTypes.func.isRequired,
+  updateDeliverable: PropTypes.func,
 };
 
 Deliverable.defaultProps = {

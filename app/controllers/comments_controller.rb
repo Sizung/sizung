@@ -21,7 +21,7 @@ class CommentsController < ApplicationController
 
   # DELETE /comments/1.json
   def destroy
-    if @comment.destroy
+    if @comment.really_destroy!
       UnseenService.new.remove(@comment)
       payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
       CommentRelayJob.perform_later(payload: payload, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type, actor_id: current_user.id, action: 'delete')

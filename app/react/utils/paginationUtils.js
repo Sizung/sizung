@@ -41,6 +41,10 @@ export function fetched(state, key, references, action) {
   );
 }
 
+export function init(state, key) {
+  return state.set(key, initialMap);
+}
+
 export function add(state, key, reference) {
   let map = currentMap(state, key);
   map = map.set('references', map.get('references').add(reference));

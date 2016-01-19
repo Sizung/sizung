@@ -9,8 +9,6 @@ class AgendaItem < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :unseen_objects
 
-  default_scope -> { where(archived_at: nil) }
-
   validates_presence_of :conversation, :owner, :title, :status
 
   def comments_count

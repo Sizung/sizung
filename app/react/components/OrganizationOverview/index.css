@@ -1,0 +1,53 @@
+.root {
+  height: 100%;
+}
+
+.left-panel {
+  height: 100%;
+}
+
+.center-panel {
+  margin-top: 5px;
+}
+
+.center-panel-list {
+  position: absolute;
+  top: 45px;
+  bottom: 30px;
+  left: 0px;
+  right: 0px;
+  margin: 0px;
+  overflow: auto;
+}
+
+.right-panel {
+  padding: 0px;
+  position: relative;
+  max-height: 100%;
+  overflow: auto;
+}
+
+.header-container {
+  padding: 10px;
+  margin-top: 5px;
+  position: relative;
+  height: 45px;
+  background-color: #004346;
+
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+.header {
+  margin: 5px;
+  font-weight: bold;
+}
+
+.action {
+  display: none;
+}
+
+.header-container:hover .action {
+  display: inline;
+}

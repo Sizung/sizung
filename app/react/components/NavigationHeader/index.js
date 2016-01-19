@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { Link } from 'react-router';
 import User from '../User';
 import ConversationIcon from '../ConversationIcon';
 import CSSModules from 'react-css-modules';
@@ -18,15 +19,17 @@ class NavigationHeader extends Component {
       return (
         <div styleName='conversation-title-container'>
               <h5 title={currentConversation.title} styleName='conversation-title' >
-                  <a href={"/organizations/" + currentConversation.organization_id + "/conversations"}>
+                <Link to={'/organizations/' + currentConversation.organizationId} style={{ marginRight: '10px' }}>
                     <i styleName='conversation-close-icon'></i>
-                  </a>{" "}
-                  <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>
-                  {currentConversation.title}
+                </Link>
+                <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>
+                {currentConversation.title}
               </h5>
         </div>
       );
     }
+
+    return <div styleName='conversation-title-container'></div>;
   };
 
   render() {
@@ -39,9 +42,9 @@ class NavigationHeader extends Component {
     //});
     const organizationElements = organizations.map(function (organization) {
       if (currentOrganization && organization.id === currentOrganization.id) {
-        return <li className='active' key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
+        return <li className='active' key={organization.id}><Link to={'/organizations/' + organization.id}>{organization.name}</Link></li>;
       } else {
-        return <li key={organization.id}><a href={'/organizations/' + organization.id}>{organization.name}</a></li>;
+        return <li key={organization.id}><Link to={'/organizations/' + organization.id}>{organization.name}</Link></li>;
       }
     });
 
@@ -52,7 +55,7 @@ class NavigationHeader extends Component {
             <div styleName='organization-dropdown-container'>
               <ul styleName='organisation-dropdown-nav'>
                 <li>
-                  <a onClick={this.handleCurrentOrganizationClick} styleName='organisation-dropdown' href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
+                  <a styleName='organisation-dropdown' href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
                     <img styleName='logo' src={"/sizung_logo_white_on_black.gif"}/>
                   </a>
                   <ul className="dropdown-menu">

@@ -1,7 +1,7 @@
 import { createCommentRemoteOrigin, updateCommentRemoteOrigin, deleteCommentRemoteOrigin } from '../actions/comments';
 import { createAgendaItemRemoteOrigin, updateAgendaItemRemoteOrigin } from '../actions/agendaItems';
 import { createUnseenObjectRemoteOrigin, deleteUnseenObjectRemoteOrigin } from '../actions/unseenObjects';
-import { transformUnseenObjectFromJsonApi, transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi } from '../utils/jsonApiUtils';
+import { transformObjectFromJsonApi, transformUnseenObjectFromJsonApi, transformAgendaItemFromJsonApi, transformCommentFromJsonApi, transformDeliverableFromJsonApi } from '../utils/jsonApiUtils';
 import { createDeliverableRemoteOrigin, updateDeliverableRemoteOrigin } from '../actions/deliverables';
 import { updateUserRemoteOrigin } from '../actions/users';
 
@@ -31,7 +31,7 @@ const setupWebSocket = (store) => {
   });
 
   window.App.appearance.setOnReceived((data) => {
-    store.dispatch(updateUserRemoteOrigin(data.user));
+    store.dispatch(updateUserRemoteOrigin(transformObjectFromJsonApi(data.user.data)));
   });
 
   window.App.agenda_items.setOnReceived((data) => {
