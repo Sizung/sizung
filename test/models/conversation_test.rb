@@ -23,10 +23,10 @@ describe Deliverable do
     conversation = FactoryGirl.create(:conversation)
     agenda_item  = FactoryGirl.create(:agenda_item, conversation: conversation)
     deliverable  = FactoryGirl.create(:deliverable, agenda_item: agenda_item)
-    deliverable.archive
+    deliverable.destroy
 
     expect{
-      conversation.destroy
+      conversation.reload.destroy!
     }.must_change('Conversation.count', -1)
   end
 end

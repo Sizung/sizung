@@ -43,7 +43,7 @@ describe DeliverablesController do
       patch :update, id: @deliverable.id, deliverable: { archived: true }
 
       assert_response :success
-      expect(@deliverable.reload).must_be :archived?
+      expect(@deliverable.reload).must_be :paranoia_destroyed?
 
       deliverable = JSON.parse(response.body)
       assert_equal true, deliverable['data']['attributes']['archived']
