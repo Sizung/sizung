@@ -38,7 +38,6 @@ const fetchOrganizationSuccess = (organization, included, conversations, agendaI
 
 const fetchOrganization = (organizationId, dispatch) => {
   api.fetchJson('/organizations/' + organizationId, (json) => {
-    console.log('json: ', json.meta);
     const organization = transform.transformObjectFromJsonApi(json.data, json.meta);
     const conversations = json.meta.conversations.data.map(transform.transformObjectFromJsonApi);
     const agendaItems = json.meta.agenda_items.data.map(transform.transformObjectFromJsonApi);

@@ -26,7 +26,6 @@ class OrganizationOverview extends Component {
   }
 
   handleResize() {
-    console.log('Resizing!');
     const organizationNode = React.findDOMNode(this.refs.organization);
     const rootNode = React.findDOMNode(this.refs.root);
     if (organizationNode !== null && rootNode !== null) {

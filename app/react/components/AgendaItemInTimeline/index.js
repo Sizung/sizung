@@ -82,7 +82,6 @@ class AgendaItemInTimeline extends React.Component {
           { archived ? <div styleName={archiveStyle}></div> : '' }
         </div>
     );
-    console.log("Archive Style: " + archiveStyle);
   }
 }
 
