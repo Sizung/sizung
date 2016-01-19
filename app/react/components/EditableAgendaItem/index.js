@@ -126,7 +126,7 @@ class EditableAgendaItem extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.edit && !prevState.edit) {
-      var inputElem = React.findDOMNode(this.refs.filterInput);
+      var inputElem = this.refs.filterInput;
       inputElem.focus();
     }
   }

@@ -9,10 +9,9 @@ import * as DeliverableListActions from '../actions/deliverables';
 import { fillDeliverable } from '../utils/entityUtils';
 import { getPath, getAgendaItemIdFromPath, getDeliverableIdFromPath } from '../utils/pathUtils';
 
-function mapStateToProps(state) {
-  const pathElements = state.get('routing').path.split('/');
-  const selectedDeliverableId = pathElements.length >= 6 ? pathElements[6] : null;
-  const selectedAgendaItemId = getAgendaItemIdFromPath(getPath(state));
+function mapStateToProps(state, props) {
+  const selectedDeliverableId = props.params.deliverableId;
+  const selectedAgendaItemId = props.params.agendaItemId;
 
   var deliverables = state.getIn(['entities', 'deliverables']).map(function(deliverable) {
     return fillDeliverable(state, deliverable.id);

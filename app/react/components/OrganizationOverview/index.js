@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 
 import Organization from '../Organization';
 import Conversation from '../Conversation';
@@ -26,9 +27,9 @@ class OrganizationOverview extends Component {
   }
 
   handleResize() {
-    const organizationNode = React.findDOMNode(this.refs.organization);
-    const rootNode = React.findDOMNode(this.refs.root);
-    if (organizationNode !== null && rootNode !== null) {
+    const organizationNode = ReactDOM.findDOMNode(this.refs.organization);
+    const rootNode = this.refs.root;
+    if (organizationNode && rootNode) {
       $(rootNode).css('padding-bottom',$(organizationNode).outerHeight(true)+'px');
     }
   }

@@ -229,7 +229,8 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.4.2)
     rdoc (4.2.0)
-    react_webpack_rails (0.0.3)
+    react_webpack_rails (0.0.4)
+      rails (>= 3.2)
     redis (3.2.1)
     ref (2.0.0)
     responders (2.1.0)
@@ -332,7 +333,7 @@ DEPENDENCIES
   pundit
   rails (= 4.2.4)
   rails_12factor
-  react_webpack_rails
+  react_webpack_rails (= 0.0.4)
   redis
   sass-rails (~> 5.0)
   schema_plus_views

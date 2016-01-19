@@ -42,7 +42,7 @@ class ConversationMemberList extends React.Component {
   }
 
   componentDidUpdate() {
-    const inputElem = React.findDOMNode(this.refs.memberFilter);
+    const inputElem = this.refs.memberFilter;
     inputElem.focus();
     if (this.state.isConversationMemberListUpdated) {
       // TODO: Need to fix this. SetState should not be used in ComponentDidUpdate
@@ -118,7 +118,7 @@ class ConversationMemberList extends React.Component {
     this.state = {
       filter: '',
     };
-    React.findDOMNode(this.refs.memberFilter).value = '';
+    this.refs.memberFilter.value = '';
   }
 
   handleInputSubmit(event) {

@@ -24,14 +24,10 @@ import DeliverableApp from './DeliverableApp';
 import ConversationApp from './ConversationApp';
 import OrganizationApp from './OrganizationApp';
 
-import { Router, Route } from 'react-router';
-import createBrowserHistory from 'history/lib/createBrowserHistory';
-import { syncReduxAndRouter } from 'redux-simple-router';
+import { Router, Route, browserHistory } from 'react-router';
 import { setupWebSocket } from '../utils/websocketUtils';
 
 const store = configureStore();
-const history = createBrowserHistory();
-syncReduxAndRouter(history, store, (state) => state.get('routing'));
 
 export default class Root extends Component {
   componentWillMount() {
@@ -45,9 +41,9 @@ export default class Root extends Component {
   }
 
   render() {
-    const toRender = () =>
+    const toRender =
       (
-        <Router history={history}>
+        <Router history={browserHistory}>
           <Route path="/" component={ApplicationLayoutApp}>
             <Route path="/organizations/:organizationId" component={OrganizationApp} />
             <Route path="/conversations" component={ConversationLayoutApp}>
@@ -62,15 +58,12 @@ export default class Root extends Component {
     /* global __DEVTOOLS__ */
     if (__DEVTOOLS__) {
       // React components for Redux DevTools
-      const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
+      // const { DevTools, DebugPanel, LogMonitor } = require('redux-devtools/lib/react');
       return (
         <div>
           <Provider store={store}>
             { toRender }
           </Provider>
-          <DebugPanel top right bottom>
-            <DevTools store={store} monitor={LogMonitor} visibleOnLoad={false} />
-          </DebugPanel>
         </div>
       );
     }

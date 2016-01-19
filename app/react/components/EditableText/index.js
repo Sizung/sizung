@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
@@ -25,14 +26,14 @@ class EditableText extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.edit && !prevState.edit) {
-      const inputElem = React.findDOMNode(this.refs.input);
+      const inputElem = ReactDOM.findDOMNode(this.refs.input);
       inputElem.focus();
       SelectInputText(inputElem);
     }
   }
 
   saveEdit() {
-    const inputElem = React.findDOMNode(this.refs.input);
+    const inputElem = ReactDOM.findDOMNode(this.refs.input);
     const title = inputElem.value.trim();
     if (!title) return;
 
@@ -79,7 +80,7 @@ class EditableText extends React.Component {
   }
 
   handleKeyPress(e) {
-    this.inputNode = React.findDOMNode(this.refs.input);
+    this.inputNode = ReactDOM.findDOMNode(this.refs.input);
     const name = this.inputNode.value.trim();
     if (name) {
       if (e.charCode === 13 && !e.shiftKey) {

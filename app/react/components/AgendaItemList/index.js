@@ -15,13 +15,13 @@ class AgendaItemList extends Component {
   }
 
   componentDidMount() {
-    $(this.refs.agendaItemList.getDOMNode()).scrollTop(0);
+    $(this.refs.agendaItemList).scrollTop(0);
   }
   
   scrollList() {
     const _this = this;
     window.requestAnimationFrame(() => {
-      const node = _this.refs.agendaItemList.getDOMNode();
+      const node = _this.refs.agendaItemList;
       if (node !== undefined) {
         node.scrollTop = node.scrollHeight;
       }

@@ -31,7 +31,7 @@ class Comment extends React.Component {
 
   handleAgendaItem(e){
     e.preventDefault();
-    this.commentBodyNode = this.refs.commentBody.getDOMNode();
+    this.commentBodyNode = this.refs.commentBody;
     this.commentBody = $(this.commentBodyNode).text();
     if(!this.commentBody) return;
     this.props.createAgendaItem({conversation_id: this.props.comment.parent.id, title: this.commentBody});
@@ -39,7 +39,7 @@ class Comment extends React.Component {
 
   handleDeliverable(e){
     e.preventDefault();
-    this.commentBodyNode = this.refs.commentBody.getDOMNode();
+    this.commentBodyNode = this.refs.commentBody;
     this.commentBody = $(this.commentBodyNode).text();
     if(!this.commentBody) return;
     this.props.createDeliverable({agenda_item_id: this.props.comment.parent.id, title: this.commentBody});
@@ -54,7 +54,7 @@ class Comment extends React.Component {
   }
 
   handleSubmit(){
-    var commentText = React.findDOMNode(this.refs.input).value.trim();
+    var commentText = this.refs.input.value.trim();
     this.props.updateComment({id: this.props.comment.id, commentable_id: this.props.comment.parent.id, commentable_type: this.props.comment.parent.type, body: commentText});
     this.closeEditForm();
   }
@@ -105,7 +105,7 @@ class Comment extends React.Component {
   }
 
   handleScroll() {
-    var node = React.findDOMNode(this.refs.gearDropDown);
+    var node = this.refs.gearDropDown;
     if (node){
       this.props.handleCommentSettingsDropdownScroll(node);
     }
@@ -135,7 +135,7 @@ class Comment extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if ( this.state.edit ) {
-      React.findDOMNode(this.refs.input).focus();
+      this.refs.input.focus();
     }
   }
 

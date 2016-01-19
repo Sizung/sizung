@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import { Button, ButtonGroup } from 'react-bootstrap';
 import User from './../User/index';
 import CSSModules from 'react-css-modules';
@@ -74,8 +75,8 @@ class CommentForm extends React.Component {
   }
 
   componentDidMount() {
-    this.inputNode = React.findDOMNode(this.refs.name);
-    this.formNode = React.findDOMNode(this.refs.formContainer);
+    this.inputNode = ReactDOM.findDOMNode(this.refs.name);
+    this.formNode = this.refs.formContainer;
   }
 
   componentDidUpdate() {

@@ -10,7 +10,7 @@ import MetaTagsManager from '../utils/MetaTagsManager';
 
 import { transformConversationObjectFromJsonApi, transformDeliverableFromJsonApi } from '../utils/jsonApiUtils';
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses';
-import { updatePath } from 'redux-simple-router';
+import { routeActions } from 'redux-simple-router';
 
 export const SET_DELIVERABLES = 'SET_DELIVERABLES';
 export const CREATE_DELIVERABLE = 'CREATE_DELIVERABLE';
@@ -63,7 +63,7 @@ export function updateDeliverable(id, changedFields) {
 
 export function backToConversation(conversationId) {
   return function(dispatch) {
-    dispatch(updatePath('/conversations/' + conversationId))
+    dispatch(routeActions.push('/conversations/' + conversationId));
   };
 }
 
@@ -115,7 +115,7 @@ function fetchObjects(conversationId, agendaItemId, deliverableId, dispatch) {
       )
     );
     dispatch(selectDeliverableSuccess(agendaItemId, deliverableId));
-    dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId + '/deliverables/' + deliverableId));
+    dispatch(routeActions.push('/conversations/' + conversationId + '/agenda_items/' + agendaItemId + '/deliverables/' + deliverableId));
   });
 }
 
@@ -126,7 +126,7 @@ export function selectDeliverable(conversationId, agendaItemId, deliverableId) {
     }
     else {
       dispatch(selectDeliverableSuccess(agendaItemId, deliverableId));
-      dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId + '/deliverables/' + deliverableId));
+      dispatch(routeActions.push('/conversations/' + conversationId + '/agenda_items/' + agendaItemId + '/deliverables/' + deliverableId));
     }
   };
 }

@@ -6,7 +6,7 @@
 // By this type, the reducer function then decides how to handle the action.
 
 import fetch from 'isomorphic-fetch';
-import { updatePath } from 'redux-simple-router';
+import { routeActions } from 'redux-simple-router';
 import MetaTagsManager from '../utils/MetaTagsManager';
 import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from './statuses.js';
 import { transformObjectFromJsonApi, transformAgendaItemFromJsonApi, transformConversationObjectFromJsonApi } from '../utils/jsonApiUtils.js';
@@ -83,7 +83,7 @@ export function closeAgendaItem() {
 export function backToConversation(conversationId) {
   return (dispatch) => {
     dispatch(closeAgendaItem());
-    dispatch(updatePath('/conversations/' + conversationId));
+    dispatch(routeActions.push('/conversations/' + conversationId));
   };
 }
 
@@ -143,7 +143,7 @@ function fetchObjects(agendaItemId, dispatch) {
 
 export function visitAgendaItem(conversationId, agendaItemId) {
   return (dispatch) => {
-    dispatch(updatePath('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
+    dispatch(routeActions.push('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
   };
 }
 

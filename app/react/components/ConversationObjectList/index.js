@@ -100,8 +100,8 @@ class ConversationObjectList extends Component {
   }
 
   adjustConversationListHeight() {
-    const headerInTimelineHeight = (this.refs.headerInTimeline === undefined) ? 0 : $(this.refs.headerInTimeline.getDOMNode()).outerHeight();
-    const conversationHeaderHeight = ( this.refs.conversationHeader === undefined) ? 0 : $(this.refs.conversationHeader.getDOMNode()).outerHeight();
+    const headerInTimelineHeight = (this.refs.headerInTimeline === undefined) ? 0 : $(this.refs.headerInTimeline).outerHeight();
+    const conversationHeaderHeight = ( this.refs.conversationHeader === undefined) ? 0 : $(this.refs.conversationHeader).outerHeight();
     const headerInTimelineBottomMargin = 0;
     $(this.listNode).css('top', (headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin));
   }
@@ -143,7 +143,7 @@ class ConversationObjectList extends Component {
   componentDidMount() {
     const conversationObjectList = this.refs.conversationObjectList;
     if (conversationObjectList) {
-      this.listNode = conversationObjectList.getDOMNode();
+      this.listNode = conversationObjectList;
       window.addEventListener("resize", this.adjustConversationListHeight);
       if (this.props.commentForm.parent) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
@@ -161,7 +161,7 @@ class ConversationObjectList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.listNode = this.refs.conversationObjectList.getDOMNode();
+    this.listNode = this.refs.conversationObjectList;
     let _this = this;
     $(this.listNode).scroll(function () {
       if($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
@@ -170,15 +170,15 @@ class ConversationObjectList extends Component {
     });
 
     if (!this.state.isConversationMembersViewVisible) {
-      this.commentFormNode = this.refs.listFooter.getDOMNode();
-      this.newActivityMarkerNode = this.refs.newActivityMarker.getDOMNode();
+      this.commentFormNode = this.refs.listFooter;
+      this.newActivityMarkerNode = this.refs.newActivityMarker;
     }
     // this.listNode = this.refs.conversationObjectList.getDOMNode();
 
     if (this.shouldScrollBottom) {
       this.scrollListToBottom();
     } else {
-      this.markerNode = React.findDOMNode(this.refs.newActivityMarker);
+      this.markerNode = this.refs.newActivityMarker;
       if (this.props.conversationObjects.length - prevProps.conversationObjects.length === 1) {
         this.newActivityTimer = 5;
         this.showNewActivityMarker();

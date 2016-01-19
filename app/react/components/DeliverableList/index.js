@@ -19,7 +19,7 @@ class DeliverableList extends Component {
   componentDidMount() {
     const deliverableList = this.refs.deliverableList;
     if (deliverableList) {
-      $(deliverableList.getDOMNode()).scrollTop(0);
+      $(deliverableList).scrollTop(0);
     }
   }
 
@@ -29,7 +29,7 @@ class DeliverableList extends Component {
   scrollList() {
     const _this = this;
     window.requestAnimationFrame(function() {
-      var node = _this.refs.deliverableList.getDOMNode();
+      var node = _this.refs.deliverableList;
       if (node !== undefined) {
         node.scrollTop = node.scrollHeight;
       }

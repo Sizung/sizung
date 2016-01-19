@@ -1,5 +1,6 @@
 import 'babel-core/polyfill';
 window.React = require('react');
+window.ReactDOM = require('react-dom');
 
 import CommentForm from './components/CommentForm/index.js';
 registerComponent('CommentForm', CommentForm);

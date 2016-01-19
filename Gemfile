@@ -35,7 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # gem 'react-rails', '~> 1.3.0'
 # gem 'browserify-rails'
-gem 'react_webpack_rails'
+gem 'react_webpack_rails', '0.0.4'
 
 
 gem 'therubyracer'
