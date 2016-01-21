@@ -12,7 +12,7 @@
 
 .center-panel-list {
   position: absolute;
-  top: 45px;
+  top: 50px;
   bottom: 30px;
   left: 0px;
   right: 0px;
@@ -31,7 +31,6 @@
   padding: 10px;
   margin-top: 5px;
   position: relative;
-  height: 45px;
   background-color: #004346;
 
   -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
