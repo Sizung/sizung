@@ -63,7 +63,8 @@ export function transformDeliverableFromJsonApi(deliverable) {
     commentsCount: deliverable.attributes.comments_count,
     archived: deliverable.attributes.archived,
     createdAt: deliverable.attributes.created_at,
-    updatedAt: deliverable.attributes.updated_at
+    updatedAt: deliverable.attributes.updated_at,
+    archivedAt: deliverable.attributes.archived_at
   };
 }
 
@@ -79,7 +80,8 @@ export function transformAgendaItemFromJsonApi(agendaItem) {
     deliverablesCount: agendaItem.attributes.deliverables_count,
     archived: agendaItem.attributes.archived,
     createdAt: agendaItem.attributes.created_at,
-    updatedAt: agendaItem.attributes.updated_at
+    updatedAt: agendaItem.attributes.updated_at,
+    archivedAt: agendaItem.attributes.archived_at,
   };
 }
 

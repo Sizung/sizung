@@ -18,6 +18,7 @@ class AgendaItemInTimeline extends React.Component {
     this.handleSelect = this.handleSelect.bind(this);
     this.handleArchive = this.handleArchive.bind(this);
     this.renderActionButtons = this.renderActionButtons.bind(this);
+    this.lastUpdatedTime = this.lastUpdatedTime.bind(this);
   }
 
   handleTitleUpdate(newTitle) {
@@ -52,6 +53,16 @@ class AgendaItemInTimeline extends React.Component {
     );
   }
 
+  lastUpdatedTime() {
+    const { archived, createdAt, updatedAt, archivedAt } = this.props.agendaItem;
+    if (archived) {
+      return (<span><strong>(ARCHIVED)&nbsp;</strong><Time value={archivedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></span>);
+    } else if (createdAt !== updatedAt) {
+      return (<span>Edited&nbsp;<Time value={updatedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></span>);
+    }
+    return <Time value={createdAt} titleFormat='YYYY/MM/DD HH:mm' relative />;
+  }
+
   render() {
     const { agendaItem } = this.props;
     const { title, status, owner, archived } = agendaItem;
@@ -73,8 +84,7 @@ class AgendaItemInTimeline extends React.Component {
                 <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
               </div>
               <small>
-                <Time value={agendaItem.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
-                { archived ? <strong>&nbsp;(ARCHIVED)</strong>  : '' }
+                {this.lastUpdatedTime()}
               </small>
               { archived ? '' : this.renderActionButtons() }
             </div>

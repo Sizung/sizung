@@ -31,6 +31,7 @@ class DeliverableInTimeline extends React.Component {
       e.preventDefault();
       this.props.deleteComment(this.props.id);
     };
+    this.lastUpdatedTime = this.lastUpdatedTime.bind(this);
   }
 
   handleTitleUpdate(newTitle) {
@@ -81,6 +82,16 @@ class DeliverableInTimeline extends React.Component {
     );
   }
 
+  lastUpdatedTime() {
+    const { archived, createdAt, updatedAt, archivedAt } = this.props.deliverable;
+    if (archived) {
+      return (<span><strong>(ARCHIVED)&nbsp;</strong><Time value={archivedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></span>);
+    } else if (createdAt !== updatedAt) {
+      return (<span>Edited&nbsp;<Time value={updatedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></span>);
+    }
+    return <Time value={createdAt} titleFormat='YYYY/MM/DD HH:mm' relative />;
+  }
+
   render() {
     const { deliverable } = this.props;
     const { owner, assignee, agendaItem, archived } = deliverable;
@@ -122,8 +133,7 @@ class DeliverableInTimeline extends React.Component {
               <EditableStatus status={deliverable.status} onUpdate={this.handleStatusUpdate} editable={!archived} />
             </div>
             <small>
-              <Time value={deliverable.createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />
-              { archived ? <strong>&nbsp;(ARCHIVED)</strong> : '' }
+              {this.lastUpdatedTime()}
             </small>
             { archived ? '' : this.renderActionButtons() }
           </div>
