@@ -23,9 +23,11 @@ import AgendaItemApp from './AgendaItemApp';
 import DeliverableApp from './DeliverableApp';
 import ConversationApp from './ConversationApp';
 import OrganizationApp from './OrganizationApp';
+import { bindActionCreators } from 'redux';
+import * as channelHandlers from '../actions/channelHandlers';
 
 import { Router, Route, browserHistory } from 'react-router';
-import { setupWebSocket } from '../utils/websocketUtils';
+import * as ws from '../utils/websocketUtils';
 
 const store = configureStore();
 
@@ -37,7 +39,12 @@ export default class Root extends Component {
   }
 
   componentDidMount() {
-    setupWebSocket(store);
+    ws.followUserChannel(this.props.currentUser.id, bindActionCreators(channelHandlers.onUserChannelReceived, store.dispatch));
+    // setupWebSocket(store);
+  }
+
+  componentWillUnmount() {
+    ws.unfollowUserChannel();
   }
 
   render() {

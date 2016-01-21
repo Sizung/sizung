@@ -1,4 +1,1 @@
-#js-organization{data: {organization_id: @organization.id}}
-#js-current-user{data: {id: current_user.id}}
-
 = react_component('Root', {organizations: @organizations_json, users: @users_json, currentUser: {id: current_user.id, type: 'users'}}, {prerender: false} )

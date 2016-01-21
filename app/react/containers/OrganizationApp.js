@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
@@ -7,19 +7,33 @@ import * as OrganizationActions from '../actions/organizations';
 import * as ConversationActions from '../actions/conversations';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as DeliverableActions from '../actions/deliverables';
+import * as channelHandlers from '../actions/channelHandlers';
 import * as selectors from '../utils/selectors';
+import * as ws from '../utils/websocketUtils';
 
 import OrganizationOverview from '../components/OrganizationOverview';
 
 class OrganizationApp extends React.Component {
   componentDidMount() {
+    const { onOrganizationChannelReceived } = this.props;
+    const { organizationId } = this.props.params;
+
     this.fetchData();
+    ws.followOrganizationChannel(organizationId, onOrganizationChannelReceived);
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.params.organizationId !== prevProps.params.organizationId) {
+    const { onOrganizationChannelReceived } = this.props;
+    const organizationId = this.props.params.organizationId;
+
+    if (organizationId !== prevProps.params.organizationId) {
       this.fetchData();
+      ws.followOrganizationChannel(organizationId, onOrganizationChannelReceived);
     }
+  }
+
+  componentWillUnmount() {
+    ws.unfollowOrganizationChannel();
   }
 
   fetchData = () => {
@@ -46,6 +60,12 @@ class OrganizationApp extends React.Component {
   }
 }
 
+OrganizationApp.propTypes = {
+  onOrganizationChannelReceived: PropTypes.func.isRequired,
+  organization: PropTypes.object,
+  conversations: PropTypes.object,
+};
+
 function mapStateToProps(state, props) {
   return {
     organization: selectors.organization(state, props.params.organizationId),
@@ -56,7 +76,13 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...OrganizationActions, ...ConversationActions, ...AgendaItemActions, ...DeliverableActions }, dispatch);
+  return bindActionCreators({
+    ...OrganizationActions,
+    ...ConversationActions,
+    ...AgendaItemActions,
+    ...DeliverableActions,
+    ...channelHandlers,
+  }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(OrganizationApp);
