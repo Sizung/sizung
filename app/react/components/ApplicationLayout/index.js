@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import NavigationHeader from './../NavigationHeader/index';
+import StaleNotification from '../StaleNotification';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
@@ -17,6 +18,7 @@ class ApplicationLayout extends Component {
           currentConversation={currentConversation}
         />
         <div styleName="main-content" >
+          <StaleNotification />
           { this.props.children }
         </div>
         <footer styleName="footer">
