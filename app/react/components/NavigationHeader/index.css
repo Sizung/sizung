@@ -1,9 +1,9 @@
 .root {
   composes: navbar navbar-inverse navbar-static-top zero-vertical-margin from global;
   composes: nav-background from '../../styles/theme.css' !important;
-  color: #ffffff;
   max-height: 50px;
   border-width: 0px;
+  color: #ffffff;
 }
 
 .main-container {
@@ -16,6 +16,30 @@
   /*composes: navbar-collapse collapse navbar-responsive-collapse from global;*/
 }
 
+.nav-dropdown {
+  composes: dropdown-toggle from global;
+  display: inline-block;
+  max-width: 100%;
+  height: 100%;
+  padding: 10px 15px !important;
+  background-color: transparent !important;
+  color: #ffffff !important;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.user-dropdown {
+  composes: nav-dropdown;
+  composes: nav-background from '../../styles/theme.css' !important;
+}
+
+.organisation-dropdown {
+  composes: nav-dropdown;
+  composes: nav-background from '../../styles/theme.css' !important;
+}
+
 .organization-dropdown-container {
   composes: col-xs-3 from global;
   padding: 0px;
@@ -26,10 +50,14 @@
   composes: nav dropdown from global;
   display: inline-block;
   margin: 0px;
-  padding: 0px;
+  padding: 5px 0px;
   max-width: 100%;
 }
 
+.caret {
+  composes: caret pull-right from global;
+  margin-top: 10px;
+}
 .organisation-dropdown-nav li a.organisation-dropdown{
 
 }
@@ -38,16 +66,13 @@
   background-color: #264957 !important;
 }
 
-/*.organisation-dropdown {*/
-  /*color: #ffffff !important;*/
-  /*width: 100%;*/
-  /*height: 100%;*/
-  /*max-width: 100%;*/
-  /*text-overflow: ellipsis;*/
-  /*word-wrap: break-word;*/
-  /*overflow: hidden;*/
-  /*white-space: nowrap;*/
-/*}*/
+.organisation-dropdown {
+  color: #ffffff !important;
+}
+
+.organisation-dropdown-menu {
+  composes: dropdown-menu from global;
+}
 
 .user-dropdown-container {
   composes: col-xs-3 from global;
@@ -76,35 +101,13 @@
 .user-dropdown-nav li a.user-dropdown:hover{
   background-color: #264957 !important;
 }
-.nav-dropdown {
-  composes: dropdown-toggle from global;
-  display: inline-block;
-  /*width: 100%;*/
-  height: 100%;
-  padding: 10px 15px !important;
-  color: #ffffff !important;
-}
-
-.user-dropdown {
-  composes: nav-dropdown;
-  composes: nav-background from '../../styles/theme.css' !important;
-}
-
-.organisation-dropdown {
-  composes: nav-dropdown;
-  composes: nav-background from '../../styles/theme.css' !important;
-}
-
-
 
 .user-dropdown-toggle {
-  /*composes: pull-right from global;*/
   padding: 0px;
-  text-decoration: none;
-  /*border: none;*/
+  border-radius: 50%/50%;
   background: transparent;
   outline: none;
-  border-radius: 50%/50%;
+  text-decoration: none;
 }
 
 .user-container-visible-xs {
@@ -125,7 +128,6 @@
 }
 
 .conversation-close-button {
-  /*display: none;*/
   width: 20%;
   padding: 18px 10px;
   float: right;
@@ -137,7 +139,6 @@
 }
 
 .conversation-title {
-  /*composes: col-xs-12 from global;*/
   width: 100%;
   padding: 0px;
   margin: 0px;
@@ -149,17 +150,7 @@
   text-overflow: ellipsis;
   word-wrap: break-word;
   white-space: nowrap;
-  /*font-size: larger;*/
 }
-
-/*.conversation-title-container:hover .conversation-title{*/
-  /*width: 80%;*/
-/*}*/
-
-/*.conversation-title-container:hover .conversation-close-button{*/
-  /*display: inline-block;*/
-  /*width: 20%;*/
-/*}*/
 
 .comments-icon {
   composes: fa fa-comments-o fa-lg from global;
@@ -172,10 +163,10 @@
 
 .member-badge {
   position: relative;
-  border-radius: 50%/50%;
-  background-color: #ffffff;
   width: 30px;
   height: 30px;
+  border-radius: 50%/50%;
+  background-color: #ffffff;
   cursor: pointer;
 }
 

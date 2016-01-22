@@ -56,9 +56,9 @@ class NavigationHeader extends Component {
               <ul styleName='organisation-dropdown-nav'>
                 <li>
                   <a styleName='organisation-dropdown' href="#" data-toggle='dropdown' role='button' aria-haspopup='true' aria-expanded='false'>
-                    <img styleName='logo' src={"/sizung_logo_white_on_black.gif"}/>
+                    <span styleName='caret'></span><span>{currentOrganization ? currentOrganization.name : ''}</span>
                   </a>
-                  <ul className="dropdown-menu">
+                  <ul styleName='organisation-dropdown-menu'>
                     {organizationElements}
                     <li className="divider" role="separator"></li>
                     <li>
@@ -80,7 +80,7 @@ class NavigationHeader extends Component {
                       <User  user={this.props.currentUser} size='normal' showName={false}/>
                     </div>
                     <div styleName='user-container-hidden-xs'>
-                      <User user={this.props.currentUser} size='normal' showName={true}/>
+                      <span styleName='caret' style={{marginTop: '15px'}}></span><User user={this.props.currentUser} size='normal' showName={true}/>
                     </div>
                   </a>
                   <ul className="dropdown-menu dropdown-menu-right">
@@ -106,6 +106,7 @@ NavigationHeader.propTypes = {
   currentUser: PropTypes.shape({
     name: PropTypes.string.isRequired,
   }).isRequired,
+  currentOrganization: PropTypes.object,
 };
 
 export default NavigationHeader;
