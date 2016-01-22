@@ -59,6 +59,7 @@ gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'schema_plus_views'
 gem 'kaminari'
 gem 'paranoia', '~> 2.0'
+gem 'newrelic_rpm'
 
 group :production do
   gem 'rails_12factor'
