@@ -1,0 +1,15 @@
+.common {
+  background-repeat: no-repeat;
+  background-size: 20px 14px;
+  padding-left: 25px;
+}
+
+.normal {
+  composes: common;
+  background-image: url("/icons/chat-icon-gray.png");
+}
+
+.inverted {
+  composes: common;
+  background-image: url("/icons/chat-icon-white.png");
+}

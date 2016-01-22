@@ -33,17 +33,6 @@ describe ConversationMembersController do
       assert_equal user.id, conversation_member['data']['relationships']['member']['data']['id']
     end
 
-    it 'creates conversation as unseen object when a new conversation_member gets created' do
-      user = FactoryGirl.create :user
-      FactoryGirl.create :organization_member_without_owner, organization: @conversation.organization, member: user
-      FactoryGirl.create :conversation_member, conversation: @conversation
-      expect {
-        post :create, conversation_member: { conversation_id: @conversation.id, member_id: user.id }, format: :json
-      }.must_change 'UnseenObject.count', 1
-
-      expect (UnseenObject.last.user).must_equal user
-    end
-
     it 'does not allow to create conversation_member when the user is not part of the conversations organization' do
       user = FactoryGirl.create :user
       expect {

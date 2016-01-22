@@ -1,0 +1,98 @@
+.root {
+  position: relative;
+  cursor: pointer;
+}
+
+.default {
+  composes: card from '../../styles/modules/card.css';
+  composes: hover-container from '../../styles/modules/hover.css';
+}
+
+.selected {
+  composes: default;
+  composes: hover-container from '../../styles/modules/hover.css';
+  background-color: #505964;
+  color: #FFFFFF;
+  /*border: 5px solid #ffffff;*/
+}
+
+.row {
+  position: relative;
+  max-width: 100%;
+  min-height: 1em;
+  margin-bottom: 1em;
+}
+
+.content-container {
+  width: 100%;
+  padding-right: 30px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+  font-weight: 600;
+
+}
+
+.status-container {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.details-row {
+  composes: row from global;
+}
+
+.user-container {
+  composes: pull-left from global;
+  padding: 0px 5px;
+}
+
+.due-on {
+  composes: pull-right from global;
+  padding: 5px;
+  margin-top: 5px;
+  font-size: smaller;
+  font-weight: 600;
+  color: #57C1E8;
+}
+
+.agenda-title-container {
+  composes: col-xs-8 from global;
+  padding: 0px;
+  height: 1.5em;
+  text-align: right;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.assignee {
+  display: inline-block;
+  width: 50%;
+  padding: 0px;
+}
+
+.details-row1 {
+  composes: col-xs-12 from global;
+  padding: 0px 10px 5px 10px;
+}
+
+.details-row2 {
+  composes: row from global;
+  padding: 0px 15px;
+  margin: 0px;
+}
+
+.comments-count-container {
+  composes: col-xs-4 from global;
+  padding: 0px;
+}

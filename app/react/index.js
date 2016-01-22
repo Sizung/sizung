@@ -1,18 +1,21 @@
 import 'babel-core/polyfill';
 window.React = require('react');
-window.ReactDOM = require('react-dom');
 
-import CommentForm from './components/CommentForm/index.js';
+//import HelloWorld from './components/hello-world';
+//
+//registerComponent('hello-world', HelloWorld);
+
+import CommentForm from './components/sizung/components/CommentForm/index.js'
 registerComponent('CommentForm', CommentForm);
 
-import Root from './containers/Root.js';
-registerComponent('Root', Root);
+import ConversationRoot from './components/sizung/containers/ConversationRoot.js'
+registerComponent('ConversationRoot', ConversationRoot);
 
-import User from './components/User/index.js';
+import User from './components/sizung/components/User/index.js'
 registerComponent('User', User);
 
-import EditableAgendaItem from './components/EditableAgendaItem/index.js';
+import EditableAgendaItem from './components/sizung/components/EditableAgendaItem/index.js'
 registerComponent('EditableAgendaItem', EditableAgendaItem);
 
-import UnseenBadge from './components/UnseenBadge/index.js';
+import UnseenBadge from './components/sizung/components/UnseenBadge/index.js'
 registerComponent('UnseenBadge', UnseenBadge);

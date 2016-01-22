@@ -1,10 +1,10 @@
 class Conversation < ActiveRecord::Base
   belongs_to :organization
   has_many :comments, as: :commentable, dependent: :destroy
-  has_many :deliverables, through: :agenda_items
   has_many :agenda_items, dependent: :destroy
-  has_many :conversation_members, dependent: :destroy
+  has_many :deliverables, through: :agenda_items
   has_many :conversation_objects, foreign_key: :parent_id
+  has_many :conversation_members, dependent: :destroy
   has_many :members, through: :conversation_members
   has_many :unseen_objects, dependent: :destroy
 

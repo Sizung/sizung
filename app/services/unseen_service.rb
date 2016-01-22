@@ -2,14 +2,10 @@ class UnseenService
   def handle_with(object, actor)
     object.conversation.members.each do |user|
       if user != actor
-        create(object, user)
+        unseen_object = UnseenObject.create_from!(object, user)
+        UserRelayJob.perform_later(unseen_object, user.id, 'create')
       end
     end
-  end
-
-  def create(object, user)
-    unseen_object = UnseenObject.create_from!(object, user)
-    UserRelayJob.perform_later(unseen_object, user.id, 'create')
   end
 
   def remove(object)

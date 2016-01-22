@@ -14,9 +14,4 @@ class ApplicationController < ActionController::Base
         super
       end
   end
-
-  protected
-    def to_json_api(obj_or_list)
-      ActiveModel::SerializableResource.new(obj_or_list).serializable_hash
-    end
 end

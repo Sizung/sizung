@@ -14,7 +14,7 @@ describe ConversationsController do
   describe 'signed in' do
     setup do
       @conversation = FactoryGirl.create(:conversation)
-      @other_conversation = FactoryGirl.create(:conversation, organization: @conversation.organization)
+      @other_conversation = FactoryGirl.create(:conversation)
       @request.env['devise.mapping'] = Devise.mappings[:user]
       sign_in @conversation.organization.owner
     end

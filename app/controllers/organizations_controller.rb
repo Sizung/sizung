@@ -1,9 +1,8 @@
 class OrganizationsController < ApplicationController
   before_filter :authenticate_user!
-  before_action :set_organization, only: [:edit, :update, :destroy]
+  before_action :set_organization, only: [:show, :edit, :update, :destroy]
   after_action :verify_authorized,    except: :index
   after_action :verify_policy_scoped, only: :index
-  layout 'conversation', only: [:show]
 
   respond_to :json, :html
 
@@ -20,35 +19,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/1.json
   def show
-    respond_to do |format|
-      format.html do
-        @organization = policy_scope(Organization).find(params[:id])
-        authorize @organization
-
-        @organizations_json = ActiveModel::SerializableResource.new(policy_scope(Organization)).serializable_hash
-        @users_json = ActiveModel::SerializableResource.new(@organization.members).serializable_hash
-        render :show
-      end
-
-      format.json do
-        @organization = policy_scope(Organization).includes(:organization_members).find(params[:id])
-        authorize @organization
-
-        @conversations = policy_scope(Conversation).where(organization: @organization)
-        @agenda_items = AgendaItem.where(conversation: @conversations)
-        @deliverables = Deliverable.where(agenda_item: @agenda_items).where(assignee: current_user)
-
-        render json: @organization,
-               include: %w(organization_members),
-               meta: {
-                   conversations: to_json_api(@conversations),
-                   agenda_items: to_json_api(@agenda_items),
-                   deliverables: to_json_api(@deliverables),
-                   editable: policy(@organization).edit?
-               }
-      end
-    end
-
+    @conversations = policy_scope(Conversation).where(organization: @organization).order(:title)
   end
 
   # GET /organizations/new

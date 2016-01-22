@@ -1,0 +1,39 @@
+.edit-link {
+  composes: hover-over from '../../styles/modules/hover.css';
+}
+
+.edit-text-container {
+  width: 100%;
+  padding: 0px;
+}
+
+.edit-text-form {
+  width: 100%;
+  padding: 0px;
+}
+
+.edit-text-input {
+  width: 100%;
+  padding: 0px;
+}
+
+.persisted-text-container {
+  position: relative;
+  width: 100%;
+  padding: 0px;
+  display: inline;
+}
+
+.persisted-text {
+  display: inline-block;
+  max-width: 90%;
+  float: left;
+  word-wrap: break-word;
+}
+
+.edit-link-container {
+  position: relative;
+  display: inline-block;
+  float: left;
+  padding-left: 5px;
+}

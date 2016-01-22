@@ -15,5 +15,6 @@ class CreateOrganizationTest < ActionDispatch::IntegrationTest
     click_on 'Create Organization'
 
     assert_equal 2, Organization.all.size
+    assert page.has_content?('Organization was successfully created.')
   end
 end

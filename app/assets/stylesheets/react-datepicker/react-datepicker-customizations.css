@@ -13,7 +13,3 @@
   -moz-box-shadow: none;
   box-shadow: none;
 }
-
-.datepicker__input-container {
-  display: inline-block;
-}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119120809) do
+ActiveRecord::Schema.define(version: 20151228085908) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -221,13 +221,13 @@ UNION ALL
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   add_index "users", ["unlock_token"], name: "index_users_on_unlock_token", unique: true, using: :btree
 
-  add_foreign_key "agenda_items", "conversations", on_delete: :cascade
+  add_foreign_key "agenda_items", "conversations"
   add_foreign_key "agenda_items", "users", column: "owner_id"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "conversation_members", "conversations"
   add_foreign_key "conversation_members", "users", column: "member_id"
   add_foreign_key "conversations", "organizations"
-  add_foreign_key "deliverables", "agenda_items", on_delete: :cascade
+  add_foreign_key "deliverables", "agenda_items"
   add_foreign_key "deliverables", "users", column: "assignee_id"
   add_foreign_key "deliverables", "users", column: "owner_id"
   add_foreign_key "organization_members", "organizations"

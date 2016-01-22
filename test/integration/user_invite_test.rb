@@ -78,6 +78,7 @@ class UserInviteTest < ActionDispatch::IntegrationTest
     #
     # Assert that they are in the same organization now
     #
+    assert page.has_content?('Your password was set successfully. You are now signed in.')
     assert_equal 2, User.all.size
     assert_equal 1, Organization.all.size
     assert_equal 2, Organization.first.members.size
