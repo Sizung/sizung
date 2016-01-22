@@ -2,23 +2,21 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import ConversationMemberList from '../components/ConversationMemberList/index';
 import * as ConversationMemberActions from '../actions/conversationMembers';
-import Immutable from 'immutable';
+import * as selectors from '../utils/selectors';
 
 function mapStateToProps(state) {
-  var organizationMembers = state.getIn(['entities', 'users']).toList();
-  var conversationMembers = state.getIn(['entities', 'conversationMembers']).toList();
-  var currentConversation = state.getIn(['currentConversation']);
-
+  const organizationMembers =  selectors.organizationMembers(state).toList();
+  const currentConversation = state.getIn(['currentConversation']);
+  const conversationMembers = selectors.conversationMembers(state).toList();
   return {
-    organizationMembers: organizationMembers,
-    conversationMembers: conversationMembers,
-    currentConversation: currentConversation
-
-  }
+    organizationMembers,
+    conversationMembers,
+    currentConversation,
+  };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...ConversationMemberActions}, dispatch);
+  return bindActionCreators({ ...ConversationMemberActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationMemberList);

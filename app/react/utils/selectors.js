@@ -54,7 +54,33 @@ const currentOrganization = (state) => {
   return state.getIn(['entities', 'organizations', currentOrgId]);
 };
 const organizations = (state) => state.getIn(['entities', 'organizations']).map((organization) => { return organization; }).toList();
-const conversationMembers = (state) => state.getIn(['entities', 'conversationMembers']);
+
+const organizationMembers = (state) => {
+  const references = state.getIn(['entities', 'organizationMembers']);
+  const organizationId = currentOrganization(state).id;
+  if (!references) {
+    return null;
+  }
+
+  const filteredOrganizationMembers = references.filter(function (reference) {
+    return (reference.organizationId === organizationId);
+  });
+
+  return filteredOrganizationMembers.map(function (reference) {
+    return state.getIn(['entities', 'users', reference.memberId]);
+  });
+};
+
+const conversationMembers = (state) => {
+  const references = state.getIn(['conversationMembersByConversation', state.getIn(['currentConversation', 'id']), 'references']);
+  if (!references) {
+    return null;
+  }
+
+  return references.map((reference) => {
+    return state.getIn(['entities', 'conversationMembers', reference.id]);
+  });
+}
 
 const conversationMembersAsUsers = (state, conversationId) => {
   const references = state.getIn(['conversationMembersByConversation', conversationId, 'references']);
@@ -106,6 +132,7 @@ export {
   currentOrganization,
   organizations,
   conversationMembers,
+  organizationMembers,
   conversationObjects,
   agendaItemsList,
   conversationMembersAsUsers,

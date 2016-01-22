@@ -62,9 +62,9 @@ class ConversationMemberList extends React.Component {
             var existingMember = _this.props.conversationMembers.find(function (member) {
               return (member.memberId === user.id);
             });
-            const isSelected = (null === existingMember ? false : true);
+            const isSelected = (existingMember ? true : false);
             return (
-                <SelectableUser user={user} key={i}
+                <SelectableUser user={user} key={user.id}
                                 onUpdate={_this.triggerUpdate.bind(_this, user.id)}
                                 isSelected={isSelected}
                 />
