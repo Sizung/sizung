@@ -1,11 +1,10 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
-import React, { Component, PropTypes } from 'react';
-import Time from 'react-time'
-import User from './../User/index'
-import { Glyphicon } from 'react-bootstrap';
+import React, { PropTypes } from 'react';
+import Time from 'react-time';
+import User from './../User/index';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
+import styles from './index.css';
 
 @CSSModules(styles)
 class Comment extends React.Component {
@@ -13,7 +12,7 @@ class Comment extends React.Component {
     super();
 
     this.state = {
-      edit: false
+      edit: false,
     }
 
     this.handleDeleteClick = (e) => {
@@ -29,49 +28,49 @@ class Comment extends React.Component {
     this.handleScroll = this.handleScroll.bind(this);
   }
 
-  handleAgendaItem(e){
+  handleAgendaItem(e) {
     e.preventDefault();
     this.commentBodyNode = this.refs.commentBody;
     this.commentBody = $(this.commentBodyNode).text();
-    if(!this.commentBody) return;
-    this.props.createAgendaItem({conversation_id: this.props.comment.parent.id, title: this.commentBody});
+    if (!this.commentBody) return;
+    this.props.createAgendaItem({ conversation_id: this.props.comment.parent.id, title: this.commentBody });
   }
 
   handleDeliverable(e){
     e.preventDefault();
     this.commentBodyNode = this.refs.commentBody;
     this.commentBody = $(this.commentBodyNode).text();
-    if(!this.commentBody) return;
-    this.props.createDeliverable({agenda_item_id: this.props.comment.parent.id, title: this.commentBody});
+    if (!this.commentBody) return;
+    this.props.createDeliverable({ agenda_item_id: this.props.comment.parent.id, title: this.commentBody });
   }
 
-  closeEditForm(){
-    this.setState({ edit: false});
+  closeEditForm() {
+    this.setState({ edit: false });
   }
 
-  openEditForm(){
-    this.setState({ edit: true});
+  openEditForm() {
+    this.setState({ edit: true });
   }
 
-  handleSubmit(){
-    var commentText = this.refs.input.value.trim();
-    this.props.updateComment({id: this.props.comment.id, commentable_id: this.props.comment.parent.id, commentable_type: this.props.comment.parent.type, body: commentText});
+  handleSubmit() {
+    const commentText = this.refs.input.value.trim();
+    this.props.updateComment({ id: this.props.comment.id, commentable_id: this.props.comment.parent.id, commentable_type: this.props.comment.parent.type, body: commentText });
     this.closeEditForm();
   }
 
   renderEditComment(body) {
-    return(<div styleName='content-container'>
+    return (<div styleName='content-container'>
         <form className="form-horizontal">
-          <div className="form-group" style={{ marginBottom: "5px"}}>
+          <div className="form-group" style={{ marginBottom: '5px'}}>
 
             <div className="col-xs-12">
-              <textarea ref='input' className="form-control" rows="3">{body}</textarea>
+              <textarea ref='input' className='form-control' rows='3'>{body}</textarea>
             </div>
           </div>
-          <div className="form-group" style={{ marginBottom: "5px"}}>
-            <div className="col-xs-12">
-              <div className="btn btn-sm btn-success" onClick={this.handleSubmit} style={{ marginRight: "5px"}}>Save</div>
-              <div className="btn btn-sm btn-default" onClick={this.closeEditForm}>Cancel</div>
+          <div className='form-group' style={{ marginBottom: '5px' }}>
+            <div className='col-xs-12'>
+              <div className='btn btn-sm btn-success' onClick={this.handleSubmit} style={{ marginRight: '5px' }}>Save</div>
+              <div className='btn btn-sm btn-default' onClick={this.closeEditForm}>Cancel</div>
             </div>
           </div>
         </form>
@@ -80,17 +79,18 @@ class Comment extends React.Component {
   }
 
   lastUpdatedTime() {
-    const {createdAt, updatedAt} = this.props.comment;
-    var lastUpdatedAt = ( createdAt != updatedAt ? updatedAt : createdAt);
-    var editedIndicator = ( createdAt != updatedAt ? "Edited " : "");
-    return(<div styleName='time-container'>
-      <small>{editedIndicator}<Time value={lastUpdatedAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+    const { createdAt, updatedAt } = this.props.comment;
+    const lastUpdatedAt = ( createdAt !== updatedAt ? updatedAt : createdAt);
+    const editedIndicator = ( createdAt !== updatedAt ? 'Edited ' : '');
+    return (<div styleName='time-container'>
+      <small>{editedIndicator}<Time value={lastUpdatedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></small>
     </div>);
   }
 
   renderCommentSettingsOptions() {
-    const {author, canCreateAgendaItem, canCreateDeliverable, id} = this.props.comment;
-    var commentActions = [];
+    const { author, canCreateAgendaItem, canCreateDeliverable, id } = this.props.comment;
+    let commentActions = [];
+    const _this = this;
     if (canCreateAgendaItem) {
       commentActions.push(<li key={id + 'escalateAsAgendaItem'}><a href='#' onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
     }
@@ -101,30 +101,35 @@ class Comment extends React.Component {
       commentActions.push(<li key={id + 'editComment'}><a href="#" onClick={this.openEditForm}>Edit Comment</a></li>);
       commentActions.push(<li key={id + 'deleteComment'}><a href="#" onClick={this.handleDeleteClick}>Delete Comment</a></li>);
     }
-    return commentActions;
-  }
 
-  handleScroll() {
-    var node = this.refs.gearDropDown;
-    if (node){
-      this.props.handleCommentSettingsDropdownScroll(node);
-    }
-  }
-
-  renderShowComment() {
-    const {body} = this.props.comment;
-    var _this = this;
-    return(<div styleName='content-container'>
+    if (commentActions.length > 0) {
+      return (
         <div styleName='options-menu'>
           <div className="btn-group">
             <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={_this.handleScroll}>
               <i styleName='gear-icon'></i>
             </a>
             <ul ref="gearDropDown" className="dropdown-menu dropdown-menu-right">
-              {this.renderCommentSettingsOptions()}
+              {commentActions}
             </ul>
           </div>
         </div>
+      );
+    }
+    return null;
+  }
+
+  handleScroll() {
+    const node = this.refs.gearDropDown;
+    if (node) {
+      this.props.handleCommentSettingsDropdownScroll(node);
+    }
+  }
+
+  renderShowComment() {
+    const { body } = this.props.comment;
+    return (<div styleName='content-container'>
+        {this.renderCommentSettingsOptions()}
         <div styleName='comment-body' ref='commentBody'>
           {body}
         </div>
@@ -134,13 +139,13 @@ class Comment extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if ( this.state.edit ) {
+    if (this.state.edit) {
       this.refs.input.focus();
     }
   }
 
   render() {
-    const {author, body, unseen} = this.props.comment;
+    const { author, body, unseen } = this.props.comment;
     return(<div styleName='root'>
         <div styleName='user-container'>
           <User user={author}/>
@@ -162,11 +167,11 @@ Comment.propTypes = {
     canCreateDeliverable: PropTypes.bool.isRequired,
     parent: PropTypes.shape({
       id: PropTypes.string.isRequired,
-      type: PropTypes.string.isRequired
+      type: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
   currentUser: PropTypes.object.isRequired,
-  handleCommentSettingsDropdownScroll: PropTypes.func.isRequired
+  handleCommentSettingsDropdownScroll: PropTypes.func.isRequired,
 };
 
 export default Comment;
