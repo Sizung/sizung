@@ -20,9 +20,9 @@ class ConversationLayout extends Component {
   }
 
   componentDidMount() {
-    this.leftPanelNode = this.refs.leftPanel;
-    this.centerPanelNode = this.refs.centerPanel;
-    this.rightPanelNode = this.refs.rightPanel;
+    this.leftPanelNode = React.findDOMNode(this.refs.leftPanel);
+    this.centerPanelNode = React.findDOMNode(this.refs.centerPanel);
+    this.rightPanelNode = React.findDOMNode(this.refs.rightPanel);
   }
 
   componentWillReceiveProps() {
@@ -38,30 +38,35 @@ class ConversationLayout extends Component {
   // The better way is to save the state in which the view currently is in the component state, render accordingly to
   // that state and change the state when the user swipes.
   handleLeftPanelLeftSwipe() {
+    console.log('Swiped');
     $(this.leftPanelNode).addClass('hidden-xs');
     $(this.centerPanelNode).removeClass('hidden-xs');
     $(this.centerPanelNode).addClass('col-xs-12');
   }
 
   handleCenterPanelLeftSwipe() {
+    console.log('Swiped');
     $(this.centerPanelNode).addClass('hidden-xs');
     $(this.rightPanelNode).removeClass('hidden-xs');
     $(this.rightPanelNode).addClass('col-xs-12');
   }
 
   handleCenterPanelRightSwipe() {
+    console.log('Swiped');
     $(this.centerPanelNode).addClass('hidden-xs');
     $(this.leftPanelNode).removeClass('hidden-xs');
     $(this.leftPanelNode).addClass('col-xs-12');
   }
 
   handleRightPanelRightSwipe() {
+    console.log('Swiped');
     $(this.rightPanelNode).addClass('hidden-xs');
     $(this.centerPanelNode).removeClass('hidden-xs');
     $(this.centerPanelNode).addClass('col-xs-12');
   }
 
   handleResetPanelVisibility() {
+    console.log('Swiped');
     $(this.centerPanelNode).removeClass('hidden-xs');
     $(this.centerPanelNode).addClass('col-xs-12');
     $(this.rightPanelNode).addClass('hidden-xs');
