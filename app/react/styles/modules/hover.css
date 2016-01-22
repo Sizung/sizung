@@ -1,0 +1,18 @@
+.hover-inline {
+  display: none;
+}
+
+.hover-container:hover .hover-inline {
+  display: inline;
+}
+
+.hover-over {
+  display: none;
+}
+
+.hover-container:hover .hover-over {
+  display: inline;
+  float: right;
+  text-align: center;
+  z-index: 200;
+}

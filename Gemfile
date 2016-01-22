@@ -35,7 +35,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 # gem 'react-rails', '~> 1.3.0'
 # gem 'browserify-rails'
-gem 'react_webpack_rails'
+gem 'react_webpack_rails', '0.0.4'
 
 
 gem 'therubyracer'
@@ -58,7 +58,8 @@ gem 'hiredis'
 gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 gem 'schema_plus_views'
 gem 'kaminari'
-gem 'acts_as_archival'
+gem 'paranoia', '~> 2.0'
+gem 'newrelic_rpm'
 
 group :production do
   gem 'rails_12factor'

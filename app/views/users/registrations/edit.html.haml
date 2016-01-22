@@ -5,11 +5,11 @@
   .col-md-2
     %ul.nav.nav-pills.nav-stacked{role: 'tablist'}
       %li.active{role: 'presentation'}
-        %a{href: '#profile', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Profile
+        %a.black-color{href: '#profile', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Profile
       %li{role: 'presentation'}
-        %a{href: '#account', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Account
+        %a.black-color{href: '#account', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Account
       %li{role: 'presentation'}
-        %a{href: '#teams', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Teams
+        %a.black-color{href: '#teams', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Teams
   .col-md-10
     .tab-content
       .tab-pane.active#profile{role: 'tabpanel'}
@@ -45,7 +45,7 @@
         %h4 Account
         %p
           Of course you could
-          = link_to 'cancel', registration_path(resource_name), data: { confirm: 'Are you sure?' }, method: :delete
+          = link_to 'cancel', registration_path(resource_name), data: { confirm: 'Are you sure?' }, class: 'white-color', method: :delete
           your account at any time but we are happier when you stay with us. :)
 
       .tab-pane#teams{role: 'tabpanel'}

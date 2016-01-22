@@ -1,0 +1,70 @@
+.root-container {
+  position: relative;
+  display: inline-block;
+}
+
+.root {
+  z-index: 100;
+  position: absolute;
+  width: 30ch;
+  top: 3ch;
+  right: 0ch;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  padding: 10px;
+  background-color: #ffffff;
+}
+
+.current-user {
+}
+
+.current-user-editable {
+  cursor: pointer;
+}
+
+.title {
+  text-align: center;
+  color: grey;
+  padding-bottom: 10px;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 10px;
+}
+
+.input {
+  composes: form-control from global;
+  margin-bottom: 10px;
+}
+
+.close-icon {
+  composes: fa fa-times from global;
+  composes: pull-right from global;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.selected-icon {
+  composes: fa fa-check from global;
+  width: 10px;
+  height: 10px;
+  border: 1px solid red;
+}
+
+.user-row {
+  composes: col-xs-12 from global;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.user-row:hover {
+  background-color: #eeeeee;
+}
+
+.user-column {
+  composes: col-xs-10 from global;
+  padding: 0px;
+}
+
+.marker-column {
+  composes: col-xs-2 from global;
+  padding: 0px;
+}

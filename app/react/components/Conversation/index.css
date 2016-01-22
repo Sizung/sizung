@@ -1,0 +1,58 @@
+.root {
+  position: relative;
+  width: 100%;
+  padding: 10px;
+  margin: 0 0 1px 0;
+
+  background-color: #ffffff;
+  color : #89949E;
+
+  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+}
+
+.actions {
+  display: none;
+}
+
+.root:hover .actions {
+  display: inline;
+}
+
+.action {
+  margin-left: 1em;
+  font-size: smaller;
+  color: #89949E;
+}
+
+.action:hover {
+  color: #89949E;
+}
+
+.default {
+  font-weight: 600;
+  font-size: 1.3em;
+}
+
+.row {
+  position: relative;
+  width: 100%;
+  min-height: 1em;
+  margin-bottom: 1em;
+}
+
+.content-container {
+  width: 100%;
+  padding-right: 30px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
