@@ -22,10 +22,6 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /\.scss$/,
-        loader: ExtractTextPlugin.extract('css!sass')
-      },
-      {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
         // loader: 'style-loader!css-loader?modules'
