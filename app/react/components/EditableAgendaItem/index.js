@@ -35,7 +35,11 @@ class EditableAgendaItem extends React.Component {
     })
         .then(response => response.json())
         .then(json => {
-          this.setState({ edit: true, agendaItems: Immutable.List(json.data.map(transformAgendaItemFromJsonApi)) });
+          const agendaItems = new Immutable.List(json.data.map(transformAgendaItemFromJsonApi));
+          const sortedAgendaItems = agendaItems.sortBy((agendaItem) => {
+            return agendaItem.createdAt;
+          });
+          this.setState({ edit: true, agendaItems: sortedAgendaItems });
         });
   }
 
