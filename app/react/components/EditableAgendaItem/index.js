@@ -105,7 +105,9 @@ class EditableAgendaItem extends React.Component {
   }
 
   renderEdit(selectedOption, options) {
-    const optionElementList = this.filteredOptions(this.state.filter, options).map((option) => {
+    const optionElementList = this.filteredOptions(this.state.filter, options).sortBy((option) => {
+      return option.title.toLowerCase();
+    }).map((option) => {
       return (
         <div styleName='agenda-item-row' onClick={() => this.handleOptionClick(option.id)} key={option.id}>
           <span styleName='agenda-item-column'>{this.displayOption(option)}</span>
