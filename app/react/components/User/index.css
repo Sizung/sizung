@@ -1,0 +1,110 @@
+.root {
+  max-width: 100%;
+}
+
+.root-inverted {
+  max-width: 100%;
+  border-radius: 50%/50%;
+  border: 1px solid #ffffff;
+}
+
+.name {
+  margin-left: 5px;
+}
+
+.email {
+  margin-left: 5px;
+}
+
+.user-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  vertical-align: middle;
+  color : #89949E;
+}
+
+.user-title-normal {
+  composes: user-title;
+  height: 30px;
+  line-height: 30px;
+}
+
+.user-title-large {
+  composes: user-title;
+  height: 40px;
+  line-height: 40px;
+}
+
+.user-title-small {
+  composes: user-title;
+  height: 25px;
+  line-height: 25px;
+}
+
+.circle-badge {
+  composes: blue-background from '../../styles/theme.css';
+  display: inline-block;
+  border-radius: 50%/50%;
+  background-color: #ffffff;
+  text-align: center;
+  color: #57C1E8;
+  border: 1px solid #57C1E8;
+}
+
+
+.circle-badge-normal {
+  composes: circle-badge;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  float: left;
+}
+
+.circle-badge-large {
+  composes: circle-badge;
+  width: 40px;
+  height: 40px;
+  font-size: larger;
+  line-height: 40px;
+}
+
+.circle-badge-small {
+  composes: circle-badge;
+  width: 25px;
+  height: 25px;
+  font-size: x-small;
+  line-height: 25px;
+}
+
+.circle-badge-online {
+  composes: circle-badge;
+  background-color: #57C1E8;
+  opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
+}
+
+.circle-badge-normal-online {
+  composes: circle-badge-normal;
+  background-color: #57C1E8;
+  opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
+}
+
+.circle-badge-large-online {
+  composes: circle-badge-large;
+  background-color: #57C1E8;
+  opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
+}
+
+.circle-badge-small-online {
+  composes: circle-badge-small;
+  background-color: #57C1E8;
+  opacity: 0.8;
+  color: #ffffff;
+  border-width: 0px;
+}

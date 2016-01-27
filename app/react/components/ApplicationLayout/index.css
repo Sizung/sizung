@@ -1,0 +1,44 @@
+.root {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+}
+
+.main-content {
+  padding: 0px;
+  position: absolute;
+  top: 50px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+
+  color: #ffffff;
+  opacity: 0.9;
+  background-color: #508991;
+  /*background : -moz-linear-gradient(50% 15.98% -90deg, rgb(183, 185, 187) 0%, rgb(59, 127, 153) 100%);*/
+  /*background : -webkit-linear-gradient(-90deg, rgba(183, 185, 187, 1) 0%,  rgb(59, 127, 153) 100%);*/
+  /*background : -webkit-gradient(linear,50% 15.98% ,50% 110.11% ,color-stop(0,rgba(183, 185, 187, 1) ),color-stop(1, rgb(59, 127, 153) ));*/
+  /*background : -o-linear-gradient(-90deg, rgba(183, 185, 187, 1) 0%,  rgb(59, 127, 153) 100%);*/
+  /*background : -ms-linear-gradient(-90deg, rgba(183, 185, 187, 1) 0%,  rgb(59, 127, 153) 100%);*/
+  /*-ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#B7B9BB', endColorstr='#3B7F99' ,GradientType=0)";*/
+  /*background : linear-gradient(180deg, rgba(183, 185, 187, 1) 0%,  rgb(59, 127, 153)100%);*/
+  /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#B7B9BB',endColorstr='#3B7F99' , GradientType=0);*/
+
+}
+
+.footer {
+  composes: text-center text-muted from global;
+  composes: nav-background from '../../styles/theme.css';
+  position: fixed;
+  bottom: 0px;
+  left:0px;
+  right:0px;
+  height: 20px;
+  line-height: 20px;
+  vertical-align: middle;
+  font-size: smaller;
+  /*background-color: #326273;*/
+  color: #ffffff;
+}

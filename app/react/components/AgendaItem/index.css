@@ -1,0 +1,58 @@
+.root {
+  position: relative;
+  cursor: pointer;
+}
+
+.default {
+  composes: card from '../../styles/modules/card.css';
+  composes: hover-container from '../../styles/modules/hover.css';
+}
+.selected {
+  composes: card-selected from '../../styles/modules/card.css';
+  composes: hover-container from '../../styles/modules/hover.css';
+}
+
+.row {
+  position: relative;
+  width: 100%;
+  min-height: 1em;
+  margin-bottom: 1em;
+}
+
+.content-container {
+  width: 100%;
+  padding-right: 30px;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+  font-weight: 600;
+}
+
+.status-container {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+.comments-icon {
+  composes: fa fa-comment-o from global;
+  vertical-align: bottom;
+}
+
+.deliverables-icon {
+  composes: fa fa-tasks from global;
+  margin-left: 2em;
+  vertical-align: bottom;
+}
+
+.bottom-row {
+  margin: 0px;
+  padding-bottom: 5px;
+}
+
+.user-container {
+  composes: pull-right from global;
+}

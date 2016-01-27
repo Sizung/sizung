@@ -4,8 +4,6 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
-  default_scope -> { where(archived_at: nil) }
-
   validates_presence_of :author, :commentable
 
   def title

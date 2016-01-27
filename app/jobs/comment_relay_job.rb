@@ -15,7 +15,7 @@ class CommentRelayJob < ActiveJob::Base
       conversation_id = deliverable.agenda_item.conversation_id
     end
 
-    ActionCable.server.broadcast "conversations:#{conversation_id}:comments",
+    ActionCable.server.broadcast "conversations:#{conversation_id}",
                                  payload: JSON.parse(payload),
                                  actor_id: actor_id,
                                  action: action

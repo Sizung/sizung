@@ -1,8 +1,11 @@
 @import "card";
 
 .conversation-index-header {
-  margin-bottom: 1em;
+  //margin-bottom: 1em;
+  margin: 0px;
+  padding: 10px;
   font-weight: 600;
+  background-color: #004346;
 }
 
 .conversation-index-header.a {

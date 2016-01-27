@@ -18,4 +18,15 @@ describe Deliverable do
     expect(conversation.organization.organization_members.size).must_equal 1
     expect(conversation.organization.organization_members.first.member).must_equal conversation.organization.owner
   end
+
+  it 'removes all agenda_items, deliverables and comments when it gets deleted' do
+    conversation = FactoryGirl.create(:conversation)
+    agenda_item  = FactoryGirl.create(:agenda_item, conversation: conversation)
+    deliverable  = FactoryGirl.create(:deliverable, agenda_item: agenda_item)
+    deliverable.destroy
+
+    expect{
+      conversation.reload.destroy!
+    }.must_change('Conversation.count', -1)
+  end
 end

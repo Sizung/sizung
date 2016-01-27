@@ -2,24 +2,24 @@ module Archival
   extend ActiveSupport::Concern
 
   included do
-    acts_as_archival
+    acts_as_paranoid column: :archived_at
   end
 
   def archived
-    !!archived?
+    !!paranoia_destroyed?
   end
 
   # Toggles the archive state of the model
   #
   # Returns true only if the archive state was toggled
   def toggle_archive(should_archive)
-    return false if should_archive.blank? || archived? == should_archive
+    return false if should_archive.blank? || paranoia_destroyed? == should_archive
 
     if should_archive
-      archive
+      destroy
       UnseenService.new.remove(self)
     else
-      unarchive
+      restore(recursive: true)
     end
 
     true

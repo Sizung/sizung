@@ -37,7 +37,7 @@ describe CommentsController do
       patch :update, id: @comment.id, comment: { archived: true }
 
       assert_response :success
-      expect(@comment.reload).must_be :archived?
+      expect(@comment.reload).must_be :paranoia_destroyed?
     end
 
     it 'should freeze archived comments' do

@@ -1,0 +1,92 @@
+.root {
+  position: relative;
+  margin: 5px 40px 5px 0px;
+  padding: 5px 0px;
+  color : #89949E;
+}
+
+.user-container {
+  display: table-cell;
+  height: 40px;
+  width: 60px;
+  padding: 0px 15px;
+  vertical-align: top;
+}
+
+.title-container {
+  font-weight: 600;
+  color : #89949E;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+}
+
+.content-container {
+  composes: hover-container from '../../styles/modules/hover.css';
+  display: table-cell;
+  width: 100%;
+  padding: 15px;
+  background-color: #E1F2FE;
+}
+
+.content-container-inverted {
+  composes: content-container;
+  padding: 5px;
+  background-color: transparent;
+}
+
+.status-container {
+  composes: pull-right from global;
+  margin-top: -5px;
+  margin-right: 0px;
+}
+
+.time-container {
+  composes: col-xs-12 from global;
+  margin-top: 5px;
+  padding: 0px;
+  color : #9aa5af;
+  min-height: 23px;
+}
+
+.time-container-inverse {
+  composes: time-container;
+  color : #ffffff;
+}
+
+.discuss-link {
+  composes: hover-inline from '../../styles/modules/hover.css';
+  composes: pull-right from global;
+}
+
+.discuss-link-hide {
+  display: none;
+}
+
+.agenda-item-icon {
+  composes: fa fa-tag from global;
+  float: left;
+  padding: 5px 10px 0px 0px;
+}
+
+.action-btn {
+  composes: btn btn-xs btn-default from global;
+  margin: -1px 0px;
+}
+
+.archive-wrapper {
+  position: absolute;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: #ffffff;
+  opacity: 0.6;
+  z-index: 100;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}

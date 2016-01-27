@@ -1,11 +1,9 @@
 class UserChannel < ApplicationCable::Channel
   def subscribed
-    logger.info "#{current_user} ONLINE"
     current_user.appear
   end
 
   def unsubscribed
-    logger.info "#{current_user} OFFLINE"
     current_user.disappear
   end
 
