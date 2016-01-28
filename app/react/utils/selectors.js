@@ -17,6 +17,10 @@ const agendaItemsForOrganization = (state, organizationId) => {
 
   return references.map((reference) => {
     return fillConversationObject(state, reference);
+  }).toList().filter((agendaItem) => {
+    return !agendaItem.archived;
+  }).sortBy((conversationObject) => {
+    return conversationObject.createdAt;
   });
 };
 
