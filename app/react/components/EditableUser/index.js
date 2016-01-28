@@ -79,7 +79,9 @@ class EditableUser extends React.Component {
   }
 
   renderEdit(selectedUser, users) {
-    const options = this.filteredOptions(this.state.filter, users).map((user) => {
+    const options = this.filteredOptions(this.state.filter, users).sortBy((user) => {
+      return ( user.firstName && user.lastName) ?  (user.firstName + ' ' + user.lastName).toLowerCase() : user.email.toLowerCase();
+    }).map((user) => {
       return (
         <div styleName='user-row' onClick={() => this.handleUserClick(user.id)} key={user.id}>
             <span styleName='user-column'><User user={user} showName={true}/></span>
