@@ -82,6 +82,8 @@ const conversationsForOrganization = (state, organizationId) => {
 
   return references.map((reference) => {
     return fillConversationObject(state, reference);
+  }).toList().sortBy((conv) => {
+    return conv.title;
   });
 };
 
