@@ -20,9 +20,9 @@ class ConversationLayout extends Component {
   }
 
   componentDidMount() {
-    this.leftPanelNode = this.refs.leftPanel;
-    this.centerPanelNode = this.refs.centerPanel;
-    this.rightPanelNode = this.refs.rightPanel;
+    this.leftPanelNode = React.findDOMNode(this.refs.leftPanel);
+    this.centerPanelNode = React.findDOMNode(this.refs.centerPanel);
+    this.rightPanelNode = React.findDOMNode(this.refs.rightPanel);
   }
 
   componentWillReceiveProps() {

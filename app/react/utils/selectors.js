@@ -20,6 +20,47 @@ const agendaItemsForOrganization = (state, organizationId) => {
   });
 };
 
+const agendaItemIdsForConversation = (state, conversationId) => {
+  const agendaItemIdsToShow = state.getIn(['agendaItemsByConversation', conversationId]);
+
+  if (!agendaItemIdsToShow) {
+    return new Immutable.List();
+  }
+
+  return agendaItemIdsToShow.get('references');
+};
+
+const deliverableReferencesForAgendaItem = (state, agendaItemId) => {
+  const deliverableReferences = state.getIn(['deliverablesByAgendaItem', agendaItemId]);
+  if (!deliverableReferences) {
+    return new Immutable.List();
+  }
+
+  return deliverableReferences.get('references');
+};
+
+const deliverablesForAgendaItem = (state, agendaItemId) => {
+  const deliverableReferences = deliverableReferencesForAgendaItem(state, agendaItemId);
+  return deliverableReferences.map((ref) => {
+    return fillConversationObject(state, ref);
+  }).filter((deliverable) => {
+    return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
+  }).toList().sortBy((deliverable) => {
+    return deliverable.dueOn ? 'A' + deliverable.dueOn : 'B' + deliverable.createdAt;
+  });
+};
+
+const deliverablesForConversation = (state, conversationId) => {
+  const agendaItemIds = agendaItemIdsForConversation(state, conversationId).map(agendaItem => agendaItem.id);
+  return agendaItemIds.map((agendaItemId) => {
+    return deliverablesForAgendaItem(state, agendaItemId);
+  }).flatten().filter((deliverable) => {
+    return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
+  }).toList().sortBy((deliverable) => {
+    return deliverable.dueOn ? 'A' + deliverable.dueOn : 'B' + deliverable.createdAt;
+  });
+};
+
 const deliverablesForOrganization = (state, organizationId) => {
   const references = state.getIn(['deliverablesByOrganization', organizationId, 'references']);
   if (!references) {
@@ -107,13 +148,7 @@ const conversationObjects = (state, objectsToShow) => {
 };
 
 const agendaItemsList = (state, conversationId) => {
-  const agendaItemIdsToShow = state.getIn(['agendaItemsByConversation', conversationId]);
-
-  if (!agendaItemIdsToShow) {
-    return new Immutable.List();
-  }
-
-  const agendaItemIds = agendaItemIdsToShow.get('references');
+  const agendaItemIds = agendaItemIdsForConversation(state, conversationId);
 
   return agendaItemIds.map((ref) => {
     return state.getIn(['entities', 'agendaItems', ref.id]);
@@ -138,6 +173,8 @@ export {
   conversationMembersAsUsers,
   agendaItemsForOrganization,
   deliverablesForOrganization,
+  deliverablesForConversation,
+  deliverablesForAgendaItem,
   conversationsForOrganization,
   organization,
   conversation,

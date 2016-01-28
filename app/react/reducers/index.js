@@ -13,6 +13,7 @@ import conversationMembersByConversation from './conversationMembersByConversati
 import conversationsByOrganization from './conversationsByOrganization';
 import agendaItemsByOrganization from './agendaItemsByOrganization';
 import deliverablesByOrganization from './deliverablesByOrganization';
+import deliverablesByAgendaItem from './deliverablesByAgendaItem';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import entitiesReducer from './entitiesReducer';
 
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   conversationsByOrganization,
   agendaItemsByOrganization,
   deliverablesByOrganization,
+  deliverablesByAgendaItem,
   conversationMembersByConversation,
 });
 
