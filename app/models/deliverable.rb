@@ -10,10 +10,6 @@ class Deliverable < ActiveRecord::Base
 
   validates_presence_of :agenda_item, :owner, :title, :assignee, :status
 
-  def comments_count
-    comments.size
-  end
-
   def deliverable
     self
   end
