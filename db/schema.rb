@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160119120809) do
+ActiveRecord::Schema.define(version: 20160129160913) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,12 +20,13 @@ ActiveRecord::Schema.define(version: 20160119120809) do
   create_table "agenda_items", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "conversation_id"
     t.uuid     "owner_id"
-    t.string   "title",           null: false
-    t.string   "status",          default: "open", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string   "title",              null: false
+    t.string   "status",             default: "open", null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
     t.string   "archive_number"
     t.datetime "archived_at"
+    t.integer  "deliverables_count", default: 0,      null: false
   end
   add_index "agenda_items", ["conversation_id"], name: "index_agenda_items_on_conversation_id", using: :btree
   add_index "agenda_items", ["created_at"], name: "index_agenda_items_on_created_at", order: {"created_at"=>:desc}, using: :btree
@@ -90,7 +91,8 @@ SELECT comments.id,
     NULL::uuid AS assignee_id,
     NULL::date AS due_on,
     comments.archive_number,
-    comments.archived_at
+    comments.archived_at,
+    NULL::integer AS deliverables_count
    FROM comments
 UNION ALL
  SELECT agenda_items.id,
@@ -111,7 +113,8 @@ UNION ALL
     NULL::uuid AS assignee_id,
     NULL::date AS due_on,
     agenda_items.archive_number,
-    agenda_items.archived_at
+    agenda_items.archived_at,
+    agenda_items.deliverables_count
    FROM agenda_items
 UNION ALL
  SELECT deliverables.id,
@@ -132,7 +135,8 @@ UNION ALL
     deliverables.assignee_id,
     deliverables.due_on,
     deliverables.archive_number,
-    deliverables.archived_at
+    deliverables.archived_at,
+    NULL::integer AS deliverables_count
    FROM deliverables
   END_VIEW_CONVERSATION_OBJECTS
 

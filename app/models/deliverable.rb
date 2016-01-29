@@ -1,7 +1,7 @@
 class Deliverable < ActiveRecord::Base
   include Archival
 
-  belongs_to :agenda_item
+  belongs_to :agenda_item, counter_cache: true
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   belongs_to :assignee, class_name: 'User', foreign_key: 'assignee_id'
 
