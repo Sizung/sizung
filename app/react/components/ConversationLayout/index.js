@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom';
 import { Row, Col } from 'react-bootstrap';
 
 import AgendaItemListApp from '../../containers/AgendaItemListApp';
@@ -20,9 +21,9 @@ class ConversationLayout extends Component {
   }
 
   componentDidMount() {
-    this.leftPanelNode = React.findDOMNode(this.refs.leftPanel);
-    this.centerPanelNode = React.findDOMNode(this.refs.centerPanel);
-    this.rightPanelNode = React.findDOMNode(this.refs.rightPanel);
+    this.leftPanelNode = ReactDOM.findDOMNode(this.refs.leftPanel);
+    this.centerPanelNode = ReactDOM.findDOMNode(this.refs.centerPanel);
+    this.rightPanelNode = ReactDOM.findDOMNode(this.refs.rightPanel);
   }
 
   componentWillReceiveProps() {
