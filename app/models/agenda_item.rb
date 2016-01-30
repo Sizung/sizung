@@ -11,14 +11,6 @@ class AgendaItem < ActiveRecord::Base
 
   validates_presence_of :conversation, :owner, :title, :status
 
-  def comments_count
-    comments.size
-  end
-
-  def deliverables_count
-    deliverables.size
-  end
-
   def deliverable
     nil
   end

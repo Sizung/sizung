@@ -31,12 +31,12 @@ class OrganizationsController < ApplicationController
       end
 
       format.json do
-        @organization = policy_scope(Organization).includes(:organization_members).find(params[:id])
+        @organization = policy_scope(Organization).includes(organization_members: :member).find(params[:id])
         authorize @organization
 
-        @conversations = policy_scope(Conversation).where(organization: @organization)
-        @agenda_items = AgendaItem.where(conversation: @conversations)
-        @deliverables = Deliverable.where(agenda_item: @agenda_items).where(assignee: current_user)
+        @conversations = policy_scope(Conversation).where(organization: @organization).includes(:agenda_items, :deliverables, :conversation_members, :organization)
+        @agenda_items = AgendaItem.where(conversation: @conversations).includes(:deliverables, :conversation, :owner)
+        @deliverables = Deliverable.where(agenda_item: @agenda_items).where(assignee: current_user).includes(:agenda_item, :owner, :assignee)
 
         render json: @organization,
                include: %w(organization_members),

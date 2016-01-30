@@ -3,5 +3,4 @@ class AgendaItemSerializer < ActiveModel::Serializer
   belongs_to :conversation
   belongs_to :owner
   has_many :deliverables
-  has_many :unseen_objects
 end
