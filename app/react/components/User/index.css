@@ -1,5 +1,6 @@
 .root {
   max-width: 100%;
+  display: inline-block;
 }
 
 .root-inverted {
@@ -50,6 +51,7 @@
   text-align: center;
   color: #57C1E8;
   border: 1px solid #57C1E8;
+  float: left;
 }
 
 
@@ -58,7 +60,6 @@
   width: 30px;
   height: 30px;
   line-height: 30px;
-  float: left;
 }
 
 .circle-badge-large {

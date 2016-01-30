@@ -31,21 +31,19 @@
 }
 
 .default {
-  font-weight: 600;
-  font-size: 1.3em;
 }
 
 .row {
   position: relative;
   width: 100%;
   min-height: 1em;
-  margin-bottom: 1em;
 }
 
 .content-container {
   width: 100%;
-  padding-right: 30px;
   overflow: hidden;
+  font-weight: 600;
+  font-size: 1.3em;
   overflow-wrap: break-word;
   word-wrap: break-word;
 

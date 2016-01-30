@@ -47,6 +47,7 @@ export function transformConversationFromJsonApi(conversation) {
     organizationId: conversation.relationships.organization.data.id,
     created_at: conversation.created_at,
     updated_at: conversation.updated_at,
+    members: conversation.relationships.members.data.map(transformConversationMemberAsMemberFromJsonApi),
   };
 }
 
@@ -107,6 +108,13 @@ export function transformUserFromJsonApi(user) {
     lastName: user.attributes.last_name,
     name: user.attributes.first_name + user.attributes.last_name,
     presenceStatus: user.attributes.presence_status,
+  };
+}
+
+export function transformConversationMemberAsMemberFromJsonApi(user) {
+  return {
+    id: user.id,
+    type: 'users',
   };
 }
 

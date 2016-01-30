@@ -10,9 +10,15 @@ import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
 import CommentsCounter from '../CommentsCounter';
 import DeliverablesCounter from '../DeliverablesCounter';
+import User from '../User';
 
 @CSSModules(styles)
 class Conversation extends React.Component {
+
+  constructor() {
+    super();
+    this.renderConversationMembers = this.renderConversationMembers.bind(this);
+  }
 
   static renderUnseenBadge(count, selected) {
     if (!selected && count && count > 0) {
@@ -20,8 +26,23 @@ class Conversation extends React.Component {
     }
   }
 
+  renderConversationMembers() {
+    const { conversation, visitConversation, users } = this.props;
+    let conversationMembersDOM = [];
+    conversation.members.map((member) => {
+      const filteredUsers = users.filter((user) => {
+        return user.id === member.id;
+      });
+      if (filteredUsers !== null && filteredUsers.size === 1) {
+        conversationMembersDOM.push(<User user={ filteredUsers.get(0) } showName={ false } size={'small'} style={{ marginRight: '2px', marginBottom: '2px'}}/>);
+      }
+    });
+    return conversationMembersDOM;
+  }
+
   render() {
     const { conversation, visitConversation } = this.props;
+
     return (
       <div styleName="root">
         {Conversation.renderUnseenBadge(conversation.unseenCount, false)}
@@ -42,6 +63,9 @@ class Conversation extends React.Component {
                 </small>
               </div>
             </div>
+            <div className='row zero-padding zero-margin'>
+              {this.renderConversationMembers()}
+            </div>
           </div>
         </div>
       </div>
@@ -54,7 +78,9 @@ Conversation.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     unseenCount: PropTypes.number.isRequired,
+    members: PropTypes.array.isRequired,
   }).isRequired,
+  users: PropTypes.object.isRequired
 };
 
 export default Conversation;

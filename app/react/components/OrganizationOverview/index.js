@@ -35,7 +35,7 @@ class OrganizationOverview extends Component {
   }
   conversationElements = (conversations) => {
     const elements = conversations.map((conversation) => {
-      return <Conversation key={ conversation.id } conversation={ conversation }/>;
+      return <Conversation key={ conversation.id } conversation={ conversation } users={ this.props.users }/>;
     }).toJS();
 
     return elements;
@@ -80,6 +80,7 @@ OrganizationOverview.propTypes = {
   deliverables: PropTypes.object.isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
   selectDeliverable: PropTypes.func.isRequired,
+  users: PropTypes.object.isRequired
 };
 
 export default OrganizationOverview;
