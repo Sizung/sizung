@@ -54,3 +54,8 @@
   -webkit-hyphens: auto;
   hyphens: auto;
 }
+
+.member-container {
+  display: inline-block;
+  margin: 0px 2px 2px 0px;
+}

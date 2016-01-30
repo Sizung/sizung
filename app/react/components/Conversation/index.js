@@ -34,7 +34,7 @@ class Conversation extends React.Component {
         return user.id === member.id;
       });
       if (filteredUsers !== null && filteredUsers.size === 1) {
-        conversationMembersDOM.push(<User user={ filteredUsers.get(0) } showName={ false } size={'small'} style={{ marginRight: '2px', marginBottom: '2px'}}/>);
+        conversationMembersDOM.push(<div styleName='member-container'><User user={ filteredUsers.get(0) } showName={ false } size={'small'}/></div>);
       }
     });
     return conversationMembersDOM;
