@@ -11,6 +11,7 @@ import UnseenBadge from '../UnseenBadge';
 import CommentsCounter from '../CommentsCounter';
 import DeliverablesCounter from '../DeliverablesCounter';
 import User from '../User';
+import Immutable from 'immutable';
 
 @CSSModules(styles)
 class Conversation extends React.Component {
@@ -29,13 +30,19 @@ class Conversation extends React.Component {
   renderConversationMembers() {
     const { conversation, visitConversation, users } = this.props;
     let conversationMembersDOM = [];
+    let conversationMembers = new Immutable.List();
     conversation.members.map((member) => {
       const filteredUsers = users.filter((user) => {
         return user.id === member.id;
       });
       if (filteredUsers !== null && filteredUsers.size === 1) {
-        conversationMembersDOM.push(<div styleName='member-container'><User user={ filteredUsers.get(0) } showName={ false } size={'small'}/></div>);
+        conversationMembers = conversationMembers.push(filteredUsers.get(0));
       }
+    });
+    conversationMembers.sortBy((member) => {
+      return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+    }).map((member) => {
+      conversationMembersDOM.push(<div styleName='member-container'><User user={ member } showName={ false } size={'small'}/></div>);
     });
     return conversationMembersDOM;
   }

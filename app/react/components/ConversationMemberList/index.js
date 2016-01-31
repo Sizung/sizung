@@ -3,6 +3,7 @@ import User from './../User';
 import SelectableUser from './../SelectableUser';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
+import Immutable from 'immutable';
 
 @CSSModules(styles)
 class ConversationMemberList extends React.Component {
@@ -58,7 +59,9 @@ class ConversationMemberList extends React.Component {
     if (this.props.conversationMembers !== null) {
       const _this = this;
       return (
-          _this.filteredOptions(_this.state.filter, _this.props.organizationMembers).map(function (user, i) {
+          _this.filteredOptions(_this.state.filter, _this.props.organizationMembers).sortBy((option) => {
+            return option.name === null ? option.email.toLowerCase() : option.name.toLowerCase();
+          }).map(function (user, i) {
             var existingMember = _this.props.conversationMembers.find(function (member) {
               return (member.memberId === user.id);
             });
@@ -77,18 +80,23 @@ class ConversationMemberList extends React.Component {
   renderConversationMemberList() {
     if (this.props.conversationMembers != null) {
       const _this = this;
+      let conversationMembersAsUsers = new Immutable.List();
+      _this.props.conversationMembers.map(function (user) {
+        let conversationMember = null;
+        _this.props.organizationMembers.forEach(function (obj) {
+          if (obj.id === user.memberId) {
+            conversationMembersAsUsers = conversationMembersAsUsers.push(obj);
+          }
+        });
+      });
       return (
-          _this.props.conversationMembers.map(function (user) {
-            let conversationMember = null;
-            _this.props.organizationMembers.forEach(function (obj) {
-              if (obj.id === user.memberId) {
-                conversationMember = obj;
-              }
-            });
-            return (<User key={conversationMember.id} user={conversationMember} showName={false}
-              style={{ display: 'inline-block', marginTop: '5px', marginBottom: '5px', marginRight: '5px' }}
-            />);
-          })
+        conversationMembersAsUsers.sortBy((option) => {
+          return option.name === null ? option.email.toLowerCase() : option.name.toLowerCase();
+        }).map((conversationMember) => {
+          return (<User key={conversationMember.id} user={conversationMember} showName={false}
+            style={{ display: 'inline-block', marginTop: '5px', marginBottom: '5px', marginRight: '5px' }}
+          />);
+        })
       );
     }
     return '';
