@@ -10,9 +10,16 @@ import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
 import CommentsCounter from '../CommentsCounter';
 import DeliverablesCounter from '../DeliverablesCounter';
+import User from '../User';
+import Immutable from 'immutable';
 
 @CSSModules(styles)
 class Conversation extends React.Component {
+
+  constructor() {
+    super();
+    this.renderConversationMembers = this.renderConversationMembers.bind(this);
+  }
 
   static renderUnseenBadge(count, selected) {
     if (!selected && count && count > 0) {
@@ -20,8 +27,29 @@ class Conversation extends React.Component {
     }
   }
 
+  renderConversationMembers() {
+    const { conversation, visitConversation, users } = this.props;
+    let conversationMembersDOM = [];
+    let conversationMembers = new Immutable.List();
+    conversation.members.map((member) => {
+      const filteredUsers = users.filter((user) => {
+        return user.id === member.id;
+      });
+      if (filteredUsers !== null && filteredUsers.size === 1) {
+        conversationMembers = conversationMembers.push(filteredUsers.get(0));
+      }
+    });
+    conversationMembers.sortBy((member) => {
+      return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+    }).map((member) => {
+      conversationMembersDOM.push(<div styleName='member-container'><User user={ member } showName={ false } size={'small'}/></div>);
+    });
+    return conversationMembersDOM;
+  }
+
   render() {
     const { conversation, visitConversation } = this.props;
+
     return (
       <div styleName="root">
         {Conversation.renderUnseenBadge(conversation.unseenCount, false)}
@@ -42,6 +70,9 @@ class Conversation extends React.Component {
                 </small>
               </div>
             </div>
+            <div className='row zero-padding zero-margin'>
+              {this.renderConversationMembers()}
+            </div>
           </div>
         </div>
       </div>
@@ -54,7 +85,9 @@ Conversation.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     unseenCount: PropTypes.number.isRequired,
+    members: PropTypes.array.isRequired,
   }).isRequired,
+  users: PropTypes.object.isRequired
 };
 
 export default Conversation;

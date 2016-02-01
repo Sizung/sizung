@@ -42,7 +42,7 @@ class OrganizationApp extends React.Component {
   };
 
   render() {
-    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, selectDeliverable } = this.props;
+    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, selectDeliverable, users } = this.props;
 
     if (organization && conversations) {
       return (
@@ -53,6 +53,7 @@ class OrganizationApp extends React.Component {
           deliverables={deliverables || new Immutable.List()}
           visitAgendaItem={visitAgendaItem}
           selectDeliverable={selectDeliverable}
+          users={users}
         />
       );
     }
@@ -72,6 +73,7 @@ function mapStateToProps(state, props) {
     conversations: selectors.conversationsForOrganization(state, props.params.organizationId),
     agendaItems: selectors.agendaItemsForOrganization(state, props.params.organizationId),
     deliverables: selectors.deliverablesForOrganization(state, props.params.organizationId),
+    users: selectors.users(state),
   };
 }
 

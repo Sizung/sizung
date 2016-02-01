@@ -90,6 +90,7 @@ const conversationsForOrganization = (state, organizationId) => {
     return conv.title;
   });
 };
+const users = (state) => state.getIn(['entities', 'users']).toList();
 
 const currentUser = (state) => state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
 const currentConversation = (state) => state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
@@ -168,6 +169,7 @@ const agendaItemsList = (state, conversationId) => {
 };
 
 export {
+  users,
   currentUser,
   currentConversation,
   currentOrganization,

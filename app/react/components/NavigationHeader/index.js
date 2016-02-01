@@ -80,7 +80,7 @@ class NavigationHeader extends Component {
                       <User  user={this.props.currentUser} size='normal' showName={false}/>
                     </div>
                     <div styleName='user-container-hidden-xs'>
-                      <span styleName='caret' style={{marginTop: '15px'}}></span><User user={this.props.currentUser} size='normal' showName={true}/>
+                      <span styleName='caret' style={{marginTop: '15px'}}></span><User user={this.props.currentUser} size='normal' showName={true} style={{paddingRight: '10px'}}/>
                     </div>
                   </a>
                   <ul className="dropdown-menu dropdown-menu-right">

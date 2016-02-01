@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import CommentForm from './../CommentForm/index';
 import Comment from './../Comment/index';
 import AgendaItemInTimeline from './../AgendaItemInTimeline';
@@ -24,6 +25,7 @@ class ConversationObjectList extends Component {
       this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
     }
     this.scrollListToBottom = this.scrollListToBottom.bind(this);
+    this.scrollListToTop = this.scrollListToTop.bind(this);
     this.adjustConversationListHeight = this.adjustConversationListHeight.bind(this);
     this.handleBackClick = this.handleBackClick.bind(this);
     this.toggleConversationMembersView = this.toggleConversationMembersView.bind(this);
@@ -90,6 +92,15 @@ class ConversationObjectList extends Component {
     });
   }
 
+  scrollListToTop() {
+    window.requestAnimationFrame(() => {
+      if (this.listNode) {
+        this.listNode.scrollTop = 0;
+        this.hideNewActivityMarker();
+      }
+    });
+  }
+
   handleBackClick(e){
     e.preventDefault();
     if ( null != this.props.commentForm.parent && this.props.commentForm.parent.type == "deliverables" ){
@@ -141,7 +152,7 @@ class ConversationObjectList extends Component {
   }
 
   componentDidMount() {
-    const conversationObjectList = this.refs.conversationObjectList;
+    const conversationObjectList = ReactDOM.findDOMNode(this.refs.conversationObjectList);
     if (conversationObjectList) {
       this.listNode = conversationObjectList;
       window.addEventListener("resize", this.adjustConversationListHeight);
@@ -161,7 +172,7 @@ class ConversationObjectList extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    this.listNode = this.refs.conversationObjectList;
+    this.listNode = ReactDOM.findDOMNode(this.refs.conversationObjectList);
     let _this = this;
     $(this.listNode).scroll(function () {
       if($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
@@ -170,15 +181,18 @@ class ConversationObjectList extends Component {
     });
 
     if (!this.state.isConversationMembersViewVisible) {
-      this.commentFormNode = this.refs.listFooter;
-      this.newActivityMarkerNode = this.refs.newActivityMarker;
+      this.commentFormNode = ReactDOM.findDOMNode(this.refs.listFooter);
+      this.newActivityMarkerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
     }
-    // this.listNode = this.refs.conversationObjectList.getDOMNode();
 
     if (this.shouldScrollBottom) {
-      this.scrollListToBottom();
+      if (!this.state.isConversationMembersViewVisible) {
+        this.scrollListToBottom();
+      } else {
+        this.scrollListToTop();
+      }
     } else {
-      this.markerNode = this.refs.newActivityMarker;
+      this.markerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
       if (this.props.conversationObjects.length - prevProps.conversationObjects.length === 1) {
         this.newActivityTimer = 5;
         this.showNewActivityMarker();
