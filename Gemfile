@@ -60,6 +60,7 @@ gem 'schema_plus_views'
 gem 'kaminari'
 gem 'paranoia', '~> 2.0'
 gem 'newrelic_rpm'
+gem 'activeadmin', '~> 1.0.0.pre2'
 
 group :production do
   gem 'rails_12factor'
