@@ -32,15 +32,13 @@ class UnseenService
     unseen_objects.destroy_all
   end
 
-  def moved(object, actor)
-    unseen_objects = UnseenObject.all.where(target: object)
+  def movedDeliverable(deliverable, actor)
+    unseen_objects = UnseenObject.all.where(deliverable: deliverable)
     unseen_objects.each do |unseen_object|
+      unseen_object.update agenda_item_id: deliverable.agenda_item_id
       ActionCable.server.broadcast "users:#{unseen_object.user_id}",
                                    payload: ActiveModel::SerializableResource.new(unseen_object).serializable_hash,
-                                   action: 'delete'
+                                   action: 'update'
     end
-    unseen_objects.destroy_all
-
-    handle_with(object, actor)
   end
 end

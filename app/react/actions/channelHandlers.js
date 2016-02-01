@@ -8,7 +8,7 @@ import * as transform from '../utils/jsonApiUtils';
 const onUserChannelReceived = (data) => {
   return (dispatch) => {
     if (data.payload.data.type === 'unseen_objects') {
-      if (data.action === 'create') {
+      if (data.action === 'create' || data.action === 'update') {
         dispatch(unseenObjects.createUnseenObjectRemoteOrigin(transform.transformUnseenObjectFromJsonApi(data.payload.data)));
       } else if (data.action === 'delete') {
         dispatch(unseenObjects.deleteUnseenObjectRemoteOrigin(transform.transformUnseenObjectFromJsonApi(data.payload.data)));

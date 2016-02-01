@@ -40,7 +40,6 @@ export default class Root extends Component {
 
   componentDidMount() {
     ws.followUserChannel(this.props.currentUser.id, bindActionCreators(channelHandlers.onUserChannelReceived, store.dispatch));
-    // setupWebSocket(store);
   }
 
   componentWillUnmount() {
