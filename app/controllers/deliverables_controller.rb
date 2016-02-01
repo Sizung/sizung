@@ -27,6 +27,7 @@ class DeliverablesController < ApplicationController
     if @deliverable.toggle_archive(params[:deliverable][:archived]) || @deliverable.update(deliverable_params)
       DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')
       if(deliverable_params[:agenda_item_id].present? && deliverable_params[:agenda_item_id] != original_agenda_item_id)
+        AgendaItemRelayJob.perform_later(agenda_item: AgendaItem.find(original_agenda_item_id), actor_id: nil, action: 'update')
         UnseenService.new.moved(@deliverable, current_user)
       end
     end

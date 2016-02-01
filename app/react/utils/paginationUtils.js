@@ -52,7 +52,9 @@ export function add(state, key, reference) {
 }
 
 export function update(state, key, reference) {
-  return state.map((map, k) => {
+  const ensuredMap = currentMap(state, key);
+  const newState = state.set(key, ensuredMap);
+  return newState.map((map, k) => {
     if (k === key) {
       return map.set('references', map.get('references').add(reference));
     }
