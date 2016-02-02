@@ -1,14 +1,14 @@
 require 'test_helper'
 
-describe ConversationMembersController do
+describe Api::ConversationMembersController do
   include Devise::TestHelpers
 
   describe 'visitor' do
     it 'should not be allowed to create a new conversation member' do
       conversation = FactoryGirl.create :conversation
       user = FactoryGirl.create :user
-      post :create, conversation_member: {conversation_id: conversation.id, member_id: user.id}
-      assert_redirected_to new_user_session_path
+      post :create, conversation_member: {conversation_id: conversation.id, member_id: user.id}, format: :json
+      assert_response 401
     end
   end
 

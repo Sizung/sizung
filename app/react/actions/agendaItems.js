@@ -49,7 +49,7 @@ export function fetchAgendaItemSuccess(agendaItem, included) {
 
 export function updateAgendaItem(id, changedFields) {
   return (dispatch) => {
-    return fetch('/agenda_items/' + id, {
+    return fetch('/api/agenda_items/' + id, {
       method: 'PUT',
       credentials: 'include', // send cookies with it
       headers: {
@@ -103,7 +103,7 @@ function shouldFetch(getState, agendaItemId) {
 }
 
 function fetchAgendaItem(agendaItemId, dispatch) {
-  return fetch('/agenda_items/' + agendaItemId, {
+  return fetch('/api/agenda_items/' + agendaItemId, {
     method: 'get',
     credentials: 'include', // send cookies with it
     headers: {
@@ -120,7 +120,7 @@ function fetchAgendaItem(agendaItemId, dispatch) {
 }
 
 function fetchObjects(agendaItemId, dispatch) {
-  return fetch('/agenda_items/' + agendaItemId + '/conversation_objects', {
+  return fetch('/api/agenda_items/' + agendaItemId + '/conversation_objects', {
     method: 'get',
     credentials: 'include', // send cookies with it
     headers: {
@@ -182,7 +182,7 @@ export function createAgendaItemRemoteOrigin(agendaItem) {
 
 export function createAgendaItem(agendaItem) {
   return (dispatch) => {
-    return fetch('/agenda_items', {
+    return fetch('/api/agenda_items', {
       method: 'post',
       credentials: 'include', // send cookies with it
       headers: {

@@ -42,7 +42,7 @@ export function updateDeliverableSuccess(deliverable) {
 
 export function updateDeliverable(id, changedFields) {
   return function(dispatch) {
-    return fetch('/deliverables/' + id, {
+    return fetch('/api/deliverables/' + id, {
       method: 'PUT',
       credentials: 'include', // send cookies with it
       headers: {
@@ -63,7 +63,7 @@ export function updateDeliverable(id, changedFields) {
 
 export function backToConversation(conversationId) {
   return function(dispatch) {
-    dispatch(routeActions.push('/conversations/' + conversationId));
+    dispatch(routeActions.push('/api/conversations/' + conversationId));
   };
 }
 
@@ -96,7 +96,7 @@ function shouldFetch(getState, deliverableId) {
 }
 
 function fetchObjects(conversationId, agendaItemId, deliverableId, dispatch) {
-  return fetch('/deliverables/' + deliverableId + '/conversation_objects', {
+  return fetch('/api/deliverables/' + deliverableId + '/conversation_objects', {
     method: 'get',
     credentials: 'include', // send cookies with it
     headers: {
@@ -159,7 +159,7 @@ export function createDeliverableRemoteOrigin(deliverable) {
 
 export function createDeliverable(deliverable) {
   return (dispatch) => {
-    return fetch('/deliverables', {
+    return fetch('/api/deliverables', {
       method: 'post',
       credentials: 'include', // send cookies with it
       headers: {

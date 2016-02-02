@@ -26,11 +26,11 @@ const setCurrentConversation = (conversation, included, json) => {
 
 const fetchConversation = (conversationId) => {
   return (dispatch) => {
-    api.fetchJson('/conversations/' + conversationId + '/unseen_objects', (json) => {
+    api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
       dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
     });
 
-    api.fetchJson('/conversations/' + conversationId, (json) => {
+    api.fetchJson('/api/conversations/' + conversationId, (json) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
       dispatch(setCurrentOrganization({ id: conversation.organizationId, type: 'organizations' }));
@@ -50,7 +50,7 @@ const fetchConversationObjectsSuccess = (parentReference, conversationObjects, l
 }
 
 const fetchObjects = (conversationId, dispatch) => {
-  return api.fetchJson('/conversations/' + conversationId + '/conversation_objects', (json) => {
+  return api.fetchJson('/api/conversations/' + conversationId + '/conversation_objects', (json) => {
     dispatch(
       fetchConversationObjectsSuccess(
         { type: 'conversations', id: conversationId },

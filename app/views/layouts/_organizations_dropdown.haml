@@ -7,7 +7,7 @@
       - policy_scope(Organization).each do |organization|
         - unless @organization.present? && @organization.id == organization.id
           %li
-            = link_to organization.name, organization_conversations_path(organization) if organization.id
+            = link_to organization.name, organization_path(organization) if organization.id
       %li.divider{role: 'separator'}
       %li
         = link_to new_organization_path do

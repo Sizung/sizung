@@ -80,7 +80,7 @@ export function createComment(comment) {
   }
 
   return (dispatch) => {
-    return fetch('/comments', {
+    return fetch('/api/comments', {
       method: 'post',
       credentials: 'include', // send cookies with it
       headers: {
@@ -109,7 +109,7 @@ export function updateComment(comment) {
   }
 
   return (dispatch) => {
-    return fetch('/comments/' + comment.id, {
+    return fetch('/api/comments/' + comment.id, {
       method: 'put',
       credentials: 'include', // send cookies with it
       headers: {
@@ -130,7 +130,7 @@ export function updateComment(comment) {
 
 export function deleteComment(commentId) {
   return (dispatch) => {
-    return fetch('/comments/' + commentId, {
+    return fetch('/api/comments/' + commentId, {
       method: 'delete',
       credentials: 'include', // send cookies with it
       headers: {
