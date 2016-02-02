@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  devise_for :admin_users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
   concern :list_conversation_objects do |options|
     resources :conversation_objects, options.merge(only: [:index])
   end

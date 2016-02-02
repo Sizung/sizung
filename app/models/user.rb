@@ -9,6 +9,9 @@ class User < ActiveRecord::Base
   has_many :conversation_members, foreign_key: 'member_id',  dependent: :destroy
   has_many :conversations, through: :conversation_members
   has_many :unseen_objects, dependent: :destroy
+  has_many :agenda_items, foreign_key: 'owner_id'
+  has_many :deliverables, foreign_key: 'owner_id'
+  has_many :comments, foreign_key: 'author_id'
 
   validates_presence_of :first_name, :last_name
 

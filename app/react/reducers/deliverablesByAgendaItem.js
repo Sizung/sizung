@@ -12,13 +12,13 @@ export default function deliverablesByAgendaItem(state = initialState, action = 
       action.entities.forEach((entity) => {
         const type = entity.type;
         if (type === 'deliverables') {
-          newState = reducerUtils.setReferenceByObject(newState, entity, entity.agendaItemId);
+          newState = reducerUtils.updateReferenceByObject(newState, entity, entity.agendaItemId);
         }
       });
     }
 
     if (action.entity && action.entity.type === 'deliverables') {
-      newState = reducerUtils.setReferenceByObject(newState, action.entity, action.entity.agendaItemId);
+      newState = reducerUtils.updateReferenceByObject(newState, action.entity, action.entity.agendaItemId);
     }
 
     return newState;

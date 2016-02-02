@@ -9,6 +9,10 @@ export function setReferenceByObject(state, object, reference) {
   return add(state, reference, toReference(object));
 }
 
+export function updateReferenceByObject(state, object, reference) {
+  return update(state, reference, toReference(object));
+}
+
 export function setReference(state, action, objectName, referenceName) {
   if (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) {
     return add(state, action[objectName][referenceName], toReference(action[objectName]));
