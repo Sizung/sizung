@@ -39,7 +39,7 @@ class OrganizationsController < ApplicationController
         @deliverables = Deliverable.where(agenda_item: @agenda_items).where(assignee: current_user).includes(:agenda_item, :owner, :assignee)
 
         render json: @organization,
-               include: %w(organization_members),
+               include: %w(organization_members, organization_members.member),
                meta: {
                    conversations: to_json_api(@conversations),
                    agenda_items: to_json_api(@agenda_items),
