@@ -4,7 +4,6 @@ index do
   selectable_column
   column :title
   column :organization
-  column :comments_count
   column :created_at
   actions
 end

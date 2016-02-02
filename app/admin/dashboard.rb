@@ -42,7 +42,6 @@ ActiveAdmin.register_page "Dashboard" do
             column('Conversations') { |organization| organization.conversations.count }
             column('Agenda Items') { |organization| organization.agenda_items.count }
             column('Deliverables') { |organization| organization.deliverables.count }
-            column('Comments') { |organization| organization.comments.count }
             column('Unseen Objects') { |organization| organization.unseen_objects.count }
             column('Created') { |org| time_ago_in_words(org.created_at) }
           end
