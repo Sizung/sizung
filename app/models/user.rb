@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable, :confirmable, :lockable
 
+  belongs_to :last_visited_organization, foreign_key: 'last_visited_organization_id', class_name: 'Organization'
   has_many :organization_members, foreign_key: 'member_id', dependent: :destroy
   has_many :organizations, through: :organization_members
   has_many :conversation_members, foreign_key: 'member_id',  dependent: :destroy
