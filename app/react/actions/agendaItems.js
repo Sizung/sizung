@@ -141,13 +141,13 @@ function fetchObjects(agendaItemId, dispatch) {
   });
 }
 
-export function visitAgendaItem(conversationId, agendaItemId) {
+export function visitAgendaItem(agendaItemId) {
   return (dispatch) => {
-    dispatch(routeActions.push('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
+    dispatch(routeActions.push('/agenda_items/' + agendaItemId));
   };
 }
 
-export function selectAgendaItem(conversationId, agendaItemId) {
+export function selectAgendaItem(agendaItemId) {
   return (dispatch) => {
     fetchAgendaItem(agendaItemId, dispatch);
     fetchObjects(agendaItemId, dispatch);

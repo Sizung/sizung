@@ -10,7 +10,7 @@ import * as channelHandlers from '../actions/channelHandlers';
 class ConversationLayoutApp extends React.Component {
   componentDidMount() {
     const { currentUser, onConversationChannelReceived, onOrganizationChannelReceived, conversation } = this.props;
-    const { conversationId } = this.props.params;
+    const { conversationId } = this.props;
 
     this.fetchData();
     ws.followConversationChannel(conversationId, currentUser.id, onConversationChannelReceived);
@@ -21,9 +21,9 @@ class ConversationLayoutApp extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { currentUser, onConversationChannelReceived, onOrganizationChannelReceived, conversation } = this.props;
-    const conversationId = this.props.params.conversationId;
+    const conversationId = this.props.conversationId;
 
-    if (conversationId !== prevProps.params.conversationId) {
+    if (conversationId !== prevProps.conversationId) {
       this.fetchData();
       ws.followConversationChannel(conversationId, currentUser.id, onConversationChannelReceived);
     }
@@ -38,7 +38,7 @@ class ConversationLayoutApp extends React.Component {
   }
 
   fetchData = () => {
-    const { conversationId } = this.props.params;
+    const { conversationId } = this.props;
     this.props.fetchConversation(conversationId);
   };
 
@@ -57,7 +57,7 @@ ConversationLayoutApp.propTypes = {
 function mapStateToProps(state, props) {
   return {
     currentUser: selectors.currentUser(state),
-    conversation: selectors.conversation(state, props.params.conversationId),
+    conversation: selectors.conversation(state, props.conversationId),
   };
 }
 

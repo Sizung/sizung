@@ -63,7 +63,7 @@ export function updateDeliverable(id, changedFields) {
 
 export function backToConversation(conversationId) {
   return function(dispatch) {
-    dispatch(routeActions.push('/api/conversations/' + conversationId));
+    dispatch(routeActions.push('/conversations/' + conversationId));
   };
 }
 

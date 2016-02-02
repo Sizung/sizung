@@ -51,9 +51,10 @@ export default class Root extends Component {
       (
         <Router history={browserHistory}>
           <Route path="/" component={ApplicationLayoutApp}>
+            <Route path="/agenda_items/:agendaItemId" component={AgendaItemApp}/>
+            <Route path="/conversations/:conversationId" component={ConversationApp} />
             <Route path="/organizations/:organizationId" component={OrganizationApp} />
             <Route path="/conversations" component={ConversationLayoutApp}>
-              <Route path="/conversations/:conversationId" component={ConversationApp} />
               <Route path="/conversations/:conversationId/agenda_items/:agendaItemId" component={AgendaItemApp}/>
               <Route path="/conversations/:conversationId/agenda_items/:agendaItemId/deliverables/:deliverableId" component={DeliverableApp}/>
             </Route>

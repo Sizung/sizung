@@ -123,8 +123,10 @@ class ConversationObjectList extends Component {
 
   handleBackClick(e){
     e.preventDefault();
-    if ( null != this.props.commentForm.parent && this.props.commentForm.parent.type == "deliverables" ){
+    if ( null != this.props.commentForm.parent && this.props.commentForm.parent.type == "deliverables" ) {
       this.props.visitAgendaItem(this.props.commentForm.parent.agendaItem.conversationId, this.props.commentForm.parent.agendaItem.id);
+    } else if ( null != this.props.commentForm.parent && this.props.commentForm.parent.type == "agendaItems" ){
+      this.props.backToConversation(this.props.commentForm.parent.conversationId);
     } else {
       this.props.backToConversation(this.props.currentConversationId);
     }
