@@ -148,7 +148,7 @@ class Comment extends React.Component {
     const { author, body, unseen } = this.props.comment;
     return(<div styleName='root'>
         <div styleName='user-container'>
-          <User user={author}/>
+          { this.props.showAuthor ? <User user={author}/> : ''}
         </div>
         { this.state.edit ? this.renderEditComment(body) : this.renderShowComment() }
       </div>
@@ -172,6 +172,12 @@ Comment.propTypes = {
   }).isRequired,
   currentUser: PropTypes.object.isRequired,
   handleCommentSettingsDropdownScroll: PropTypes.func.isRequired,
+  showAuthor: PropTypes.bool.isRequired
 };
+
+Comment.defaultProps = {
+  showAuthor: true,
+};
+
 
 export default Comment;

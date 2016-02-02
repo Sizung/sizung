@@ -64,7 +64,7 @@ class AgendaItemInTimeline extends React.Component {
   }
 
   render() {
-    const { agendaItem } = this.props;
+    const { agendaItem, showOwner } = this.props;
     const { title, status, owner, archived } = agendaItem;
 
     const timeStyle = ( this.props.isTimelineHeader ? "time-container-inverse" : "time-container");
@@ -73,7 +73,7 @@ class AgendaItemInTimeline extends React.Component {
         <div styleName='root'>
           <div styleName='user-container'>
             <div style={{padding: '0px 10px'}}><AgendaItemIcon inverted={this.props.isTimelineHeader}/></div>
-            <div style={{marginTop: '5px'}}><User user={owner} inverted={this.props.isTimelineHeader} innerStyle={ (this.props.isTimelineHeader? { border: '1px solid #ffffff'} : {})}/></div>
+            { showOwner ? <div style={{ marginTop: '5px' }}><User user={owner} inverted={this.props.isTimelineHeader} innerStyle={ (this.props.isTimelineHeader ? { border: '1px solid #ffffff' } : {})}/></div> : ''}
           </div>
           <div styleName={"content-container"+ (this.props.isTimelineHeader ? '-inverted' : '')}>
             <div styleName="title-container">
@@ -105,6 +105,10 @@ AgendaItemInTimeline.propTypes = {
   updateAgendaItem: PropTypes.func.isRequired,
   isTimelineHeader: PropTypes.bool,
   visitAgendaItem: PropTypes.func.isRequired,
+  showOwner: PropTypes.bool.isRequired,
 };
 
+AgendaItemInTimeline.defaultProps = {
+  showOwner: true,
+};
 export default AgendaItemInTimeline;

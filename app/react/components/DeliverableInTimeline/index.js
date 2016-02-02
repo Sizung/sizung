@@ -93,7 +93,7 @@ class DeliverableInTimeline extends React.Component {
   }
 
   render() {
-    const { deliverable } = this.props;
+    const { deliverable, showOwner } = this.props;
     const { owner, assignee, agendaItem, archived } = deliverable;
     const { conversationId } = agendaItem;
     const archiveStyle = (archived ? 'archive-wrapper' : '');
@@ -102,7 +102,7 @@ class DeliverableInTimeline extends React.Component {
       <div styleName='root'>
         <div styleName='user-container'>
           <DeliverableIcon inverted={this.props.isTimelineHeader} size={'small'}/>
-          <User style={{ marginTop: '5px' }} user={owner}/>
+          { showOwner ? <User style={{ marginTop: '5px' }} user={owner}/> : '' }
         </div>
         <div styleName={'content-container' + (this.props.isTimelineHeader ? '-inverted' : '')}>
           <div styleName='row'>
@@ -158,6 +158,11 @@ DeliverableInTimeline.propTypes = {
   }).isRequired,
   updateDeliverable: PropTypes.func.isRequired,
   isTimelineHeader: PropTypes.bool,
+  showOwner: PropTypes.bool.isRequired,
+};
+
+DeliverableInTimeline.defaultProps = {
+  showOwner: true,
 };
 
 export default DeliverableInTimeline;
