@@ -7,6 +7,7 @@ import * as CommentActions from '../actions/comments';
 import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
+import * as ConversationActions from '../actions/conversations';
 import * as selectors from '../utils/selectors';
 
 import ConversationObjectList from '../components/ConversationObjectList';
@@ -90,7 +91,7 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
+  return bindActionCreators({ ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...ConversationActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AgendaItemApp);

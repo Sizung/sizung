@@ -1,3 +1,4 @@
+import { routeActions } from 'redux-simple-router';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
 import { STATUS_SUCCESS } from './statuses.js';
@@ -76,7 +77,14 @@ const selectConversation = (conversationId) => {
   };
 };
 
+const visitConversation = (conversationId) => {
+  return (dispatch) => {
+    dispatch(routeActions.push('/conversations/' + conversationId));
+  };
+};
+
 export {
   fetchConversation,
   selectConversation,
+  visitConversation,
 }

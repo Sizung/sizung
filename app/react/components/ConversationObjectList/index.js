@@ -124,11 +124,11 @@ class ConversationObjectList extends Component {
   handleBackClick(e){
     e.preventDefault();
     if (null != this.props.commentForm.parent && this.props.commentForm.parent.type === "deliverables") {
-      this.props.visitAgendaItem(this.props.commentForm.parent.agendaItem.conversationId, this.props.commentForm.parent.agendaItem.id);
+      this.props.visitAgendaItem(this.props.commentForm.parent.agendaItemId);
     } else if (null != this.props.commentForm.parent && this.props.commentForm.parent.type === "agendaItems") {
       this.props.visitConversation(this.props.commentForm.parent.conversationId);
     } else {
-      this.props.visitConversation(this.props.currentConversationId);
+      console.warn('Back click was not handled properly.');
     }
   }
 
@@ -389,6 +389,7 @@ ConversationObjectList.propTypes = {
   canCreateDeliverable: PropTypes.bool.isRequired,
   users: PropTypes.object,
   updateAgendaItem: PropTypes.func.isRequired,
+  visitConversation: PropTypes.func.isRequired,
 };
 
 ConversationObjectList.defaultProps = {
