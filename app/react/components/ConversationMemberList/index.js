@@ -59,9 +59,15 @@ class ConversationMemberList extends React.Component {
     if (this.props.conversationMembers !== null) {
       const _this = this;
       return (
-          _this.filteredOptions(_this.state.filter, _this.props.organizationMembers).sortBy((option) => {
-            return option.name === null ? option.email.toLowerCase() : option.name.toLowerCase();
-          }).map(function (user, i) {
+          _this.filteredOptions(_this.state.filter, _this.props.organizationMembers).filter((member) => {
+            return (member.presenceStatus === 'online');
+          }).sortBy((member) => {
+            return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+          }).concat(_this.filteredOptions(_this.state.filter, _this.props.organizationMembers).filter((member) => {
+            return ( member.presenceStatus === 'offline');
+          }).sortBy((member) => {
+            return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+          })).map(function (user, i) {
             var existingMember = _this.props.conversationMembers.find(function (member) {
               return (member.memberId === user.id);
             });
@@ -90,9 +96,15 @@ class ConversationMemberList extends React.Component {
         });
       });
       return (
-        conversationMembersAsUsers.sortBy((option) => {
-          return option.name === null ? option.email.toLowerCase() : option.name.toLowerCase();
-        }).map((conversationMember) => {
+        conversationMembersAsUsers.filter((member) => {
+          return (member.presenceStatus === 'online');
+        }).sortBy((member) => {
+          return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+        }).concat(conversationMembersAsUsers.filter((member) => {
+          return ( member.presenceStatus === 'offline');
+        }).sortBy((member) => {
+          return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+        })).map((conversationMember) => {
           return (<User key={conversationMember.id} user={conversationMember} showName={false}
             style={{ display: 'inline-block', marginTop: '5px', marginBottom: '5px', marginRight: '5px' }}
           />);
