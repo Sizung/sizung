@@ -35,14 +35,14 @@ class DeliverableApp extends React.Component {
     if (parent) {
       if (conversationObjects) {
         return (
-          <ConversationLayoutApp conversationId={parent.agendaItem.conversationId}>
+          <ConversationLayoutApp conversationId={parent.agendaItem.conversationId} selectedAgendaItemId={parent.agendaItemId} selectedDeliverableId={parent.id}>
             <ConversationObjectList {...this.props} />
           </ConversationLayoutApp>
         );
       }
 
       return (
-        <ConversationLayoutApp conversationId={parent.agendaItem.conversationId}>
+        <ConversationLayoutApp conversationId={parent.agendaItem.conversationId} selectedAgendaItemId={parent.agendaItemId} selectedDeliverableId={parent.id}>
           <div className="text-center"><h5>Loading Deliverable...</h5></div>
         </ConversationLayoutApp>
       );

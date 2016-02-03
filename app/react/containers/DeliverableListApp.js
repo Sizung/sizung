@@ -11,7 +11,6 @@ import * as selectors from '../utils/selectors';
 function mapStateToProps(state, props) {
   const conversationId = props.conversationId;
   const agendaItemId = props.agendaItemId;
-  const selectedDeliverableId = props.deliverableId;
 
   const deliverables = agendaItemId ?
     selectors.deliverablesForAgendaItem(state, agendaItemId) :
@@ -19,7 +18,6 @@ function mapStateToProps(state, props) {
 
   return {
     deliverables,
-    selectedDeliverableId,
   };
 }
 

@@ -37,14 +37,14 @@ class AgendaItemApp extends React.Component {
     if (parent) {
       if (conversationObjects) {
         return (
-          <ConversationLayoutApp conversationId={parent.conversationId}>
+          <ConversationLayoutApp conversationId={parent.conversationId} selectedAgendaItemId={parent.id}>
             <ConversationObjectList {...this.props} />
           </ConversationLayoutApp>
         );
       }
 
       return (
-        <ConversationLayoutApp conversationId={parent.conversationId}>
+        <ConversationLayoutApp conversationId={parent.conversationId} selectedAgendaItemId={parent.id}>
           <div className="text-center"><h5>Loading Agenda Item...</h5></div>
         </ConversationLayoutApp>
       );

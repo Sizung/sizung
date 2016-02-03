@@ -389,7 +389,7 @@ ConversationObjectList.propTypes = {
   canCreateDeliverable: PropTypes.bool.isRequired,
   users: PropTypes.object,
   updateAgendaItem: PropTypes.func.isRequired,
-  visitConversation: PropTypes.func.isRequired,
+  visitConversation: PropTypes.func,
 };
 
 ConversationObjectList.defaultProps = {

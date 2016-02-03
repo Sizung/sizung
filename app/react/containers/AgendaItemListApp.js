@@ -12,7 +12,6 @@ import * as selectors from '../utils/selectors';
 function mapStateToProps(state, props) {
   return {
     agendaItems: selectors.agendaItemsList(state, props.conversationId),
-    //selectedId: props.params.agendaItemId,
   };
 }
 
