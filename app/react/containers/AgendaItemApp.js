@@ -31,21 +31,13 @@ class AgendaItemApp extends React.Component {
   };
 
   render() {
-    const { conversationObjects, commentForm } = this.props;
+    const { commentForm } = this.props;
     const { parent } = commentForm;
 
     if (parent) {
-      if (conversationObjects) {
-        return (
-          <ConversationLayoutApp conversationId={parent.conversationId} selectedAgendaItemId={parent.id}>
-            <ConversationObjectList {...this.props} />
-          </ConversationLayoutApp>
-        );
-      }
-
       return (
         <ConversationLayoutApp conversationId={parent.conversationId} selectedAgendaItemId={parent.id}>
-          <div className="text-center"><h5>Loading Agenda Item...</h5></div>
+          <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );
     }

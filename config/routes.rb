@@ -42,12 +42,15 @@ Rails.application.routes.draw do
   resources :organizations, shallow: true do
     resources :organization_members, only: [:index, :destroy]
   end
-  resources :conversations
 
-  get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: 'conversations#show'
-  get 'conversations/:id/agenda_items/:agenda_item_id', to: 'conversations#show'
   get 'agenda_items/:agenda_item_id', to: 'react_routes#index'
   get 'deliverables/:deliverable_id', to: 'react_routes#index'
+
+  # Old routes are redirected to new shallow routes
+  get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: redirect('/deliverables/%{deliverable_id}')
+  get 'conversations/:id/agenda_items/:agenda_item_id', to: redirect('/agenda_items/%{agenda_item_id}')
+
+  resources :conversations
 
   devise_for :users, controllers: {
                        registrations: 'users/registrations',

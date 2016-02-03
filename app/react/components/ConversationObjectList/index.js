@@ -143,8 +143,8 @@ class ConversationObjectList extends Component {
   static shouldMarkAsSeen = (prevProps, props) => {
     const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
 
-    const unseenPrev = prevProps.conversationObjects.some((obj) => { return obj.unseen; });
-    const unseenNow = props.conversationObjects.some((obj) => { return obj.unseen; });
+    const unseenPrev = prevProps.conversationObjects ? prevProps.conversationObjects.some((obj) => { return obj.unseen; }) : false;
+    const unseenNow = props.conversationObjects ? props.conversationObjects.some((obj) => { return obj.unseen; }) : false;
     return (notHandledByMount || !unseenPrev && unseenNow || prevProps.commentForm.parent.id !== props.commentForm.parent.id && unseenNow);
   };
 

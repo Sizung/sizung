@@ -30,20 +30,12 @@ class DeliverableApp extends React.Component {
   };
 
   render() {
-    const { conversationObjects, commentForm } = this.props;
+    const { commentForm } = this.props;
     const { parent } = commentForm;
     if (parent) {
-      if (conversationObjects) {
-        return (
-          <ConversationLayoutApp conversationId={parent.agendaItem.conversationId} selectedAgendaItemId={parent.agendaItemId} selectedDeliverableId={parent.id}>
-            <ConversationObjectList {...this.props} />
-          </ConversationLayoutApp>
-        );
-      }
-
       return (
         <ConversationLayoutApp conversationId={parent.agendaItem.conversationId} selectedAgendaItemId={parent.agendaItemId} selectedDeliverableId={parent.id}>
-          <div className="text-center"><h5>Loading Deliverable...</h5></div>
+          <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );
     }
