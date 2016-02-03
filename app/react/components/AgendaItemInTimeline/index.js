@@ -31,7 +31,7 @@ class AgendaItemInTimeline extends React.Component {
 
   handleSelect(e) {
     e.preventDefault();
-    this.props.visitAgendaItem(this.props.agendaItem.conversationId, this.props.agendaItem.id);
+    this.props.visitAgendaItem(this.props.agendaItem.id);
   }
 
   handleArchive(e) {

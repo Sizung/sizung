@@ -2,7 +2,6 @@ import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../utils/MetaTagsManager';
 
 const fetchJson = (path, successJsonCallback) => {
-  console.log('fetch: ', path);
   return fetch(path, {
     method: 'get',
     credentials: 'include', // send cookies with it

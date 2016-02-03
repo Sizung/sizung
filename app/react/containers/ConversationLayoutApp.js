@@ -28,7 +28,7 @@ class ConversationLayoutApp extends React.Component {
       ws.followConversationChannel(conversationId, currentUser.id, onConversationChannelReceived);
     }
 
-    if (conversation && conversation !== prevProps.conversation) {
+    if (conversation && conversation.organizationId !== prevProps.conversation.organizationId) {
       ws.followOrganizationChannel(conversation.organizationId, onOrganizationChannelReceived);
     }
   }
