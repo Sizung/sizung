@@ -55,7 +55,9 @@
 
             %ul.list-group
               - current_user.organization_members.each do |organization_member|
-                %li.list-group-item
+                %li.list-group-item.col-xs-12
                   = organization_member.organization
                   = link_to organization_member, method: :delete, data: { confirm: 'Are you sure?' }, class: 'pull-right' do
-                    leave
+                    Leave
+                  - if policy(organization_member.organization).edit?
+                    = link_to 'Edit', edit_organization_path(organization_member.organization), class: 'pull-right padding-sm-horizontal'
