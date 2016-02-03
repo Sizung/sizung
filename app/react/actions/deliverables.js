@@ -1,40 +1,7 @@
-import * as constants from './constants';
 import { routeActions } from 'redux-simple-router';
-
+import * as constants from './constants';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
-
-const fetchObjects = (deliverableId, dispatch) => {
-  api.fetchJson('/api/deliverables/' + deliverableId + '/conversation_objects', (json) => {
-    const conversationObjects = json.data.map(transform.transformObjectFromJsonApi);
-
-    dispatch({
-      type: constants.FETCH_CONVERSATION_OBJECTS,
-      status: constants.STATUS_SUCCESS,
-      parentReference: { type: 'deliverables', id: deliverableId },
-      conversationObjects,
-      links: json.links,
-      entities: conversationObjects,
-    });
-  });
-};
-
-const fetchDeliverable = (deliverableId, dispatch) => {
-  api.fetchJson('/api/deliverables/' + deliverableId, (json) => {
-    const included = json.included ? json.included.map(transform.transformObjectFromJsonApi) : null;
-    const deliverable = transform.transformObjectFromJsonApi(json.data);
-
-    dispatch({
-      type: constants.FETCH_DELIVERABLE,
-      verb: 'FETCH',
-      status: constants.STATUS_SUCCESS,
-      deliverable,
-      included,
-      entity: deliverable,
-      entities: included,
-    });
-  });
-};
 
 const updateDeliverable = (id, changedFields) => {
   return (dispatch) => {
@@ -63,12 +30,37 @@ const archiveDeliverable = (id) => {
   return updateDeliverable(id, { archived: true });
 };
 
-const selectDeliverable = (deliverableId) => {
+const fetchDeliverable = (deliverableId) => {
   return (dispatch, getState) => {
-    fetchDeliverable(deliverableId, dispatch);
+    api.fetchJson('/api/deliverables/' + deliverableId, (json) => {
+      const included = json.included ? json.included.map(transform.transformObjectFromJsonApi) : null;
+      const deliverable = transform.transformObjectFromJsonApi(json.data);
 
+      dispatch({
+        type: constants.FETCH_DELIVERABLE,
+        verb: 'FETCH',
+        status: constants.STATUS_SUCCESS,
+        deliverable,
+        included,
+        entity: deliverable,
+        entities: included,
+      });
+    });
+
+    // fetch objects if not already there
     if (!getState().getIn(['conversationObjectsByDeliverable', deliverableId])) {
-      fetchObjects(deliverableId, dispatch);
+      api.fetchJson('/api/deliverables/' + deliverableId + '/conversation_objects', (json) => {
+        const conversationObjects = json.data.map(transform.transformObjectFromJsonApi);
+
+        dispatch({
+          type: constants.FETCH_CONVERSATION_OBJECTS,
+          status: constants.STATUS_SUCCESS,
+          parentReference: { type: 'deliverables', id: deliverableId },
+          conversationObjects,
+          links: json.links,
+          entities: conversationObjects,
+        });
+      });
     }
   };
 };
@@ -104,10 +96,10 @@ const createDeliverable = (values) => {
 
 export {
   visitDeliverable,
-  selectDeliverable,
+  fetchDeliverable,
   archiveDeliverable,
-  updateDeliverable,
-  updateDeliverableRemoteOrigin,
-  createDeliverableRemoteOrigin,
   createDeliverable,
+  updateDeliverable,
+  createDeliverableRemoteOrigin,
+  updateDeliverableRemoteOrigin,
 };

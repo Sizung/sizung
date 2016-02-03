@@ -26,7 +26,7 @@ class DeliverableApp extends React.Component {
 
   fetchData = () => {
     const { deliverableId } = this.props.params;
-    this.props.selectDeliverable(deliverableId);
+    this.props.fetchDeliverable(deliverableId);
   };
 
   render() {
