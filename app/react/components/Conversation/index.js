@@ -39,9 +39,15 @@ class Conversation extends React.Component {
         conversationMembers = conversationMembers.push(filteredUsers.get(0));
       }
     });
-    conversationMembers.sortBy((member) => {
+    conversationMembers.filter((member) => {
+      return (member.presenceStatus === 'online');
+    }).sortBy((member) => {
       return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-    }).map((member) => {
+    }).concat(conversationMembers.filter((member) => {
+      return ( member.presenceStatus === 'offline');
+    }).sortBy((member) => {
+      return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+    })).map((member) => {
       conversationMembersDOM.push(<div styleName='member-container'><User user={ member } showName={ false } size={'small'}/></div>);
     });
     return conversationMembersDOM;

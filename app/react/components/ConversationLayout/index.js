@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
 import { Row, Col } from 'react-bootstrap';
 
@@ -13,17 +13,16 @@ class ConversationLayout extends Component {
 
   constructor() {
     super();
+
+    this.state = {
+      currentPanelInFocus: 'center',
+    };
+
     this.handleLeftPanelLeftSwipe = this.handleLeftPanelLeftSwipe.bind(this);
     this.handleCenterPanelLeftSwipe = this.handleCenterPanelLeftSwipe.bind(this);
     this.handleCenterPanelRightSwipe = this.handleCenterPanelRightSwipe.bind(this);
     this.handleRightPanelRightSwipe = this.handleRightPanelRightSwipe.bind(this);
     this.handleResetPanelVisibility = this.handleResetPanelVisibility.bind(this);
-  }
-
-  componentDidMount() {
-    this.leftPanelNode = ReactDOM.findDOMNode(this.refs.leftPanel);
-    this.centerPanelNode = ReactDOM.findDOMNode(this.refs.centerPanel);
-    this.rightPanelNode = ReactDOM.findDOMNode(this.refs.rightPanel);
   }
 
   componentWillReceiveProps() {
@@ -39,36 +38,23 @@ class ConversationLayout extends Component {
   // The better way is to save the state in which the view currently is in the component state, render accordingly to
   // that state and change the state when the user swipes.
   handleLeftPanelLeftSwipe() {
-    $(this.leftPanelNode).addClass('hidden-xs');
-    $(this.centerPanelNode).removeClass('hidden-xs');
-    $(this.centerPanelNode).addClass('col-xs-12');
+    this.setState({ currentPanelInFocus: 'center' });
   }
 
   handleCenterPanelLeftSwipe() {
-    $(this.centerPanelNode).addClass('hidden-xs');
-    $(this.rightPanelNode).removeClass('hidden-xs');
-    $(this.rightPanelNode).addClass('col-xs-12');
+    this.setState({ currentPanelInFocus: 'right' });
   }
 
   handleCenterPanelRightSwipe() {
-    $(this.centerPanelNode).addClass('hidden-xs');
-    $(this.leftPanelNode).removeClass('hidden-xs');
-    $(this.leftPanelNode).addClass('col-xs-12');
+    this.setState({ currentPanelInFocus: 'left' });
   }
 
   handleRightPanelRightSwipe() {
-    $(this.rightPanelNode).addClass('hidden-xs');
-    $(this.centerPanelNode).removeClass('hidden-xs');
-    $(this.centerPanelNode).addClass('col-xs-12');
+    this.setState({ currentPanelInFocus: 'center' });
   }
 
   handleResetPanelVisibility() {
-    $(this.centerPanelNode).removeClass('hidden-xs');
-    $(this.centerPanelNode).addClass('col-xs-12');
-    $(this.rightPanelNode).addClass('hidden-xs');
-    $(this.rightPanelNode).removeClass('col-xs-12');
-    $(this.leftPanelNode).addClass('hidden-xs');
-    $(this.leftPanelNode).removeClass('col-xs-12');
+    this.setState({ currentPanelInFocus: 'center' });
   }
 
   render() {
@@ -76,19 +62,19 @@ class ConversationLayout extends Component {
     const right = this.props.right || <DeliverableListApp conversationId={this.props.conversationId} agendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} />;
 
     return (
-      <Row styleName="root">
-        <Col className="hidden-xs" sm={3} styleName="left-panel" ref="leftPanel">
+      <Row styleName={ 'root' }>
+        <Col sm={3} styleName={ 'root-' + this.state.currentPanelInFocus + '-left-panel'}>
           <Swipeable styleName="swipe-container" onSwipingLeft={this.handleLeftPanelLeftSwipe}>
             { left }
           </Swipeable>
         </Col>
-        <Col xs={12} sm={6} styleName="center-panel" ref="centerPanel">
-          <Swipeable styleName="swipe-container" onSwipingLeft={this.handleCenterPanelLeftSwipe} onSwipingRight={this.handleCenterPanelRightSwipe}>
+        <Col xs={12} sm={6} styleName={ 'root-' + this.state.currentPanelInFocus + '-center-panel'}>
+          <Swipeable styleName='swipe-container' onSwipingLeft={this.handleCenterPanelLeftSwipe} onSwipingRight={this.handleCenterPanelRightSwipe}>
             { this.props.children }
           </Swipeable>
         </Col>
-        <Col className="hidden-xs" sm={3} styleName="right-panel" ref="rightPanel">
-          <Swipeable styleName="swipe-container" onSwipingRight={this.handleRightPanelRightSwipe}>
+        <Col sm={3} styleName={ 'root-' + this.state.currentPanelInFocus + '-right-panel'}>
+          <Swipeable styleName='swipe-container' onSwipingRight={this.handleRightPanelRightSwipe}>
             { right }
           </Swipeable>
         </Col>

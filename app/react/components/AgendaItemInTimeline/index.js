@@ -36,7 +36,9 @@ class AgendaItemInTimeline extends React.Component {
 
   handleArchive(e) {
     e.preventDefault();
-    this.props.archiveAgendaItem(this.props.agendaItem.id);
+    if (confirm("Are you sure you want to archive this Agenda Item?")) {
+      this.props.archiveAgendaItem(this.props.agendaItem.id);
+    }
   }
 
   renderActionButtons() {
