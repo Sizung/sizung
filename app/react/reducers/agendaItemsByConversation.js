@@ -1,11 +1,11 @@
-import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from '../actions/statuses';
+import * as constants from '../actions/constants';
 import * as reducerUtils from '../utils/reducerUtils';
 import Immutable from 'immutable';
 
 const initialState = new Immutable.Map();
 
 export default function agendaItemsByConversation(state = initialState, action = null) {
-  if (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) {
+  if (action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN) {
     let newState = state;
 
     if (action.entities) {

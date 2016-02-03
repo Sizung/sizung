@@ -1,202 +1,113 @@
-// These are the actions relevant to agenda items
-// They are being injected into components as callbacks they can call when they want to propagate an event.
-// The action function itself then only has the responsibility to transform the
-// incoming parameter to describe the event.
-// The type is the only mandatory field in the structure and describes the type of the action.
-// By this type, the reducer function then decides how to handle the action.
-
-import fetch from 'isomorphic-fetch';
-import MetaTagsManager from '../utils/MetaTagsManager';
-
-import { transformConversationObjectFromJsonApi, transformDeliverableFromJsonApi } from '../utils/jsonApiUtils';
-import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses';
+import * as constants from './constants';
 import { routeActions } from 'redux-simple-router';
 
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
 
-export const SET_DELIVERABLES = 'SET_DELIVERABLES';
-export const CREATE_DELIVERABLE = 'CREATE_DELIVERABLE';
-export const UPDATE_DELIVERABLE = 'UPDATE_DELIVERABLE';
-export const SELECT_DELIVERABLE = 'SELECT_DELIVERABLE';
-export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
-export const FETCH_DELIVERABLE = 'FETCH_DELIVERABLE';
+const fetchObjects = (deliverableId, dispatch) => {
+  api.fetchJson('/api/deliverables/' + deliverableId + '/conversation_objects', (json) => {
+    const conversationObjects = json.data.map(transform.transformObjectFromJsonApi);
 
-export function archiveDeliverable(id) {
-  return updateDeliverable(id, { archived: true });
-}
-
-export function updateDeliverableRemoteOrigin(deliverable) {
-  return {
-    type: UPDATE_DELIVERABLE,
-    status: STATUS_REMOTE_ORIGIN,
-    deliverable: deliverable,
-    entity: deliverable,
-  };
-}
-
-export function updateDeliverableSuccess(deliverable) {
-  return {
-    type: UPDATE_DELIVERABLE,
-    status: STATUS_SUCCESS,
-    deliverable: deliverable,
-    entity: deliverable,
-  };
-}
-
-export function updateDeliverable(id, changedFields) {
-  return function(dispatch) {
-    return fetch('/api/deliverables/' + id, {
-      method: 'PUT',
-      credentials: 'include', // send cookies with it
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
-      },
-      body: JSON.stringify({
-        deliverable: changedFields
-      })
-    })
-    .then(response => response.json())
-    .then(function(json) {
-      dispatch(updateDeliverableSuccess(transformDeliverableFromJsonApi(json.data)));
+    dispatch({
+      type: constants.FETCH_CONVERSATION_OBJECTS,
+      status: constants.STATUS_SUCCESS,
+      parentReference: { type: 'deliverables', id: deliverableId },
+      conversationObjects,
+      links: json.links,
+      entities: conversationObjects,
     });
-  };
-}
-
-export function backToConversation(conversationId) {
-  return function(dispatch) {
-    dispatch(routeActions.push('/conversations/' + conversationId));
-  };
-}
-
-function selectDeliverableSuccess(deliverableId) {
-  return {
-    type: SELECT_DELIVERABLE,
-    status: STATUS_SUCCESS,
-    deliverableId
-  };
-}
-
-function fetchConversationObjectsSuccess(parentReference, conversationObjects, links) {
-  return {
-    type: FETCH_CONVERSATION_OBJECTS,
-    status: STATUS_SUCCESS,
-    parentReference: parentReference,
-    conversationObjects: conversationObjects,
-    links: links,
-    entities: conversationObjects,
-  };
-}
-
-function shouldFetch(getState, deliverableId) {
-  if (getState().getIn(['conversationObjectsByDeliverable', deliverableId])) {
-    return false;
-  }
-  else {
-    return true;
-  }
-}
-
-function fetchObjects(deliverableId, dispatch) {
-  return fetch('/api/deliverables/' + deliverableId + '/conversation_objects', {
-    method: 'get',
-    credentials: 'include', // send cookies with it
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
-    },
-  })
-  .then(response => response.json())
-  .then((json) => {
-    dispatch(
-      fetchConversationObjectsSuccess(
-        { type: 'deliverables', id: deliverableId },
-        json.data.map(transformConversationObjectFromJsonApi),
-        json.links
-      )
-    );
   });
-}
+};
 
-function fetchDeliverable(deliverableId, dispatch) {
+const fetchDeliverable = (deliverableId, dispatch) => {
   api.fetchJson('/api/deliverables/' + deliverableId, (json) => {
     const included = json.included ? json.included.map(transform.transformObjectFromJsonApi) : null;
     const deliverable = transform.transformObjectFromJsonApi(json.data);
 
     dispatch({
-      type: FETCH_DELIVERABLE,
+      type: constants.FETCH_DELIVERABLE,
       verb: 'FETCH',
-      status: STATUS_SUCCESS,
+      status: constants.STATUS_SUCCESS,
       deliverable,
       included,
       entity: deliverable,
       entities: included,
     });
   });
-}
+};
 
-export function selectDeliverable(deliverableId) {
-  return function(dispatch, getState) {
+const updateDeliverable = (id, changedFields) => {
+  return (dispatch) => {
+    api.postJson('/api/deliverables/' + id, { deliverble: changedFields }, (json) => {
+      const deliverable = transform.transformObjectFromJsonApi(json.data);
+      dispatch({
+        type: constants.UPDATE_DELIVERABLE,
+        status: constants.STATUS_SUCCESS,
+        deliverable,
+        entity: deliverable,
+      });
+    });
+  };
+};
+
+const updateDeliverableRemoteOrigin = (deliverable) => {
+  return {
+    type: constants.UPDATE_DELIVERABLE,
+    status: constants.STATUS_REMOTE_ORIGIN,
+    deliverable,
+    entity: deliverable,
+  };
+};
+
+const archiveDeliverable = (id) => {
+  return updateDeliverable(id, { archived: true });
+};
+
+const selectDeliverable = (deliverableId) => {
+  return (dispatch, getState) => {
     fetchDeliverable(deliverableId, dispatch);
 
-    if (shouldFetch(getState, deliverableId)) {
+    if (!getState().getIn(['conversationObjectsByDeliverable', deliverableId])) {
       fetchObjects(deliverableId, dispatch);
     }
   };
-}
+};
 
-export function setDeliverables(deliverables = []) {
+const createDeliverableRemoteOrigin = (deliverable) => {
   return {
-    type: SET_DELIVERABLES,
-    deliverables: deliverables.data.map(transformDeliverableFromJsonApi),
-    entities: deliverables,
-  };
-}
-
-function createDeliverableSuccess(deliverable) {
-  return {
-    type: CREATE_DELIVERABLE,
-    status: STATUS_SUCCESS,
-    deliverable: deliverable,
+    type: constants.CREATE_DELIVERABLE,
+    status: constants.STATUS_REMOTE_ORIGIN,
+    deliverable,
     entity: deliverable,
   };
-}
+};
 
-export function createDeliverableRemoteOrigin(deliverable) {
-  return {
-    type: CREATE_DELIVERABLE,
-    status: STATUS_REMOTE_ORIGIN,
-    deliverable: deliverable,
-    entity: deliverable,
-  };
-}
-
-export function visitDeliverable(deliverableId) {
+const visitDeliverable = (deliverableId) => {
   return (dispatch) => {
     dispatch(routeActions.push('/deliverables/' + deliverableId));
   };
-}
+};
 
-export function createDeliverable(deliverable) {
+const createDeliverable = (values) => {
   return (dispatch) => {
-    return fetch('/api/deliverables', {
-      method: 'post',
-      credentials: 'include', // send cookies with it
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
-      },
-      body: JSON.stringify({
+    api.postJson('/api/deliverables', { deliverable: values }, (json) => {
+      const deliverable = transform.transformObjectFromJsonApi(json.data);
+      dispatch({
+        type: constants.CREATE_DELIVERABLE,
+        status: constants.STATUS_SUCCESS,
         deliverable,
-      }),
-    })
-    .then(response => response.json())
-    .then((json) => {
-      dispatch(createDeliverableSuccess(transformDeliverableFromJsonApi(json.data)));
+        entity: deliverable,
+      });
     });
   };
-}
+};
+
+export {
+  visitDeliverable,
+  selectDeliverable,
+  archiveDeliverable,
+  updateDeliverable,
+  updateDeliverableRemoteOrigin,
+  createDeliverableRemoteOrigin,
+  createDeliverable,
+};

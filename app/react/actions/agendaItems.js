@@ -80,13 +80,6 @@ export function closeAgendaItem() {
   };
 }
 
-export function backToConversation(conversationId) {
-  return (dispatch) => {
-    dispatch(closeAgendaItem());
-    dispatch(routeActions.push('/conversations/' + conversationId));
-  };
-}
-
 function fetchConversationObjectsSuccess(parentReference, conversationObjects, links) {
   return {
     type: FETCH_CONVERSATION_OBJECTS,
