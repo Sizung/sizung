@@ -12,11 +12,15 @@ import { transformConversationObjectFromJsonApi, transformDeliverableFromJsonApi
 import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses';
 import { routeActions } from 'redux-simple-router';
 
+import * as api from '../utils/api';
+import * as transform from '../utils/jsonApiUtils';
+
 export const SET_DELIVERABLES = 'SET_DELIVERABLES';
 export const CREATE_DELIVERABLE = 'CREATE_DELIVERABLE';
 export const UPDATE_DELIVERABLE = 'UPDATE_DELIVERABLE';
 export const SELECT_DELIVERABLE = 'SELECT_DELIVERABLE';
 export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
+export const FETCH_DELIVERABLE = 'FETCH_DELIVERABLE';
 
 export function archiveDeliverable(id) {
   return updateDeliverable(id, { archived: true });
@@ -67,12 +71,12 @@ export function backToConversation(conversationId) {
   };
 }
 
-function selectDeliverableSuccess(agendaItemId, deliverableId) {
+function selectDeliverableSuccess(deliverableId) {
   return {
     type: SELECT_DELIVERABLE,
     status: STATUS_SUCCESS,
-    deliverableId: deliverableId
-  }
+    deliverableId
+  };
 }
 
 function fetchConversationObjectsSuccess(parentReference, conversationObjects, links) {
@@ -95,18 +99,18 @@ function shouldFetch(getState, deliverableId) {
   }
 }
 
-function fetchObjects(conversationId, agendaItemId, deliverableId, dispatch) {
+function fetchObjects(deliverableId, dispatch) {
   return fetch('/api/deliverables/' + deliverableId + '/conversation_objects', {
     method: 'get',
     credentials: 'include', // send cookies with it
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'X-CSRF-Token': MetaTagsManager.getCSRFToken()
-    }
+      'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
+    },
   })
   .then(response => response.json())
-  .then(function(json) {
+  .then((json) => {
     dispatch(
       fetchConversationObjectsSuccess(
         { type: 'deliverables', id: deliverableId },
@@ -114,19 +118,32 @@ function fetchObjects(conversationId, agendaItemId, deliverableId, dispatch) {
         json.links
       )
     );
-    dispatch(selectDeliverableSuccess(agendaItemId, deliverableId));
-    dispatch(routeActions.push('/conversations/' + conversationId + '/agenda_items/' + agendaItemId + '/deliverables/' + deliverableId));
   });
 }
 
-export function selectDeliverable(conversationId, agendaItemId, deliverableId) {
+function fetchDeliverable(deliverableId, dispatch) {
+  api.fetchJson('/api/deliverables/' + deliverableId, (json) => {
+    const included = json.included ? json.included.map(transform.transformObjectFromJsonApi) : null;
+    const deliverable = transform.transformObjectFromJsonApi(json.data);
+
+    dispatch({
+      type: FETCH_DELIVERABLE,
+      verb: 'FETCH',
+      status: STATUS_SUCCESS,
+      deliverable,
+      included,
+      entity: deliverable,
+      entities: included,
+    });
+  });
+}
+
+export function selectDeliverable(deliverableId) {
   return function(dispatch, getState) {
+    fetchDeliverable(deliverableId, dispatch);
+
     if (shouldFetch(getState, deliverableId)) {
-      return fetchObjects(conversationId, agendaItemId, deliverableId, dispatch);
-    }
-    else {
-      dispatch(selectDeliverableSuccess(agendaItemId, deliverableId));
-      dispatch(routeActions.push('/conversations/' + conversationId + '/agenda_items/' + agendaItemId + '/deliverables/' + deliverableId));
+      fetchObjects(deliverableId, dispatch);
     }
   };
 }
@@ -154,6 +171,12 @@ export function createDeliverableRemoteOrigin(deliverable) {
     status: STATUS_REMOTE_ORIGIN,
     deliverable: deliverable,
     entity: deliverable,
+  };
+}
+
+export function visitDeliverable(deliverableId) {
+  return (dispatch) => {
+    dispatch(routeActions.push('/deliverables/' + deliverableId));
   };
 }
 

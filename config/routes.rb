@@ -18,7 +18,7 @@ Rails.application.routes.draw do
       concerns :unseen_objects, parent_type: 'AgendaItem'
     end
 
-    resources :deliverables, only: [:create, :update] do
+    resources :deliverables, only: [:create, :show, :update] do
       concerns :list_conversation_objects, parent_type: 'Deliverable'
       concerns :unseen_objects, parent_type: 'Deliverable'
     end
@@ -47,6 +47,7 @@ Rails.application.routes.draw do
   get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: 'conversations#show'
   get 'conversations/:id/agenda_items/:agenda_item_id', to: 'conversations#show'
   get 'agenda_items/:agenda_item_id', to: 'react_routes#index'
+  get 'deliverables/:deliverable_id', to: 'react_routes#index'
 
   devise_for :users, controllers: {
                        registrations: 'users/registrations',

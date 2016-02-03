@@ -2,7 +2,7 @@ module Api
   class DeliverablesController < ApplicationController
     before_filter :authenticate_user!
     after_action :verify_authorized
-    before_action :set_deliverable, only: [:update]
+    before_action :set_deliverable, only: [:show, :update]
 
     respond_to :json
 
@@ -20,6 +20,12 @@ module Api
       end
 
       render json: @deliverable, serializer: DeliverableSerializer
+    end
+
+    def show
+      @deliverable = Deliverable.includes({ agenda_item: [:conversation] }, :owner, :assignee).find(params[:id])
+      authorize @deliverable
+      render json: @deliverable, include: %w(agenda_item agenda_item.conversation)
     end
 
     # PUT/PATCH /deliverables/1.json

@@ -9,9 +9,9 @@ import * as DeliverableListActions from '../actions/deliverables';
 import * as selectors from '../utils/selectors';
 
 function mapStateToProps(state, props) {
-  const conversationId = props.params.conversationId;
-  const agendaItemId = props.params.agendaItemId;
-  const selectedDeliverableId = props.params.deliverableId;
+  const conversationId = props.conversationId;
+  const agendaItemId = props.agendaItemId;
+  const selectedDeliverableId = props.deliverableId;
 
   const deliverables = agendaItemId ?
     selectors.deliverablesForAgendaItem(state, agendaItemId) :

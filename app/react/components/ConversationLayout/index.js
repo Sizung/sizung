@@ -73,8 +73,7 @@ class ConversationLayout extends Component {
 
   render() {
     const left = this.props.left || <AgendaItemListApp conversationId={this.props.conversationId} />;
-    //const right = this.props.right || <DeliverableListApp params={this.props.params} />;
-    const right = this.props.right || <div>placeholder</div>;
+    const right = this.props.right || <DeliverableListApp conversationId={this.props.conversationId} />;
 
     return (
       <Row styleName="root">
