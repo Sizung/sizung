@@ -63,11 +63,7 @@ class DeliverableInTimeline extends React.Component {
 
   handleSelect(e) {
     e.preventDefault();
-    this.props.selectDeliverable(
-      this.props.deliverable.agendaItem.conversationId,
-      this.props.deliverable.agendaItem.id,
-      this.props.deliverable.id
-    );
+    this.props.visitDeliverable(this.props.deliverable.id);
   }
 
   renderActionButtons() {

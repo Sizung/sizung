@@ -37,7 +37,7 @@ const fetchOrganizationSuccess = (organization, included, conversations, agendaI
 };
 
 const fetchOrganization = (organizationId, dispatch) => {
-  api.fetchJson('/organizations/' + organizationId, (json) => {
+  api.fetchJson('/api/organizations/' + organizationId, (json) => {
     const organization = transform.transformObjectFromJsonApi(json.data, json.meta);
     const conversations = json.meta.conversations.data.map(transform.transformObjectFromJsonApi);
     const agendaItems = json.meta.agenda_items.data.map(transform.transformObjectFromJsonApi);
@@ -48,7 +48,7 @@ const fetchOrganization = (organizationId, dispatch) => {
     dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
   });
 
-  api.fetchJson('/organizations/' + organizationId + '/unseen_objects', (json) => {
+  api.fetchJson('/api/organizations/' + organizationId + '/unseen_objects', (json) => {
     dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
   });
 };

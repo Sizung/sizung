@@ -20,7 +20,7 @@ describe ('DeliverableList', () => {
         assignee: { firstName: 'Guenter', lastName: 'Glueck', email: 'gugl@guenterglueck.com', presenceStatus: 'offline'},
         agendaItem: {}
       }]),
-      selectDeliverable: noOp,
+      visitDeliverable: noOp,
       updateDeliverable: noOp
     };
 

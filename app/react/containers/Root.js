@@ -18,7 +18,6 @@ import { fetchOrganizationsSuccess } from '../actions/organizations';
 import { transformUserFromJsonApi, transformOrganizationFromJsonApi } from '../utils/jsonApiUtils';
 import { setUsers } from '../actions/users';
 import ApplicationLayoutApp from './ApplicationLayoutApp';
-import ConversationLayoutApp from './ConversationLayoutApp';
 import AgendaItemApp from './AgendaItemApp';
 import DeliverableApp from './DeliverableApp';
 import ConversationApp from './ConversationApp';
@@ -52,11 +51,9 @@ export default class Root extends Component {
         <Router history={browserHistory}>
           <Route path="/" component={ApplicationLayoutApp}>
             <Route path="/organizations/:organizationId" component={OrganizationApp} />
-            <Route path="/conversations" component={ConversationLayoutApp}>
-              <Route path="/conversations/:conversationId" component={ConversationApp} />
-              <Route path="/conversations/:conversationId/agenda_items/:agendaItemId" component={AgendaItemApp}/>
-              <Route path="/conversations/:conversationId/agenda_items/:agendaItemId/deliverables/:deliverableId" component={DeliverableApp}/>
-            </Route>
+            <Route path="/conversations/:conversationId" component={ConversationApp} />
+            <Route path="/agenda_items/:agendaItemId" component={AgendaItemApp}/>
+            <Route path="/deliverables/:deliverableId" component={DeliverableApp}/>
           </Route>
         </Router>
       );

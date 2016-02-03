@@ -1,10 +1,9 @@
-import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
-import { FETCH_CONVERSATION_OBJECTS } from '../actions/conversationObjects.js'
+import { FETCH_CONVERSATION_OBJECTS } from '../actions/conversationObjects.js';
 import { CREATE_COMMENT, DELETE_COMMENT } from '../actions/comments';
-import { setObject, setObjects, setReference, setCommentReference, deleteCommentReference, handleFetchConversationObjects } from '../utils/reducerUtils';
+import { setCommentReference, deleteCommentReference, handleFetchConversationObjects } from '../utils/reducerUtils';
 import Immutable from 'immutable';
 
-const initialState = Immutable.Map();
+const initialState = new Immutable.Map();
 
 export default function conversationObjectsByDeliverable(state = initialState, action = null) {
   switch (action.type) {

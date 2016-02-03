@@ -28,7 +28,7 @@ class Conversation extends React.Component {
   }
 
   renderConversationMembers() {
-    const { conversation, visitConversation, users } = this.props;
+    const { conversation, users } = this.props;
     let conversationMembersDOM = [];
     let conversationMembers = new Immutable.List();
     conversation.members.map((member) => {
@@ -54,12 +54,12 @@ class Conversation extends React.Component {
   }
 
   render() {
-    const { conversation, visitConversation } = this.props;
+    const { conversation } = this.props;
 
     return (
       <div styleName="root">
         {Conversation.renderUnseenBadge(conversation.unseenCount, false)}
-        <div styleName="default" onClick={visitConversation}>
+        <div styleName="default">
           <div styleName="row">
             <div styleName="content-container">
               <Link to={'/conversations/' + conversation.id}>
@@ -93,7 +93,7 @@ Conversation.propTypes = {
     unseenCount: PropTypes.number.isRequired,
     members: PropTypes.array.isRequired,
   }).isRequired,
-  users: PropTypes.object.isRequired
+  users: PropTypes.object.isRequired,
 };
 
 export default Conversation;

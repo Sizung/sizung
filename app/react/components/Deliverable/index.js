@@ -21,11 +21,8 @@ class Deliverable extends React.Component {
     this.handleClick = (e) => {
       e.preventDefault();
 
-      this.props.selectDeliverable(
-        this.props.deliverable.agendaItem.conversationId,
-        this.props.deliverable.agendaItem.id,
-        this.props.deliverable.id
-      );
+      this.props.visitDeliverable(this.props.deliverable.id);
+      //this.props.visitAgendaItem(this.props.agendaItem.id);
     };
   }
 
@@ -94,7 +91,7 @@ Deliverable.propTypes = {
     status: PropTypes.string.isRequired,
     agendaItem: PropTypes.object.isRequired,
   }).isRequired,
-  selectDeliverable: PropTypes.func.isRequired,
+  visitDeliverable: PropTypes.func.isRequired,
   updateDeliverable: PropTypes.func,
 };
 

@@ -6,7 +6,6 @@ import currentConversation from './currentConversation';
 import currentOrganization from './currentOrganization';
 import agendaItemsByConversation from './agendaItemsByConversation';
 import conversationObjectsByConversation from './conversationObjectsByConversation';
-import selectedConversationObject from './selectedConversationObject';
 import conversationObjectsByAgendaItem from './conversationObjectsByAgendaItem';
 import conversationObjectsByDeliverable from './conversationObjectsByDeliverable';
 import conversationMembersByConversation from './conversationMembersByConversation';
@@ -20,7 +19,6 @@ import entitiesReducer from './entitiesReducer';
 const rootReducer = combineReducers({
   routing: routeReducer,
   entities: entitiesReducer,
-  selectedConversationObject,
   currentUser,
   currentConversation,
   currentOrganization,

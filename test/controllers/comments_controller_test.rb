@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe CommentsController do
+describe Api::CommentsController do
   include Devise::TestHelpers
 
   describe 'visitor' do

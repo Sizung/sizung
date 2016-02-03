@@ -49,7 +49,7 @@ export function fetchAgendaItemSuccess(agendaItem, included) {
 
 export function updateAgendaItem(id, changedFields) {
   return (dispatch) => {
-    return fetch('/agenda_items/' + id, {
+    return fetch('/api/agenda_items/' + id, {
       method: 'PUT',
       credentials: 'include', // send cookies with it
       headers: {
@@ -80,13 +80,6 @@ export function closeAgendaItem() {
   };
 }
 
-export function backToConversation(conversationId) {
-  return (dispatch) => {
-    dispatch(closeAgendaItem());
-    dispatch(routeActions.push('/conversations/' + conversationId));
-  };
-}
-
 function fetchConversationObjectsSuccess(parentReference, conversationObjects, links) {
   return {
     type: FETCH_CONVERSATION_OBJECTS,
@@ -103,7 +96,7 @@ function shouldFetch(getState, agendaItemId) {
 }
 
 function fetchAgendaItem(agendaItemId, dispatch) {
-  return fetch('/agenda_items/' + agendaItemId, {
+  return fetch('/api/agenda_items/' + agendaItemId, {
     method: 'get',
     credentials: 'include', // send cookies with it
     headers: {
@@ -120,7 +113,7 @@ function fetchAgendaItem(agendaItemId, dispatch) {
 }
 
 function fetchObjects(agendaItemId, dispatch) {
-  return fetch('/agenda_items/' + agendaItemId + '/conversation_objects', {
+  return fetch('/api/agenda_items/' + agendaItemId + '/conversation_objects', {
     method: 'get',
     credentials: 'include', // send cookies with it
     headers: {
@@ -141,13 +134,13 @@ function fetchObjects(agendaItemId, dispatch) {
   });
 }
 
-export function visitAgendaItem(conversationId, agendaItemId) {
+export function visitAgendaItem(agendaItemId) {
   return (dispatch) => {
-    dispatch(routeActions.push('/conversations/' + conversationId + '/agenda_items/' + agendaItemId));
+    dispatch(routeActions.push('/agenda_items/' + agendaItemId));
   };
 }
 
-export function selectAgendaItem(conversationId, agendaItemId) {
+export function selectAgendaItem(agendaItemId) {
   return (dispatch) => {
     fetchAgendaItem(agendaItemId, dispatch);
     fetchObjects(agendaItemId, dispatch);
@@ -182,7 +175,7 @@ export function createAgendaItemRemoteOrigin(agendaItem) {
 
 export function createAgendaItem(agendaItem) {
   return (dispatch) => {
-    return fetch('/agenda_items', {
+    return fetch('/api/agenda_items', {
       method: 'post',
       credentials: 'include', // send cookies with it
       headers: {

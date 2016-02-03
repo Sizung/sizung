@@ -22,7 +22,7 @@ export function markAsSeen(seenType, seenId) {
     seenType = 'agenda_items';
   }
   return (dispatch, store) => {
-    return fetch('/' + seenType + '/' + seenId + '/unseen_objects', {
+    return fetch('/api/' + seenType + '/' + seenId + '/unseen_objects', {
       method: 'delete',
       credentials: 'include', // send cookies with it
       headers: {

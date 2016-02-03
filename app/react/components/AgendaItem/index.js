@@ -22,7 +22,7 @@ class AgendaItem extends React.Component {
     this.handleClick = (e) => {
       e.preventDefault();
 
-      this.props.visitAgendaItem(this.props.agendaItem.conversationId, this.props.agendaItem.id);
+      this.props.visitAgendaItem(this.props.agendaItem.id);
     };
   }
 

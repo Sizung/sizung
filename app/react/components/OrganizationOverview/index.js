@@ -42,14 +42,14 @@ class OrganizationOverview extends Component {
   };
 
   render() {
-    const { organization, conversations, agendaItems, visitAgendaItem, deliverables, selectDeliverable } = this.props;
+    const { organization, conversations, agendaItems, visitAgendaItem, deliverables, visitDeliverable } = this.props;
 
     return (
       <div styleName='root' ref='root'>
         <Organization organization={organization} ref='organization'/>
         <ConversationLayout
           left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } /> }
-          right={ <DeliverableList deliverables={ deliverables } selectDeliverable={ selectDeliverable } /> }
+          right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } /> }
         >
           <div styleName='center-panel'>
             <div styleName="header-container">
@@ -79,7 +79,7 @@ OrganizationOverview.propTypes = {
   agendaItems: PropTypes.object.isRequired,
   deliverables: PropTypes.object.isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
-  selectDeliverable: PropTypes.func.isRequired,
+  visitDeliverable: PropTypes.func.isRequired,
   users: PropTypes.object.isRequired
 };
 
