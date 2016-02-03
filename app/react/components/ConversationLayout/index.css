@@ -6,21 +6,18 @@
 }
 
 .left-panel {
-  composes: hidden-xs from global;
   padding: 0px;
   position: relative;
   height: 100%;
 }
 
 .center-panel {
-  composes: col-xs-12 from global;
   padding: 0px;
   position: relative;
   height: 100%;
 }
 
 .right-panel {
-  composes: hidden-xs from global;
   padding: 0px;
   position: relative;
   height: 100%;
@@ -31,54 +28,47 @@
   height: 100%;
 }
 
-
-.root-center,
-.root-left,
-.root-right {
-  composes: root;
-}
-
-.root-center.left-panel {
+.root-center-left-panel {
   composes: left-panel;
   composes: hidden-xs from global;
 }
 
-.root-center.center-panel {
+.root-center-center-panel {
   composes: center-panel;
   composes: col-xs-12 from global;
 }
 
-.root-center.right-panel {
+.root-center-right-panel {
   composes: right-panel;
   composes: hidden-xs from global;
 }
 
-.root-left.left-panel {
+.root-left-left-panel {
   composes: left-panel;
   composes: col-xs-12 from global;
 }
 
-.root-left.center-panel {
+.root-left-center-panel {
   composes: center-panel;
   composes: hidden-xs from global;
 }
 
-.root-left.right-panel {
+.root-left-right-panel {
   composes: right-panel;
   composes: hidden-xs from global;
 }
 
-.root-right.left-panel {
+.root-right-left-panel {
   composes: left-panel;
   composes: hidden-xs from global;
 }
 
-.root-right.center-panel {
+.root-right-center-panel {
   composes: center-panel;
   composes: hidden-xs from global;
 }
 
-.root-right.right-panel {
+.root-right-right-panel {
   composes: right-panel;
   composes: col-xs-12 from global;
 }

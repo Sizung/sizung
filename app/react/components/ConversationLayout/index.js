@@ -62,18 +62,18 @@ class ConversationLayout extends Component {
     const right = this.props.right || <DeliverableListApp params={this.props.params} />;
 
     return (
-      <Row styleName={ 'root-' + this.state.currentPanelInFocus }>
-        <Col sm={3} styleName="left-panel">
+      <Row styleName={ 'root' }>
+        <Col sm={3} styleName={ 'root-' + this.state.currentPanelInFocus + '-left-panel'}>
           <Swipeable styleName="swipe-container" onSwipingLeft={this.handleLeftPanelLeftSwipe}>
             { left }
           </Swipeable>
         </Col>
-        <Col xs={12} sm={6} styleName='center-panel'>
+        <Col xs={12} sm={6} styleName={ 'root-' + this.state.currentPanelInFocus + '-center-panel'}>
           <Swipeable styleName='swipe-container' onSwipingLeft={this.handleCenterPanelLeftSwipe} onSwipingRight={this.handleCenterPanelRightSwipe}>
             { this.props.children }
           </Swipeable>
         </Col>
-        <Col sm={3} styleName='right-panel'>
+        <Col sm={3} styleName={ 'root-' + this.state.currentPanelInFocus + '-right-panel'}>
           <Swipeable styleName='swipe-container' onSwipingRight={this.handleRightPanelRightSwipe}>
             { right }
           </Swipeable>
