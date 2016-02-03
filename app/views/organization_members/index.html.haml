@@ -20,7 +20,11 @@
           - user = org_member.member
           .col-xs-8
             = react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name, presenceStatus: user.presence_status}, showName: true}, {prerender: true, tag: :span})
-          .organization-member-actions.col-xs-4
-            = link_to org_member, method: :delete, data: { confirm: 'Are you sure?' } do
-              %i.fa.fa-trash-o
-              delete
+          - if user != @organization.owner
+            .organization-member-actions.col-xs-4
+              = link_to org_member, method: :delete, data: { confirm: 'Are you sure?' } do
+                %i.fa.fa-trash-o
+                delete
+          - else
+            .col-xs-4
+              ( owner )

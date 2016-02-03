@@ -5,6 +5,22 @@ ActiveAdmin.register_page "Dashboard" do
   content title: proc{ I18n.t("active_admin.dashboard") } do
     columns do
       column do
+        panel 'Usage Overview' do
+          table_for [1] do
+            column('Users') { User.all.count }
+            column('Organization') { Organization.all.count }
+            column('Conversations') { Conversation.all.count }
+            column('Agenda Items') { AgendaItem.all.count }
+            column('Deliverables') { Deliverable.all.count }
+            column('Comments') { Comment.all.count }
+            column('Unseen Objects') { UnseenObject.all.count }
+          end
+        end
+      end
+    end
+
+    columns do
+      column do
         panel 'Recent Users' do
           table_for User.all.order(created_at: :desc).limit(10).map do
             column('Name') { |user| link_to(user.name, admin_user_path(user)) }
@@ -20,29 +36,15 @@ ActiveAdmin.register_page "Dashboard" do
       column do
         panel 'Recent Organizations' do
           table_for Organization.all.order(created_at: :desc).limit(10).map do
-            column('Name') { |org| link_to(org.name, admin_organization_path(org)) }
+            column('Name') { |organization| link_to(organization.name, admin_organization_path(organization)) }
+            column('Owner') { |organization| link_to(organization.owner, admin_user_path(organization.owner)) }
+            column('Users') { |organization| organization.organization_members.count }
+            column('Conversations') { |organization| organization.conversations.count }
+            column('Agenda Items') { |organization| organization.agenda_items.count }
+            column('Deliverables') { |organization| organization.deliverables.count }
+            column('Unseen Objects') { |organization| organization.unseen_objects.count }
             column('Created') { |org| time_ago_in_words(org.created_at) }
-            column('Conversations #') { |org| org.conversations.size }
-            column('Agenda Items #') { |org| org.agenda_items.size }
-            column('Deliverables #') { |org| org.deliverables.size }
-            # column('Comments #') { |user| user.comments.size }
           end
-        end
-      end
-    end
-
-
-    columns do
-      column do
-        div do
-          br
-          text_node %{<iframe src="https://rpm.newrelic.com/public/charts/c76YriGcesF" width="500" height="300" scrolling="no" frameborder="no"></iframe>}.html_safe
-        end
-      end
-      column do
-        div do
-          br
-          text_node %{<iframe src="https://rpm.newrelic.com/public/charts/bm91lgUjsA0" width="500" height="300" scrolling="no" frameborder="no"></iframe>}.html_safe
         end
       end
     end

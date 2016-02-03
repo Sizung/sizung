@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
     stored_location_for(resource) ||
       if resource.is_a?(User)
         user = resource
-        organization_path(user.organizations.first)
+        organization_path(user.last_visited_organization || user.organizations.order(:created_at).last)
       else
         super
       end

@@ -4,6 +4,11 @@ index do
   selectable_column
   column :name
   column :owner
+  column('Users') { |organization| organization.organization_members.count }
+  column('Conversations') { |organization| organization.conversations.count }
+  column('Agenda Items') { |organization| organization.agenda_items.count }
+  column('Deliverables') { |organization| organization.deliverables.count }
+  column('Unseen Objects') { |organization| organization.unseen_objects.count }
   column :created_at
   actions
 end

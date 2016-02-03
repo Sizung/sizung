@@ -4,7 +4,10 @@
   .form-inputs
     = f.input :name
     = f.input :mission
-    = f.input :owner_id, as: :hidden
+    - if @organization.persisted? && current_user == @organization.owner
+      = f.input :owner_id, collection: @organization.members, include_blank: false
+    - else
+      = f.input :owner_id, as: :hidden
 
   .form-actions
     = f.button :submit

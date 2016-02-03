@@ -12,7 +12,7 @@ class OrganizationsController < ApplicationController
   def index
     @organizations = policy_scope(Organization)
     respond_to do |format|
-      format.html { redirect_to current_user.organizations.first }
+      format.html { redirect_to organization_path(current_user.last_visited_organization || current_user.organizations.order(:created_at).last) }
       format.json { render json: @organizations }
     end
   end
@@ -24,6 +24,7 @@ class OrganizationsController < ApplicationController
       format.html do
         @organization = policy_scope(Organization).find(params[:id])
         authorize @organization
+        current_user.update last_visited_organization: @organization
 
         @organizations_json = ActiveModel::SerializableResource.new(policy_scope(Organization)).serializable_hash
         @users_json = ActiveModel::SerializableResource.new(@organization.members).serializable_hash
@@ -33,6 +34,7 @@ class OrganizationsController < ApplicationController
       format.json do
         @organization = policy_scope(Organization).includes(organization_members: :member).find(params[:id])
         authorize @organization
+        current_user.update last_visited_organization: @organization
 
         @conversations = policy_scope(Conversation).where(organization: @organization).includes(:agenda_items, :deliverables, :conversation_members, :organization)
         @agenda_items = AgendaItem.where(conversation: @conversations).includes(:deliverables, :conversation, :owner)
