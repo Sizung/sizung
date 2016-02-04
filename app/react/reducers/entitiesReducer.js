@@ -1,4 +1,4 @@
-import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
+import * as constants from '../actions/constants';
 import Immutable from 'immutable';
 const initialState = new Immutable.Map({
   organizations: new Immutable.Map(),
@@ -13,7 +13,7 @@ const isEntity = (candidate) => {
 };
 
 const entitiesReducer = (state = initialState, action = null) => {
-  if (action.verb === 'DELETE' && (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN)) {
+  if (action.verb === 'DELETE' && (action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN)) {
     let newState = state;
 
     if (action.entities) {
@@ -28,7 +28,7 @@ const entitiesReducer = (state = initialState, action = null) => {
     }
 
     return newState;
-  } else if (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) {
+  } else if (action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN) {
     let newState = state;
 
     if (action.entities) {
