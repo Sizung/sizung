@@ -1,11 +1,11 @@
-import { SET_CURRENT_ORGANIZATION } from '../actions/organizations';
 import Immutable from 'immutable';
+import * as constants from '../actions/constants';
 
 const initialState = Immutable.Map();
 
 export default function currentOrganization(state = initialState, action = null) {
   switch (action.type) {
-    case SET_CURRENT_ORGANIZATION: return new Immutable.Map(action.organization);
+    case constants.SET_CURRENT_ORGANIZATION: return new Immutable.Map(action.organization);
     default: return state;
   }
 }

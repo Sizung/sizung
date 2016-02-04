@@ -1,76 +1,35 @@
-// These are the actions relevant to comments
-// They are being injected into components as callbacks they can call when they want to propagate an event.
-// The action function itself then only has the responsibility to transform the
-// incoming parameter to describe the event.
-// The type is the only mandatory field in the structure and describes the type of the action.
-// By this type, the reducer function then decides how to handle the action.
+import * as api from '../utils/api';
+import * as constants from './constants';
+import * as transform from '../utils/jsonApiUtils';
 
-import fetch from 'isomorphic-fetch';
-import MetaTagsManager from '../utils/MetaTagsManager';
-import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from './statuses.js';
-import { transformCommentFromJsonApi } from '../utils/jsonApiUtils.js';
-
-export const CREATE_COMMENT = 'CREATE_COMMENT';
-export const UPDATE_COMMENT = 'UPDATE_COMMENT';
-export const DELETE_COMMENT = 'DELETE_COMMENT';
-
-export function createCommentRemoteOrigin(comment) {
+const createCommentRemoteOrigin = (comment) => {
   return {
-    type: CREATE_COMMENT,
-    status: STATUS_REMOTE_ORIGIN,
+    type: constants.CREATE_COMMENT,
+    status: constants.STATUS_REMOTE_ORIGIN,
     comment,
     entity: comment,
   };
-}
+};
 
-export function updateCommentRemoteOrigin(comment) {
+const updateCommentRemoteOrigin = (comment) => {
   return {
-    type: UPDATE_COMMENT,
-    status: STATUS_REMOTE_ORIGIN,
+    type: constants.UPDATE_COMMENT,
+    status: constants.STATUS_REMOTE_ORIGIN,
     comment,
     entity: comment,
   };
-}
+};
 
-export function deleteCommentRemoteOrigin(comment) {
+const deleteCommentRemoteOrigin = (comment) => {
   return {
-    type: DELETE_COMMENT,
-    status: STATUS_REMOTE_ORIGIN,
+    type: constants.DELETE_COMMENT,
+    status: constants.STATUS_REMOTE_ORIGIN,
     comment,
     entity: comment,
   };
-}
+};
 
-export function createCommentSuccess(comment) {
-  return {
-    type: CREATE_COMMENT,
-    status: STATUS_SUCCESS,
-    comment,
-    entity: comment,
-  };
-}
-
-export function updateCommentSuccess(comment) {
-  return {
-    type: UPDATE_COMMENT,
-    status: STATUS_SUCCESS,
-    comment,
-    entity: comment,
-  };
-}
-
-// don't export to show that this is not used as UI action handler
-// or maybe inline in the 'then' ajax response
-export function deleteCommentSuccess(comment) {
-  return {
-    type: DELETE_COMMENT,
-    status: STATUS_SUCCESS,
-    comment,
-    entity: comment,
-  };
-}
-
-export function createComment(comment) {
+const createComment = (comment) => {
   if (comment.commentable_type === 'conversations') {
     comment.commentable_type = 'Conversation';
   } else if (comment.commentable_type === 'agendaItems') {
@@ -80,26 +39,19 @@ export function createComment(comment) {
   }
 
   return (dispatch) => {
-    return fetch('/api/comments', {
-      method: 'post',
-      credentials: 'include', // send cookies with it
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
-      },
-      body: JSON.stringify({
-        comment,
-      }),
-    })
-    .then(response => response.json())
-    .then((json) => {
-      dispatch(createCommentSuccess(transformCommentFromJsonApi(json.data)));
+    api.postJson('/api/comments', { comment }, (json) => {
+      const commentObject = transform.transformObjectFromJsonApi(json.data);
+      dispatch({
+        type: constants.CREATE_COMMENT,
+        status: constants.STATUS_SUCCESS,
+        comment: commentObject,
+        entity: commentObject,
+      });
     });
   };
-}
+};
 
-export function updateComment(comment) {
+const updateComment = (comment) => {
   if (comment.commentable_type === 'conversations') {
     comment.commentable_type = 'Conversation';
   } else if (comment.commentable_type === 'agendaItems') {
@@ -109,43 +61,39 @@ export function updateComment(comment) {
   }
 
   return (dispatch) => {
-    return fetch('/api/comments/' + comment.id, {
-      method: 'put',
-      credentials: 'include', // send cookies with it
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
-      },
-      body: JSON.stringify({
-        comment,
-      }),
-    })
-        .then(response => response.json())
-        .then((json) => {
-          dispatch(updateCommentSuccess(transformCommentFromJsonApi(json.data)));
-        });
-  };
-}
+    api.putJson('/api/comments/' + comment.id, { comment }, (json) => {
+      const commentObject = transform.transformCommentFromJsonApi(json.data);
 
-export function deleteComment(commentId) {
-  return (dispatch) => {
-    return fetch('/api/comments/' + commentId, {
-      method: 'delete',
-      credentials: 'include', // send cookies with it
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
-      } }
-    )
-    .then(response => response.json())
-    .then((json) => {
-      dispatch(deleteCommentSuccess(transformCommentFromJsonApi(json.data)));
-      // if(response.status == 200) {
-      //   dispatch(deleteCommentSuccess(response.json()));
-      // }
+      dispatch({
+        type: constants.UPDATE_COMMENT,
+        status: constants.STATUS_SUCCESS,
+        comment: commentObject,
+        entity: commentObject,
+      });
     });
   };
-}
+};
 
+const deleteComment = (commentId) => {
+  return (dispatch) => {
+    api.deleteJson('/api/comments/' + commentId, (json) => {
+      const commentObject = transform.transformCommentFromJsonApi(json.data);
+
+      dispatch({
+        type: constants.DELETE_COMMENT,
+        status: constants.STATUS_SUCCESS,
+        comment: commentObject,
+        entity: commentObject,
+      });
+    });
+  };
+};
+
+export {
+  createComment,
+  createCommentRemoteOrigin,
+  updateComment,
+  updateCommentRemoteOrigin,
+  deleteComment,
+  deleteCommentRemoteOrigin,
+};

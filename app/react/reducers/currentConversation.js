@@ -1,11 +1,11 @@
-import { CONVERSATION } from '../actions/conversations';
 import Immutable from 'immutable';
+import * as constants from '../actions/constants';
 
 const initialState = new Immutable.Map();
 
 export default function currentConversation(state = initialState, action = null) {
   switch (action.type) {
-    case CONVERSATION: return Immutable.fromJS(action.conversation);
+    case constants.CONVERSATION: return Immutable.fromJS(action.conversation);
     default: return state;
   }
 }

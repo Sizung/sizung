@@ -1,64 +1,51 @@
-import fetch from 'isomorphic-fetch';
-import MetaTagsManager from '../utils/MetaTagsManager';
-import { STATUS_IN_PROGRESS, STATUS_SUCCESS, STATUS_FAILURE, STATUS_REMOTE_ORIGIN } from './statuses';
-import { transformUnseenObjectFromJsonApi } from '../utils/jsonApiUtils';
+import * as constants from './constants';
+import * as api from '../utils/api';
+import * as transform from '../utils/jsonApiUtils';
 
-export const SET_UNSEEN_OBJECTS = 'SET_UNSEEN_OBJECTS';
-export const CREATE_UNSEEN_OBJECT = 'CREATE_UNSEEN_OBJECT';
-export const DELETE_UNSEEN_OBJECTS = 'DELETE_UNSEEN_OBJECTS';
-export const DELETE = 'DELETE';
+const markAsSeen = (seenType, seenId) => {
+  const type = seenType === 'agendaItems' ? 'agenda_items' : seenType;
 
-export function deleteUnseenObjectsSuccess(unseenObjects) {
-  return {
-    type: DELETE_UNSEEN_OBJECTS,
-    verb: DELETE,
-    status: STATUS_SUCCESS,
-    entities: unseenObjects,
-  };
-}
-
-export function markAsSeen(seenType, seenId) {
-  if(seenType === 'agendaItems') {
-    seenType = 'agenda_items';
-  }
-  return (dispatch, store) => {
-    return fetch('/api/' + seenType + '/' + seenId + '/unseen_objects', {
-      method: 'delete',
-      credentials: 'include', // send cookies with it
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken()
-      }}
-    )
-    .then(response => response.json())
-    .then(function(json) {
-        dispatch(deleteUnseenObjectsSuccess(json.data.map(transformUnseenObjectFromJsonApi)));
+  return (dispatch) => {
+    api.deleteJson('/api/' + type + '/' + seenId + '/unseen_objects', (json) => {
+      const unseenObjects = json.data.map(transform.transformObjectFromJsonApi);
+      dispatch({
+        type: constants.DELETE_UNSEEN_OBJECTS,
+        verb: constants.DELETE,
+        status: constants.STATUS_SUCCESS,
+        entities: unseenObjects,
+      });
     });
-  }
-}
+  };
+};
 
-export function setUnseenObjects(unseenObjects) {
+const setUnseenObjects = (unseenObjects) => {
   return {
-    type: SET_UNSEEN_OBJECTS,
-    status: STATUS_REMOTE_ORIGIN,
+    type: constants.SET_UNSEEN_OBJECTS,
+    status: constants.STATUS_REMOTE_ORIGIN,
     entities: unseenObjects,
   };
-}
+};
 
-export function createUnseenObjectRemoteOrigin(unseenObject) {
+const createUnseenObjectRemoteOrigin = (unseenObject) => {
   return {
-    type: CREATE_UNSEEN_OBJECT,
-    status: STATUS_REMOTE_ORIGIN,
+    type: constants.CREATE_UNSEEN_OBJECT,
+    status: constants.STATUS_REMOTE_ORIGIN,
     entity: unseenObject,
   };
-}
+};
 
-export function deleteUnseenObjectRemoteOrigin(unseenObject) {
+const deleteUnseenObjectRemoteOrigin = (unseenObject) => {
   return {
-    type: DELETE_UNSEEN_OBJECTS,
-    verb: DELETE,
-    status: STATUS_REMOTE_ORIGIN,
+    type: constants.DELETE_UNSEEN_OBJECTS,
+    verb: constants.DELETE,
+    status: constants.STATUS_REMOTE_ORIGIN,
     entity: unseenObject,
   };
-}
+};
+
+export {
+  markAsSeen,
+  setUnseenObjects,
+  createUnseenObjectRemoteOrigin,
+  deleteUnseenObjectRemoteOrigin,
+};

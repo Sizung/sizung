@@ -1,6 +1,6 @@
+import Immutable from 'immutable';
 import * as constants from '../actions/constants';
 import * as reducerUtils from '../utils/reducerUtils';
-import Immutable from 'immutable';
 
 const initialState = new Immutable.Map();
 

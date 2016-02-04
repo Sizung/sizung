@@ -1,5 +1,6 @@
-import * as constants from '../actions/constants';
 import Immutable from 'immutable';
+import * as constants from '../actions/constants';
+
 const initialState = new Immutable.Map({
   organizations: new Immutable.Map(),
   conversations: new Immutable.Map(),
@@ -13,7 +14,7 @@ const isEntity = (candidate) => {
 };
 
 const entitiesReducer = (state = initialState, action = null) => {
-  if (action.verb === 'DELETE' && (action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN)) {
+  if (action.verb === constants.DELETE && (action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN)) {
     let newState = state;
 
     if (action.entities) {

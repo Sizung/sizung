@@ -1,4 +1,4 @@
-import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from '../actions/statuses.js';
+import * as constants from '../actions/constants';
 import { toReference, fetched, fetchInProgress, init, add, update, remove } from '../utils/paginationUtils';
 
 export function initReferences(state, reference) {
@@ -14,7 +14,7 @@ export function updateReferenceByObject(state, object, reference) {
 }
 
 export function setReference(state, action, objectName, referenceName) {
-  if (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) {
+  if (action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN) {
     return add(state, action[objectName][referenceName], toReference(action[objectName]));
   }
 
@@ -22,28 +22,28 @@ export function setReference(state, action, objectName, referenceName) {
 }
 
 export function removeReference(state, action, objectName, referenceName) {
-  if ((action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN)) {
+  if ((action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN)) {
     return remove(state, action[objectName][referenceName], toReference(action[objectName]));
   }
   return state;
 }
 
 export function updateReference(state, action, objectName, referenceName) {
-  if (action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) {
+  if (action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN) {
     return update(state, action[objectName][referenceName], toReference(action[objectName]));
   }
   return state;
 }
 
 export function setCommentReference(state, action, commentableType) {
-  if ((action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) && action.comment.commentableType === commentableType) {
+  if ((action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN) && action.comment.commentableType === commentableType) {
     return add(state, action.comment.commentableId, toReference(action.comment));
   }
   return state;
 }
 
 export function deleteCommentReference(state, action, commentableType) {
-  if ((action.status === STATUS_SUCCESS || action.status === STATUS_REMOTE_ORIGIN) && action.comment.commentableType === commentableType) {
+  if ((action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN) && action.comment.commentableType === commentableType) {
     return remove(state, action.comment.commentableId, toReference(action.comment));
   }
   return state;
@@ -51,7 +51,7 @@ export function deleteCommentReference(state, action, commentableType) {
 
 export function handleFetchConversationObjects(state, action, parentReferenceType) {
   if (action.parentReference.type === parentReferenceType) {
-    if (action.status === STATUS_SUCCESS) {
+    if (action.status === constants.STATUS_SUCCESS) {
       const objects = action.conversationObjects.map(toReference);
       return fetched(state, action.parentReference.id, objects, action);
     }
