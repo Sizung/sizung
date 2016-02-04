@@ -5,11 +5,10 @@
 // The type is the only mandatory field in the structure and describes the type of the action.
 // By this type, the reducer function then decides how to handle the action.
 
-import fetch from 'isomorphic-fetch';
 import { routeActions } from 'redux-simple-router';
-import MetaTagsManager from '../utils/MetaTagsManager';
 import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from './statuses.js';
 import { transformObjectFromJsonApi, transformAgendaItemFromJsonApi, transformConversationObjectFromJsonApi } from '../utils/jsonApiUtils.js';
+import * as api from '../utils/api';
 
 export const SET_AGENDA_ITEMS = 'SET_AGENDA_ITEMS';
 export const CREATE_AGENDA_ITEM = 'CREATE_AGENDA_ITEM';
@@ -21,15 +20,6 @@ export function updateAgendaItemRemoteOrigin(agendaItem) {
   return {
     type: UPDATE_AGENDA_ITEM,
     status: STATUS_REMOTE_ORIGIN,
-    agendaItem,
-    entity: agendaItem,
-  };
-}
-
-export function updateAgendaItemSuccess(agendaItem) {
-  return {
-    type: UPDATE_AGENDA_ITEM,
-    status: STATUS_SUCCESS,
     agendaItem,
     entity: agendaItem,
   };
@@ -49,35 +39,20 @@ export function fetchAgendaItemSuccess(agendaItem, included) {
 
 export function updateAgendaItem(id, changedFields) {
   return (dispatch) => {
-    return fetch('/api/agenda_items/' + id, {
-      method: 'PUT',
-      credentials: 'include', // send cookies with it
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
-      },
-      body: JSON.stringify({
-        agenda_item: changedFields,
-      }),
-    })
-    .then(response => response.json())
-    .then((json) => {
-      dispatch(updateAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data)));
+    api.putJson('/api/agenda_items/' + id, { agenda_item: changedFields }, (json) => {
+      const agendaItem = transformAgendaItemFromJsonApi(json.data);
+      dispatch({
+        type: UPDATE_AGENDA_ITEM,
+        status: STATUS_SUCCESS,
+        agendaItem,
+        entity: agendaItem,
+      });
     });
   };
 }
 
 export function archiveAgendaItem(id) {
   return updateAgendaItem(id, { archived: true });
-}
-
-export function closeAgendaItem() {
-  return {
-    type: SELECT_AGENDA_ITEM,
-    status: STATUS_SUCCESS,
-    agendaItemId: null,
-  };
 }
 
 function fetchConversationObjectsSuccess(parentReference, conversationObjects, links) {
@@ -96,34 +71,14 @@ function shouldFetch(getState, agendaItemId) {
 }
 
 function fetchAgendaItem(agendaItemId, dispatch) {
-  return fetch('/api/agenda_items/' + agendaItemId, {
-    method: 'get',
-    credentials: 'include', // send cookies with it
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
-    },
-  })
-  .then(response => response.json())
-  .then((json) => {
+  api.fetchJson('/api/agenda_items/' + agendaItemId, (json) => {
     const included = json.included ? json.included.map(transformObjectFromJsonApi) : null;
     dispatch(fetchAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data), included));
   });
 }
 
 function fetchObjects(agendaItemId, dispatch) {
-  return fetch('/api/agenda_items/' + agendaItemId + '/conversation_objects', {
-    method: 'get',
-    credentials: 'include', // send cookies with it
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-      'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
-    },
-  })
-  .then(response => response.json())
-  .then((json) => {
+  api.fetchJson('/api/agenda_items/' + agendaItemId + '/conversation_objects', (json) => {
     dispatch(
       fetchConversationObjectsSuccess(
         { type: 'agendaItems', id: agendaItemId },
@@ -175,20 +130,7 @@ export function createAgendaItemRemoteOrigin(agendaItem) {
 
 export function createAgendaItem(agendaItem) {
   return (dispatch) => {
-    return fetch('/api/agenda_items', {
-      method: 'post',
-      credentials: 'include', // send cookies with it
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'X-CSRF-Token': MetaTagsManager.getCSRFToken(),
-      },
-      body: JSON.stringify({
-        agenda_item: agendaItem,
-      }),
-    })
-    .then(response => response.json())
-    .then((json) => {
+    api.postJson('/api/agenda_items', { agenda_item: agendaItem }, (json) => {
       dispatch(createAgendaItemSuccess(transformAgendaItemFromJsonApi(json.data)));
     });
   };
