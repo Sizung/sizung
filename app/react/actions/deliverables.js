@@ -5,7 +5,7 @@ import * as transform from '../utils/jsonApiUtils';
 
 const updateDeliverable = (id, changedFields) => {
   return (dispatch) => {
-    api.postJson('/api/deliverables/' + id, { deliverble: changedFields }, (json) => {
+    api.putJson('/api/deliverables/' + id, { deliverable: changedFields }, (json) => {
       const deliverable = transform.transformObjectFromJsonApi(json.data);
       dispatch({
         type: constants.UPDATE_DELIVERABLE,
