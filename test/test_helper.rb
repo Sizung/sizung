@@ -20,6 +20,8 @@ class ActiveSupport::TestCase
   include EmailSpec::Helpers
   include EmailSpec::Matchers
 
+  Rails.application.config.active_job.queue_adapter = :test
+
   # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
   # fixtures :all
 
