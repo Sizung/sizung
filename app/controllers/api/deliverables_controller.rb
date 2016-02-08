@@ -35,7 +35,7 @@ module Api
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')
         if(deliverable_params[:agenda_item_id].present? && deliverable_params[:agenda_item_id] != original_agenda_item_id)
           AgendaItemRelayJob.perform_later(agenda_item: AgendaItem.find(original_agenda_item_id), actor_id: nil, action: 'update')
-          UnseenService.new.movedDeliverable(@deliverable, current_user)
+          MovedDeliverableJob.perform_later(@deliverable, current_user)
         end
       end
       render json: @deliverable
@@ -47,7 +47,7 @@ module Api
       end
 
       def set_deliverable
-        @deliverable = Deliverable.find(params[:id])
+        @deliverable = policy_scope(Deliverable).find(params[:id])
         authorize @deliverable
       end
   end

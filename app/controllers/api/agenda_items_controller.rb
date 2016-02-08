@@ -9,7 +9,7 @@ module Api
     def index
       @conversation = Conversation.find(params[:conversation_id])
       authorize @conversation, :show?
-      render json: @conversation.agenda_items
+      render json: @conversation.agenda_items.includes(:owner, :conversation, :deliverables)
     end
 
     def show

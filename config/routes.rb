@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  require 'sidekiq/web'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
 
@@ -60,6 +61,10 @@ Rails.application.routes.draw do
 
   authenticated :user do
     root to: 'organizations#index', as: :authenticated_root
+  end
+
+  authenticate :user, lambda { |u| u.email == 'gugl@guenterglueck.com' } do
+    mount Sidekiq::Web => '/sidekiq'
   end
 
   match '/websocket', to: ActionCable.server, via: [:get, :post]

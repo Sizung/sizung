@@ -61,6 +61,8 @@ gem 'kaminari'
 gem 'paranoia', '~> 2.0'
 gem 'newrelic_rpm'
 gem 'activeadmin', '~> 1.0.0.pre2'
+gem 'sidekiq'
+gem 'sinatra', require: nil
 
 group :production do
   gem 'rails_12factor'
