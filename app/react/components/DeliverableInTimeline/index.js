@@ -56,16 +56,14 @@ class DeliverableInTimeline extends React.Component {
 
   handleArchive(e) {
     e.preventDefault();
-    this.props.archiveDeliverable(this.props.deliverable.id);
+    if (confirm("Are you sure you want to archive this Deliverable?")) {
+      this.props.archiveDeliverable(this.props.deliverable.id);
+    }
   }
 
   handleSelect(e) {
     e.preventDefault();
-    this.props.selectDeliverable(
-      this.props.deliverable.agendaItem.conversationId,
-      this.props.deliverable.agendaItem.id,
-      this.props.deliverable.id
-    );
+    this.props.visitDeliverable(this.props.deliverable.id);
   }
 
   renderActionButtons() {

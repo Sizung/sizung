@@ -9,6 +9,7 @@ import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
 import * as selectors from '../utils/selectors';
 
+import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillDeliverable } from '../utils/entityUtils';
 
@@ -24,15 +25,19 @@ class DeliverableApp extends React.Component {
   }
 
   fetchData = () => {
-    const { conversationId, agendaItemId, deliverableId } = this.props.params;
-    this.props.selectDeliverable(conversationId, agendaItemId, deliverableId);
+    const { deliverableId } = this.props.params;
+    this.props.fetchDeliverable(deliverableId);
   };
 
   render() {
-    const { conversationObjects, commentForm } = this.props;
+    const { commentForm } = this.props;
     const { parent } = commentForm;
-    if (conversationObjects && parent) {
-      return <ConversationObjectList {...this.props} />;
+    if (parent) {
+      return (
+        <ConversationLayoutApp conversationId={parent.agendaItem.conversationId} selectedAgendaItemId={parent.agendaItemId} selectedDeliverableId={parent.id}>
+          <ConversationObjectList {...this.props} />
+        </ConversationLayoutApp>
+      );
     }
 
     return <div className="text-center"><h5>Loading Deliverable...</h5></div>;
@@ -56,11 +61,14 @@ function nextPageUrl(state, props) {
 }
 
 function mapStateToProps(state, props) {
+  const deliverable = fillDeliverable(state, props.params.deliverableId);
+  const agendaItem = deliverable ? deliverable.agendaItem : null;
+
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
       currentUser: selectors.currentUser(state),
-      parent: fillDeliverable(state, props.params.deliverableId),
+      parent: deliverable,
       canCreateAgendaItem: false,
       canCreateDeliverable: false,
     },
@@ -69,7 +77,7 @@ function mapStateToProps(state, props) {
     canCreateDeliverable: false,
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
-    currentConversationId: props.params.conversationId,
+    currentConversationId: agendaItem ? agendaItem.conversationId : null,
     conversationMembers: selectors.conversationMembers(state),
   };
 }

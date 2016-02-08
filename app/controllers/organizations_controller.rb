@@ -12,7 +12,7 @@ class OrganizationsController < ApplicationController
   def index
     @organizations = policy_scope(Organization)
     respond_to do |format|
-      format.html { redirect_to current_user.organizations.first }
+      format.html { redirect_to organization_path(current_user.last_visited_organization || current_user.organizations.order(:created_at).last) }
       format.json { render json: @organizations }
     end
   end

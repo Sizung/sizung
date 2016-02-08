@@ -1,31 +1,33 @@
-import { STATUS_SUCCESS, STATUS_REMOTE_ORIGIN } from './statuses.js';
-export const SET_CURRENT_USER = 'SET_CURRENT_USER';
-export const SET_USERS = 'SET_USERS';
-export const UPDATE_USER = 'UPDATE_USER';
-import { transformUserFromJsonApi } from '../utils/jsonApiUtils.js';
+import * as constants from './constants';
 
-export function setCurrentUser(currentUserReference) {
+const setCurrentUser = (currentUserReference) => {
   return {
-    type: SET_CURRENT_USER,
-    status: STATUS_SUCCESS,
+    type: constants.SET_CURRENT_USER,
+    status: constants.STATUS_SUCCESS,
     currentUser: currentUserReference,
   };
-}
+};
 
-export function setUsers(users) {
+const setUsers = (users) => {
   return {
-    type: SET_USERS,
-    status: STATUS_SUCCESS,
+    type: constants.SET_USERS,
+    status: constants.STATUS_SUCCESS,
     users,
     entities: users,
   };
-}
+};
 
-export function updateUserRemoteOrigin(user) {
+const updateUserRemoteOrigin = (user) => {
   return {
-    type: UPDATE_USER,
-    status: STATUS_REMOTE_ORIGIN,
-    user: user,
+    type: constants.UPDATE_USER,
+    status: constants.STATUS_REMOTE_ORIGIN,
+    user,
     entity: user,
   };
-}
+};
+
+export {
+  setCurrentUser,
+  setUsers,
+  updateUserRemoteOrigin,
+};

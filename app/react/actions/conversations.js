@@ -1,11 +1,9 @@
+import { routeActions } from 'redux-simple-router';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
-import { STATUS_SUCCESS } from './statuses.js';
+import * as constants from './constants';
 import { setCurrentOrganization } from './organizations';
 import { setUnseenObjects } from './unseenObjects';
-
-export const CONVERSATION = 'CONVERSATION';
-export const FETCH_CONVERSATION_OBJECTS = 'FETCH_CONVERSATION_OBJECTS';
 
 const setCurrentConversation = (conversation, included, json) => {
   const conversationMembers = json.data.relationships.conversation_members.data;
@@ -13,8 +11,8 @@ const setCurrentConversation = (conversation, included, json) => {
   const deliverables = json.data.relationships.deliverables.data;
 
   return {
-    type: CONVERSATION,
-    status: STATUS_SUCCESS,
+    type: constants.CONVERSATION,
+    status: constants.STATUS_SUCCESS,
     conversation,
     entity: conversation,
     entities: included,
@@ -26,11 +24,11 @@ const setCurrentConversation = (conversation, included, json) => {
 
 const fetchConversation = (conversationId) => {
   return (dispatch) => {
-    api.fetchJson('/conversations/' + conversationId + '/unseen_objects', (json) => {
+    api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
       dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
     });
 
-    api.fetchJson('/conversations/' + conversationId, (json) => {
+    api.fetchJson('/api/conversations/' + conversationId, (json) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
       dispatch(setCurrentOrganization({ id: conversation.organizationId, type: 'organizations' }));
@@ -40,17 +38,17 @@ const fetchConversation = (conversationId) => {
 
 const fetchConversationObjectsSuccess = (parentReference, conversationObjects, links) => {
   return {
-    type: FETCH_CONVERSATION_OBJECTS,
-    status: STATUS_SUCCESS,
+    type: constants.FETCH_CONVERSATION_OBJECTS,
+    status: constants.STATUS_SUCCESS,
     parentReference,
     conversationObjects,
     links,
     entities: conversationObjects,
   };
-}
+};
 
 const fetchObjects = (conversationId, dispatch) => {
-  return api.fetchJson('/conversations/' + conversationId + '/conversation_objects', (json) => {
+  return api.fetchJson('/api/conversations/' + conversationId + '/conversation_objects', (json) => {
     dispatch(
       fetchConversationObjectsSuccess(
         { type: 'conversations', id: conversationId },
@@ -63,12 +61,27 @@ const fetchObjects = (conversationId, dispatch) => {
 
 const selectConversation = (conversationId) => {
   return (dispatch) => {
-    fetchConversation(conversationId, dispatch);
+    api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
+      dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
+    });
+
+    api.fetchJson('/api/conversations/' + conversationId, (json) => {
+      const conversation = transform.transformConversationFromJsonApi(json.data);
+      dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
+      dispatch(setCurrentOrganization({ id: conversation.organizationId, type: 'organizations' }));
+    });
     fetchObjects(conversationId, dispatch);
+  };
+};
+
+const visitConversation = (conversationId) => {
+  return (dispatch) => {
+    dispatch(routeActions.push('/conversations/' + conversationId));
   };
 };
 
 export {
   fetchConversation,
   selectConversation,
-}
+  visitConversation,
+};

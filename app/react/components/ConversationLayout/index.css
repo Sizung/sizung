@@ -27,3 +27,48 @@
   width: 100%;
   height: 100%;
 }
+
+.root-center-left-panel {
+  composes: left-panel;
+  composes: hidden-xs from global;
+}
+
+.root-center-center-panel {
+  composes: center-panel;
+  composes: col-xs-12 from global;
+}
+
+.root-center-right-panel {
+  composes: right-panel;
+  composes: hidden-xs from global;
+}
+
+.root-left-left-panel {
+  composes: left-panel;
+  composes: col-xs-12 from global;
+}
+
+.root-left-center-panel {
+  composes: center-panel;
+  composes: hidden-xs from global;
+}
+
+.root-left-right-panel {
+  composes: right-panel;
+  composes: hidden-xs from global;
+}
+
+.root-right-left-panel {
+  composes: left-panel;
+  composes: hidden-xs from global;
+}
+
+.root-right-center-panel {
+  composes: center-panel;
+  composes: hidden-xs from global;
+}
+
+.root-right-right-panel {
+  composes: right-panel;
+  composes: col-xs-12 from global;
+}

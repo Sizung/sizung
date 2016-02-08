@@ -9,7 +9,7 @@
       %li{role: 'presentation'}
         %a.black-color{href: '#account', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Account
       %li{role: 'presentation'}
-        %a.black-color{href: '#teams', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Teams
+        %a.black-color{href: '#organizations', aria_controls: 'home', role: 'pill', data: {toggle: 'pill'}} Organizations
   .col-md-10
     .tab-content
       .tab-pane.active#profile{role: 'tabpanel'}
@@ -48,14 +48,16 @@
           = link_to 'cancel', registration_path(resource_name), data: { confirm: 'Are you sure?' }, class: 'white-color', method: :delete
           your account at any time but we are happier when you stay with us. :)
 
-      .tab-pane#teams{role: 'tabpanel'}
+      .tab-pane#organizations{role: 'tabpanel'}
         .row
           .col-md-6
-            %h4 Teams
+            %h4 Organizations
 
             %ul.list-group
               - current_user.organization_members.each do |organization_member|
-                %li.list-group-item
+                %li.list-group-item.col-xs-12
                   = organization_member.organization
                   = link_to organization_member, method: :delete, data: { confirm: 'Are you sure?' }, class: 'pull-right' do
-                    leave
+                    Leave
+                  - if policy(organization_member.organization).edit?
+                    = link_to 'Edit', edit_organization_path(organization_member.organization), class: 'pull-right padding-sm-horizontal'

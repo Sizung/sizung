@@ -24,7 +24,7 @@ class EditableAgendaItem extends React.Component {
 
   handleEditClick(event) {
     const conversationId = this.props.agendaItem.conversationId;
-    return fetch('/conversations/' + conversationId + '/agenda_items', {
+    return fetch('/api/conversations/' + conversationId + '/agenda_items', {
       method: 'get',
       credentials: 'include', // send cookies with it
       headers: {

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe DeliverablesController do
+describe Api::DeliverablesController do
   include Devise::TestHelpers
 
   describe 'visitor' do

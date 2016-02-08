@@ -37,7 +37,7 @@ class DeliverableList extends Component {
   }
 
   render() {
-    const { deliverables, selectDeliverable, selectedDeliverableId, updateDeliverable } = this.props;
+    const { deliverables, visitDeliverable, selectedDeliverableId, updateDeliverable } = this.props;
 
     return (
       <div styleName={'root'}>
@@ -51,7 +51,7 @@ class DeliverableList extends Component {
               return(<Deliverable
                       key={deliverable.id}
                       deliverable={deliverable}
-                      selectDeliverable={selectDeliverable}
+                      visitDeliverable={visitDeliverable}
                       selected={deliverable.id === selectedDeliverableId}
                       updateDeliverable={updateDeliverable}
                   />);
@@ -65,7 +65,7 @@ class DeliverableList extends Component {
 
 DeliverableList.propTypes = {
   selectedDeliverableId: PropTypes.string,
-  selectDeliverable: PropTypes.func.isRequired,
+  visitDeliverable: PropTypes.func.isRequired,
   deliverables: PropTypes.object.isRequired,
   updateDeliverable: PropTypes.func,
 };

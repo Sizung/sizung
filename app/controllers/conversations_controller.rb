@@ -6,40 +6,21 @@ class ConversationsController < ApplicationController
   after_action :verify_policy_scoped, only: :index
   layout 'conversation', only: [:show]
 
+  respond_to :html
+
   # GET /conversations
-  # GET /conversations.json
   def index
-    @conversations = policy_scope(Conversation).where(organization: @organization).order(:title)
-    respond_to do |format|
-      format.html { redirect_to @organization }
-      format.json { render json: @conversations }
-    end
+    redirect_to @organization
   end
 
   # GET /conversations/1
-  # GET /conversations/1.json
   def show
-    respond_to do |format|
-      format.html do
-        @conversation = Conversation.find(params[:id])
-        authorize @conversation
-        @organizations_json = ActiveModel::SerializableResource.new(policy_scope(Organization)).serializable_hash
-        @users_json = ActiveModel::SerializableResource.new(@conversation.organization.members).serializable_hash
+    @conversation = Conversation.find(params[:id])
+    authorize @conversation
+    @organizations_json = ActiveModel::SerializableResource.new(policy_scope(Organization)).serializable_hash
+    @users_json = ActiveModel::SerializableResource.new(@conversation.organization.members).serializable_hash
 
-        render :show
-      end
-      format.json do
-        @conversation = Conversation.includes(
-            { agenda_items: [:owner, :comments, :deliverables] },
-            { deliverables: [:owner, :assignee, :comments] },
-            { organization: { organization_members: :member }},
-            :conversation_members
-        ).find(params[:id])
-        authorize @conversation
-
-        render json: @conversation, include: %w(agenda_items deliverables organization organization.organization_members.member conversation_members)
-      end
-    end
+    render :show
   end
 
   # GET /conversations/new
@@ -54,7 +35,6 @@ class ConversationsController < ApplicationController
   end
 
   # POST /conversations
-  # POST /conversations.json
   def create
     @conversation = Conversation.new(conversation_params)
     authorize @conversation
@@ -73,27 +53,18 @@ class ConversationsController < ApplicationController
   end
 
   # PATCH/PUT /conversations/1
-  # PATCH/PUT /conversations/1.json
   def update
-    respond_to do |format|
-      if @conversation.update(conversation_params)
-        format.html { redirect_to @conversation, notice: 'Conversation was successfully updated.' }
-        format.json { render :show, status: :ok, location: @conversation }
-      else
-        format.html { render :edit }
-        format.json { render json: @conversation.errors, status: :unprocessable_entity }
-      end
+    if @conversation.update(conversation_params)
+      redirect_to @conversation, notice: 'Conversation was successfully updated.'
+    else
+      render :edit
     end
   end
 
   # DELETE /conversations/1
-  # DELETE /conversations/1.json
   def destroy
     @conversation.destroy
-    respond_to do |format|
-      format.html { redirect_to organization_url(@conversation.organization), notice: 'Conversation was successfully destroyed.' }
-      format.json { head :no_content }
-    end
+    redirect_to organization_url(@conversation.organization), notice: 'Conversation was successfully destroyed.'
   end
 
   private

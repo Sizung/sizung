@@ -16,29 +16,42 @@ class CommentForm extends React.Component {
 
     this.state = {
       hasInput: false,
+      commentActionInFocus: 'comment', //Possible actions: comment, agendaItem, deliverable
     };
 
+    this.commentActions = ['comment'];
     this.handleSubmit = (e) => {
       const name = this.inputNode.value.trim();
-      this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
+      if ( this.state.commentActionInFocus === 'comment') {
+        this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
+      } else if ( this.state.commentActionInFocus === 'agendaItem') {
+        this.handleAgendaItem(e);
+      } else if ( this.state.commentActionInFocus === 'deliverable') {
+        this.handleDeliverable(e);
+      }
+
       this.inputNode.value = '';
       this.setState({ hasInput: false });
     };
 
     this.handleAgendaItem = (e) => {
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
       const name = this.inputNode.value.trim();
       this.props.createAgendaItem({ conversation_id: this.props.parent.id, title: name });
       this.inputNode.value = '';
-      this.setState({ hasInput: false });
+      this.setState({ hasInput: false, commentActionInFocus: 'agendaItem' });
     };
 
     this.handleDeliverable = (e) => {
-      e.preventDefault();
+      if (e) {
+        e.preventDefault();
+      }
       const name = this.inputNode.value.trim();
       this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title: name });
       this.inputNode.value = '';
-      this.setState({ hasInput: false });
+      this.setState({ hasInput: false, commentActionInFocus: 'deliverable' });
     };
 
     this.handleChange = (e) => {
@@ -64,6 +77,17 @@ class CommentForm extends React.Component {
       }
     };
 
+    this.handleKeyDown = (e) => {
+      const name = this.inputNode.value.trim();
+      if (name) {
+        if (e.keyCode === 9 && !e.shifKey) {
+          e.preventDefault();
+          const nextActionInFocusIndex = ((this.commentActions.indexOf(this.state.commentActionInFocus) + 1) % this.commentActions.length);
+          this.setState({ commentActionInFocus: this.commentActions[nextActionInFocusIndex] });
+        }
+      }
+    };
+
     this.handleOnResize = () => {
       let resizedHeightDifference;
       if (this.inputNode !== null && this.formNode !== null) {
@@ -79,6 +103,16 @@ class CommentForm extends React.Component {
     this.formNode = this.refs.formContainer;
   }
 
+  componentWillUpdate() {
+    if (this.props.canCreateAgendaItem) {
+      this.commentActions = ['comment', 'agendaItem'];
+    } else if (this.props.canCreateDeliverable) {
+      this.commentActions = ['comment', 'deliverable'];
+    } else {
+      this.commentActions = ['comment'];
+    }
+  }
+
   componentDidUpdate() {
     if (!this.state.hasInput) {
       // TODO: Find a better alternative to correct this dirty way of dispatching a change event to resize textarea on submit
@@ -91,10 +125,10 @@ class CommentForm extends React.Component {
     const { currentUser } = this.props;
     let buttons = [];
     if (this.props.canCreateAgendaItem) {
-      buttons.push(<Button tabIndex='3' key="createAgendaItem" styleName='agenda-item-btn' type="submit" onClick={this.handleAgendaItem}><AgendaItemIcon size={'small'}/>Agenda Item</Button>);
+      buttons.push(<Button tabIndex='2' key="createAgendaItem" styleName={ 'agenda-item-btn' + (this.state.commentActionInFocus === 'agendaItem' ? '-active' : '') } type="submit" onClick={this.handleAgendaItem}><AgendaItemIcon size={'small'}/>Agenda Item</Button>);
     }
     if (this.props.canCreateDeliverable) {
-      buttons.push(<Button tabIndex='4' key="createDeliverable" styleName='deliverable-btn' type="submit" onClick={this.handleDeliverable}><DeliverableIcon size={'small'}/>Deliverable</Button>);
+      buttons.push(<Button tabIndex='3' key="createDeliverable" styleName={ 'deliverable-btn' + (this.state.commentActionInFocus === 'deliverable' ? '-active' : '') } type="submit" onClick={this.handleDeliverable}><DeliverableIcon size={'small'}/>Deliverable</Button>);
     }
 
     commentActionsStyleName = 'input-btn-group';
@@ -105,7 +139,7 @@ class CommentForm extends React.Component {
     return (
       <div styleName='root'>
         <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
-          <Button tabIndex='2' ref='commentButton' styleName='comment-btn' key="createComment" type="submit" onClick={this.handleSubmit}><ChatIcon size={'small'}/>Comment</Button>
+          <Button tabIndex='1' ref='commentButton' styleName={ 'comment-btn' + (this.state.commentActionInFocus === 'comment' ? '-active' : '') } key="createComment" type="submit" onClick={this.handleSubmit}><ChatIcon size={'small'}/>Comment</Button>
           { buttons }
         </ButtonGroup>
         <div ref='formContainer' styleName='form-container'>
@@ -115,7 +149,7 @@ class CommentForm extends React.Component {
           <div styleName='input-form'>
             <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
               <div styleName='input-container'>
-                <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
+                <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
               </div>
             </form>
           </div>

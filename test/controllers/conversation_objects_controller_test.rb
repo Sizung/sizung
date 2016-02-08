@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe ConversationObjectsController do
+describe Api::ConversationObjectsController do
   include Devise::TestHelpers
 
   describe 'visitor' do

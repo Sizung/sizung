@@ -3,12 +3,11 @@ import * as selectors from '../utils/selectors';
 import ApplicationLayout from '../components/ApplicationLayout';
 
 function mapStateToProps(state, props) {
-  const conversationId = props.params.conversationId;
-
   return {
     organizations: selectors.organizations(state),
     currentOrganization: selectors.currentOrganization(state),
-    currentConversation: selectors.conversation(state, conversationId),
+    // TODO: This is a quick fix due to broken visual hierarchy. Do it the clean way when the visual hierarchy is corrected.
+    currentConversation: props.params.organizationId ? null : selectors.currentConversation(state),
     currentUser: selectors.currentUser(state),
     users: selectors.conversationMembers(state),
   };

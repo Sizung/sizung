@@ -29,7 +29,7 @@ class AgendaItemList extends Component {
   }
 
   render() {
-    const { agendaItems, selectAgendaItem, visitAgendaItem, selectedId, updateAgendaItem } = this.props;
+    const { agendaItems, selectAgendaItem, visitAgendaItem, selectedAgendaItemId, updateAgendaItem } = this.props;
     return (
       <div styleName='root'>
         <div styleName='header'>
@@ -44,7 +44,7 @@ class AgendaItemList extends Component {
                   key={agendaItem.id}
                   agendaItem={agendaItem}
                   selectAgendaItem={selectAgendaItem}
-                  selected={agendaItem.id === selectedId}
+                  selected={agendaItem.id === selectedAgendaItemId}
                   updateAgendaItem={updateAgendaItem}
                   visitAgendaItem={visitAgendaItem}
                 />);

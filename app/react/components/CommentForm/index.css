@@ -4,8 +4,11 @@
 .agenda-item-btn {
   composes: btn btn-xs from global;
   color : #89949E;
+}
 
-  /*border: none;*/
+.agenda-item-btn-active {
+  composes: agenda-item-btn;
+  composes: active from global;
 }
 
 .agenda-item-icon {
@@ -45,6 +48,7 @@
   width: 100%;
   min-height: 20px;
   max-height: 100px;
+  resize: vertical;
 }
 
 .user {
@@ -71,8 +75,13 @@
 .comment-btn {
   composes: btn btn-xs from global;
   color : #89949E;
-  /*border: none;*/
 }
+
+.comment-btn-active {
+  composes: comment-btn;
+  composes: active from global;
+}
+
 
 .comment-icon {
   composes: fa fa-comment text-muted from global;
@@ -81,7 +90,11 @@
 .deliverable-btn {
   composes: btn btn-xs from global;
   color : #89949E;
-  /*border: none;*/
+}
+
+.deliverable-btn-active {
+  composes: deliverable-btn;
+  composes: active from global;
 }
 
 .deliverable-icon {
@@ -91,7 +104,11 @@
 .conversation-btn {
   composes: btn btn-xs from global;
   color : #89949E;
-  /*border: none;*/
+}
+
+.conversation-btn-active {
+  composes: conversation-btn;
+  composes: active from global;
 }
 
 .conversation-icon {

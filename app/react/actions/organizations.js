@@ -1,24 +1,20 @@
-import { STATUS_SUCCESS } from './statuses.js';
+import * as constants from './constants';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
 import { setUnseenObjects } from './unseenObjects';
 
-export const FETCH_ORGANIZATION = 'FETCH_ORGANIZATION';
-export const FETCH_ORGANIZATIONS = 'FETCH_ORGANIZATIONS';
-export const SET_CURRENT_ORGANIZATION = 'SET_CURRENT_ORGANIZATION';
-
 const setCurrentOrganization = (organization) => {
   return {
-    type: SET_CURRENT_ORGANIZATION,
-    status: STATUS_SUCCESS,
+    type: constants.SET_CURRENT_ORGANIZATION,
+    status: constants.STATUS_SUCCESS,
     organization,
   };
 };
 
 const fetchOrganizationsSuccess = (organizations) => {
   return {
-    type: FETCH_ORGANIZATIONS,
-    status: STATUS_SUCCESS,
+    type: constants.FETCH_ORGANIZATIONS,
+    status: constants.STATUS_SUCCESS,
     organizations,
     entities: organizations,
   };
@@ -26,8 +22,8 @@ const fetchOrganizationsSuccess = (organizations) => {
 
 const fetchOrganizationSuccess = (organization, included, conversations, agendaItems, deliverables) => {
   return {
-    type: FETCH_ORGANIZATION,
-    status: STATUS_SUCCESS,
+    type: constants.FETCH_ORGANIZATION,
+    status: constants.STATUS_SUCCESS,
     entity: organization,
     entities: included,
     conversations,
@@ -37,7 +33,7 @@ const fetchOrganizationSuccess = (organization, included, conversations, agendaI
 };
 
 const fetchOrganization = (organizationId, dispatch) => {
-  api.fetchJson('/organizations/' + organizationId, (json) => {
+  api.fetchJson('/api/organizations/' + organizationId, (json) => {
     const organization = transform.transformObjectFromJsonApi(json.data, json.meta);
     const conversations = json.meta.conversations.data.map(transform.transformObjectFromJsonApi);
     const agendaItems = json.meta.agenda_items.data.map(transform.transformObjectFromJsonApi);
@@ -48,7 +44,7 @@ const fetchOrganization = (organizationId, dispatch) => {
     dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
   });
 
-  api.fetchJson('/organizations/' + organizationId + '/unseen_objects', (json) => {
+  api.fetchJson('/api/organizations/' + organizationId + '/unseen_objects', (json) => {
     dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
   });
 };

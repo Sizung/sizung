@@ -17,9 +17,9 @@ const fetchJson = (path, successJsonCallback) => {
   });
 };
 
-const postJson = (path, body, successJsonCallback) => {
+const writeJson = (method, path, body, successJsonCallback) => {
   return fetch(path, {
-    method: 'post',
+    method,
     credentials: 'include', // send cookies with it
     headers: {
       'Accept': 'application/json',
@@ -32,6 +32,14 @@ const postJson = (path, body, successJsonCallback) => {
   .then((json) => {
     successJsonCallback(json);
   });
+};
+
+const postJson = (path, body, successJsonCallback) => {
+  return writeJson('post', path, body, successJsonCallback);
+};
+
+const putJson = (path, body, successJsonCallback) => {
+  return writeJson('put', path, body, successJsonCallback);
 };
 
 const deleteJson = (path, successJsonCallback) => {
@@ -53,5 +61,6 @@ const deleteJson = (path, successJsonCallback) => {
 export {
   fetchJson,
   postJson,
+  putJson,
   deleteJson,
 };

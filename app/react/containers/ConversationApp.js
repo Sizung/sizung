@@ -10,6 +10,7 @@ import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
 import * as selectors from '../utils/selectors';
 
+import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillConversation } from '../utils/entityUtils';
 
@@ -33,8 +34,20 @@ class ConversationApp extends React.Component {
     const { conversationObjects, commentForm } = this.props;
     const { parent } = commentForm;
 
-    if (conversationObjects && parent) {
-      return <ConversationObjectList {...this.props} />;
+    if (parent) {
+      if (conversationObjects) {
+        return (
+          <ConversationLayoutApp conversationId={parent.id}>
+            <ConversationObjectList {...this.props} />
+          </ConversationLayoutApp>
+        );
+      }
+
+      return (
+        <ConversationLayoutApp conversationId={parent.id}>
+          <div className="text-center"><h5>Loading Conversation...</h5></div>
+        </ConversationLayoutApp>
+      );
     }
 
     return <div className="text-center"><h5>Loading Conversation...</h5></div>;

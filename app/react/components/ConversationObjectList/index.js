@@ -43,7 +43,7 @@ class ConversationObjectList extends Component {
     };
   }
 
-  prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, selectDeliverable, parent, currentUser) {
+  prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, parent, currentUser) {
     if(conversationObjects) {
       var _this = this;
       let ownerId = null;
@@ -79,7 +79,7 @@ class ConversationObjectList extends Component {
           } else {
             showOwner = false;
           }
-          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} deliverable={deliverable} selectDeliverable={selectDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>
+          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>
         } else {
           console.warn('Component not found for conversationObject: ', conversationObject);
         }
@@ -123,10 +123,12 @@ class ConversationObjectList extends Component {
 
   handleBackClick(e){
     e.preventDefault();
-    if ( null != this.props.commentForm.parent && this.props.commentForm.parent.type == "deliverables" ){
-      this.props.visitAgendaItem(this.props.commentForm.parent.agendaItem.conversationId, this.props.commentForm.parent.agendaItem.id);
+    if (null != this.props.commentForm.parent && this.props.commentForm.parent.type === "deliverables") {
+      this.props.visitAgendaItem(this.props.commentForm.parent.agendaItemId);
+    } else if (null != this.props.commentForm.parent && this.props.commentForm.parent.type === "agendaItems") {
+      this.props.visitConversation(this.props.commentForm.parent.conversationId);
     } else {
-      this.props.backToConversation(this.props.currentConversationId);
+      console.warn('Back click was not handled properly.');
     }
   }
 
@@ -141,8 +143,8 @@ class ConversationObjectList extends Component {
   static shouldMarkAsSeen = (prevProps, props) => {
     const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
 
-    const unseenPrev = prevProps.conversationObjects.some((obj) => { return obj.unseen; });
-    const unseenNow = props.conversationObjects.some((obj) => { return obj.unseen; });
+    const unseenPrev = prevProps.conversationObjects ? prevProps.conversationObjects.some((obj) => { return obj.unseen; }) : false;
+    const unseenNow = props.conversationObjects ? props.conversationObjects.some((obj) => { return obj.unseen; }) : false;
     return (notHandledByMount || !unseenPrev && unseenNow || prevProps.commentForm.parent.id !== props.commentForm.parent.id && unseenNow);
   };
 
@@ -250,10 +252,10 @@ class ConversationObjectList extends Component {
   renderConversationTimeLine() {
     const { conversationObjects, createComment, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
-        canCreateDeliverable, visitAgendaItem, selectDeliverable } = this.props;
+        canCreateDeliverable, visitAgendaItem, visitDeliverable } = this.props;
 
     var showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, selectDeliverable, commentForm.parent, commentForm.currentUser);
+    var conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser);
 
     let conversationTimelineHeader = '';
     this.isTimelineHeader = false;
@@ -387,6 +389,7 @@ ConversationObjectList.propTypes = {
   canCreateDeliverable: PropTypes.bool.isRequired,
   users: PropTypes.object,
   updateAgendaItem: PropTypes.func.isRequired,
+  visitConversation: PropTypes.func,
 };
 
 ConversationObjectList.defaultProps = {

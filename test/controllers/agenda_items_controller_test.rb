@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe AgendaItemsController do
+describe Api::AgendaItemsController do
   include Devise::TestHelpers
 
   describe 'visitor' do

@@ -1,6 +1,6 @@
 require 'test_helper'
 
-describe UnseenObjectsController do
+describe Api::UnseenObjectsController do
   include Devise::TestHelpers
 
   # describe 'visitor' do
