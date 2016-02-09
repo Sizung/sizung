@@ -47,6 +47,7 @@ class AgendaItemList extends Component {
                   selected={agendaItem.id === selectedAgendaItemId}
                   updateAgendaItem={updateAgendaItem}
                   visitAgendaItem={visitAgendaItem}
+                  organizationContext={this.props.conversationId ? false : true}
                 />);
             })
           }

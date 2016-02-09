@@ -9,6 +9,7 @@ import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
 import CommentsCounter from '../CommentsCounter';
 import DeliverablesCounter from '../DeliverablesCounter';
+import ConversationIcon from '../ConversationIcon';
 
 @CSSModules(styles)
 class AgendaItem extends React.Component {
@@ -40,8 +41,20 @@ class AgendaItem extends React.Component {
     }
   }
 
+  conversationTitle = () => {
+    const { organizationContext, selected, agendaItem } = this.props;
+    if (organizationContext) {
+      return (
+          <div styleName="conversation-title-container">
+            <ConversationIcon inverted={selected} style={{ marginRight: '5px' }}/>{ agendaItem.conversation.title }
+          </div>
+      );
+    }
+  }
+
+
   render() {
-    const { agendaItem, selected } = this.props;
+    const { agendaItem, selected, currentConversation } = this.props;
     let styleName = 'default';
     if (selected === true) {
       styleName = 'selected';
@@ -59,8 +72,10 @@ class AgendaItem extends React.Component {
             </div>
           </div>
           <div styleName="bottom-row">
-            <CommentsCounter count={agendaItem.commentsCount} inverted={selected}/>
-            <DeliverablesCounter count={agendaItem.deliverablesCount} inverted={selected} />
+            <div styleName="counter-container">
+              <DeliverablesCounter count={agendaItem.deliverablesCount} inverted={selected} />
+            </div>
+            {this.conversationTitle()}
           </div>
         </div>
       </div>
@@ -71,13 +86,14 @@ class AgendaItem extends React.Component {
 AgendaItem.propTypes = {
   agendaItem: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    conversationId: PropTypes.string.isRequired,
+    conversation: PropTypes.object,
     title: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
     commentsCount: PropTypes.number.isRequired,
     deliverablesCount: PropTypes.number.isRequired,
   }).isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
+  organizarionContext: PropTypes.bool.isRequired,
 };
 
 export default AgendaItem;

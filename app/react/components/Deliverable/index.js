@@ -40,6 +40,17 @@ class Deliverable extends React.Component {
     }
   }
 
+  agendaItemTitle = () => {
+    const { conversationContext, selected, deliverable } = this.props;
+    if (conversationContext) {
+      return (
+        <div styleName="agenda-title-container">
+          <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }}/>{ deliverable.agendaItem.title }
+        </div>
+      );
+    }
+  }
+
   render() {
     const { deliverable, selected } = this.props;
     const { status, title, agendaItem, assignee, dueOn, commentsCount, unseenCount } = deliverable;
@@ -74,9 +85,7 @@ class Deliverable extends React.Component {
               <div styleName="comments-count-container">
                 <CommentsCounter count={commentsCount} inverted={selected} />
               </div>
-              <div styleName="agenda-title-container">
-                <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }}/>{agendaItem.title}
-              </div>
+              {this.agendaItemTitle()}
             </div>
           </div>
         </div>
@@ -93,6 +102,7 @@ Deliverable.propTypes = {
   }).isRequired,
   visitDeliverable: PropTypes.func.isRequired,
   updateDeliverable: PropTypes.func,
+  conversationContext: PropTypes.bool.isRequired,
 };
 
 Deliverable.defaultProps = {
