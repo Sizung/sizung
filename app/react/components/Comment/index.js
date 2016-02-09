@@ -5,6 +5,8 @@ import Time from 'react-time';
 import User from './../User/index';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
+import TextWithMentions from '../TextWithMentions';
+import SizungInput from '../SizungInput';
 
 @CSSModules(styles)
 class Comment extends React.Component {
@@ -52,8 +54,8 @@ class Comment extends React.Component {
     this.setState({ edit: true });
   }
 
-  handleSubmit() {
-    const commentText = this.refs.input.value.trim();
+  handleSubmit(value) {
+    const commentText = value.trim();
     this.props.updateComment({ id: this.props.comment.id, commentable_id: this.props.comment.parent.id, commentable_type: this.props.comment.parent.type, body: commentText });
     this.closeEditForm();
   }
@@ -64,7 +66,7 @@ class Comment extends React.Component {
           <div className="form-group" style={{ marginBottom: '5px'}}>
 
             <div className="col-xs-12">
-              <textarea ref='input' className='form-control' rows='3'>{body}</textarea>
+              <SizungInput ref="input" className="form-control" onSubmit={this.handleSubmit} rows='3' defaultValue={body} />
             </div>
           </div>
           <div className='form-group' style={{ marginBottom: '5px' }}>
@@ -131,7 +133,7 @@ class Comment extends React.Component {
     return (<div styleName='content-container'>
         {this.renderCommentSettingsOptions()}
         <div styleName='comment-body' ref='commentBody'>
-          {body}
+          <TextWithMentions>{body}</TextWithMentions>
         </div>
           {this.lastUpdatedTime()}
       </div>

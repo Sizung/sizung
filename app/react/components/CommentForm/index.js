@@ -8,6 +8,8 @@ import AgendaItemIcon from '../AgendaItemIcon';
 import DeliverableIcon from '../DeliverableIcon';
 import ChatIcon from '../ChatIcon';
 import TextareaAutosize from 'react-autosize-textarea';
+import { Mention, MentionsInput } from 'react-mentions';
+import SizungInput from '../SizungInput';
 
 @CSSModules(styles)
 class CommentForm extends React.Component {
@@ -15,80 +17,60 @@ class CommentForm extends React.Component {
     super();
 
     this.state = {
-      hasInput: false,
+      value: '',
       commentActionInFocus: 'comment', //Possible actions: comment, agendaItem, deliverable
     };
 
     this.commentActions = ['comment'];
     this.handleSubmit = (e) => {
-      const name = this.inputNode.value.trim();
-      if ( this.state.commentActionInFocus === 'comment') {
+      const name = this.state.value.trim();
+      if (this.state.commentActionInFocus === 'comment') {
         this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
-      } else if ( this.state.commentActionInFocus === 'agendaItem') {
+      } else if (this.state.commentActionInFocus === 'agendaItem') {
         this.handleAgendaItem(e);
-      } else if ( this.state.commentActionInFocus === 'deliverable') {
+      } else if (this.state.commentActionInFocus === 'deliverable') {
         this.handleDeliverable(e);
       }
 
-      this.inputNode.value = '';
-      this.setState({ hasInput: false });
+      this.setState({ value: '' });
     };
 
     this.handleAgendaItem = (e) => {
       if (e) {
         e.preventDefault();
       }
-      const name = this.inputNode.value.trim();
+      const name = this.state.value.trim();
       this.props.createAgendaItem({ conversation_id: this.props.parent.id, title: name });
-      this.inputNode.value = '';
-      this.setState({ hasInput: false, commentActionInFocus: 'agendaItem' });
+      this.setState({ commentActionInFocus: 'agendaItem', value: '' });
     };
 
     this.handleDeliverable = (e) => {
       if (e) {
         e.preventDefault();
       }
-      const name = this.inputNode.value.trim();
+      const name = this.state.value.trim();
       this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title: name });
-      this.inputNode.value = '';
-      this.setState({ hasInput: false, commentActionInFocus: 'deliverable' });
+      this.setState({ commentActionInFocus: 'deliverable', value: '' });
     };
 
-    this.handleChange = (e) => {
-      const name = this.inputNode.value.trim();
-      if (!name) {
-        if (this.state.hasInput) {
-          this.setState({ hasInput: false });
-        }
-      } else {
-        if (!this.state.hasInput) {
-          this.setState({ hasInput: true });
-        }
-      }
-    };
-
-    this.handleKeyPress = (e) => {
-      const name = this.inputNode.value.trim();
-      if (name) {
-        if (e.charCode === 13 && !e.shiftKey) {
-          e.preventDefault();
-          this.handleSubmit();
-        }
-      }
+    this.handleChangeInMentionBox = (ev, value) => {
+      this.setState({
+        value,
+      });
     };
 
     this.handleKeyDown = (e) => {
-      const name = this.inputNode.value.trim();
-      if (name) {
-        if (e.keyCode === 9 && !e.shifKey) {
-          e.preventDefault();
-          const nextActionInFocusIndex = ((this.commentActions.indexOf(this.state.commentActionInFocus) + 1) % this.commentActions.length);
-          this.setState({ commentActionInFocus: this.commentActions[nextActionInFocusIndex] });
-        }
+      if (e.keyCode === 9 && !e.shiftKey) {
+        e.preventDefault();
+        const nextActionInFocusIndex = ((this.commentActions.indexOf(this.state.commentActionInFocus) + 1) % this.commentActions.length);
+        this.setState({ commentActionInFocus: this.commentActions[nextActionInFocusIndex] });
       }
     };
 
     this.handleOnResize = () => {
+      //this.inputNode = ReactDOM.findDOMNode(this.refs.name);
+      //this.formNode = this.refs.formContainer;
+
       let resizedHeightDifference;
       if (this.inputNode !== null && this.formNode !== null) {
         resizedHeightDifference = $(this.inputNode).height() - parseInt($(this.inputNode).css('min-height').split('px')[0]);
@@ -96,11 +78,6 @@ class CommentForm extends React.Component {
         this.props.onResize($(this.formNode).outerHeight());
       }
     };
-  }
-
-  componentDidMount() {
-    this.inputNode = ReactDOM.findDOMNode(this.refs.name);
-    this.formNode = this.refs.formContainer;
   }
 
   componentWillUpdate() {
@@ -114,10 +91,10 @@ class CommentForm extends React.Component {
   }
 
   componentDidUpdate() {
-    if (!this.state.hasInput) {
-      // TODO: Find a better alternative to correct this dirty way of dispatching a change event to resize textarea on submit
-      this.inputNode.dispatchEvent(new Event('input'));
-    }
+    //if (!this.state.hasInput) {
+    //  // TODO: Find a better alternative to correct this dirty way of dispatching a change event to resize textarea on submit
+    //  this.inputNode.dispatchEvent(new Event('input'));
+    //}
   }
 
   render() {
@@ -132,12 +109,15 @@ class CommentForm extends React.Component {
     }
 
     commentActionsStyleName = 'input-btn-group';
-    if (!this.state.hasInput) {
+    if (!this.state.value) {
       commentActionsStyleName = 'hide-input-btn-group';
     }
 
+//    <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
+
     return (
       <div styleName='root'>
+
         <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
           <Button tabIndex='1' ref='commentButton' styleName={ 'comment-btn' + (this.state.commentActionInFocus === 'comment' ? '-active' : '') } key="createComment" type="submit" onClick={this.handleSubmit}><ChatIcon size={'small'}/>Comment</Button>
           { buttons }
@@ -149,7 +129,7 @@ class CommentForm extends React.Component {
           <div styleName='input-form'>
             <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
               <div styleName='input-container'>
-                <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
+                <SizungInput onChange={this.handleChangeInMentionBox} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} value={this.state.value} />
               </div>
             </form>
           </div>

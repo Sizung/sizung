@@ -42,6 +42,7 @@
 .input-container {
   width: 100%;
   padding: 0px 10px 0px 0px;
+  color: black;
 }
 
 .input {
@@ -49,6 +50,26 @@
   min-height: 20px;
   max-height: 100px;
   resize: vertical;
+}
+
+.suggestions {
+  color: black;
+  position: absolute;
+  bottom: 100px;
+  z-index: 100;
+  border: 1px solid palegoldenrod;
+  background-color: lightgoldenrodyellow;
+  padding: 20px;
+}
+
+.inputMentions {
+  width: 100%;
+  min-height: 20px;
+  max-height: 100px;
+  resize: vertical;
+  color: black;
+  position: absolute;
+  bottom: 10px;
 }
 
 .user {
