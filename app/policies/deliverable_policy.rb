@@ -13,7 +13,7 @@ class DeliverablePolicy < ApplicationPolicy
 
   class Scope < Scope
     def resolve
-      scope.joins(agenda_item: { conversation: { organization: :organization_members }}).where(organization_members: { member_id: user.id })
+      scope.joins(agenda_item: { conversation: :conversation_members}).where(conversation_members: { member_id: user.id })
     end
   end
 end

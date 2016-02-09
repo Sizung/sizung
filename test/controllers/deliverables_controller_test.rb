@@ -2,6 +2,7 @@ require 'test_helper'
 
 describe Api::DeliverablesController do
   include Devise::TestHelpers
+  include ActiveJob::TestHelper
 
   describe 'visitor' do
     it 'should not be allowed to create a new deliverable' do
@@ -69,6 +70,7 @@ describe Api::DeliverablesController do
     end
 
     it 'handles unseen objects when a deliverable gets moved to another agenda item' do
+      clear_enqueued_jobs
       conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
       other_agenda_item = FactoryGirl.create :agenda_item, conversation: @agenda_item.conversation
 
@@ -78,8 +80,9 @@ describe Api::DeliverablesController do
       expect(conversation_member.member.unseen_objects.first.agenda_item_id).must_equal @agenda_item.id
 
       deliverable = Deliverable.find(JSON.parse(response.body)['data']['id'])
-      patch :update, id: deliverable.id, deliverable: { agenda_item_id: other_agenda_item.id }
-
+      perform_enqueued_jobs do
+        patch :update, id: deliverable.id, deliverable: { agenda_item_id: other_agenda_item.id }
+      end
       expect(conversation_member.member.unseen_objects.reload.count).must_equal 1
       expect(conversation_member.member.unseen_objects.reload.first.agenda_item_id).must_equal other_agenda_item.id
     end
