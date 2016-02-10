@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  post 'meetings/create'
+
   require 'sidekiq/web'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
