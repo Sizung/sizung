@@ -10,6 +10,8 @@ import styles from './index.css';
 import ConversationMemberListApp from '../../containers/ConversationMemberListApp';
 import ChatIcon from '../ChatIcon';
 import UserIcon from '../UserIcon';
+import * as api from '../../utils/api';
+import * as Immutable from 'immutable';
 
 
 @CSSModules(styles)
@@ -323,6 +325,16 @@ class ConversationObjectList extends Component {
     );
   }
 
+  startMeeting = () => {
+    let memberEmailList = new Immutable.List();
+    this.props.users.map((user) => {
+      memberEmailList = memberEmailList.push({ email: user.email });
+    });
+    const _this = this;
+    api.postJson('/meetings/create', { sender: _this.props.commentForm.currentUser, memberEmailList, url: window.location.href }, (json) => {
+      console.log('Meeting Invite Sent: ' + JSON.stringify(json));
+    });
+  };
 
   render() {
     const { users } = this.props;
@@ -347,6 +359,7 @@ class ConversationObjectList extends Component {
             <ChatIcon inverted={true} size={'large'} style={{ marginRight: '5px' }}/>
             {' CHAT ' + chatType}
           </h5>
+          <button onClick={this.startMeeting}className='btn btn-xs btn-warning' style={{ margin: '10px' }}>Start Meeting</button>
         </div>
 
         <div styleName='member-dropdown-container'>
