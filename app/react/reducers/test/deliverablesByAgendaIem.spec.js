@@ -2,8 +2,7 @@ import reducer from '../deliverablesByAgendaItem';
 import { expect } from 'chai';
 import Immutable from 'immutable';
 import * as utils from '../../utils/paginationUtils';
-
-import { STATUS_SUCCESS } from '../../actions/statuses.js';
+import * as constants from '../../actions/constants';
 
 describe('deiverablesByAgendaItem', () => {
   it('sets one deliverable for the agendaItem', () => {
@@ -11,7 +10,7 @@ describe('deiverablesByAgendaItem', () => {
 
     const nextState = reducer(undefined, {
       type: 'ACTION TYPE DOES NOT MATTER HERE',
-      status: STATUS_SUCCESS,
+      status: constants.STATUS_SUCCESS,
       entity: deliverable,
     });
 
@@ -27,7 +26,7 @@ describe('deiverablesByAgendaItem', () => {
 
     const nextState = reducer(initialState, {
       type: 'ACTION TYPE DOES NOT MATTER HERE',
-      status: STATUS_SUCCESS,
+      status: constants.STATUS_SUCCESS,
       entity: movedDeliverable,
     });
 

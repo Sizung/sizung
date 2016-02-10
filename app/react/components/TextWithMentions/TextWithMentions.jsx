@@ -9,7 +9,7 @@ class TextWithMentions extends React.Component {
     let text = this.props.children;
 
     while (text.match(pattern)) {
-      text = text.replace(pattern, '$1 __$2__ $3');
+      text = text.replace(pattern, '$1__$2__$3');
     }
 
     const rawMarkup = marked(text, { sanitize: true });
@@ -18,7 +18,10 @@ class TextWithMentions extends React.Component {
 
   render() {
     return (
-      <span dangerouslySetInnerHTML={this.rawMarkup()} />
+      <span>
+        <span>{this.props.children}</span>
+        <span dangerouslySetInnerHTML={this.rawMarkup()} />
+      </span>
     );
   }
 }
