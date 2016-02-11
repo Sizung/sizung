@@ -235,7 +235,7 @@ class ConversationObjectList extends Component {
   }
 
   toggleConversationMembersView() {
-    this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible });
+    this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible, isMeetingParticipantsViewVisible: false });
   }
 
   renderConversationMembersView() {
@@ -246,7 +246,7 @@ class ConversationObjectList extends Component {
   }
 
   toggleMeetingParticipantsView() {
-    this.setState({ isMeetingParticipantsViewVisible: !this.state.isMeetingParticipantsViewVisible });
+    this.setState({ isMeetingParticipantsViewVisible: !this.state.isMeetingParticipantsViewVisible, isConversationMembersViewVisible: false });
   }
 
   renderMeetingParticipantsView() {
