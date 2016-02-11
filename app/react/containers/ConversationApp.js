@@ -79,7 +79,7 @@ function mapStateToProps(state, props) {
       canCreateAgendaItem: true,
       canCreateDeliverable: false,
     },
-    users: selectors.conversationMembersAsUsers(state, props.params.conversationId),
+    users: selectors.conversationMembers(state),
     canCreateAgendaItem: true,
     canCreateDeliverable: false,
     isFetching: isFetching(state, props),

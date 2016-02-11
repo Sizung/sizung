@@ -325,14 +325,14 @@ class ConversationObjectList extends Component {
     );
   }
 
-  startMeeting = () => {
-    let memberEmailList = new Immutable.List();
+  sendMeetingRequest = () => {
+    let memberIdList = new Immutable.List();
     this.props.users.map((user) => {
-      memberEmailList = memberEmailList.push({ email: user.email });
+      memberIdList = memberIdList.push({ id: user.memberId });
     });
     const _this = this;
-    api.postJson('/meetings/create', { sender: _this.props.commentForm.currentUser, memberEmailList, url: window.location.href }, (json) => {
-      console.log('Meeting Invite Sent: ' + JSON.stringify(json));
+    api.postJson('/meetings/create', { sender: _this.props.commentForm.currentUser, memberIdList, url: window.location.href }, (json) => {
+      alert('Meeting Invite Sent Successfully!');
     });
   };
 
@@ -359,7 +359,7 @@ class ConversationObjectList extends Component {
             <ChatIcon inverted={true} size={'large'} style={{ marginRight: '5px' }}/>
             {' CHAT ' + chatType}
           </h5>
-          <button onClick={this.startMeeting}className='btn btn-xs btn-warning' style={{ margin: '10px' }}>Start Meeting</button>
+          <button onClick={this.sendMeetingRequest}className='btn btn-xs btn-success' style={{ margin: '10px' }}><i className='fa fa-users'></i><span className='hidden-xs'> Start Meeting</span></button>
         </div>
 
         <div styleName='member-dropdown-container'>
