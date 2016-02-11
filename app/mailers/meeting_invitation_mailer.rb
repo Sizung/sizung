@@ -5,6 +5,6 @@ class MeetingInvitationMailer < ApplicationMailer
       @url = url
       @parent = parent
 
-      mail to: memberEmailArray, cc: sender.email, subject: 'Meeting Invite: "' + parent.title.first(30) + '" (' + sender.email + ')'
+      mail to: memberEmailArray, cc: sender.email, subject: 'Meeting Invite: "' + (parent.title.length > 30 ? parent.title.first(30) + '...' : parent.title) + '" (' + sender.email + ')'
   end
 end
