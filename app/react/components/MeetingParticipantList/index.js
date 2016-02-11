@@ -163,12 +163,14 @@ class MeetingParticipantList extends React.Component {
 
   sendMeetingRequest() {
     let memberIdList = new Immutable.List();
-    this.meetingParticipants.map((participant) => {
-      memberIdList = memberIdList.push({ id: participant.id });
-    });
     const _this = this;
-    api.postJson('/meetings/create', { sender: _this.props.currentUser, memberIdList, url: window.location.href, parent: this.props.parent}, (json) => {
-      alert('Meeting Invite Sent Successfully!');
+    this.meetingParticipants.map((participant) => {
+      if (participant.id !== _this.props.currentUser.id) {
+        memberIdList = memberIdList.push({id: participant.id});
+      }
+    });
+    api.postJson('/api/meetings', { memberIdList, url: window.location.href, parent: { id: this.props.parent.id, type: this.props.parent.type } }, (json) => {
+      alert(json.message);
     });
   };
 
@@ -183,7 +185,7 @@ class MeetingParticipantList extends React.Component {
           </div>
           <div styleName='full-width-container'>
             {this.renderMeetingParticipantList()}
-            <button onClick={ this.sendMeetingRequest }className='btn btn-xs btn-success pull-right' style={{ margin: '10px 0px' }}>Invite</button>
+            <button onClick={ this.sendMeetingRequest }className='btn btn-xs btn-success pull-right' style={{ margin: '10px 0px' }}>Send Meeting Invite</button>
           </div>
           <div styleName='full-width-container'>
             <form styleName='form-container'>
