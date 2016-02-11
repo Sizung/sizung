@@ -184,7 +184,7 @@ class MeetingParticipantList extends React.Component {
           </div>
           <div styleName='full-width-container'>
             {this.renderMeetingParticipantList()}
-            <button onClick={ this.sendMeetingRequest }className='btn btn-xs btn-success pull-right' style={{ margin: '10px' }}>Invite</button>
+            <button onClick={ this.sendMeetingRequest }className='btn btn-xs btn-success pull-right' style={{ margin: '10px 0px' }}>Invite</button>
           </div>
           <div styleName='full-width-container'>
             <form styleName='form-container'>
