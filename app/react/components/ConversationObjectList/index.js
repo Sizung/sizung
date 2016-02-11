@@ -251,7 +251,7 @@ class ConversationObjectList extends Component {
 
   renderMeetingParticipantsView() {
     return (<div ref='conversationObjectList' styleName='member-list'>
-          <MeetingParticipantListApp toggleMeetingParticipantsView={ this.toggleMeetingParticipantsView }/>
+          <MeetingParticipantListApp toggleMeetingParticipantsView={ this.toggleMeetingParticipantsView } parent={ this.props.commentForm.parent }/>
         </div>
     );
   }
@@ -369,7 +369,7 @@ class ConversationObjectList extends Component {
             <ChatIcon inverted={true} size={'large'} style={{ marginRight: '5px' }}/>
             {' CHAT ' + chatType}
           </h5>
-          { this.state.isMeetingParticipantsViewVisible ? '' : <button onClick={ this.toggleMeetingParticipantsView } className='btn btn-xs btn-info' style={{ margin: '10px' }} title='Call Meeting'><i className='fa fa-users'></i><span className='hidden-xs'> Call Meeting</span></button> }
+          { this.state.isMeetingParticipantsViewVisible ? '' : <button onClick={ this.toggleMeetingParticipantsView } className='btn btn-xs btn-success' style={{ margin: '10px' }} title='Call Meeting'><i className='fa fa-users'></i><span className='hidden-xs'> Call Meeting</span></button> }
         </div>
 
         <div styleName='member-dropdown-container'>

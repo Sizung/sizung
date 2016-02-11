@@ -167,13 +167,12 @@ class MeetingParticipantList extends React.Component {
       memberIdList = memberIdList.push({ id: participant.id });
     });
     const _this = this;
-    api.postJson('/meetings/create', { sender: _this.props.currentUser, memberIdList, url: window.location.href }, (json) => {
+    api.postJson('/meetings/create', { sender: _this.props.currentUser, memberIdList, url: window.location.href, parent: this.props.parent}, (json) => {
       alert('Meeting Invite Sent Successfully!');
     });
   };
 
   render() {
-    console.log("Rendering Meeting Participant List: " + JSON.stringify(this.meetingParticipants));
     return (
         <div styleName='root'>
           <div styleName='full-width-container'>
