@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import styles from './SizungInput.css';
 import { Mention, MentionsInput } from 'react-mentions';
+//import { Mention, MentionsInput } from '../Mentions';
 
 class SizungInput extends React.Component {
 
@@ -11,6 +12,7 @@ class SizungInput extends React.Component {
     onSubmit: PropTypes.func,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
+    users: PropTypes.object,
   };
 
   static defaultProps = {
@@ -72,7 +74,7 @@ class SizungInput extends React.Component {
         <Mention  trigger="@"
                   singleLine={false}
                   placeholder={"Mention people using '@'"}
-                  data={[{ id: '87e5e104-0b1e-48b8-aec3-53d7043ab529', display: 'Günter Glück' }, { id: '222', display: 'Elza Tabakova' }]}
+                  data={this.props.users}
                   renderSuggestion={this.renderUserSuggestion}
         />
       </MentionsInput>

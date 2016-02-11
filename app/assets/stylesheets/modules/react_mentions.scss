@@ -3,10 +3,7 @@
   .control {
     &.textarea {
       background: #fff;
-      font-family: monospace;
-      font-size: 12px;
       border: 1px solid silver;
-      font-weight: normal;
 
       .highlighter {
         padding: 9px;
@@ -17,8 +14,6 @@
       display: inline-block;
       width: 130px;
       background: #fff;
-      font-size: 12px;
-      font-weight: normal;
 
       .highlighter {
         padding: 1px;
@@ -28,8 +23,8 @@
 
     .highlighter {
       strong {
-        font-weight: normal;
-        background: #cee4e5;
+        background-color: #E4F3FE;
+        padding: 3px 0 3px 0;
       }
     }
   }
@@ -54,11 +49,10 @@
     position: absolute;
     z-index: 1;
 
-    border: 1px solid rgba(0,0,0,0.15);
+    //border: 3px solid rgba(0,0,0,0.15);
     background-color: white;
-    margin-top: 14px;
-    font-size: 10pt;
-    min-width: 100px;
+    //margin-top: 14px;
+    min-width: 200px;
 
     //.quirks(box-shadow, 2px 2px 0 rgba(0,0,0,0.06));
 
@@ -66,6 +60,11 @@
       margin: 0;
       padding: 0;
       list-style-type: none;
+      position: absolute;
+      bottom: 0;
+      background-color: #E4F3FE;
+      border: 1px solid rgba(0,0,0,0.15);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.06);
 
       li {
         padding: 5px 15px;
@@ -77,7 +76,8 @@
         }
 
         &.focus {
-          background-color: #cee4e5;
+          font-weight: bold;
+          background-color: #bdcad9;
         }
       }
     }

@@ -6,7 +6,7 @@ import User from './../User/index';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
-import SizungInput from '../SizungInput';
+import SizungInputApp from '../../containers/SizungInputApp';
 
 @CSSModules(styles)
 class Comment extends React.Component {
@@ -55,6 +55,10 @@ class Comment extends React.Component {
   }
 
   handleSubmit(value) {
+    //console.log('value: ', value);
+    //console.log('input: ', this.refs.input);
+    //value = this.refs.input.value();
+    //console.log('value: ', value);
     const commentText = value.trim();
     this.props.updateComment({ id: this.props.comment.id, commentable_id: this.props.comment.parent.id, commentable_type: this.props.comment.parent.type, body: commentText });
     this.closeEditForm();
@@ -62,11 +66,11 @@ class Comment extends React.Component {
 
   renderEditComment(body) {
     return (<div styleName='content-container'>
-        <form className="form-horizontal">
+        <div className="form-horizontal">
           <div className="form-group" style={{ marginBottom: '5px'}}>
 
             <div className="col-xs-12">
-              <SizungInput ref="input" className="form-control" onSubmit={this.handleSubmit} rows='3' defaultValue={body} />
+              <SizungInputApp ref="input" className="form-control" onSubmit={this.handleSubmit} rows='3' defaultValue={body} />
             </div>
           </div>
           <div className='form-group' style={{ marginBottom: '5px' }}>
@@ -75,7 +79,7 @@ class Comment extends React.Component {
               <div className='btn btn-sm btn-default' onClick={this.closeEditForm}>Cancel</div>
             </div>
           </div>
-        </form>
+        </div>
       </div>
     );
   }

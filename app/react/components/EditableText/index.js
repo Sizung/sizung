@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
-import SizungInput from '../SizungInput';
+import SizungInputApp from '../../containers/SizungInputApp';
 import TextWithMentions from '../TextWithMentions';
 
 //function SelectInputText(element) {
@@ -85,7 +85,7 @@ class EditableText extends React.Component {
           <form className="form-horizontal">
             <div className="form-group" style={{ marginBottom: "5px"}}>
               <div className="col-xs-12">
-                <SizungInput ref="input" className="form-control" styleName="edit-text-input" onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} />
+                <SizungInputApp ref="input" className="form-control" styleName="edit-text-input" onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} />
               </div>
             </div>
           </form>

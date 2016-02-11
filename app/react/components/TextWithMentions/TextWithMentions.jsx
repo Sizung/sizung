@@ -18,10 +18,7 @@ class TextWithMentions extends React.Component {
 
   render() {
     return (
-      <span>
-        <span>{this.props.children}</span>
-        <span dangerouslySetInnerHTML={this.rawMarkup()} />
-      </span>
+      <span dangerouslySetInnerHTML={this.rawMarkup()} />
     );
   }
 }

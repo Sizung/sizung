@@ -8,8 +8,7 @@ import AgendaItemIcon from '../AgendaItemIcon';
 import DeliverableIcon from '../DeliverableIcon';
 import ChatIcon from '../ChatIcon';
 import TextareaAutosize from 'react-autosize-textarea';
-import { Mention, MentionsInput } from 'react-mentions';
-import SizungInput from '../SizungInput';
+import SizungInputApp from '../../containers/SizungInputApp';
 
 @CSSModules(styles)
 class CommentForm extends React.Component {
@@ -69,14 +68,15 @@ class CommentForm extends React.Component {
 
     this.handleOnResize = () => {
       //this.inputNode = ReactDOM.findDOMNode(this.refs.name);
+      //console.log('handleOnResize', this.inputNode);
       //this.formNode = this.refs.formContainer;
-
-      let resizedHeightDifference;
-      if (this.inputNode !== null && this.formNode !== null) {
-        resizedHeightDifference = $(this.inputNode).height() - parseInt($(this.inputNode).css('min-height').split('px')[0]);
-        $(this.formNode).css('height', parseInt($(this.formNode).css('min-height').split('px')[0]) + resizedHeightDifference + 'px');
-        this.props.onResize($(this.formNode).outerHeight());
-      }
+      //
+      //let resizedHeightDifference;
+      //if (this.inputNode !== null && this.formNode !== null) {
+      //  resizedHeightDifference = $(this.inputNode).height() - parseInt($(this.inputNode).css('min-height').split('px')[0]);
+      //  $(this.formNode).css('height', parseInt($(this.formNode).css('min-height').split('px')[0]) + resizedHeightDifference + 'px');
+      //  this.props.onResize($(this.formNode).outerHeight());
+      //}
     };
   }
 
@@ -129,7 +129,15 @@ class CommentForm extends React.Component {
           <div styleName='input-form'>
             <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
               <div styleName='input-container'>
-                <SizungInput onChange={this.handleChangeInMentionBox} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} value={this.state.value} />
+                <SizungInputApp ref="name"
+                                onChange={this.handleChangeInMentionBox}
+                                onKeyDown={this.handleKeyDown}
+                                onSubmit={this.handleSubmit}
+                                value={this.state.value}
+                                onResize={this.handleOnResize}
+                                rows="1"
+                                placeholder="Type your comment here"
+                />
               </div>
             </form>
           </div>
