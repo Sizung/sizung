@@ -8,6 +8,7 @@ import { Button } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import ConversationMemberListApp from '../../containers/ConversationMemberListApp';
+import MeetingParticipantListApp from '../../containers/MeetingParticipantListApp';
 import ChatIcon from '../ChatIcon';
 import UserIcon from '../UserIcon';
 import * as api from '../../utils/api';
@@ -31,7 +32,10 @@ class ConversationObjectList extends Component {
     this.adjustConversationListHeight = this.adjustConversationListHeight.bind(this);
     this.handleBackClick = this.handleBackClick.bind(this);
     this.toggleConversationMembersView = this.toggleConversationMembersView.bind(this);
+    this.toggleMeetingParticipantsView = this.toggleMeetingParticipantsView.bind(this);
     this.renderConversationTimeLine = this.renderConversationTimeLine.bind(this);
+    this.renderConversationMembersView = this.renderConversationMembersView.bind(this);
+    this.renderMeetingParticipantsView = this.renderMeetingParticipantsView.bind(this);
     this.renderListContainerContent = this.renderListContainerContent.bind(this);
     this.handleCommentSettingsDropdownScroll = this.handleCommentSettingsDropdownScroll.bind(this);
     this.onCommentFormResize = this.onCommentFormResize.bind(this);
@@ -42,6 +46,7 @@ class ConversationObjectList extends Component {
 
     this.state = {
       isConversationMembersViewVisible: false,
+      isMeetingParticipantsViewVisible: false,
     };
   }
 
@@ -204,13 +209,13 @@ class ConversationObjectList extends Component {
       }
     });
 
-    if (!this.state.isConversationMembersViewVisible) {
+    if (!this.state.isConversationMembersViewVisible && !this.state.isMeetingParticipantsViewVisible) {
       this.commentFormNode = ReactDOM.findDOMNode(this.refs.listFooter);
       this.newActivityMarkerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
     }
 
     if (this.shouldScrollBottom) {
-      if (!this.state.isConversationMembersViewVisible) {
+      if (!this.state.isConversationMembersViewVisible && !this.state.isMeetingParticipantsViewVisible) {
         this.scrollListToBottom();
       } else {
         this.scrollListToTop();
@@ -230,13 +235,24 @@ class ConversationObjectList extends Component {
   }
 
   toggleConversationMembersView() {
-    this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible});
+    this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible });
   }
 
   renderConversationMembersView() {
     return (<div ref='conversationObjectList' styleName='member-list'>
-        <ConversationMemberListApp toggleConversationMembersView={this.toggleConversationMembersView}/>
+        <ConversationMemberListApp toggleConversationMembersView={ this.toggleConversationMembersView }/>
       </div>
+    );
+  }
+
+  toggleMeetingParticipantsView() {
+    this.setState({ isMeetingParticipantsViewVisible: !this.state.isMeetingParticipantsViewVisible });
+  }
+
+  renderMeetingParticipantsView() {
+    return (<div ref='conversationObjectList' styleName='member-list'>
+          <MeetingParticipantListApp toggleMeetingParticipantsView={ this.toggleMeetingParticipantsView }/>
+        </div>
     );
   }
 
@@ -248,7 +264,12 @@ class ConversationObjectList extends Component {
   }
 
   renderListContainerContent() {
-    return (this.state.isConversationMembersViewVisible ? this.renderConversationMembersView() : this.renderConversationTimeLine());
+    if (this.state.isConversationMembersViewVisible) {
+      return this.renderConversationMembersView();
+    } else if (this.state.isMeetingParticipantsViewVisible) {
+      return this.renderMeetingParticipantsView();
+    }
+    return this.renderConversationTimeLine();
   }
 
   renderConversationTimeLine() {
@@ -325,17 +346,6 @@ class ConversationObjectList extends Component {
     );
   }
 
-  sendMeetingRequest = () => {
-    let memberIdList = new Immutable.List();
-    this.props.users.map((user) => {
-      memberIdList = memberIdList.push({ id: user.memberId });
-    });
-    const _this = this;
-    api.postJson('/meetings/create', { sender: _this.props.commentForm.currentUser, memberIdList, url: window.location.href }, (json) => {
-      alert('Meeting Invite Sent Successfully!');
-    });
-  };
-
   render() {
     const { users } = this.props;
     let chatType = this.props.commentForm.parent.type;
@@ -359,7 +369,7 @@ class ConversationObjectList extends Component {
             <ChatIcon inverted={true} size={'large'} style={{ marginRight: '5px' }}/>
             {' CHAT ' + chatType}
           </h5>
-          <button onClick={this.sendMeetingRequest}className='btn btn-xs btn-success' style={{ margin: '10px' }}><i className='fa fa-users'></i><span className='hidden-xs'> Start Meeting</span></button>
+          { this.state.isMeetingParticipantsViewVisible ? '' : <button onClick={ this.toggleMeetingParticipantsView }className='btn btn-xs btn-success' style={{ margin: '10px' }}><i className='fa fa-users'></i><span className='hidden-xs'> Start Meeting</span></button> }
         </div>
 
         <div styleName='member-dropdown-container'>
