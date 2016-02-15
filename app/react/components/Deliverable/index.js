@@ -82,9 +82,6 @@ class Deliverable extends React.Component {
               </div>
             </div>
             <div styleName='details-row2'>
-              <div styleName="comments-count-container">
-                <CommentsCounter count={commentsCount} inverted={selected} />
-              </div>
               {this.agendaItemTitle()}
             </div>
           </div>

@@ -61,10 +61,10 @@
 }
 
 .agenda-title-container {
-  composes: col-xs-8 from global;
+  composes: col-xs-12 from global;
   padding: 0px;
   height: 1.5em;
-  text-align: right;
+  text-align: left;
   text-overflow: ellipsis;
   word-wrap: break-word;
   overflow: hidden;
