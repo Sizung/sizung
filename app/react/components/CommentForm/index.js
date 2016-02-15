@@ -16,6 +16,7 @@ class CommentForm extends React.Component {
     super();
 
     this.state = {
+      height: 40,
       value: '',
       commentActionInFocus: 'comment', //Possible actions: comment, agendaItem, deliverable
     };
@@ -116,7 +117,7 @@ class CommentForm extends React.Component {
 //    <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
 
     return (
-      <div styleName='root'>
+      <div ref='root' styleName='root' style={{ height: this.state.height + 10 + 'px' }}>
 
         <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
           <Button tabIndex='1' ref='commentButton' styleName={ 'comment-btn' + (this.state.commentActionInFocus === 'comment' ? '-active' : '') } key="createComment" type="submit" onClick={this.handleSubmit}><ChatIcon size={'small'}/>Comment</Button>
@@ -132,6 +133,15 @@ class CommentForm extends React.Component {
                 <SizungInputApp ref="name"
                                 onChange={this.handleChangeInMentionBox}
                                 onKeyDown={this.handleKeyDown}
+                                onKeyUp={(event) => {
+                                  const height = event.target.scrollHeight;
+
+                                  console.log(height);
+                                  if (this.state.height !== height) {
+                                    //this.refs.root.style.height = height + 'px';
+                                    this.setState({ height });
+                                  }
+                                }}
                                 onSubmit={this.handleSubmit}
                                 value={this.state.value}
                                 onResize={this.handleOnResize}

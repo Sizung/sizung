@@ -9,6 +9,7 @@ class SizungInput extends React.Component {
     value: PropTypes.string,
     defaultValue: PropTypes.string,
     onKeyDown: PropTypes.func,
+    onKeyUp: PropTypes.func,
     onSubmit: PropTypes.func,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
@@ -33,6 +34,10 @@ class SizungInput extends React.Component {
     }
   }
 
+  value = () => {
+    return this.state.value;
+  };
+
   handleChange = (ev, value) => {
     this.setState({
       value,
@@ -56,6 +61,12 @@ class SizungInput extends React.Component {
     }
   };
 
+  handleKeyUp = (e) => {
+    if (this.props.onKeyUp) {
+      this.props.onKeyUp(e);
+    }
+  };
+
   handleBlur = (e) => {
     if (this.props.onBlur) {
       this.props.onBlur(e, this.state.value);
@@ -67,6 +78,7 @@ class SizungInput extends React.Component {
       <MentionsInput value={this.state.value}
                      onChange={this.handleChange}
                      onKeyDown={this.handleKeyDown}
+                     onKeyUp={this.handleKeyUp}
                      onBlur={this.handleBlur}
                      rows="1"
                      markup="@[__display__](__id__)"
