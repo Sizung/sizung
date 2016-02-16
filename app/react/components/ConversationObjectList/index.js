@@ -91,21 +91,23 @@ class ConversationObjectList extends Component {
   }
 
   scrollListToBottom() {
-    //window.requestAnimationFrame(() => {
-    //  if (this.listNode) {
-    //    this.listNode.scrollTop = this.listNode.scrollHeight;
-    //    this.hideNewActivityMarker();
-    //  }
-    //});
+    window.requestAnimationFrame(() => {
+      const listNode = this.refs.conversationObjectList;
+      if (listNode) {
+        listNode.scrollTop = listNode.scrollHeight;
+        // this.hideNewActivityMarker();
+      }
+    });
   }
 
   scrollListToTop() {
-    //window.requestAnimationFrame(() => {
-    //  if (this.listNode) {
-    //    this.listNode.scrollTop = 0;
-    //    this.hideNewActivityMarker();
-    //  }
-    //});
+    window.requestAnimationFrame(() => {
+      const listNode = this.refs.conversationObjectList;
+      if (listNode) {
+        listNode.scrollTop = 0;
+        // this.hideNewActivityMarker();
+      }
+    });
   }
 
   adjustConversationListHeight() {
@@ -185,19 +187,28 @@ class ConversationObjectList extends Component {
       this.newActivityMarkerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
     }
 
-    //if (this.shouldScrollBottom) {
-    //  if (!this.state.isConversationMembersViewVisible) {
-    //    this.scrollListToBottom();
-    //  } else {
-    //    this.scrollListToTop();
-    //  }
-    //} else {
-    //  this.markerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
-    //  if (this.props.conversationObjects.length - prevProps.conversationObjects.length === 1) {
-    //    this.newActivityTimer = 5;
-    //    this.showNewActivityMarker();
-    //  }
-    //}
+    const listNode = this.refs.conversationObjectList;
+    // Intializing DOM nodes references using refs to be used in the component
+    if (listNode !== null) {
+
+      const shouldScrollBottom = (Math.abs(listNode.scrollTop + listNode.offsetHeight - listNode.scrollHeight) <= 82); // 82px is the offset tolerance considering borders and padding
+      //console.log('shouldScrollBottom', listNode.scrollTop, listNode.offsetHeight, listNode.scrollHeight, Math.abs(listNode.scrollTop + listNode.offsetHeight - listNode.scrollHeight), shouldScrollBottom);
+      if (shouldScrollBottom) {
+        if (!this.state.isConversationMembersViewVisible) {
+          this.scrollListToBottom();
+        } else {
+          this.scrollListToTop();
+        }
+      } else {
+        //this.markerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
+        //if (this.props.conversationObjects.length - prevProps.conversationObjects.length === 1) {
+        //  this.newActivityTimer = 5;
+        //  this.showNewActivityMarker();
+        //}
+      }
+
+    }
+
     //this.adjustConversationListHeight();
     //
     //if (ConversationObjectList.shouldMarkAsSeen(prevProps, this.props)) {
@@ -217,7 +228,7 @@ class ConversationObjectList extends Component {
     const timelineHeader = this.refs.timelineHeaderContainer;
     const listElement = this.refs.conversationObjectList;
     //listElement.style.height = commentBoxHeight + 'px';
-    console.log(timelineHeader, listElement, timelineHeader.offsetHeight, commentBoxHeight);
+    //console.log(timelineHeader, listElement, timelineHeader.offsetHeight, commentBoxHeight);
     listElement.setAttribute("style", "height:" + (window.innerHeight - (timelineHeader.offsetHeight + 190) - commentBoxHeight) + "px");
     //this.setState({ commentFormHeight: commentBoxHeight });
   }

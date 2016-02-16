@@ -67,7 +67,7 @@ class CommentForm extends React.Component {
       }
       e.target.style.height = 0;
       e.target.style.height = e.target.scrollHeight + 'px';
-      console.log('scroll / height: ', e.target.scrollHeight, e.target.style.height);
+      //console.log('scroll / height: ', e.target.scrollHeight, e.target.style.height);
       this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
     };
 
@@ -79,7 +79,7 @@ class CommentForm extends React.Component {
         //this.setState({ height });
         //this.refs.root.style.height = height + 20 + 'px';
         //this.refs.formContainer.style.height = height + 'px';
-        console.log('scroll / height: ', e.target.scrollHeight, e.target.style.height);
+        //console.log('scroll / height: ', e.target.scrollHeight, e.target.style.height);
         this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
       //}
     };
