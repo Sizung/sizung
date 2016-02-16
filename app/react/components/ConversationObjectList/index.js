@@ -38,6 +38,7 @@ class ConversationObjectList extends Component {
 
     this.state = {
       isConversationMembersViewVisible: false,
+      commentFormHeight: 40,
     };
   }
 
@@ -158,6 +159,9 @@ class ConversationObjectList extends Component {
     //  this.adjustConversationListHeight();
     //  this.scrollListToBottom();
     //}
+
+    this.onCommentFormResize(this.state.commentFormHeight);
+    window.addEventListener("resize", () => { this.onCommentFormResize(this.state.commentFormHeight); });
   }
 
   componentWillUpdate() {
@@ -206,10 +210,16 @@ class ConversationObjectList extends Component {
   }
 
   onCommentFormResize(commentBoxHeight) {
-    $(this.commentFormNode).css('height',commentBoxHeight);
-    const listNodeBottomOffset = commentBoxHeight + parseInt($(this.commentFormNode).css('bottom').split('px')[0]);
-    $(this.listNode).css('bottom', listNodeBottomOffset + 'px');
-    $(this.newActivityMarkerNode).css('bottom', (listNodeBottomOffset + 5) + 'px');
+    //$(this.commentFormNode).css('height',commentBoxHeight);
+    //const listNodeBottomOffset = commentBoxHeight + parseInt($(this.commentFormNode).css('bottom').split('px')[0]);
+    //$(this.listNode).css('bottom', listNodeBottomOffset + 'px');
+    //$(this.newActivityMarkerNode).css('bottom', (listNodeBottomOffset + 5) + 'px');
+    const timelineHeader = this.refs.timelineHeaderContainer;
+    const listElement = this.refs.conversationObjectList;
+    //listElement.style.height = commentBoxHeight + 'px';
+    console.log(timelineHeader, listElement, timelineHeader.offsetHeight, commentBoxHeight);
+    listElement.setAttribute("style", "height:" + (window.innerHeight - (timelineHeader.offsetHeight + 190) - commentBoxHeight) + "px");
+    //this.setState({ commentFormHeight: commentBoxHeight });
   }
 
   renderListContainerContent() {
@@ -233,13 +243,15 @@ class ConversationObjectList extends Component {
     const _this = this;
 
     return (
-      <div>
-        <TimelineHeader parent={commentForm.parent} {...headerActions} />
+      <div className={styles.root}>
+        <div ref="timelineHeaderContainer">
+          <TimelineHeader parent={commentForm.parent} {...headerActions} />
+        </div>
         <div ref="conversationObjectList" className={styles.list}>
           { showMore }
           { conversationObjectElements }
         </div>
-        <div ref="listFooter">
+        <div ref="listFooter" className={styles.listFooter}>
           <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} onResize={this.onCommentFormResize} {...commentForm} />
         </div>
         <div ref="newActivityMarker" styleName="timeline-new-activity-marker">

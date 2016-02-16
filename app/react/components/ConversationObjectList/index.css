@@ -10,7 +10,15 @@
   background-color: #ffffff;
   overflow-y: auto;
   overflow-x: hidden;
-  height: 300px;
+}
+
+.root {
+  background-color: white;
+}
+
+.listFooter {
+  position: absolute;
+  bottom: 0;
 }
 
 .loadingMessage {

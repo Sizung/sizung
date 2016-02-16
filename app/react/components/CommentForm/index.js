@@ -65,20 +65,37 @@ class CommentForm extends React.Component {
         const nextActionInFocusIndex = ((this.commentActions.indexOf(this.state.commentActionInFocus) + 1) % this.commentActions.length);
         this.setState({ commentActionInFocus: this.commentActions[nextActionInFocusIndex] });
       }
+      e.target.style.height = 0;
+      e.target.style.height = e.target.scrollHeight + 'px';
+      console.log('scroll / height: ', e.target.scrollHeight, e.target.style.height);
+      this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
     };
 
-    this.handleOnResize = () => {
-      //this.inputNode = ReactDOM.findDOMNode(this.refs.name);
-      //console.log('handleOnResize', this.inputNode);
-      //this.formNode = this.refs.formContainer;
-      //
-      //let resizedHeightDifference;
-      //if (this.inputNode !== null && this.formNode !== null) {
-      //  resizedHeightDifference = $(this.inputNode).height() - parseInt($(this.inputNode).css('min-height').split('px')[0]);
-      //  $(this.formNode).css('height', parseInt($(this.formNode).css('min-height').split('px')[0]) + resizedHeightDifference + 'px');
-      //  this.props.onResize($(this.formNode).outerHeight());
+    this.handleKeyUp = (e) => {
+      e.target.style.height = 0;
+      e.target.style.height = e.target.scrollHeight + 'px';
+      //if (this.state.height !== height) {
+        //this.refs.root.style.height = height + 'px';
+        //this.setState({ height });
+        //this.refs.root.style.height = height + 20 + 'px';
+        //this.refs.formContainer.style.height = height + 'px';
+        console.log('scroll / height: ', e.target.scrollHeight, e.target.style.height);
+        this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
       //}
     };
+
+    //this.handleOnResize = () => {
+    //  const inputNode = ReactDOM.findDOMNode(this.refs.name);
+    //  console.log('handleOnResize', this.inputNode);
+    //  const formNode = this.refs.formContainer;
+    //
+    //  let resizedHeightDifference;
+    //  if (inputNode !== null && formNode !== null) {
+    //    resizedHeightDifference = $(inputNode).height() - parseInt($(inputNode).css('min-height').split('px')[0]);
+    //    $(formNode).css('height', parseInt($(formNode).css('min-height').split('px')[0]) + resizedHeightDifference + 'px');
+    //    this.props.onResize($(formNode).outerHeight());
+    //  }
+    //};
   }
 
   componentWillUpdate() {
@@ -117,12 +134,14 @@ class CommentForm extends React.Component {
 //    <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
 
     return (
-      <div ref='root' styleName='root' style={{ height: this.state.height + 10 + 'px' }}>
+      <div ref='root' styleName='root'>
 
-        <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
-          <Button tabIndex='1' ref='commentButton' styleName={ 'comment-btn' + (this.state.commentActionInFocus === 'comment' ? '-active' : '') } key="createComment" type="submit" onClick={this.handleSubmit}><ChatIcon size={'small'}/>Comment</Button>
-          { buttons }
-        </ButtonGroup>
+        <div className={styles.buttonsContainer}>
+          <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
+            <Button tabIndex='1' ref='commentButton' styleName={ 'comment-btn' + (this.state.commentActionInFocus === 'comment' ? '-active' : '') } key="createComment" type="submit" onClick={this.handleSubmit}><ChatIcon size={'small'}/>Comment</Button>
+            { buttons }
+          </ButtonGroup>
+        </div>
         <div ref='formContainer' styleName='form-container'>
           <div styleName='user'>
             <User user={currentUser} />
@@ -133,15 +152,7 @@ class CommentForm extends React.Component {
                 <SizungInputApp ref="name"
                                 onChange={this.handleChangeInMentionBox}
                                 onKeyDown={this.handleKeyDown}
-                                onKeyUp={(event) => {
-                                  const height = event.target.scrollHeight;
-
-                                  console.log(height);
-                                  if (this.state.height !== height) {
-                                    //this.refs.root.style.height = height + 'px';
-                                    this.setState({ height });
-                                  }
-                                }}
+                                onKeyUp={this.handleKeyUp}
                                 onSubmit={this.handleSubmit}
                                 value={this.state.value}
                                 onResize={this.handleOnResize}

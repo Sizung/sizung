@@ -1,8 +1,9 @@
 .root {
   width: 100%;
-  position: absolute;
-  bottom: 0;
   margin-bottom: 28px;
+  background-color: white;
+  border: 0 solid #eeeeee;
+  border-top-width: 1px;
 }
 
 .input-form {
@@ -28,21 +29,23 @@
   composes: fa fa-tag text-muted from global;
 }
 
+.buttonsContainer {
+  text-align: right;
+  margin-right: 10px;
+}
+
 .input-btn-group {
-  position: absolute;
-  right: 10px;
-  top: 0;
-  z-index: 2;
-  display: inline;
+  /*display: inline;*/
+  visibility: visible;
 }
 
 .hide-input-btn-group {
-  display: none;
+  visibility: hidden;
 }
 
 .input-container {
   width: 100%;
-  padding: 0 70px 0 0;
+  padding: 0 10px 0 0;
   color: black;
 }
 
@@ -65,15 +68,12 @@
   width: 100%;
   min-height: 70px;
   height: 100%;
-  padding: 20px 0 10px 0;
-  border: 0 solid #eeeeee;
-  border-top-width: 1px;
-  background-color: #ffffff;
+  padding: 10px 0 10px 0;
 }
 
 .input-container {
-  position: absolute;
-  bottom: 0;
+  /*position: absolute;*/
+  /*bottom: 0;*/
 }
 
 .comment-btn {
