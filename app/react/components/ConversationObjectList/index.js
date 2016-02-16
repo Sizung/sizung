@@ -23,9 +23,6 @@ class ConversationObjectList extends Component {
 
       this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
     }
-    this.scrollListToBottom = this.scrollListToBottom.bind(this);
-    this.scrollListToTop = this.scrollListToTop.bind(this);
-    this.adjustConversationListHeight = this.adjustConversationListHeight.bind(this);
     this.toggleConversationMembersView = this.toggleConversationMembersView.bind(this);
     this.renderConversationTimeLine = this.renderConversationTimeLine.bind(this);
     this.renderListContainerContent = this.renderListContainerContent.bind(this);
@@ -90,31 +87,24 @@ class ConversationObjectList extends Component {
     //}
   }
 
-  scrollListToBottom() {
+  scrollListToBottom = () => {
     window.requestAnimationFrame(() => {
       const listNode = this.refs.conversationObjectList;
       if (listNode) {
         listNode.scrollTop = listNode.scrollHeight;
-        // this.hideNewActivityMarker();
+        this.hideNewActivityMarker();
       }
     });
   }
 
-  scrollListToTop() {
+  scrollListToTop = () => {
     window.requestAnimationFrame(() => {
       const listNode = this.refs.conversationObjectList;
       if (listNode) {
         listNode.scrollTop = 0;
-        // this.hideNewActivityMarker();
+        this.hideNewActivityMarker();
       }
     });
-  }
-
-  adjustConversationListHeight() {
-    //const headerInTimelineHeight = (this.refs.headerInTimeline === undefined) ? 0 : $(this.refs.headerInTimeline).outerHeight();
-    //const conversationHeaderHeight = ( this.refs.conversationHeader === undefined) ? 0 : $(this.refs.conversationHeader).outerHeight();
-    //const headerInTimelineBottomMargin = 0;
-    //$(this.listNode).css('top', (headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin));
   }
 
   static shouldMarkAsSeen = (prevProps, props) => {
@@ -126,51 +116,54 @@ class ConversationObjectList extends Component {
   };
 
   showNewActivityMarker() {
-    //$(this.markerNode).css('display', 'block');
-    //let _this = this;
-    //if (!this.newActivityTimerId) {
-    //  this.newActivityTimerId = setInterval(function () {
-    //    if (_this.newActivityTimer === 0) {
-    //      _this.hideNewActivityMarker();
-    //      clearInterval(_this.newActivityTimerId);
-    //      _this.newActivityTimerId = null;
-    //    } else {
-    //      _this.newActivityTimer--;
-    //    }
-    //  }, 1000);
-    //}
+    const markerNode = this.refs.newActivityMarker;
+
+    $(markerNode).css('display', 'block');
+    if (!this.newActivityTimerId) {
+      this.newActivityTimerId = setInterval(() => {
+        if (this.newActivityTimer === 0) {
+          this.hideNewActivityMarker();
+          clearInterval(this.newActivityTimerId);
+          this.newActivityTimerId = null;
+        } else {
+          this.newActivityTimer--;
+        }
+      }, 1000);
+    }
   }
 
   hideNewActivityMarker() {
-    //$(this.markerNode).fadeOut();
+    const marker = this.refs.newActivityMarker;
+
+    if (marker) {
+      $(this.markerNode).fadeOut();
+    }
   }
 
   scrollDownToNewActivity() {
-    //this.hideNewActivityMarker();
-    //this.scrollListToBottom();
+    this.hideNewActivityMarker();
+    this.scrollListToBottom();
   }
 
   componentDidMount() {
-    //const conversationObjectList = ReactDOM.findDOMNode(this.refs.conversationObjectList);
-    //if (conversationObjectList) {
-    //  this.listNode = conversationObjectList;
-    //  window.addEventListener("resize", this.adjustConversationListHeight);
-    //  if (this.props.commentForm.parent) {
-    //    this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
-    //  }
-    //  this.adjustConversationListHeight();
-    //  this.scrollListToBottom();
-    //}
+    console.log('componentDidMount');
+    const listNode = this.refs.conversationObjectList;
+    if (listNode) {
+      if (this.props.commentForm.parent) {
+        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      }
+      this.scrollListToBottom();
+    }
 
     this.onCommentFormResize(this.state.commentFormHeight);
     window.addEventListener("resize", () => { this.onCommentFormResize(this.state.commentFormHeight); });
   }
 
   componentWillUpdate() {
-    //Intializing DOM nodes references using refs to be used in the component
-    //if (this.listNode !== null) {
-    //  this.shouldScrollBottom = (Math.abs(this.listNode.scrollTop + this.listNode.offsetHeight - this.listNode.scrollHeight) <= 20); // 20px is the offset tolerance considering borders and padding
-    //}
+    const listNode = this.refs.conversationObjectList;
+    if (listNode) {
+      this.shouldScrollBottom = (Math.abs(listNode.scrollTop + listNode.offsetHeight - listNode.scrollHeight) <= 82); // 20px is the offset tolerance considering borders and padding
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -182,17 +175,16 @@ class ConversationObjectList extends Component {
     //  }
     //});
 
-    if (!this.state.isConversationMembersViewVisible) {
-      this.commentFormNode = ReactDOM.findDOMNode(this.refs.listFooter);
-      this.newActivityMarkerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
-    }
+    //if (!this.state.isConversationMembersViewVisible) {
+    //  this.commentFormNode = ReactDOM.findDOMNode(this.refs.listFooter);
+    //  this.newActivityMarkerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
+    //}
 
     const listNode = this.refs.conversationObjectList;
     // Intializing DOM nodes references using refs to be used in the component
     if (listNode !== null) {
 
       const shouldScrollBottom = (Math.abs(listNode.scrollTop + listNode.offsetHeight - listNode.scrollHeight) <= 82); // 82px is the offset tolerance considering borders and padding
-      //console.log('shouldScrollBottom', listNode.scrollTop, listNode.offsetHeight, listNode.scrollHeight, Math.abs(listNode.scrollTop + listNode.offsetHeight - listNode.scrollHeight), shouldScrollBottom);
       if (shouldScrollBottom) {
         if (!this.state.isConversationMembersViewVisible) {
           this.scrollListToBottom();
@@ -200,20 +192,28 @@ class ConversationObjectList extends Component {
           this.scrollListToTop();
         }
       } else {
-        //this.markerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
-        //if (this.props.conversationObjects.length - prevProps.conversationObjects.length === 1) {
-        //  this.newActivityTimer = 5;
-        //  this.showNewActivityMarker();
-        //}
+        if (this.props.conversationObjects.length - prevProps.conversationObjects.length === 1) {
+          this.newActivityTimer = 5;
+          this.showNewActivityMarker();
+        }
       }
 
+      if ((this.props.conversationObjects ? this.props.conversationObjects.length : 0) - (prevProps.conversationObjects ? prevProps.conversationObjects.length : 0) > 1) {
+        this.scrollListToBottom();
+      }
     }
 
-    //this.adjustConversationListHeight();
-    //
-    //if (ConversationObjectList.shouldMarkAsSeen(prevProps, this.props)) {
-    //  this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
-    //}
+    if (this.shouldScrollBottom) {
+      if (!this.state.isConversationMembersViewVisible) {
+        this.scrollListToBottom();
+      } else {
+        this.scrollListToTop();
+      }
+    }
+
+    if (ConversationObjectList.shouldMarkAsSeen(prevProps, this.props)) {
+      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    }
   }
 
   toggleConversationMembersView() {
