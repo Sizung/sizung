@@ -10,6 +10,7 @@ import UnseenBadge from '../UnseenBadge';
 import CommentsCounter from '../CommentsCounter';
 import DeliverablesCounter from '../DeliverablesCounter';
 import ConversationIcon from '../ConversationIcon';
+import User from '../User';
 
 @CSSModules(styles)
 class AgendaItem extends React.Component {
@@ -73,7 +74,10 @@ class AgendaItem extends React.Component {
           </div>
           <div styleName="bottom-row">
             <div styleName="counter-container">
-              <DeliverablesCounter count={agendaItem.deliverablesCount} inverted={selected} />
+              <User user={ agendaItem.owner } innerStyle={ (selected ? { border: '1px solid #ffffff' } : {})}/>
+              <div style={{display: 'inline-block', marginTop: '5px', marginLeft: '5px', float: 'right'}}>
+                <DeliverablesCounter count={agendaItem.deliverablesCount} inverted={selected}/>
+              </div>
             </div>
             {this.conversationTitle()}
           </div>
