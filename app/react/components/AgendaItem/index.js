@@ -64,8 +64,8 @@ class AgendaItem extends React.Component {
         {AgendaItem.renderUnseenBadge(agendaItem.unseenCount, selected)}
         <div styleName={styleName} onClick={this.handleClick}>
           <div styleName="row">
-            <div styleName="content-container">
-              <EditableText editable={false} text={agendaItem.title} onUpdate={this.handleTitleUpdate} />
+            <div styleName="content-container" title={agendaItem.title}>
+              { agendaItem.title.length > 40 ? agendaItem.title.substring(0, 40) + '...' : agendaItem.title }
             </div>
             <div styleName="status-container">
               <EditableStatus editable={false} status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
