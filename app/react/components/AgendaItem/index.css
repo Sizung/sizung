@@ -6,6 +6,13 @@
 .default {
   composes: card from '../../styles/modules/card.css';
   composes: hover-container from '../../styles/modules/hover.css';
+
+  border-top: 1px solid #405663;
+  border-bottom: 1px solid #405663;
+  border-right: 1px solid #405663;
+  border-left: 5px solid #71e9ef;
+
+  background-color: transparent;
 }
 .selected {
   composes: card-selected from '../../styles/modules/card.css';
@@ -28,7 +35,8 @@
 
   -ms-word-break: break-all;
   word-break: break-word;
-  font-weight: 600;
+  font-family: 'Gotham-Book';
+  color: #ffffff;
 }
 
 .status-container {
@@ -54,19 +62,21 @@
 }
 
 .user-container {
-  composes: pull-right from global;
+  composes: pull-left from global;
+  padding: 0px 5px;
 }
 
 .counter-container {
-  composes: col-sm-4 col-xs-12 from global;
+  composes: col-sm-6 col-xs-12 from global;
   padding: 0px;
 }
 
 .conversation-title-container {
-  composes: col-sm-8 col-xs-12 from global;
+  composes: col-sm-6 col-xs-12 from global;
   padding: 0px;
   text-align: right;
   text-overflow: ellipsis;
+  font-family: 'Gotham-Light';
   word-wrap: break-word;
   overflow: hidden;
   white-space: nowrap;

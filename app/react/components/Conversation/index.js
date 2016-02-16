@@ -62,9 +62,9 @@ class Conversation extends React.Component {
         <div styleName="default">
           <div styleName="row">
             <div styleName="content-container">
-              <Link to={'/conversations/' + conversation.id}>
-                { conversation.title }
-              </Link>
+                <Link to={'/conversations/' + conversation.id} style={{ color: '#0A0022' }}>
+                  {'#' +  conversation.title }
+                </Link>
               <div styleName="actions">
                 <small>
                   <a href={'/conversations/' + conversation.id + '/edit'} styleName="action">

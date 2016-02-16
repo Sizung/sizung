@@ -31,11 +31,12 @@
   padding: 10px;
   margin-top: 5px;
   position: relative;
-  background-color: #004346;
+  font-family: 'Gotham-Light';
+  /*background-color: #004346;*/
 
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+  /*-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
+  /*-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
+  /*box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
 }
 
 .header {

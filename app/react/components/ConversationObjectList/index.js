@@ -136,7 +136,7 @@ class ConversationObjectList extends Component {
     const headerInTimelineHeight = (this.refs.headerInTimeline === undefined) ? 0 : $(this.refs.headerInTimeline).outerHeight();
     const conversationHeaderHeight = ( this.refs.conversationHeader === undefined) ? 0 : $(this.refs.conversationHeader).outerHeight();
     const headerInTimelineBottomMargin = 0;
-    $(this.listNode).css('top', (headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin));
+    $(this.listNode).css('top', (headerInTimelineHeight + conversationHeaderHeight + headerInTimelineBottomMargin + 40));
   }
 
 
@@ -262,6 +262,7 @@ class ConversationObjectList extends Component {
     const _this = this;
     let listStyle = 'list';
     let listFooterStyle = 'list-footer';
+
     if (this.props.commentForm.parent !== null) {
       switch (this.props.commentForm.parent.type) {
         case 'agendaItems' :
@@ -277,6 +278,7 @@ class ConversationObjectList extends Component {
               visitAgendaItem={visitAgendaItem}
             />
           </div>);
+
           break;
 
         case 'deliverables' :
@@ -327,13 +329,17 @@ class ConversationObjectList extends Component {
   render() {
     const { users } = this.props;
     let chatType = this.props.commentForm.parent.type;
+    let conversationTitle = '';
     if (chatType !== null) {
       if (chatType === 'agendaItems') {
         chatType = '( Agenda Item )';
+        conversationTitle = this.props.commentForm.parent.conversation.title;
       } else if (chatType === 'deliverables') {
         chatType = '( Deliverable )';
+        conversationTitle = this.props.commentForm.parent.agendaItem.conversation.title;
       } else if (chatType === 'conversations') {
         chatType = '';
+        conversationTitle = this.props.commentForm.parent.title;
       }
     } else {
       chatType = '';
@@ -357,6 +363,11 @@ class ConversationObjectList extends Component {
             </a>
           </div>
         </div>
+      </div>
+      <div style={{ padding: '10px', height: '40px', fontFamily: 'Gotham-Medium', background: '#e9f0f0', color: '#676e71'}}>
+        {'#' + conversationTitle}
+        <span aria-hidden="true" className='pull-right' style={{ color: '#676e71', fontFamily: 'Gotham-Light'}}>&times;</span>
+
       </div>
       {this.renderListContainerContent()}
     </div>

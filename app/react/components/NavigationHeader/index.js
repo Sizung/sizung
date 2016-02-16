@@ -71,7 +71,7 @@ class NavigationHeader extends Component {
                 </li>
               </ul>
             </div>
-            { this.conversationTitle(currentConversation) }
+            { this.conversationTitle(null) }
             <div styleName='user-dropdown-container'>
               <ul styleName='user-dropdown-nav'>
                 <li styleName='user-dropdown-nav-item'>

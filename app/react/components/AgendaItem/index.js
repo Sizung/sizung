@@ -46,7 +46,7 @@ class AgendaItem extends React.Component {
     if (organizationContext) {
       return (
           <div styleName="conversation-title-container">
-            <ConversationIcon inverted={selected} style={{ marginRight: '5px' }}/>{ agendaItem.conversation.title }
+            {'#' + agendaItem.conversation.title }
           </div>
       );
     }

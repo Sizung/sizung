@@ -19,6 +19,8 @@ class AgendaItemInTimeline extends React.Component {
     this.handleArchive = this.handleArchive.bind(this);
     this.renderActionButtons = this.renderActionButtons.bind(this);
     this.lastUpdatedTime = this.lastUpdatedTime.bind(this);
+    this.renderAgendaItemAsTimeLineHeader = this.renderAgendaItemAsTimeLineHeader.bind(this);
+    this.renderAgendaItemInTimeLine = this.renderAgendaItemInTimeLine.bind(this);
   }
 
   handleTitleUpdate(newTitle) {
@@ -65,7 +67,37 @@ class AgendaItemInTimeline extends React.Component {
     return <Time value={createdAt} titleFormat='YYYY/MM/DD HH:mm' relative />;
   }
 
-  render() {
+  renderAgendaItemInTimeLine() {
+    const { agendaItem, showOwner } = this.props;
+    const { title, status, owner, archived } = agendaItem;
+
+    const timeStyle = ( this.props.isTimelineHeader ? "time-container-inverse" : "time-container");
+    const archiveStyle = ( archived ? 'archive-wrapper' : '');
+
+    return(
+        <div styleName='root'>
+          <div styleName='user-container'>
+            <div style={{padding: '0px 10px'}}><AgendaItemIcon inverted={this.props.isTimelineHeader}/></div>
+          </div>
+          <div styleName={"content-container"+ (this.props.isTimelineHeader ? '-inverted' : '')}>
+            <div styleName="title-container">
+              <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
+            </div>
+            <div styleName='time-container-inverse'>
+              <div styleName='status-container'>
+                <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
+              </div>
+              <small>
+                {this.lastUpdatedTime()}
+              </small>
+            </div>
+          </div>
+          { archived ? <div styleName={archiveStyle}></div> : '' }
+        </div>
+    );
+  }
+
+  renderAgendaItemAsTimeLineHeader() {
     const { agendaItem, showOwner } = this.props;
     const { title, status, owner, archived } = agendaItem;
 
@@ -81,7 +113,7 @@ class AgendaItemInTimeline extends React.Component {
             <div styleName="title-container">
               <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
             </div>
-            <div styleName={timeStyle}>
+            <div styleName='time-container-inverse'>
               <div styleName='status-container'>
                 <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
               </div>
@@ -94,6 +126,10 @@ class AgendaItemInTimeline extends React.Component {
           { archived ? <div styleName={archiveStyle}></div> : '' }
         </div>
     );
+  }
+
+  render() {
+    return (this.props.isTimelineHeader ? this.renderAgendaItemAsTimeLineHeader() : this.renderAgendaItemInTimeLine());
   }
 }
 

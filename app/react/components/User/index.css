@@ -21,6 +21,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   vertical-align: middle;
+  font-family: 'Gotham-Light';
   color : #89949E;
 }
 
@@ -51,6 +52,7 @@
   color: #57C1E8;
   border: 1px solid #57C1E8;
   float: left;
+  font-family: 'Gotham-Light';
 }
 
 

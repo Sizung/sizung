@@ -9,6 +9,8 @@ import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
 import CommentsCounter from '../CommentsCounter';
 import AgendaItemIcon from '../AgendaItemIcon';
+import DeliverableIcon from '../DeliverableIcon';
+import Time from 'react-time';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
@@ -51,6 +53,15 @@ class Deliverable extends React.Component {
     }
   }
 
+  dueDate = () => {
+    const {dueOn} = this.props.deliverable;
+    console.log('dueOn: ' + dueOn);
+    if (dueOn) {
+      return (<div styleName="due-on"><Time value={dueOn} format='DD MMM - YYYY'/></div>);
+    }
+    return null;
+  }
+
   render() {
     const { deliverable, selected } = this.props;
     const { status, title, agendaItem, assignee, dueOn, commentsCount, unseenCount } = deliverable;
@@ -64,25 +75,30 @@ class Deliverable extends React.Component {
       <div styleName='root'>
         {this.renderUnseenBadge(unseenCount, selected)}
         <div styleName={styleName} onClick={this.handleClick}>
-          <div styleName='row'>
-            <div styleName='content-container'>
-              <EditableText editable={false} text={title} onUpdate={this.handleTitleUpdate} />
-            </div>
-            <div styleName='status-container'>
-              <EditableStatus editable={false} status={status} onUpdate={this.handleStatusUpdate} />
-            </div>
+          <div style={{ display: 'table-cell', verticalAlign: 'top'}}>
+            <DeliverableIcon inverted={true}/>
           </div>
-          <div styleName='details-row'>
-            <div styleName='details-row1'>
-              <div styleName="user-container">
-                <User user={assignee} />
+          <div style={{ display: 'table-cell', width: '100%', paddingLeft: '5px' }}>
+            <div styleName='row'>
+              <div styleName='content-container'>
+                <EditableText editable={false} text={title} onUpdate={this.handleTitleUpdate} />
               </div>
-              <div styleName="due-on">
-                {dueOn}
+              <div styleName='status-container'>
+                <EditableStatus editable={false} status={status} onUpdate={this.handleStatusUpdate} />
               </div>
             </div>
-            <div styleName='details-row2'>
-              {this.agendaItemTitle()}
+            <div styleName='details-row'>
+              <div styleName='details-row1'>
+                { this.dueDate() }
+              </div>
+              <div styleName='details-row2'>
+                {this.agendaItemTitle()}
+                <div styleName="user-container">
+                  <div className='pull-right'>
+                    <User user={assignee}/>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
