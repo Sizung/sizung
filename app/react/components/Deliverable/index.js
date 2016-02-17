@@ -78,9 +78,7 @@ class Deliverable extends React.Component {
               <div styleName="user-container">
                 <User user={assignee} />
               </div>
-              <div styleName="due-on">
-                <Time value={dueOn} format='DD MMM - YYYY' />
-              </div>
+              { dueOn ? <div styleName="due-on"><Time value={dueOn} format='DD MMM - YYYY' /></div> : ''}
             </div>
             <div styleName='details-row2'>
               {this.agendaItemTitle()}
