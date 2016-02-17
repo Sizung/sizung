@@ -1,10 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
-import styles from "./index.css";
+import styles from './index.css';
 import User from '../User/index';
 
-
-@CSSModules(styles)
 class SelectableUser extends React.Component {
   constructor() {
     super();
@@ -16,15 +13,14 @@ class SelectableUser extends React.Component {
   }
 
   render() {
-    const { user, users, isSelected } = this.props;
-    var selectionStyle = ( isSelected ? "selected" : "unselected");
+    const { user, isSelected } = this.props;
     return (
-        <div onClick={this.handleSelect} styleName='root'>
-          <div styleName='user-container'>
-            <User key={user.id} user={user} showName={true} showEmail={true} styleName='user'/>
+        <div onClick={this.handleSelect} className={styles.root}>
+          <div className={styles.status}>
+            <i className={isSelected ? styles.selected : styles.unselected}></i>
           </div>
-          <div styleName='status'>
-            <i styleName={selectionStyle}></i>
+          <div className={styles.userContainer}>
+            <User key={user.id} user={user} showName showEmail />
           </div>
         </div>
     );
@@ -36,10 +32,10 @@ SelectableUser.propTypes = {
     email: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
-    presenceStatus: PropTypes.string.isRequired
+    presenceStatus: PropTypes.string.isRequired,
   }).isRequired,
   isSelected: PropTypes.bool.isRequired,
-  onUpdate: PropTypes.func.isRequired
+  onUpdate: PropTypes.func.isRequired,
 };
 
 export default SelectableUser;

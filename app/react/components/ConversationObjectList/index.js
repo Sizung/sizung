@@ -3,13 +3,10 @@ import CommentForm from './../CommentForm/index';
 import Comment from './../Comment/index';
 import AgendaItemInTimeline from './../AgendaItemInTimeline';
 import DeliverableInTimeline from './../DeliverableInTimeline';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
-import ConversationMemberListApp from '../../containers/ConversationMemberListApp';
 import TimelineHeader from '../TimelineHeader/index';
 import ConversationHeader from '../ConversationHeader';
 
-@CSSModules(styles)
 class ConversationObjectList extends Component {
   constructor() {
     super();
@@ -41,21 +38,7 @@ class ConversationObjectList extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    // this.listNode = ReactDOM.findDOMNode(this.refs.conversationObjectList);
-    // let _this = this;
-    // $(this.listNode).scroll(function () {
-    //   if($(_this.listNode).scrollTop() + $(_this.listNode).innerHeight() >= _this.listNode.scrollHeight) {
-    //     _this.hideNewActivityMarker();
-    //   }
-    // });
-
-    // if (!this.state.isConversationMembersViewVisible) {
-    //   this.commentFormNode = ReactDOM.findDOMNode(this.refs.listFooter);
-    //   this.newActivityMarkerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
-    // }
-
     const listNode = this.refs.conversationObjectList;
-    // Intializing DOM nodes references using refs to be used in the component
     if (listNode !== null) {
       const shouldScrollBottom = (Math.abs(listNode.scrollTop + listNode.offsetHeight - listNode.scrollHeight) <= 82); // 82px is the offset tolerance considering borders and padding
       if (shouldScrollBottom) {
@@ -150,7 +133,6 @@ class ConversationObjectList extends Component {
       const listNode = this.refs.conversationObjectList;
       if (listNode) {
         listNode.scrollTop = listNode.scrollHeight;
-        this.hideNewActivityMarker();
       }
     });
   };
@@ -160,7 +142,6 @@ class ConversationObjectList extends Component {
       const listNode = this.refs.conversationObjectList;
       if (listNode) {
         listNode.scrollTop = 0;
-        this.hideNewActivityMarker();
       }
     });
   };
@@ -183,14 +164,6 @@ class ConversationObjectList extends Component {
     parentType = this.props.commentForm.parent.type ? this.props.commentForm.parent.type : 'conversations';
 
     this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
-  };
-
-  renderListContainerContent = () => {
-    if (this.state.isConversationMembersViewVisible) {
-      return <div className={styles.memberList}><ConversationMemberListApp toggleConversationMembersView={this.toggleConversationMembersView}/></div>;
-    }
-
-    return this.renderConversationTimeLine();
   };
 
   renderConversationTimeLine = () => {
@@ -225,7 +198,7 @@ class ConversationObjectList extends Component {
     return (
       <div className={styles.listContainer}>
         <ConversationHeader chatType={this.props.commentForm.parent.type} usersCount={users ? users.size : 0} onToggleConversationMembersView={this.toggleConversationMembersView} />
-        {this.renderListContainerContent()}
+        {this.renderConversationTimeLine()}
       </div>
     );
   }

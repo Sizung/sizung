@@ -28,13 +28,3 @@
   padding: 0;
   margin: 0;
 }
-
-.memberDropdownContainer {
-  float: right;
-  cursor: pointer;
-}
-
-.memberBadge {
-  display: inline-block;
-  margin-left: 5px;
-}

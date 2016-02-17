@@ -5,9 +5,9 @@ import * as ConversationMemberActions from '../actions/conversationMembers';
 import * as selectors from '../utils/selectors';
 
 function mapStateToProps(state) {
-  const organizationMembers =  selectors.organizationMembers(state).toList();
+  const organizationMembers = selectors.organizationMembers(state);
   const currentConversation = state.getIn(['currentConversation']);
-  const conversationMembers = selectors.conversationMembers(state).toList();
+  const conversationMembers = selectors.conversationMembers(state);
   return {
     organizationMembers,
     conversationMembers,
