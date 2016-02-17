@@ -93,7 +93,7 @@ AgendaItem.propTypes = {
     deliverablesCount: PropTypes.number.isRequired,
   }).isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
-  organizarionContext: PropTypes.bool.isRequired,
+  organizationContext: PropTypes.bool.isRequired,
 };
 
 export default AgendaItem;

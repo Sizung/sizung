@@ -6,7 +6,7 @@ import * as selectors from '../utils/selectors';
 function mapStateToProps(state) {
   const currentConversation = selectors.currentConversation(state);
   let users = currentConversation ? selectors.conversationMembersAsUsers(state, currentConversation.id) : new Immutable.List();
-  users = users.map((user) => { return { id: user.id, display: user.name }; }).toJS();
+  users = users.map((user) => { return { id: user.id, display: user.name }; });
   return {
     users,
   };

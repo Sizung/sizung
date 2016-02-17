@@ -86,7 +86,7 @@ class SizungInput extends React.Component {
         <Mention  trigger="@"
                   singleLine={false}
                   placeholder={"Mention people using '@'"}
-                  data={this.props.users}
+                  data={this.props.users ? this.props.users.toJS() : []}
                   renderSuggestion={this.renderUserSuggestion}
         />
       </MentionsInput>

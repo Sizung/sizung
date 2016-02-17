@@ -158,25 +158,20 @@ class ConversationMemberList extends React.Component {
               </div>
               <a className={styles.closeButton} onClick={this.handleToggleView}><span aria-hidden="true">&times;</span></a>
             </div>
-            <div className={styles.fullWidthContainer}>
+            <div className={styles.conversationMemberList}>
               {this.renderConversationMemberList()}
             </div>
             <div className={styles.fullWidthContainer}>
-              <form className={styles.formContainer}>
+              <div className={styles.organizationMemberTitle}>
+                <h4>Organization Members</h4>
+              </div>
+              <form>
                 <div className={styles.inputContainer}>
                   <input ref="memberFilter" type="text" className={styles.input} id="memberName"
                     placeholder="Filter by name, email" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}
                   />
                 </div>
               </form>
-            </div>
-
-            <div className={styles.fullWidthContainer}>
-              <div className={styles.organizationMemberContainer}>
-                <div className={styles.organizationMemberTitle}>
-                  <h4>Organization Members</h4>
-                </div>
-              </div>
               {this.renderOrganizationMemberList()}
             </div>
           </div>
@@ -190,8 +185,8 @@ class ConversationMemberList extends React.Component {
 }
 
 ConversationMemberList.propTypes = {
-  organizationMembers: PropTypes.object.isRequired,
-  conversationMembers: PropTypes.object.isRequired,
+  organizationMembers: PropTypes.object,
+  conversationMembers: PropTypes.object,
   createConversationMember: PropTypes.func.isRequired,
   deleteConversationMember: PropTypes.func.isRequired,
   currentConversation: PropTypes.object.isRequired,

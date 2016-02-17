@@ -154,10 +154,6 @@ class ConversationObjectList extends Component {
     return (notHandledByMount || !unseenPrev && unseenNow || prevProps.commentForm.parent.id !== props.commentForm.parent.id && unseenNow);
   };
 
-  toggleConversationMembersView = () => {
-    this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible });
-  };
-
   handleShowMore = (e) => {
     let parentType;
     e.preventDefault();
@@ -193,11 +189,9 @@ class ConversationObjectList extends Component {
   };
 
   render() {
-    const { users } = this.props;
-
     return (
       <div className={styles.listContainer}>
-        <ConversationHeader chatType={this.props.commentForm.parent.type} usersCount={users ? users.size : 0} onToggleConversationMembersView={this.toggleConversationMembersView} />
+        <ConversationHeader chatType={this.props.commentForm.parent.type} />
         {this.renderConversationTimeLine()}
       </div>
     );
@@ -227,7 +221,6 @@ ConversationObjectList.propTypes = {
   currentConversationId: PropTypes.string.isRequired,
   canCreateAgendaItem: PropTypes.bool.isRequired,
   canCreateDeliverable: PropTypes.bool.isRequired,
-  users: PropTypes.object,
   updateAgendaItem: PropTypes.func.isRequired,
   visitConversation: PropTypes.func,
 };

@@ -1,3 +1,24 @@
+.rootContainer {
+  position: relative;
+}
+
+.root {
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  width: 500px;
+  height: 500px;
+  z-index: 999;
+  overflow: auto;
+
+  /*composes: row from global;*/
+  padding: 10px;
+  background-color: white;
+  -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+  box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+}
+
 .user-logo {
   display: table-cell;
   padding: 5px;
@@ -10,28 +31,17 @@
   vertical-align: top;
 }
 
-.rootContainer {
-  position: relative;
-  background-color: white;
-}
-
-.root {
-  position: absolute;
-  top: 10px;
-  right: -10px;
-  width: 500px;
-  height: 500px;
-  z-index: 999;
-  overflow: auto;
-  border: 1px solid silver;
-
-  /*composes: row from global;*/
-  padding: 10px;
-  background-color: white;
-}
-
 .fullWidthContainer {
-  composes: col-xs-12 from global;
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.conversationMemberList {
+  width: 100%;
+  overflow: auto;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .conversationMemberTitle {
@@ -50,27 +60,17 @@
   cursor: pointer;
 }
 
-.formContainer {
-  composes: col-xs-12 from global;
-  padding: 0;
-  margin-top: 10px;
-}
-
 .inputContainer {
-  composes: form-group col-xs-12 from global;
+  composes: form-group from global;
   padding: 0;
 }
 
 .input {
-  composes: col-xs-12 form-control from global;
-}
-
-.organizationMemberContainer {
-  padding: 0;
-  margin-top: 10px;
+  composes: form-control from global;
 }
 
 .organizationMemberTitle {
+  margin-top: 10px;
   color : #89949E;
   font-weight: 600;
 }
@@ -85,7 +85,7 @@
   margin-left: 5px;
 }
 
-/* from conversation object list */
+/* from conversation object list not used at the moment */
 .memberList {
   background-color: #ffffff;
   position: absolute;
