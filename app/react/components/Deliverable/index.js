@@ -9,6 +9,7 @@ import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
 import CommentsCounter from '../CommentsCounter';
 import AgendaItemIcon from '../AgendaItemIcon';
+import Time from 'react-time';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
@@ -78,7 +79,7 @@ class Deliverable extends React.Component {
                 <User user={assignee} />
               </div>
               <div styleName="due-on">
-                {dueOn}
+                <Time value={dueOn} format='DD MMM - YYYY' />
               </div>
             </div>
             <div styleName='details-row2'>

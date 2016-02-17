@@ -76,7 +76,7 @@ class ConversationObjectList extends Component {
           } else {
             showOwner = false;
           }
-          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} isTimelineHeader={false}/>
+          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} isTimelineHeader={false}/>
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
@@ -86,7 +86,7 @@ class ConversationObjectList extends Component {
           } else {
             showOwner = false;
           }
-          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>
+          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} currentUser={currentUser} deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>
         } else {
           console.warn('Component not found for conversationObject: ', conversationObject);
         }

@@ -7,7 +7,8 @@
 
 .user-container {
   display: table-cell;
-  width: 60px;
+  min-width: 60px;
+  max-width: 60px;
   padding: 0px 15px;
   vertical-align: top;
 }
@@ -23,7 +24,7 @@
 
 .title-container {
   font-weight: 600;
-  color : #89949E;
+  color: #ffffff;
   text-align: left;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -33,19 +34,7 @@
   word-break: break-word;
 }
 
-.title-container-inverted {
-  composes: title-container;
-  color: #ffffff;
-}
-
 .content-container {
-  display: table-cell;
-  width: 100%;
-  padding: 15px;
-  background-color: #E1F2FE;
-}
-
-.content-container-inverted {
   display: table-cell;
   width: 100%;
 }
@@ -78,12 +67,7 @@
 }
 
 .meta-label {
-  composes: text-muted from global;
   font-weight: 100;
-}
-
-.meta-label-inverted {
-  composes: meta-label;
   color: #cccccc;
 }
 
@@ -165,10 +149,6 @@
 }
 
 .due-on-label {
-  color: #89949e;
-}
-
-.due-on-label-inverted {
   color: #cccccc;
 }
 
@@ -187,6 +167,7 @@
   opacity: 0.6;
   z-index: 100;
 }
+
 .title {
   composes: col-xs-12 col-sm-8 from global;
   padding: 0px;
@@ -195,4 +176,80 @@
 .assignee {
   composes: col-xs-6-pull-right col-sm-4 from global;
   padding: 0px;
+}
+
+
+.message-root {
+  position: relative;
+  width: 100%;
+  padding: 5px 0px;
+  color : #89949E;
+}
+
+.message-container {
+  position: relative;
+  display: table-cell;
+  width: 100%;
+  margin: 0px;
+  padding: 0px 30px 0px 0px;
+}
+
+.message-content {
+  padding-right: 20px;
+  width: 100%;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+
+  -ms-word-break: break-all;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.options-menu {
+  position: absolute;
+  display:none;
+  margin-left: 1em;
+  right: 15px;
+  top: 0px;
+}
+
+.message-root:hover .options-menu {
+  display:block;
+}
+
+.message-root:hover{
+  background-color: #eeeeee;
+}
+
+.gear-icon {
+  composes: fa fa-gear fa-lg text-muted from global;
+  cursor: pointer;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.deliverable-label {
+  font-weight: 600;
+}
+
+.message-deliverable-title {
+  color: #57C1E8;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.message-deliverable-title-archived {
+  composes: message-deliverable-title;
+  cursor: default;
+}
+
+.resolved-status {
+  composes: text-info pull-right from global;
 }

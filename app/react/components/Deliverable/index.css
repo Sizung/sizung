@@ -49,6 +49,8 @@
 .user-container {
   composes: pull-left from global;
   padding: 0px 5px;
+  min-width: 60px;
+  max-width: 60px;
 }
 
 .due-on {
