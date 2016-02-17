@@ -147,7 +147,7 @@ class DeliverableInTimeline extends React.Component {
     const messageContent = (<div>
       <div>
         <span styleName='deliverable-label'>
-          {'Deliverable'}
+          {'A Deliverable'}
         </span>{ ' was assigned to ' }
         { this.renderUserName(deliverable.assignee) }
         { dueOn ? <small>{'. Due on '}<Time value={dueOn} format='DD MMM - YYYY' /></small> : ''}

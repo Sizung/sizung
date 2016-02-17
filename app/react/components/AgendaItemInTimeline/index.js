@@ -117,7 +117,7 @@ class AgendaItemInTimeline extends React.Component {
     const messageContent = (<div>
       <div>
         <span styleName='agenda-item-label'>
-          {'Agenda Item'}
+          {'An Agenda Item'}
         </span>
         {' was raised by '}
         {this.renderUserName(agendaItem.owner)}
