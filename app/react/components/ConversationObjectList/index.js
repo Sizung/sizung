@@ -32,10 +32,8 @@ class ConversationObjectList extends Component {
     this.adjustConversationListHeight = this.adjustConversationListHeight.bind(this);
     this.handleBackClick = this.handleBackClick.bind(this);
     this.toggleConversationMembersView = this.toggleConversationMembersView.bind(this);
-    this.toggleMeetingParticipantsView = this.toggleMeetingParticipantsView.bind(this);
     this.renderConversationTimeLine = this.renderConversationTimeLine.bind(this);
     this.renderConversationMembersView = this.renderConversationMembersView.bind(this);
-    this.renderMeetingParticipantsView = this.renderMeetingParticipantsView.bind(this);
     this.renderListContainerContent = this.renderListContainerContent.bind(this);
     this.handleCommentSettingsDropdownScroll = this.handleCommentSettingsDropdownScroll.bind(this);
     this.onCommentFormResize = this.onCommentFormResize.bind(this);
@@ -46,7 +44,6 @@ class ConversationObjectList extends Component {
 
     this.state = {
       isConversationMembersViewVisible: false,
-      isMeetingParticipantsViewVisible: false,
     };
   }
 
@@ -103,7 +100,7 @@ class ConversationObjectList extends Component {
   }
 
   handleCommentSettingsDropdownScroll(commentGearIconNode) {
-    if (commentGearIconNode && this.commentFormNode) {
+    if (commentGearIconNode && this.commentFormNode && this.listNode) {
       if (($(commentGearIconNode).offset().top + $(commentGearIconNode).outerHeight()) - $(this.commentFormNode).offset().top > 0) {
         this.listNode.scrollTop += $(commentGearIconNode).outerHeight();
       }
@@ -209,13 +206,13 @@ class ConversationObjectList extends Component {
       }
     });
 
-    if (!this.state.isConversationMembersViewVisible && !this.state.isMeetingParticipantsViewVisible) {
+    if (!this.state.isConversationMembersViewVisible) {
       this.commentFormNode = ReactDOM.findDOMNode(this.refs.listFooter);
       this.newActivityMarkerNode = ReactDOM.findDOMNode(this.refs.newActivityMarker);
     }
 
     if (this.shouldScrollBottom) {
-      if (!this.state.isConversationMembersViewVisible && !this.state.isMeetingParticipantsViewVisible) {
+      if (!this.state.isConversationMembersViewVisible) {
         this.scrollListToBottom();
       } else {
         this.scrollListToTop();
@@ -235,24 +232,13 @@ class ConversationObjectList extends Component {
   }
 
   toggleConversationMembersView() {
-    this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible, isMeetingParticipantsViewVisible: false });
+    this.setState({ isConversationMembersViewVisible: !this.state.isConversationMembersViewVisible});
   }
 
   renderConversationMembersView() {
     return (<div ref='conversationObjectList' styleName='member-list'>
         <ConversationMemberListApp toggleConversationMembersView={ this.toggleConversationMembersView }/>
       </div>
-    );
-  }
-
-  toggleMeetingParticipantsView() {
-    this.setState({ isMeetingParticipantsViewVisible: !this.state.isMeetingParticipantsViewVisible, isConversationMembersViewVisible: false });
-  }
-
-  renderMeetingParticipantsView() {
-    return (<div ref='conversationObjectList' styleName='member-list'>
-          <MeetingParticipantListApp toggleMeetingParticipantsView={ this.toggleMeetingParticipantsView } parent={ this.props.commentForm.parent }/>
-        </div>
     );
   }
 
@@ -266,8 +252,6 @@ class ConversationObjectList extends Component {
   renderListContainerContent() {
     if (this.state.isConversationMembersViewVisible) {
       return this.renderConversationMembersView();
-    } else if (this.state.isMeetingParticipantsViewVisible) {
-      return this.renderMeetingParticipantsView();
     }
     return this.renderConversationTimeLine();
   }
@@ -369,17 +353,18 @@ class ConversationObjectList extends Component {
             <ChatIcon inverted={true} size={'large'} style={{ marginRight: '5px' }}/>
             {' CHAT ' + chatType}
           </h5>
-          { this.state.isMeetingParticipantsViewVisible ? '' : <button onClick={ this.toggleMeetingParticipantsView } className='btn btn-xs btn-success' style={{ margin: '10px' }} title='Ping'><i className='fa fa-users'></i><span className='hidden-xs'> Ping</span></button> }
-        </div>
-
-        <div styleName='member-dropdown-container'>
-          <div className="btn-group">
-            <a onClick={this.toggleConversationMembersView} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <div className="pull-right" styleName='member-badge'><div styleName='member-badge-contents'>{users ? users.size : ''}</div></div>
-              <UserIcon inverted={true} size={'x-large'}/>
-            </a>
+          <MeetingParticipantListApp parent={this.props.commentForm.parent}/>
+          <div styleName='member-dropdown-container'>
+            <div className="btn-group">
+              <a onClick={this.toggleConversationMembersView} data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div className="pull-right" styleName='member-badge'><div styleName='member-badge-contents'>{users ? users.size : ''}</div></div>
+                <UserIcon inverted={true} size={'x-large'}/>
+              </a>
+            </div>
           </div>
         </div>
+
+
       </div>
       {this.renderListContainerContent()}
     </div>

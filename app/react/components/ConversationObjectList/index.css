@@ -81,9 +81,9 @@
 
 
 .member-dropdown-container {
-  position: absolute;
-  right: 0px;
-  top: 10px;
+  display: inline-block;
+  float: right;
+  padding: 8px 0px;
 }
 
 .loading-message {
@@ -182,7 +182,7 @@
 
 .conversation-title-container {
   height: 45px;
-  padding-right: 100px;
+  /*padding-right: 100px;*/
 }
 
 .conversation-title-container:hover .conversation-close-button{

@@ -1,12 +1,11 @@
 import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import User from './../User';
 import SelectableUser from './../SelectableUser';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import Immutable from 'immutable';
 import * as api from '../../utils/api';
 
-@CSSModules(styles)
 class MeetingParticipantList extends React.Component {
 
   constructor() {
@@ -14,96 +13,64 @@ class MeetingParticipantList extends React.Component {
 
     this.state = {
       filter: '',
-      isMeetingParticipantListUpdated: false,
+      isOpen: false,
     };
 
-    this.meetingParticipants = new Immutable.List();;
-    
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.handleInputSubmit = this.handleInputSubmit.bind(this);
-    this.renderConversationMemberList = this.renderConversationMemberList.bind(this);
-    this.renderMeetingParticipantList = this.renderMeetingParticipantList.bind(this);
-    this.addParticipantToMeeting = this.addParticipantToMeeting.bind(this);
-    this.removeParticipantFromMeeting = this.removeParticipantFromMeeting.bind(this);
-    this.triggerCancel = this.triggerCancel.bind(this);
-    this.triggerUpdate = this.triggerUpdate.bind(this);
-    this.sendMeetingRequest = this.sendMeetingRequest.bind(this);
-
-    this.handleClick = (e) => {
-      e.preventDefault();
-      $(e.currentTarget).find('.status').removeClass('fa-check-circle-o');
-    };
+    this.meetingParticipants = new Immutable.List();
   }
 
-  addParticipantToMeeting(id) {
-    this.setState({ isMeetingParticipantListUpdated : true, filter: '' });
-    this.meetingParticipants = this.meetingParticipants.push(this.props.conversationMembers.find((member) => {
-      return member.id === id;
-    }));
-  }
-
-  removeParticipantFromMeeting(id) {
-    this.setState({ isMeetingParticipantListUpdated : true, filter: '' });
-    this.meetingParticipants = this.meetingParticipants.filter((participant) => {
-      return participant.id !== id;
-    });
-  }
-
-  componentWillMount() {
-    this.meetingParticipants = this.meetingParticipants.push(this.props.currentUser);
-  }
-
-  componentDidUpdate() {
-    const inputElem = this.refs.memberFilter;
-    inputElem.focus();
-    if (this.state.isMeetingParticipantListUpdated) {
-      // TODO: Need to fix this. SetState should not be used in ComponentDidUpdate
-      this.setState({ isMeetingParticipantListUpdated : false });
-    }
-  }
-
-  handleFilterChange(event) {
-    this.setState({ filter: event.target.value });
-  }
-
-  renderConversationMemberList() {
+  renderConversationMemberList = () => {
     if (this.props.conversationMembers !== null) {
-      const _this = this;
       return (
-          _this.filteredOptions(_this.state.filter, _this.props.conversationMembers).filter((member) => {
+          this.filteredOptions(this.state.filter, this.props.conversationMembers).filter((member) => {
             return (member.presenceStatus === 'online');
           }).sortBy((member) => {
             return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-          }).concat(_this.filteredOptions(_this.state.filter, _this.props.conversationMembers).filter((member) => {
+          }).concat(this.filteredOptions(this.state.filter, this.props.conversationMembers).filter((member) => {
             return ( member.presenceStatus === 'offline');
           }).sortBy((member) => {
             return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-          })).map(function (user, i) {
-            var existingMember = _this.meetingParticipants.find(function (member) {
+          })).map((user) => {
+            const existingMember = this.meetingParticipants.find(function (member) {
               return (member.id === user.id);
             });
-            const isSelected = (existingMember ? true : false);
             return (
-                <SelectableUser user={user} key={user.id}
-                                onUpdate={_this.triggerUpdate.bind(_this, user.id)}
-                                isSelected={isSelected}
-                />
+              <SelectableUser user={user} key={user.id}
+                onUpdate={this.triggerUpdate}
+                isSelected={existingMember ? true : false}
+              />
             );
           }, this));
     }
     return null;
-  }
+  };
 
-  renderMeetingParticipantList() {
+  addParticipantToMeeting = (id) => {
+    this.setState({ filter: '' });
+    this.meetingParticipants = this.meetingParticipants.push(this.props.conversationMembers.find((member) => {
+      return member.id === id;
+    }));
+  };
+
+  removeParticipantFromMeeting = (id) => {
+    this.setState({ filter: '' });
+    this.meetingParticipants = this.meetingParticipants.filter((participant) => {
+      return participant.id !== id;
+    });
+  };
+
+  handleFilterChange = (event) => {
+    this.setState({ filter: event.target.value });
+  };
+
+  renderMeetingParticipantList = () => {
     if (this.meetingParticipants !== null) {
-      const _this = this;
       return (
-        _this.meetingParticipants.filter((member) => {
+        this.meetingParticipants.filter((member) => {
           return (member.presenceStatus === 'online');
         }).sortBy((member) => {
           return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-        }).concat(_this.meetingParticipants.filter((member) => {
+        }).concat(this.meetingParticipants.filter((member) => {
           return ( member.presenceStatus === 'offline');
         }).sortBy((member) => {
           return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
@@ -111,41 +78,38 @@ class MeetingParticipantList extends React.Component {
           return (<User key={meetingParticipant.id} user={meetingParticipant} showName={false}
             style={{ display: 'inline-block', marginTop: '5px', marginBottom: '5px', marginRight: '5px' }}
           />);
-        })
+        }, this)
       );
     }
     return '';
-  }
+  };
 
-  handleKeyDown(event) {
+  handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       this.handleInputSubmit(event);
     } else if (event.key === 'Escape') {
       this.triggerCancel();
     }
-  }
+  };
 
-  triggerUpdate(id) {
+  triggerUpdate = (id) => {
     let existingMember = this.meetingParticipants.find(function (member) {
       return (member.id === id);
     });
-    console.log('Existing Member: ' + existingMember);
     if (existingMember) {
       this.removeParticipantFromMeeting(existingMember.id);
     } else {
       this.addParticipantToMeeting(id);
     }
     this.triggerCancel();
-  }
+  };
 
-  triggerCancel() {
-    this.state = {
-      filter: '',
-    };
+  triggerCancel = () => {
+    this.setState({ filter: '' });
     this.refs.memberFilter.value = '';
-  }
+  };
 
-  handleInputSubmit(event) {
+  handleInputSubmit = (event) => {
     event.preventDefault();
     const { filter } = this.state;
 
@@ -153,67 +117,90 @@ class MeetingParticipantList extends React.Component {
     if (filter.length > 0 && filteredOptions.size > 0) {
       this.triggerUpdate(filteredOptions.first().id);
     }
-  }
+  };
 
-  filteredOptions(filter, options) {
+  filteredOptions = (filter, options) => {
     return options.filter(function (option) {
       return ((option.firstName + ' ' + option.lastName ).toLowerCase().indexOf(filter.toLowerCase()) > -1 || (option.email).toLowerCase().indexOf(filter.toLowerCase()) > -1 );
     });
-  }
+  };
 
-  sendMeetingRequest() {
+  sendMeetingRequest = () => {
     let memberIdList = new Immutable.List();
-    const _this = this;
     this.meetingParticipants.map((participant) => {
-      if (participant.id !== _this.props.currentUser.id) {
-        memberIdList = memberIdList.push({id: participant.id});
+      if (participant.id !== this.props.currentUser.id) {
+        memberIdList = memberIdList.push({ id: participant.id });
       }
-    });
+    }, this);
     api.postJson('/api/meetings', { memberIdList, url: window.location.href, parent: { id: this.props.parent.id, type: this.props.parent.type } }, (json) => {
       alert(json.message);
     });
   };
 
-  render() {
+
+  handleToggleView = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  };
+
+  renderClosed = () => {
     return (
-        <div styleName='root'>
-          <div styleName='full-width-container'>
-            <div styleName='conversation-member-title'>
+      <button onClick={ this.handleToggleView } className={styles.callMeetingButton} title='Call Meeting'>
+        <i className='fa fa-users'></i><span className='hidden-xs'> Call Meeting</span>
+      </button>
+    );
+  };
+
+  renderOpened = () => {
+    return (
+      <div className={styles.rootContainer}>
+        <div className={styles.root}>
+          <div className={styles.fullWidthContainer}>
+            <div className={styles.meetingParticipantTitle}>
               <h4>Meeting Participants</h4>
             </div>
-            <a styleName='close-button' onClick={this.props.toggleMeetingParticipantsView}><span aria-hidden="true">&times;</span></a>
+            <a className={styles.closeButton} onClick={this.handleToggleView}><span aria-hidden="true">&times;</span></a>
           </div>
-          <div styleName='full-width-container'>
+          <div className={styles.meetingParticipantList}>
             {this.renderMeetingParticipantList()}
-            <button onClick={ this.sendMeetingRequest }className='btn btn-xs btn-success pull-right' style={{ margin: '10px 0px' }}>Ping</button>
+            <button onClick={ this.sendMeetingRequest } className={styles.meetingInviteButton}>Send Meeting Invite</button>
           </div>
-          <div styleName='full-width-container'>
-            <form styleName='form-container'>
-              <div styleName='input-container'>
-                <input ref="memberFilter" type="text" styleName='input' id="memberName"
-                  placeholder="Filter by name, email" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}
-                />
+          <div className={styles.fullWidthContainer}>
+            <div className={styles.conversationMemberTitle}>
+              <h4>Conversation Members</h4>
+            </div>
+            <form>
+              <div className={styles.inputContainer}>
+                <input ref="memberFilter" type="text" className={styles.input} id="memberName"
+                       placeholder="Filter by name, email" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}
+                    />
               </div>
             </form>
-          </div>
-
-          <div styleName='full-width-container'>
-            <div styleName='organization-member-container'>
-              <div styleName='organization-member-title'>
-                <h4>Conversation Members</h4>
-              </div>
-            </div>
             {this.renderConversationMemberList()}
           </div>
         </div>
-
+      </div>
     );
+  };
+
+
+  componentWillMount() {
+    this.meetingParticipants = this.meetingParticipants.push(this.props.currentUser);
+  }
+
+  componentDidUpdate() {
+    const inputElem = ReactDOM.findDOMNode(this.refs.memberFilter);
+    if (inputElem) {
+      inputElem.focus();
+    }
+  }
+
+  render() {
+    return this.state.isOpen ? this.renderOpened() : this.renderClosed();
   }
 }
 
 MeetingParticipantList.propTypes = {
   conversationMembers: PropTypes.object.isRequired,
-  toggleMeetingParticipantsView: PropTypes.func.isRequired,
   currentConversation: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
 };
