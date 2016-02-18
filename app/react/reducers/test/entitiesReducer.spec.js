@@ -2,7 +2,7 @@ import reducer from '../entitiesReducer';
 import { expect } from 'chai';
 import Immutable from 'immutable';
 
-import { STATUS_SUCCESS } from '../../actions/statuses.js';
+import * as constants from '../../actions/constants';
 
 describe('entitiesReducer', () => {
   it('sets multiple entities by type', () => {
@@ -11,7 +11,7 @@ describe('entitiesReducer', () => {
 
     const nextState = reducer(undefined, {
       type: 'ACTION TYPE DOES NOT MATTER HERE',
-      status: STATUS_SUCCESS,
+      status: constants.STATUS_SUCCESS,
       entities: [agendaItem123, agendaItem456],
     });
 
@@ -28,7 +28,7 @@ describe('entitiesReducer', () => {
 
     const nextState = reducer(undefined, {
       type: 'ACTION TYPE DOES NOT MATTER HERE',
-      status: STATUS_SUCCESS,
+      status: constants.STATUS_SUCCESS,
       entity: agendaItem,
     });
 

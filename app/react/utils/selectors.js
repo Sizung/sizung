@@ -105,16 +105,16 @@ const organizations = (state) => state.getIn(['entities', 'organizations']).map(
 
 const organizationMembers = (state) => {
   const references = state.getIn(['entities', 'organizationMembers']);
-  const organizationId = currentOrganization(state).id;
-  if (!references) {
+  const currentOrg = currentOrganization(state);
+  if (!references || !currentOrg) {
     return null;
   }
 
-  const filteredOrganizationMembers = references.filter(function (reference) {
-    return (reference.organizationId === organizationId);
+  const filteredOrganizationMembers = references.filter((reference) => {
+    return (reference.organizationId === currentOrg.id);
   });
 
-  return filteredOrganizationMembers.map(function (reference) {
+  return filteredOrganizationMembers.map((reference) => {
     return state.getIn(['entities', 'users', reference.memberId]);
   });
 };
@@ -128,7 +128,7 @@ const conversationMembers = (state) => {
   return references.map((reference) => {
     return state.getIn(['entities', 'conversationMembers', reference.id]);
   });
-}
+};
 
 const conversationMembersAsUsers = (state, conversationId) => {
   const references = state.getIn(['conversationMembersByConversation', conversationId, 'references']);

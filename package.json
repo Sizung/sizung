@@ -40,6 +40,8 @@
     "history": "^2.0.0-rc2",
     "immutable": "^3.7.6",
     "isomorphic-fetch": "^2.2.1",
+    "lodash": "^3.5.0",
+    "marked": "^0.3.5",
     "moment": "^2.11.1",
     "react": "^0.14.6",
     "react-autosize-textarea": "^0.2.6",
@@ -47,6 +49,7 @@
     "react-css-modules": "3.6.7",
     "react-datepicker": "^0.18.0",
     "react-dom": "^0.14.6",
+    "react-mentions": "latest",
     "react-redux": "^4.0.6",
     "react-router": "^2.0.0-rc5",
     "react-swipeable": "^3.1.0",
@@ -57,8 +60,7 @@
     "redux-simple-router": "2.0.4",
     "redux-thunk": "^1.0.3",
     "style-loader": "^0.13.0",
-    "webpack": "1.12.2",
-    "lodash": "^3.5.0"
+    "webpack": "1.12.2"
   },
   "scripts": {
     "test": "mocha ./app/react/**/*.spec.js --recursive --require ./app/react/test_helper.js --compilers js:babel/register",

@@ -1,0 +1,84 @@
+.react-mentions {
+
+  .control {
+    &.textarea {
+      background: #fff;
+      border: 1px solid silver;
+
+      .highlighter {
+        padding: 9px;
+      }
+    }
+
+    &.input {
+      display: inline-block;
+      width: 130px;
+      background: #fff;
+
+      .highlighter {
+        padding: 1px;
+        border: 2px inset transparent;
+      }
+    }
+
+    .highlighter {
+      strong {
+        background-color: #E4F3FE;
+        padding: 3px 0 3px 0;
+      }
+    }
+  }
+
+  textarea {
+    padding: 9px;
+    outline: 0;
+    border: 0;
+    margin: 0;
+
+    //.quirks(box-sizing, border-box);
+  }
+
+  input {
+    padding: 1px;
+    margin: 0;
+    border: 2px inset;
+  }
+
+  .suggestions {
+    position: absolute;
+    z-index: 1;
+
+    //border: 3px solid rgba(0,0,0,0.15);
+    background-color: white;
+    //margin-top: 14px;
+    min-width: 200px;
+
+    //.quirks(box-shadow, 2px 2px 0 rgba(0,0,0,0.06));
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      position: absolute;
+      bottom: 0;
+      background-color: #E4F3FE;
+      border: 1px solid rgba(0,0,0,0.15);
+      box-shadow: 2px 2px 0 rgba(0,0,0,0.06);
+
+      li {
+        padding: 5px 15px;
+        cursor: pointer;
+        border-bottom: 1px solid rgba(0,0,0,0.15);;
+
+        &:last-child {
+          border-bottom: none;
+        }
+
+        &.focus {
+          font-weight: bold;
+          background-color: #bdcad9;
+        }
+      }
+    }
+  }
+}

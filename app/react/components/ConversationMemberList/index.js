@@ -1,95 +1,91 @@
 import React, { PropTypes } from 'react';
 import User from './../User';
 import SelectableUser from './../SelectableUser';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import Immutable from 'immutable';
+import UserIcon from '../UserIcon';
 
-@CSSModules(styles)
 class ConversationMemberList extends React.Component {
-
   constructor() {
     super();
 
     this.state = {
       filter: '',
-      isConversationMemberListUpdated: false,
-    };
-
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleFilterChange = this.handleFilterChange.bind(this);
-    this.handleInputSubmit = this.handleInputSubmit.bind(this);
-    this.renderOrganizationMemberList = this.renderOrganizationMemberList.bind(this);
-    this.renderConversationMemberList = this.renderConversationMemberList.bind(this);
-    this.addMemberToConversation = this.addMemberToConversation.bind(this);
-    this.removeMemberFromConversation = this.removeMemberFromConversation.bind(this);
-    this.triggerCancel = this.triggerCancel.bind(this);
-    this.triggerUpdate = this.triggerUpdate.bind(this);
-
-    this.handleClick = (e) => {
-      e.preventDefault();
-      $(e.currentTarget).find('.status').removeClass('fa-check-circle-o');
+      isOpen: false,
     };
   }
 
-  addMemberToConversation(id) {
-    this.setState({ isConversationMemberListUpdated : true, filter: '' });
+  handleClick = (e) => {
+    e.preventDefault();
+    $(e.currentTarget).find('.status').removeClass('fa-check-circle-o');
+  };
+
+  addMemberToConversation = (id) => {
+    this.setState({ filter: '' });
     this.props.createConversationMember(this.props.currentConversation.get('id'), id);
-  }
+  };
 
-  removeMemberFromConversation(id) {
-    this.setState({ isConversationMemberListUpdated : true, filter: '' });
+  removeMemberFromConversation = (id) => {
+    this.setState({ filter: '' });
     this.props.deleteConversationMember(id);
-  }
+  };
 
-  componentDidUpdate() {
-    const inputElem = this.refs.memberFilter;
-    inputElem.focus();
-    if (this.state.isConversationMemberListUpdated) {
-      // TODO: Need to fix this. SetState should not be used in ComponentDidUpdate
-      this.setState({ isConversationMemberListUpdated : false });
-    }
-  }
-
-  handleFilterChange(event) {
+  handleFilterChange = (event) => {
     this.setState({ filter: event.target.value });
-  }
+  };
 
-  renderOrganizationMemberList() {
-    if (this.props.conversationMembers !== null) {
-      const _this = this;
-      return (
-          _this.filteredOptions(_this.state.filter, _this.props.organizationMembers).filter((member) => {
-            return (member.presenceStatus === 'online');
-          }).sortBy((member) => {
-            return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-          }).concat(_this.filteredOptions(_this.state.filter, _this.props.organizationMembers).filter((member) => {
-            return ( member.presenceStatus === 'offline');
-          }).sortBy((member) => {
-            return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-          })).map(function (user, i) {
-            var existingMember = _this.props.conversationMembers.find(function (member) {
-              return (member.memberId === user.id);
-            });
-            const isSelected = (existingMember ? true : false);
-            return (
-                <SelectableUser user={user} key={user.id}
-                                onUpdate={_this.triggerUpdate.bind(_this, user.id)}
-                                isSelected={isSelected}
-                />
-            );
-          }, this));
+  handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      this.handleInputSubmit(event);
+    } else if (event.key === 'Escape') {
+      this.triggerCancel();
     }
-    return null;
-  }
+  };
 
-  renderConversationMemberList() {
-    if (this.props.conversationMembers != null) {
-      const _this = this;
+  triggerUpdate = (id) => {
+    const existingMember = this.props.conversationMembers.find((member) => {
+      return (member.memberId === id);
+    });
+    if (existingMember) {
+      this.removeMemberFromConversation(existingMember.id);
+    } else {
+      this.addMemberToConversation(id);
+    }
+    this.triggerCancel();
+  };
+
+  triggerCancel = () => {
+    this.state = {
+      filter: '',
+    };
+    this.refs.memberFilter.value = '';
+  };
+
+  handleInputSubmit = (event) => {
+    event.preventDefault();
+    const { filter } = this.state;
+
+    const filteredOptions = this.filteredOptions(filter, this.props.organizationMembers);
+    if (filter.length > 0 && filteredOptions.size > 0) {
+      this.triggerUpdate(filteredOptions.first().id);
+    }
+  };
+
+  filteredOptions = (filter, options) => {
+    return options.filter(function (option) {
+      return ((option.firstName + ' ' + option.lastName).toLowerCase().indexOf(filter.toLowerCase()) > -1 || (option.email).toLowerCase().indexOf(filter.toLowerCase()) > -1);
+    });
+  };
+
+  handleToggleView = () => {
+    this.setState({ isOpen: !this.state.isOpen });
+  };
+
+  renderConversationMemberList = () => {
+    if (this.props.conversationMembers) {
       let conversationMembersAsUsers = new Immutable.List();
-      _this.props.conversationMembers.map(function (user) {
-        let conversationMember = null;
-        _this.props.organizationMembers.forEach(function (obj) {
+      this.props.conversationMembers.toList().map((user) => {
+        this.props.organizationMembers.forEach((obj) => {
           if (obj.id === user.memberId) {
             conversationMembersAsUsers = conversationMembersAsUsers.push(obj);
           }
@@ -101,7 +97,7 @@ class ConversationMemberList extends React.Component {
         }).sortBy((member) => {
           return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
         }).concat(conversationMembersAsUsers.filter((member) => {
-          return ( member.presenceStatus === 'offline');
+          return (member.presenceStatus === 'offline');
         }).sortBy((member) => {
           return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
         })).map((conversationMember) => {
@@ -112,91 +108,85 @@ class ConversationMemberList extends React.Component {
       );
     }
     return '';
-  }
+  };
 
-  handleKeyDown(event) {
-    if (event.key === 'Enter') {
-      this.handleInputSubmit(event);
-    } else if (event.key === 'Escape') {
-      this.triggerCancel();
+  renderOrganizationMemberList = () => {
+    if (this.props.conversationMembers) {
+      return (
+          this.filteredOptions(this.state.filter, this.props.organizationMembers.toList()).filter((member) => {
+            return (member.presenceStatus === 'online');
+          }).sortBy((member) => {
+            return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+          }).concat(this.filteredOptions(this.state.filter, this.props.organizationMembers).filter((member) => {
+            return (member.presenceStatus === 'offline');
+          }).sortBy((member) => {
+            return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+          })).map((user) => {
+            const existingMember = this.props.conversationMembers.find((member) => {
+              return (member.memberId === user.id);
+            });
+            const isSelected = (existingMember ? true : false);
+            return (
+                <SelectableUser key={user.id} user={user} isSelected={isSelected} onUpdate={this.triggerUpdate} />
+            );
+          }, this));
     }
-  }
+    return null;
+  };
 
-  triggerUpdate(id) {
-    let existingMember = this.props.conversationMembers.find(function (member) {
-      return (member.memberId === id);
-    });
-    if (existingMember != null) {
-      this.removeMemberFromConversation(existingMember.id);
-    } else {
-      this.addMemberToConversation(id);
-    }
-    this.triggerCancel();
-  }
-
-  triggerCancel() {
-    this.state = {
-      filter: '',
-    };
-    this.refs.memberFilter.value = '';
-  }
-
-  handleInputSubmit(event) {
-    event.preventDefault();
-    const { filter } = this.state;
-
-    const filteredOptions = this.filteredOptions(filter, this.props.organizationMembers);
-    if (filter.length > 0 && filteredOptions.size > 0) {
-      this.triggerUpdate(filteredOptions.first().id);
-    }
-  }
-
-  filteredOptions(filter, options) {
-    return options.filter(function (option) {
-      return ((option.firstName + ' ' + option.lastName ).toLowerCase().indexOf(filter.toLowerCase()) > -1 || (option.email).toLowerCase().indexOf(filter.toLowerCase()) > -1 );
-    });
-  }
-
-  render() {
+  renderClosed = () => {
+    const usersCount = this.props.conversationMembers ? this.props.conversationMembers.toList().size : 0;
     return (
-        <div styleName='root'>
-          <div styleName='full-width-container'>
-            <div styleName='conversation-member-title'>
-              <h4>Conversation Members</h4>
-            </div>
-            <a styleName='close-button' onClick={this.props.toggleConversationMembersView}><span aria-hidden="true">&times;</span></a>
-          </div>
-          <div styleName='full-width-container'>
-            {this.renderConversationMemberList()}
-          </div>
-          <div styleName='full-width-container'>
-            <form styleName='form-container'>
-              <div styleName='input-container'>
-                <input ref="memberFilter" type="text" styleName='input' id="memberName"
-                  placeholder="Filter by name, email" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}
-                />
-              </div>
-            </form>
-          </div>
-
-          <div styleName='full-width-container'>
-            <div styleName='organization-member-container'>
-              <div styleName='organization-member-title'>
-                <h4>Organization Members</h4>
-              </div>
-            </div>
-            {this.renderOrganizationMemberList()}
+      <div className={styles.memberDropdownContainer}>
+        <div className="btn-group">
+          <div onClick={this.handleToggleView} aria-haspopup="true" aria-expanded="false">
+            <UserIcon inverted size={'x-large'} />
+            <div className={styles.memberBadge}>{usersCount}</div>
           </div>
         </div>
-
+      </div>
     );
+  };
+
+  renderOpened = () => {
+    return (
+        <div className={styles.rootContainer}>
+          <div className={styles.root}>
+            <div className={styles.fullWidthContainer}>
+              <div className={styles.conversationMemberTitle}>
+                <h4>Conversation Members</h4>
+              </div>
+              <a className={styles.closeButton} onClick={this.handleToggleView}><span aria-hidden="true">&times;</span></a>
+            </div>
+            <div className={styles.conversationMemberList}>
+              {this.renderConversationMemberList()}
+            </div>
+            <div className={styles.fullWidthContainer}>
+              <div className={styles.organizationMemberTitle}>
+                <h4>Organization Members</h4>
+              </div>
+              <form>
+                <div className={styles.inputContainer}>
+                  <input ref="memberFilter" type="text" className={styles.input} id="memberName"
+                    placeholder="Filter by name, email" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}
+                  />
+                </div>
+              </form>
+              {this.renderOrganizationMemberList()}
+            </div>
+          </div>
+        </div>
+    );
+  };
+
+  render() {
+    return this.state.isOpen ? this.renderOpened() : this.renderClosed();
   }
 }
 
 ConversationMemberList.propTypes = {
-  organizationMembers: PropTypes.object.isRequired,
-  conversationMembers: PropTypes.object.isRequired,
-  toggleConversationMembersView: PropTypes.func.isRequired,
+  organizationMembers: PropTypes.object,
+  conversationMembers: PropTypes.object,
   createConversationMember: PropTypes.func.isRequired,
   deleteConversationMember: PropTypes.func.isRequired,
   currentConversation: PropTypes.object.isRequired,
