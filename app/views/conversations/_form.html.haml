@@ -7,4 +7,5 @@
     = f.input :organization_id, as: :hidden
 
   .form-actions
-    = f.button :submit
+    = f.button :submit, class: 'btn-info'
+    = link_to 'Cancel', @organization,  class: 'btn btn-default'

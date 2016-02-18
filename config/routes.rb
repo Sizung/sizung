@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   require 'sidekiq/web'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -38,6 +39,8 @@ Rails.application.routes.draw do
       resources :organization_members, only: [:index, :destroy]
     end
     resources :conversation_members, only: [:create, :destroy]
+
+    resources :meetings, only: [:create]
   end
 
   resources :organizations, shallow: true do

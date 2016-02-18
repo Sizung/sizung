@@ -9,6 +9,7 @@ import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
 import CommentsCounter from '../CommentsCounter';
 import AgendaItemIcon from '../AgendaItemIcon';
+import Time from 'react-time';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
@@ -65,8 +66,8 @@ class Deliverable extends React.Component {
         {this.renderUnseenBadge(unseenCount, selected)}
         <div styleName={styleName} onClick={this.handleClick}>
           <div styleName='row'>
-            <div styleName='content-container'>
-              <EditableText editable={false} text={title} onUpdate={this.handleTitleUpdate} />
+            <div styleName='content-container' title={title}>
+              { title.length > 40 ? title.substring(0, 40) + '...' : title }
             </div>
             <div styleName='status-container'>
               <EditableStatus editable={false} status={status} onUpdate={this.handleStatusUpdate} />
@@ -77,14 +78,9 @@ class Deliverable extends React.Component {
               <div styleName="user-container">
                 <User user={assignee} />
               </div>
-              <div styleName="due-on">
-                {dueOn}
-              </div>
+              { dueOn ? <div styleName="due-on"><Time value={dueOn} format='DD MMM - YYYY' /></div> : ''}
             </div>
             <div styleName='details-row2'>
-              <div styleName="comments-count-container">
-                <CommentsCounter count={commentsCount} inverted={selected} />
-              </div>
               {this.agendaItemTitle()}
             </div>
           </div>

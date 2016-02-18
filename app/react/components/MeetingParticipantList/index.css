@@ -1,0 +1,102 @@
+.rootContainer {
+  position: relative;
+}
+
+.root {
+  position: absolute;
+  top: 45px;
+  left: 0px;
+  right: 0px;
+  /*right: -10px;*/
+  /*width: 500px;*/
+  /*height: 500px;*/
+  composes: col-sm-6-offset-3 col-xs-12 zero-margin zero-padding from global;
+  height: 500px;
+  z-index: 999;
+  overflow: auto;
+
+  padding: 10px;
+  background-color: white;
+  -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+  -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+  box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
+}
+
+.fullWidthContainer {
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.meetingParticipantList {
+  width: 100%;
+  overflow: auto;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+
+.meetingParticipantTitle {
+  float: left;
+  color : #89949E;
+  font-weight: 600;
+}
+
+.closeButton {
+  composes: close from global;
+  /*padding: 5px;*/
+  font-weight: 100;
+  font-size: 24px;
+  color : #89949E;
+  opacity: 1;
+  cursor: pointer;
+}
+
+.inputContainer {
+  composes: form-group from global;
+  padding: 0;
+}
+
+.input {
+  composes: form-control from global;
+}
+
+.conversationMemberTitle {
+  margin-top: 10px;
+  color : #89949E;
+  font-weight: 600;
+}
+
+.memberDropdownContainer {
+  float: right;
+  cursor: pointer;
+}
+
+.memberBadge {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+/* from conversation object list not used at the moment */
+.memberList {
+  background-color: #ffffff;
+  position: absolute;
+  top: 45px;
+  right: 0;
+  left: 0;
+  bottom: 30px;
+  overflow-y:auto;
+  overflow-x: hidden;
+  border: 0 solid #ffffff;
+  border-top-width: 5px;
+  border-bottom-width: 5px;
+}
+
+.meetingInviteButton {
+  composes: btn btn-xs btn-success pull-right from global;
+  margin: 10px 0px;
+}
+
+.callMeetingButton {
+  composes: btn btn-xs btn-success from global;
+  margin: 10px;
+}

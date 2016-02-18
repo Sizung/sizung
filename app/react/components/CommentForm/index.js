@@ -25,7 +25,6 @@ class CommentForm extends React.Component {
     this.handleSubmit = (e) => {
       const name = this.state.value.trim();
       if (this.state.commentActionInFocus === 'comment') {
-        if (e) { e.preventDefault(); }
         if (name === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
         this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
       } else if (this.state.commentActionInFocus === 'agendaItem') {

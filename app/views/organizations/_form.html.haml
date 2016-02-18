@@ -10,9 +10,14 @@
       = f.input :owner_id, as: :hidden
 
   .form-actions
-    = f.button :submit
+    = f.button :submit, class: 'btn-info'
     - if @organization.persisted? && policy(@organization).destroy?
-      = link_to @organization, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger pull-right' do
+      = link_to @organization, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger' do
         %i.fa.fa-trash-o
         Delete Organization
+    = link_to 'Cancel',@organization,  class: 'btn btn-default'
+
+
+
+
 

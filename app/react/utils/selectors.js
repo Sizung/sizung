@@ -50,7 +50,7 @@ const deliverablesForAgendaItem = (state, agendaItemId) => {
   }).filter((deliverable) => {
     return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
   }).toList().sortBy((deliverable) => {
-    return deliverable.dueOn ? 'A' + deliverable.dueOn : 'B' + deliverable.createdAt;
+    return deliverable.dueOn ? 'A' + deliverable.dueOn + deliverable.createdAt : 'B' + deliverable.createdAt;
   });
 };
 
@@ -61,7 +61,7 @@ const deliverablesForConversation = (state, conversationId) => {
   }).flatten().filter((deliverable) => {
     return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
   }).toList().sortBy((deliverable) => {
-    return deliverable.dueOn ? 'A' + deliverable.dueOn : 'B' + deliverable.createdAt;
+    return deliverable.dueOn ? 'A' + deliverable.dueOn + deliverable.createdAt : 'B' + deliverable.createdAt;
   });
 };
 

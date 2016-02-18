@@ -19,7 +19,7 @@ class DeliverableInTimeline extends React.Component {
   constructor() {
     super();
 
-    this.renderActionButtons = this.renderActionButtons.bind(this);
+    this.renderTimelineHeaderActions = this.renderTimelineHeaderActions.bind(this);
     this.handleArchive = this.handleArchive.bind(this);
     this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
     this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
@@ -27,6 +27,8 @@ class DeliverableInTimeline extends React.Component {
     this.handleAssigneeUpdate = this.handleAssigneeUpdate.bind(this);
     this.handleAgendaItemUpdate = this.handleAgendaItemUpdate.bind(this);
     this.handleSelect = this.handleSelect.bind(this);
+    this.renderUserName = this.renderUserName.bind(this);
+    this.toggleStatus = this.toggleStatus.bind(this);
     this.handleDeleteClick = (e) => {
       e.preventDefault();
       this.props.deleteComment(this.props.id);
@@ -56,7 +58,7 @@ class DeliverableInTimeline extends React.Component {
 
   handleArchive(e) {
     e.preventDefault();
-    if (confirm("Are you sure you want to archive this Deliverable?")) {
+    if (confirm('Are you sure you want to archive this Deliverable?')) {
       this.props.archiveDeliverable(this.props.deliverable.id);
     }
   }
@@ -66,64 +68,147 @@ class DeliverableInTimeline extends React.Component {
     this.props.visitDeliverable(this.props.deliverable.id);
   }
 
-  renderActionButtons() {
-    let discussOptionStyle = 'discuss-link';
-    if (this.props.isTimelineHeader !== null) {
-      discussOptionStyle = (this.props.isTimelineHeader ? 'discuss-link-hide' : 'discuss-link');
-    }
-
-    return (
-      <span>
-        <span styleName='discuss-link'><a href="#" styleName='action-btn' onClick={this.handleArchive}>archive</a></span>
-        <span styleName={discussOptionStyle}><a href="#" styleName='action-btn' onClick={this.handleSelect}>discuss</a></span>
-      </span>
-    );
-  }
-
   lastUpdatedTime() {
     const { archived, createdAt, updatedAt, archivedAt } = this.props.deliverable;
     if (archived) {
-      return (<span><strong>(ARCHIVED)&nbsp;</strong><Time value={archivedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></span>);
+      return (<span><span>Archived&nbsp;</span><Time value={archivedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></span>);
     } else if (createdAt !== updatedAt) {
       return (<span>Edited&nbsp;<Time value={updatedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></span>);
     }
     return <Time value={createdAt} titleFormat='YYYY/MM/DD HH:mm' relative />;
   }
 
-  render() {
+  toggleStatus() {
+    const { status } = this.props.deliverable;
+    if (status === 'open') {
+      this.handleStatusUpdate('resolved');
+    } else {
+      this.handleStatusUpdate('open');
+    }
+  }
+
+  renderTimelineHeaderActions() {
+    return (
+        <span>
+        <span styleName='discuss-link'><a href="#" styleName='action-btn' onClick={this.handleArchive}>archive</a></span>
+      </span>
+    );
+  }
+
+  renderSettingsOptions() {
+    const { status, id } = this.props.deliverable;
+    const commentActions = [];
+    const _this = this;
+    commentActions.push(<li key={id + 'discussDeliverable'}><a href="#" onClick={this.handleSelect}>Discuss Deliverable</a></li>);
+    commentActions.push(<li key={id + 'archiveDeliverable'}><a href="#" onClick={this.handleArchive}>Archive Deliverable</a></li>);
+    commentActions.push(<li key={id + 'resolveDeliverable'}><a href='#' onClick={this.toggleStatus}>{ (status === 'open') ? 'Mark as Resolved' : 'Mark as Open' }</a></li>);
+
+    if (commentActions.length > 0) {
+      return (
+          <div styleName='options-menu'>
+            <div className="btn-group">
+              <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={_this.handleScroll}>
+                <i styleName='gear-icon'></i>
+              </a>
+              <ul ref="gearDropDown" className="dropdown-menu dropdown-menu-right">
+                {commentActions}
+              </ul>
+            </div>
+          </div>
+      );
+    }
+    return null;
+  }
+
+  renderUserName(user) {
+    const { currentUser } = this.props;
+    let userName = '';
+    if (currentUser) {
+      if (currentUser.id === user.id) {
+        userName = 'You';
+      } else if (user.firstName && user.firstName.trim() !== '') {
+        userName = user.firstName;
+      } else {
+        userName = user.email;
+      }
+    }
+    return (
+      <span styleName='user-name' title={ (user.name ? user.name : '') + ' (' + user.email + ')'}>
+        {userName}
+      </span>
+    );
+  }
+
+  renderAsSystemMessage() {
+    const { deliverable, showOwner, currentUser } = this.props;
+    const { owner, assignee, agendaItem, archived, status, dueOn } = deliverable;
+    const { conversationId } = agendaItem;
+    const archiveBlanketStyle = (archived ? 'archive-wrapper' : '');
+    const messageContent = (<div>
+      <div>
+        <span styleName='deliverable-label'>
+          {'A Deliverable'}
+        </span>{ ' was assigned to ' }
+        { this.renderUserName(deliverable.assignee) }
+        { dueOn ? <small>{'. Due on '}<Time value={dueOn} format='DD MMM - YYYY' /></small> : ''}
+      </div>
+      <div styleName={'message-deliverable-title' + (archived ? '-archived' : '')} onClick={ (archived ? '' : this.handleSelect) }>{deliverable.title }</div>
+    </div>);
+
+    return (<div styleName='message-root'>
+          <div styleName='user-container'>
+            <DeliverableIcon size={'small'}/>
+            { showOwner ? <User style={{ marginTop: '5px' }} user={owner}/> : '' }
+          </div>
+          <div styleName='message-container'>
+            { !archived ? this.renderSettingsOptions() : '' }
+            <div styleName='message-content'>
+              {messageContent}
+            </div>
+            <small>
+              {this.lastUpdatedTime()}
+              {status === 'resolved' ? <span styleName='resolved-status'><i className='fa fa-check'></i>{' Resolved'}</span> : ''}
+            </small>
+          </div>
+          { archived ? <div styleName={archiveBlanketStyle}></div> : '' }
+        </div>
+    );
+  }
+
+  renderAsTimeLineHeader() {
     const { deliverable, showOwner } = this.props;
     const { owner, assignee, agendaItem, archived } = deliverable;
     const { conversationId } = agendaItem;
-    const archiveStyle = (archived ? 'archive-wrapper' : '');
+    const archiveBlanketStyle = (archived ? 'archive-wrapper' : '');
 
     return (
       <div styleName='root'>
         <div styleName='user-container'>
-          <DeliverableIcon inverted={this.props.isTimelineHeader} size={'small'}/>
+          <DeliverableIcon inverted={true} size={'small'}/>
           { showOwner ? <User style={{ marginTop: '5px' }} user={owner}/> : '' }
         </div>
-        <div styleName={'content-container' + (this.props.isTimelineHeader ? '-inverted' : '')}>
+        <div styleName={'content-container'}>
           <div styleName='row'>
             <div styleName='full-width'>
-              <div styleName={'title-container' + (this.props.isTimelineHeader ? '-inverted' : '')}>
+              <div styleName={'title-container'}>
                 <div styleName='title'>
-                  <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/>
+                  <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={true}/>
                 </div>
                 <div styleName='assignee'>
                     <span className='pull-right'><EditableUserApp user={assignee} onUpdate={this.handleAssigneeUpdate} editable={!archived} size={'small'} conversationId={conversationId}/></span>
-                    <span className='pull-right' styleName={'meta-label' + (this.props.isTimelineHeader ? '-inverted' : '')} style={{ padding: '5px' }}>{'ASSIGNED TO'}</span>
+                    <span className='pull-right' styleName={'meta-label'} style={{ padding: '5px' }}>{'ASSIGNED TO'}</span>
                 </div>
               </div>
             </div>
           </div>
           <div styleName='meta-container'>
             <div styleName='meta-content'>
-              <span styleName={'due-on-label' + (this.props.isTimelineHeader ? '-inverted' : '')}>{'DUE DATE: '}</span>
+              <span styleName={'due-on-label'}>{'DUE DATE: '}</span>
               <span styleName='due-on'><EditableDate value={deliverable.dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} /></span>
             </div>
             <div styleName='meta-content'>
-              <AgendaItemIcon size={'small'} style={{marginRight: '5px'}} inverted={this.props.isTimelineHeader}/>
-              <span><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} editable={!archived} inverted={this.props.isTimelineHeader}/></span>
+              <AgendaItemIcon size={'small'} style={{marginRight: '5px'}} inverted={true}/>
+              <span><EditableAgendaItem agendaItem={agendaItem} onUpdate={this.handleAgendaItemUpdate} editable={!archived} inverted={true}/></span>
             </div>
           </div>
           <div styleName='time-container'>
@@ -133,13 +218,21 @@ class DeliverableInTimeline extends React.Component {
             <small>
               {this.lastUpdatedTime()}
             </small>
-            { archived ? '' : this.renderActionButtons() }
+            { archived ? '' : this.renderTimelineHeaderActions() }
           </div>
         </div>
-        { archived ? <div styleName={archiveStyle}></div> : '' }
+        { archived ? <div styleName={archiveBlanketStyle}></div> : '' }
       </div>
     );
   }
+
+  render() {
+    if (this.props.isTimelineHeader) {
+      return this.renderAsTimeLineHeader();
+    }
+    return this.renderAsSystemMessage();
+  }
+
 }
 
 DeliverableInTimeline.propTypes = {
@@ -157,6 +250,7 @@ DeliverableInTimeline.propTypes = {
   updateDeliverable: PropTypes.func.isRequired,
   isTimelineHeader: PropTypes.bool,
   showOwner: PropTypes.bool.isRequired,
+  currentUser: PropTypes.object,
 };
 
 DeliverableInTimeline.defaultProps = {

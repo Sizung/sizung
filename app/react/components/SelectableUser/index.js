@@ -30,8 +30,8 @@ class SelectableUser extends React.Component {
 SelectableUser.propTypes = {
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
     presenceStatus: PropTypes.string.isRequired,
   }).isRequired,
   isSelected: PropTypes.bool.isRequired,

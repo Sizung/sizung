@@ -1,0 +1,8 @@
+%p= "Hello,"
+
+%p= "#{@sender.name} invited you to participate in a meeting to discuss:-"
+%em= "#{@parent.title}"
+
+%p
+  To participate, please
+  = link_to 'Join the meeting', @url, target: '_blank'
