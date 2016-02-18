@@ -200,7 +200,7 @@ class MeetingParticipantList extends React.Component {
 }
 
 MeetingParticipantList.propTypes = {
-  conversationMembers: PropTypes.object.isRequired,
+  conversationMembers: PropTypes.object,
   currentConversation: PropTypes.object.isRequired,
   currentUser: PropTypes.object.isRequired,
 };

@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import styles from './ConversationHeader.css';
 import ChatIcon from '../ChatIcon';
 import ConversationMemberListApp from '../../containers/ConversationMemberListApp';
+import MeetingParticipantListApp from '../../containers/MeetingParticipantListApp';
 
 class ConversationHeader extends React.Component {
   render() {
@@ -26,7 +27,7 @@ class ConversationHeader extends React.Component {
             {' CHAT ' + chatType}
           </div>
         </div>
-
+        <MeetingParticipantListApp parent={this.props.parent} />
         <ConversationMemberListApp />
       </div>
     );

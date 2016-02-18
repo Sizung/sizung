@@ -191,7 +191,7 @@ class ConversationObjectList extends Component {
   render() {
     return (
       <div className={styles.listContainer}>
-        <ConversationHeader chatType={this.props.commentForm.parent.type} />
+        <ConversationHeader parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type} />
         {this.renderConversationTimeLine()}
       </div>
     );
