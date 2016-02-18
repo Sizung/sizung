@@ -25,6 +25,8 @@ class CommentForm extends React.Component {
     this.handleSubmit = (e) => {
       const name = this.state.value.trim();
       if (this.state.commentActionInFocus === 'comment') {
+        if (e) { e.preventDefault(); }
+        if (name === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
         this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
       } else if (this.state.commentActionInFocus === 'agendaItem') {
         this.handleAgendaItem(e);
@@ -40,6 +42,7 @@ class CommentForm extends React.Component {
         e.preventDefault();
       }
       const name = this.state.value.trim();
+      if (name === '') { return; }
       this.props.createAgendaItem({ conversation_id: this.props.parent.id, title: name });
       this.setState({ commentActionInFocus: 'agendaItem', value: '' });
     };
@@ -49,6 +52,7 @@ class CommentForm extends React.Component {
         e.preventDefault();
       }
       const name = this.state.value.trim();
+      if (name === '') { return; }
       this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title: name });
       this.setState({ commentActionInFocus: 'deliverable', value: '' });
     };
@@ -67,21 +71,13 @@ class CommentForm extends React.Component {
       }
       e.target.style.height = 0;
       e.target.style.height = e.target.scrollHeight + 'px';
-      //console.log('scroll / height: ', e.target.scrollHeight, e.target.style.height);
       this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
     };
 
     this.handleKeyUp = (e) => {
       e.target.style.height = 0;
       e.target.style.height = e.target.scrollHeight + 'px';
-      //if (this.state.height !== height) {
-        //this.refs.root.style.height = height + 'px';
-        //this.setState({ height });
-        //this.refs.root.style.height = height + 20 + 'px';
-        //this.refs.formContainer.style.height = height + 'px';
-        //console.log('scroll / height: ', e.target.scrollHeight, e.target.style.height);
-        this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
-      //}
+      this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
     };
 
     //this.handleOnResize = () => {
