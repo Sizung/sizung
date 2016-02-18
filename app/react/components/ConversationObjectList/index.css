@@ -81,9 +81,9 @@
 
 
 .member-dropdown-container {
-  display: inline-block;
-  float: right;
-  padding: 8px 0px;
+  position: absolute;
+  right: 0px;
+  top: 10px;
 }
 
 .loading-message {
