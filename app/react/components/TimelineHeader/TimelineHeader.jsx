@@ -19,7 +19,7 @@ class TimelineHeader extends React.Component {
           <a className={styles.close} onClick={() => { visitConversation(conversationId); }}>
             <span aria-hidden="true">&times;</span>
           </a>
-          <AgendaItemAsTimelineHeader agendaItem={parent} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} visitAgendaItem={visitAgendaItem}/>
+          <AgendaItemAsTimelineHeader agendaItem={parent} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem}/>
         </div>
       );
     }
