@@ -58,7 +58,7 @@ class AgendaItemInTimeline extends React.Component {
 
     if (actions.length > 0) {
       return (
-          <div className={styles.settingsDropDown}>
+          <div className={styles.actionDropDown}>
               <a className='dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false' onClick={this.handleScroll}>
                 <i className={styles.gearIcon}></i>
               </a>
