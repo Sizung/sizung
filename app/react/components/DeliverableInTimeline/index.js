@@ -143,7 +143,6 @@ class DeliverableInTimeline extends React.Component {
     const { deliverable, showOwner, currentUser } = this.props;
     const { owner, assignee, agendaItem, archived, status, dueOn } = deliverable;
     const { conversationId } = agendaItem;
-    const archiveBlanketStyle = (archived ? 'archive-wrapper' : '');
     const messageContent = (<div>
       <div>
         <span styleName='deliverable-label'>
@@ -155,7 +154,7 @@ class DeliverableInTimeline extends React.Component {
       <div styleName={'message-deliverable-title' + (archived ? '-archived' : '')} onClick={ (archived ? '' : this.handleSelect) }>{deliverable.title }</div>
     </div>);
 
-    return (<div styleName='message-root'>
+    return (<div styleName={ 'message-root' + (archived ? '-archived' : '')}>
           <div styleName='user-container'>
             <DeliverableIcon size={'small'}/>
             { showOwner ? <User style={{ marginTop: '5px' }} user={owner}/> : '' }
@@ -170,7 +169,6 @@ class DeliverableInTimeline extends React.Component {
               {status === 'resolved' ? <span styleName='resolved-status'><i className='fa fa-check'></i>{' Resolved'}</span> : ''}
             </small>
           </div>
-          { archived ? <div styleName={archiveBlanketStyle}></div> : '' }
         </div>
     );
   }
@@ -179,10 +177,8 @@ class DeliverableInTimeline extends React.Component {
     const { deliverable, showOwner } = this.props;
     const { owner, assignee, agendaItem, archived } = deliverable;
     const { conversationId } = agendaItem;
-    const archiveBlanketStyle = (archived ? 'archive-wrapper' : '');
-
     return (
-      <div styleName='root'>
+      <div styleName={ 'root'+ (archived ? '-archived' : '') }>
         <div styleName='user-container'>
           <DeliverableIcon inverted={true} size={'small'}/>
           { showOwner ? <User style={{ marginTop: '5px' }} user={owner}/> : '' }
@@ -221,7 +217,6 @@ class DeliverableInTimeline extends React.Component {
             { archived ? '' : this.renderTimelineHeaderActions() }
           </div>
         </div>
-        { archived ? <div styleName={archiveBlanketStyle}></div> : '' }
       </div>
     );
   }

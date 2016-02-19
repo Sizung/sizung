@@ -113,7 +113,6 @@ class AgendaItemInTimeline extends React.Component {
   renderAsSystemMessage() {
     const { agendaItem, showOwner, currentUser } = this.props;
     const { archived, status, owner } = agendaItem;
-    const archiveBlanketStyle = ( archived ? 'archive-wrapper' : '');
     const messageContent = (<div>
       <div>
         <span styleName='agenda-item-label'>
@@ -125,7 +124,7 @@ class AgendaItemInTimeline extends React.Component {
       <div styleName={'title' + (archived ? '-archived' : '')} onClick={ (archived ? '' : this.handleSelect) }>{agendaItem.title }</div>
     </div>);
 
-    return (<div styleName='message-root'>
+    return (<div styleName={ 'message-root' + (archived ? '-archived' : '') }>
       <div styleName='user-container'>
         <div style={{ padding: '0px 10px' }}><AgendaItemIcon/></div>
         { showOwner ? <div style={{ marginTop: '5px' }}><User user={owner}/></div> : ''}
@@ -140,7 +139,6 @@ class AgendaItemInTimeline extends React.Component {
           {status === 'resolved' ? <span styleName='resolved-status'><i className='fa fa-check'></i>{' Resolved'}</span> : ''}
         </small>
       </div>
-      { archived ? <div styleName={archiveBlanketStyle}></div> : '' }
     </div>
     );
   }
@@ -157,9 +155,9 @@ class AgendaItemInTimeline extends React.Component {
     const { agendaItem, showOwner } = this.props;
     const { title, status, owner, archived } = agendaItem;
 
-    const archiveBlanketStyle = (archived ? 'archive-wrapper' : '');
+    console.log("archived: " + archived);
     return (
-        <div styleName='root'>
+        <div styleName={'root'+ (archived ? '-archived' : '')}>
           <div styleName='user-container'>
             <div style={{ padding: '0px 10px' }}>
               <AgendaItemIcon inverted={true}/>
@@ -180,7 +178,6 @@ class AgendaItemInTimeline extends React.Component {
               { archived ? '' : this.renderTimelineHeaderActions() }
             </div>
           </div>
-          { archived ? <div styleName={archiveBlanketStyle}></div> : '' }
         </div>
     );
   }

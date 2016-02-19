@@ -5,6 +5,11 @@
   padding: 5px 0px;
 }
 
+.root-archived {
+  composes: root;
+  opacity: 0.5;
+}
+
 .user-container {
   display: table-cell;
   min-width: 60px;
@@ -184,6 +189,11 @@
   width: 100%;
   padding: 5px 0px;
   color : #89949E;
+}
+
+.message-root-archived {
+  composes: message-root;
+  opacity: 0.5;
 }
 
 .message-container {

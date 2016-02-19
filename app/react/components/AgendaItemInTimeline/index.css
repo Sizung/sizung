@@ -5,6 +5,11 @@
   color : #89949E;
 }
 
+.root-archived {
+  composes: root;
+  opacity: 0.5;
+}
+
 .user-container {
   display: table-cell;
   min-width: 60px;
@@ -71,20 +76,6 @@
   margin: -1px 0px;
 }
 
-.archive-wrapper {
-  position: absolute;
-  top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  background-color: #ffffff;
-  opacity: 0.6;
-  z-index: 100;
-  -webkit-border-radius: 5px;
-  -moz-border-radius: 5px;
-  border-radius: 5px;
-}
-
 .options-menu {
   position: absolute;
   display:none;
@@ -111,6 +102,11 @@
   width: 100%;
   padding: 5px 0px;
   color : #89949E;
+}
+
+.message-root-archived {
+  composes: message-root;
+  opacity: 0.5;
 }
 
 .message-container {

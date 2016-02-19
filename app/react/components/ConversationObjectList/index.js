@@ -101,11 +101,11 @@ class ConversationObjectList extends Component {
           return (<Comment key={comment.id} comment={comment} showAuthor={showOwner} currentUser={currentUser} handleCommentSettingsDropdownScroll={this.handleCommentSettingsDropdownScroll} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} isTimelineHeader={false}/>);
         } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
-          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} isTimelineHeader={false}/>;
+          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} isTimelineHeader={false}/>;
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>;
+          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} currentUser={currentUser}  deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>;
         }
         console.warn('Component not found for conversationObject: ', conversationObject);
       });
