@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 import styles from './TimelineHeader.css';
-import AgendaItemInTimeline from '../AgendaItemInTimeline/index';
+import AgendaItemAsTimelineHeader from '../AgendaItemAsTimelineHeader/index';
 import DeliverableInTimeline from '../DeliverableInTimeline/index';
 
 class TimelineHeader extends React.Component {
@@ -19,7 +19,7 @@ class TimelineHeader extends React.Component {
           <a className={styles.close} onClick={() => { visitConversation(conversationId); }}>
             <span aria-hidden="true">&times;</span>
           </a>
-          <AgendaItemInTimeline agendaItem={parent} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} visitAgendaItem={visitAgendaItem} isTimelineHeader />
+          <AgendaItemAsTimelineHeader agendaItem={parent} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} visitAgendaItem={visitAgendaItem}/>
         </div>
       );
     }
