@@ -22,4 +22,8 @@ class AgendaItem < ActiveRecord::Base
   def organization
     conversation.organization
   end
+
+  def parent
+    conversation
+  end
 end

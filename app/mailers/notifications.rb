@@ -5,8 +5,12 @@ class Notifications < ApplicationMailer
   #
   #   en.notifications.mentioned.subject
   #
-  def mentioned(user, target_url)
+  def mentioned(user, mentionable, actor, target_url)
     @user = user
+    @actor = actor
+    @mentionable = mentionable
+    @parent_title = mentionable.parent.title
+    @display_body = MentionsService.new.display_body(mentionable)
     @target_url = target_url
 
     mail to: @user.email

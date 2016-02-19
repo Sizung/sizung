@@ -15,7 +15,7 @@ module Api
       @deliverable.save
 
       if @deliverable.persisted?
-        MentionedJob.perform_later(@deliverable.title, deliverable_url(id: @deliverable.id))
+        MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id))
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'create')
         UnseenService.new.handle_with(@deliverable, current_user)
       end

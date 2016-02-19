@@ -21,4 +21,8 @@ class Deliverable < ActiveRecord::Base
   def organization
     conversation.organization
   end
+
+  def parent
+    agenda_item
+  end
 end

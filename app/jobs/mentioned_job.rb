@@ -3,7 +3,7 @@ class MentionedJob < ActiveJob::Base
 
   queue_as :default
 
-  def perform(raw_body, target_url)
-    MentionsService.new.send_mails(raw_body, target_url)
+  def perform(mentionable, actor, target_url)
+    MentionsService.new.send_mails(mentionable, actor, target_url)
   end
 end

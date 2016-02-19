@@ -5,8 +5,10 @@ class NotificationsPreview < ActionMailer::Preview
   # Preview this email at http://localhost:3000/rails/mailers/notifications/mentioned
   def mentioned
     user = User.first
-    conv = Conversation.first
-    target_url = conversation_url(conv, host: 'localhost')
-    Notifications.mentioned(user, target_url)
+    actor = User.last
+    conversation = Conversation.first
+    mentionable = FactoryGirl.create :agenda_item, conversation: conversation, title: "Hello @[#{user.name}](#{user.id}). How are you?", owner: actor
+    target_url = agenda_item_url(mentionable, host: 'localhost')
+    Notifications.mentioned(user, mentionable, actor, target_url)
   end
 end
