@@ -6,7 +6,7 @@ describe Notifications do
     actor = FactoryGirl.create :user
     mentionable = FactoryGirl.create :comment, body: "This is a mention test for @[Sam Sample](#{user.id})"
     mail = Notifications.mentioned(user, mentionable, actor, 'sampleurl.example.com')
-    value(mail.subject).must_equal 'You got mentioned'
+    value(mail.subject).must_equal "#{actor.first_name} mentioned you"
     value(mail.to).must_equal [user.email]
     value(mail.from).must_equal [ENV['EMAIL_FROM_ADDRESS']]
     value(mail.body.encoded).must_match "#{actor.name} mentioned you in"
