@@ -26,9 +26,18 @@ class AgendaItemAsTimelineHeader extends React.Component {
     this.props.archiveAgendaItem(this.props.agendaItem.id);
   };
 
+  lastUpdatedTime = () => {
+    const { archived, createdAt, updatedAt, archivedAt } = this.props.agendaItem;
+    if (archived) {
+      return (<span><span>Archived&nbsp;</span><Time value={archivedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></span>);
+    } else if (createdAt !== updatedAt) {
+      return (<span>Edited&nbsp;<Time value={updatedAt} titleFormat='YYYY/MM/DD HH:mm' relative /></span>);
+    }
+    return <Time value={createdAt} titleFormat='YYYY/MM/DD HH:mm' relative />;
+  };
+
   renderActions = () => {
-    const { archived } = this.props.agendaItem;
-    return (!archived ? <a href="#" className={ styles.actionBtn } onClick={this.handleArchive}>Archive</a> : null);
+    return (!this.props.agendaItem.archived ? <span><span className={styles.discussLink}><a href="#" className={styles.actionBtn} onClick={this.handleArchive}>archive</a></span></span> : null);
   };
 
   render() {
@@ -47,11 +56,14 @@ class AgendaItemAsTimelineHeader extends React.Component {
           <div className={ styles.titleContainer }>
             <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted={true}/>
           </div>
-          <div className={ styles.actionsContainer }>
+          <div className={ styles.timeContainer }>
             <div className={ styles.statusContainer }>
-              { this.renderActions() }
               <EditableStatus status={status} onUpdate={this.handleStatusUpdate} editable={!archived} />
             </div>
+            <small>
+              {this.lastUpdatedTime()}
+            </small>
+            { this.renderActions() }
           </div>
         </div>
       </div>

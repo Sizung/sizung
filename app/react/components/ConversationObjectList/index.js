@@ -98,14 +98,14 @@ class ConversationObjectList extends Component {
           comment.canCreateAgendaItem = canCreateAgendaItem;
           comment.canCreateDeliverable = canCreateDeliverable;
           comment.parent = parent;
-          return (<Comment key={comment.id} comment={comment} showAuthor={showOwner} currentUser={currentUser} handleCommentSettingsDropdownScroll={this.handleCommentSettingsDropdownScroll} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} isTimelineHeader={false}/>);
+          return (<Comment key={comment.id} comment={comment} showAuthor={showOwner} currentUser={currentUser} handleCommentSettingsDropdownScroll={this.handleCommentSettingsDropdownScroll} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable}/>);
         } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
-          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} isTimelineHeader={false}/>;
+          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem}/>;
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} currentUser={currentUser}  deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} isTimelineHeader={false}/>;
+          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} currentUser={currentUser}  deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable}/>;
         }
         console.warn('Component not found for conversationObject: ', conversationObject);
       });
