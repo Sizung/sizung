@@ -13,7 +13,7 @@ module Api
       @comment.author = current_user
       @comment.save!
       if @comment.persisted?
-        MentionedJob.perform_later(@comment.body, url_for(@comment.commentable))
+        MentionedJob.perform_later(@comment, current_user, url_for(@comment.commentable))
         payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
         CommentRelayJob.perform_later(payload: payload, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type, actor_id: current_user.id, action: 'create')
         UnseenService.new.handle_with(@comment, current_user)

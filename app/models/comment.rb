@@ -29,4 +29,8 @@ class Comment < ActiveRecord::Base
   def organization
     commentable.organization
   end
+
+  def parent
+    commentable
+  end
 end
