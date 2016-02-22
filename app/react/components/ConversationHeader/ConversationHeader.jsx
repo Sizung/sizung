@@ -27,8 +27,12 @@ class ConversationHeader extends React.Component {
             {' CHAT ' + chatType}
           </div>
         </div>
-        <MeetingParticipantListApp parent={this.props.parent} />
-        <ConversationMemberListApp />
+        <span>
+          <MeetingParticipantListApp parent={this.props.parent} />
+        </span>
+        <span style={{float: 'right'}}>
+          <ConversationMemberListApp />
+        </span>
       </div>
     );
   }
