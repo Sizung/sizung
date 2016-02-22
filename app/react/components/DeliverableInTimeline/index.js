@@ -13,6 +13,7 @@ import DeliverableIcon from '../DeliverableIcon';
 import AgendaItemIcon from '../AgendaItemIcon';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
+import TextWithMentions from '../TextWithMentions';
 
 @CSSModules(styles)
 class DeliverableInTimeline extends React.Component {
@@ -109,7 +110,11 @@ class DeliverableInTimeline extends React.Component {
         { this.renderUserName(deliverable.assignee) }
         { dueOn ? <small>{'. Due on '}<Time value={dueOn} format='DD MMM - YYYY' /></small> : ''}
       </div>
-      <div className={ archived ? styles.titleArchived : styles.title } onClick={ (archived ? '' : this.handleSelect) }>{deliverable.title }</div>
+      <div className={ archived ? styles.titleArchived : styles.title } onClick={ (archived ? '' : this.handleSelect) }>
+        <TextWithMentions>
+          {deliverable.title}
+        </TextWithMentions>
+      </div>
     </div>);
 
     return (

@@ -7,6 +7,7 @@ import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 import AgendaItemIcon from '../AgendaItemIcon';
 import styles from './index.css';
+import TextWithMentions from '../TextWithMentions';
 
 class AgendaItemInTimeline extends React.Component {
   constructor() {
@@ -101,7 +102,11 @@ class AgendaItemInTimeline extends React.Component {
         {' was raised by '}
         {this.renderUserName(agendaItem.owner)}
       </div>
-      <div className={ !archived ? styles.title : styles.titleArchived } onClick={ (archived ? '' : this.handleSelect) }>{agendaItem.title }</div>
+      <div className={ !archived ? styles.title : styles.titleArchived } onClick={ (archived ? '' : this.handleSelect) }>
+        <TextWithMentions>
+          {agendaItem.title}
+        </TextWithMentions>
+      </div>
     </div>);
 
     return (<div className={ !archived ? styles.root : styles.rootArchived }>

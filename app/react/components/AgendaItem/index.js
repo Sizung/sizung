@@ -4,13 +4,12 @@ import React, { PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
-import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
-import CommentsCounter from '../CommentsCounter';
 import DeliverablesCounter from '../DeliverablesCounter';
 import ConversationIcon from '../ConversationIcon';
 import User from '../User';
+import TextWithMentions from '../TextWithMentions';
 
 @CSSModules(styles)
 class AgendaItem extends React.Component {
@@ -36,12 +35,6 @@ class AgendaItem extends React.Component {
     this.props.updateAgendaItem(this.props.agendaItem.id, { status: newStatus });
   }
 
-  static renderUnseenBadge(count, selected) {
-    if (!selected && count && count > 0) {
-      return <UnseenBadge count={count} />;
-    }
-  }
-
   conversationTitle = () => {
     const { organizationContext, selected, agendaItem } = this.props;
     if (organizationContext) {
@@ -51,11 +44,16 @@ class AgendaItem extends React.Component {
           </div>
       );
     }
+  };
+
+  static renderUnseenBadge(count, selected) {
+    if (!selected && count && count > 0) {
+      return <UnseenBadge count={count} />;
+    }
   }
 
-
   render() {
-    const { agendaItem, selected, currentConversation } = this.props;
+    const { agendaItem, selected } = this.props;
     let styleName = 'default';
     if (selected === true) {
       styleName = 'selected';
@@ -66,7 +64,7 @@ class AgendaItem extends React.Component {
         <div styleName={styleName} onClick={this.handleClick}>
           <div styleName="row">
             <div styleName="content-container" title={agendaItem.title}>
-              { agendaItem.title.length > 40 ? agendaItem.title.substring(0, 40) + '...' : agendaItem.title }
+              <TextWithMentions maxLength={40}>{agendaItem.title}</TextWithMentions>
             </div>
             <div styleName="status-container">
               <EditableStatus editable={false} status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
@@ -75,7 +73,7 @@ class AgendaItem extends React.Component {
           <div styleName="bottom-row">
             <div styleName="counter-container">
               <User user={ agendaItem.owner } innerStyle={ (selected ? { border: '1px solid #ffffff' } : {})}/>
-              <div style={{display: 'inline-block', marginTop: '5px', marginLeft: '5px', float: 'right'}}>
+              <div style={{ display: 'inline-block', marginTop: '5px', marginLeft: '5px', float: 'right' }}>
                 <DeliverablesCounter count={agendaItem.deliverablesCount} inverted={selected}/>
               </div>
             </div>
