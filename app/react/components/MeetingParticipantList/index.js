@@ -144,8 +144,8 @@ class MeetingParticipantList extends React.Component {
 
   renderClosed = () => {
     return (
-      <button onClick={ this.handleToggleView } className={styles.callMeetingButton} title='Call Meeting'>
-        <i className='fa fa-users'></i><span className='hidden-xs'> Call Meeting</span>
+      <button onClick={ this.handleToggleView } className={styles.callMeetingButton} title='Ping'>
+        <i className='fa fa-users'></i><span className='hidden-xs'> Ping</span>
       </button>
     );
   };
@@ -162,7 +162,7 @@ class MeetingParticipantList extends React.Component {
           </div>
           <div className={styles.meetingParticipantList}>
             {this.renderMeetingParticipantList()}
-            <button onClick={ this.sendMeetingRequest } className={styles.meetingInviteButton}>Send Meeting Invite</button>
+            <button onClick={ this.sendMeetingRequest } className={styles.meetingInviteButton}>Ping</button>
           </div>
           <div className={styles.fullWidthContainer}>
             <div className={styles.conversationMemberTitle}>

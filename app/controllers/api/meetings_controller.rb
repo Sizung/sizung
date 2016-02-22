@@ -23,7 +23,7 @@ module Api
         end
 
         MeetingInvitationMailer.user_invited_to_meeting(current_user, @toList, @url, @parent).deliver_later
-        render json: { message: 'Meeting Invitation Sent'}
+        render json: { message: 'Member(s) pinged successfully.'}
       else
         render json: { message: 'Select at least one or more member(s)'}
       end
