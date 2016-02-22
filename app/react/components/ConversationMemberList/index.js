@@ -140,7 +140,7 @@ class ConversationMemberList extends React.Component {
       <div className={styles.memberDropdownContainer}>
         <div className="btn-group">
           <div onClick={this.handleToggleView} aria-haspopup="true" aria-expanded="false">
-            <UserIcon inverted size={'x-large'} />
+            <UserIcon inverted size={'x-large'} style={{paddingTop: '15px'}}/>
             <div className={styles.memberBadge}>{usersCount}</div>
           </div>
         </div>
