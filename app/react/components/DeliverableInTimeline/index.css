@@ -1,198 +1,97 @@
 .root {
   composes: hover-container from '../../styles/modules/hover.css';
   position: relative;
-  margin: 5px 40px 5px 0px;
+  margin: 5px 0px;
   padding: 5px 0px;
+  color : #89949E;
 }
 
-.user-container {
+.rootArchived {
+  composes: root;
+  opacity: 0.5;
+}
+
+.userContainer {
   display: table-cell;
-  width: 60px;
+  min-width: 60px;
+  max-width: 60px;
   padding: 0px 15px;
   vertical-align: top;
 }
 
-.row {
-  composes: row from global;
-  min-height: 2em;
+.timeContainer {
+  color : #9aa5af;
+  min-height: 23px;
+  margin-top: 5px;
 }
 
-.full-width {
-  composes: col-sm-12 from global;
+.deliverableIcon {
+  composes: fa fa-tasks from global;
+  float: left;
+  padding: 5px 10px 0px 0px;
 }
 
-.title-container {
-  font-weight: 600;
-  color : #89949E;
-  text-align: left;
+.contentContainer {
+  position: relative;
+  display: table-cell;
+  width: 100%;
+  margin: 0px;
+  padding: 0px 30px 0px 0px;
+}
+
+.content {
+  padding-right: 20px;
+  width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-wrap;
 
   -ms-word-break: break-all;
   word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
 }
 
-.title-container-inverted {
-  composes: title-container;
-  color: #ffffff;
-}
-
-.content-container {
-  display: table-cell;
-  width: 100%;
-  padding: 15px;
-  background-color: #E1F2FE;
-}
-
-.content-container-inverted {
-  display: table-cell;
-  width: 100%;
-}
-
-.status-container {
-  composes: pull-right from global;
-  margin-top: -5px;
-  margin-right: 0px;
-}
-
-.meta-container {
-  composes: row from global;
-  margin: 0px;
-  padding-top: 5px;
-  border-top: 1px solid #ffffff;
-}
-
-.meta-container-row {
-  composes: col-xs-12 from global;
-}
-
-.meta-content {
-  composes: col-xs-12 col-md-6 from global;
-  padding: 0px;
-  color : #89949E;
-}
-
-.meta-content:last-of-type {
-  text-align: right;
-}
-
-.meta-label {
-  composes: text-muted from global;
-  font-weight: 100;
-}
-
-.meta-label-inverted {
-  composes: meta-label;
-  color: #cccccc;
-}
-
-.time-container {
-  color : #9aa5af;
-  min-height: 23px;
-  margin-top: 5px;
-}
-
-.discuss-link {
+.actionDropdown {
   composes: hover-inline from '../../styles/modules/hover.css';
-  composes: pull-right from global;
-}
-
-.discuss-link-hide {
-  display: none;
-}
-
-.deliverable-icon {
-  composes: fa fa-tasks from global;
-  float: left;
-  padding: 5px 10px 0px 0px;
-}
-
-.editable-user-container {
-  composes: pull-right from global;
-  border: none;
-  box-shadow: none;
-  padding: 0px;
-  outline: none;
-  border-width: 0px;
-  background: transparent;
-  cursor: pointer;
-}
-
-.user-label {
-  composes: text-muted pull-right from global;
-  padding: 5px 5px 0px 0px;
-}
-
-.due-date-container {
-  composes: pull-right from global;
-}
-
-.editable-due-date-container {
-  max-width: 100px;
-  padding: 5px;
-  box-shadow: none;
-  border: none;
-  outline: none;
-  border-width: 0px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #eeeeee;
-  cursor: pointer;
-}
-
-.agenda-item-container {
-}
-
-.editable-agenda-item-container {
-  max-width: 100px;
-  padding: 5px;
-  box-shadow: none;
-  border: none;
-  outline: none;
-  border-width: 0px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #eeeeee;
-  cursor: pointer;
-}
-
-.due-on {
-  font-weight: 600;
-  color: #57C1E8;
-}
-
-.due-on-label {
-  color: #89949e;
-}
-
-.due-on-label-inverted {
-  color: #cccccc;
-}
-
-.action-btn {
-  composes: btn btn-xs btn-default from global;
-  margin: -1px 0px;
-}
-
-.archive-wrapper {
   position: absolute;
+  display:none;
+  margin-left: 1em;
+  right: 15px;
   top: 0px;
-  bottom: 0px;
-  left: 0px;
-  right: 0px;
-  background-color: #ffffff;
-  opacity: 0.6;
-  z-index: 100;
-}
-.title {
-  composes: col-xs-12 col-sm-8 from global;
-  padding: 0px;
 }
 
-.assignee {
-  composes: col-xs-6-pull-right col-sm-4 from global;
-  padding: 0px;
+.root:hover{
+  background-color: #eeeeee;
+}
+
+.gearIcon {
+  composes: fa fa-gear fa-lg text-muted from global;
+  cursor: pointer;
+}
+
+.userName {
+  font-weight: 600;
+}
+
+.deliverableLabel {
+  font-weight: 600;
+}
+
+.title {
+  color: #57C1E8;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.titleArchived {
+  composes: title;
+  cursor: default;
+}
+
+.resolvedStatus {
+  composes: text-info pull-right from global;
 }

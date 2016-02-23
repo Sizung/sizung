@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import TextareaAutosize from 'react-autosize-textarea';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
+import SizungInputApp from '../../containers/SizungInputApp';
+import TextWithMentions from '../TextWithMentions';
 
-function SelectInputText(element) {
-  element.setSelectionRange(0, element.value.length);
-}
+//function SelectInputText(element) {
+//  element.setSelectionRange(0, element.value.length);
+//}
 
 @CSSModules(styles)
 class EditableText extends React.Component {
@@ -21,20 +23,18 @@ class EditableText extends React.Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
     this.handleInputClick = this.handleInputClick.bind(this);
-    this.handleKeyPress = this.handleKeyPress.bind(this);
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.edit && !prevState.edit) {
-      const inputElem = ReactDOM.findDOMNode(this.refs.input);
-      inputElem.focus();
-      SelectInputText(inputElem);
-    }
-  }
+  //componentDidUpdate(prevProps, prevState) {
+  //  if (this.state.edit && !prevState.edit) {
+  //    const inputElem = ReactDOM.findDOMNode(this.refs.input);
+  //    inputElem.focus();
+  //    SelectInputText(inputElem);
+  //  }
+  //}
 
-  saveEdit() {
-    const inputElem = ReactDOM.findDOMNode(this.refs.input);
-    const title = inputElem.value.trim();
+  saveEdit(value) {
+    const title = value.trim();
     if (!title) return;
 
     this.props.onUpdate(title);
@@ -57,16 +57,13 @@ class EditableText extends React.Component {
     }
   }
 
-  handleSubmit(e) {
-    if(e) {
-      e.preventDefault();
-    }
-    this.saveEdit();
+  handleSubmit(value) {
+    this.saveEdit(value);
   }
 
-  handleBlur(e) {
+  handleBlur(e, value) {
     e.preventDefault();
-    this.saveEdit();
+    this.saveEdit(value);
   }
 
   handleInputClick(e) {
@@ -79,16 +76,7 @@ class EditableText extends React.Component {
     }
   }
 
-  handleKeyPress(e) {
-    this.inputNode = ReactDOM.findDOMNode(this.refs.input);
-    const name = this.inputNode.value.trim();
-    if (name) {
-      if (e.charCode === 13 && !e.shiftKey) {
-        e.preventDefault();
-        this.handleSubmit();
-      }
-    }
-  }
+  // <TextareaAutosize ref="input" className='form-control' rows="1" styleName='edit-text-input' onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onBlur={this.handleBlur} defaultValue={persistedText}/>
 
   textElement(persistedText, editable) {
     if (this.state.edit) {
@@ -97,7 +85,7 @@ class EditableText extends React.Component {
           <form className="form-horizontal">
             <div className="form-group" style={{ marginBottom: "5px"}}>
               <div className="col-xs-12">
-                <TextareaAutosize ref="input" className='form-control' rows="1" styleName='edit-text-input' onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onBlur={this.handleBlur} defaultValue={persistedText}/>
+                <SizungInputApp ref="input" className="form-control" styleName="edit-text-input" onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} />
               </div>
             </div>
           </form>
@@ -105,7 +93,7 @@ class EditableText extends React.Component {
       );
     } else {
       const persistedTextStyle = this.props.inverted ? 'persisted-text-inverted' : 'persisted-text';
-      return <div styleName='persisted-text-container'><div styleName={persistedTextStyle}>{persistedText}</div><div styleName='edit-link-container'>{this.editLink(editable)}</div></div>;
+      return <div styleName='persisted-text-container'><div styleName={persistedTextStyle}><TextWithMentions>{persistedText}</TextWithMentions></div><div styleName='edit-link-container'>{this.editLink(editable)}</div></div>;
     }
   }
 

@@ -1,56 +1,60 @@
 .root {
   width: 100%;
   padding: 5px 0px;
-  border: 1px solid #ffffff;
-  border-width: 1px 0px;
+  /*border: 1px solid #ffffff;*/
+  /*border-width: 1px 0px;*/
   color : #89949E;
 }
 
-.user-container {
+.userContainer {
   display: table-cell;
   min-width: 60px;
   max-width: 60px;
-  padding: 0px 15px;
+  padding: 0 15px;
   vertical-align: top;
 }
 
-.content-container {
+.contentContainer {
   position: relative;
   display: table-cell;
   width: 100%;
-  margin: 0px;
-  padding: 0px 30px 0px 0px;
+  margin: 0;
+  padding: 0 30px 0 0;
 }
 
-.time-container {
+.timeContainer {
   width: 100%;
-  padding: 0px;
+  padding: 0;
   color : #9aa5af;
 }
 
-.gear-icon {
+.gearIcon {
   composes: fa fa-gear fa-lg text-muted from global;
   cursor: pointer;
 }
 
-.options-menu {
+.optionsMenu {
   position: absolute;
   display:none;
   margin-left: 1em;
   right: 15px;
-  top: 0px;
+  top: 0;
 }
 
-.root:hover .options-menu {
+.root:hover .optionsMenu {
   display:block;
 }
 
+/*.root:hover {*/
+  /*border: 1px dashed #f0f0f0;*/
+  /*border-width: 1px 0px;*/
+/*}*/
+
 .root:hover {
-  border: 1px dashed #f0f0f0;
-  border-width: 1px 0px;
+  background-color: #eeeeee;
 }
 
-.comment-body {
+.commentBody {
   padding-right: 20px;
   width: 100%;
   overflow-wrap: break-word;

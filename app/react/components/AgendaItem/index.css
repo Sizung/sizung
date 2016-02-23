@@ -49,10 +49,25 @@
 }
 
 .bottom-row {
+  composes: row from global;
   margin: 0px;
-  padding-bottom: 5px;
 }
 
 .user-container {
   composes: pull-right from global;
+}
+
+.counter-container {
+  composes: col-xs-12 from global;
+  padding: 0px;
+}
+
+.conversation-title-container {
+  composes: col-xs-12 from global;
+  padding: 0px;
+  margin-top: 5px;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  white-space: nowrap;
 }

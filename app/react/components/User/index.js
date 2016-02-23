@@ -54,8 +54,8 @@ class User extends React.Component {
 User.propTypes = {
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
-    firstName: PropTypes.string.isRequired,
-    lastName: PropTypes.string.isRequired,
+    firstName: PropTypes.string,
+    lastName: PropTypes.string,
     presenceStatus: PropTypes.string.isRequired,
   }).isRequired,
   size: PropTypes.string.isRequired,

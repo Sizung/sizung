@@ -54,6 +54,7 @@ class DeliverableList extends Component {
                       visitDeliverable={visitDeliverable}
                       selected={deliverable.id === selectedDeliverableId}
                       updateDeliverable={updateDeliverable}
+                      conversationContext={this.props.agendaItemId ? false : true}
                   />);
             })
           }

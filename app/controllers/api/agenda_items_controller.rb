@@ -26,6 +26,7 @@ module Api
       @agenda_item.save
 
       if @agenda_item.persisted?
+        MentionedJob.perform_later(@agenda_item, current_user, agenda_item_url(id: @agenda_item.id))
         AgendaItemRelayJob.perform_later(agenda_item: @agenda_item, actor_id: current_user.id, action: 'create')
         UnseenService.new.handle_with(@agenda_item, current_user)
       end

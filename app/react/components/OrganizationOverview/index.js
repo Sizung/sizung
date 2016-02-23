@@ -57,7 +57,7 @@ class OrganizationOverview extends Component {
                 <span styleName="action" className="pull-right">
                   <a href={'/organizations/' + organization.id + '/conversations/new'}>
                     <i className="fa fa-plus" />
-                    Add Conversation
+                    {' New Conversation'}
                   </a>
                 </span>
                 <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>CONVERSATIONS

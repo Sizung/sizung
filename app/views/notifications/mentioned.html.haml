@@ -1,0 +1,16 @@
+= "Hi #{@user.first_name}, "
+%p
+  = "#{@actor.name} mentioned you in \"#{@parent_title}\":"
+%p
+  %br
+  = "\"#{@display_body}\""
+  %br
+  %br
+%p
+  = 'Join the discussion here: '
+%p
+  = link_to(@target_url, @target_url)
+%p
+  Cheers,
+  %br
+  Sizbot

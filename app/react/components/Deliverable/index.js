@@ -2,13 +2,13 @@
 
 import React, { Component, PropTypes } from 'react';
 import CSSModules from 'react-css-modules';
-import styles from "./index.css";
+import styles from './index.css';
 import User from '../User/index';
-import EditableText from '../EditableText';
 import EditableStatus from '../EditableStatus';
 import UnseenBadge from '../UnseenBadge';
-import CommentsCounter from '../CommentsCounter';
 import AgendaItemIcon from '../AgendaItemIcon';
+import Time from 'react-time';
+import TextWithMentions from '../TextWithMentions';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
@@ -22,7 +22,6 @@ class Deliverable extends React.Component {
       e.preventDefault();
 
       this.props.visitDeliverable(this.props.deliverable.id);
-      //this.props.visitAgendaItem(this.props.agendaItem.id);
     };
   }
 
@@ -34,6 +33,18 @@ class Deliverable extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, { status: newStatus });
   }
 
+  agendaItemTitle = () => {
+    const { conversationContext, selected, deliverable } = this.props;
+    if (conversationContext) {
+      return (
+        <div styleName="agenda-title-container">
+          <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }}/>
+          <TextWithMentions maxLength={40}>{ deliverable.agendaItem.title }</TextWithMentions>
+        </div>
+      );
+    }
+  };
+
   renderUnseenBadge(count, selected) {
     if(!selected && count && count > 0) {
       return <UnseenBadge count={count} />;
@@ -42,7 +53,7 @@ class Deliverable extends React.Component {
 
   render() {
     const { deliverable, selected } = this.props;
-    const { status, title, agendaItem, assignee, dueOn, commentsCount, unseenCount } = deliverable;
+    const { status, title, assignee, dueOn, unseenCount } = deliverable;
 
     let styleName = 'default';
     if (selected === true) {
@@ -54,8 +65,8 @@ class Deliverable extends React.Component {
         {this.renderUnseenBadge(unseenCount, selected)}
         <div styleName={styleName} onClick={this.handleClick}>
           <div styleName='row'>
-            <div styleName='content-container'>
-              <EditableText editable={false} text={title} onUpdate={this.handleTitleUpdate} />
+            <div styleName='content-container' title={title}>
+              <TextWithMentions maxLength={40}>{ title }</TextWithMentions>
             </div>
             <div styleName='status-container'>
               <EditableStatus editable={false} status={status} onUpdate={this.handleStatusUpdate} />
@@ -66,22 +77,15 @@ class Deliverable extends React.Component {
               <div styleName="user-container">
                 <User user={assignee} />
               </div>
-              <div styleName="due-on">
-                {dueOn}
-              </div>
+              { dueOn ? <div styleName="due-on"><Time value={dueOn} format='DD MMM - YYYY' /></div> : ''}
             </div>
             <div styleName='details-row2'>
-              <div styleName="comments-count-container">
-                <CommentsCounter count={commentsCount} inverted={selected} />
-              </div>
-              <div styleName="agenda-title-container">
-                <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }}/>{agendaItem.title}
-              </div>
+              {this.agendaItemTitle()}
             </div>
           </div>
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -93,6 +97,7 @@ Deliverable.propTypes = {
   }).isRequired,
   visitDeliverable: PropTypes.func.isRequired,
   updateDeliverable: PropTypes.func,
+  conversationContext: PropTypes.bool.isRequired,
 };
 
 Deliverable.defaultProps = {

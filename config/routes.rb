@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   require 'sidekiq/web'
   devise_for :admin_users, ActiveAdmin::Devise.config
   ActiveAdmin.routes(self)
@@ -38,6 +39,8 @@ Rails.application.routes.draw do
       resources :organization_members, only: [:index, :destroy]
     end
     resources :conversation_members, only: [:create, :destroy]
+
+    resources :meetings, only: [:create]
   end
 
   resources :organizations, shallow: true do
@@ -45,8 +48,8 @@ Rails.application.routes.draw do
     resources :conversations
   end
 
-  get 'agenda_items/:agenda_item_id', to: 'react_routes#index'
-  get 'deliverables/:deliverable_id', to: 'react_routes#index'
+  get 'agenda_items/:id', to: 'react_routes#index', as: :agenda_item
+  get 'deliverables/:id', to: 'react_routes#index', as: :deliverable
 
   # Old routes are redirected to new shallow routes
   get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: redirect('/deliverables/%{deliverable_id}')

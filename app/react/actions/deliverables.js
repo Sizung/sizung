@@ -27,7 +27,10 @@ const updateDeliverableRemoteOrigin = (deliverable) => {
 };
 
 const archiveDeliverable = (id) => {
-  return updateDeliverable(id, { archived: true });
+  if (confirm('Are you sure you want to archive this Deliverable?')) {
+    return updateDeliverable(id, { archived: true });
+  }
+  return null;
 };
 
 const fetchDeliverable = (deliverableId) => {
