@@ -137,14 +137,12 @@ class ConversationMemberList extends React.Component {
   renderClosed = () => {
     const usersCount = this.props.conversationMembers ? this.props.conversationMembers.toList().size : 0;
     return (
-      <div className={styles.memberDropdownContainer}>
-        <div className="btn-group">
+      <span className={styles.memberDropdownContainer}>
           <div onClick={this.handleToggleView} aria-haspopup="true" aria-expanded="false">
             <UserIcon inverted size={'x-large'} style={{paddingTop: '15px'}}/>
             <div className={styles.memberBadge}>{usersCount}</div>
           </div>
-        </div>
-      </div>
+      </span>
     );
   };
 

@@ -3,15 +3,11 @@
 }
 
 .root {
+  composes: col-sm-6-offset-3 col-xs-12 from global;
   position: absolute;
-  top: 45px;
-  right: -10px;
-  width: 500px;
-  height: 500px;
+  height: 535px;
   z-index: 999;
   overflow: auto;
-
-  /*composes: row from global;*/
   padding: 10px;
   background-color: white;
   -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
@@ -76,6 +72,7 @@
 }
 
 .memberDropdownContainer {
+  display: inline-block;
   float: right;
   cursor: pointer;
 }
