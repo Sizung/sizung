@@ -9,7 +9,7 @@ class TextWithMentions extends React.Component {
   };
 
   rawMarkup = () => {
-    const pattern = new RegExp(/(.*)@\[(.*)\]\(.*\)(.*)/);
+    const pattern = new RegExp(/(.*)@\[([^\]]*)\]\([^\)]*\)(.*)/);
 
     let text = this.props.children;
 
