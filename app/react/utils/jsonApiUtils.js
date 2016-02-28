@@ -106,7 +106,7 @@ export function transformUserFromJsonApi(user) {
     email: user.attributes.email,
     firstName: user.attributes.first_name,
     lastName: user.attributes.last_name,
-    name: (user.attributes.first_name !== null && user.attributes.last_name !== null) ? user.attributes.first_name + ' ' + user.attributes.last_name : null,
+    name: (user.attributes.first_name && user.attributes.last_name) ? user.attributes.first_name + ' ' + user.attributes.last_name : null,
     presenceStatus: user.attributes.presence_status === null ? 'offline' : user.attributes.presence_status,
   };
 }
