@@ -2,8 +2,12 @@ class MentionsService
   ID_PATTERN = /@\[[^\]]*\]\(([^\)]*)\)/
   NAME_PATTERN = /@\[([^\]]*)\]\([^\)]*\)/
 
-  def extract_users(raw_body)
-    raw_body.scan(ID_PATTERN).flatten.map { |id| User.find(id) }.compact
+  def extract_users(raw_body, old_mentionable_body = nil)
+    users = raw_body.scan(ID_PATTERN).flatten.map { |id| User.find(id) }.compact
+    if old_mentionable_body
+      users = users - old_mentionable_body.scan(ID_PATTERN).flatten.map { |id| User.find(id) }.compact
+    end
+    users
   end
 
   def display_body(mentionable)
@@ -21,8 +25,8 @@ class MentionsService
     end
   end
 
-  def send_mails(mentionable, actor, url)
-    extract_users(raw_body(mentionable)).each do |user|
+  def send_mails(mentionable, actor, url, old_mentionable_body = nil)
+    extract_users(raw_body(mentionable), old_mentionable_body).each do |user|
       Notifications.mentioned(user, mentionable, actor, url).deliver_later
     end
   end

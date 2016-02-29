@@ -31,8 +31,10 @@ module Api
 
     # PUT/PATCH /deliverables/1.json
     def update
+      old_body = @deliverable.title
       original_agenda_item_id = @deliverable.agenda_item_id
       if @deliverable.toggle_archive(params[:deliverable][:archived]) || @deliverable.update(deliverable_params)
+        MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id), old_body)
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')
         if(deliverable_params[:agenda_item_id].present? && deliverable_params[:agenda_item_id] != original_agenda_item_id)
           AgendaItemRelayJob.perform_later(agenda_item: AgendaItem.find(original_agenda_item_id), actor_id: nil, action: 'update')
