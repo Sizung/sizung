@@ -4,7 +4,7 @@ App.userChannel = App.cable.subscriptions.create "UserChannel",
     console.log('UserChannel connected to server.')
 
   received: (data) ->
-    console.log 'userChannel: ', data
+    # console.log 'userChannel: ', data
     this.onReceived(data)
 
   setOnReceived: (callback) ->
