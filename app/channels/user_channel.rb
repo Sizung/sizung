@@ -16,6 +16,7 @@ class UserChannel < ApplicationCable::Channel
   def follow(data)
     stop_all_streams
     stream_from "users:#{data['user_id']}"
+    current_user.appear
     logger.info "#{current_user} follows users:#{data['user_id']}"
   end
 
