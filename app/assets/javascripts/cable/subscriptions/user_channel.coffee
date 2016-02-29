@@ -1,9 +1,10 @@
 App.userChannel = App.cable.subscriptions.create "UserChannel",
   connected: ->
     # Called once the subscription has been successfully completed
-    # console.log('UserChannel connected to server.')
+    console.log('UserChannel connected to server.')
 
   received: (data) ->
+    console.log 'userChannel: ', data
     this.onReceived(data)
 
   setOnReceived: (callback) ->
@@ -18,8 +19,8 @@ App.userChannel = App.cable.subscriptions.create "UserChannel",
 
   followUser: (userId) ->
     @perform 'follow', user_id: userId
-    # console.log('UserChannel following user: ' + userId)
+    console.log('UserChannel following user: ' + userId)
 
   unfollowCurrentUser: ->
-    # console.log('UserChannel unfollow')
+    console.log('UserChannel unfollow')
     @perform 'unfollow'

@@ -4,6 +4,7 @@ App.organizationChannel = App.cable.subscriptions.create "OrganizationChannel",
     # console.log('OrganizationChannel connected to server.')
 
   received: (data) ->
+    console.log 'OrganizationChannel received: ', data
     this.onReceived(data)
 
   setOnReceived: (callback) ->
@@ -11,8 +12,8 @@ App.organizationChannel = App.cable.subscriptions.create "OrganizationChannel",
 
   followOrganization: (organizationId) ->
     @perform 'follow', organization_id: organizationId
-    # console.log('OrganizationChannel following organization: ' + organizationId)
+    console.log('OrganizationChannel following organization: ' + organizationId)
 
   unfollowOrganization: ->
-    # console.log('OrganizationChannel unfollow')
+    console.log('OrganizationChannel unfollow')
     @perform 'unfollow'

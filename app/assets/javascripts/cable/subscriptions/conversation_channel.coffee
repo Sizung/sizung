@@ -4,6 +4,7 @@ App.conversationChannel = App.cable.subscriptions.create "ConversationChannel",
     # console.log('ConversationChannel connected to server.')
 
   received: (data) ->
+    console.log 'convChannel: ', data
     this.onReceived(data)
 
   followConversation: (conversationId) ->
