@@ -1,0 +1,57 @@
+.rootOpen {
+  display: inline-block;
+  background-color: #3d5863;
+  width: 500px;
+  padding-top: 24px;
+  padding-left: 48px;
+  padding-right: 24px;
+
+  font-size: 24px;
+}
+
+.header {
+  padding-bottom: 26px;
+  border-bottom: 1px solid silver;
+  margin-bottom: 24px;
+}
+
+.menu {
+  padding-bottom: 24px;
+}
+
+.menu a {
+  display: block;
+  line-height: 72px;
+  color: white;
+}
+
+.menu a:hover {
+  color: white;
+}
+
+.name {
+  display: inline-block;
+  color: white;
+  margin-left: 24px;
+}
+
+.rootShow {
+  display: inline-block;
+  padding-top: 24px;
+  padding-right: 42px;
+}
+
+.round {
+  background-color: white;
+  display: inline-block;
+  width: 54px;
+  height: 54px;
+  border-radius: 50%/50%;
+  border: 1px solid black;
+  text-align: center;
+  padding-top: 10px;
+  font-weight: bold;
+  font-size: 24px;
+  color: #130F22;
+  cursor: pointer;
+}

@@ -16,3 +16,6 @@ registerComponent('EditableAgendaItem', EditableAgendaItem);
 
 import UnseenBadge from './components/UnseenBadge/index.js';
 registerComponent('UnseenBadge', UnseenBadge);
+
+import TopBar from './components/TopBar/index.js';
+registerComponent('TopBar', TopBar);

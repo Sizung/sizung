@@ -1,0 +1,24 @@
+.root {
+  height: 105px;
+  background-color: #130F22;
+}
+
+.organizationWrapper {
+  display: inline-block;
+  padding-top: 24px;
+  padding-left: 42px;
+}
+
+.otherOrganizations {
+  display: none;
+  margin-left: 24px;
+}
+
+.organizationWrapper:hover .otherOrganizations {
+  display: inline-block;
+}
+
+.profileDropdown {
+  display: inline-block;
+  float: right;
+}
