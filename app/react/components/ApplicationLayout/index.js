@@ -21,9 +21,6 @@ class ApplicationLayout extends Component {
           <StaleNotification />
           { this.props.children }
         </div>
-        <footer styleName="footer">
-          &copy; Sizung 2016
-        </footer>
       </div>
     );
   }

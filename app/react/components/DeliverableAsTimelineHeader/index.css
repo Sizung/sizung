@@ -1,7 +1,7 @@
 .root {
   composes: hover-container from '../../styles/modules/hover.css';
   position: relative;
-  margin: 5px 40px 5px 0px;
+  margin: 0px 40px 5px 0px;
   padding: 5px 0px;
 }
 

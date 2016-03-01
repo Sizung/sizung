@@ -76,7 +76,7 @@ class ConversationObjectList extends Component {
     const listElement = this.refs.conversationObjectList;
     // listElement.style.height = commentBoxHeight + 'px';
     // console.log(timelineHeader, listElement, timelineHeader.offsetHeight, commentBoxHeight);
-    listElement.setAttribute('style', 'height:' + (window.innerHeight - (timelineHeader.offsetHeight + 190) - commentBoxHeight) + 'px');
+    listElement.setAttribute('style', 'height:' + (window.innerHeight - (timelineHeader.offsetHeight + 160) - commentBoxHeight) + 'px');
     // this.setState({ commentFormHeight: commentBoxHeight });
   };
 
