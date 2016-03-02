@@ -1,5 +1,4 @@
 import React, { PropTypes } from 'react';
-import { Link } from 'react-router';
 import styles from './ProfileDropdown.css';
 
 class ProfileDropdown extends React.Component {
@@ -12,12 +11,9 @@ class ProfileDropdown extends React.Component {
     currentUser: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }).isRequired,
-    style: PropTypes.object,
   };
 
-  static defaultProps = {
-    style: {},
-  };
+  static defaultProps = {};
 
   handleOpenClick = () => {
     this.setState({ open: true });
@@ -28,36 +24,36 @@ class ProfileDropdown extends React.Component {
   };
 
   renderOpen = () => {
-    const { currentUser, style } = this.props;
-    const { name } = currentUser;
+    const { name } = this.props.currentUser;
 
     return (
       <div className={styles.rootOpen}>
         <div className={styles.header} onClick={this.handleCloseClick}>
-          <div className={styles.round} title={name} style={{ ...style }} >
+          <div className={styles.round} title={name} >
             {name.charAt(0)}
           </div>
           <div className={styles.name}>
             {name}
           </div>
+          <div className={styles.caretOpen}></div>
         </div>
         <div className={styles.menu}>
-          <Link url="/">Settings</Link>
-          <Link url="/">Log out</Link>
+          <a href="/users/edit">Settings</a>
+          <a href="/users/sign_out" data-method="delete">Sign Out</a>
         </div>
       </div>
     );
   };
 
   renderShow = () => {
-    const { currentUser, style } = this.props;
-    const { name } = currentUser;
+    const { name } = this.props.currentUser;
 
     return (
-      <div className={styles.rootShow}>
-        <div className={styles.round} title={name} style={{ ...style }} onClick={this.handleOpenClick}>
+      <div className={styles.rootShow} onClick={this.handleOpenClick}>
+        <div className={styles.round} title={name} >
           {name.charAt(0)}
         </div>
+        <div className={styles.caretClosed}></div>
       </div>
     );
   };

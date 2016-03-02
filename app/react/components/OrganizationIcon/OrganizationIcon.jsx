@@ -8,19 +8,28 @@ class OrganizationIcon extends React.Component {
     name: PropTypes.string.isRequired,
     url: PropTypes.string.isRequired,
     style: PropTypes.object,
+    reactLink: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     url: '/',
     style: {},
+    reactLink: true,
   };
 
   render() {
-    const { name, url, style } = this.props;
+    const { name, url, style, reactLink } = this.props;
+    if (reactLink) {
+      return (
+        <Link to={url} className={styles.root} title={name} style={{ ...style }}>
+          {name.charAt(0)}
+        </Link>
+      );
+    }
     return (
-      <Link to={url} className={styles.root} title={name} style={{ ...style }}>
+      <a href={url} className={styles.root} title={name} style={{ ...style }}>
         {name.charAt(0)}
-      </Link>
+      </a>
     );
   }
 }

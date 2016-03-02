@@ -6,13 +6,18 @@ import ProfileDropdown from '../ProfileDropdown/index';
 class TopBar extends React.Component {
 
   static propTypes = {
-    organizations: PropTypes.array.isRequired,
+    currentOrganization: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      name: PropTypes.string.isRequired,
+    }),
+    organizations: PropTypes.object.isRequired,
     currentUser: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }).isRequired,
   };
 
-  static defaultProps = {};
+  static defaultProps = {
+  };
 
   renderOrganizationList = () => {
     const { organizations, currentOrganization } = this.props;
@@ -22,18 +27,28 @@ class TopBar extends React.Component {
     });
   };
 
-  render() {
-    const { currentOrganization, currentUser } = this.props;
+  renderOrganizationPart = () => {
+    const { currentOrganization } = this.props;
 
-    return (
-      <div className={styles.root}>
+    if (currentOrganization) {
+      return (
         <div className={styles.organizationWrapper}>
           <OrganizationIcon name={currentOrganization.name} url={'/organizations/' + currentOrganization.id} />
           <div className={styles.otherOrganizations}>
             {this.renderOrganizationList()}
-            <OrganizationIcon name="+ New Organization" url="/organizations/new" style={{ marginLeft: '48px' }} />
+            <OrganizationIcon name="+ New Organization" url="/organizations/new" reactLink={false} style={{ marginLeft: '48px' }} />
           </div>
         </div>
+      );
+    }
+  };
+
+  render() {
+    const { currentUser } = this.props;
+
+    return (
+      <div className={styles.root}>
+        {this.renderOrganizationPart()}
         <div className={styles.profileDropdown}>
           <ProfileDropdown currentUser={currentUser} />
         </div>

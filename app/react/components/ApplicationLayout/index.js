@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import NavigationHeader from './../NavigationHeader/index';
+import TopBar from '../TopBar/index.js';
 import StaleNotification from '../StaleNotification';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
@@ -7,16 +7,11 @@ import styles from './index.css';
 @CSSModules(styles)
 class ApplicationLayout extends Component {
   render() {
-    const { currentUser, organizations, currentOrganization, currentConversation } = this.props;
+    const { currentUser, organizations, currentOrganization } = this.props;
 
     return (
       <div styleName="root">
-        <NavigationHeader
-          currentUser={currentUser}
-          organizations={organizations}
-          currentOrganization={currentOrganization}
-          currentConversation={currentConversation}
-        />
+        <TopBar currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} />
         <div styleName="main-content" >
           <StaleNotification />
           { this.props.children }
