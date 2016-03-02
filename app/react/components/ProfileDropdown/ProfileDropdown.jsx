@@ -2,11 +2,6 @@ import React, { PropTypes } from 'react';
 import styles from './ProfileDropdown.css';
 
 class ProfileDropdown extends React.Component {
-  constructor() {
-    super();
-    this.state = { open: false };
-  }
-
   static propTypes = {
     currentUser: PropTypes.shape({
       name: PropTypes.string.isRequired,
@@ -15,20 +10,12 @@ class ProfileDropdown extends React.Component {
 
   static defaultProps = {};
 
-  handleOpenClick = () => {
-    this.setState({ open: true });
-  };
-
-  handleCloseClick = () => {
-    this.setState({ open: false });
-  };
-
   renderOpen = () => {
     const { name } = this.props.currentUser;
 
     return (
       <div className={styles.rootOpen}>
-        <div className={styles.header} onClick={this.handleCloseClick}>
+        <div className={styles.header}>
           <div className={styles.round} title={name} >
             {name.charAt(0)}
           </div>
@@ -45,21 +32,20 @@ class ProfileDropdown extends React.Component {
     );
   };
 
-  renderShow = () => {
+  render() {
     const { name } = this.props.currentUser;
 
     return (
-      <div className={styles.rootShow} onClick={this.handleOpenClick}>
-        <div className={styles.round} title={name} >
-          {name.charAt(0)}
+      <div className={styles.hoverContainer}>
+        <div className={styles.rootShow}>
+          <div className={styles.round} title={name} >
+            {name.charAt(0)}
+          </div>
+          <div className={styles.caretClosed}></div>
         </div>
-        <div className={styles.caretClosed}></div>
+        {this.renderOpen()}
       </div>
     );
-  };
-
-  render() {
-    return this.state.open ? this.renderOpen() : this.renderShow();
   }
 }
 

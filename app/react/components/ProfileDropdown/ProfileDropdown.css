@@ -1,4 +1,11 @@
+.hoverContainer {
+}
+
 .rootOpen {
+  display: none;
+}
+
+.hoverContainer:hover .rootOpen {
   z-index: 10;
   position: relative;
   display: inline-block;
@@ -12,18 +19,22 @@
 }
 
 .caretOpen {
-    display: inline-block;
-    background-image: url("/icons/caret_open.png");
-    width: 13px;
-    height: 8px;
+  display: inline-block;
+  background-image: url("/icons/caret_open.png");
+  width: 13px;
+  height: 8px;
 }
 
 .caretClosed {
-    display: inline-block;
-    background-image: url("/icons/caret_closed.png");
-    width: 13px;
-    height: 8px;
-    margin-left: 20px;
+  display: inline-block;
+  background-image: url("/icons/caret_closed.png");
+  width: 13px;
+  height: 8px;
+  margin-left: 20px;
+}
+
+.hoverContainer:hover .rootShow {
+  display: none;
 }
 
 .header {
