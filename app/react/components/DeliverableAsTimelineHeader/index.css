@@ -1,166 +1,35 @@
 .root {
-  composes: hover-container from '../../styles/modules/hover.css';
-  position: relative;
-  margin: 0px 40px 5px 0px;
-  padding: 5px 0px;
+  margin-bottom: 5px;
+  padding: 20px 0px;
+  background-color: #505964;
+  color : #89949E;
 }
 
-.rootArchived {
-  composes: root;
-  opacity: 0.5;
-}
-
-.userContainer {
-  display: table-cell;
-  min-width: 60px;
-  max-width: 60px;
-  padding: 0px 15px;
-  vertical-align: top;
-}
-
-.row {
-  composes: row from global;
-  min-height: 2em;
-}
-
-.fullWidth {
-  composes: col-sm-12 from global;
+.deliverableIconContainer {
+  display: inline-block;
+  padding: 0 20px 0 30px;
 }
 
 .titleContainer {
+  display: inline-block;
+  font-size: 16px;
   font-weight: 600;
-  color: #ffffff;
-  text-align: left;
+  color : white;
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-wrap;
-
   -ms-word-break: break-all;
   word-break: break-word;
 }
 
-.contentContainer {
-  display: table-cell;
-  width: 100%;
-}
-
-.statusContainer {
-  composes: pull-right from global;
-  margin-top: -5px;
-  margin-right: 0px;
-}
-
-.metaContainer {
-  composes: row from global;
-  margin: 0px;
-  padding-top: 5px;
-  border-top: 1px solid #ffffff;
-}
-
-.metaContainerRow {
-  composes: col-xs-12 from global;
-}
-
-.metaContent {
-  composes: col-xs-12 col-md-6 from global;
-  padding: 0px;
-  color : #89949E;
-}
-
-.metaContent:last-of-type {
+.close {
+  display: inline-block;
   text-align: right;
+  color: white;
+  float: right;
+  margin-right: 50px;
 }
 
-.metaLabel {
-  font-weight: 100;
-  color: #cccccc;
-}
-
-.timeContainer {
-  color : #9aa5af;
-  min-height: 23px;
-  margin-top: 5px;
-}
-
-.discussLink {
-  composes: hover-inline from '../../styles/modules/hover.css';
-  composes: pull-right from global;
-}
-
-.deliverableIcon {
-  composes: fa fa-tasks from global;
-  float: left;
-  padding: 5px 10px 0px 0px;
-}
-
-.editableUserContainer {
-  composes: pull-right from global;
-  border: none;
-  box-shadow: none;
-  padding: 0px;
-  outline: none;
-  border-width: 0px;
-  background: transparent;
-  cursor: pointer;
-}
-
-.userLabel {
-  composes: text-muted pull-right from global;
-  padding: 5px 5px 0px 0px;
-}
-
-.dueDateContainer {
-  composes: pull-right from global;
-}
-
-.editableDueDateContainer {
-  max-width: 100px;
-  padding: 5px;
-  box-shadow: none;
-  border: none;
-  outline: none;
-  border-width: 0px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #eeeeee;
-  cursor: pointer;
-}
-
-.editableAgendaItemContainer {
-  max-width: 100px;
-  padding: 5px;
-  box-shadow: none;
-  border: none;
-  outline: none;
-  border-width: 0px;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  background: #eeeeee;
-  cursor: pointer;
-}
-
-.dueOn {
-  font-weight: 600;
-  color: #57C1E8;
-}
-
-.dueOnLabel {
-  color: #cccccc;
-}
-
-.actionBtn {
-  composes: btn btn-xs btn-default from global;
-  margin: -1px 0px;
-}
-
-.title {
-  composes: col-xs-12 col-sm-8 from global;
-  padding: 0px;
-}
-
-.assignee {
-  composes: col-xs-6-pull-right col-sm-4 from global;
-  padding: 0px;
+.close:hover {
+  color: white;
 }

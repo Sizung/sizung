@@ -1,5 +1,3 @@
-// Plain components should not have any knowledge of where the data came from and how to change the the state.
-
 import React, { PropTypes } from 'react';
 import AgendaItemIcon from '../AgendaItemIcon';
 import styles from './index.css';
