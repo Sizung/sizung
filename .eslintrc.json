@@ -1,4 +1,10 @@
 {
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
   "parser": "babel-eslint",
   "extends": "airbnb",
   "env": {
@@ -9,6 +15,10 @@
     "react"
   ],
   "rules": {
+    "max-len": 0,
+    "prefer-template": 0,
+    "arrow-body-style": 0,
+    "consistent-return": 0,
     "new-cap": 0,
     "babel/new-cap": 1,
     "react/prop-types": 0

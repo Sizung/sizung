@@ -5,14 +5,14 @@
 
 .normal {
   composes: common;
-  background-image: url("/icons/user-icon-gray.png");
-  background-size: 18px 18px;
+  background-image: url("/icons/member-icon.png");
+  background-size: 21px 21px;
   padding-left: 23px;
 }
 
 .inverted {
   composes: common;
-  background-image: url("/icons/user-icon-white.png");
+  background-image: url("/icons/member-icon.png");
 }
 
 .small {
@@ -29,7 +29,7 @@
 
 .x-large {
   composes: normal;
-  background-size: 25px 25px;
+  background-size: 26px 26px;
   padding-left: 30px;
 }
 

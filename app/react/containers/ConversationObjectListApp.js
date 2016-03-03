@@ -12,7 +12,6 @@ import * as UnseenObjectsActions from '../actions/unseenObjects';
 import { fetchConversationObjects } from '../actions/conversationObjects';
 
 function mapStateToProps(state) {
-  return {};
 }
 
 function mapDispatchToProps(dispatch) {

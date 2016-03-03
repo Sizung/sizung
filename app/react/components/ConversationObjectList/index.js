@@ -191,7 +191,7 @@ class ConversationObjectList extends Component {
   render() {
     return (
       <div className={styles.listContainer}>
-        <ConversationHeader parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type} />
+        <ConversationHeader conversation={this.props.currentConversation} parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type} />
         {this.renderConversationTimeLine()}
       </div>
     );
@@ -199,6 +199,7 @@ class ConversationObjectList extends Component {
 }
 
 ConversationObjectList.propTypes = {
+  currentConversation: PropTypes.object,
   commentForm: PropTypes.shape({
     currentUser: PropTypes.shape({
       name: PropTypes.string.isRequired,

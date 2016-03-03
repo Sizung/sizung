@@ -77,6 +77,7 @@ function mapStateToProps(state, props) {
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
     currentConversationId: agendaItem ? agendaItem.conversationId : null,
+    currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
   };
 }
