@@ -1,0 +1,35 @@
+.gearIcon {
+  display: inline-block;
+  background-image: url("/icons/gear.png");
+  width: 32px;
+  height: 32px;
+  vertical-align: top;
+  cursor: pointer;
+}
+
+.list {
+  display: inline-block;
+  list-style: none;
+  margin: 0;
+  margin-right: 10px;
+  padding: 0;
+  border: 1px solid #CDCCCF;
+}
+
+.item {
+  margin: 0;
+  padding: 1rem 5rem 1rem 2rem;
+  line-height: 2rem;
+  background-color: white;
+  color: #415764;
+  cursor: pointer;
+}
+
+.item:hover {
+  background-color: #38ACD4;
+  color: white;
+}
+
+.editContainer {
+
+}

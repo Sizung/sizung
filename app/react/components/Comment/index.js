@@ -6,6 +6,7 @@ import User from './../User/index';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
 import SizungInputApp from '../../containers/SizungInputApp';
+import CommentDropdown from '../CommentDropdown/index';
 
 class Comment extends React.Component {
   constructor() {
@@ -78,36 +79,17 @@ class Comment extends React.Component {
   };
 
   renderCommentSettingsOptions = () => {
-    const { author, canCreateAgendaItem, canCreateDeliverable, id } = this.props.comment;
-    const commentActions = [];
-    const _this = this;
-    if (canCreateAgendaItem) {
-      commentActions.push(<li key={id + 'escalateAsAgendaItem'}><a href="#" onClick={this.handleAgendaItem.bind(this)}>Escalate as Agenda Item</a></li>);
-    }
-    if (canCreateDeliverable) {
-      commentActions.push(<li key={id + 'escalateAsDeliverable'}><a href="#" onClick={this.handleDeliverable.bind(this)}>Escalate as Deliverable</a></li>);
-    }
-    if (this.props.currentUser.id === author.id) {
-      commentActions.push(<li key={id + 'editComment'}><a href="#" onClick={this.openEditForm}>Edit Comment</a></li>);
-      commentActions.push(<li key={id + 'deleteComment'}><a href="#" onClick={this.handleDeleteClick}>Delete Comment</a></li>);
-    }
+    const { comment, currentUser } = this.props;
+    const { author } = comment;
 
-    if (commentActions.length > 0) {
+    if (currentUser.id === author.id) {
       return (
         <div className={styles.optionsMenu}>
-          <div className="btn-group">
-            <a className="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onClick={_this.handleScroll}>
-              <i className={styles.gearIcon}></i>
-            </a>
-            <ul ref="gearDropDown" className="dropdown-menu dropdown-menu-right">
-              {commentActions}
-            </ul>
-          </div>
+          <CommentDropdown onEditClick={this.openEditForm} onDeleteClick={this.handleDeleteClick} />
         </div>
       );
     }
-    return null;
-  };
+  }
 
   renderEditComment = (body) => {
     return (<div className={styles.contentContainer}>
@@ -131,12 +113,13 @@ class Comment extends React.Component {
 
   renderShowComment = () => {
     const { body } = this.props.comment;
-    return (<div className={styles.contentContainer}>
+    return (
+      <div className={styles.contentContainer}>
         {this.renderCommentSettingsOptions()}
         <div className={styles.commentBody} ref="commentBody">
           <TextWithMentions>{body}</TextWithMentions>
         </div>
-          {this.lastUpdatedTime()}
+        {this.lastUpdatedTime()}
       </div>
     );
   };
@@ -146,7 +129,7 @@ class Comment extends React.Component {
     return (
       <div className={styles.root}>
         <div className={styles.userContainer}>
-          { this.props.showAuthor ? <User user={author}/> : ''}
+          { this.props.showAuthor ? <User user={author} size="large" /> : ''}
         </div>
         { this.state.edit ? this.renderEditComment(body) : this.renderShowComment() }
       </div>
