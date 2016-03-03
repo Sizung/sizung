@@ -1,58 +1,33 @@
 .root {
-  composes: hover-container from '../../styles/modules/hover.css';
-  position: relative;
-  margin: 5px 0px;
-  padding: 5px 0px;
+  padding: 20px 0px;
+  padding-left: 10px;
   color : #89949E;
-}
-
-.rootArchived {
-  composes: root;
-  opacity: 0.5;
 }
 
 .userContainer {
   display: table-cell;
   min-width: 60px;
   max-width: 60px;
+  width: 60px;
   padding: 0px 15px;
   vertical-align: top;
-}
-
-.agendaItemIcon {
-  composes: fa fa-tag from global;
-  float: left;
-  padding: 5px 10px 0px 0px;
-}
-
-.actionDropDown {
-  composes: hover-inline from '../../styles/modules/hover.css';
-  position: absolute;
-  margin-left: 1em;
-  right: 15px;
-  top: 0px;
 }
 
 .root:hover{
   background-color: #eeeeee;
 }
 
-.gearIcon {
-  composes: fa fa-gear fa-lg text-muted from global;
-  cursor: pointer;
-}
-
-.contentContainer {
-  position: relative;
+.contentWrapper {
   display: table-cell;
   width: 100%;
-  margin: 0px;
-  padding: 0px 30px 0px 0px;
+  padding-left: 20px;
+  padding-right: 50px;
 }
 
 .content {
-  padding-right: 20px;
+  display: block;
   width: 100%;
+  padding-right: 20px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -74,21 +49,22 @@
 }
 
 .title {
+  display: block;
+  width: 100%;
   color: #57C1E8;
   font-weight: 600;
   text-decoration: none;
   cursor: pointer;
+  border: 1px solid #E6E3E2;
+  padding: 1.3rem 10px;
+  margin: 1.5rem 0;
 }
 
-.titleArchived {
-  composes: title;
-  cursor: default;
-}
-
-.status {
-  composes: text-info pull-right from global;
+.title:hover {
+  color: #57C1E8;
 }
 
 .agendaItemIconContainer {
+  display: inline-block;
   padding: 0px 10px;
 }
