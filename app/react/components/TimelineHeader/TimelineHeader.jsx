@@ -13,15 +13,7 @@ class TimelineHeader extends React.Component {
     if (!parentType) { return <div />; }
 
     if (parentType === 'agendaItems') {
-      const conversationId = parent.conversationId;
-      return (
-        <div className={styles.agendaItem}>
-          <a className={styles.close} onClick={() => { visitConversation(conversationId); }}>
-            <span aria-hidden="true">&times;</span>
-          </a>
-          <AgendaItemAsTimelineHeader agendaItem={parent} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem}/>
-        </div>
-      );
+      return <AgendaItemAsTimelineHeader agendaItem={parent} />;
     }
 
     if (parentType === 'deliverables') {
