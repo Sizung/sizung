@@ -1,0 +1,48 @@
+.common {
+  background: no-repeat center;
+  padding: 5px 0px;
+}
+
+.normal {
+  composes: common;
+  background-image: url("/icons/archive-icon.png");
+  background-size: 14px 15px;
+  padding-left: 19px;
+}
+
+.inverted {
+  composes: common;
+  background-image: url("/icons/agenda-item-icon-white.png");
+  background-size: 14px 15px;
+  padding-left: 19px;
+}
+
+.small {
+  composes: normal;
+  background-size: 12px 13px;
+  padding-left: 17px;
+}
+
+.large {
+  composes: normal;
+  background-size: 15px 17px;
+  padding-left: 20px;
+}
+
+.x-large {
+  composes: normal;
+  background-size: 18px 20px;
+  padding-left: 23px;
+}
+
+.inverted-small {
+  composes: inverted small;
+}
+
+.inverted-large {
+  composes: inverted large;
+}
+
+.inverted-x-large {
+  composes: inverted x-large;
+}

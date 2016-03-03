@@ -94,7 +94,7 @@ class EditableText extends React.Component {
       );
     } else {
       const persistedTextStyle = this.props.inverted ? 'persisted-text-inverted' : 'persisted-text';
-      return <div styleName='persisted-text-container'><div styleName={persistedTextStyle}><TextWithMentions>{persistedText}</TextWithMentions></div><div styleName='edit-link-container'>{this.editLink(editable)}</div></div>;
+      return <div styleName='persisted-text-container'><div styleName={persistedTextStyle}><TextWithMentions maxLength={this.props.maxLength}>{persistedText}</TextWithMentions></div><div styleName='edit-link-container'>{this.editLink(editable)}</div></div>;
     }
   }
 

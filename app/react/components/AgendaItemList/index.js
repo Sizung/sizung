@@ -29,7 +29,7 @@ class AgendaItemList extends Component {
   }
 
   render() {
-    const { agendaItems, selectAgendaItem, visitAgendaItem, selectedAgendaItemId, updateAgendaItem } = this.props;
+    const { agendaItems, selectAgendaItem, visitAgendaItem, selectedAgendaItemId, updateAgendaItem, archiveAgendaItem } = this.props;
     return (
       <div styleName='root'>
         <div styleName='header'>
@@ -48,6 +48,7 @@ class AgendaItemList extends Component {
                   updateAgendaItem={updateAgendaItem}
                   visitAgendaItem={visitAgendaItem}
                   organizationContext={this.props.conversationId ? false : true}
+                  archiveAgendaItem={archiveAgendaItem}
                 />);
             })
           }

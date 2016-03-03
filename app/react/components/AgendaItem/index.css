@@ -2,7 +2,7 @@
   composes: row zero-padding zero-margin from global;
   position: relative;
   width: 100%;
-  height: 85px;
+  min-height: 7em;
   margin-bottom: 3px;
 }
 
@@ -29,7 +29,7 @@
   composes: col-xs-12 zero-padding zero-margin from global;
   position: relative;
   width: 100%;
-  height: 100%;
+  min-height: 7em;
   cursor: pointer;
   border-left: 6px solid #88D3DF;
 }
@@ -43,14 +43,13 @@
   width: 100%;
   height: 100%;
   padding: 10px;
-  margin-bottom: 1em;
+  margin-bottom: 0.5em;
 }
 
 .contentContainer {
   composes: hover-container from '../../styles/modules/hover.css';
-  padding: 2px;
+  padding: 5px;
   width: 100%;
-  max-height: 3em;
   overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -70,6 +69,10 @@
   font-family: Gotham-Medium;
 }
 
+.selected .contentContainer:hover {
+  background-color: #3297BE;
+}
+
 .statusContainer {
   position: absolute;
   right: 0px;
@@ -83,4 +86,5 @@
 
 .titleContainer {
   overflow: hidden;
+  max-height: 3em;
 }

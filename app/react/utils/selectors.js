@@ -155,17 +155,26 @@ const conversationObjects = (state, objectsToShow) => {
 };
 
 const agendaItemsList = (state, conversationId) => {
-  const agendaItemIds = agendaItemIdsForConversation(state, conversationId);
 
-  return agendaItemIds.map((ref) => {
+  const agendaItemIds = agendaItemIdsForConversation(state, conversationId);
+  let agendaItemList = agendaItemIds.map((ref) => {
     return state.getIn(['entities', 'agendaItems', ref.id]);
   }).toList().map((agendaItem) => {
     return fillAgendaItem(state, agendaItem.id);
-  }).filter((agendaItem) => {
-    return !agendaItem.archived;
+  });
+
+  agendaItemList = agendaItemList.filter((agendaItem) => {
+    return (!agendaItem.archived && agendaItem.status === 'open');
   }).sortBy((conversationObject) => {
     return conversationObject.createdAt;
-  });
+  }).concat(agendaItemList.filter((agendaItem) => {
+    return (!agendaItem.archived && agendaItem.status === 'resolved');
+  }).sortBy((conversationObject) => {
+    return conversationObject.createdAt;
+  }));
+
+  console.log('Agenda Item List Updated: ' + JSON.stringify(agendaItemList));
+  return agendaItemList;
 };
 
 export {
