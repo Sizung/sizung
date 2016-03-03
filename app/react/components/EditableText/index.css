@@ -1,12 +1,6 @@
 .edit-link {
   composes: hover-over from '../../styles/modules/hover.css';
-  -webkit-border-radius: 50%/50%;
-  -moz-border-radius:50%/50% ;
-  border-radius: 50%/50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -5px;
-  background-color: #ffffff;
+  /*composes: pull-right from global;*/
 }
 
 .edit-text-container {
@@ -26,10 +20,12 @@
 }
 
 .persisted-text-container {
+  composes: col-xs-12 zero-padding zero-margin from global;
   position: relative;
   width: 100%;
   padding: 0;
   display: inline;
+  clear: both;
 }
 
 .persisted-text {

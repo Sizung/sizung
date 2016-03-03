@@ -5,6 +5,7 @@ import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import SizungInputApp from '../../containers/SizungInputApp';
 import TextWithMentions from '../TextWithMentions';
+import EditIcon from '../EditIcon';
 
 //function SelectInputText(element) {
 //  element.setSelectionRange(0, element.value.length);
@@ -72,7 +73,7 @@ class EditableText extends React.Component {
 
   editLink(editable) {
     if (editable) {
-      return <a styleName="edit-link" href="#" onClick={this.handleEditClick}><i className="fa fa-pencil"/></a>;
+      return <a styleName="edit-link" href="#" onClick={this.handleEditClick}><EditIcon inverted={true}/></a>;
     }
   }
 

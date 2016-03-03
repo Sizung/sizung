@@ -1,17 +1,17 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
 import React, { PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
 import EditableStatus from '../EditableStatus';
+import EditableText from '../EditableText';
 import UnseenBadge from '../UnseenBadge';
 import DeliverablesCounter from '../DeliverablesCounter';
 import ConversationIcon from '../ConversationIcon';
 import User from '../User';
 import TextWithMentions from '../TextWithMentions';
+import AgendaItemIcon from '../AgendaItemIcon';
 
-@CSSModules(styles)
 class AgendaItem extends React.Component {
 
   constructor() {
@@ -35,49 +35,29 @@ class AgendaItem extends React.Component {
     this.props.updateAgendaItem(this.props.agendaItem.id, { status: newStatus });
   }
 
-  conversationTitle = () => {
-    const { organizationContext, selected, agendaItem } = this.props;
-    if (organizationContext) {
-      return (
-          <div styleName="conversation-title-container">
-            <ConversationIcon inverted={selected} style={{ marginRight: '5px' }}/>{ agendaItem.conversation.title }
-          </div>
-      );
-    }
-  };
-
-  static renderUnseenBadge(count, selected) {
-    if (!selected && count && count > 0) {
-      return <UnseenBadge count={count} />;
-    }
-  }
-
   render() {
     const { agendaItem, selected } = this.props;
-    let styleName = 'default';
-    if (selected === true) {
-      styleName = 'selected';
+    let styleName = styles.seen;
+    if (selected) {
+      styleName = styles.selected;
+    } else if (agendaItem.unseenCount > 0) {
+      styleName = styles.unseen;
     }
     return (
-      <div styleName="root">
-        {AgendaItem.renderUnseenBadge(agendaItem.unseenCount, selected)}
-        <div styleName={styleName} onClick={this.handleClick}>
-          <div styleName="row">
-            <div styleName="content-container" title={agendaItem.title}>
-              <TextWithMentions maxLength={40}>{agendaItem.title}</TextWithMentions>
-            </div>
-            <div styleName="status-container">
-              <EditableStatus editable={false} status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
-            </div>
-          </div>
-          <div styleName="bottom-row">
-            <div styleName="counter-container">
-              <User user={ agendaItem.owner } innerStyle={ (selected ? { border: '1px solid #ffffff' } : {})}/>
-              <div style={{ display: 'inline-block', marginTop: '5px', marginLeft: '5px', float: 'right' }}>
-                <DeliverablesCounter count={agendaItem.deliverablesCount} inverted={selected}/>
+      <div className={styleName} onClick={this.handleClick}>
+        <div className={styles.leftColumn}>
+          <div className={styles.row}>
+            <div className={styles.contentContainer} title={agendaItem.title}>
+              <div className={styles.agendaItemIconContainer}>
+                <AgendaItemIcon inverted={true}/>
+              </div>
+              <div className={styles.titleContainer}>
+                <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={!agendaItem.archived} inverted={true}/>
               </div>
             </div>
-            {this.conversationTitle()}
+            <div className={styles.statusContainer}>
+              <EditableStatus editable={false} status={agendaItem.status} onUpdate={this.handleStatusUpdate} />
+            </div>
           </div>
         </div>
       </div>

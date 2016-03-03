@@ -1,73 +1,86 @@
-.root {
+.default {
+  composes: row zero-padding zero-margin from global;
   position: relative;
-  cursor: pointer;
+  width: 100%;
+  height: 85px;
+  margin-bottom: 3px;
 }
 
-.default {
-  composes: card from '../../styles/modules/card.css';
-  composes: hover-container from '../../styles/modules/hover.css';
+.unseen {
+  composes: default;
+  border: 1px solid #415764;
+  background-color: transparent;
+  color : #ffffff;
 }
+
+.seen {
+  composes: unseen;
+  opacity: 0.5;
+}
+
 .selected {
-  composes: card-selected from '../../styles/modules/card.css';
-  composes: hover-container from '../../styles/modules/hover.css';
+  composes: default;
+  border: 1px solid #38ACD4;
+  background-color: #38ACD4;
+  color : #ffffff;
+}
+
+.leftColumn {
+  composes: col-xs-12 zero-padding zero-margin from global;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+  border-left: 6px solid #88D3DF;
+}
+
+.selected .leftColumn {
+  border-left: 6px solid #38ACD4;
 }
 
 .row {
   position: relative;
   width: 100%;
-  min-height: 1em;
+  height: 100%;
+  padding: 10px;
   margin-bottom: 1em;
 }
 
-.content-container {
+.contentContainer {
+  composes: hover-container from '../../styles/modules/hover.css';
+  padding: 2px;
   width: 100%;
-  padding-right: 30px;
+  max-height: 3em;
   overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
 
   -ms-word-break: break-all;
   word-break: break-word;
-  font-weight: 600;
+  font-family: Gotham-Book;
 }
 
-.status-container {
+.contentContainer:after {
+  content: '';
+  clear: both;
+  visibility: hidden;
+}
+
+.selected .contentContainer {
+  font-family: Gotham-Medium;
+}
+
+.statusContainer {
   position: absolute;
   right: 0px;
   top: 0px;
 }
 
-.comments-icon {
-  composes: fa fa-comment-o from global;
-  vertical-align: bottom;
+.agendaItemIconContainer {
+  float: left;
+  margin-right: 5px;
 }
 
-.deliverables-icon {
-  composes: fa fa-tasks from global;
-  margin-left: 2em;
-  vertical-align: bottom;
-}
-
-.bottom-row {
-  composes: row from global;
-  margin: 0px;
-}
-
-.user-container {
-  composes: pull-right from global;
-}
-
-.counter-container {
-  composes: col-xs-12 from global;
-  padding: 0px;
-}
-
-.conversation-title-container {
-  composes: col-xs-12 from global;
-  padding: 0px;
-  margin-top: 5px;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
+.titleContainer {
   overflow: hidden;
-  white-space: nowrap;
 }

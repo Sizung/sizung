@@ -45,24 +45,17 @@ class Deliverable extends React.Component {
     }
   };
 
-  renderUnseenBadge(count, selected) {
-    if(!selected && count && count > 0) {
-      return <UnseenBadge count={count} />;
-    }
-  }
-
   render() {
     const { deliverable, selected } = this.props;
     const { status, title, assignee, dueOn, unseenCount } = deliverable;
 
-    let styleName = 'default';
-    if (selected === true) {
-      styleName = 'selected';
+    let styleName = 'unseen';
+    if (unseenCount > 0) {
+      styleName = 'seen';
     }
 
     return (
       <div styleName='root'>
-        {this.renderUnseenBadge(unseenCount, selected)}
         <div styleName={styleName} onClick={this.handleClick}>
           <div styleName='row'>
             <div styleName='content-container' title={title}>

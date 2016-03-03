@@ -13,6 +13,6 @@
 .hover-container:hover .hover-over {
   display: inline;
   float: right;
-  text-align: center;
-  z-index: 200;
+  /*text-align: center;*/
+  /*z-index: 200;*/
 }
