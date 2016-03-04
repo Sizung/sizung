@@ -5,11 +5,6 @@ import styles from './index.css';
 
 import EditableStatus from '../EditableStatus';
 import EditableText from '../EditableText';
-import UnseenBadge from '../UnseenBadge';
-import DeliverablesCounter from '../DeliverablesCounter';
-import ConversationIcon from '../ConversationIcon';
-import User from '../User';
-import TextWithMentions from '../TextWithMentions';
 import AgendaItemIcon from '../AgendaItemIcon';
 import ArchiveIcon from '../ArchiveIcon';
 import ResolveIcon from '../ResolveIcon';
@@ -18,25 +13,21 @@ class AgendaItem extends React.Component {
 
   constructor() {
     super();
-
-    this.handleTitleUpdate = this.handleTitleUpdate.bind(this);
-    this.handleStatusUpdate = this.handleStatusUpdate.bind(this);
-
-    this.handleClick = (e) => {
-      e.preventDefault();
-
-      this.props.visitAgendaItem(this.props.agendaItem.id);
-    };
   }
 
-  handleTitleUpdate(newTitle) {
+  handleClick = (e) => {
+    e.preventDefault();
+    this.props.visitAgendaItem(this.props.agendaItem.id);
+  };
+
+  handleTitleUpdate = (newTitle) => {
     this.props.updateAgendaItem(this.props.agendaItem.id, { title: newTitle });
-  }
+  };
 
-  handleStatusUpdate() {
+  handleStatusUpdate = () => {
     const { agendaItem } = this.props;
     this.props.updateAgendaItem(this.props.agendaItem.id, { status: (agendaItem.status === 'open' ? 'resolved' : agendaItem.status) });
-  }
+  };
 
   handleArchive = (e) => {
     e.preventDefault();
@@ -44,23 +35,23 @@ class AgendaItem extends React.Component {
   };
 
   renderArchiveAction = () => {
-    return(
-      <div style={{ float: 'left'}}>
-        <span style={{ marginRight: '5px'}}>
+    return (
+      <div className={styles.archiveContainer}>
+        <span className={styles.iconContainer}>
           <ArchiveIcon size={'x-large'}/>
         </span>
-      <span onClick={this.handleArchive}>
-        {'Archive'}
-      </span>
+        <span onClick={this.handleArchive}>
+          {'Archive'}
+        </span>
     </div>);
-  }
+  };
 
   renderResolveAction = () => {
     const { agendaItem } = this.props;
-    if (agendaItem.status !== 'resolved' ) {
-      return(
-        <div style={{ float: 'right'}}>
-          <span style={{ marginRight: '5px'}}>
+    if (agendaItem.status !== 'resolved') {
+      return (
+        <div className={styles.statusContainer}>
+          <span className={styles.iconContainer}>
             <ResolveIcon size={'x-large'}/>
           </span>
           <span onClick={this.handleStatusUpdate}>
@@ -70,20 +61,20 @@ class AgendaItem extends React.Component {
       );
     }
     return null;
-  }
+  };
 
   renderActions = () => {
     const { agendaItem, selected } = this.props;
     if (selected && !agendaItem.archived) {
       return (
-        <div style={{ width: '100%', padding: '0px 10px', marginTop: '1em', marginBottom: '2em'}}>
+        <div className={styles.actionContainer}>
           {this.renderArchiveAction()}
           {this.renderResolveAction()}
         </div>
       );
     }
     return null;
-  }
+  };
 
   render() {
     const { agendaItem, selected } = this.props;
@@ -95,14 +86,16 @@ class AgendaItem extends React.Component {
     }
     return (
       <div className={styleName} onClick={this.handleClick}>
-        <div className={styles.leftColumn}>
-          <div className={styles.row}>
+        <div className={styles.leftStrip}>
+          <div className={styles.contentRow}>
             <div className={styles.contentContainer} title={agendaItem.title}>
-              <div className={styles.agendaItemIconContainer}>
-                <AgendaItemIcon inverted={true}/>
-              </div>
               <div className={styles.titleContainer}>
-                <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected && !agendaItem.archived} inverted={true} maxLength={40}/>
+                <div className={styles.agendaItemIconContainer}>
+                  <AgendaItemIcon inverted={true}/>
+                </div>
+                <div className={styles.title}>
+                  <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected && !agendaItem.archived} inverted={true} maxLength={40}/>
+                </div>
               </div>
             </div>
             {this.renderActions()}
@@ -123,7 +116,6 @@ AgendaItem.propTypes = {
     deliverablesCount: PropTypes.number.isRequired,
   }).isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
-  organizationContext: PropTypes.bool.isRequired,
   archiveAgendaItem: PropTypes.func.isRequired
 };
 

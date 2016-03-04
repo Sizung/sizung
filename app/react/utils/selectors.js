@@ -172,8 +172,6 @@ const agendaItemsList = (state, conversationId) => {
   }).sortBy((conversationObject) => {
     return conversationObject.createdAt;
   }));
-
-  console.log('Agenda Item List Updated: ' + JSON.stringify(agendaItemList));
   return agendaItemList;
 };
 

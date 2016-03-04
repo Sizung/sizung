@@ -1,9 +1,9 @@
 .default {
-  composes: row zero-padding zero-margin from global;
   position: relative;
   width: 100%;
   min-height: 7em;
-  margin-bottom: 3px;
+  margin: 0 0 3px 0;
+  padding: 0;
 }
 
 .unseen {
@@ -25,20 +25,21 @@
   color : #ffffff;
 }
 
-.leftColumn {
-  composes: col-xs-12 zero-padding zero-margin from global;
-  position: relative;
+.leftStrip {
   width: 100%;
+  padding: 0 0 1em 0;
+  margin: 0;
+  position: relative;
   min-height: 7em;
-  cursor: pointer;
   border-left: 6px solid #88D3DF;
+  cursor: pointer;
 }
 
-.selected .leftColumn {
+.selected .leftStrip {
   border-left: 6px solid #38ACD4;
 }
 
-.row {
+.contentRow {
   position: relative;
   width: 100%;
   height: 100%;
@@ -48,12 +49,11 @@
 
 .contentContainer {
   composes: hover-container from '../../styles/modules/hover.css';
-  padding: 5px;
   width: 100%;
+  height: 3.5em;
   overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
-
   -ms-word-break: break-all;
   word-break: break-word;
   font-family: Gotham-Book;
@@ -69,14 +69,12 @@
   font-family: Gotham-Medium;
 }
 
-.selected .contentContainer:hover {
-  background-color: #3297BE;
+.titleContainer {
+  padding: 5px;
 }
 
-.statusContainer {
-  position: absolute;
-  right: 0px;
-  top: 0px;
+.selected .titleContainer:hover {
+  background-color: #3297BE;
 }
 
 .agendaItemIconContainer {
@@ -84,7 +82,27 @@
   margin-right: 5px;
 }
 
-.titleContainer {
+.title {
   overflow: hidden;
   max-height: 3em;
+}
+
+.archiveContainer {
+  float: left;
+  font-family: Gotham-Medium;
+}
+
+.statusContainer {
+  float: right;
+  font-family: Gotham-Medium;
+}
+
+.iconContainer {
+  margin-right: 5px;
+}
+
+.actionContainer {
+  width: 100%;
+  padding: 0px 10px;
+  margin: 1em 0 0 0;
 }
