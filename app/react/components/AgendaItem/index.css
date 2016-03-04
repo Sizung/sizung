@@ -1,9 +1,15 @@
 .default {
   position: relative;
   width: 100%;
-  min-height: 7em;
+  height: 7em;
   margin: 0 0 3px 0;
   padding: 0;
+}
+
+.default:after {
+  content: '';
+  clear: both;
+  visibility: hidden;
 }
 
 .unseen {
@@ -26,32 +32,19 @@
 }
 
 .leftStrip {
-  width: 100%;
-  padding: 0 0 1em 0;
-  margin: 0;
-  position: relative;
-  min-height: 7em;
-  border-left: 6px solid #88D3DF;
-  cursor: pointer;
+  width: 6px;
+  height: 100%;
+  float: left;
+  background-color: #88d3df;
 }
 
 .selected .leftStrip {
   border-left: 6px solid #38ACD4;
 }
 
-.contentRow {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  margin-bottom: 0.5em;
-}
-
 .contentContainer {
-  composes: hover-container from '../../styles/modules/hover.css';
-  width: 100%;
-  height: 3.5em;
   overflow: hidden;
+  height: 4em;
   overflow-wrap: break-word;
   word-wrap: break-word;
   -ms-word-break: break-all;
@@ -70,7 +63,9 @@
 }
 
 .titleContainer {
+  composes: hover-container from '../../styles/modules/hover.css';
   padding: 5px;
+  margin: 10px 10px 10px 5px;
 }
 
 .selected .titleContainer:hover {
@@ -102,7 +97,7 @@
 }
 
 .actionContainer {
-  width: 100%;
-  padding: 0px 10px;
-  margin: 1em 0 0 0;
+  overflow: hidden;
+  margin: 10px 20px;
+  height: 4em;
 }

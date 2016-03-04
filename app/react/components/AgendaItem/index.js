@@ -82,21 +82,18 @@ class AgendaItem extends React.Component {
     }
     return (
       <div className={styleName} onClick={this.handleClick}>
-        <div className={styles.leftStrip}>
-          <div className={styles.contentRow}>
-            <div className={styles.contentContainer} title={agendaItem.title}>
-              <div className={styles.titleContainer}>
-                <div className={styles.agendaItemIconContainer}>
-                  <AgendaItemIcon inverted={true}/>
-                </div>
-                <div className={styles.title}>
-                  <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected && !agendaItem.archived} inverted maxLength={40}/>
-                </div>
-              </div>
+        <div className={styles.leftStrip}></div>
+        <div className={styles.contentContainer} title={agendaItem.title}>
+          <div className={styles.titleContainer}>
+            <div className={styles.agendaItemIconContainer}>
+              <AgendaItemIcon inverted={true}/>
             </div>
-            {this.renderActions()}
+            <div className={styles.title}>
+              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected && !agendaItem.archived} inverted maxLength={40}/>
+            </div>
           </div>
         </div>
+        {this.renderActions()}
       </div>
     );
   }
@@ -112,7 +109,7 @@ AgendaItem.propTypes = {
     deliverablesCount: PropTypes.number.isRequired,
   }).isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
-  archiveAgendaItem: PropTypes.func.isRequired
+  archiveAgendaItem: PropTypes.func.isRequired,
 };
 
 export default AgendaItem;
