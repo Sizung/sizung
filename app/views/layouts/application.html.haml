@@ -23,26 +23,14 @@
         console.warn("Development mode. Make sure to start 'node devServer.js'");
 
   %body
-    .navbar.navbar-inverse.navbar-static-top.zero-vertical-margin.nav-background
-      .container.full-width
-        - if user_signed_in?
-          .pull-left
-            = render partial: 'layouts/organizations_dropdown'
-          %ul.nav.dropdown-container.pull-right
-            %li.dropdown
-              %a.user-dropdown.dropdown-toggle{href: '#', data: {toggle: 'dropdown'}, role: 'button',  aria_haspopup: 'true',  aria_expanded: 'false', style: 'padding: 10px;'}
-                - user = current_user
-                %span.hidden-xs= react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name, presenceStatus: user.presence_status}, style: {display: 'inline-block'}, showName: true}, {tag: :span, prerender: true})
-                %span.visible-xs= react_component('User', {user: {email: user.email, firstName: user.first_name, lastName: user.last_name, presenceStatus: user.presence_status}, style: {display: 'inline-block'}, showName: false}, {tag: :span, prerender: true})
-              %ul.dropdown-menu.dropdown-menu-right
-                %li= link_to 'Edit Profile', edit_user_registration_path
-                %li= link_to 'Logout', destroy_user_session_path, method: :delete
-        - else
-          %ul.nav.navbar-nav
-            %li.pull-left#login-nav= link_to 'Login', new_user_session_path
-            %li.pull-left#signup-nav= link_to 'Sign up', new_user_registration_path
+    - if user_signed_in?
+      = react_component('TopBar', {reactLinks: false, currentUser: {firstName: current_user.first_name, lastName: current_user.last_name, name: current_user.name}, organizations: current_user.reload.organizations.as_json, currentOrganization: current_user.last_visited_organization.as_json})
 
-    .container.content-bg.padding-lg.full-width{style: 'min-height: 100%;'}
+    - else
+      %ul.nav.navbar-nav
+        %li.pull-left#login-nav= link_to 'Login', new_user_session_path
+        %li.pull-left#signup-nav= link_to 'Sign up', new_user_registration_path
+    .container.content-bg.padding-lg.full-width{style: 'min-height: 100%;', class: user_signed_in? ? 'main-content' : ''}
       .row
         .col-lg-12.app-body
           = bootstrap_flash

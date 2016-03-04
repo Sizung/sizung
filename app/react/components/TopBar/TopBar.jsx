@@ -14,26 +14,28 @@ class TopBar extends React.Component {
     currentUser: PropTypes.shape({
       name: PropTypes.string.isRequired,
     }).isRequired,
+    reactLinks: PropTypes.bool,
   };
 
   static defaultProps = {
+    reactLinks: true,
   };
 
   renderOrganizationList = () => {
-    const { organizations, currentOrganization } = this.props;
+    const { organizations, currentOrganization, reactLinks } = this.props;
 
     return organizations.filter(org => org.id !== currentOrganization.id).map((org) => {
-      return <OrganizationIcon key={org.id} name={org.name} url={'/organizations/' + org.id} style={{ marginLeft: '24px' }} />;
+      return <OrganizationIcon key={org.id} reactLink={reactLinks} name={org.name} url={'/organizations/' + org.id} style={{ marginLeft: '24px' }} />;
     });
   };
 
   renderOrganizationPart = () => {
-    const { currentOrganization } = this.props;
+    const { currentOrganization, reactLinks } = this.props;
 
     if (currentOrganization) {
       return (
         <div className={styles.organizationWrapper}>
-          <OrganizationIcon name={currentOrganization.name} url={'/organizations/' + currentOrganization.id} />
+          <OrganizationIcon name={currentOrganization.name} reactLink={reactLinks} url={'/organizations/' + currentOrganization.id} />
           <div className={styles.otherOrganizations}>
             {this.renderOrganizationList()}
             <OrganizationIcon name="+ New Organization" url="/organizations/new" reactLink={false} style={{ marginLeft: '48px' }} />
