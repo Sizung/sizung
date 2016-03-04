@@ -10,11 +10,7 @@ import ArchiveIcon from '../ArchiveIcon';
 import ResolveIcon from '../ResolveIcon';
 
 class AgendaItem extends React.Component {
-
-  constructor() {
-    super();
-  }
-
+  
   handleClick = (e) => {
     e.preventDefault();
     this.props.visitAgendaItem(this.props.agendaItem.id);
@@ -94,7 +90,7 @@ class AgendaItem extends React.Component {
                   <AgendaItemIcon inverted={true}/>
                 </div>
                 <div className={styles.title}>
-                  <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected && !agendaItem.archived} inverted={true} maxLength={40}/>
+                  <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected && !agendaItem.archived} inverted maxLength={40}/>
                 </div>
               </div>
             </div>
