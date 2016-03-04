@@ -9,5 +9,5 @@ def login(user)
 end
 
 def logout
-  click_on 'Logout'
+  Capybara.current_session.driver.delete destroy_user_session_path
 end
