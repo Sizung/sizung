@@ -85,11 +85,13 @@
 .archiveContainer {
   float: left;
   font-family: Gotham-Medium;
+  cursor: pointer;
 }
 
 .statusContainer {
   float: right;
   font-family: Gotham-Medium;
+  cursor: pointer;
 }
 
 .iconContainer {
