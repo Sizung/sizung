@@ -26,9 +26,9 @@ class Deliverable extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, { title: newTitle });
   };
 
-  handleStatusUpdate = (newStatus) => {
+  handleStatusUpdate = () => {
     const { deliverable } = this.props;
-    this.props.updateDeliverable(this.props.deliverable.id, { status: (deliverable.status === 'open' ? 'resolved' : deliverable.status) });
+    this.props.updateDeliverable(this.props.deliverable.id, { status: (deliverable.status === 'open' ? 'resolved' : 'open') });
   };
 
 
@@ -38,7 +38,7 @@ class Deliverable extends React.Component {
 
   renderResolveAction = () => {
     const { deliverable } = this.props;
-    if (deliverable.status !== 'resolved') {
+    //if (deliverable.status !== 'resolved') {
       return (
         <div className={styles.actionContainer}>
           <div className={styles.statusContainer}>
@@ -46,13 +46,13 @@ class Deliverable extends React.Component {
             <ResolveIcon size={'x-large'}/>
           </span>
           <span onClick={this.handleStatusUpdate}>
-            {'Mark as Done'}
+            {deliverable.status === 'open' ? 'Mark as Done' : 'Mark as Open'}
           </span>
           </div>
         </div>
       );
-    }
-    return null;
+    //}
+    //return null;
   };
 
   agendaItemTitle = () => {
@@ -89,7 +89,7 @@ class Deliverable extends React.Component {
     if (status === 'resolved') {
       deliverableIconStatus = 'completed';
     } else if (dueOn) {
-      const dueDateDiffInHrs = Math.floor((new Date(dueOn) - new Date()) / (1000 * 60 * 60));
+      const dueDateDiffInHrs = Math.floor(((new Date(dueOn)).setHours(0,0,0,0) - (new Date()).setHours(0,0,0,0)) / (1000 * 60 * 60));
       console.log('dueDateDiffInHrs: ' + dueDateDiffInHrs);
       if (dueDateDiffInHrs < 0) {
         deliverableIconStatus = 'overdue';

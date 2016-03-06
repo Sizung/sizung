@@ -43,26 +43,38 @@ const deliverableReferencesForAgendaItem = (state, agendaItemId) => {
   return deliverableReferences.get('references');
 };
 
+const sortDeliverables = (deliverablesList) => {
+  return deliverablesList.filter((deliverable) => {
+    return (deliverable.status === 'open');
+  }).sortBy((deliverable) => {
+    return deliverable.dueOn ? 'A' + deliverable.dueOn + deliverable.createdAt : 'B' + deliverable.createdAt;
+  }).concat(deliverablesList.filter((deliverable) => {
+    return (deliverable.status === 'resolved');
+  }).sortBy((deliverable) => {
+    return deliverable.createdAt;
+  }));
+};
+
 const deliverablesForAgendaItem = (state, agendaItemId) => {
   const deliverableReferences = deliverableReferencesForAgendaItem(state, agendaItemId);
-  return deliverableReferences.map((ref) => {
+  let deliverablesList = deliverableReferences.map((ref) => {
     return fillConversationObject(state, ref);
   }).filter((deliverable) => {
     return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
-  }).toList().sortBy((deliverable) => {
-    return deliverable.dueOn ? 'A' + deliverable.dueOn + deliverable.createdAt : 'B' + deliverable.createdAt;
-  });
+  }).toList();
+
+  return sortDeliverables(deliverablesList);
 };
 
 const deliverablesForConversation = (state, conversationId) => {
   const agendaItemIds = agendaItemIdsForConversation(state, conversationId).map(agendaItem => agendaItem.id);
-  return agendaItemIds.map((agendaItemId) => {
+  let deliverablesList =  agendaItemIds.map((agendaItemId) => {
     return deliverablesForAgendaItem(state, agendaItemId);
   }).flatten().filter((deliverable) => {
     return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
-  }).toList().sortBy((deliverable) => {
-    return deliverable.dueOn ? 'A' + deliverable.dueOn + deliverable.createdAt : 'B' + deliverable.createdAt;
-  });
+  }).toList();
+
+  return sortDeliverables(deliverablesList);
 };
 
 const deliverablesForOrganization = (state, organizationId) => {
@@ -71,11 +83,11 @@ const deliverablesForOrganization = (state, organizationId) => {
     return null;
   }
 
-  return references.map((reference) => {
+  let deliverablesList = references.map((reference) => {
     return fillConversationObject(state, reference);
-  }).sortBy((deliverable) => {
-    return deliverable.dueOn ? 'A' + deliverable.dueOn : 'B' + deliverable.createdAt;
   });
+
+  return sortDeliverables(deliverablesList);
 };
 
 const conversationsForOrganization = (state, organizationId) => {
@@ -157,22 +169,22 @@ const conversationObjects = (state, objectsToShow) => {
 const agendaItemsList = (state, conversationId) => {
 
   const agendaItemIds = agendaItemIdsForConversation(state, conversationId);
-  let agendaItemList = agendaItemIds.map((ref) => {
+  let agendaItemsList = agendaItemIds.map((ref) => {
     return state.getIn(['entities', 'agendaItems', ref.id]);
   }).toList().map((agendaItem) => {
     return fillAgendaItem(state, agendaItem.id);
   });
 
-  agendaItemList = agendaItemList.filter((agendaItem) => {
+  agendaItemsList = agendaItemsList.filter((agendaItem) => {
     return (!agendaItem.archived && agendaItem.status === 'open');
   }).sortBy((conversationObject) => {
     return conversationObject.createdAt;
-  }).concat(agendaItemList.filter((agendaItem) => {
+  }).concat(agendaItemsList.filter((agendaItem) => {
     return (!agendaItem.archived && agendaItem.status === 'resolved');
   }).sortBy((conversationObject) => {
     return conversationObject.createdAt;
   }));
-  return agendaItemList;
+  return agendaItemsList;
 };
 
 export {
