@@ -6,45 +6,41 @@
   display: inline-block;
 }
 
-.normal {
+.default {
   composes: common;
-  width: 15px;
-  height: 15px;
+  background: none;
+  border-color: #ffffff;
+}
+
+.overdue {
+  composes: common;
+  background-color: #F2695D;
+  border-color: #F2695D;
+}
+
+.dueToday {
+  composes: common;
+  background: none;
+  border-color: #F2695D;
+}
+
+.completed {
+  composes: common;
+  background-color: #65C292;
+  border-color: #65C292;
 }
 
 .inverted {
-  composes: common;
-  width: 15px;
-  height: 15px;
-  color: #dddddd;
+  composes: default;
+  border-color: #130F22;
 }
 
-.small {
-  composes: normal;
-  width: 12px;
-  height: 12px;
+.normal {
+  width: 15px;
+  height: 15px;
 }
 
 .large {
-  composes: normal;
-  width: 17px;
-  height: 17px;
-}
-
-.x-large {
-  composes: normal;
-  width: 20px;
-  height: 20px;
-}
-
-.inverted-small {
-  composes: inverted small;
-}
-
-.inverted-large {
-  composes: inverted large;
-}
-
-.inverted-x-large {
-  composes: inverted x-large;
+  width: 18px;
+  height: 18px;
 }

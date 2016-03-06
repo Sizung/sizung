@@ -9,6 +9,7 @@ import UnseenBadge from '../UnseenBadge';
 import AgendaItemIcon from '../AgendaItemIcon';
 import Time from 'react-time';
 import TextWithMentions from '../TextWithMentions';
+import DeliverableIcon from '../DeliverableIcon';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {

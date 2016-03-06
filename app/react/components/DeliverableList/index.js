@@ -42,8 +42,12 @@ class DeliverableList extends Component {
     return (
       <div styleName={'root'}>
         <div styleName={'header'}>
-          <h5 style={{marginTop: '5px', fontWeight: 'bold'}}>
-            <DeliverableIcon inverted={true} size={'large'} style={{ marginRight: '5px' }}/>DELIVERABLES</h5>
+            <span className={styles.iconContainer}>
+              <DeliverableIcon size={'large'}/>
+            </span>
+            <span className={styles.titleContainer}>
+              {'DELIVERABLES'}
+            </span>
         </div>
         <div ref='deliverableList' styleName='list'>
           {

@@ -7,16 +7,29 @@
 }
 
 .header {
-  padding: 10px;
-  /*margin-top: 5px;*/
+  padding: 15px;
   position: relative;
   height: 45px;
-  /*background-color: #004346;*/
+  font-family: Gotham-Book;
+  font-size : 15px;
+  letter-spacing : 0.625px;
+  text-transform : uppercase;
+  clear: both;
+}
 
-  /*-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
-  /*-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
-  /*box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
+.header:after {
+  content: '';
+  clear: both;
+  visibility: hidden;
+}
 
+.iconContainer {
+  margin-right: 5px;
+  float: left;
+}
+
+.titleContainer {
+  float: left;
 }
 
 .list {

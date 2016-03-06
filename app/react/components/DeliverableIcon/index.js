@@ -1,41 +1,47 @@
 import React, { PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
-@CSSModules(styles)
 class DeliverableIcon extends React.Component {
 
   constructor() {
     super();
-    this.validSizes = ['normal', 'large', 'x-large', 'small'];
+    this.validSizes = ['normal', 'large'];
   }
   render() {
-    let iconSize;
-    let iconStyle;
-    const { inverted, style, size } = this.props;
-    iconSize = (this.validSizes.indexOf(this.props.size) === -1) ? this.validSizes[0] : this.props.size;
-    if (iconSize === 'normal') {
-      iconStyle = inverted ? 'inverted' : 'normal';
+    const iconStyle = [];
+    const { inverted, size, status } = this.props;
+    const iconSize = (this.validSizes.indexOf(size) === -1) ? this.validSizes[0] : this.validSizes[this.validSizes.indexOf(size)];
+    if (inverted) {
+      iconStyle.push(styles.inverted);
     } else {
-      iconStyle = (inverted ? 'inverted-' : '') + size;
+      if (status === 'overdue') {
+        iconStyle.push(styles.overdue);
+      } else if (status === 'dueToday') {
+        iconStyle.push(styles.dueToday);
+      } else if (status === 'completed') {
+        iconStyle.push(styles.completed);
+      } else {
+        iconStyle.push(styles.default);
+      }
     }
 
+    iconStyle.push(iconSize === 'normal' ? styles.normal : styles.large);
     return (
-      <span styleName={iconStyle} style={style}>
-      </span>
+      <div className={iconStyle.join(' ')}></div>
     );
   }
 }
 
 DeliverableIcon.propTypes = {
   inverted: PropTypes.bool,
-  style: PropTypes.object,
   size: PropTypes.string,
+  status: PropTypes.string,
 };
 
 DeliverableIcon.defaultProps = {
   inverted: false,
   size: 'normal',
+  status: 'default',
 };
 
 export default DeliverableIcon;
