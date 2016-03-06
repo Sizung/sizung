@@ -73,7 +73,7 @@ class EditableText extends React.Component {
 
   editLink(editable) {
     if (editable) {
-      return <a styleName="edit-link" href="#" onClick={this.handleEditClick}><EditIcon inverted={true}/></a>;
+      return <a styleName="edit-link" href="#" onClick={this.handleEditClick}><EditIcon inverted={this.props.inverted}/></a>;
     }
   }
 
