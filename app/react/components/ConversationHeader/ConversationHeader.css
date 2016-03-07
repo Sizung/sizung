@@ -1,11 +1,9 @@
 .root {
-  display: table;
+  display: flex;
+  flex-direction: row;
   width: 100%;
   padding: 20px 30px;
 
-  font-weight: bold;
-  font-size: 24px;
-  
   background-color: #edf2f4;
   color: #626c72;
 }
@@ -15,25 +13,26 @@
 }
 
 .prefix {
-  display: table-cell;
-  width: 20px;
-  vertical-align: top;
-  height: 20px;
+  width: 30px;
   line-height: 40px;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 0 0 0 10px;
 }
 
 .conversationTitle {
-  display: table-cell;
+  flex: 2;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 0 10px 0 0;
 }
 
 .conversationMemberContainer {
-  display: table-cell;
   width: 100px;
   font-size: 18px;
 }
 
 .closeContainer {
-  display: table-cell;
   width: 26px;
   text-align: right;
   vertical-align: top;
