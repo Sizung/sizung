@@ -21,6 +21,7 @@
     "consistent-return": 0,
     "new-cap": 0,
     "babel/new-cap": 1,
-    "react/prop-types": 0
+    "react/prop-types": 0,
+    "no-multi-spaces": 0
   }
 }
