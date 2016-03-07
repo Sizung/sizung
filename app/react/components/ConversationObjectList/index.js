@@ -13,7 +13,7 @@ class ConversationObjectList extends Component {
 
     this.state = {
       isConversationMembersViewVisible: false,
-      commentFormHeight: 40,
+      commentFormHeight: 150,
     };
   }
 
