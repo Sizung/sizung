@@ -22,6 +22,29 @@ const setCurrentConversation = (conversation, included, json) => {
   };
 };
 
+const updateConversation = (id, changedFields) => {
+  return (dispatch) => {
+    api.putJson('/api/conversations/' + id, { conversation: changedFields }, (json) => {
+      const conversation = transform.transformObjectFromJsonApi(json.data);
+      dispatch({
+        type: constants.UPDATE_CONVERSATION,
+        status: constants.STATUS_SUCCESS,
+        conversation,
+        entity: conversation,
+      });
+    });
+  };
+};
+
+const updateConversationRemoteOrigin = (conversation) => {
+  return {
+    type: constants.UPDATE_CONVERSATION,
+    status: constants.STATUS_REMOTE_ORIGIN,
+    conversation,
+    entity: conversation,
+  };
+};
+
 const fetchConversation = (conversationId) => {
   return (dispatch) => {
     api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
@@ -84,4 +107,6 @@ export {
   fetchConversation,
   selectConversation,
   visitConversation,
+  updateConversation,
+  updateConversationRemoteOrigin,
 };

@@ -2,15 +2,28 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import styles from './ConversationHeader.css';
 import ConversationMemberListApp from '../../containers/ConversationMemberListApp';
-import MeetingParticipantListApp from '../../containers/MeetingParticipantListApp';
+import EditableText from '../EditableText';
 
 class ConversationHeader extends React.Component {
   static propTypes = {
     conversation: PropTypes.shape({
       id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
       organizationId: PropTypes.string.isRequired,
     }),
+    updateConversation: PropTypes.func.isRequired,
+  }
+
+  handleTitleUpdate = (newTitle) => {
+    this.props.updateConversation(this.props.conversation.id, { title: newTitle });
+  }
+
+  renderTitle = () => {
+    const { conversation } = this.props;
+
+    if (!conversation) { return ''; }
+
+    return <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={40} />;
   }
 
   render() {
@@ -18,21 +31,17 @@ class ConversationHeader extends React.Component {
     const closeUrl = conversation ? '/organizations/' + conversation.organizationId : '';
 
     return (
-      <div className={styles.listHeader}>
-        <div className={styles.conversationTitleContainer}>
-          <div className={styles.conversationTitle}>
-            { conversation ? ('#' + conversation.title) : ''}
-          </div>
+      <div className={styles.root}>
+        <div className={styles.prefix}>#</div>
+        <div className={styles.conversationTitle}>
+          { this.renderTitle() }
         </div>
-        <Link to={closeUrl} title="Close Conversation">
+        <div className={styles.conversationMemberContainer}>
+          <ConversationMemberListApp />
+        </div>
+        <Link to={closeUrl} title="Close Conversation" className={styles.closeContainer}>
           <div className={styles.close}></div>
         </Link>
-        <span>
-          <MeetingParticipantListApp parent={this.props.parent} />
-        </span>
-        <span>
-          <ConversationMemberListApp />
-        </span>
       </div>
     );
   }

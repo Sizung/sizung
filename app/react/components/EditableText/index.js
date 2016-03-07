@@ -1,40 +1,27 @@
-import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import TextareaAutosize from 'react-autosize-textarea';
-import CSSModules from 'react-css-modules';
+import React, { PropTypes } from 'react';
 import styles from './index.css';
 import SizungInputApp from '../../containers/SizungInputApp';
 import TextWithMentions from '../TextWithMentions';
 import EditIcon from '../EditIcon';
 
-//function SelectInputText(element) {
-//  element.setSelectionRange(0, element.value.length);
-//}
-
-@CSSModules(styles)
 class EditableText extends React.Component {
+  static propTypes = {
+    text: PropTypes.string.isRequired,
+    onUpdate: PropTypes.func.isRequired,
+    editable: PropTypes.bool,
+    inverted: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    editable: true,
+  };
+
   constructor() {
     super();
     this.state = { edit: false };
-
-    this.saveEdit = this.saveEdit.bind(this);
-    this.cancelEdit = this.cancelEdit.bind(this);
-    this.handleEditClick = this.handleEditClick.bind(this);
-    this.handleKeyDown = this.handleKeyDown.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.handleInputClick = this.handleInputClick.bind(this);
   }
 
-  //componentDidUpdate(prevProps, prevState) {
-  //  if (this.state.edit && !prevState.edit) {
-  //    const inputElem = ReactDOM.findDOMNode(this.refs.input);
-  //    inputElem.focus();
-  //    SelectInputText(inputElem);
-  //  }
-  //}
-
-  saveEdit(value) {
+  saveEdit = (value) => {
     const title = value.trim();
     if (!title) return;
 
@@ -42,76 +29,81 @@ class EditableText extends React.Component {
     this.setState({ edit: false });
   }
 
-  cancelEdit() {
+  cancelEdit = () => {
     this.setState({ edit: false });
   }
 
-  handleEditClick(e) {
+  handleEditClick = (e) => {
     e.preventDefault();
     e.stopPropagation();
     this.setState({ edit: true });
   }
 
-  handleKeyDown(e) {
+  handleKeyDown = (e) => {
     if (e.keyCode === 27) {
       this.cancelEdit();
     }
   }
 
-  handleSubmit(value) {
+  handleSubmit = (value) => {
     this.saveEdit(value);
   }
 
-  handleBlur(e, value) {
+  handleBlur = (e, value) => {
     e.preventDefault();
     this.saveEdit(value);
   }
 
-  handleInputClick(e) {
+  handleInputClick = (e) => {
     e.stopPropagation();
   }
 
-  editLink(editable) {
+  editLink = (editable) => {
+    const { inverted } = this.props;
+
     if (editable) {
-      return <a styleName="edit-link" href="#" onClick={this.handleEditClick}><EditIcon inverted={this.props.inverted}/></a>;
+      return (
+        <a className={styles.editLink} href="#" onClick={this.handleEditClick}>
+          <EditIcon inverted={inverted} />
+        </a>
+      );
     }
   }
 
-  // <TextareaAutosize ref="input" className='form-control' rows="1" styleName='edit-text-input' onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onBlur={this.handleBlur} defaultValue={persistedText}/>
-
-  textElement(persistedText, editable) {
+  textElement = (persistedText, editable) => {
     if (this.state.edit) {
       return (
-        <div styleName='edit-text-container'>
+        <div className={styles.editTextContainer}>
           <form className="form-horizontal">
-            <div className="form-group" style={{ marginBottom: "5px"}}>
+            <div className="form-group" style={{ marginBottom: '5px' }}>
               <div className="col-xs-12">
-                <SizungInputApp ref="input" className="form-control" styleName="edit-text-input" onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} />
+                <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} />
               </div>
             </div>
           </form>
         </div>
       );
-    } else {
-      const persistedTextStyle = this.props.inverted ? 'persisted-text-inverted' : 'persisted-text';
-      return <div styleName='persisted-text-container'><div styleName={persistedTextStyle}><TextWithMentions maxLength={this.props.maxLength}>{persistedText}</TextWithMentions></div><div styleName='edit-link-container'>{this.editLink(editable)}</div></div>;
     }
+
+    const persistedTextStyle = this.props.inverted ? styles.persistedTextInverted : styles.persistedText;
+    return (
+      <div className={styles.persistedTextContainer}>
+        <div className={persistedTextStyle}>
+          <TextWithMentions maxLength={this.props.maxLength}>{persistedText}</TextWithMentions>
+        </div>
+        <div className={styles.editLinkContainer}>
+          {this.editLink(editable)}
+        </div>
+      </div>
+    );
   }
 
   render() {
-    return this.textElement(this.props.text, this.props.editable);
+    const { text, editable } = this.props;
+
+    return this.textElement(text, editable);
   }
 }
 
-EditableText.propTypes = {
-  text: PropTypes.string.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  editable: PropTypes.bool,
-  inverted: PropTypes.bool,
-};
-
-EditableText.defaultProps = {
-  editable: true,
-};
-
 export default EditableText;
+

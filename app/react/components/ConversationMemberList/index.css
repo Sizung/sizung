@@ -5,13 +5,14 @@
 .root {
   composes: col-sm-6-offset-3 col-xs-12 from global;
   position: absolute;
+  font-size: 1.3rem;
   height: 535px;
+  right: 0;
+  width: 500px;
   z-index: 999;
   overflow: auto;
   padding: 10px;
   background-color: white;
-  -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
-  -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
   box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
 }
 

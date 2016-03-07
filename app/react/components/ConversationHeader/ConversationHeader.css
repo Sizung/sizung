@@ -1,41 +1,49 @@
-.listHeader {
+.root {
+  display: table;
+  width: 100%;
   padding: 20px 30px;
-  /*margin-top: 5px;*/
 
-  line-height: 45px;
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 24px;
   
-  -webkit-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
-  -moz-box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
-  box-shadow: 0 0 5px 0 rgba(0,0,0,0.75);
   background-color: #edf2f4;
   color: #626c72;
 }
 
-/* clearfix */
-.listHeader:after {
-  content: "";
-  display: table;
-  clear: both;
+.root:hover .prefix, .root:hover .conversationTitle {
+  background-color: #D9DEDF;
 }
 
-.conversationTitleContainer {
-  float: left;
+.prefix {
+  display: table-cell;
+  width: 20px;
+  vertical-align: top;
+  height: 20px;
+  line-height: 40px;
 }
 
 .conversationTitle {
-  padding: 0;
-  margin: 0;
-  font-size: 25px;
+  display: table-cell;
+}
+
+.conversationMemberContainer {
+  display: table-cell;
+  width: 100px;
+  font-size: 18px;
+}
+
+.closeContainer {
+  display: table-cell;
+  width: 26px;
+  text-align: right;
+  vertical-align: top;
+  padding-top: 5px;
+  padding-left: 72px;
 }
 
 .close {
   display: inline-block;
   background-image: url("/icons/close-icon.png");
-  float: right;
   width: 26px;
   height: 26px;
-  margin-top: 7px;
-  margin-left: 60px;
 }

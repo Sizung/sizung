@@ -1,6 +1,7 @@
 import * as agendaItems from './agendaItems';
 import * as comments from './comments';
 import * as deliverables from './deliverables';
+import * as conversations from './conversations';
 import * as users from './users';
 import * as unseenObjects from './unseenObjects';
 import * as transform from '../utils/jsonApiUtils';
@@ -47,6 +48,10 @@ const onConversationChannelReceived = (data, currentUserId) => {
           dispatch(deliverables.createDeliverableRemoteOrigin(transform.transformDeliverableFromJsonApi(data.payload.data)));
         } else if (data.action === 'update') {
           dispatch(deliverables.updateDeliverableRemoteOrigin(transform.transformDeliverableFromJsonApi(data.payload.data)));
+        }
+      } else if (data.payload.data.type === 'conversations') {
+        if (data.action === 'update') {
+          dispatch(conversations.updateConversationRemoteOrigin(transform.transformConversationFromJsonApi(data.payload.data)));
         }
       }
     }

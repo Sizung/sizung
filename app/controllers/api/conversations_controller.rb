@@ -44,9 +44,8 @@ module Api
     # PATCH/PUT /conversations/1.json
     def update
       if @conversation.update(conversation_params)
-        render :show, status: :ok, location: @conversation
-      else
-        render json: @conversation.errors, status: :unprocessable_entity
+        ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'update')
+        render json: @conversation
       end
     end
 
