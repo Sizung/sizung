@@ -29,8 +29,11 @@
 
 .x-large {
   composes: normal;
-  background-size: 26px 26px;
-  padding-left: 30px;
+  display: inline-block;
+  background-size: 46px 46px;
+  width: 46px;
+  height: 46px;
+  padding: 0;
 }
 
 .inverted-small {
