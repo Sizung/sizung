@@ -37,7 +37,7 @@ class DeliverableList extends Component {
   }
 
   render() {
-    const { deliverables, visitDeliverable, selectedDeliverableId, updateDeliverable } = this.props;
+    const { deliverables, visitDeliverable, selectedDeliverableId, updateDeliverable, archiveDeliverable } = this.props;
 
     return (
       <div styleName={'root'}>
@@ -58,6 +58,7 @@ class DeliverableList extends Component {
                       visitDeliverable={visitDeliverable}
                       selected={deliverable.id === selectedDeliverableId}
                       updateDeliverable={updateDeliverable}
+                      archiveDeliverable={archiveDeliverable}
                       conversationContext={this.props.agendaItemId ? false : true}
                   />);
             })
@@ -72,7 +73,8 @@ DeliverableList.propTypes = {
   selectedDeliverableId: PropTypes.string,
   visitDeliverable: PropTypes.func.isRequired,
   deliverables: PropTypes.object.isRequired,
-  updateDeliverable: PropTypes.func,
+  updateDeliverable: PropTypes.func.isRequired,
+  archiveDeliverable: PropTypes.func.isRequired,
 };
 
 export default DeliverableList;

@@ -1,6 +1,7 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import User from '../User/index';
@@ -13,6 +14,7 @@ import Time from 'react-time';
 import TextWithMentions from '../TextWithMentions';
 import DeliverableIcon from '../DeliverableIcon';
 import ResolveIcon from '../ResolveIcon';
+import ArchiveIcon from '../ArchiveIcon';
 
 @CSSModules(styles)
 class Deliverable extends React.Component {
@@ -26,33 +28,62 @@ class Deliverable extends React.Component {
     this.props.updateDeliverable(this.props.deliverable.id, { title: newTitle });
   };
 
-  handleStatusUpdate = () => {
+  handleStatusUpdate = (e) => {
+    e.preventDefault();
+    console.log('e.target: ' + $(e.currentTarget));
     const { deliverable } = this.props;
     this.props.updateDeliverable(this.props.deliverable.id, { status: (deliverable.status === 'open' ? 'resolved' : 'open') });
   };
 
 
   handleDueOnUpdate = (newDueOn) => {
-    this.props.updateDeliverable(this.props.deliverable.id, { due_on: newDueOn });
+    //alert("dueOn, newDueOn: " + this.props.deliverable.dueOn + ", " + newDueOn);
+    if ( newDueOn !== this.props.deliverable.dueOn ) {
+      this.props.updateDeliverable(this.props.deliverable.id, {due_on: newDueOn, status: 'open'});
+    }
+  };
+
+  handleArchive = (e) => {
+    e.preventDefault();
+    this.props.archiveDeliverable(this.props.deliverable.id);
   };
 
   renderResolveAction = () => {
-    const { deliverable } = this.props;
-    //if (deliverable.status !== 'resolved') {
+    return (
+      <div ref='statusContainer' className={styles.statusContainer} onClick={this.handleStatusUpdate}>
+        <span className={styles.iconContainer}>
+          <ResolveIcon size={'x-large'}/>
+        </span>
+        <span>
+          {'Mark as Done'}
+        </span>
+      </div>
+    );
+  };
+
+  renderArchiveAction = () => {
+    return (
+      <div className={styles.archiveContainer} onClick={this.handleArchive}>
+        <span className={styles.iconContainer}>
+          <ArchiveIcon size={'x-large'}/>
+        </span>
+        <span>
+          {'Archive'}
+        </span>
+      </div>
+    );
+  };
+
+  renderActions = () => {
+    const { deliverable, selected } = this.props;
+    if (selected && !deliverable.archived) {
       return (
-        <div className={styles.actionContainer}>
-          <div className={styles.statusContainer}>
-          <span className={styles.iconContainer}>
-            <ResolveIcon size={'x-large'}/>
-          </span>
-          <span onClick={this.handleStatusUpdate}>
-            {deliverable.status === 'open' ? 'Mark as Done' : 'Mark as Open'}
-          </span>
+          <div className={styles.actionContainer}>
+            { deliverable.status === 'open' ? this.renderResolveAction() : this.renderArchiveAction()}
           </div>
-        </div>
       );
-    //}
-    //return null;
+    }
+    return null;
   };
 
   agendaItemTitle = () => {
@@ -62,15 +93,6 @@ class Deliverable extends React.Component {
           <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }}/>
           <TextWithMentions maxLength={40}>{ deliverable.agendaItem.title }</TextWithMentions>
         </div>
-    );
-  };
-
-  dueOn = () => {
-    const { dueOn, archived } = this.props.deliverable;
-    return (
-      <div className={styles.dueDateContainer}>
-        <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
-      </div>
     );
   };
 
@@ -106,16 +128,18 @@ class Deliverable extends React.Component {
               <DeliverableIcon status={deliverableIconStatus} size={'small'}/>
             </div>
             <div className={styles.title}>
-              <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={selected && !archived} inverted maxLength={40}/>
+              <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted maxLength={40}/>
             </div>
           </div>
-          {this.dueOn()}
+          <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}>
+            <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
+          </div>
         </div>
         <div className={styles.bottomRow}>
           <div style={{float: 'right', width: '30px'}}>
             <User user={assignee} />
           </div>
-          { selected ? this.renderResolveAction() : this.agendaItemTitle() }
+          { selected ? this.renderActions() : this.agendaItemTitle() }
         </div>
       </div>
     );
@@ -131,6 +155,7 @@ Deliverable.propTypes = {
   visitDeliverable: PropTypes.func.isRequired,
   updateDeliverable: PropTypes.func,
   conversationContext: PropTypes.bool.isRequired,
+  archiveDeliverable: PropTypes.func.isRequired,
 };
 
 Deliverable.defaultProps = {

@@ -60,11 +60,11 @@
 
 .titleContainer {
   composes: hover-container from '../../styles/modules/hover.css';
-  padding: 5px 5px 5px 10px;
+  padding: 5px 5px 0px 10px;
   margin: 10px;
 }
 
-.selected .titleContainer:hover {
+.titleContainer:hover {
   background-color: #334752;
 }
 
@@ -97,7 +97,7 @@
 
 .actionContainer {
   overflow: hidden;
-  margin-left: 5px;
+  margin-left: 8px;
   padding-right: 40px;
   line-height: 30px;
   height: 30px;
@@ -125,9 +125,15 @@
   clear: both;
   visibility: hidden;
 }
+
 .dueDateContainer {
   max-width: 110px;
   padding: 2px 10px;
   margin-left: 40px;
   background-color: #334752;
+}
+
+.dueDateOverdueContainer {
+  composes: dueDateContainer;
+  color: #F2695D;
 }

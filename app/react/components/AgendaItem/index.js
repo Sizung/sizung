@@ -89,7 +89,7 @@ class AgendaItem extends React.Component {
               <AgendaItemIcon inverted={true}/>
             </div>
             <div className={styles.title}>
-              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected && !agendaItem.archived} inverted maxLength={40}/>
+              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={!agendaItem.archived} inverted maxLength={40}/>
             </div>
           </div>
         </div>

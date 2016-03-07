@@ -78,9 +78,10 @@
 }
 
 .datepicker__day--today {
-  color: #38ACD4 !important;
+  color: #ffffff !important;
   font-family: Gotham-Bold !important;
-  font-size: 14px;
+  /*font-size: 14px;*/
+  text-decoration: underline;
 }
 
 .datepicker__day:hover {
