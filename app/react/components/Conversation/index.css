@@ -1,22 +1,23 @@
-.root {
-
+.unseen {
   position: relative;
   width: 100%;
+  min-height: 5em;
   padding: 10px;
   margin: 0 0 5px 0;
-
-
   background-color: #ffffff;
   color : #89949E;
 
-  /*-webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
-  /*-moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
-  /*box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);*/
+}
+
+.seen {
+  composes: unseen;
+  opacity: 0.85;
 }
 
 .actions {
   composes: hover-inline from '../../styles/modules/hover.css';
   color: #89949E;
+  font-size: 14px;
 }
 
 .action {
@@ -29,18 +30,8 @@
   color: #89949E;
 }
 
-.default {
-}
-
-.row {
-  position: relative;
-  width: 100%;
-  height: 5em;
-}
-
-.content-container {
+.contentContainer {
   composes: hover-container from '../../styles/modules/hover.css';
-  width: 100%;
   overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -52,22 +43,24 @@
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
-
-  text-decoration: none;
-}
-
-.member-container {
-  display: inline-block;
-  margin: 0px 2px 2px 0px;
 }
 
 .title {
+  display: inline-block;
   font-family: Gotham-Medium;
   color: #130F22;
-  text-decoration: none;
+}
+
+.seen .title {
+  color: #616c73;
 }
 
 .conversationMembersContainer {
   width: 100%;
-  padding: 10px 0;
+  margin-top: 1em;
+}
+
+.memberContainer {
+  display: inline-block;
+  margin: 0px 2px 2px 0px;
 }

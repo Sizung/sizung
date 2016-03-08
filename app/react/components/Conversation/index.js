@@ -2,34 +2,16 @@
 
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
-
 import EditableText from '../EditableText';
-import EditableStatus from '../EditableStatus';
-import UnseenBadge from '../UnseenBadge';
-import CommentsCounter from '../CommentsCounter';
-import DeliverablesCounter from '../DeliverablesCounter';
 import User from '../User';
 import Immutable from 'immutable';
 
-@CSSModules(styles)
 class Conversation extends React.Component {
 
-  constructor() {
-    super();
-    this.renderConversationMembers = this.renderConversationMembers.bind(this);
-  }
-
-  static renderUnseenBadge(count, selected) {
-    if (!selected && count && count > 0) {
-      return <UnseenBadge count={count} />;
-    }
-  }
-
-  renderConversationMembers() {
+  renderConversationMembers = () => {
     const { conversation, users } = this.props;
-    let conversationMembersDOM = [];
+    const conversationMembersDOM = [];
     let conversationMembers = new Immutable.List();
     conversation.members.map((member) => {
       const filteredUsers = users.filter((user) => {
@@ -48,39 +30,30 @@ class Conversation extends React.Component {
     }).sortBy((member) => {
       return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
     })).map((member) => {
-      conversationMembersDOM.push(<div styleName='member-container'><User user={ member } showName={ false } size={'small'}/></div>);
+      conversationMembersDOM.push(<div className={styles.memberContainer}><User user={ member } showName={ false } size={'small'}/></div>);
     });
     return conversationMembersDOM;
   }
 
   render() {
     const { conversation } = this.props;
-
-    console.log('Conversation: ' + JSON.stringify(conversation));
     return (
-      <div styleName="root">
-        {Conversation.renderUnseenBadge(conversation.unseenCount, false)}
-        <div styleName="default">
-          <div styleName="row">
-            <div styleName="content-container">
-              <Link to={'/conversations/' + conversation.id}>
-                <div className={styles.title}>{ '#'+conversation.title }</div>
-              </Link>
-              <div styleName="actions">
-                <small>
-                  <a href={'/conversations/' + conversation.id + '/edit'} styleName="action">
-                    <i className="fa fa-pencil" /> edit
-                  </a>
-                  <a href={'/conversations/' + conversation.id} styleName="action" data-confirm="Are you sure?" rel="nofollow" data-method="delete">
-                    <i className="fa fa-trash-o"></i> delete
-                  </a>
-                </small>
-              </div>
-            </div>
-            <div className={styles.conversationMembersContainer}>
-              {this.renderConversationMembers()}
-            </div>
+      <div className={conversation.unseenCount > 0 ? styles.unseen : styles.seen}>
+        <div className={styles.contentContainer}>
+          <Link to={'/conversations/' + conversation.id}>
+            <div className={styles.title}>{ '#' + (conversation.title.length > 40 ? conversation.title.substr(0, 40) + '...' : conversation.title) }</div>
+          </Link>
+          <div className={styles.actions}>
+            <a href={'/conversations/' + conversation.id + '/edit'} className={styles.action}>
+              <i className="fa fa-pencil" /> edit
+            </a>
+            <a href={'/conversations/' + conversation.id} className={styles.action} data-confirm="Are you sure?" rel="nofollow" data-method="delete">
+              <i className="fa fa-trash-o"></i> delete
+            </a>
           </div>
+        </div>
+        <div className={styles.conversationMembersContainer}>
+          {this.renderConversationMembers()}
         </div>
       </div>
     );
