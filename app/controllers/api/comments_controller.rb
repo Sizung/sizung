@@ -35,8 +35,10 @@ module Api
     def update
       authorize @comment
       @comment.author = current_user
+      old_body = @comment.body
 
       if @comment.toggle_archive(params[:comment][:archived]) || @comment.update(comment_params)
+        MentionedJob.perform_later(@comment, current_user, url_for(@comment.commentable), old_body)
         payload = ActiveModel::SerializableResource.new(@comment).serializable_hash.to_json
         CommentRelayJob.perform_later(payload: payload, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type, actor_id: current_user.id, action: 'update')
       end

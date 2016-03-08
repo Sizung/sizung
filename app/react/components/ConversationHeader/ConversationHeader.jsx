@@ -30,7 +30,7 @@ class ConversationHeader extends React.Component {
         <span>
           <MeetingParticipantListApp parent={this.props.parent} />
         </span>
-        <span style={{float: 'right'}}>
+        <span>
           <ConversationMemberListApp />
         </span>
       </div>

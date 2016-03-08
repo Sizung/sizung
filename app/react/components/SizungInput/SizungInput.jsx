@@ -73,6 +73,11 @@ class SizungInput extends React.Component {
     }
   };
 
+  userSuggestions = () => {
+    const { users } = this.props;
+    return users ? users.filter(u => u.display).toJS() : [];
+  };
+
   render() {
     return (
       <MentionsInput value={this.state.value}
@@ -86,7 +91,7 @@ class SizungInput extends React.Component {
         <Mention  trigger="@"
                   singleLine={false}
                   placeholder={"Mention people using '@'"}
-                  data={this.props.users ? this.props.users.toJS() : []}
+                  data={this.userSuggestions()}
                   renderSuggestion={this.renderUserSuggestion}
         />
       </MentionsInput>

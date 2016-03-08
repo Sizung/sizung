@@ -14,6 +14,10 @@ module Api
 
     # GET /organizations/1.json
     def show
+      # TODO: Remove that workaround when we switch to the final ActionCable release and can use connection-tokens
+      # to build a list of connected connections per user and don't track the user as offline when he closes one of
+      # his multiple browser windows. Then we can also remove that workaround.
+      current_user.update presence_status: 'online'
       @organization = policy_scope(Organization).includes(organization_members: :member).find(params[:id])
       authorize @organization
       current_user.update last_visited_organization: @organization
