@@ -8,14 +8,12 @@ export default (props={}) => ({
 
   highlighter: {
     padding: 9,
-    border: '1px solid silver',
   },
 
   textarea: {
     margin: 0,
     padding: 9,
     minHeight: 40,
-    border: '1px solid silver',
     outline: 0,
   },
 
