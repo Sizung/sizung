@@ -56,6 +56,7 @@ class Conversation extends React.Component {
   render() {
     const { conversation } = this.props;
 
+    console.log('Conversation: ' + JSON.stringify(conversation));
     return (
       <div styleName="root">
         {Conversation.renderUnseenBadge(conversation.unseenCount, false)}
@@ -63,7 +64,7 @@ class Conversation extends React.Component {
           <div styleName="row">
             <div styleName="content-container">
               <Link to={'/conversations/' + conversation.id}>
-                { conversation.title }
+                <div className={styles.title}>{ '#'+conversation.title }</div>
               </Link>
               <div styleName="actions">
                 <small>
@@ -76,7 +77,7 @@ class Conversation extends React.Component {
                 </small>
               </div>
             </div>
-            <div className='row zero-padding zero-margin'>
+            <div className={styles.conversationMembersContainer}>
               {this.renderConversationMembers()}
             </div>
           </div>

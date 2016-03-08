@@ -6,7 +6,7 @@ import Conversation from '../Conversation';
 import AgendaItemList from '../AgendaItemList';
 import DeliverableList from '../DeliverableList';
 import ConversationLayout from '../ConversationLayout';
-import ConversationIcon from '../ConversationIcon';
+import ChatIcon from '../ChatIcon';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
@@ -53,15 +53,15 @@ class OrganizationOverview extends Component {
         >
           <div styleName='center-panel'>
             <div styleName="header-container">
-              <h5 styleName="header">
+              <div styleName="header">
                 <span styleName="action" className="pull-right">
                   <a href={'/organizations/' + organization.id + '/conversations/new'}>
                     <i className="fa fa-plus" />
                     {' New Conversation'}
                   </a>
                 </span>
-                <ConversationIcon inverted={true} size={'x-large'} style={{ marginRight: '5px' }}/>CONVERSATIONS
-              </h5>
+                <ChatIcon inverted={true} style={{ marginRight: '5px' }}/>CONVERSATIONS
+              </div>
             </div>
             <div styleName='center-panel-list'>
               { this.conversationElements(conversations) }
