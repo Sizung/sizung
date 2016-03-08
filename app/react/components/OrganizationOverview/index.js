@@ -56,8 +56,7 @@ class OrganizationOverview extends Component {
               <div styleName="header">
                 <span styleName="action" className="pull-right">
                   <a href={'/organizations/' + organization.id + '/conversations/new'}>
-                    <i className="fa fa-plus" />
-                    {' New Conversation'}
+                    <div style={{ display: 'inline-block', width: '30px', height: '30px', borderRadius: '50%/50%', backgroundColor: '#262C43', fontSize: '18px', lineHeight: '30px', textAlign: 'center', color: '#ffffff', fontFamily: 'Gotham-Light'}}>{'+'}</div>
                   </a>
                 </span>
                 <ChatIcon inverted={true} style={{ marginRight: '5px' }}/>CONVERSATIONS

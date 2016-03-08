@@ -7,7 +7,7 @@
 }
 
 .header {
-  padding: 15px;
+  padding: 0px 15px;
   position: relative;
   height: 45px;
   font-family: Gotham-Book;
@@ -15,6 +15,7 @@
   letter-spacing : 0.625px;
   text-transform : uppercase;
   clear: both;
+  line-height: 45px;
 }
 
 .header:after {
@@ -24,6 +25,7 @@
 }
 
 .iconContainer {
+  margin-top: 3px;
   margin-right: 5px;
   float: left;
 }
