@@ -7,6 +7,7 @@ import styles from './index.css';
 import AgendaItemIcon from '../AgendaItemIcon';
 import DeliverableIcon from '../DeliverableIcon';
 import ChatIcon from '../ChatIcon';
+import PlusIcon from '../PlusIcon';
 import TextareaAutosize from 'react-autosize-textarea';
 import SizungInputApp from '../../containers/SizungInputApp';
 
@@ -139,7 +140,7 @@ class CommentForm extends React.Component {
         </div>
         <div ref='formContainer' styleName='form-container'>
           <div styleName='user'>
-            <User user={currentUser} />
+            <PlusIcon/>
           </div>
           <div styleName='input-form'>
             <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
