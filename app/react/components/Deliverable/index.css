@@ -31,30 +31,7 @@
   color : #ffffff;
 }
 
-.leftStrip {
-  width: 30px;
-  height: 100%;
-  float: left;
-  padding: 15px 18px;
-}
-
-.contentContainer {
-  overflow: hidden;
-  /*height: 6em;*/
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  -ms-word-break: break-all;
-  word-break: break-word;
-  font-family: Gotham-Book;
-}
-
-.contentContainer:after {
-  content: '';
-  clear: both;
-  visibility: hidden;
-}
-
-.selected .contentContainer {
+.selected .titleContainer {
   font-family: Gotham-Medium;
 }
 
@@ -87,11 +64,10 @@
 .statusContainer {
   float: left;
   font-family: Gotham-Medium;
-  /*color: #8C969F;*/
   cursor: pointer;
 }
 
-.iconContainer {
+.actionIconContainer {
   margin-right: 5px;
 }
 
@@ -107,7 +83,7 @@
   margin-left: 5px;
   line-height: 30px;
   height: 30px;
-  color: #8C969F;
+  color: #8C969f;
 }
 
 .bottomRow {
@@ -134,5 +110,10 @@
 
 .dueDateOverdueContainer {
   composes: dueDateContainer;
-  color: #F2695D;
+  color: #f2695d;
+}
+
+.assignee {
+  float: right;
+  width: 30px;
 }

@@ -1,22 +1,16 @@
 // Plain components should not have any knowledge of where the data came from and how to change the the state.
 
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import User from '../User/index';
-import EditableStatus from '../EditableStatus';
 import EditableText from '../EditableText';
 import EditableDate from '../EditableDate';
-import UnseenBadge from '../UnseenBadge';
 import AgendaItemIcon from '../AgendaItemIcon';
-import Time from 'react-time';
 import TextWithMentions from '../TextWithMentions';
 import DeliverableIcon from '../DeliverableIcon';
 import ResolveIcon from '../ResolveIcon';
 import ArchiveIcon from '../ArchiveIcon';
 
-@CSSModules(styles)
 class Deliverable extends React.Component {
 
   handleClick = (e) => {
@@ -29,8 +23,8 @@ class Deliverable extends React.Component {
   };
 
   handleStatusUpdate = (e) => {
-    const { deliverable } = this.props;
-    this.props.updateDeliverable(this.props.deliverable.id, { status: (deliverable.status === 'open' ? 'resolved' : 'open') });
+    e.preventDefault();
+    this.props.updateDeliverable(this.props.deliverable.id, { status: (this.props.deliverable.status === 'open' ? 'resolved' : 'open') });
   };
 
 
@@ -48,7 +42,7 @@ class Deliverable extends React.Component {
   renderResolveAction = () => {
     return (
       <div ref='statusContainer' className={styles.statusContainer} onClick={this.handleStatusUpdate}>
-        <span className={styles.iconContainer}>
+        <span className={styles.actionIconContainer}>
           <ResolveIcon size={'x-large'}/>
         </span>
         <span>
@@ -61,7 +55,7 @@ class Deliverable extends React.Component {
   renderArchiveAction = () => {
     return (
       <div className={styles.archiveContainer} onClick={this.handleArchive}>
-        <span className={styles.iconContainer}>
+        <span className={styles.actionIconContainer}>
           <ArchiveIcon size={'x-large'}/>
         </span>
         <span>
@@ -93,47 +87,47 @@ class Deliverable extends React.Component {
     );
   };
 
+  dueDateStatus = () => {
+    const { status, dueOn } = this.props.deliverable;
+    if (status === 'resolved') {
+      return 'completed';
+    } else if (dueOn) {
+      const dueDateDiffInHrs = Math.floor(((new Date(dueOn)).setHours(0,0,0,0) - (new Date()).setHours(0, 0, 0, 0)) / (1000 * 60 * 60));
+      if (dueDateDiffInHrs < 0) {
+        return 'overdue';
+      } else if (dueDateDiffInHrs >= 0 && dueDateDiffInHrs <= 24) {
+        return 'dueToday';
+      }
+    }
+  };
+
   render() {
     const { deliverable, selected } = this.props;
     const { status, title, assignee, dueOn, unseenCount, archived } = deliverable;
-
+    const deliverableIconStatus = this.dueDateStatus();
     let styleName = styles.seen;
-    let deliverableIconStatus = 'default';
+
     if (selected) {
       styleName = styles.selected;
     } else if (unseenCount > 0) {
       styleName = styles.unseen;
     }
 
-    if (status === 'resolved') {
-      deliverableIconStatus = 'completed';
-    } else if (dueOn) {
-      const dueDateDiffInHrs = Math.floor(((new Date(dueOn)).setHours(0,0,0,0) - (new Date()).setHours(0,0,0,0)) / (1000 * 60 * 60));
-      console.log('dueDateDiffInHrs: ' + dueDateDiffInHrs);
-      if (dueDateDiffInHrs < 0) {
-        deliverableIconStatus = 'overdue';
-      } else if (dueDateDiffInHrs >= 0 && dueDateDiffInHrs <= 24) {
-        deliverableIconStatus = 'dueToday';
-      }
-    }
-    console.log('deliverableIconStatus: ' + deliverableIconStatus + ", dueOn: " + dueOn);
     return (
       <div className={styleName} onClick={this.handleClick}>
-        <div className={styles.contentContainer} title={title}>
-          <div className={styles.titleContainer}>
-            <div className={styles.deliverableIconContainer}>
-              <DeliverableIcon status={deliverableIconStatus} size={'small'}/>
-            </div>
-            <div className={styles.title}>
-              <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted maxLength={40}/>
-            </div>
+        <div className={styles.titleContainer} title={title}>
+          <div className={styles.deliverableIconContainer}>
+            <DeliverableIcon status={deliverableIconStatus} size={'small'}/>
           </div>
-          <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}>
-            <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
+          <div className={styles.title}>
+            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted maxLength={40}/>
           </div>
         </div>
+        <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}>
+          <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
+        </div>
         <div className={styles.bottomRow}>
-          <div style={{float: 'right', width: '30px'}}>
+          <div className={styles.assignee}>
             <User user={assignee} />
           </div>
           { selected ? this.renderActions() : this.agendaItemTitle() }
@@ -153,15 +147,6 @@ Deliverable.propTypes = {
   updateDeliverable: PropTypes.func,
   conversationContext: PropTypes.bool.isRequired,
   archiveDeliverable: PropTypes.func.isRequired,
-};
-
-Deliverable.defaultProps = {
-  deliverable: {
-    title: 'foobar',
-    agendaItem: {
-      title: 'barfoo',
-    },
-  },
 };
 
 export default Deliverable;
