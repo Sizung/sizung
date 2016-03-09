@@ -29,15 +29,12 @@ class Deliverable extends React.Component {
   };
 
   handleStatusUpdate = (e) => {
-    e.preventDefault();
-    console.log('e.target: ' + $(e.currentTarget));
     const { deliverable } = this.props;
     this.props.updateDeliverable(this.props.deliverable.id, { status: (deliverable.status === 'open' ? 'resolved' : 'open') });
   };
 
 
   handleDueOnUpdate = (newDueOn) => {
-    //alert("dueOn, newDueOn: " + this.props.deliverable.dueOn + ", " + newDueOn);
     if ( newDueOn !== this.props.deliverable.dueOn ) {
       this.props.updateDeliverable(this.props.deliverable.id, {due_on: newDueOn, status: 'open'});
     }
