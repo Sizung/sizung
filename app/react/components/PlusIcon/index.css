@@ -1,0 +1,40 @@
+.default {
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 0 0 0 1px;
+  border: 1px solid #262c43;
+  -webkit-border-radius: 50%/50%;
+  -moz-border-radius: 50%/50%;
+  border-radius: 50%/50%;
+  background-color: #262C43;
+  font-family: Gotham-XLight;
+  color: #ffffff;
+  text-align: center;
+}
+
+.inverted {
+  composes: default;
+  background-color: #ffffff;
+  color: #262c43;
+}
+
+.normal {
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+}
+
+.large {
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  font-size: 30px;
+}
+
+.small {
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 15px;
+}

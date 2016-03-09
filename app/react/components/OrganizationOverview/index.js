@@ -7,6 +7,7 @@ import AgendaItemList from '../AgendaItemList';
 import DeliverableList from '../DeliverableList';
 import ConversationLayout from '../ConversationLayout';
 import ChatIcon from '../ChatIcon';
+import PlusIcon from '../PlusIcon';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
@@ -55,7 +56,7 @@ class OrganizationOverview extends Component {
             <div styleName="header-container">
                <span styleName="action" className="pull-right">
                   <a href={'/organizations/' + organization.id + '/conversations/new'}>
-                    <div style={{ display: 'inline-block', width: '30px', height: '30px', lineHeight: '30px', padding: '2px 0px 0px 1px',borderRadius: '50%/50%', backgroundColor: '#262C43', fontSize: '25px', textAlign: 'center', color: '#ffffff', fontFamily: 'Gotham-XLight'}}>{'+'}</div>
+                    <PlusIcon/>
                   </a>
                 </span>
                 <ChatIcon inverted={true} style={{ marginRight: '10px' }} size={'large'}/>CONVERSATIONS
