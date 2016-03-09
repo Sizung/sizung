@@ -53,14 +53,12 @@ class OrganizationOverview extends Component {
         >
           <div styleName='center-panel'>
             <div styleName="header-container">
-              <div styleName="header">
-                <span styleName="action" className="pull-right">
+               <span styleName="action" className="pull-right">
                   <a href={'/organizations/' + organization.id + '/conversations/new'}>
-                    <div style={{ display: 'inline-block', width: '30px', height: '30px', borderRadius: '50%/50%', backgroundColor: '#262C43', fontSize: '18px', lineHeight: '30px', textAlign: 'center', color: '#ffffff', fontFamily: 'Gotham-Light'}}>{'+'}</div>
+                    <div style={{ display: 'inline-block', width: '30px', height: '30px', lineHeight: '30px', padding: '2px 0px 0px 1px',borderRadius: '50%/50%', backgroundColor: '#262C43', fontSize: '25px', textAlign: 'center', color: '#ffffff', fontFamily: 'Gotham-XLight'}}>{'+'}</div>
                   </a>
                 </span>
-                <ChatIcon inverted={true} style={{ marginRight: '5px' }}/>CONVERSATIONS
-              </div>
+                <ChatIcon inverted={true} style={{ marginRight: '10px' }} size={'large'}/>CONVERSATIONS
             </div>
             <div styleName='center-panel-list'>
               { this.conversationElements(conversations) }
