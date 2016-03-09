@@ -1,0 +1,32 @@
+.rootOpen {
+  display: flex;
+  flex-direction: row;
+  margin: 40px 42px 40px 42px;
+  font-size: 20px;
+}
+
+.rootOpen>div {
+  margin-right: 60px;
+  line-height: 20px;
+}
+
+.rootClosed {
+}
+
+.option {
+  display: inline-block;
+}
+
+.caretLeft {
+  display: inline-block;
+  background: url('/icons/caret-left.png') no-repeat;
+  width: 7px;
+  height: 12px;
+}
+
+.caretRight {
+  display: inline-block;
+  background: url('/icons/caret-right.png') no-repeat;
+  width: 8px;
+  height: 14px;
+}

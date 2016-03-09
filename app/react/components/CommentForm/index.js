@@ -1,17 +1,9 @@
-import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-import { Button, ButtonGroup } from 'react-bootstrap';
-import User from './../User/index';
-import CSSModules from 'react-css-modules';
+import React, { PropTypes } from 'react';
 import styles from './index.css';
-import AgendaItemIcon from '../AgendaItemIcon';
-import DeliverableIcon from '../DeliverableIcon';
-import ChatIcon from '../ChatIcon';
 import PlusIcon from '../PlusIcon';
-import TextareaAutosize from 'react-autosize-textarea';
 import SizungInputApp from '../../containers/SizungInputApp';
+import ComposeSelector from '../ComposeSelector/ComposeSelector';
 
-@CSSModules(styles)
 class CommentForm extends React.Component {
   constructor() {
     super();
@@ -19,7 +11,7 @@ class CommentForm extends React.Component {
     this.state = {
       height: 40,
       value: '',
-      commentActionInFocus: 'comment', //Possible actions: comment, agendaItem, deliverable
+      commentActionInFocus: 'comment', // Possible actions: comment, agendaItem, deliverable
     };
 
     this.commentActions = ['comment'];
@@ -79,19 +71,6 @@ class CommentForm extends React.Component {
       e.target.style.height = e.target.scrollHeight + 'px';
       this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
     };
-
-    //this.handleOnResize = () => {
-    //  const inputNode = ReactDOM.findDOMNode(this.refs.name);
-    //  console.log('handleOnResize', this.inputNode);
-    //  const formNode = this.refs.formContainer;
-    //
-    //  let resizedHeightDifference;
-    //  if (inputNode !== null && formNode !== null) {
-    //    resizedHeightDifference = $(inputNode).height() - parseInt($(inputNode).css('min-height').split('px')[0]);
-    //    $(formNode).css('height', parseInt($(formNode).css('min-height').split('px')[0]) + resizedHeightDifference + 'px');
-    //    this.props.onResize($(formNode).outerHeight());
-    //  }
-    //};
   }
 
   componentWillUpdate() {
@@ -104,60 +83,19 @@ class CommentForm extends React.Component {
     }
   }
 
-  componentDidUpdate() {
-    //if (!this.state.hasInput) {
-    //  // TODO: Find a better alternative to correct this dirty way of dispatching a change event to resize textarea on submit
-    //  this.inputNode.dispatchEvent(new Event('input'));
-    //}
-  }
-
   render() {
-    let commentActionsStyleName;
-    const { currentUser } = this.props;
-    let buttons = [];
-    if (this.props.canCreateAgendaItem) {
-      buttons.push(<Button tabIndex='2' key="createAgendaItem" styleName={ 'agenda-item-btn' + (this.state.commentActionInFocus === 'agendaItem' ? '-active' : '') } type="submit" onClick={this.handleAgendaItem}><AgendaItemIcon size={'small'}/>Agenda Item</Button>);
-    }
-    if (this.props.canCreateDeliverable) {
-      buttons.push(<Button tabIndex='3' key="createDeliverable" styleName={ 'deliverable-btn' + (this.state.commentActionInFocus === 'deliverable' ? '-active' : '') } type="submit" onClick={this.handleDeliverable}><DeliverableIcon size={'small'}/>Deliverable</Button>);
-    }
-
-    commentActionsStyleName = 'input-btn-group';
-    if (!this.state.value) {
-      commentActionsStyleName = 'hide-input-btn-group';
-    }
-
-//    <TextareaAutosize ref="name" className='form-control' onResize={this.handleOnResize} onKeyDown={this.handleKeyDown} onKeyPress={this.handleKeyPress} onChange={this.handleChange} rows="1" styleName='input' placeholder='Type your comment here'/>
+    const { canCreateAgendaItem, canCreateDeliverable } = this.props;
 
     return (
-      <div ref='root' styleName='root'>
-
-        <div className={styles.buttonsContainer}>
-          <ButtonGroup styleName={commentActionsStyleName} ref='commentActions'>
-            <Button tabIndex='1' ref='commentButton' styleName={ 'comment-btn' + (this.state.commentActionInFocus === 'comment' ? '-active' : '') } key="createComment" type="submit" onClick={this.handleSubmit}><ChatIcon size={'small'}/>Comment</Button>
-            { buttons }
-          </ButtonGroup>
+      <div className={styles.root}>
+        <div className={styles.user}>
+          <PlusIcon />
         </div>
-        <div ref='formContainer' styleName='form-container'>
-          <div styleName='user'>
-            <PlusIcon/>
-          </div>
-          <div styleName='input-form'>
-            <form className="form-horizontal" ref="commentFormRef" onSubmit={this.handleSubmit}>
-              <div styleName='input-container'>
-                <SizungInputApp ref="name"
-                                onChange={this.handleChangeInMentionBox}
-                                onKeyDown={this.handleKeyDown}
-                                onKeyUp={this.handleKeyUp}
-                                onSubmit={this.handleSubmit}
-                                value={this.state.value}
-                                onResize={this.handleOnResize}
-                                rows="1"
-                                placeholder="Type your comment here"
-                />
-              </div>
-            </form>
-          </div>
+        <form className={styles.form} onSubmit={this.handleSubmit}>
+          <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp} onSubmit={this.handleSubmit} value={this.state.value} onResize={this.handleOnResize} rows="1" placeholder="Type your comment here" />
+        </form>
+        <div className={styles.chatButtons}>
+          <ComposeSelector canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onUpdate={(selectedType) => { console.log(selectedType); }} />
         </div>
       </div>
     );
@@ -172,7 +110,6 @@ CommentForm.propTypes = {
     id: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
-  currentUser : PropTypes.object.isRequired,
   canCreateAgendaItem: PropTypes.bool.isRequired,
   canCreateDeliverable: PropTypes.bool.isRequired,
   onResize: PropTypes.func,
