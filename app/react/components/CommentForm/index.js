@@ -9,7 +9,6 @@ class CommentForm extends React.Component {
     super();
 
     this.state = {
-      height: 40,
       value: '',
       commentActionInFocus: 'comment', // Possible actions: comment, agendaItem, deliverable
     };
@@ -54,49 +53,24 @@ class CommentForm extends React.Component {
         value,
       });
     };
-
-    this.handleKeyDown = (e) => {
-      if (e.keyCode === 9 && !e.shiftKey) {
-        e.preventDefault();
-        const nextActionInFocusIndex = ((this.commentActions.indexOf(this.state.commentActionInFocus) + 1) % this.commentActions.length);
-        this.setState({ commentActionInFocus: this.commentActions[nextActionInFocusIndex] });
-      }
-      e.target.style.height = 0;
-      e.target.style.height = e.target.scrollHeight + 'px';
-      this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
-    };
-
-    this.handleKeyUp = (e) => {
-      e.target.style.height = 0;
-      e.target.style.height = e.target.scrollHeight + 'px';
-      this.props.onResize(Number.parseInt(e.target.style.height.replace('px', ''), 10));
-    };
-  }
-
-  componentWillUpdate() {
-    if (this.props.canCreateAgendaItem) {
-      this.commentActions = ['comment', 'agendaItem'];
-    } else if (this.props.canCreateDeliverable) {
-      this.commentActions = ['comment', 'deliverable'];
-    } else {
-      this.commentActions = ['comment'];
-    }
   }
 
   render() {
     const { canCreateAgendaItem, canCreateDeliverable } = this.props;
 
     return (
+      <div className={styles.wrapper}>
       <div className={styles.root}>
-        <div className={styles.user}>
-          <PlusIcon />
-        </div>
-        <form className={styles.form} onSubmit={this.handleSubmit}>
-          <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onKeyDown={this.handleKeyDown} onKeyUp={this.handleKeyUp} onSubmit={this.handleSubmit} value={this.state.value} onResize={this.handleOnResize} rows="1" placeholder="Type your comment here" />
-        </form>
-        <div className={styles.chatButtons}>
-          <ComposeSelector canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onUpdate={(selectedType) => { console.log(selectedType); }} />
-        </div>
+      <div className={styles.user}>
+      <PlusIcon />
+      </div>
+      <form className={styles.form} onSubmit={this.handleSubmit}>
+      <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Type your comment here" />
+      </form>
+      <div className={styles.chatButtons}>
+      <ComposeSelector canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onUpdate={(selectedType) => { console.log(selectedType); }} />
+      </div>
+      </div>
       </div>
     );
   }

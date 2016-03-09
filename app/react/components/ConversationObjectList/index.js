@@ -13,7 +13,6 @@ class ConversationObjectList extends Component {
 
     this.state = {
       isConversationMembersViewVisible: false,
-      commentFormHeight: 150,
     };
   }
 
@@ -25,9 +24,6 @@ class ConversationObjectList extends Component {
       }
       this.scrollListToBottom();
     }
-
-    this.onCommentFormResize(this.state.commentFormHeight);
-    window.addEventListener('resize', () => { this.onCommentFormResize(this.state.commentFormHeight); });
   }
 
   componentWillUpdate() {
@@ -67,19 +63,6 @@ class ConversationObjectList extends Component {
     }
   }
 
-  onCommentFormResize = (commentBoxHeight) => {
-    // $(this.commentFormNode).css('height',commentBoxHeight);
-    // const listNodeBottomOffset = commentBoxHeight + parseInt($(this.commentFormNode).css('bottom').split('px')[0]);
-    // $(this.listNode).css('bottom', listNodeBottomOffset + 'px');
-    // $(this.newActivityMarkerNode).css('bottom', (listNodeBottomOffset + 5) + 'px');
-    const timelineHeader = this.refs.timelineHeaderContainer;
-    const listElement = this.refs.conversationObjectList;
-    // listElement.style.height = commentBoxHeight + 'px';
-    // console.log(timelineHeader, listElement, timelineHeader.offsetHeight, commentBoxHeight);
-    listElement.setAttribute('style', 'height:' + (window.innerHeight - (timelineHeader.offsetHeight + 160) - commentBoxHeight) + 'px');
-    // this.setState({ commentFormHeight: commentBoxHeight });
-  };
-
   prepareChildElements = (conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, parent, currentUser) => {
     if (conversationObjects) {
       let ownerId = null;
@@ -101,11 +84,11 @@ class ConversationObjectList extends Component {
           return (<Comment key={comment.id} comment={comment} showAuthor={showOwner} currentUser={currentUser} handleCommentSettingsDropdownScroll={this.handleCommentSettingsDropdownScroll} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable}/>);
         } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
-          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem}/>;
+          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} />;
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} currentUser={currentUser}  deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable}/>;
+          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} currentUser={currentUser}  deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} />;
         }
         console.warn('Component not found for conversationObject: ', conversationObject);
       });
@@ -155,15 +138,14 @@ class ConversationObjectList extends Component {
   };
 
   handleShowMore = (e) => {
-    let parentType;
     e.preventDefault();
-    parentType = this.props.commentForm.parent.type ? this.props.commentForm.parent.type : 'conversations';
+    const parentType = this.props.commentForm.parent.type ? this.props.commentForm.parent.type : 'conversations';
 
     this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
   };
 
   renderConversationTimeLine = () => {
-    const { conversationObjects, createComment, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
+    const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl, canCreateAgendaItem,
         canCreateDeliverable, visitAgendaItem, visitDeliverable, visitConversation } = this.props;
 
@@ -181,18 +163,18 @@ class ConversationObjectList extends Component {
           { showMore }
           { conversationObjectElements }
         </div>
-        <div ref="listFooter" className={styles.listFooter}>
-          <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} onResize={this.onCommentFormResize} {...commentForm} />
-        </div>
       </div>
     );
   };
 
   render() {
+    const { createComment, createAgendaItem, createDeliverable, commentForm } = this.props;
+
     return (
       <div className={styles.listContainer}>
         <ConversationHeader conversation={this.props.currentConversation} updateConversation={this.props.updateConversation} parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type} />
         {this.renderConversationTimeLine()}
+        <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} {...commentForm} />
       </div>
     );
   }

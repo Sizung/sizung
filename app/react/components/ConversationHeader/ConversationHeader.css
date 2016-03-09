@@ -1,8 +1,7 @@
 .root {
   display: flex;
   flex-direction: row;
-  width: 100%;
-  padding: 26px 32px 26px 18px;
+  padding: 26px 32px 56px 18px;
 
   background-color: #edf2f4;
   color: #626c72;
