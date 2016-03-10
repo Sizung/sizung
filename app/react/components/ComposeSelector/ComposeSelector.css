@@ -1,20 +1,26 @@
-.rootOpen {
+.root {
   display: flex;
   flex-direction: row;
-  margin: 40px 42px 40px 42px;
   font-size: 20px;
+  align-items: stretch;
+  border-left: 1px solid silver;
 }
 
-.rootOpen>div {
-  margin-right: 60px;
-  line-height: 20px;
+.root>div {
+  padding-left: 30px;
+  padding-right: 30px;
+  line-height: 100px;
 }
 
-.rootClosed {
+.rootOption>div:hover {
+  background-color: #415764;
 }
 
 .option {
-  display: inline-block;
+}
+
+.option:hover {
+  background-color: #415764;
 }
 
 .caretLeft {

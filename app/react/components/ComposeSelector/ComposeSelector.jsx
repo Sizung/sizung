@@ -38,33 +38,37 @@ class ComposeSelector extends React.Component {
   }
 
   renderChat = () => {
-    return <div className={styles.option} onClick={this.handleClose}><ChatIcon />Chat</div>;
+    return <div className={styles.option} onClick={this.handleClose}><ChatIcon style={{ marginRight: '10px' }} />Chat</div>;
   }
 
   renderAgendaItem = () => {
-    return <div className={styles.option} onClick={this.selectAgendaItem}><AgendaItemIcon />Agenda</div>;
+    return <div className={styles.option} onClick={this.selectAgendaItem}><AgendaItemIcon style={{ marginRight: '10px' }} />Agenda</div>;
   }
 
   renderDeliverable = () => {
-    return <div className={styles.option} onClick={this.selectDeliverable}><DeliverableIcon />Deliverable</div>;
+    return <div className={styles.option} onClick={this.selectDeliverable}><DeliverableIcon style={{ marginRight: '10px' }} />Deliverable</div>;
   }
 
   renderClosed = () => {
     return (
-      <div className={styles.rootClosed} onClick={this.handleOpen}>
+      <div className={styles.root} onClick={this.handleOpen}>
         {this.renderChat()}
-        <div className={styles.caretLeft}></div>
+        <div>
+          <div className={styles.caretLeft}></div>
+        </div>
       </div>
     );
   };
 
   renderOpen = () => {
     return (
-      <div className={styles.rootOpen}>
+      <div className={styles.root}>
         {this.renderChat()}
         {this.props.canCreateAgendaItem ? this.renderAgendaItem() : null}
         {this.props.canCreateDeliverable ? this.renderDeliverable() : null}
-        <div className={styles.caretRight} onClick={this.handleClose}></div>
+        <div onClick={this.handleClose}>
+          <div className={styles.caretRight}></div>
+        </div>
       </div>
     );
   }
