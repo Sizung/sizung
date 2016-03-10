@@ -3,7 +3,7 @@ import styles from './DeliverableComposer.css';
 import SizungInputApp from '../../containers/SizungInputApp';
 import CloseIcon from '../CloseIcon';
 import DeliverableIcon from '../DeliverableIcon';
-
+import EditableUserApp from '../../containers/EditableUserApp';
 
 class DeliverableComposer extends React.Component {
   static propTypes = {
@@ -22,14 +22,19 @@ class DeliverableComposer extends React.Component {
 
   handleSubmit = (e) => {
     const title = this.state.value.trim();
+    const { assigneeId } = this.state;
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
-    this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title: title });
+    this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title, assigneeId });
     this.setState({ value: '' });
   };
 
   handleChangeInMentionBox = (ev, value) => {
     this.setState({ value });
   };
+
+  handleAssigneeUpdate = (assigneeId) => {
+    this.setState({ assigneeId });
+  }
 
   render() {
     return (
@@ -40,6 +45,12 @@ class DeliverableComposer extends React.Component {
           </div>
           <div className={styles.filler}></div>
           <CloseIcon onClick={this.props.onClose} />
+        </div>
+        <div className={styles.properties}>
+          <div>ASSIGN TO</div>
+          <div>
+            <EditableUserApp userId={this.state.assigneeId} conversationId={this.props.parent.conversationId} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
+          </div>
         </div>
         <div className={styles.row}>
           <DeliverableIcon />

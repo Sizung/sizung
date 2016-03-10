@@ -7,12 +7,20 @@
   z-index: 100;
   position: absolute;
   width: 30ch;
-  top: 3ch;
-  right: 0ch;
   border: 1px solid lightgray;
   border-radius: 4px;
   padding: 10px;
   background-color: #ffffff;
+}
+
+.southDirection {
+  top: 3ch;
+  right: 0;
+}
+
+.northDirection {
+  bottom: 0;
+  left: 0;
 }
 
 .current-user {

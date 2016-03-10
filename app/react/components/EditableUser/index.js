@@ -79,6 +79,7 @@ class EditableUser extends React.Component {
   }
 
   renderEdit(selectedUser, users) {
+    const { direction } = this.props;
     const options = this.filteredOptions(this.state.filter, users).sortBy((user) => {
       return ( user.firstName && user.lastName) ?  (user.firstName + ' ' + user.lastName).toLowerCase() : user.email.toLowerCase();
     }).map((user) => {
@@ -91,7 +92,7 @@ class EditableUser extends React.Component {
     });
 
     return (
-      <span styleName="root">
+      <span styleName="root" className={styles[direction + 'Direction']}>
         <div styleName="title">
           Members
           <i styleName="close-icon" onClick={this.triggerCancel}></i>
@@ -127,20 +128,24 @@ class EditableUser extends React.Component {
 }
 
 EditableUser.propTypes = {
+  conversationId: PropTypes.string.isRequired,
   editable: PropTypes.bool,
   users: PropTypes.object,
+  userId: PropTypes.string,
   user: PropTypes.shape({
     email: PropTypes.string.isRequired,
     firstName: PropTypes.string.isRequired,
     lastName: PropTypes.string.isRequired,
-    presenceStatus: PropTypes.string.isRequired
+    presenceStatus: PropTypes.string.isRequired,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
   size: PropTypes.string,
+  direction: PropTypes.string,
 };
 
 EditableUser.defaultProps = {
   editable: true,
+  direction: 'south', // possible values: south, north
 };
 
 export default EditableUser;

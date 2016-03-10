@@ -3,9 +3,11 @@ import EditableUser from '../components/EditableUser';
 import * as selectors from '../utils/selectors';
 
 function mapStateToProps(state, props) {
-  const { conversationId } = props;
+  const { conversationId, userId, user } = props;
+
   return {
     users: selectors.conversationMembersAsUsers(state, conversationId),
+    user: user || selectors.user(state, userId),
   };
 }
 

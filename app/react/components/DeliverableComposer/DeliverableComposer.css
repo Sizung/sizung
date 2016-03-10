@@ -29,3 +29,8 @@
   padding: 10px;
   padding-right: 40px;
 }
+
+.properties {
+  composes: row;
+  color: black;
+}

@@ -102,10 +102,15 @@ const conversationsForOrganization = (state, organizationId) => {
     return conv.title;
   });
 };
+
+const user = (state, id) => state.getIn(['entities', 'users', id]);
+
 const users = (state) => state.getIn(['entities', 'users']).toList();
 
-const currentUser = (state) => state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
+const currentUser = (state) => user(state, state.getIn(['currentUser', 'id']));
+
 const currentConversation = (state) => state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
+
 const currentOrganization = (state) => {
   const currentOrgId = state.getIn(['currentOrganization', 'id']);
   if (!currentOrgId) {
@@ -113,6 +118,7 @@ const currentOrganization = (state) => {
   }
   return state.getIn(['entities', 'organizations', currentOrgId]);
 };
+
 const organizations = (state) => state.getIn(['entities', 'organizations']).map((organization) => { return organization; }).toList();
 
 const organizationMembers = (state) => {
@@ -188,6 +194,7 @@ const agendaItemsList = (state, conversationId) => {
 };
 
 export {
+  user,
   users,
   currentUser,
   currentConversation,
