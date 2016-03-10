@@ -1,7 +1,47 @@
+/*laptop*/
+@media screen
+and (min-device-width: 1200px)
+and (max-device-width: 1600px)
+and (-webkit-min-device-pixel-ratio: 1) {
+  .baseFont {
+    font-size: 9px;
+  }
+}
+/*laptop retina*/
+@media screen
+and (min-device-width: 1200px)
+and (max-device-width: 1600px)
+and (-webkit-min-device-pixel-ratio: 2) {
+  .baseFont {
+    font-size: 10px;
+  }
+}
+
+/*ipad 3,4 retina*/
+@media only screen
+and (min-device-width: 1536px)
+and (max-device-width: 2048px)
+and (-webkit-min-device-pixel-ratio: 2) {
+  .baseFont {
+    font-size: 16px;
+  }
+}
+
+/*ipad 1,2*/
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 1024px)
+and (-webkit-min-device-pixel-ratio: 1) {
+  .baseFont {
+    font-size: 9px;
+  }
+}
+
 .default {
+  composes: baseFont;
   position: relative;
   width: 100%;
-  height: 7em;
+  height: 10.688em;
   margin: 0 0 5px 0;
   padding: 0;
 }
@@ -14,7 +54,7 @@
 
 .unseen {
   composes: default;
-  border: 1px solid #415764;
+  border: 0.0063em solid #415764;
   background-color: transparent;
   color : #ffffff;
 }
@@ -26,25 +66,26 @@
 
 .selected {
   composes: default;
-  border: 1px solid #38ACD4;
+  border: 0.0063em solid #38ACD4;
   background-color: #38ACD4;
   color : #ffffff;
 }
 
 .leftStrip {
-  width: 6px;
+  width: 0.768em;
   height: 100%;
   float: left;
   background-color: #88d3df;
 }
 
 .selected .leftStrip {
-  border-left: 6px solid #38ACD4;
+  background: none;
+  border-left: 0.768em solid #38ACD4;
 }
 
 .contentContainer {
   overflow: hidden;
-  height: 4em;
+  height: 5.5em;
   overflow-wrap: break-word;
   word-wrap: break-word;
   -ms-word-break: break-all;
@@ -64,8 +105,8 @@
 
 .titleContainer {
   composes: hover-container from '../../styles/modules/hover.css';
-  padding: 5px 5px 0px 5px;
-  margin: 10px 10px 10px 5px;
+  padding: 0.313em 0.313em 0 0.313em;
+  margin: 0.625em 0.625em 0.625em 0.313em;
 }
 
 .selected .titleContainer:hover {
@@ -79,17 +120,20 @@
 
 .agendaItemIconContainer {
   float: left;
-  margin-right: 8px;
+  margin-right: 1.25em;
+  margin-top: 0.5em;
 }
 
 .title {
   overflow: hidden;
-  max-height: 3em;
+  max-height: 3.75em;
+  font-size: 1.5em;
 }
 
 .archiveContainer {
   float: left;
   font-family: Gotham-Medium;
+  font-size: 1.438em;
   cursor: pointer;
 }
 
@@ -97,14 +141,15 @@
   float: right;
   font-family: Gotham-Medium;
   cursor: pointer;
+  font-size: 1.438em;
 }
 
 .iconContainer {
-  margin-right: 5px;
+  margin-right: 0.313em;
 }
 
 .actionContainer {
   overflow: hidden;
-  margin: 10px 20px;
-  height: 4em;
+  margin: 1.25em 2.25em;
+  /*height: 4em;*/
 }
