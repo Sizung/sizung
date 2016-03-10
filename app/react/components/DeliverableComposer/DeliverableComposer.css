@@ -1,6 +1,15 @@
 .root {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.row {
   display: flex;
   flex-direction: row;
+}
+
+.filler {
+  flex: 1;
 }
 
 .form {
@@ -10,7 +19,13 @@
 }
 
 .form :global .react-mentions .control.textarea {
-  border: 0;
+  border: 1px solid green;
   border-bottom: 1px solid silver;
 }
 
+.composeHeader {
+  display: inline-block;
+  background-color: #415764;
+  padding: 10px;
+  padding-right: 40px;
+}

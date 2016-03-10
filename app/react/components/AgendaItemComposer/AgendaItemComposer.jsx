@@ -16,7 +16,6 @@ class AgendaItemComposer extends React.Component {
 
   constructor() {
     super();
-
     this.state = { value: '' };
   }
 
@@ -31,9 +30,7 @@ class AgendaItemComposer extends React.Component {
   };
 
   handleChangeInMentionBox = (ev, value) => {
-    this.setState({
-      value,
-    });
+    this.setState({ value });
   };
 
   render() {

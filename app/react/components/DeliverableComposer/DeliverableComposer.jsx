@@ -1,6 +1,9 @@
 import React, { PropTypes } from 'react';
 import styles from './DeliverableComposer.css';
 import SizungInputApp from '../../containers/SizungInputApp';
+import CloseIcon from '../CloseIcon';
+import DeliverableIcon from '../DeliverableIcon';
+
 
 class DeliverableComposer extends React.Component {
   static propTypes = {
@@ -14,25 +17,36 @@ class DeliverableComposer extends React.Component {
 
   constructor() {
     super();
-
-    this.state = {
-      value: '',
-    };
-
-    this.handleSubmit = (e) => {
-      const name = this.state.value.trim();
-      if (name === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
-      this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
-      this.setState({ value: '' });
-    };
+    this.state = { value: '' };
   }
+
+  handleSubmit = (e) => {
+    const title = this.state.value.trim();
+    if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
+    this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title: title });
+    this.setState({ value: '' });
+  };
+
+  handleChangeInMentionBox = (ev, value) => {
+    this.setState({ value });
+  };
 
   render() {
     return (
       <div className={styles.root}>
-        <form className={styles.form} onSubmit={this.handleSubmit}>
-          <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Type your deliverable here" />
-        </form>
+        <div className={styles.row}>
+          <div className={styles.composeHeader}>
+            NEW DELIVERABLE
+          </div>
+          <div className={styles.filler}></div>
+          <CloseIcon onClick={this.props.onClose} />
+        </div>
+        <div className={styles.row}>
+          <DeliverableIcon />
+          <form className={styles.form} onSubmit={this.handleSubmit}>
+            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Type your deliverable here" />
+          </form>
+        </div>
       </div>
     );
   }
