@@ -1,8 +1,8 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
-import PlusIcon from '../PlusIcon';
-import SizungInputApp from '../../containers/SizungInputApp';
-import ComposeSelector from '../ComposeSelector/ComposeSelector';
+import CommentComposer from '../CommentComposer/CommentComposer';
+import AgendaItemComposer from '../AgendaItemComposer/AgendaItemComposer';
+import DeliverableComposer from '../DeliverableComposer/DeliverableComposer';
 
 class CommentForm extends React.Component {
   constructor() {
@@ -10,7 +10,7 @@ class CommentForm extends React.Component {
 
     this.state = {
       value: '',
-      commentActionInFocus: 'comment', // Possible actions: comment, agendaItem, deliverable
+      composerType: 'comment',
     };
 
     this.commentActions = ['comment'];
@@ -47,32 +47,36 @@ class CommentForm extends React.Component {
       this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title: name });
       this.setState({ commentActionInFocus: 'deliverable', value: '' });
     };
+  }
 
-    this.handleChangeInMentionBox = (ev, value) => {
-      this.setState({
-        value,
-      });
-    };
+  handleSelect = (selectedType) => {
+    this.setState({ composerType: selectedType });
+  }
+
+  handleClose = () => {
+    this.handleSelect('comment');
+  }
+
+  renderComposer(composerType) {
+    const { parent, canCreateAgendaItem, canCreateDeliverable, createComment, createAgendaItem, createDeliverable } = this.props;
+
+    switch (composerType) {
+      case 'agendaItem':
+        return <AgendaItemComposer parent={parent} createAgendaItem={createAgendaItem} onClose={this.handleClose} />;
+      case 'deliverable':
+        return <DeliverableComposer parent={parent} createDeliverable={createDeliverable} onClose={this.handleClose} />;
+      case 'comment':
+      default:
+        return <CommentComposer parent={parent} createComment={createComment} canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onSelect={this.handleSelect} />;
+    }
   }
 
   render() {
-    const { canCreateAgendaItem, canCreateDeliverable } = this.props;
-
     return (
       <div className={styles.wrapper}>
-      <div className={styles.root}>
-      <div className={styles.commentComposer}>
-      <div className={styles.user}>
-      <PlusIcon />
-      </div>
-      <form className={styles.form} onSubmit={this.handleSubmit}>
-      <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Type your comment here" />
-      </form>
-      <div className={styles.chatButtons}>
-      <ComposeSelector canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onUpdate={(selectedType) => { console.log(selectedType); }} />
-      </div>
-      </div>
-      </div>
+        <div className={styles.root}>
+          { this.renderComposer(this.state.composerType) }
+        </div>
       </div>
     );
   }

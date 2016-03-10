@@ -4,7 +4,18 @@ import PlusIcon from '../PlusIcon';
 import SizungInputApp from '../../containers/SizungInputApp';
 import ComposeSelector from '../ComposeSelector/ComposeSelector';
 
-class CommentForm extends React.Component {
+class CommentComposer extends React.Component {
+  static propTypes = {
+    createComment: PropTypes.func.isRequired,
+    parent: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      type: PropTypes.string.isRequired,
+    }).isRequired,
+    canCreateAgendaItem: PropTypes.bool.isRequired,
+    canCreateDeliverable: PropTypes.bool.isRequired,
+    onSelect: PropTypes.func.isRequired,
+  };
+
   constructor() {
     super();
 
@@ -20,11 +31,19 @@ class CommentForm extends React.Component {
     };
   }
 
+  handleSelect = (selectedType) => {
+    this.props.onSelect(selectedType);
+  }
+
+  handleChangeInMentionBox = (ev, value) => {
+    this.setState({ value });
+  };
+
   render() {
     const { canCreateAgendaItem, canCreateDeliverable } = this.props;
 
     return (
-      <div className={styles.commentComposer}>
+      <div className={styles.root}>
         <div className={styles.user}>
           <PlusIcon />
         </div>
@@ -32,21 +51,11 @@ class CommentForm extends React.Component {
           <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Type your comment here" />
         </form>
         <div className={styles.chatButtons}>
-          <ComposeSelector canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onUpdate={(selectedType) => { console.log(selectedType); }} />
+          <ComposeSelector canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onSelect={this.handleSelect} />
         </div>
       </div>
     );
   }
 }
 
-CommentForm.propTypes = {
-  createComment: PropTypes.func.isRequired,
-  parent: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    type: PropTypes.string.isRequired,
-  }).isRequired,
-  canCreateAgendaItem: PropTypes.bool.isRequired,
-  canCreateDeliverable: PropTypes.bool.isRequired,
-};
-
-export default CommentForm;
+export default CommentComposer;

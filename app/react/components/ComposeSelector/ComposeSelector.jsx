@@ -18,7 +18,7 @@ class ComposeSelector extends React.Component {
 
   constructor() {
     super();
-    this.state = { open: false, selectedType: 'comment' };
+    this.state = { open: false };
   }
 
   handleOpen = () => {
@@ -29,16 +29,24 @@ class ComposeSelector extends React.Component {
     this.setState({ open: false });
   }
 
+  selectAgendaItem = () => {
+    this.props.onSelect('agendaItem');
+  }
+
+  selectDeliverable = () => {
+    this.props.onSelect('deliverable');
+  }
+
   renderChat = () => {
-    return <div className={styles.option}><ChatIcon />Chat</div>;
+    return <div className={styles.option} onClick={this.handleClose}><ChatIcon />Chat</div>;
   }
 
   renderAgendaItem = () => {
-    return <div className={styles.option}><AgendaItemIcon />Agenda</div>;
+    return <div className={styles.option} onClick={this.selectAgendaItem}><AgendaItemIcon />Agenda</div>;
   }
 
   renderDeliverable = () => {
-    return <div className={styles.option}><DeliverableIcon />Delivera</div>;
+    return <div className={styles.option} onClick={this.selectDeliverable}><DeliverableIcon />Deliverable</div>;
   }
 
   renderClosed = () => {

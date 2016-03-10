@@ -10,34 +10,3 @@
   border-top: 1px solid silver;
   background: white;
 }
-
-.commentComposer {
-  display: flex;
-  flex-direction: row;
-}
-
-.user {
-  flex: 0;
-  height: 40px;
-  width: 60px;
-  color: black;
-  margin: 32px 32px 32px 32px;
-}
-
-.form {
-  flex: 1;
-  color: black;
-  margin: 32px 32px 32px 0;
-}
-
-.form :global .react-mentions .control.textarea {
-  border: 0;
-  border-bottom: 1px solid silver;
-}
-
-.chatButtons {
-  display: flex;
-  flex-direction: row;
-  color: black;
-  align-items: center;
-}
