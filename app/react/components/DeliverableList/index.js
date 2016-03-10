@@ -1,7 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Deliverable from './../Deliverable/index';
 import DeliverableIcon from './../DeliverableIcon';
-import { Glyphicon } from 'react-bootstrap';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
@@ -43,7 +42,7 @@ class DeliverableList extends Component {
       <div styleName={'root'}>
         <div styleName={'header'}>
             <span className={styles.iconContainer}>
-              <DeliverableIcon size={'large'}/>
+              <DeliverableIcon size={'large'} />
             </span>
             <span className={styles.titleContainer}>
               {'DELIVERABLES'}
