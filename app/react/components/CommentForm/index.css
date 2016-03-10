@@ -1,6 +1,6 @@
 .wrapper {
   position: relative;
-  height: 205px;
+  min-height: 105px;
 }
 
 .root {
