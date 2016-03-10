@@ -61,6 +61,7 @@ class CommentForm extends React.Component {
     return (
       <div className={styles.wrapper}>
       <div className={styles.root}>
+      <div className={styles.commentComposer}>
       <div className={styles.user}>
       <PlusIcon />
       </div>
@@ -69,6 +70,7 @@ class CommentForm extends React.Component {
       </form>
       <div className={styles.chatButtons}>
       <ComposeSelector canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onUpdate={(selectedType) => { console.log(selectedType); }} />
+      </div>
       </div>
       </div>
       </div>
