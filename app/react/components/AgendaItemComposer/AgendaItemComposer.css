@@ -16,6 +16,7 @@
   flex: 1;
   color: black;
   margin: 32px 32px 32px 30px;
+  font-size: 18px;
 }
 
 .form :global .react-mentions .control.textarea {
