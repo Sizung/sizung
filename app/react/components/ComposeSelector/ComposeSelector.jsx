@@ -42,11 +42,11 @@ class ComposeSelector extends React.Component {
   }
 
   renderAgendaItem = () => {
-    return <div className={styles.option} onClick={this.selectAgendaItem}><AgendaItemIcon style={{ marginRight: '10px' }} />Agenda</div>;
+    return <div className={styles.option} onClick={this.selectAgendaItem}><AgendaItemIcon size="large" style={{ marginRight: '10px' }} />Agenda</div>;
   }
 
   renderDeliverable = () => {
-    return <div className={styles.option} onClick={this.selectDeliverable}><DeliverableIcon style={{ marginRight: '10px' }} />Deliverable</div>;
+    return <div className={styles.option} onClick={this.selectDeliverable}><DeliverableIcon size="large" inverted style={{ marginRight: '10px' }} />Deliverable</div>;
   }
 
   renderClosed = () => {

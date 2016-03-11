@@ -58,13 +58,13 @@ class CommentForm extends React.Component {
   }
 
   renderComposer(composerType) {
-    const { parent, canCreateAgendaItem, canCreateDeliverable, createComment, createAgendaItem, createDeliverable } = this.props;
+    const { currentUser, parent, canCreateAgendaItem, canCreateDeliverable, createComment, createAgendaItem, createDeliverable } = this.props;
 
     switch (composerType) {
       case 'agendaItem':
         return <AgendaItemComposer parent={parent} createAgendaItem={createAgendaItem} onClose={this.handleClose} />;
       case 'deliverable':
-        return <DeliverableComposer parent={parent} createDeliverable={createDeliverable} onClose={this.handleClose} />;
+        return <DeliverableComposer parent={parent} createDeliverable={createDeliverable} onClose={this.handleClose} currentUser={currentUser} />;
       case 'comment':
       default:
         return <CommentComposer parent={parent} createComment={createComment} canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onSelect={this.handleSelect} />;
@@ -83,6 +83,9 @@ class CommentForm extends React.Component {
 }
 
 CommentForm.propTypes = {
+  currentUser: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }).isRequired,
   createComment: PropTypes.func.isRequired,
   createAgendaItem: PropTypes.func,
   createDeliverable: PropTypes.func,

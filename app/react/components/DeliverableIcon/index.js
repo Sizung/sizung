@@ -16,7 +16,7 @@ class DeliverableIcon extends React.Component {
     iconStyle.push(styles[iconSize]);
 
     return (
-      <div className={iconStyle.join(' ')}></div>
+      <div className={iconStyle.join(' ')} style={this.props.style}></div>
     );
   }
 }
@@ -25,12 +25,14 @@ DeliverableIcon.propTypes = {
   inverted: PropTypes.bool,
   size: PropTypes.string,
   status: PropTypes.string,
+  style: PropTypes.object,
 };
 
 DeliverableIcon.defaultProps = {
   inverted: false,
   size: 'normal',
   status: 'default',
+  style: {},
 };
 
 export default DeliverableIcon;

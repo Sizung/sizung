@@ -11,7 +11,7 @@ module Api
       @deliverable = Deliverable.new(deliverable_params)
       authorize @deliverable
       @deliverable.owner = current_user
-      @deliverable.assignee = current_user
+      @deliverable.assignee_id = current_user.id unless @deliverable.assignee_id
       @deliverable.save
 
       if @deliverable.persisted?

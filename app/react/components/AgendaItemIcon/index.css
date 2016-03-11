@@ -27,12 +27,19 @@
   composes: normal;
   background-size: 4px 17px;
   padding-left: 9px;
+  height: 17px;
 }
 
 .x-large {
   composes: normal;
   background-size: 5px 20px;
   padding-left: 8px;
+}
+
+.xLarge {
+  composes: normal;
+  background-image: url("/icons/agenda-item-icon-gray-xLarge.png");
+  background-size: 5px 28px;
 }
 
 .inverted-small {

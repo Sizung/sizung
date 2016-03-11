@@ -15,11 +15,11 @@
 .form {
   flex: 1;
   color: black;
-  margin: 32px 32px 32px 0;
+  margin: 32px 32px 32px 30px;
 }
 
 .form :global .react-mentions .control.textarea {
-  border: 1px solid green;
+  border: 0;
   border-bottom: 1px solid silver;
 }
 

@@ -41,10 +41,10 @@ class AgendaItemComposer extends React.Component {
             NEW AGENDA
           </div>
           <div className={styles.filler}></div>
-          <CloseIcon onClick={this.props.onClose} />
+          <CloseIcon type="transparent" style={{ marginBottom: '0' }} onClick={this.props.onClose} />
         </div>
         <div className={styles.row}>
-          <AgendaItemIcon />
+          <AgendaItemIcon size="xLarge" />
           <form className={styles.form} onSubmit={this.handleSubmit}>
             <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Type your agenda item here" />
           </form>

@@ -14,6 +14,9 @@ class DeliverableComposer extends React.Component {
       type: PropTypes.string.isRequired,
     }).isRequired,
     onClose: PropTypes.func.isRequired,
+    currentUser: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+    }).isRequired,
   };
 
   constructor() {
@@ -23,10 +26,12 @@ class DeliverableComposer extends React.Component {
 
   handleSubmit = (e) => {
     const title = this.state.value.trim();
-    const { assigneeId, dueOn } = this.state;
+    const { dueOn } = this.state;
+    const assigneeId = this.assigneeId();
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title, assignee_id: assigneeId, due_on: dueOn });
-    this.setState({ value: '' });
+    this.setState({ value: '', assigneeId: null, dueOn: null });
+    this.props.onClose();
   };
 
   handleChangeInMentionBox = (ev, value) => {
@@ -41,8 +46,13 @@ class DeliverableComposer extends React.Component {
     this.setState({ dueOn });
   }
 
+  assigneeId = () => {
+    return this.state.assigneeId || this.props.currentUser.id;
+  }
+
   render() {
     const { dueOn } = this.state;
+    const assigneeId = this.assigneeId();
 
     return (
       <div className={styles.root}>
@@ -51,12 +61,12 @@ class DeliverableComposer extends React.Component {
             NEW DELIVERABLE
           </div>
           <div className={styles.filler}></div>
-          <CloseIcon onClick={this.props.onClose} />
+          <CloseIcon onClick={this.props.onClose} style={{ marginBottom: '0' }} type="transparent" />
         </div>
         <div className={styles.properties}>
           <div className={styles.assigneeContainer}>
             <div className={styles.assignLabel}>ASSIGN TO</div>
-            <EditableUserApp userId={this.state.assigneeId} conversationId={this.props.parent.conversationId} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
+            <EditableUserApp userId={assigneeId} conversationId={this.props.parent.conversationId} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
           </div>
           <div className={styles.dueOnContainer}>
             <div className={styles.dueOnLabel}>DUE ON</div>

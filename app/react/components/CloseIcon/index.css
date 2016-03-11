@@ -3,3 +3,17 @@
   -webkit-transform: rotate(45deg); /* Chrome, Safari, Opera */
   transform: rotate(45deg);
 }
+
+.transparentContainer {
+  margin-top: 11px;
+  margin-left: 72px;
+  margin-bottom: 14px;
+  cursor: pointer;
+}
+
+.transparent {
+  display: inline-block;
+  background-image: url("/icons/close-icon.png");
+  width: 26px;
+  height: 26px;
+}

@@ -7,14 +7,13 @@ class AgendaItemIcon extends React.Component {
 
   constructor() {
     super();
-    this.validSizes = ['normal', 'large', 'x-large', 'small'];
+    this.validSizes = ['normal', 'large', 'x-large', 'small', 'xLarge'];
   }
 
   render() {
-    let iconSize;
     let iconStyle;
     const { inverted, style, size } = this.props;
-    iconSize = (this.validSizes.indexOf(this.props.size) === -1) ? this.validSizes[0] : this.props.size;
+    const iconSize = (this.validSizes.indexOf(this.props.size) === -1) ? this.validSizes[0] : this.props.size;
     if (iconSize === 'normal') {
       iconStyle = inverted ? 'inverted' : 'normal';
     } else {
