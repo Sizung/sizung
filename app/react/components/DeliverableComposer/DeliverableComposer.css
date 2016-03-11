@@ -13,14 +13,21 @@
 }
 
 .form {
+  composes: row;
+  align-items: center;
   flex: 1;
   color: black;
   margin: 32px 32px 32px 0;
 }
 
 .form :global .react-mentions .control.textarea {
-  border: 1px solid green;
+  border: 0;
   border-bottom: 1px solid silver;
+}
+
+.form :global .react-mentions {
+  flex: 1;
+  margin-left: 20px;
 }
 
 .composeHeader {
@@ -33,4 +40,32 @@
 .properties {
   composes: row;
   color: black;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.assigneeContainer {
+  display: flex;
+  flex-direction: row;
+  margin-right: 100px;
+  align-items: center;
+}
+
+.dueOnContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.assignLabel {
+  margin-right: 20px;
+}
+
+.dueOnLabel {
+  margin-right: 20px;
+}
+
+.dueOnWrapper {
+  background-color: #ECEFF0;
+  padding: 10px;
 }
