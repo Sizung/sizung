@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import User from './../User';
 import SelectableUser from './../SelectableUser';
-import styles from './index.css';
+import styles from './ConversationMembersEdit.css';
 import Immutable from 'immutable';
 import UserIcon from '../UserIcon';
 
@@ -134,19 +134,7 @@ class ConversationMemberList extends React.Component {
     return null;
   };
 
-  renderClosed = () => {
-    const usersCount = this.props.conversationMembers ? this.props.conversationMembers.toList().size : 0;
-    return (
-      <span className={styles.memberDropdownContainer}>
-          <div onClick={this.handleToggleView} aria-haspopup="true" aria-expanded="false">
-            <UserIcon inverted size={'x-large'} style={{ paddingTop: '15px' }} />
-            <div className={styles.memberBadge}>{usersCount}</div>
-          </div>
-      </span>
-    );
-  };
-
-  renderOpened = () => {
+  render() {
     return (
         <div className={styles.rootContainer}>
           <div className={styles.root}>
@@ -176,10 +164,6 @@ class ConversationMemberList extends React.Component {
         </div>
     );
   };
-
-  render() {
-    return this.state.isOpen ? this.renderOpened() : this.renderClosed();
-  }
 }
 
 ConversationMemberList.propTypes = {

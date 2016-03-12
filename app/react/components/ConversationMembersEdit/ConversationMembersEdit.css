@@ -72,20 +72,6 @@
   font-weight: 600;
 }
 
-.memberDropdownContainer {
-  display: inline-block;
-  float: right;
-  cursor: pointer;
-}
-
-.memberBadge {
-  display: inline-block;
-  margin-left: 15px;
-  margin-bottom: 15px;
-  font-size: 18px;
-  vertical-align: bottom;
-}
-
 /* from conversation object list not used at the moment */
 .memberList {
   background-color: #ffffff;
