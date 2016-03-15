@@ -1,0 +1,20 @@
+.common {
+  display: inline-block;
+  background: no-repeat center;
+}
+
+.selected {
+  composes: common;
+  background-image: url("/icons/select-icon-selected.png");
+}
+
+.unselected {
+  composes: common;
+  background-image: url("/icons/select-icon-unselected.png");
+}
+
+.normal {
+  background-size: 2.688rem 2.688rem;
+  width: 2.688rem;
+  height: 2.688rem;
+}
