@@ -5,6 +5,7 @@
 }
 
 .header {
+  flex: 0;
   display: flex;
   flex-direction: row;
   padding: 0px 15px;
@@ -13,12 +14,13 @@
   letter-spacing : 0.625px;
   text-transform : uppercase;
   line-height: 45px;
-  height: 45px;
+  min-height: 45px;
 }
 
 .iconContainer {
   margin-top: 3px;
-  margin-right: 28px;
+  margin-right: 10px;
+  min-width: 18px;
   flex: 0;
 }
 
