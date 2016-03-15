@@ -1,24 +1,26 @@
 import React, { Component, PropTypes } from 'react';
 import Deliverable from './../Deliverable/index';
 import DeliverableIcon from './../DeliverableIcon';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
-@CSSModules(styles)
 class DeliverableList extends Component {
+  static propTypes = {
+    selectedDeliverableId: PropTypes.string,
+    visitDeliverable: PropTypes.func.isRequired,
+    deliverables: PropTypes.object.isRequired,
+    updateDeliverable: PropTypes.func.isRequired,
+    archiveDeliverable: PropTypes.func.isRequired,
+  };
 
   constructor() {
     super();
-
-    this.scrollList = this.scrollList.bind(this);
-
     this.deliverableListSize = 0;
   }
 
   componentDidMount() {
     const deliverableList = this.refs.deliverableList;
     if (deliverableList) {
-      $(deliverableList).scrollTop(0);
+      deliverableList.scrollTop = 0;
     }
   }
 
@@ -27,8 +29,8 @@ class DeliverableList extends Component {
 
   scrollList() {
     const _this = this;
-    window.requestAnimationFrame(function() {
-      var node = _this.refs.deliverableList;
+    window.requestAnimationFrame(() => {
+      const node = _this.refs.deliverableList;
       if (node !== undefined) {
         node.scrollTop = node.scrollHeight;
       }
@@ -36,30 +38,36 @@ class DeliverableList extends Component {
   }
 
   render() {
-    const { deliverables, visitDeliverable, selectedDeliverableId, updateDeliverable, archiveDeliverable } = this.props;
+    const { deliverables,
+            visitDeliverable,
+            selectedDeliverableId,
+            updateDeliverable,
+            archiveDeliverable,
+    } = this.props;
 
     return (
-      <div styleName={'root'}>
-        <div styleName={'header'}>
-            <span className={styles.iconContainer}>
+      <div className={styles.root}>
+        <div className={styles.header}>
+            <div className={styles.iconContainer}>
               <DeliverableIcon size={'large'} />
-            </span>
-            <span className={styles.titleContainer}>
-              {'DELIVERABLES'}
-            </span>
+            </div>
+            <div className={styles.titleContainer}>
+              DELIVERABLES
+            </div>
         </div>
-        <div ref='deliverableList' styleName='list'>
+        <div ref="deliverableList" className={styles.list}>
           {
             deliverables.map((deliverable) => {
-              return(<Deliverable
-                      key={deliverable.id}
-                      deliverable={deliverable}
-                      visitDeliverable={visitDeliverable}
-                      selected={deliverable.id === selectedDeliverableId}
-                      updateDeliverable={updateDeliverable}
-                      archiveDeliverable={archiveDeliverable}
-                      conversationContext={this.props.agendaItemId ? false : true}
-                  />);
+              return (
+                <Deliverable
+                  key={deliverable.id}
+                  deliverable={deliverable}
+                  visitDeliverable={visitDeliverable}
+                  selected={deliverable.id === selectedDeliverableId}
+                  updateDeliverable={updateDeliverable}
+                  archiveDeliverable={archiveDeliverable}
+                  conversationContext={!this.props.agendaItemId}
+                />);
             })
           }
         </div>
@@ -67,13 +75,5 @@ class DeliverableList extends Component {
     );
   }
 }
-
-DeliverableList.propTypes = {
-  selectedDeliverableId: PropTypes.string,
-  visitDeliverable: PropTypes.func.isRequired,
-  deliverables: PropTypes.object.isRequired,
-  updateDeliverable: PropTypes.func.isRequired,
-  archiveDeliverable: PropTypes.func.isRequired,
-};
 
 export default DeliverableList;
