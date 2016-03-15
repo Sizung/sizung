@@ -22,44 +22,24 @@ class ConversationObjectList extends Component {
       if (this.props.commentForm.parent) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
       }
-      this.scrollListToBottom();
     }
+    this.scrollListToBottom();
   }
 
   componentWillUpdate() {
-    const listNode = this.refs.conversationObjectList;
-    if (listNode) {
-      this.shouldScrollBottom = (Math.abs(listNode.scrollTop + listNode.offsetHeight - listNode.scrollHeight) <= 82); // 20px is the offset tolerance considering borders and padding
+    const root = this.refs.root;
+    if (root) {
+      this.shouldScrollBottom = root.scrollTop + root.offsetHeight === root.scrollHeight;
     }
   }
 
   componentDidUpdate(prevProps) {
-    const listNode = this.refs.conversationObjectList;
-    if (listNode !== null) {
-      const shouldScrollBottom = (Math.abs(listNode.scrollTop + listNode.offsetHeight - listNode.scrollHeight) <= 82); // 82px is the offset tolerance considering borders and padding
-      if (shouldScrollBottom) {
-        if (!this.state.isConversationMembersViewVisible) {
-          this.scrollListToBottom();
-        } else {
-          this.scrollListToTop();
-        }
-      }
-
-      if ((this.props.conversationObjects ? this.props.conversationObjects.length : 0) - (prevProps.conversationObjects ? prevProps.conversationObjects.length : 0) > 1) {
-        this.scrollListToBottom();
-      }
+    if (ConversationObjectList.shouldMarkAsSeen(prevProps, this.props)) {
+      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     }
 
     if (this.shouldScrollBottom) {
-      if (!this.state.isConversationMembersViewVisible) {
-        this.scrollListToBottom();
-      } else {
-        this.scrollListToTop();
-      }
-    }
-
-    if (ConversationObjectList.shouldMarkAsSeen(prevProps, this.props)) {
-      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      this.scrollListToBottom();
     }
   }
 
@@ -112,12 +92,10 @@ class ConversationObjectList extends Component {
   };
 
   scrollListToBottom = () => {
-    window.requestAnimationFrame(() => {
-      const listNode = this.refs.conversationObjectList;
-      if (listNode) {
-        listNode.scrollTop = listNode.scrollHeight;
-      }
-    });
+    const root = this.refs.root;
+    if (root) {
+      root.scrollTop = root.scrollHeight;
+    }
   };
 
   scrollListToTop = () => {
@@ -155,7 +133,7 @@ class ConversationObjectList extends Component {
     const conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, canCreateAgendaItem, canCreateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser);
 
     return (
-      <div className={styles.root}>
+      <div ref="root" className={styles.root}>
         <div ref="timelineHeaderContainer">
           <TimelineHeader parent={commentForm.parent} {...headerActions} />
         </div>

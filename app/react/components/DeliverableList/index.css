@@ -5,33 +5,31 @@
 }
 
 .header {
+  flex: 0;
+  display: flex;
+  flex-direction: row;
   padding: 0px 15px;
-  height: 45px;
   font-family: Gotham-Book;
   font-size : 15px;
   letter-spacing : 0.625px;
   text-transform : uppercase;
-  clear: both;
   line-height: 45px;
-}
-
-.header:after {
-  content: '';
-  clear: both;
-  visibility: hidden;
+  min-height: 45px;
 }
 
 .iconContainer {
   margin-top: 3px;
   margin-right: 10px;
-  float: left;
+  min-width: 18px;
+  flex: 0;
 }
 
 .titleContainer {
-  float: left;
+  flex: 1;
 }
 
 .list {
+  flex: 1;
   padding: 0px 10px 0px 0;
   overflow: auto;
 }
