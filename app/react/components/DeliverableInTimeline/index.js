@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 
+import SizungTime from '../SizungTime';
 import Time from 'react-time';
 import User from '../User/index';
 import DeliverableIcon from '../DeliverableIcon';
@@ -25,11 +26,11 @@ class DeliverableInTimeline extends React.Component {
   lastUpdatedTime = () => {
     const { archived, createdAt, updatedAt, archivedAt } = this.props.deliverable;
     if (archived) {
-      return (<span><span>Archived&nbsp;</span><Time value={archivedAt} titleFormat="YYYY/MM/DD HH:mm" relative /></span>);
+      return (<span><span>Archived&nbsp;</span><SizungTime value={archivedAt} /></span>);
     } else if (createdAt !== updatedAt) {
-      return (<span>Edited&nbsp;<Time value={updatedAt} titleFormat="YYYY/MM/DD HH:mm" relative /></span>);
+      return (<span>Edited&nbsp;<SizungTime value={updatedAt} /></span>);
     }
-    return <Time value={createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />;
+    return <SizungTime value={createdAt} />;
   };
 
   render() {

@@ -1,7 +1,5 @@
-// Plain components should not have any knowledge of where the data came from and how to change the the state.
-
 import React, { PropTypes } from 'react';
-import Time from 'react-time';
+import SizungTime from '../SizungTime';
 import User from './../User/index';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
@@ -64,9 +62,10 @@ class Comment extends React.Component {
   lastUpdatedTime = () => {
     const { createdAt, updatedAt } = this.props.comment;
     const lastUpdatedAt = (createdAt !== updatedAt ? updatedAt : createdAt);
+
     const editedIndicator = (createdAt !== updatedAt ? 'Edited ' : '');
     return (<div className={styles.timeContainer}>
-      <small>{editedIndicator}<Time value={lastUpdatedAt} titleFormat="YYYY/MM/DD HH:mm" relative /></small>
+      <small>{editedIndicator}<SizungTime value={lastUpdatedAt} /></small>
     </div>);
   };
 

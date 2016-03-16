@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import Time from 'react-time';
+import SizungTime from '../SizungTime';
 import User from '../User/index';
 import AgendaItemIcon from '../AgendaItemIcon';
 import styles from './index.css';
@@ -10,11 +10,11 @@ class AgendaItemInTimeline extends React.Component {
   lastUpdatedTime = () => {
     const { archived, createdAt, updatedAt, archivedAt } = this.props.agendaItem;
     if (archived) {
-      return (<span><span >Archived&nbsp;</span><Time value={archivedAt} titleFormat="YYYY/MM/DD HH:mm" relative /></span>);
+      return (<span><span >Archived&nbsp;</span><SizungTime value={archivedAt} /></span>);
     } else if (createdAt !== updatedAt) {
-      return (<span>Edited&nbsp;<Time value={updatedAt} titleFormat="YYYY/MM/DD HH:mm" relative /></span>);
+      return (<span>Edited&nbsp;<SizungTime value={updatedAt} /></span>);
     }
-    return <Time value={createdAt} titleFormat="YYYY/MM/DD HH:mm" relative />;
+    return <SizungTime value={createdAt} />;
   };
 
   render() {
