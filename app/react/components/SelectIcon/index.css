@@ -13,8 +13,20 @@
   background-image: url("/icons/select-icon-unselected.png");
 }
 
-.normal {
-  background-size: 2.688rem 2.688rem;
-  width: 2.688rem;
-  height: 2.688rem;
+@media only screen
+and (max-device-width: 1440px) {
+  .normal {
+    background-size: 30px 30px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media only screen
+and (min-device-width: 1441px) {
+  .normal {
+    background-size: 43px 43px;
+    width: 43px;
+    height: 43px;
+  }
 }
