@@ -78,7 +78,7 @@ class ConversationMembersEdit extends React.Component {
   };
 
   handleToggleView = () => {
-    this.props.toggleConversationMembersView(!this.props.conversationMembersViewVisible);
+    this.props.showConversationMembers(!this.props.conversationMembersViewVisible);
   };
 
   renderConversationMembersEdit = () => {
@@ -179,7 +179,7 @@ ConversationMembersEdit.propTypes = {
   deleteConversationMember: PropTypes.func.isRequired,
   currentConversation: PropTypes.object.isRequired,
   conversationMembersViewVisible: PropTypes.bool.isRequired,
-  toggleConversationMembersView: PropTypes.func,
+  showConversationMembers: PropTypes.func,
 };
 
 export default ConversationMembersEdit;

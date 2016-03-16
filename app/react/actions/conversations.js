@@ -4,6 +4,7 @@ import * as transform from '../utils/jsonApiUtils';
 import * as constants from './constants';
 import { setCurrentOrganization } from './organizations';
 import { setUnseenObjects } from './unseenObjects';
+import * as ConversationUiActions from './conversationUi';
 
 const setCurrentConversation = (conversation, included, json) => {
   const conversationMembers = json.data.relationships.conversation_members.data;
@@ -45,13 +46,6 @@ const updateConversationRemoteOrigin = (conversation) => {
   };
 };
 
-const setConversationMembersViewDefaultToggleStatus = () => {
-  return {
-    type: constants.TOGGLE_CONVERSATION_MEMBERS,
-    toggle: false,
-  };
-};
-
 const fetchConversation = (conversationId) => {
   return (dispatch) => {
     api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
@@ -62,7 +56,7 @@ const fetchConversation = (conversationId) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
       dispatch(setCurrentOrganization({ id: conversation.organizationId, type: 'organizations' }));
-      dispatch(setConversationMembersViewDefaultToggleStatus());
+      dispatch(ConversationUiActions.resetConversationUi());
     });
   };
 };

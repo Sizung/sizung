@@ -193,7 +193,7 @@ const agendaItemsList = (state, conversationId) => {
   return agendaItemsList;
 };
 
-const conversationMemberListVisible = (state, conversationId) => {
+const conversationMemberListVisible = (state) => {
   return state.getIn(['conversationUi', 'showConversationMembers']);
 };
 
