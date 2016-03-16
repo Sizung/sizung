@@ -41,9 +41,9 @@ class Deliverable extends React.Component {
 
   renderResolveAction = () => {
     return (
-      <div ref='statusContainer' className={styles.statusContainer} onClick={this.handleStatusUpdate}>
+      <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
         <span className={styles.actionIconContainer}>
-          <ResolveIcon size={'x-large'}/>
+          <ResolveIcon/>
         </span>
         <span>
           {'Mark as Done'}

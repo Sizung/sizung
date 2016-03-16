@@ -1,48 +1,23 @@
-.common {
+.default {
+  display: inline-block;
   background: no-repeat center;
-  padding: 5px 0px;
-}
-
-.normal {
-  composes: common;
   background-image: url("/icons/resolve-icon.png");
-  background-size: 15px 15px;
-  padding-left: 20px;
 }
 
-.inverted {
-  composes: common;
-  background-image: url("/icons/resolve-icon.png");
-  background-size: 15px 15px;
-  padding-left: 20px;
+@media only screen
+and (max-device-width: 1440px) {
+  .normal {
+    background-size: 20px 20px;
+    width: 20px;
+    height: 20px;
+  }
 }
 
-.small {
-  composes: normal;
-  background-size: 13px 13px;
-  padding-left: 18px;
-}
-
-.large {
-  composes: normal;
-  background-size: 17px 17px;
-  padding-left: 22px;
-}
-
-.x-large {
-  composes: normal;
-  background-size: 20px 20px;
-  padding-left: 25px;
-}
-
-.inverted-small {
-  composes: inverted small;
-}
-
-.inverted-large {
-  composes: inverted large;
-}
-
-.inverted-x-large {
-  composes: inverted x-large;
+@media only screen
+and (min-device-width: 1441px) {
+  .normal {
+    background-size: 32px 32px;
+    width: 32px;
+    height: 32px;
+  }
 }
