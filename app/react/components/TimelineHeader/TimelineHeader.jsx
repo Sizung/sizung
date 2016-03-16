@@ -4,6 +4,10 @@ import AgendaItemAsTimelineHeader from '../AgendaItemAsTimelineHeader/index';
 import DeliverableAsTimelineHeader from '../DeliverableAsTimelineHeader/index';
 
 class TimelineHeader extends React.Component {
+  static propTypes = {
+    parent: PropTypes.object.isRequired,
+  };
+
   render() {
     const { parent } = this.props;
     const parentType = parent.type;
@@ -20,9 +24,5 @@ class TimelineHeader extends React.Component {
     return <div />;
   }
 }
-
-TimelineHeader.propTypes = {
-  parent: PropTypes.object.isRequired,
-};
 
 export default TimelineHeader;
