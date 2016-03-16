@@ -1,27 +1,27 @@
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import styles from './index.css';
-import User from '../User/index';
+import SelectIcon from '../SelectIcon';
 
 class SelectableUser extends React.Component {
-  constructor() {
-    super();
-    this.handleSelect = this.handleSelect.bind(this);
-  }
 
-  handleSelect() {
+  handleSelect = () => {
     this.props.onUpdate(this.props.user.id);
-  }
+  };
+
+  userName = (user) => {
+    return ((user.firstName && user.lastName) ? (user.firstName + ' ' + user.lastName) : user.email);
+  };
 
   render() {
-    const { user, isSelected } = this.props;
+    const { user, selected } = this.props;
     return (
         <div onClick={this.handleSelect} className={styles.root}>
-          <div className={styles.status}>
-            <i className={isSelected ? styles.selected : styles.unselected}></i>
-          </div>
-          <div className={styles.userContainer}>
-            <User key={user.id} user={user} showName showEmail />
-          </div>
+          <span className={styles.status}>
+            <SelectIcon selected={selected}/>
+          </span>
+          <span className={styles.userContainer} title={user.email}>
+            { this.userName(user) }
+          </span>
         </div>
     );
   }
@@ -34,7 +34,7 @@ SelectableUser.propTypes = {
     lastName: PropTypes.string,
     presenceStatus: PropTypes.string.isRequired,
   }).isRequired,
-  isSelected: PropTypes.bool.isRequired,
+  selected: PropTypes.bool.isRequired,
   onUpdate: PropTypes.func.isRequired,
 };
 

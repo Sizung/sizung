@@ -1,37 +1,26 @@
 .root {
-  padding: 10px;
-  padding-bottom: 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   cursor: pointer;
-  border-bottom: 1px dashed #eeeeee;
-}
-
-.root:last-child {
-  border-bottom: 0;
 }
 
 .root:hover {
   background-color: #dddddd;
 }
-
-.selected {
-  composes: fa fa-check fa-lg from global;
-  color : #89949E;
-}
-
-.unselected {
-
-}
-
 .userContainer {
-  padding: 0;
-  display: inline-block;
-  margin: 5px 5px 0 0;
-  overflow: auto;
-  width: 350px;
+  order: 2;
+  max-height: 4rem;
+  font-family: Gotham-Book;
+  font-size: 1.375rem;
+  line-height: 1.875rem;
+  color: #616B72;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .status {
-  display: inline-block;
-  width: 40px;
-  vertical-align: top;
+  order: 1;
+  margin-right: 10px;
 }
