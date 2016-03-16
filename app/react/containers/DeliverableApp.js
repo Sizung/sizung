@@ -63,7 +63,7 @@ function nextPageUrl(state, props) {
 function mapStateToProps(state, props) {
   const deliverable = fillDeliverable(state, props.params.deliverableId);
   const agendaItem = deliverable ? deliverable.agendaItem : null;
-
+  const conversationMembersViewVisible = selectors.conversationMemberListVisible(state);
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
@@ -79,6 +79,7 @@ function mapStateToProps(state, props) {
     currentConversationId: agendaItem ? agendaItem.conversationId : null,
     currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
+    conversationMembersViewVisible,
   };
 }
 
