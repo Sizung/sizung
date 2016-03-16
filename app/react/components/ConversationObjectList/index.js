@@ -6,6 +6,7 @@ import DeliverableInTimeline from './../DeliverableInTimeline';
 import styles from './index.css';
 import TimelineHeader from '../TimelineHeader/index';
 import ConversationHeader from '../ConversationHeader';
+import ConversationMembersEditApp from '../../containers/ConversationMembersEditApp';
 
 class ConversationObjectList extends Component {
   constructor() {
@@ -148,13 +149,25 @@ class ConversationObjectList extends Component {
   render() {
     const { createComment, createAgendaItem, createDeliverable, commentForm } = this.props;
 
+    if (this.props.conversationMembersViewVisible) {
+      return (
+          <div className={styles.listContainer}>
+            <ConversationMembersEditApp conversationMembersViewVisible={this.props.conversationMembersViewVisible}/>
+          </div>
+      );
+    }
+
     return (
-      <div className={styles.listContainer}>
-        <ConversationHeader conversation={this.props.currentConversation} updateConversation={this.props.updateConversation} parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type} />
-        {this.renderConversationTimeLine()}
-        <CommentForm createComment={createComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable} {...commentForm} />
-      </div>
+        <div className={styles.listContainer}>
+          <ConversationHeader conversation={this.props.currentConversation}
+                              updateConversation={this.props.updateConversation}
+                              parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}/>
+          {this.renderConversationTimeLine()}
+          <CommentForm createComment={createComment} createAgendaItem={createAgendaItem}
+                       createDeliverable={createDeliverable} {...commentForm} />
+        </div>
     );
+
   }
 }
 

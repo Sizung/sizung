@@ -4,14 +4,14 @@ import SelectableUser from './../SelectableUser';
 import styles from './ConversationMembersEdit.css';
 import Immutable from 'immutable';
 import UserIcon from '../UserIcon';
+import CloseIcon from '../CloseIcon';
 
-class ConversationMemberList extends React.Component {
+class ConversationMembersEdit extends React.Component {
   constructor() {
     super();
 
     this.state = {
       filter: '',
-      isOpen: false,
     };
   }
 
@@ -78,10 +78,10 @@ class ConversationMemberList extends React.Component {
   };
 
   handleToggleView = () => {
-    this.setState({ isOpen: !this.state.isOpen });
+    this.props.toggleConversationMembersView(!this.props.conversationMembersViewVisible);
   };
 
-  renderConversationMemberList = () => {
+  renderConversationMembersEdit = () => {
     if (this.props.conversationMembers) {
       let conversationMembersAsUsers = new Immutable.List();
       this.props.conversationMembers.toList().map((user) => {
@@ -125,9 +125,11 @@ class ConversationMemberList extends React.Component {
             const existingMember = this.props.conversationMembers.find((member) => {
               return (member.memberId === user.id);
             });
-            const isSelected = (existingMember ? true : false);
+            const selected = (existingMember ? true : false);
             return (
-                <SelectableUser key={user.id} user={user} isSelected={isSelected} onUpdate={this.triggerUpdate} />
+                <div className={styles.organizationMember}>
+                  <SelectableUser key={user.id} user={user} selected={selected} onUpdate={this.triggerUpdate} />
+                </div>
             );
           }, this));
     }
@@ -135,43 +137,49 @@ class ConversationMemberList extends React.Component {
   };
 
   render() {
-    return (
-        <div className={styles.rootContainer}>
+    if (this.props.conversationMembersViewVisible) {
+      return (
           <div className={styles.root}>
             <div className={styles.fullWidthContainer}>
-              <div className={styles.conversationMemberTitle}>
-                <h4>Conversation Members</h4>
-              </div>
-              <a className={styles.closeButton} onClick={this.handleToggleView}><span aria-hidden="true">&times;</span></a>
+              <span className={styles.conversationMemberTitle}>
+                {'#' + this.props.currentConversation.get('title') + ' - Members'}
+              </span>
+              <span className={styles.closeButton} onClick={this.handleToggleView}><CloseIcon type={'transparent'}/></span>
             </div>
             <div className={styles.conversationMemberList}>
-              {this.renderConversationMemberList()}
+              {this.renderConversationMembersEdit()}
             </div>
             <div className={styles.fullWidthContainer}>
               <div className={styles.organizationMemberTitle}>
-                <h4>Organization Members</h4>
+                {'Organization Members'}
               </div>
               <form>
                 <div className={styles.inputContainer}>
                   <input ref="memberFilter" type="text" className={styles.input} id="memberName"
-                    placeholder="Filter by name, email" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange}
-                  />
+                         placeholder="Search" onKeyDown={this.handleKeyDown}
+                         onChange={this.handleFilterChange}
+                      />
                 </div>
               </form>
-              {this.renderOrganizationMemberList()}
+              <div className={styles.organizationMembersContainer}>
+                {this.renderOrganizationMemberList()}
+              </div>
             </div>
           </div>
-        </div>
-    );
+      );
+    }
+    return false;
   };
 }
 
-ConversationMemberList.propTypes = {
+ConversationMembersEdit.propTypes = {
   organizationMembers: PropTypes.object,
   conversationMembers: PropTypes.object,
   createConversationMember: PropTypes.func.isRequired,
   deleteConversationMember: PropTypes.func.isRequired,
   currentConversation: PropTypes.object.isRequired,
+  conversationMembersViewVisible: PropTypes.bool.isRequired,
+  toggleConversationMembersView: PropTypes.func,
 };
 
-export default ConversationMemberList;
+export default ConversationMembersEdit;

@@ -193,6 +193,10 @@ const agendaItemsList = (state, conversationId) => {
   return agendaItemsList;
 };
 
+const conversationMemberListVisible = (state, conversationId) => {
+  return state.getIn(['conversationUi', 'showConversationMembers']);
+};
+
 export {
   user,
   users,
@@ -212,4 +216,5 @@ export {
   conversationsForOrganization,
   organization,
   conversation,
+  conversationMemberListVisible,
 };

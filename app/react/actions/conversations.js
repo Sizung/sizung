@@ -45,6 +45,13 @@ const updateConversationRemoteOrigin = (conversation) => {
   };
 };
 
+const setConversationMembersViewDefaultToggleStatus = () => {
+  return {
+    type: constants.TOGGLE_CONVERSATION_MEMBERS,
+    toggle: false,
+  };
+};
+
 const fetchConversation = (conversationId) => {
   return (dispatch) => {
     api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
@@ -55,6 +62,7 @@ const fetchConversation = (conversationId) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
       dispatch(setCurrentOrganization({ id: conversation.organizationId, type: 'organizations' }));
+      dispatch(setConversationMembersViewDefaultToggleStatus());
     });
   };
 };

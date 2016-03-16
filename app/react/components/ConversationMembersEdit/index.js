@@ -1,2 +1,2 @@
-import ConversationMemberList from './ConversationMembersEdit';
-export default ConversationMemberList;
+import ConversationMembersEdit from './ConversationMembersEdit';
+export default ConversationMembersEdit;

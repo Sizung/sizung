@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import styles from './ConversationHeader.css';
-import ConversationMemberListApp from '../../containers/ConversationMemberListApp';
+import ConversationMembersCounterApp from '../../containers/ConversationMembersCounterApp';
 import EditableText from '../EditableText';
 
 class ConversationHeader extends React.Component {
@@ -12,6 +12,7 @@ class ConversationHeader extends React.Component {
       organizationId: PropTypes.string.isRequired,
     }),
     updateConversation: PropTypes.func.isRequired,
+    conversationMembersViewVisible: PropTypes.bool.isRequired,
   }
 
   handleTitleUpdate = (newTitle) => {
@@ -37,7 +38,7 @@ class ConversationHeader extends React.Component {
           { this.renderTitle() }
         </div>
         <div className={styles.conversationMemberContainer}>
-          <ConversationMemberListApp />
+          <ConversationMembersCounterApp conversationMembersViewVisible={this.props.conversationMembersViewVisible}/>
         </div>
         <Link to={closeUrl} title="Close Conversation" className={styles.closeContainer}>
           <div className={styles.close}></div>
