@@ -54,7 +54,7 @@ and (-webkit-min-device-pixel-ratio: 1) {
 
 .unseen {
   composes: default;
-  border: 0.0063em solid #415764;
+  border: 1px solid #415764;
   background-color: transparent;
   color : #ffffff;
 }
@@ -66,7 +66,7 @@ and (-webkit-min-device-pixel-ratio: 1) {
 
 .selected {
   composes: default;
-  border: 0.0063em solid #38ACD4;
+  border: 1px solid #38ACD4;
   background-color: #38ACD4;
   color : #ffffff;
 }

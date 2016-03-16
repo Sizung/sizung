@@ -35,22 +35,30 @@
   border-color: #130F22;
 }
 
-.normal {
-  width: 15px;
-  height: 15px;
+@media only screen
+and (max-device-width: 1440px) {
+  .normal {
+    width: 13px;
+    height: 13px;
+  }
+
+  .large {
+    width: 20px;
+    height: 20px;
+  }
+
 }
 
-.large {
-  width: 18px;
-  height: 18px;
+@media only screen
+and (min-device-width: 1441px) {
+  .normal {
+    width: 21px;
+    height: 21px;
+  }
+
+  .large {
+    width: 31px;
+    height: 31px;
+  }
 }
 
-.xLarge {
-  width: 34px;
-  height: 34px;
-}
-
-.small {
-  width: 12px;
-  height: 12px;
-}
