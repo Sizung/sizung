@@ -161,7 +161,8 @@ class ConversationObjectList extends Component {
         <div className={styles.listContainer}>
           <ConversationHeader conversation={this.props.currentConversation}
                               updateConversation={this.props.updateConversation}
-                              parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}/>
+                              parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}
+                              conversationMembersViewVisible={this.props.conversationMembersViewVisible}/>
           {this.renderConversationTimeLine()}
           <CommentForm createComment={createComment} createAgendaItem={createAgendaItem}
                        createDeliverable={createDeliverable} {...commentForm} />
