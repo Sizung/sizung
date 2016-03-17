@@ -5,28 +5,23 @@
 }
 
 .header {
-  flex: 0;
   display: flex;
   flex-direction: row;
+  align-items: center;
   padding: 0px 15px;
+  min-height: 6.438rem;
+}
+
+
+.iconContainer {
+  margin-right: 20px;
+}
+
+.titleContainer {
   font-family: Gotham-Book;
   font-size : 1.688rem;
   letter-spacing : 0.084rem;
   text-transform : uppercase;
-  line-height: 5.625rem;
-  min-height: 6.438rem;
-  align-items: center;
-}
-
-.iconContainer {
-  margin-left: 4px;
-  margin-right: 20px;
-  min-width: 9px;
-  flex: 0;
-}
-
-.titleContainer {
-  flex: 1;
 }
 
 .list {

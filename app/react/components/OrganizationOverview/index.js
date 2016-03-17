@@ -54,12 +54,14 @@ class OrganizationOverview extends Component {
         >
           <div styleName='center-panel'>
             <div styleName="header-container">
-               <span styleName="action" className="pull-right">
-                  <a href={'/organizations/' + organization.id + '/conversations/new'}>
-                    <PlusIcon/>
-                  </a>
-                </span>
+              <div styleName='title'>
                 <ChatIcon inverted={true} style={{ marginRight: '20px' }} size={'large'}/>CONVERSATIONS
+              </div>
+              <div styleName="action">
+                <a href={'/organizations/' + organization.id + '/conversations/new'}>
+                  <PlusIcon/>
+                </a>
+              </div>
             </div>
             <div styleName='center-panel-list'>
               { this.conversationElements(conversations) }

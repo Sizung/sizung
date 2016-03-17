@@ -14,7 +14,8 @@
 
 .header-container {
   composes: hover-container from '../../styles/modules/hover.css';
-  flex: 0;
+  width: 100%;
+  flex: 1;
   display: flex;
   flex-direction: row;
   padding: 0px 15px;
@@ -22,12 +23,17 @@
   font-size : 1.688rem;
   letter-spacing : 0.084rem;
   text-transform : uppercase;
-  line-height: 5.625rem;
   min-height: 6.438rem;
   align-items: center;
-
 }
 
+.title {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
 .action {
   composes: hover-inline from '../../styles/modules/hover.css';
+  /*display: flex;*/
+  justify-content: flex-end;
 }
