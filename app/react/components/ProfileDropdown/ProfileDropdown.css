@@ -9,11 +9,11 @@
   z-index: 10;
   position: relative;
   display: inline-block;
-  background-color: #3d5863;
   width: 31rem;
   padding-top: 1.5rem;
   padding-left: 3rem;
   padding-right: 3rem;
+  background-color: #3d5863;
   font-size: 1.5rem;
 }
 
@@ -66,13 +66,13 @@ and (min-width: 1441px) {
 }
 
 .header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   padding-bottom: 1.625rem;
   border-bottom: 1px solid silver;
   margin-bottom: 1.5rem;
   cursor: pointer;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
 }
 
 .menu {
@@ -92,10 +92,10 @@ and (min-width: 1441px) {
 
 .name {
   display: inline-block;
-  color: white;
   margin-left: 1.5rem;
   width: 19.375rem;
   justify-content: flex-start;
+  color: white;
 }
 
 .rootShow {
@@ -107,13 +107,13 @@ and (min-width: 1441px) {
 
 .round {
   composes: roundSize;
-  background-color: white;
+  justify-content: flex-start;
   display: inline-block;
   border-radius: 50%/50%;
   border: 1px solid black;
+  background-color: white;
   text-align: center;
   font-weight: bold;
   font-size: 2rem;
   color: #130F22;
-  justify-content: flex-start;
 }
