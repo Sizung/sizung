@@ -59,7 +59,7 @@ class OrganizationOverview extends Component {
                     <PlusIcon/>
                   </a>
                 </span>
-                <ChatIcon inverted={true} style={{ marginRight: '10px' }} size={'large'}/>CONVERSATIONS
+                <ChatIcon inverted={true} style={{ marginRight: '20px' }} size={'large'}/>CONVERSATIONS
             </div>
             <div styleName='center-panel-list'>
               { this.conversationElements(conversations) }

@@ -10,16 +10,17 @@
   flex-direction: row;
   padding: 0px 15px;
   font-family: Gotham-Book;
-  font-size : 15px;
-  letter-spacing : 0.625px;
+  font-size : 1.688rem;
+  letter-spacing : 0.084rem;
   text-transform : uppercase;
-  line-height: 45px;
-  min-height: 45px;
+  line-height: 5.625rem;
+  min-height: 6.438rem;
+  align-items: center;
 }
 
 .iconContainer {
   margin-left: 4px;
-  margin-right: 18px;
+  margin-right: 20px;
   min-width: 9px;
   flex: 0;
 }
