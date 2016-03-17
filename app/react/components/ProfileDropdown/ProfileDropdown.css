@@ -10,27 +10,55 @@
   position: relative;
   display: inline-block;
   background-color: #3d5863;
-  width: 500px;
-  padding-top: 24px;
-  padding-left: 48px;
-  padding-right: 48px;
+  width: 31rem;
+  padding-top: 1.5rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  font-size: 1.5rem;
+}
 
-  font-size: 24px;
+@media only screen
+and (max-width: 1440px) {
+  .roundSize {
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+  }
+
+  .caretSize {
+    width: 9px;
+    height: 6px;
+    background-size: 9px 6px;
+  }
+}
+
+@media only screen
+and (min-width: 1441px) {
+  .roundSize {
+    width: 54px;
+    height: 54px;
+    line-height: 54px;
+  }
+
+  .caretSize {
+    width: 13px;
+    height: 8px;
+    background-size: 13px 8px;
+  }
 }
 
 .caretOpen {
+  composes: caretSize;
   display: inline-block;
-  background-image: url("/icons/caret_open.png");
-  width: 13px;
-  height: 8px;
+  background: url("/icons/caret_open.png") no-repeat center;
+  justify-content: flex-end;
 }
 
 .caretClosed {
+  composes: caretSize;
   display: inline-block;
-  background-image: url("/icons/caret_closed.png");
-  width: 13px;
-  height: 8px;
-  margin-left: 20px;
+  background: url("/icons/caret_closed.png") no-repeat center;
+  margin-left: 1.25rem;
 }
 
 .hoverContainer:hover .rootShow {
@@ -38,19 +66,22 @@
 }
 
 .header {
-  padding-bottom: 26px;
+  padding-bottom: 1.625rem;
   border-bottom: 1px solid silver;
-  margin-bottom: 24px;
+  margin-bottom: 1.5rem;
   cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .menu {
-  padding-bottom: 24px;
+  padding-bottom: 1.5rem;
 }
 
 .menu a {
   display: block;
-  line-height: 72px;
+  line-height: 4.5rem;
   color: white;
   cursor: pointer;
 }
@@ -62,27 +93,27 @@
 .name {
   display: inline-block;
   color: white;
-  margin-left: 24px;
-  width: 310px;
+  margin-left: 1.5rem;
+  width: 19.375rem;
+  justify-content: flex-start;
 }
 
 .rootShow {
   display: inline-block;
-  padding-top: 24px;
-  padding-right: 48px;
+  padding-top: 1.5rem;
+  padding-right: 3rem;
   cursor: pointer;
 }
 
 .round {
+  composes: roundSize;
   background-color: white;
   display: inline-block;
-  width: 54px;
-  height: 54px;
   border-radius: 50%/50%;
   border: 1px solid black;
   text-align: center;
-  padding-top: 10px;
   font-weight: bold;
-  font-size: 24px;
+  font-size: 2rem;
   color: #130F22;
+  justify-content: flex-start;
 }
