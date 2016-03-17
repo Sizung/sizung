@@ -1,7 +1,7 @@
 .unseen {
   position: relative;
   width: 100%;
-  min-height: 11.25rem;
+  height: 11.25rem;
   padding: 30px;
   margin: 0 0 5px 0;
   background-color: #ffffff;
@@ -17,7 +17,7 @@
 .actions {
   composes: hover-inline from '../../styles/modules/hover.css';
   color: #89949E;
-  font-size: 1.3rem;
+  font-size: 1.5rem;
 }
 
 .action {
