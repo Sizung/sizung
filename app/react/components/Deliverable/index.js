@@ -1,10 +1,8 @@
-// Plain components should not have any knowledge of where the data came from and how to change the the state.
-
-import React, { Component, PropTypes } from 'react';
+import React, { PropTypes } from 'react';
 import styles from './index.css';
-import User from '../User/index';
 import EditableText from '../EditableText';
 import EditableDate from '../EditableDate';
+import EditableUserApp from '../../containers/EditableUserApp';
 import AgendaItemIcon from '../AgendaItemIcon';
 import TextWithMentions from '../TextWithMentions';
 import DeliverableIcon from '../DeliverableIcon';
@@ -29,8 +27,14 @@ class Deliverable extends React.Component {
 
 
   handleDueOnUpdate = (newDueOn) => {
-    if ( newDueOn !== this.props.deliverable.dueOn ) {
-      this.props.updateDeliverable(this.props.deliverable.id, {due_on: newDueOn, status: 'open'});
+    if (newDueOn !== this.props.deliverable.dueOn) {
+      this.props.updateDeliverable(this.props.deliverable.id, { due_on: newDueOn, status: 'open' });
+    }
+  };
+
+  handleAssigneeUpdate = (assigneeId) => {
+    if (assigneeId !== this.props.deliverable.assigneeId) {
+      this.props.updateDeliverable(this.props.deliverable.id, { assignee_id: assigneeId });
     }
   };
 
@@ -39,11 +43,35 @@ class Deliverable extends React.Component {
     this.props.archiveDeliverable(this.props.deliverable.id);
   };
 
+  agendaItemTitle = () => {
+    const { selected, deliverable } = this.props;
+    return (
+      <div className={styles.contextTitleContainer}>
+      <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }} />
+      <TextWithMentions maxLength={40}>{ deliverable.agendaItem.title }</TextWithMentions>
+      </div>
+    );
+  };
+
+  dueDateStatus = () => {
+    const { status, dueOn } = this.props.deliverable;
+    if (status === 'resolved') {
+      return 'completed';
+    } else if (dueOn) {
+      const dueDateDiffInHrs = Math.floor(((new Date(dueOn)).setHours(0,0,0,0) - (new Date()).setHours(0, 0, 0, 0)) / (1000 * 60 * 60));
+      if (dueDateDiffInHrs < 0) {
+        return 'overdue';
+      } else if (dueDateDiffInHrs >= 0 && dueDateDiffInHrs <= 24) {
+        return 'dueToday';
+      }
+    }
+  };
+
   renderResolveAction = () => {
     return (
       <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
         <span className={styles.actionIconContainer}>
-          <ResolveIcon/>
+          <ResolveIcon />
         </span>
         <span>
           {'Mark as Done'}
@@ -56,7 +84,7 @@ class Deliverable extends React.Component {
     return (
       <div className={styles.archiveContainer} onClick={this.handleArchive}>
         <span className={styles.actionIconContainer}>
-          <ArchiveIcon size={'x-large'}/>
+          <ArchiveIcon size={'x-large'} />
         </span>
         <span>
           {'Archive'}
@@ -77,33 +105,9 @@ class Deliverable extends React.Component {
     return null;
   };
 
-  agendaItemTitle = () => {
-    const { conversationContext, selected, deliverable } = this.props;
-    return (
-        <div className={styles.contextTitleContainer}>
-          <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }}/>
-          <TextWithMentions maxLength={40}>{ deliverable.agendaItem.title }</TextWithMentions>
-        </div>
-    );
-  };
-
-  dueDateStatus = () => {
-    const { status, dueOn } = this.props.deliverable;
-    if (status === 'resolved') {
-      return 'completed';
-    } else if (dueOn) {
-      const dueDateDiffInHrs = Math.floor(((new Date(dueOn)).setHours(0,0,0,0) - (new Date()).setHours(0, 0, 0, 0)) / (1000 * 60 * 60));
-      if (dueDateDiffInHrs < 0) {
-        return 'overdue';
-      } else if (dueDateDiffInHrs >= 0 && dueDateDiffInHrs <= 24) {
-        return 'dueToday';
-      }
-    }
-  };
-
   render() {
     const { deliverable, selected } = this.props;
-    const { status, title, assignee, dueOn, unseenCount, archived } = deliverable;
+    const { title, assignee, dueOn, unseenCount, archived } = deliverable;
     const deliverableIconStatus = this.dueDateStatus();
     let styleName = styles.seen;
 
@@ -117,10 +121,10 @@ class Deliverable extends React.Component {
       <div className={styleName} onClick={this.handleClick}>
         <div className={styles.titleContainer} title={title}>
           <div className={styles.deliverableIconContainer}>
-            <DeliverableIcon status={deliverableIconStatus} size={'small'}/>
+            <DeliverableIcon status={deliverableIconStatus} size={'small'} />
           </div>
           <div className={styles.title}>
-            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted maxLength={40}/>
+            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted maxLength={40} />
           </div>
         </div>
         <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}>
@@ -128,7 +132,7 @@ class Deliverable extends React.Component {
         </div>
         <div className={styles.bottomRow}>
           <div className={styles.assignee}>
-            <User user={assignee} />
+            <EditableUserApp conversationId={deliverable.agendaItem.conversationId} editable userId={assignee.id} onUpdate={this.handleAssigneeUpdate}/>
           </div>
           { selected ? this.renderActions() : this.agendaItemTitle() }
         </div>
