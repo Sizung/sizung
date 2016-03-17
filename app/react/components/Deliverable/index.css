@@ -52,75 +52,58 @@
 }
 
 .title {
-  /*margin-left: 40px;*/
   overflow: hidden;
-  max-height: 3em;
+  max-height: 4.5rem;
   font-size: 1.5rem;
   font-family: Gotham-Book;
 }
 
-.archiveContainer {
-  float: left;
-  font-family: Gotham-Medium;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.statusContainer {
-  float: left;
-  font-family: Gotham-Medium;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .actionIconContainer {
+  display: flex;
+  flex: none;
   margin-right: 10px;
-  flex: 1;
 }
 
 .actionContainer {
-  overflow: hidden;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
   margin-left: 35px;
+  overflow: hidden;
   font-size: 1.438rem;
-  line-height: 2rem;
-  height: 3rem;
+  font-family: Gotham-Medium;
+  cursor: pointer;
 }
 
 .contextTitleContainer {
-  overflow: hidden;
-  margin-left: 30px;
-  line-height: 2.7rem;
+  margin-left: 35px;
   height: 2.7rem;
+  overflow: hidden;
+  line-height: 2.7rem;
   font-family: Gotham-Light;
   font-size: 1.563rem;
   color: #8C969f;
 }
 
 .bottomRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   height: 2em;
   margin-top: 2em;
   padding: 0px 20px;
   margin-bottom: 1.87em;
-  width: 100%;
-}
-
-.bottomRow:after {
-  content: '';
-  clear: both;
-  visibility: hidden;
 }
 
 .dueDateContainer {
+  max-width: 15ch;
   padding: 5px;
   margin-top: 2em;
   margin-left: 55px;
   background-color: #334752;
   z-index: 2;
-  width: 15ch;
 }
 
 .dueDateOverdueContainer {
@@ -129,7 +112,7 @@
 }
 
 .assignee {
-  float: right;
+  justify-content: flex-end;
 }
 
 .dueDateContainer input,

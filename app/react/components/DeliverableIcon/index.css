@@ -36,7 +36,7 @@
 }
 
 @media only screen
-and (max-device-width: 1440px) {
+and (max-width: 1440px) {
   .normal {
     width: 13px;
     height: 13px;
@@ -50,7 +50,7 @@ and (max-device-width: 1440px) {
 }
 
 @media only screen
-and (min-device-width: 1441px) {
+and (min-width: 1441px) {
   .normal {
     width: 21px;
     height: 21px;

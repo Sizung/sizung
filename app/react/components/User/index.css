@@ -37,7 +37,7 @@
 }
 
 @media only screen
-and (max-device-width: 1440px) {
+and (max-width: 1440px) {
   .user-title-normal {
     composes: user-title;
     height: 27px;
@@ -83,7 +83,7 @@ and (max-device-width: 1440px) {
 }
 
 @media only screen
-and (min-device-width: 1441px) {
+and (min-width: 1441px) {
   .user-title-normal {
     composes: user-title;
     height: 43px;
