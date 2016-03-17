@@ -32,15 +32,15 @@
 }
 
 .leftStrip {
-  width: 0.768rem;
-  height: 100%;
   float: left;
+  width: 0.768em;
+  min-height: 10.688rem;
   background-color: #88d3df;
 }
 
 .selected .leftStrip {
   background: none;
-  border-left: 0.768rem solid #38ACD4;
+  border-left: 0.768em solid #38ACD4;
 }
 
 .contentContainer {
@@ -67,7 +67,7 @@
   composes: hover-container from '../../styles/modules/hover.css';
   display: flex;
   align-items: flex-start;
-  padding: 5px 10px;
+  padding: 5px 8px;
   margin: 10px 10px 10px 5px;
 }
 
