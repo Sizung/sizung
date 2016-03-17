@@ -9,11 +9,6 @@ class AgendaItemList extends Component {
     visitAgendaItem: PropTypes.func.isRequired,
   };
 
-  constructor() {
-    super();
-    this.agendaItemListSize =  0;
-  }
-
   componentDidMount() {
     this.refs.agendaItemList.scrollTop = 0;
   }
@@ -41,7 +36,7 @@ class AgendaItemList extends Component {
       <div className={styles.root}>
         <div className={styles.header}>
           <div className={styles.iconContainer}>
-            <AgendaItemIcon inverted size={'large'} />
+           <AgendaItemIcon inverted size={'large'} />
           </div>
           <div className={styles.titleContainer}>
             AGENDAS

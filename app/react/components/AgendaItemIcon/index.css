@@ -1,55 +1,79 @@
 .common {
-  background: no-repeat center;
-  padding: 5px 0px;
+  display: inline-block;
+  background: no-repeat center;  
 }
 
-.normal {
+.gray {
   composes: common;
   background-image: url("/icons/agenda-item-icon-gray.png");
-  background-size: 3px 15px;
-  padding-left: 8px;
 }
 
-.inverted {
+.white {
   composes: common;
   background-image: url("/icons/agenda-item-icon-white.png");
-  background-size: 3px 15px;
-  padding-left: 8px;
 }
 
-.small {
-  composes: normal;
-  background-size: 3px 13px;
-  padding-left: 8px;
+@media only screen
+and (max-width: 1440px) {
+  .small {
+    composes: common;
+    background-size: 3px 13px;
+    min-width: 3px;
+    min-height: 13px;
+  }
+
+  .normal {
+    composes: common;
+    background-size: 3px 15px;
+    min-width: 3px;
+    min-height: 15px;
+  }
+
+  .large {
+    composes: common;
+    background-size: 4px 17px;
+    min-width: 4px;
+    min-height: 17px;
+  }
+  
+  .xLarge {
+    composes: common;
+    background-size: 5px 28px;
+    min-width: 5px;
+    min-height: 28px;
+    // background-image: url("/icons/agenda-item-icon-gray-xLarge.png");
+  }
 }
 
-.large {
-  composes: normal;
-  background-size: 4px 17px;
-  padding-left: 9px;
-  height: 17px;
+@media only screen
+and (min-width: 1441px) {
+  .small {
+    composes: common;
+    background-size: 4px 16px;
+    min-width: 4px;
+    min-height: 16px;
+  }
+  
+  .normal {
+    composes: common;
+    background-size: 4px 18px;
+    min-width: 4px;
+    min-height: 18px;
+  }
+  
+  .large {
+    composes: common;
+    background-size: 6px 24px;
+    min-width: 6px;
+    min-height: 24px;
+  }
+
+  .xLarge {
+    composes: common;
+    background-size: 8px 30px;
+    min-width: 8px;
+    min-height: 30px;
+    // background-image: url("/icons/agenda-item-icon-gray-xLarge.png");
+  }
 }
 
-.x-large {
-  composes: normal;
-  background-size: 5px 20px;
-  padding-left: 8px;
-}
-
-.xLarge {
-  composes: normal;
-  background-image: url("/icons/agenda-item-icon-gray-xLarge.png");
-  background-size: 5px 28px;
-}
-
-.inverted-small {
-  composes: inverted small;
-}
-
-.inverted-large {
-  composes: inverted large;
-}
-
-.inverted-x-large {
-  composes: inverted x-large;
-}
