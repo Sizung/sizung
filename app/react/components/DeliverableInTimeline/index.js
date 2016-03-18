@@ -33,6 +33,19 @@ class DeliverableInTimeline extends React.Component {
     return <SizungTime value={createdAt} />;
   };
 
+  dueOn = () => {
+    if (this.props.deliverable.dueOn) {
+      return (
+        <div className={styles.dueOnWrapper}>
+          <div className={styles.dueOnLabel}>{'DUE ON'}</div>
+          <div className={styles.dueDateContainer}>
+            <Time value={this.props.deliverable.dueOn} format="DD MMM - YYYY" />
+          </div>
+        </div>
+      );
+    }
+  };
+
   render() {
     const { deliverable, showOwner } = this.props;
     const { owner, dueOn } = deliverable;
@@ -46,14 +59,25 @@ class DeliverableInTimeline extends React.Component {
           <div className={styles.content}>
             <div className={styles.deliverableLabel}>DELIVERABLE created</div>
             <Link to={'deliverables/' + deliverable.id} className={styles.title}>
-              <div className={styles.deliverableIconContainer}><DeliverableIcon /></div>
-              <TextWithMentions>{deliverable.title}</TextWithMentions>
-              { dueOn ? <small>{'Due on '}<Time value={dueOn} format="DD MMM - YYYY" /></small> : ''}
+              <div className={styles.row}>
+                <div className={styles.deliverableIconContainer}>
+                  <DeliverableIcon inverted size={'small'}/>
+                </div>
+                <div className={styles.textContainer}>
+                  <TextWithMentions>{deliverable.title}</TextWithMentions>
+                </div>
+              </div>
+              <div className={styles.properties}>
+                <div style={{flex: 'none'}}>
+                  <User user={deliverable.assignee}/>
+                </div>
+                {this.dueOn()}
+              </div>
             </Link>
           </div>
-          <small>
+          <div className={styles.timeContainer}>
             {this.lastUpdatedTime()}
-          </small>
+          </div>
         </div>
       </div>
     );

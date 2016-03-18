@@ -1,16 +1,16 @@
 .root {
+  display: flex;
+  flex-direction: row;
   padding: 20px 0px;
-  padding-left: 10px;
   color : #89949E;
 }
 
 .userContainer {
-  display: table-cell;
-  min-width: 60px;
-  max-width: 60px;
-  width: 60px;
-  padding: 0px 15px;
-  vertical-align: top;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: 6.563rem;
 }
 
 .root:hover{
@@ -20,14 +20,14 @@
 .contentWrapper {
   display: table-cell;
   width: 100%;
-  padding-left: 20px;
   padding-right: 50px;
 }
 
 .content {
   display: block;
   width: 100%;
-  padding-right: 20px;
+  padding-top: 5px;
+  padding-right: 10px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -40,24 +40,35 @@
   hyphens: auto;
 }
 
+.content a {
+  text-decoration: none;
+}
+
 .userName {
   font-weight: 600;
 }
 
 .deliverableLabel {
-  font-weight: 600;
+  font-family: Gotham-Book;
+  font-size : 1.375rem;
+  line-height : 1.875rem;
+  letter-spacing : 0.014rem;
+  color : #616C73;
 }
 
 .title {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
-  color: #57C1E8;
-  font-weight: 600;
+  color: #130F22;
+  font-family: Gotham-Book;
+  font-size: 1.5rem;
   text-decoration: none;
   cursor: pointer;
   border: 1px solid #E6E3E2;
-  padding: 1.3rem 10px;
-  margin: 1.5rem 0;
+  min-height: 4.563rem;
+  margin-top: 1.875rem;
+  /*padding-top: 1.563rem;*/
 }
 
 .title:hover {
@@ -65,6 +76,59 @@
 }
 
 .deliverableIconContainer {
-  display: inline-block;
-  padding: 0px 10px;
+  flex: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 4.563rem;
+}
+
+.timeContainer {
+  font-family: Gotham-Book;
+  font-size: 1rem;
+  line-height : 4rem;
+  color : #8C9295;
+}
+.dueOnLabel {
+  font-family: Gotham-Book;
+  font-size: 1.063rem;
+  color: #616C73;
+  padding: 0px 20px;
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 4.563rem;
+}
+
+.properties {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 4.563rem;
+  padding-bottom: 20px;
+}
+
+.textContainer {
+  padding: 10px 0;
+}
+
+.dueOnWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.dueDateContainer {
+  max-width: 15ch;
+  padding: 5px 10px;
+  background-color: #ECEFF0;
+  color: #616C73;
+  font-family: Gotham-Book;
+  font-size: 1.25rem;
 }
