@@ -16,7 +16,7 @@
   composes: row;
   align-items: center;
   flex: 1;
-  color: black;
+  color: #415764;
   margin: 32px 32px 32px 0;
   font-size: 18px;
 }
@@ -47,7 +47,7 @@
 
 .properties {
   composes: row;
-  color: black;
+  color: #415764;
   align-items: center;
   margin-top: 20px;
 }

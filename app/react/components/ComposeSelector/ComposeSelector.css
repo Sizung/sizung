@@ -3,11 +3,17 @@
   flex-direction: row;
   font-size: 1.6rem;
   align-items: stretch;
-  border-left: 1px solid silver;
 }
 
-.rootOption>div:hover {
-  background-color: #415764;
+.separator {
+  margin-top: 22px;
+  margin-bottom: 22px;
+  border-left: 1px solid #E6E3E2;
+}
+
+.rootOpen {
+  composes: root;
+  background-color: #ECEFF0;
 }
 
 .option {
@@ -21,6 +27,7 @@
 
 .option:hover {
   background-color: #415764;
+  color: white;
 }
 
 .caret {
