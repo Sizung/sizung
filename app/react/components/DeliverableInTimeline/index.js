@@ -53,7 +53,7 @@ class DeliverableInTimeline extends React.Component {
     return (
       <div className={styles.root}>
         <div className={styles.userContainer}>
-          { showOwner ? <User user={owner} size="large" /> : ''}
+          { showOwner ? <User user={owner}/> : ''}
         </div>
         <div className={styles.contentWrapper}>
           <div className={styles.content}>
