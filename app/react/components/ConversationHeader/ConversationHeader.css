@@ -1,7 +1,6 @@
 .root {
   display: flex;
   flex-direction: row;
-  /*padding: 26px 32px 56px 18px;*/
   align-items: center;
   justify-content: space-around;
   padding: 0 25px 0 15px;
@@ -30,6 +29,7 @@
   padding: 0 10px 0 0;
   line-height: 3.188rem;
   height: 3.188rem;
+  overflow: hidden;
 }
 
 .conversationMemberContainer {

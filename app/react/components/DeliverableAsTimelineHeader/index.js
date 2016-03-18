@@ -19,12 +19,14 @@ class DeliverableInTimelineHeader extends React.Component {
     return (
       <div className={ styles.root }>
         <div className={ styles.deliverableIconContainer }>
-          <DeliverableIcon inverted />
+          <DeliverableIcon/>
         </div>
         <div className={ styles.titleContainer }>
           <TextWithMentions>{title}</TextWithMentions>
         </div>
-        <Link to={'/agenda_items/' + deliverable.agendaItemId} className={styles.close}>Back to Agenda Item</Link>
+        <div className={styles.closeLinkContainer}>
+          <Link to={'/agenda_items/' + deliverable.agendaItemId} className={styles.close}>Back to Agenda Item</Link>
+        </div>
       </div>
     );
   }

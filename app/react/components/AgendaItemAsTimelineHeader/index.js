@@ -19,12 +19,14 @@ class AgendaItemAsTimelineHeader extends React.Component {
     return (
       <div className={ styles.root }>
         <div className={ styles.agendaItemIconContainer }>
-          <AgendaItemIcon inverted />
+          <AgendaItemIcon inverted size={'large'}/>
         </div>
         <div className={ styles.titleContainer }>
-          <TextWithMentions>{title}</TextWithMentions>
+          <TextWithMentions maxLength={40}>{title}</TextWithMentions>
         </div>
-        <Link to={'/conversations/' + agendaItem.conversationId} className={styles.close}>Back to Chat</Link>
+        <div className={styles.closeLinkContainer}>
+          <Link to={'/conversations/' + agendaItem.conversationId} className={styles.close}>Back to Chat</Link>
+        </div>
       </div>
     );
   }

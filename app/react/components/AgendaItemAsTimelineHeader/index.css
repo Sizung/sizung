@@ -1,20 +1,23 @@
 .root {
-  padding: 20px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 4.625rem;
   background-color: #57C1E8;
   color : #89949E;
-  min-height: 60px;
 }
 
 .agendaItemIconContainer {
-  display: inline-block;
+  flex: none;
   padding: 0 20px 0 30px;
 }
 
 .titleContainer {
-  display: inline-block;
-  font-size: 16px;
-  font-weight: 600;
+  flex: 1;
+  font-size: 1.688rem;
+  font-family: Gotham-Book;
   color : white;
+  overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -22,12 +25,16 @@
   word-break: break-word;
 }
 
+.closeLinkContainer {
+  height: 1.250rem;
+  padding-left: 10px;
+}
+
 .close {
-  display: inline-block;
-  text-align: right;
+  font-size: 1.250rem;
+  font-family: Gotham-Book;
   color: white;
-  float: right;
-  margin-right: 50px;
+  margin-right: 25px;
 }
 
 .close:hover {

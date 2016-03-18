@@ -37,9 +37,14 @@
 
 @media only screen
 and (max-width: 1440px) {
-  .normal {
+  .small {
     width: 13px;
     height: 13px;
+  }
+
+  .normal {
+    width: 16px;
+    height: 16px;
   }
 
   .large {
@@ -51,9 +56,14 @@ and (max-width: 1440px) {
 
 @media only screen
 and (min-width: 1441px) {
-  .normal {
+  .small {
     width: 21px;
     height: 21px;
+  }
+
+  .normal {
+    width: 26px;
+    height: 26px;
   }
 
   .large {
