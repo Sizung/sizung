@@ -45,7 +45,7 @@ class CommentComposer extends React.Component {
     return (
       <div className={styles.root}>
         <div className={styles.user}>
-          <PlusIcon />
+          <PlusIcon size={'small'}/>
         </div>
         <form className={styles.form} onSubmit={this.handleSubmit}>
           <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
