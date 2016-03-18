@@ -14,7 +14,7 @@
 
 .formRow {
   composes: row;
-  margin-bottom: 96px;
+  margin-bottom: 76px;
 }
 
 .form {

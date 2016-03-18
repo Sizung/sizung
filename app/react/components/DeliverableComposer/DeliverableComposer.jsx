@@ -78,7 +78,7 @@ class DeliverableComposer extends React.Component {
         <div className={styles.row}>
           <form className={styles.form} onSubmit={this.handleSubmit}>
             <DeliverableIcon inverted size="xLarge" style={{ alignSelf: 'flex-end', marginBottom: '0.5rem' }} />
-            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Type your deliverable here" />
+            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Enter Deliverable Name" />
             <div className={styles.charsHint}>40 chars</div>
           </form>
         </div>

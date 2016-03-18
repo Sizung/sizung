@@ -46,7 +46,7 @@ class AgendaItemComposer extends React.Component {
         <div className={styles.formRow}>
           <AgendaItemIcon size="xLarge" style={{ alignSelf: 'flex-end', marginBottom: '0.5rem' }} />
           <form className={styles.form} onSubmit={this.handleSubmit}>
-            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Type your agenda item here" />
+            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Enter Agenda Name" />
           </form>
           <div className={styles.charsHint}>40 chars</div>
         </div>

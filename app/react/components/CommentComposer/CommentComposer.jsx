@@ -48,7 +48,7 @@ class CommentComposer extends React.Component {
           <PlusIcon />
         </div>
         <form className={styles.form} onSubmit={this.handleSubmit}>
-          <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Type your comment here" />
+          <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
         </form>
         <div className={styles.chatButtons}>
           <ComposeSelector canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onSelect={this.handleSelect} />
