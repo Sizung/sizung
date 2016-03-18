@@ -69,26 +69,24 @@ class Deliverable extends React.Component {
 
   renderResolveAction = () => {
     return (
-      <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
-        <span className={styles.actionIconContainer}>
-          <ResolveIcon />
-        </span>
-        <span>
-          {'Mark as Done'}
-        </span>
+      <div className={styles.actionContainer} onClick={this.handleStatusUpdate}>
+        <div className={styles.actionIconContainer}>
+          <ResolveIcon/>
+        </div>
+        {'Mark as Done'}
       </div>
     );
   };
 
   renderArchiveAction = () => {
     return (
-      <div className={styles.archiveContainer} onClick={this.handleArchive}>
-        <span className={styles.actionIconContainer}>
-          <ArchiveIcon size={'x-large'} />
-        </span>
-        <span>
+      <div className={styles.actionContainer} onClick={this.handleArchive}>
+        <div className={styles.actionIconContainer}>
+          <ArchiveIcon/>
+        </div>
+        <div className={styles.actionLabel}>
           {'Archive'}
-        </span>
+        </div>
       </div>
     );
   };
@@ -96,11 +94,7 @@ class Deliverable extends React.Component {
   renderActions = () => {
     const { deliverable, selected } = this.props;
     if (selected && !deliverable.archived) {
-      return (
-          <div className={styles.actionContainer}>
-            { deliverable.status === 'open' ? this.renderResolveAction() : this.renderArchiveAction()}
-          </div>
-      );
+      return (deliverable.status === 'open' ? this.renderResolveAction() : this.renderArchiveAction());
     }
     return null;
   };
@@ -131,10 +125,10 @@ class Deliverable extends React.Component {
           <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
         </div>
         <div className={styles.bottomRow}>
+          { selected ? this.renderActions() : this.agendaItemTitle() }
           <div className={styles.assignee}>
             <EditableUserApp conversationId={deliverable.agendaItem.conversationId} editable userId={assignee.id} onUpdate={this.handleAssigneeUpdate}/>
           </div>
-          { selected ? this.renderActions() : this.agendaItemTitle() }
         </div>
       </div>
     );

@@ -32,11 +32,11 @@ class AgendaItem extends React.Component {
 
   renderArchiveAction = () => {
     return (
-      <div className={styles.archiveContainer}>
+      <div className={styles.archiveContainer} onClick={this.handleArchive}>
         <span className={styles.iconContainer}>
           <ArchiveIcon size={'x-large'}/>
         </span>
-        <span onClick={this.handleArchive}>
+        <span>
           {'Archive'}
         </span>
     </div>);
@@ -46,11 +46,11 @@ class AgendaItem extends React.Component {
     const { agendaItem } = this.props;
     if (agendaItem.status !== 'resolved') {
       return (
-        <div className={styles.statusContainer}>
+        <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
           <span className={styles.iconContainer}>
             <ResolveIcon size={'x-large'}/>
           </span>
-          <span onClick={this.handleStatusUpdate}>
+          <span>
             {'Resolve'}
           </span>
         </div>

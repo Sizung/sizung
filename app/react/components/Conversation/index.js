@@ -30,7 +30,7 @@ class Conversation extends React.Component {
     }).sortBy((member) => {
       return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
     })).map((member) => {
-      conversationMembersDOM.push(<div className={styles.memberContainer}><User user={ member } showName={ false } size={'small'}/></div>);
+      conversationMembersDOM.push(<div className={styles.memberContainer}><User user={ member } showName={ false }/></div>);
     });
     return conversationMembersDOM;
   }

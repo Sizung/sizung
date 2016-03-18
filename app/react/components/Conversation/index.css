@@ -1,8 +1,8 @@
 .unseen {
   position: relative;
   width: 100%;
-  min-height: 5em;
-  padding: 10px;
+  min-height: 11.25rem;
+  padding: 30px;
   margin: 0 0 5px 0;
   background-color: #ffffff;
   color : #89949E;
@@ -48,6 +48,7 @@
 .title {
   display: inline-block;
   font-family: Gotham-Medium;
+  font-size: 1.563rem;
   color: #130F22;
 }
 
@@ -62,5 +63,5 @@
 
 .memberContainer {
   display: inline-block;
-  margin: 0px 2px 2px 0px;
+  margin: 0px 5px 5px 0px;
 }

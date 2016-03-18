@@ -1,47 +1,7 @@
-/*laptop*/
-@media screen
-and (min-device-width: 1200px)
-and (max-device-width: 1600px)
-and (-webkit-min-device-pixel-ratio: 1) {
-  .baseFont {
-    font-size: 9px;
-  }
-}
-/*laptop retina*/
-@media screen
-and (min-device-width: 1200px)
-and (max-device-width: 1600px)
-and (-webkit-min-device-pixel-ratio: 2) {
-  .baseFont {
-    font-size: 10px;
-  }
-}
-
-/*ipad 3,4 retina*/
-@media only screen
-and (min-device-width: 1536px)
-and (max-device-width: 2048px)
-and (-webkit-min-device-pixel-ratio: 2) {
-  .baseFont {
-    font-size: 16px;
-  }
-}
-
-/*ipad 1,2*/
-@media only screen
-and (min-device-width: 768px)
-and (max-device-width: 1024px)
-and (-webkit-min-device-pixel-ratio: 1) {
-  .baseFont {
-    font-size: 9px;
-  }
-}
-
 .default {
-  composes: baseFont;
   position: relative;
   width: 100%;
-  height: 10.688em;
+  min-height: 10.688rem;
   margin: 0 0 5px 0;
   padding: 0;
 }
@@ -72,7 +32,7 @@ and (-webkit-min-device-pixel-ratio: 1) {
 }
 
 .leftStrip {
-  width: 0.768em;
+  width: 0.768rem;
   height: 100%;
   float: left;
   background-color: #88d3df;
@@ -80,12 +40,12 @@ and (-webkit-min-device-pixel-ratio: 1) {
 
 .selected .leftStrip {
   background: none;
-  border-left: 0.768em solid #38ACD4;
+  border-left: 0.768rem solid #38ACD4;
 }
 
 .contentContainer {
   overflow: hidden;
-  height: 5.5em;
+  height: 6rem;
   overflow-wrap: break-word;
   word-wrap: break-word;
   -ms-word-break: break-all;
@@ -105,8 +65,10 @@ and (-webkit-min-device-pixel-ratio: 1) {
 
 .titleContainer {
   composes: hover-container from '../../styles/modules/hover.css';
-  padding: 0.313em 0.313em 0 0.313em;
-  margin: 0.625em 0.625em 0.625em 0.313em;
+  display: flex;
+  align-items: flex-start;
+  padding: 5px 10px;
+  margin: 10px 10px 10px 5px;
 }
 
 .selected .titleContainer:hover {
@@ -119,37 +81,51 @@ and (-webkit-min-device-pixel-ratio: 1) {
 }
 
 .agendaItemIconContainer {
-  float: left;
-  margin-right: 1.25em;
-  margin-top: 0.5em;
+  display: flex;
+  flex: none;
+  padding: 5px 0;
+  height: 1.5rem;
+  margin-right: 15px;
 }
 
 .title {
   overflow: hidden;
-  max-height: 3.75em;
-  font-size: 1.5em;
+  max-height: 4.5rem;
+  font-size: 1.5rem;
+  font-family: Gotham-Book;
+  flex: 1;
 }
 
 .archiveContainer {
-  float: left;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-start;
   font-family: Gotham-Medium;
-  font-size: 1.438em;
+  font-size: 1.438rem;
   cursor: pointer;
 }
 
 .statusContainer {
-  float: right;
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-end;
   font-family: Gotham-Medium;
   cursor: pointer;
-  font-size: 1.438em;
+  font-size: 1.438rem;
 }
 
 .iconContainer {
-  margin-right: 0.313em;
+  margin-right: 10px;
+  align-items: center;
 }
 
 .actionContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
   overflow: hidden;
-  margin: 1.25em 2.25em;
-  /*height: 4em;*/
+  margin: 10px 20px;
 }
