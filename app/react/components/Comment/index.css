@@ -1,18 +1,18 @@
 .root {
+  display: flex;
+  flex-direction: row;
   width: 100%;
   padding: 20px 0px;
-  padding-left: 1rem;
-  /*border: 1px solid #ffffff;*/
-  /*border-width: 1px 0px;*/
+  min-height: 8.375rem;
   color : #89949E;
 }
 
 .userContainer {
-  display: table-cell;
-  min-width: 80px;
-  max-width: 80px;
-  padding: 0 15px;
-  vertical-align: top;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: 6.563rem;
 }
 
 .contentContainer {
@@ -21,24 +21,31 @@
   width: 100%;
   margin: 0;
   padding: 0 30px 0 0;
+  font-family: Gotham-Book;
+  font-size: 1.375rem;
+  line-height : 1.875rem;
 }
 
 .timeContainer {
   width: 100%;
   padding: 0;
   color : #9aa5af;
+  font-family: Gotham-Book;
+  font-size: 1rem;
+  line-height : 2rem;
+  color : #8C9295;
 }
 
 .optionsMenu {
   position: absolute;
-  display: none;
+  display: inline-block;
   margin-left: 1em;
   right: 15px;
   top: 0;
 }
 
 .root:hover .optionsMenu {
-  display:block;
+  display: inline-block;
 }
 
 .root:hover {
@@ -60,4 +67,10 @@
   -moz-hyphens: auto;
   -webkit-hyphens: auto;
   hyphens: auto;
+
+  font-family: Gotham-Book;
+  font-size: 1.375rem;
+  line-height : 1.875rem;
+  letter-spacing : 0.014rem;
+  color : #616C73;
 }

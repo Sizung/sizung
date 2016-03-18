@@ -94,7 +94,6 @@ class Comment extends React.Component {
     return (<div className={styles.contentContainer}>
         <div className="form-horizontal">
           <div className="form-group" style={{ marginBottom: '5px' }}>
-
             <div className="col-xs-12">
               <SizungInputApp ref="input" className="form-control" onSubmit={this.handleSubmit} onChange={this.handleChange} rows="3" defaultValue={body} />
             </div>
@@ -128,7 +127,7 @@ class Comment extends React.Component {
     return (
       <div className={styles.root}>
         <div className={styles.userContainer}>
-          { this.props.showAuthor ? <User user={author} size="large" /> : ''}
+          { this.props.showAuthor ? <User user={author} /> : ''}
         </div>
         { this.state.edit ? this.renderEditComment(body) : this.renderShowComment() }
       </div>
