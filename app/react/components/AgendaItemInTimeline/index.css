@@ -88,3 +88,7 @@
   line-height : 4rem;
   color : #8C9295;
 }
+
+.textContainer {
+  padding: 10px 0;
+}

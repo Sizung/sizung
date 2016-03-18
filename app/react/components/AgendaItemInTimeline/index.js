@@ -30,7 +30,9 @@ class AgendaItemInTimeline extends React.Component {
               <div className={styles.agendaItemLabel}>AGENDA created</div>
               <Link to={'/agenda_items/' + agendaItem.id} className={styles.title}>
                 <div className={styles.agendaItemIconContainer}><AgendaItemIcon /></div>
-                <TextWithMentions>{agendaItem.title}</TextWithMentions>
+                <div className={styles.textContainer}>
+                  <TextWithMentions>{agendaItem.title}</TextWithMentions>
+                </div>
               </Link>
             </div>
             <div className={styles.timeContainer}>
