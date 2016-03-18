@@ -49,13 +49,23 @@ class ComposeSelector extends React.Component {
     return <div className={styles.option} onClick={this.selectDeliverable}><DeliverableIcon size="large" inverted style={{ marginRight: '10px' }} />Deliverable</div>;
   }
 
+  renderCaret = (type) => {
+    if (type === 'right') {
+      return <div className={styles.caretRight} onClick={this.handleClose}></div>;
+    }
+
+    const { canCreateAgendaItem, canCreateDeliverable } = this.props;
+
+    if (canCreateAgendaItem || canCreateDeliverable) {
+      return <div className={styles.caretLeft}></div>;
+    }
+  }
+
   renderClosed = () => {
     return (
       <div className={styles.root} onClick={this.handleOpen}>
         {this.renderChat()}
-        <div>
-          <div className={styles.caretLeft}></div>
-        </div>
+        {this.renderCaret('left')}
       </div>
     );
   };
@@ -66,9 +76,7 @@ class ComposeSelector extends React.Component {
         {this.renderChat()}
         {this.props.canCreateAgendaItem ? this.renderAgendaItem() : null}
         {this.props.canCreateDeliverable ? this.renderDeliverable() : null}
-        <div onClick={this.handleClose}>
-          <div className={styles.caretRight}></div>
-        </div>
+        {this.renderCaret('right')}
       </div>
     );
   }
