@@ -1,8 +1,11 @@
 .root {
   display: flex;
   flex-direction: row;
-  padding: 26px 32px 56px 18px;
-
+  /*padding: 26px 32px 56px 18px;*/
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 25px 0 15px;
+  height: 6.438rem;
   background-color: #edf2f4;
   color: #626c72;
 }
@@ -12,27 +15,26 @@
 }
 
 .prefix {
-  width: 30px;
-  line-height: 54px;
-  height: 54px;
-  font-size: 24px;
-  font-weight: bold;
+  width: 2ch;
+  line-height: 3.188rem;
+  height: 3.188rem;
+  font-size: 1.563rem;
+  font-family: Gotham-Medium;
   padding: 0 0 0 10px;
 }
 
 .conversationTitle {
   flex: 2;
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 1.563rem;
+  font-family: Gotham-Medium;
   padding: 0 10px 0 0;
-  line-height: 54px;
-  height: 54px;
+  line-height: 3.188rem;
+  height: 3.188rem;
 }
 
 .conversationMemberContainer {
-  font-size: 18px;
-  margin-top: 5px;
-  width: 80px;
+  width: 4.688rem;
+  margin-left: 35px;
 }
 
 .closeContainer {

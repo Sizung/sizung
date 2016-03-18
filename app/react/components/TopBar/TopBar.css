@@ -1,11 +1,16 @@
 .root {
-  height: 105px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 6.563rem;
   background-color: #130F22;
 }
 
 .organizationWrapper {
-  display: inline-block;
-  padding-top: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
   padding-left: 42px;
 }
 
@@ -15,10 +20,9 @@
 }
 
 .organizationWrapper:hover .otherOrganizations {
-  display: inline-block;
+  display: flex;
 }
 
 .profileDropdown {
-  display: inline-block;
-  float: right;
+  justify-content: flex-end;
 }

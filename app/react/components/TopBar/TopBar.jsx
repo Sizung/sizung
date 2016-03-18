@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import styles from './TopBar.css';
 import OrganizationIcon from '../OrganizationIcon/index';
 import ProfileDropdown from '../ProfileDropdown/index';
+import PlusIcon from '../PlusIcon';
 
 class TopBar extends React.Component {
 
@@ -38,7 +39,9 @@ class TopBar extends React.Component {
           <OrganizationIcon name={currentOrganization.name} reactLink={reactLinks} url={'/organizations/' + currentOrganization.id} />
           <div className={styles.otherOrganizations}>
             {this.renderOrganizationList()}
-            <OrganizationIcon name="+ New Organization" url="/organizations/new" reactLink={false} style={{ marginLeft: '48px' }} />
+            <a href={'/organizations/new'} title={'+ New Organization'} style={{ marginLeft: '48px' }}>
+              <PlusIcon/>
+            </a>
           </div>
         </div>
       );

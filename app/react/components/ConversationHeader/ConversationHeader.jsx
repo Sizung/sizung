@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import styles from './ConversationHeader.css';
 import ConversationMembersCounterApp from '../../containers/ConversationMembersCounterApp';
 import EditableText from '../EditableText';
+import CloseIcon from '../CloseIcon';
 
 class ConversationHeader extends React.Component {
   static propTypes = {
@@ -40,8 +41,8 @@ class ConversationHeader extends React.Component {
         <div className={styles.conversationMemberContainer}>
           <ConversationMembersCounterApp conversationMembersViewVisible={this.props.conversationMembersViewVisible}/>
         </div>
-        <Link to={closeUrl} title="Close Conversation" className={styles.closeContainer}>
-          <div className={styles.close}></div>
+        <Link to={closeUrl} title="Close Conversation">
+          <CloseIcon type={'transparent'}/>
         </Link>
       </div>
     );

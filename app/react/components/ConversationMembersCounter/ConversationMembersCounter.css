@@ -1,13 +1,14 @@
 .memberDropdownContainer {
-  display: inline-block;
-  float: right;
+  display: flex;
+  flex: none;
+  align-items: center;
   cursor: pointer;
 }
 
 .memberBadge {
-  display: inline-block;
-  margin-left: 15px;
-  margin-bottom: 15px;
-  font-size: 18px;
-  vertical-align: bottom;
+  /*display: inline-block;*/
+  margin-left: 1ch;
+  /*margin-bottom: 15px;*/
+  font-size: 1.625rem;
+  font-family: Gotham-Book;
 }

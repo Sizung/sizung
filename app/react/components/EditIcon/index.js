@@ -5,37 +5,24 @@ import styles from './index.css';
 @CSSModules(styles)
 class EditIcon extends React.Component {
 
-  constructor() {
-    super();
-    this.validSizes = ['normal', 'large', 'x-large', 'small'];
-  }
+  static propTypes = {
+    inverted: PropTypes.bool,
+    style: PropTypes.object,
+    size: PropTypes.oneOf(['normal']),
+  };
+
+  static defaultProps = {
+    inverted: false,
+    size: 'normal',
+  };
 
   render() {
-    let iconSize;
-    let iconStyle;
     const { inverted, style, size } = this.props;
-    iconSize = (this.validSizes.indexOf(this.props.size) === -1) ? this.validSizes[0] : this.props.size;
-    if (iconSize === 'normal') {
-      iconStyle = inverted ? 'inverted' : 'normal';
-    } else {
-      iconStyle = (inverted ? 'inverted-' : '') + size;
-    }
-    return (
-        <span styleName={iconStyle} style={style}>
-      </span>
-    );
+    const invertedClass = inverted ? styles.light : styles.dark;
+    const sizeClass = styles[size];
+
+    return <div className={[invertedClass, sizeClass].join(' ')} style={style}></div>;
   }
 }
-
-EditIcon.propTypes = {
-  inverted: PropTypes.bool,
-  style: PropTypes.object,
-  size: PropTypes.string,
-};
-
-EditIcon.defaultProps = {
-  inverted: false,
-  size: 'normal',
-};
 
 export default EditIcon;

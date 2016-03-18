@@ -5,7 +5,9 @@
 }
 
 .center-panel {
-  margin-top: 0px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .center-panel-list {
@@ -15,7 +17,7 @@
 .header-container {
   composes: hover-container from '../../styles/modules/hover.css';
   width: 100%;
-  flex: 1;
+  flex: none;
   display: flex;
   flex-direction: row;
   padding: 0px 15px;
@@ -23,7 +25,7 @@
   font-size : 1.688rem;
   letter-spacing : 0.084rem;
   text-transform : uppercase;
-  min-height: 6.438rem;
+  height: 6.438rem;
   align-items: center;
 }
 

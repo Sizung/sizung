@@ -4,16 +4,40 @@
   transform: rotate(45deg);
 }
 
-.transparentContainer {
-  margin-top: 11px;
-  margin-left: 72px;
-  margin-bottom: 14px;
-  cursor: pointer;
+
+
+@media only screen
+and (max-width: 1440px) {
+  .transparentContainer {
+    margin-top: 9px;
+    margin-left: 45px;
+    margin-bottom: 9px;
+    cursor: pointer;
+  }
+
+  .transparent {
+    display: inline-block;
+    background: no-repeat center url("/icons/close-icon.png");
+    background-size: 16px 16px;
+    width: 16px;
+    height: 16px;
+  }
 }
 
-.transparent {
-  display: inline-block;
-  background-image: url("/icons/close-icon.png");
-  width: 26px;
-  height: 26px;
+@media only screen
+and (min-width: 1441px) {
+  .transparentContainer {
+    margin-top: 11px;
+    margin-left: 72px;
+    margin-bottom: 14px;
+    cursor: pointer;
+  }
+
+  .transparent {
+    display: inline-block;
+    background: no-repeat center url("/icons/close-icon.png");
+    background-size: 26px 26px;
+    width: 26px;
+    height: 26px;
+  }
 }
