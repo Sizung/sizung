@@ -37,7 +37,7 @@
 
 .titleContainer {
   composes: hover-container from '../../styles/modules/hover.css';
-  padding: 5px 5px 0px 10px;
+  padding: 5px 5px 5px 10px;
   margin: 10px;
 }
 

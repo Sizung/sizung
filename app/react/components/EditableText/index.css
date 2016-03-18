@@ -1,7 +1,10 @@
 .editLinkContainer {
-  display: inline-block;
+  /*display: inline-block;*/
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
   visibility: hidden;
-  float: right;
+  /*float: right;*/
   margin-left: 5px;
 }
 
