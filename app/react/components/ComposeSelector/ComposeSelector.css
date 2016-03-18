@@ -6,12 +6,6 @@
   border-left: 1px solid silver;
 }
 
-.root>div {
-  padding-left: 30px;
-  padding-right: 30px;
-  line-height: 100px;
-}
-
 .rootOption>div:hover {
   background-color: #415764;
 }
@@ -20,21 +14,33 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  padding-left: 30px;
+  padding-right: 30px;
+  line-height: 100px;
 }
 
 .option:hover {
   background-color: #415764;
 }
 
-.caretLeft {
+.caret {
   display: inline-block;
+  align-self: center;
+  text-align: center;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.caretLeft {
+  composes: caret;
   background: url('/icons/caret-left.png') no-repeat;
   width: 7px;
   height: 12px;
+
 }
 
 .caretRight {
-  display: inline-block;
+  composes: caret;
   background: url('/icons/caret-right.png') no-repeat;
   width: 8px;
   height: 14px;
