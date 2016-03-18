@@ -25,7 +25,8 @@
 .loadMoreMessage {
   text-align: center;
   padding-top: 5px;
-  font-size: smaller;
+  font-family: Gotham-Book;
+  font-size: 1rem;
 }
 
 .link {

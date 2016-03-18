@@ -23,19 +23,19 @@ class AgendaItemInTimeline extends React.Component {
     return (
         <div className={styles.root}>
           <div className={styles.userContainer}>
-            { showOwner ? <User user={owner} size="large" /> : ''}
+            { showOwner ? <User user={owner}/> : ''}
           </div>
           <div className={styles.contentWrapper}>
             <div className={styles.content}>
-              <div className={styles.agendaitemLabel}>AGENDA created</div>
+              <div className={styles.agendaItemLabel}>AGENDA created</div>
               <Link to={'/agenda_items/' + agendaItem.id} className={styles.title}>
                 <div className={styles.agendaItemIconContainer}><AgendaItemIcon /></div>
                 <TextWithMentions>{agendaItem.title}</TextWithMentions>
               </Link>
             </div>
-            <small>
+            <div className={styles.timeContainer}>
               {this.lastUpdatedTime()}
-            </small>
+            </div>
           </div>
         </div>
     );

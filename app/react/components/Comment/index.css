@@ -29,10 +29,9 @@
 .timeContainer {
   width: 100%;
   padding: 0;
-  color : #9aa5af;
   font-family: Gotham-Book;
   font-size: 1rem;
-  line-height : 2rem;
+  line-height : 4rem;
   color : #8C9295;
 }
 
@@ -55,7 +54,6 @@
 .commentBody {
   padding-top: 5px;
   padding-right: 20px;
-  margin-bottom: 10px;
   width: 100%;
   overflow-wrap: break-word;
   word-wrap: break-word;
