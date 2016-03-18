@@ -1,8 +1,7 @@
 .default {
   display: inline-block;
   box-sizing: border-box;
-  padding: 0 0 0 1px;
-  border: 1px solid #262c43;
+  border: none;
   -webkit-border-radius: 50%/50%;
   -moz-border-radius: 50%/50%;
   border-radius: 50%/50%;
@@ -23,5 +22,4 @@
   height: 3.375rem;
   line-height: 3.375rem;
   font-size: 2.625rem;
-
 }
