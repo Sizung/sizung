@@ -1,8 +1,27 @@
+@media only screen
+and (max-width: 1440px) {
+  .gearIconSize {
+    background: no-repeat center;
+    background-size: 19px 19px;
+    min-width: 19px;
+    min-height: 19px;
+  }
+}
+
+@media only screen
+and (min-width: 1441px) {
+  .gearIconSize {
+    background: no-repeat center;
+    background-size: 30px 30px;
+    min-width: 30px;
+    min-height: 30px;
+  }
+}
+
 .gearIcon {
+  composes: gearIconSize;
   display: inline-block;
   background-image: url("/icons/gear.png");
-  width: 32px;
-  height: 32px;
   vertical-align: top;
   cursor: pointer;
 }
@@ -18,11 +37,15 @@
 
 .item {
   margin: 0;
-  padding: 1rem 5rem 1rem 2rem;
+  padding: 0 2.5rem 0 1.5rem;
   line-height: 2rem;
   background-color: white;
   color: #415764;
   cursor: pointer;
+  font-family: Gotham-Book;
+  font-size: 1.188rem;
+  line-height : 2.813rem;
+  letter-spacing : 0.012rem;
 }
 
 .item:hover {
