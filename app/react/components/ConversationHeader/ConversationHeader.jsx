@@ -42,7 +42,7 @@ class ConversationHeader extends React.Component {
           <ConversationMembersCounterApp conversationMembersViewVisible={this.props.conversationMembersViewVisible}/>
         </div>
         <Link to={closeUrl} title="Close Conversation">
-          <CloseIcon type={'transparent'}/>
+          <CloseIcon type={'transparent'} />
         </Link>
       </div>
     );

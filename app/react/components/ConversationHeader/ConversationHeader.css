@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: space-around;
   padding: 0 25px 0 15px;
-  height: 6.438rem;
+  min-height: 6.438rem;
   background-color: #edf2f4;
   color: #626c72;
 }
