@@ -8,7 +8,9 @@
   height: 40px;
   width: 60px;
   color: black;
+  align-self: flex-end;
   margin: 32px 32px 32px 32px;
+  padding-bottom: 3.4rem;
 }
 
 .form {

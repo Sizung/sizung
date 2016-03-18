@@ -20,6 +20,7 @@ and (max-width: 1440px) {
     background-size: 3px 13px;
     min-width: 3px;
     min-height: 13px;
+    max-height: 13px;
   }
 
   .normal {
@@ -27,6 +28,7 @@ and (max-width: 1440px) {
     background-size: 3px 15px;
     min-width: 3px;
     min-height: 15px;
+    max-height: 15px;
   }
 
   .large {
@@ -34,6 +36,7 @@ and (max-width: 1440px) {
     background-size: 4px 17px;
     min-width: 4px;
     min-height: 17px;
+    max-height: 17px;
   }
   
   .xLarge {
@@ -41,6 +44,7 @@ and (max-width: 1440px) {
     background-size: 5px 28px;
     min-width: 5px;
     min-height: 28px;
+    max-height: 28px;
     // background-image: url("/icons/agenda-item-icon-gray-xLarge.png");
   }
 }
@@ -52,6 +56,7 @@ and (min-width: 1441px) {
     background-size: 4px 16px;
     min-width: 4px;
     min-height: 16px;
+    max-height: 16px;
   }
   
   .normal {
@@ -59,6 +64,7 @@ and (min-width: 1441px) {
     background-size: 4px 18px;
     min-width: 4px;
     min-height: 18px;
+    max-height: 18px;
   }
   
   .large {
@@ -66,6 +72,7 @@ and (min-width: 1441px) {
     background-size: 6px 24px;
     min-width: 6px;
     min-height: 24px;
+    max-height: 24px;
   }
 
   .xLarge {
@@ -73,6 +80,7 @@ and (min-width: 1441px) {
     background-size: 8px 30px;
     min-width: 8px;
     min-height: 30px;
+    max-heigth: 30px;
     // background-image: url("/icons/agenda-item-icon-gray-xLarge.png");
   }
 }

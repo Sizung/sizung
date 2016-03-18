@@ -30,6 +30,14 @@
   margin-left: 20px;
 }
 
+.charsHint {
+  color: #8C9295;
+  align-self: flex-end;
+  min-width: 5rem;
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
 .composeHeader {
   display: inline-block;
   background-color: #415764;
