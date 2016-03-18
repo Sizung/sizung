@@ -38,7 +38,7 @@
 
 .optionsMenu {
   position: absolute;
-  display: inline-block;
+  display: none;
   margin-left: 1em;
   right: 15px;
   top: 0;
