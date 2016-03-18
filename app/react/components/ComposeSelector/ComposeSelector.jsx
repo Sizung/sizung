@@ -64,6 +64,7 @@ class ComposeSelector extends React.Component {
   renderClosed = () => {
     return (
       <div className={styles.root} onClick={this.handleOpen}>
+        <div className={styles.separator}></div>
         {this.renderChat()}
         {this.renderCaret('left')}
       </div>
@@ -72,7 +73,7 @@ class ComposeSelector extends React.Component {
 
   renderOpen = () => {
     return (
-      <div className={styles.root}>
+      <div className={styles.rootOpen}>
         {this.renderChat()}
         {this.props.canCreateAgendaItem ? this.renderAgendaItem() : null}
         {this.props.canCreateDeliverable ? this.renderDeliverable() : null}

@@ -15,7 +15,7 @@
 
 .form {
   flex: 1;
-  color: black;
+  color: #415764;
   margin: 32px 32px 32px 0;
   font-size: 1.6rem;
 }
@@ -27,6 +27,6 @@
 .chatButtons {
   display: flex;
   flex-direction: row;
-  color: black;
+  color: #415764;
   align-items: stretch;
 }
