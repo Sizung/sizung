@@ -23,7 +23,6 @@
 
 .form :global .react-mentions .control.textarea {
   border: 0;
-  border-bottom: 1px solid silver;
 }
 
 .form :global .react-mentions {

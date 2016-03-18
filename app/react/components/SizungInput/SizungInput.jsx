@@ -80,8 +80,11 @@ class SizungInput extends React.Component {
   };
 
   render() {
+    const { placeholder } = this.props;
+    
     return (
       <MentionsInput value={this.state.value}
+                     placeholder={placeholder}
                      onChange={this.handleChange}
                      onKeyDown={this.handleKeyDown}
                      onKeyUp={this.handleKeyUp}
