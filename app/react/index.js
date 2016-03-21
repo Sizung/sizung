@@ -19,3 +19,6 @@ registerComponent('UnseenBadge', UnseenBadge);
 
 import TopBar from './components/TopBar/index.js';
 registerComponent('TopBar', TopBar);
+
+import SignUp from './components/SignUp/index.js';
+registerComponent('SignUp', SignUp);
