@@ -29,6 +29,10 @@
   color: white;
 }
 
+.chat {
+  margin-left: 20px;
+}
+
 .caret {
   display: inline-block;
   align-self: center;

@@ -3,6 +3,7 @@ import ChatIcon from '../ChatIcon';
 import AgendaItemIcon from '../AgendaItemIcon';
 import DeliverableIcon from '../DeliverableIcon';
 import styles from './ComposeSelector.css';
+import Icon from '../Icon';
 
 class ComposeSelector extends React.Component {
   static propTypes = {
@@ -38,7 +39,7 @@ class ComposeSelector extends React.Component {
   }
 
   renderChat = () => {
-    return <div className={styles.option} onClick={this.handleClose}><ChatIcon style={{ marginRight: '10px' }} />Chat</div>;
+    return <div className={styles.option} onClick={this.handleClose}><Icon type="chat" contentClassName={styles.chat}>Chat</Icon></div>;
   }
 
   renderAgendaItem = () => {
