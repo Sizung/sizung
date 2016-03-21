@@ -13,27 +13,7 @@ import styles from './index.css';
 
 @CSSModules(styles)
 class OrganizationOverview extends Component {
-  constructor() {
-    super();
 
-    this.handleResize = this.handleResize.bind(this);
-  }
-
-  componentDidMount() {
-    window.addEventListener('resize', this.handleResize);
-  }
-
-  componentDidUpdate() {
-    this.handleResize();
-  }
-
-  handleResize() {
-    const organizationNode = ReactDOM.findDOMNode(this.refs.organization);
-    const rootNode = this.refs.root;
-    if (organizationNode && rootNode) {
-      $(rootNode).css('padding-bottom',$(organizationNode).outerHeight(true)+'px');
-    }
-  }
   conversationElements = (conversations) => {
     const elements = conversations.map((conversation) => {
       return <Conversation key={ conversation.id } conversation={ conversation } users={ this.props.users }/>;
