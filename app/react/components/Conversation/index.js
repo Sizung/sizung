@@ -38,24 +38,16 @@ class Conversation extends React.Component {
   render() {
     const { conversation } = this.props;
     return (
-      <div className={conversation.unseenCount > 0 ? styles.unseen : styles.seen}>
-        <div className={styles.contentContainer}>
-          <Link to={'/conversations/' + conversation.id}>
+      <Link to={'/conversations/' + conversation.id}>
+        <div className={conversation.unseenCount > 0 ? styles.unseen : styles.seen}>
+          <div className={styles.contentContainer}>
             <div className={styles.title}>{ '#' + (conversation.title.length > 40 ? conversation.title.substr(0, 40) + '...' : conversation.title) }</div>
-          </Link>
-          <div className={styles.actions}>
-            <a href={'/conversations/' + conversation.id + '/edit'} className={styles.action}>
-              <i className="fa fa-pencil" /> edit
-            </a>
-            <a href={'/conversations/' + conversation.id} className={styles.action} data-confirm="Are you sure?" rel="nofollow" data-method="delete">
-              <i className="fa fa-trash-o"></i> delete
-            </a>
+          </div>
+          <div className={styles.conversationMembersContainer}>
+            {this.renderConversationMembers()}
           </div>
         </div>
-        <div className={styles.conversationMembersContainer}>
-          {this.renderConversationMembers()}
-        </div>
-      </div>
+      </Link>
     );
   }
 }
