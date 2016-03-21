@@ -112,6 +112,7 @@
 }
 
 .assignee {
+  flex: none;
   justify-content: flex-end;
 }
 

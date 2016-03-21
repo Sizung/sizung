@@ -47,8 +47,8 @@ class Deliverable extends React.Component {
     const { selected, deliverable } = this.props;
     return (
       <div className={styles.contextTitleContainer}>
-      <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }} />
-      <TextWithMentions maxLength={40}>{ deliverable.agendaItem.title }</TextWithMentions>
+        <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }} />
+        <TextWithMentions maxLength={40}>{ deliverable.agendaItem.title }</TextWithMentions>
       </div>
     );
   };
