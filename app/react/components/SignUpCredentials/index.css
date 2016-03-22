@@ -1,0 +1,197 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: stretch;
+}
+
+.leftColumn {
+  flex-direction: column;
+  align-items: stretch;
+  background-color: #0A0022;
+  width: 26%;
+  overflow-y: auto;
+  padding: 0 5.938rem;
+}
+
+.rightColumn {
+  flex-direction: column;
+  align-items: stretch;
+  width: 74%;
+  overflow-y: auto;
+  padding-left: 7rem;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  height: 20.125rem;
+}
+
+.stagesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 6.25rem 0 0;
+}
+
+.stage {
+  flex: 1;
+  font-family: Gotham-Light;
+  font-size: 1.875rem;
+  color: #ffffff;
+  padding: 1.563rem 0;
+}
+
+.currentStage {
+  composes: stage;
+  font-family: Gotham-Medium;
+}
+
+.previousStage {
+  composes: currentStage;
+  color: #37ACD4;
+}
+
+.caretLeft {
+  display: inline-block;
+  background: url('/icons/caret-left-white.svg') no-repeat center;
+  background-size: 1rem 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.logo {
+  flex: none;
+  background: url('/icons/sizung-logo-blue.svg') no-repeat center;
+  background-size: 15rem 4.438rem;
+  width: 15rem;
+  height: 4.438rem;
+}
+
+.formContainer {
+  margin-top: 20.125rem;
+  width: 47.625rem;
+}
+
+.formTitle {
+  color: #37ACD4;
+  font-family: Gotham-Medium;
+  font-size: 2.5rem;
+  /*width: 47.625rem;*/
+  padding: 1.563rem 0 2.875rem 0;
+}
+
+.formSubTitle {
+  color: #0A0022;
+  font-family: Gotham-Book;
+  font-size: 1.375rem;
+  /*width: 47.625rem;*/
+  margin-bottom: 3.125rem;
+}
+
+.formInput {
+  /*width: 47.625rem;*/
+  height: 8.5rem;
+  background-color: #EBEFF0;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 30px;
+}
+
+.formInputLabel {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: Gotham-Medium;
+  font-size: 1.25rem;
+  color: #828282;
+}
+
+.formInputValue {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-family: Gotham-Book;
+  font-size: 2.188rem;
+  color: #0A0022;
+}
+
+.formInputValue input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+
+.actionContainer {
+  margin-top: 40px;
+}
+
+.formSubmit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  float: right;
+  width: 16.875rem;
+  height: 5rem;
+  font-family: Gotham-Medium;
+  font-size: 1.875rem;
+  color: #ffffff;
+  background-color: #37ACD4;
+  cursor: pointer;
+}
+
+
+.formInputValue input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: #0A0022;
+}
+.formInputValue input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #0A0022;
+  opacity: 1;
+}
+.formInputValue input::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #0A0022;
+  opacity: 1;
+}
+.formInputValue input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #0A0022;
+}
+.formInputValue input:placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
+  color: #0A0022;
+}
+
+.formInputError {
+  composes: formInput;
+  border: 1px solid #FF685B;
+}
+
+.formInputErrorMessage {
+  flex: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Gotham-Book;
+  font-size: 1.563rem;
+}
+
+.formInputValueContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
