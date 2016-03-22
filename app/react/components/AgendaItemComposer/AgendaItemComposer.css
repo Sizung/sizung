@@ -8,6 +8,14 @@
   flex-direction: row;
 }
 
+.agendaItemIcon {
+  align-self: flex-end;
+  margin-bottom: 0.5rem;
+  color: #415764;
+  font-size: 1.4rem;
+  margin-left: -0.7rem;
+}
+
 .filler {
   flex: 1;
 }
@@ -20,8 +28,8 @@
 .form {
   flex: 1;
   color: #415764;
-  margin: 32px 32px 0 30px;
-  font-size: 18px;
+  margin: 32px 32px 0 0px;
+  font-size: 1.1rem;
 }
 
 .form :global .react-mentions .control.textarea {

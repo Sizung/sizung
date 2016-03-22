@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import styles from './AgendaItemComposer.css';
 import SizungInputApp from '../../containers/SizungInputApp';
 import CloseIcon from '../CloseIcon';
-import AgendaItemIcon from '../AgendaItemIcon';
+import Icon from '../Icon';
 
 class AgendaItemComposer extends React.Component {
   static propTypes = {
@@ -44,7 +44,7 @@ class AgendaItemComposer extends React.Component {
           <CloseIcon type="transparent" style={{ marginBottom: '0' }} onClick={this.props.onClose} />
         </div>
         <div className={styles.formRow}>
-          <AgendaItemIcon size="xLarge" style={{ alignSelf: 'flex-end', marginBottom: '0.5rem' }} />
+          <Icon type="agendaItem" className={styles.agendaItemIcon} />
           <form className={styles.form} onSubmit={this.handleSubmit}>
             <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Enter Agenda Name" />
           </form>

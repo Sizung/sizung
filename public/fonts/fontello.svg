@@ -7,6 +7,10 @@
 <font-face font-family="fontello" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
 <missing-glyph horiz-adv-x="1000" />
 <glyph glyph-name="chat" unicode="&#xe800;" d="M1277 324h-1245c-20 0-32 12-32 28s12 32 32 32h1245c16 0 31-12 31-32s-15-28-31-28z m0 467h-1245c-20 0-32 12-32 27s12 32 32 32h1245c16 0 27-12 27-32s-11-27-27-27z m-645-941h-600c-20 0-32 12-32 32s12 31 32 31h600c16 0 32-12 32-31s-16-32-32-32z" horiz-adv-x="1304" />
+
+<glyph glyph-name="agenda_item" unicode="&#xe801;" d="M64 721a65 65 0 1 0 65 65 65 65 0 0 0-65-65z m65-352a65 65 0 1 1-65-64 64 64 0 0 1 65 64z m0-454a65 65 0 1 1-65-65 65 65 0 0 1 65 64z" horiz-adv-x="129" />
+
+<glyph glyph-name="deliverable" unicode="&#xe802;" d="M502-150c-277 0-502 225-502 499s225 501 502 501 501-225 501-501-228-499-501-499z m0 954c-253 0-456-203-456-455s203-453 456-453 452 203 452 453-203 455-452 455z" horiz-adv-x="1000" />
 </font>
 </defs>
 </svg>

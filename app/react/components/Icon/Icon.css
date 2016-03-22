@@ -36,9 +36,17 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-.chat {
-}
-
+.chat {}
 .chat:before {
   content: '\e800';
+}
+
+.agendaItem {}
+.agendaItem:before {
+  content: '\e801';
+}
+
+.deliverable {}
+.deliverable:before {
+  content: '\e802';
 }
