@@ -1,7 +1,4 @@
 import React, { PropTypes } from 'react';
-import ChatIcon from '../ChatIcon';
-import AgendaItemIcon from '../AgendaItemIcon';
-import DeliverableIcon from '../DeliverableIcon';
 import styles from './ComposeSelector.css';
 import Icon from '../Icon';
 
@@ -43,11 +40,11 @@ class ComposeSelector extends React.Component {
   }
 
   renderAgendaItem = () => {
-    return <div className={styles.option} onClick={this.selectAgendaItem}><AgendaItemIcon size="large" style={{ marginRight: '10px' }} />Agenda</div>;
+    return <div className={styles.option} onClick={this.selectAgendaItem}><Icon type="agendaItem">Agenda</Icon></div>;
   }
 
   renderDeliverable = () => {
-    return <div className={styles.option} onClick={this.selectDeliverable}><DeliverableIcon size="large" inverted style={{ marginRight: '10px' }} />Deliverable</div>;
+    return <div className={styles.option} onClick={this.selectDeliverable}><Icon type="deliverable">Deliverable</Icon></div>;
   }
 
   renderCaret = (type) => {

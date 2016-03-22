@@ -8,11 +8,6 @@
   color : #89949E;
 }
 
-.agendaItemIconContainer {
-  flex: none;
-  padding: 0 20px 0 30px;
-}
-
 .titleContainer {
   flex: 1;
   font-size: 1.688rem;
@@ -24,6 +19,7 @@
   white-space: pre-wrap;
   -ms-word-break: break-all;
   word-break: break-word;
+  margin-left: 1.5rem;
 }
 
 .closeLinkContainer {
