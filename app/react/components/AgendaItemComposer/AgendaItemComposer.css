@@ -10,10 +10,10 @@
 
 .agendaItemIcon {
   align-self: flex-end;
-  margin-bottom: 0.5rem;
   color: #415764;
   font-size: 1.4rem;
   margin-left: -0.7rem;
+  margin-bottom: -0.25rem;
 }
 
 .filler {
