@@ -8,13 +8,15 @@ class TextWithMentions extends React.Component {
     maxLength: PropTypes.number,
   };
 
+  static customLinkRenderer = (href, title, text) => {
+    return `<a href="${href}" title="${title || text}" target="_blank">${text}</a>`;
+  };
+
   rawMarkup = () => {
     const pattern = new RegExp(/(.*)@\[([^\]]*)\]\([^\)]*\)(.*)/);
+
     const renderer = new marked.Renderer();
-    renderer.link = (href, title, text) => {
-      console.log(href, title, text);
-      return `<a href="${href}" title="${title || text}" target="_blank">${text}</a>`;
-    };
+    renderer.link = TextWithMentions.customLinkRenderer;
 
     let text = this.props.children;
 
