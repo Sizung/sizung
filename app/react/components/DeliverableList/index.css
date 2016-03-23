@@ -4,9 +4,6 @@
 }
 
 .header {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
   padding: 0px 12px;
   line-height: 6.438rem;
   font-family: Gotham-Book;
