@@ -10,6 +10,11 @@ class TextWithMentions extends React.Component {
 
   rawMarkup = () => {
     const pattern = new RegExp(/(.*)@\[([^\]]*)\]\([^\)]*\)(.*)/);
+    const renderer = new marked.Renderer();
+    renderer.link = (href, title, text) => {
+      console.log(href, title, text);
+      return `<a href="${href}" title="${title || text}" target="_blank">${text}</a>`;
+    };
 
     let text = this.props.children;
 
@@ -17,9 +22,11 @@ class TextWithMentions extends React.Component {
       text = text.replace(pattern, '$1__$2__$3');
     }
 
-    text = this.props.maxLength && text.length > this.props.maxLength ? text.substring(0, this.props.maxLength) + '...' : text;
+    text = this.props.maxLength && text.length > this.props.maxLength ?
+           `${text.substring(0, this.props.maxLength)}...`
+         : text;
 
-    const rawMarkup = marked(text, { sanitize: true });
+    const rawMarkup = marked(text, { sanitize: true, renderer });
     return { __html: rawMarkup };
   };
 
