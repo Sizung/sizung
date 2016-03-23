@@ -18,12 +18,12 @@ class User < ActiveRecord::Base
 
   def appear
     update presence_status: 'online'
-    AppearanceRelayJob.perform_later(user: self, actor_id: self.id, action: 'appear').enqueue wait: 2.seconds
+    AppearanceRelayJob.perform_later(user: self, actor_id: self.id, action: 'appear')
   end
 
   def disappear
     update presence_status: 'offline'
-    AppearanceRelayJob.perform_later(user: self, actor_id: self.id, action: 'disappear').enqueue wait: 2.seconds
+    AppearanceRelayJob.perform_later(user: self, actor_id: self.id, action: 'disappear')
   end
 
   def name

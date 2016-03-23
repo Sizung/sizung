@@ -4,7 +4,7 @@ App.organizationChannel = App.cable.subscriptions.create "OrganizationChannel",
     # console.log('OrganizationChannel connected to server.')
 
   received: (data) ->
-    console.log 'OrganizationChannel received: ', data
+    # console.log 'OrganizationChannel received: ', data
     this.onReceived(data)
 
   setOnReceived: (callback) ->
