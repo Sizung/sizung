@@ -75,7 +75,7 @@ class EditableText extends React.Component {
       return (
         <div className={styles.editTextContainer}>
           <form className="form-horizontal">
-            <div className="form-group" style={{ marginBottom: '5px' }}>
+            <div className="form-group">
               <div className="col-xs-12">
                 <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} />
               </div>
@@ -87,7 +87,7 @@ class EditableText extends React.Component {
 
     const persistedTextStyle = this.props.inverted ? styles.persistedTextInverted : styles.persistedText;
     return (
-      <div className={styles.persistedTextContainer}>
+      <div className={styles.persistedTextContainer}  onClick={this.handleEditClick}>
         <div className={persistedTextStyle}>
           <TextWithMentions maxLength={this.props.maxLength}>{persistedText}</TextWithMentions>
         </div>

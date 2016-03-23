@@ -91,6 +91,7 @@ class SizungInput extends React.Component {
                      onBlur={this.handleBlur}
                      rows="1"
                      markup="@[__display__](__id__)"
+                     autoFocus
                      //style={defaultStyle()}
       >
         <Mention  trigger="@"
