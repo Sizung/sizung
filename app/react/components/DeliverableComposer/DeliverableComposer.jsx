@@ -24,12 +24,36 @@ class DeliverableComposer extends React.Component {
     this.state = { value: '', assigneeId: null, dueOn: null };
   }
 
+  getConversationId = () => {
+    const { parent } = this.props;
+
+    if (parent.type === 'agendaItems') {
+      return parent.conversationId;
+    } else if (parent.type === 'deliverables') {
+      return parent.agendaItem.conversationId;
+    } else {
+      console.warn(`DeliverableComposer does not support parent of type: ${parent.type}`);
+      return null;
+    }
+  }
+
+
   handleSubmit = (e) => {
+    const { parent } = this.props;
     const title = this.state.value.trim();
     const { dueOn } = this.state;
     const assigneeId = this.assigneeId();
+    let agendaItemId = null;
+    if (parent.type === 'agendaItems') {
+      agendaItemId = parent.id;
+    } else if (parent.type === 'deliverables') {
+      agendaItemId = parent.agendaItemId;
+    } else {
+      console.warn(`DeliverableComposer does not support parent of type: ${parent.type}`);
+    }
+
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
-    this.props.createDeliverable({ agenda_item_id: this.props.parent.id, title, assignee_id: assigneeId, due_on: dueOn });
+    this.props.createDeliverable({ agenda_item_id: agendaItemId, title, assignee_id: assigneeId, due_on: dueOn });
     this.setState({ value: '', assigneeId: null, dueOn: null });
     this.props.onClose();
   };
@@ -66,7 +90,7 @@ class DeliverableComposer extends React.Component {
         <div className={styles.properties}>
           <div className={styles.assigneeContainer}>
             <div className={styles.assignLabel}>ASSIGN TO</div>
-            <EditableUserApp userId={assigneeId} conversationId={this.props.parent.conversationId} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
+            <EditableUserApp userId={assigneeId} conversationId={this.getConversationId()} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
           </div>
           <div className={styles.dueOnContainer}>
             <div className={styles.dueOnLabel}>DUE ON</div>

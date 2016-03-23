@@ -70,10 +70,10 @@ function mapStateToProps(state, props) {
     commentForm: {
       currentUser: selectors.currentUser(state),
       parent: agendaItem,
-      canCreateAgendaItem: false,
+      canCreateAgendaItem: true,
       canCreateDeliverable: true,
     },
-    canCreateAgendaItem: false,
+    canCreateAgendaItem: true,
     canCreateDeliverable: true,
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),

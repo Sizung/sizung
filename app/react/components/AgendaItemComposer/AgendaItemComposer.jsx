@@ -10,6 +10,7 @@ class AgendaItemComposer extends React.Component {
     parent: PropTypes.shape({
       id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
+      conversationId: PropTypes.string,
     }).isRequired,
     onClose: PropTypes.func.isRequired,
   };
@@ -20,8 +21,19 @@ class AgendaItemComposer extends React.Component {
   }
 
   handleSubmit = (e) => {
+    const { parent } = this.props;
     const title = this.state.value.trim();
-    const conversationId = this.props.parent.id;
+    let conversationId = null;
+
+    if (parent.type === 'conversations') {
+      conversationId = parent.id;
+    } else if (parent.type === 'agendaItems') {
+      conversationId = parent.conversationId;
+    } else if (parent.type === 'deliverables') {
+      conversationId = parent.agendaItem.conversationId;
+    } else {
+      console.warn(`AgendaItemComposer does not support parent of type: ${parent.type}`);
+    }
 
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     this.props.createAgendaItem({ conversation_id: conversationId, title });
