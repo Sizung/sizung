@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import DeliverableIcon from '../DeliverableIcon';
+import Icon from '../Icon';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions/index';
 import { Link } from 'react-router';
@@ -18,10 +18,8 @@ class DeliverableInTimelineHeader extends React.Component {
 
     return (
       <div className={ styles.root }>
-        <div className={ styles.deliverableIconContainer }>
-          <DeliverableIcon/>
-        </div>
         <div className={ styles.titleContainer }>
+          <Icon type="deliverable" gap="2rem" />
           <TextWithMentions>{title}</TextWithMentions>
         </div>
         <div className={styles.closeLinkContainer}>

@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import Deliverable from './../Deliverable/index';
-import DeliverableIcon from './../DeliverableIcon';
+import Icon from './../Icon';
 import styles from './index.css';
 
 class DeliverableList extends Component {
@@ -48,12 +48,9 @@ class DeliverableList extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.header}>
-            <div className={styles.iconContainer}>
-              <DeliverableIcon size={'large'} />
-            </div>
-            <div className={styles.titleContainer}>
-              DELIVERABLES
-            </div>
+          <Icon type="deliverable" gap="10px">
+            DELIVERABLES
+          </Icon>
         </div>
         <div ref="deliverableList" className={styles.list}>
           {

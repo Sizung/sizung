@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-
 import SizungTime from '../SizungTime';
 import Time from 'react-time';
 import User from '../User/index';
-import DeliverableIcon from '../DeliverableIcon';
+import Icon from '../Icon';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
 
@@ -48,28 +47,26 @@ class DeliverableInTimeline extends React.Component {
 
   render() {
     const { deliverable, showOwner } = this.props;
-    const { owner, dueOn } = deliverable;
+    const { owner } = deliverable;
 
     return (
       <div className={styles.root}>
         <div className={styles.userContainer}>
-          { showOwner ? <User user={owner}/> : ''}
+          { showOwner ? <User user={owner} /> : ''}
         </div>
         <div className={styles.contentWrapper}>
           <div className={styles.content}>
             <div className={styles.deliverableLabel}>DELIVERABLE created</div>
             <Link to={'deliverables/' + deliverable.id} className={styles.title}>
               <div className={styles.row}>
-                <div className={styles.deliverableIconContainer}>
-                  <DeliverableIcon inverted size={'small'}/>
-                </div>
                 <div className={styles.textContainer}>
+                  <Icon type="deliverable" gap="20px" />
                   <TextWithMentions>{deliverable.title}</TextWithMentions>
                 </div>
               </div>
               <div className={styles.properties}>
-                <div style={{flex: 'none'}}>
-                  <User user={deliverable.assignee}/>
+                <div style={{ flex: 'none' }}>
+                  <User user={deliverable.assignee} />
                 </div>
                 {this.dueOn()}
               </div>

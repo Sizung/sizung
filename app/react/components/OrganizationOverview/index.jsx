@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import ReactDOM from 'react-dom';
-
 import Organization from '../Organization';
 import Conversation from '../Conversation';
 import AgendaItemList from '../AgendaItemList';
 import DeliverableList from '../DeliverableList';
 import ConversationLayout from '../ConversationLayout';
-import ChatIcon from '../ChatIcon';
+import Icon from '../Icon';
 import PlusIcon from '../PlusIcon';
 import CSSModules from 'react-css-modules';
 import styles from './index.css';
@@ -16,7 +14,7 @@ class OrganizationOverview extends Component {
 
   conversationElements = (conversations) => {
     const elements = conversations.map((conversation) => {
-      return <Conversation key={ conversation.id } conversation={ conversation } users={ this.props.users }/>;
+      return <Conversation key={ conversation.id } conversation={ conversation } users={ this.props.users } />;
     }).toJS();
 
     return elements;
@@ -26,8 +24,8 @@ class OrganizationOverview extends Component {
     const { organization, conversations, agendaItems, visitAgendaItem, deliverables, visitDeliverable } = this.props;
 
     return (
-      <div styleName='root' ref='root'>
-        <Organization organization={organization} ref='organization'/>
+      <div styleName="root" ref="root">
+        <Organization organization={organization} ref='organization' />
         <ConversationLayout
           left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } /> }
           right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } /> }
@@ -35,11 +33,11 @@ class OrganizationOverview extends Component {
           <div styleName='center-panel'>
             <div styleName="header-container">
               <div styleName='title'>
-                <ChatIcon inverted={true} style={{ marginRight: '20px' }} size={'large'}/>CONVERSATIONS
+                <Icon type="chat" style={{ marginRight: '20px' }}>CONVERSATIONS</Icon>
               </div>
               <div styleName="action">
                 <a href={'/organizations/' + organization.id + '/conversations/new'}>
-                  <PlusIcon/>
+                  <PlusIcon />
                 </a>
               </div>
             </div>
@@ -60,7 +58,7 @@ OrganizationOverview.propTypes = {
   deliverables: PropTypes.object.isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
   visitDeliverable: PropTypes.func.isRequired,
-  users: PropTypes.object.isRequired
+  users: PropTypes.object.isRequired,
 };
 
 export default OrganizationOverview;

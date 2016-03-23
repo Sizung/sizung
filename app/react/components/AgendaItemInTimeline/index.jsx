@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import SizungTime from '../SizungTime';
 import User from '../User/index';
-import AgendaItemIcon from '../AgendaItemIcon';
+import Icon from '../Icon';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
 
@@ -29,9 +29,10 @@ class AgendaItemInTimeline extends React.Component {
             <div className={styles.content}>
               <div className={styles.agendaItemLabel}>AGENDA created</div>
               <Link to={'/agenda_items/' + agendaItem.id} className={styles.title}>
-                <div className={styles.agendaItemIconContainer}><AgendaItemIcon /></div>
                 <div className={styles.textContainer}>
-                  <TextWithMentions>{agendaItem.title}</TextWithMentions>
+                  <Icon type="agendaItem" className={styles.icon}>
+                    <TextWithMentions>{agendaItem.title}</TextWithMentions>
+                  </Icon>
                 </div>
               </Link>
             </div>

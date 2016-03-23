@@ -1,16 +1,12 @@
-// Plain components should not have any knowledge of where the data came from and how to change the the state.
-
 import React, { PropTypes } from 'react';
 import styles from './index.css';
-
-import EditableStatus from '../EditableStatus';
 import EditableText from '../EditableText';
-import AgendaItemIcon from '../AgendaItemIcon';
+import Icon from '../Icon';
 import ArchiveIcon from '../ArchiveIcon';
 import ResolveIcon from '../ResolveIcon';
 
 class AgendaItem extends React.Component {
-  
+
   handleClick = (e) => {
     e.preventDefault();
     this.props.visitAgendaItem(this.props.agendaItem.id);
@@ -34,7 +30,7 @@ class AgendaItem extends React.Component {
     return (
       <div className={styles.archiveContainer} onClick={this.handleArchive}>
         <span className={styles.iconContainer}>
-          <ArchiveIcon size={'x-large'}/>
+          <ArchiveIcon size={'x-large'} />
         </span>
         <span>
           {'Archive'}
@@ -48,7 +44,7 @@ class AgendaItem extends React.Component {
       return (
         <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
           <span className={styles.iconContainer}>
-            <ResolveIcon size={'x-large'}/>
+            <ResolveIcon size={'x-large'} />
           </span>
           <span>
             {'Resolve'}
@@ -86,10 +82,10 @@ class AgendaItem extends React.Component {
         <div className={styles.contentContainer} title={agendaItem.title}>
           <div className={styles.titleContainer}>
             <div className={styles.agendaItemIconContainer}>
-              <AgendaItemIcon inverted={true}/>
+              <Icon type="agendaItem" />
             </div>
             <div className={styles.title}>
-              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={!agendaItem.archived} inverted maxLength={40}/>
+              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={!agendaItem.archived} inverted maxLength={40} />
             </div>
           </div>
         </div>

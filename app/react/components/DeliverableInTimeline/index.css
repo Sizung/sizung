@@ -75,14 +75,6 @@
   color: #57C1E8;
 }
 
-.deliverableIconContainer {
-  flex: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  width: 4.563rem;
-}
-
 .timeContainer {
   font-family: Gotham-Book;
   font-size: 1rem;
@@ -115,6 +107,7 @@
 
 .textContainer {
   padding: 10px 0;
+  margin-left: 20px;
 }
 
 .dueOnWrapper {

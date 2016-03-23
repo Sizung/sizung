@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import AgendaItem from './../AgendaItem/index';
-import AgendaItemIcon from '../AgendaItemIcon';
+import Icon from '../Icon';
 import styles from './index.css';
 
 class AgendaItemList extends Component {
@@ -35,12 +35,7 @@ class AgendaItemList extends Component {
     return (
       <div className={styles.root}>
         <div className={styles.header}>
-          <div className={styles.iconContainer}>
-           <AgendaItemIcon inverted size={'large'} />
-          </div>
-          <div className={styles.titleContainer}>
-            AGENDAS
-          </div>
+          <Icon type="agendaItem">AGENDAS</Icon>
         </div>
         <div ref="agendaItemList" className={styles.list}>
           {

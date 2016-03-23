@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import styles from './DeliverableComposer.css';
 import SizungInputApp from '../../containers/SizungInputApp';
 import CloseIcon from '../CloseIcon';
-import DeliverableIcon from '../DeliverableIcon';
+import Icon from '../Icon';
 import EditableUserApp from '../../containers/EditableUserApp';
 import EditableDate from '../EditableDate';
 
@@ -77,7 +77,7 @@ class DeliverableComposer extends React.Component {
         </div>
         <div className={styles.row}>
           <form className={styles.form} onSubmit={this.handleSubmit}>
-            <DeliverableIcon inverted size="xLarge" style={{ alignSelf: 'flex-end', marginBottom: '0.5rem' }} />
+            <Icon type="deliverable" style={{ alignSelf: 'flex-end' }} />
             <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Enter Deliverable Name" />
             <div className={styles.charsHint}>40 chars</div>
           </form>

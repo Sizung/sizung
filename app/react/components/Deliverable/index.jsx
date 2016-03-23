@@ -3,7 +3,7 @@ import styles from './index.css';
 import EditableText from '../EditableText';
 import EditableDate from '../EditableDate';
 import EditableUserApp from '../../containers/EditableUserApp';
-import AgendaItemIcon from '../AgendaItemIcon';
+import Icon from '../Icon';
 import TextWithMentions from '../TextWithMentions';
 import DeliverableIcon from '../DeliverableIcon';
 import ResolveIcon from '../ResolveIcon';
@@ -44,10 +44,10 @@ class Deliverable extends React.Component {
   };
 
   agendaItemTitle = () => {
-    const { selected, deliverable } = this.props;
+    const { deliverable } = this.props;
     return (
       <div className={styles.contextTitleContainer}>
-        <AgendaItemIcon size={'small'} inverted={selected} style={{ marginRight: '5px' }} />
+        <Icon type="agendaItem" />
         <TextWithMentions maxLength={40}>{ deliverable.agendaItem.title }</TextWithMentions>
       </div>
     );

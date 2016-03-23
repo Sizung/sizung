@@ -75,18 +75,15 @@
   color: #57C1E8;
 }
 
-.agendaItemIconContainer {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding: 0px 20px;
-}
-
 .timeContainer {
   font-family: Gotham-Book;
   font-size: 1rem;
   line-height : 4rem;
   color : #8C9295;
+}
+
+.icon {
+  margin-left: 8px;
 }
 
 .textContainer {
