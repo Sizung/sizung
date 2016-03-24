@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import styles from './index.css';
 import FormInput from '../FormInput';
 import TextInput from '../TextInput';
+import * as api from '../../utils/api';
 
 class SignUpInformation extends React.Component {
 
@@ -20,8 +21,17 @@ class SignUpInformation extends React.Component {
   }
 
   handleSubmitClick = () => {
+    let user = {
+      email: this.props.user.email,
+      first_name: this.props.user.firstName,
+      last_name: this.props.user.lastName,
+      password: this.props.user.password,
+      password_confirmation: this.props.user.passwordConfirmation,
+    };
     if (this.validateForm()) {
-      alert('Validate and Call Ajax');
+      api.postJson('/api/users', user, (json) => {
+        alert(JSON.stringify(json));
+      });
     }
   };
 
