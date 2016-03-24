@@ -1,26 +1,73 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
-import SizungInputApp from '../../containers/SizungInputApp';
+import FormInput from '../FormInput';
+import TextInput from '../TextInput';
 
 class SignUpInformation extends React.Component {
 
   static propTypes = {
-    updateState: PropTypes.func.isRequired,
+    setCurrentStage: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    setUser: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    this.refs.firstName.focus();
+  constructor() {
+    super();
+    this.state = {
+      firstNameErrorMessage: '',
+      lastNameErrorMessage: '',
+    };
   }
 
   handleSubmitClick = () => {
-    console.log('Validate and Call Ajax');
+    if (this.validateForm()) {
+      alert('Validate and Call Ajax');
+    }
   };
 
   handleBackClick = () => {
-    this.props.updateState('credentials');
+    this.props.setCurrentStage('credentials');
+  };
+
+  validateForm = () => {
+    if (this.validateFirstName() && this.validateLastName()) {
+      return true;
+    }
+    return false;
+  };
+
+  validateFirstName = () => {
+    const { firstName } = this.props.user;
+    let errorMessage = '';
+    if (firstName === null || firstName.trim() === '') {
+      errorMessage = 'First Name cannot be empty';
+    }
+    this.setState({
+      firstNameErrorMessage: errorMessage,
+    });
+    if (errorMessage !== null && errorMessage.trim() !== '') {
+      return false;
+    }
+    return true;
+  };
+
+  validateLastName = () => {
+    const { lastName } = this.props.user;
+    let errorMessage = '';
+    if (lastName === null || lastName.trim() === '') {
+      errorMessage = 'Last Name cannot be empty';
+    }
+    this.setState({
+      lastNameErrorMessage: errorMessage,
+    });
+    if (errorMessage !== null && errorMessage.trim() !== '') {
+      return false;
+    }
+    return true;
   };
 
   render() {
+    const { firstName, lastName } = this.props.user;
     return (
       <div className={styles.root}>
         <div className={styles.leftColumn}>
@@ -56,28 +103,14 @@ class SignUpInformation extends React.Component {
             <div className={styles.formSubTitle}>
               Just a little information about you.
             </div>
-            <div className={styles.formInput}>
-              <div className={styles.formInputLabel}>
-                FIRST NAME
-              </div>
-              <div className={styles.formInputValue}>
-                <input ref='firstName' type='text' autoFocus/>
-              </div>
-            </div>
-            <div className={styles.formInput}>
-              <div className={styles.formInputLabel}>
-                LAST NAME
-              </div>
-              <div className={styles.formInputValue}>
-                <input type='text'/>
-              </div>
-            </div>
+            <TextInput value={firstName} type={'firstName'} validate={this.validateFirstName} setUser={this.props.setUser} errorMessage={this.state.firstNameErrorMessage}/>
+            <TextInput value={lastName} type={'lastName'} validate={this.validateLastName} setUser={this.props.setUser} errorMessage={this.state.lastNameErrorMessage}/>
             <div className={styles.actionContainer}>
               <div className={styles.backLink} onClick={this.handleBackClick}>
                 <span className={styles.caretLeftBlack}></span>
                 <span style={{marginLeft: '10px'}}>BACK</span>
               </div>
-              <div className={styles.formSubmit}>
+              <div className={styles.formSubmit} onClick={this.handleSubmitClick}>
                 SUBMIT
               </div>
             </div>

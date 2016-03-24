@@ -60,7 +60,7 @@
   color: #37ACD4;
 }
 
-.caretLeft {
+.caretLeftWhite {
   display: inline-block;
   background: url('/icons/caret-left-white.svg') no-repeat center;
   background-size: 1rem 1rem;
@@ -78,14 +78,14 @@
 
 .formContainer {
   margin-top: 20.125rem;
-  width: 47.625rem;
+  /*width: 47.625rem;*/
 }
 
 .formTitle {
   color: #37ACD4;
   font-family: Gotham-Medium;
   font-size: 2.5rem;
-  /*width: 47.625rem;*/
+  width: 47.625rem;
   padding: 1.563rem 0 2.875rem 0;
 }
 
@@ -93,7 +93,7 @@
   color: #0A0022;
   font-family: Gotham-Book;
   font-size: 1.375rem;
-  /*width: 47.625rem;*/
+  width: 47.625rem;
   margin-bottom: 3.125rem;
 }
 
@@ -138,6 +138,7 @@
 
 
 .actionContainer {
+  width: 47.625rem;
   margin-top: 40px;
 }
 

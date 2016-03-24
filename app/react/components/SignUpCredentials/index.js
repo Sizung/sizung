@@ -1,22 +1,99 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
-import SizungInputApp from '../../containers/SizungInputApp';
+import FormInput from '../FormInput';
+import EmailInput from '../EmailInput';
+import PasswordInput from '../PasswordInput';
 
 class SignUpCredentials extends React.Component {
 
   static propTypes = {
-    updateState: PropTypes.func.isRequired,
+    setCurrentStage: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    setUser: PropTypes.func.isRequired,
   };
 
-  componentDidMount() {
-    this.refs.email.focus();
+  constructor() {
+    super();
+    this.state = {
+      emailErrorMessage: '',
+      passwordErrorMessage: '',
+      passwordConfirmationErrorMessage: '',
+    };
   }
 
   handleNextClick = () => {
-    this.props.updateState('information');
+    if (this.validateForm()) {
+      this.props.setCurrentStage('information');
+    }
+  };
+
+  validateForm = () => {
+    if (this.validateEmail() && this.validatePassword() && this.validatePasswordConfirmation()) {
+      return true;
+    }
+    return false;
+  };
+
+  validateEmail = () => {
+    const { email } = this.props.user;
+    let errorMessage = '';
+    if (email === null || email === undefined || email.trim() === '') {
+      errorMessage = 'Email Address cannot be empty';
+    } else {
+      const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      if (!emailRegex.test(email)) {
+        errorMessage = 'Email Address is not valid';
+      }
+    }
+    this.setState({
+      emailErrorMessage: errorMessage,
+    });
+
+    if (errorMessage !== null && errorMessage.trim() !== '') {
+      return false;
+    }
+    return true;
+  };
+
+  validatePassword = () => {
+    const { password } = this.props.user;
+    console.log('password: ' + password);
+    let errorMessage = '';
+    if (password === null || password === undefined || password.trim() === '') {
+      errorMessage = 'Password cannot be empty';
+    } else {
+      if (password.length < 8) {
+        errorMessage = 'Minimum 8 characters required';
+      }
+    }
+    this.setState({
+      passwordErrorMessage: errorMessage,
+    });
+    if (errorMessage !== null && errorMessage.trim() !== '') {
+      return false;
+    }
+    return true;
+  };
+
+  validatePasswordConfirmation = () => {
+    const { passwordConfirmation, password } = this.props.user;
+    let errorMessage = '';
+    if (passwordConfirmation === null || passwordConfirmation === undefined || passwordConfirmation.trim() === '') {
+      errorMessage = 'Password cannot be empty';
+    } else if (passwordConfirmation !== password) {
+      errorMessage = 'Passwords do not match';
+    }
+    this.setState({
+      passwordConfirmationErrorMessage: errorMessage,
+    });
+    if (errorMessage !== null && errorMessage.trim() !== '') {
+      return false;
+    }
+    return true;
   };
 
   render() {
+    const { email, password, passwordConfirmation } = this.props.user;
     return (
       <div className={styles.root}>
         <div className={styles.leftColumn}>
@@ -47,32 +124,11 @@ class SignUpCredentials extends React.Component {
             <div className={styles.formSubTitle}>
               Add your email address as a username to sign into Sizung, along with a secure password.
             </div>
-            <div className={styles.formInput}>
-              <div className={styles.formInputLabel}>
-                EMAIL ADDRESS
-              </div>
-              <div className={styles.formInputValue}>
-                <input ref='email' type='email' placeholder="eg: username@domain.com" tab-index='1' autoFocus/>
-              </div>
-            </div>
-            <div className={styles.formInput}>
-              <div className={styles.formInputLabel}>
-                PASSWORD
-              </div>
-              <div className={styles.formInputValue}>
-                <input type='password' placeholder="min 8 character password" tab-index='2'/>
-              </div>
-            </div>
-            <div className={styles.formInput}>
-              <div className={styles.formInputLabel}>
-                CONFIRM PASSWORD
-              </div>
-              <div className={styles.formInputValue}>
-                <input type='password' rows="1" placeholder="" tab-index='3'/>
-              </div>
-            </div>
+            <EmailInput value={email} validate={this.validateEmail} setUser={this.props.setUser} errorMessage={this.state.emailErrorMessage}/>
+            <PasswordInput value={password} type={'password'} validate={this.validatePassword} setUser={this.props.setUser} errorMessage={this.state.passwordErrorMessage}/>
+            <PasswordInput value={passwordConfirmation} type={'passwordConfirmation'} validate={this.validatePasswordConfirmation} setUser={this.props.setUser} errorMessage={this.state.passwordConfirmationErrorMessage}/>
             <div className={styles.actionContainer}>
-              <div className={styles.formSubmit} onClick={this.handleNextClick}>
+              <div className={styles.formSubmit} onClick={this.handleNextClick} tab-index='4'>
                 NEXT
               </div>
             </div>
