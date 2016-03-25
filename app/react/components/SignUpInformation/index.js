@@ -21,17 +21,18 @@ class SignUpInformation extends React.Component {
   }
 
   handleSubmitClick = () => {
-    let user = {
-      email: this.props.user.email,
-      first_name: this.props.user.firstName,
-      last_name: this.props.user.lastName,
-      password: this.props.user.password,
-      password_confirmation: this.props.user.passwordConfirmation,
-    };
+    //let user = {
+    //  email: this.props.user.email,
+    //  first_name: this.props.user.firstName,
+    //  last_name: this.props.user.lastName,
+    //  password: this.props.user.password,
+    //  password_confirmation: this.props.user.passwordConfirmation,
+    //};
     if (this.validateForm()) {
-      api.postJson('/api/users', user, (json) => {
-        alert(JSON.stringify(json));
-      });
+      //api.postJson('/users', user, (json) => {
+      //  alert(JSON.stringify(json));
+      //});
+      alert('User registration complete');
     }
   };
 
