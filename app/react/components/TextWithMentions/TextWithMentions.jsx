@@ -8,8 +8,15 @@ class TextWithMentions extends React.Component {
     maxLength: PropTypes.number,
   };
 
+  static customLinkRenderer = (href, title, text) => {
+    return `<a href="${href}" title="${title || text}" target="_blank">${text}</a>`;
+  };
+
   rawMarkup = () => {
     const pattern = new RegExp(/(.*)@\[([^\]]*)\]\([^\)]*\)(.*)/);
+
+    const renderer = new marked.Renderer();
+    renderer.link = TextWithMentions.customLinkRenderer;
 
     let text = this.props.children;
 
@@ -17,9 +24,11 @@ class TextWithMentions extends React.Component {
       text = text.replace(pattern, '$1__$2__$3');
     }
 
-    text = this.props.maxLength && text.length > this.props.maxLength ? text.substring(0, this.props.maxLength) + '...' : text;
+    text = this.props.maxLength && text.length > this.props.maxLength ?
+           `${text.substring(0, this.props.maxLength)}...`
+         : text;
 
-    const rawMarkup = marked(text, { sanitize: true });
+    const rawMarkup = marked(text, { sanitize: true, renderer });
     return { __html: rawMarkup };
   };
 
