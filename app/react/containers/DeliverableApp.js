@@ -13,7 +13,7 @@ import * as deliverableUtils from '../utils/deliverableUtils.js';
 import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillDeliverable } from '../utils/entityUtils';
-import DeliverableListApp from './DeliverableListApp';
+import DeliverableList from '../components/DeliverableList';
 
 class DeliverableApp extends React.Component {
   componentDidMount() {
@@ -32,16 +32,14 @@ class DeliverableApp extends React.Component {
   };
 
   render() {
-    const { commentForm } = this.props;
+    const { commentForm, deliverables, deliverable, visitDeliverable } = this.props;
     const { parent } = commentForm;
     if (parent) {
       // TODO: fix naming. The commentForm.parent is a deliverable in this container.
       const conversationId = deliverableUtils.getConversationIdFromParent(parent.parent);
 
-      // const right = <DeliverableListApp parent={deliverableParent} selectedDeliverableId={this.props.params.deliverableId} />;
-      
       return (
-        <ConversationLayoutApp conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id}>
+        <ConversationLayoutApp conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } /> }>
           <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );
@@ -69,9 +67,22 @@ function nextPageUrl(state, props) {
 
 function mapStateToProps(state, props) {
   const deliverable = fillDeliverable(state, props.params.deliverableId);
+
+  let deliverables = null;
+  switch(deliverable ? deliverable.parentType : null) {
+    case 'agendaItems':
+      deliverables = selectors.deliverablesForAgendaItem(state, deliverable.parentId);
+      break;
+    case 'conversations':
+      deliverables = selectors.deliverablesForConversationOnly(state, deliverable.parentId);
+      break;
+  }
+
   const deliverableParent = deliverable ? deliverable.parent : null;
   const conversationMembersViewVisible = selectors.conversationMemberListVisible(state);
   return {
+    deliverable,
+    deliverables,
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
       currentUser: selectors.currentUser(state),

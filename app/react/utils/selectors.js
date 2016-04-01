@@ -75,13 +75,18 @@ const deliverablesForAgendaItem = (state, agendaItemId) => {
   return sortDeliverables(deliverablesList);
 };
 
-const deliverablesForConversation = (state, conversationId) => {
-  const conversationDeliverableReferences = deliverableReferencesForConversation(state, conversationId);
-  const conversationDeliverableList = conversationDeliverableReferences.map((ref) => {
+const deliverablesForConversationOnly = (state, conversationId) => {
+  const conversationDeliverableList = deliverableReferencesForConversation(state, conversationId).map((ref) => {
     return fillConversationObject(state, ref);
   }).filter((deliverable) => {
     return (deliverable.parent && !deliverable.parent.archived) && !deliverable.archived;
   }).toList();
+
+  return sortDeliverables(conversationDeliverableList);
+}
+
+const deliverablesForConversation = (state, conversationId) => {
+  const conversationDeliverableList = deliverablesForConversationOnly(state, conversationId);
 
   const agendaItemIds = agendaItemIdsForConversation(state, conversationId).map(agendaItem => agendaItem.id);
   let deliverablesList = agendaItemIds.map((agendaItemId) => {
@@ -228,6 +233,7 @@ export {
   agendaItemsForOrganization,
   deliverablesForOrganization,
   deliverablesForConversation,
+  deliverablesForConversationOnly,
   deliverablesForAgendaItem,
   conversationsForOrganization,
   organization,

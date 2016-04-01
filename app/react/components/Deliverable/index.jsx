@@ -48,11 +48,9 @@ class Deliverable extends React.Component {
     const { deliverable } = this.props;
     let icon;
 
-    console.log(deliverable.parentType);
-    
     switch(deliverable.parentType) {
       case 'agendaItems':
-        icon = <Icon type="agendaItem" style={{ marginLeft: '-10px;'}}/>;
+        icon = <Icon type="agendaItem" style={{ marginLeft: '-10px'}}/>;
         break;
       case 'conversations':
         icon = <Icon type="chat" gap="15px" />;
