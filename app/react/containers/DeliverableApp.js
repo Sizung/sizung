@@ -13,7 +13,7 @@ import * as deliverableUtils from '../utils/deliverableUtils.js';
 import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillDeliverable } from '../utils/entityUtils';
-import DeliverableListApp from 'DeliverableListApp';
+import DeliverableListApp from './DeliverableListApp';
 
 class DeliverableApp extends React.Component {
   componentDidMount() {
