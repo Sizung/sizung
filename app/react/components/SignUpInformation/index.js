@@ -20,24 +20,14 @@ class SignUpInformation extends React.Component {
     };
   }
 
-  handleSubmitClick = () => {
-    //let user = {
-    //  email: this.props.user.email,
-    //  first_name: this.props.user.firstName,
-    //  last_name: this.props.user.lastName,
-    //  password: this.props.user.password,
-    //  password_confirmation: this.props.user.passwordConfirmation,
-    //};
+  handleNextClick = () => {
     if (this.validateForm()) {
-      //api.postJson('/users', user, (json) => {
-      //  alert(JSON.stringify(json));
-      //});
-      alert('User registration complete');
+      this.props.setCurrentStage(2);
     }
   };
 
   handleBackClick = () => {
-    this.props.setCurrentStage('credentials');
+    this.props.setCurrentStage(0);
   };
 
   validateForm = () => {
@@ -80,51 +70,22 @@ class SignUpInformation extends React.Component {
   render() {
     const { firstName, lastName } = this.props.user;
     return (
-      <div className={styles.root}>
-        <div className={styles.leftColumn}>
-          <div className={styles.logoContainer}>
-            <div className={styles.logo}>
-            </div>
-            <div className={styles.logoTitle}>
-            </div>
-          </div>
-          <div className={styles.stagesContainer}>
-            <div className={styles.previousStage}>
-              <span style={{ marginRight: '10px'}}>
-                Credentials
-              </span>
-              <span className={styles.tick}>
-              </span>
-            </div>
-            <div className={styles.currentStage}>
-              <span style={{ marginRight: '10px'}}>
-                Information
-              </span>
-              <span className={styles.caretLeftWhite}>
-              </span>
-            </div>
-
-          </div>
+      <div className={styles.formContainer}>
+        <div className={styles.formTitle}>
+          Add your profile Information
         </div>
-        <div className={styles.rightColumn} >
-          <div className={styles.formContainer}>
-            <div className={styles.formTitle}>
-              Add your profile Information
-            </div>
-            <div className={styles.formSubTitle}>
-              Just a little information about you.
-            </div>
-            <TextInput value={firstName} type={'firstName'} validate={this.validateFirstName} setUser={this.props.setUser} errorMessage={this.state.firstNameErrorMessage}/>
-            <TextInput value={lastName} type={'lastName'} validate={this.validateLastName} setUser={this.props.setUser} errorMessage={this.state.lastNameErrorMessage}/>
-            <div className={styles.actionContainer}>
-              <div className={styles.backLink} onClick={this.handleBackClick}>
-                <span className={styles.caretLeftBlack}></span>
-                <span style={{marginLeft: '10px'}}>BACK</span>
-              </div>
-              <div className={styles.formSubmit} onClick={this.handleSubmitClick}>
-                SUBMIT
-              </div>
-            </div>
+        <div className={styles.formSubTitle}>
+          Just a little information about you.
+        </div>
+        <TextInput value={firstName} type={'firstName'} validate={this.validateFirstName} setUser={this.props.setUser} errorMessage={this.state.firstNameErrorMessage}/>
+        <TextInput value={lastName} type={'lastName'} validate={this.validateLastName} setUser={this.props.setUser} errorMessage={this.state.lastNameErrorMessage}/>
+        <div className={styles.actionContainer}>
+          <div className={styles.backLink} onClick={this.handleBackClick}>
+            <span className={styles.caretLeftBlack}></span>
+            <span style={{marginLeft: '10px'}}>BACK</span>
+          </div>
+          <div className={styles.formSubmit} onClick={this.handleNextClick}>
+            NEXT
           </div>
         </div>
       </div>

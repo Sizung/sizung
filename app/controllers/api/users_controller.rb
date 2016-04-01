@@ -1,9 +1,9 @@
 module Api
   class UsersController < ApplicationController
+    skip_before_action :verify_authenticity_token, only: [:create]
     respond_to :json
 
     def index
-      @user
       @user = User.find_by_email(params[:email])
       if @user
         render json: { emailExists: true }
@@ -13,9 +13,16 @@ module Api
     end
 
     def create
-      @user = User.new(user_params)
-      @user.save
-
+      @user = User.create!(user_params)
+      # puts 'Parameters Passed'
+      # puts params.inspect
+      organization_name = Organization::DEFAULT_NAME
+      if params[:user][:organization][:name]
+        organization_name = params[:user][:organization][:name]
+      end
+      if @user.persisted?
+        @user.organizations.create!(name: organization_name, owner: @user)
+      end
       render json: @user, serializer: UserSerializer
     end
 
