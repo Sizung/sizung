@@ -94,7 +94,7 @@ class DeliverableComposer extends React.Component {
         <div className={styles.properties}>
           <div className={styles.assigneeContainer}>
             <div className={styles.assignLabel}>ASSIGN TO</div>
-            <EditableUserApp userId={assigneeId} conversationId={deliverableUtils.getConversationIdFromParent(parent)} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
+            <EditableUserApp userId={assigneeId} conversationId={deliverableUtils.getConversationIdFrom(parent)} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
           </div>
           <div className={styles.dueOnContainer}>
             <div className={styles.dueOnLabel}>DUE ON</div>

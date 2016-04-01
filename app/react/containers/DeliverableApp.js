@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import * as ConversationActions from '../actions/conversations';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as CommentActions from '../actions/comments';
 import * as DeliverableActions from '../actions/deliverables';
@@ -32,14 +33,14 @@ class DeliverableApp extends React.Component {
   };
 
   render() {
-    const { commentForm, deliverables, deliverable, visitDeliverable } = this.props;
+    const { commentForm, deliverables, deliverable, visitDeliverable, updateDeliverable, archiveDeliverable } = this.props;
     const { parent } = commentForm;
     if (parent) {
       // TODO: fix naming. The commentForm.parent is a deliverable in this container.
       const conversationId = deliverableUtils.getConversationIdFromParent(parent.parent);
 
       return (
-        <ConversationLayoutApp conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } /> }>
+        <ConversationLayoutApp conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } /> }>
           <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );
@@ -102,7 +103,7 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
+  return bindActionCreators({ ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeliverableApp);
