@@ -46,9 +46,21 @@ class Deliverable extends React.Component {
 
   parentTitle = () => {
     const { deliverable } = this.props;
+    let icon;
+
+    console.log(deliverable.parentType);
+    
+    switch(deliverable.parentType) {
+      case 'agendaItems':
+        icon = <Icon type="agendaItem" style={{ marginLeft: '-10px;'}}/>;
+        break;
+      case 'conversations':
+        icon = <Icon type="chat" gap="15px" />;
+        break;
+    }
     return (
       <div className={styles.contextTitleContainer}>
-        <Icon type={deliverable.parentType === 'agendaItems' ? 'agendaItem' : 'chat'} />
+        { icon }
         <TextWithMentions maxLength={40}>{ deliverable.parent.title }</TextWithMentions>
       </div>
     );
