@@ -10,6 +10,7 @@ const setCurrentConversation = (conversation, included, json) => {
   const conversationMembers = json.data.relationships.conversation_members.data;
   const agendaItems = json.data.relationships.agenda_items.data;
   const deliverables = json.data.relationships.deliverables.data;
+  const agendaItemDeliverables = json.data.relationships.agenda_item_deliverables.data;
 
   return {
     type: constants.CONVERSATION,
@@ -20,6 +21,7 @@ const setCurrentConversation = (conversation, included, json) => {
     conversationMembers,
     agendaItems,
     deliverables,
+    agendaItemDeliverables,
   };
 };
 

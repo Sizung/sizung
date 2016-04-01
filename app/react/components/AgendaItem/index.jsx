@@ -105,7 +105,7 @@ AgendaItem.propTypes = {
     deliverablesCount: PropTypes.number.isRequired,
   }).isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
-  archiveAgendaItem: PropTypes.func.isRequired,
+  archiveAgendaItem: PropTypes.func,
 };
 
 export default AgendaItem;

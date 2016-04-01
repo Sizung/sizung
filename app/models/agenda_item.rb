@@ -4,7 +4,7 @@ class AgendaItem < ActiveRecord::Base
   belongs_to :conversation
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
 
-  has_many :deliverables, dependent: :destroy
+  has_many :deliverables, as: :parent, dependent: :destroy
   has_many :conversation_objects, foreign_key: :parent_id
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :unseen_objects

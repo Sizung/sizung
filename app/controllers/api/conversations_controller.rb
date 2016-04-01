@@ -24,7 +24,7 @@ module Api
       ).find(params[:id])
       authorize @conversation
 
-      render json: @conversation, include: %w(agenda_items deliverables organization organization.organization_members.member conversation_members)
+      render json: @conversation, include: %w(agenda_items deliverables agenda_item_deliverables organization organization.organization_members.member conversation_members)
     end
 
     # POST /conversations.json

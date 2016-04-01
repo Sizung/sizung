@@ -35,7 +35,8 @@ class UnseenService
   def movedDeliverable(deliverable, actor)
     unseen_objects = UnseenObject.all.where(deliverable: deliverable)
     unseen_objects.each do |unseen_object|
-      unseen_object.update agenda_item_id: deliverable.agenda_item_id
+      unseen_object.update agenda_item_id: deliverable.agenda_item.try(:id)
+      unseen_object.update conversation_id: deliverable.conversation.id
       ActionCable.server.broadcast "users:#{unseen_object.user_id}",
                                    payload: ActiveModel::SerializableResource.new(unseen_object).serializable_hash,
                                    action: 'update'

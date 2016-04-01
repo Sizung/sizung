@@ -8,8 +8,8 @@ class DeliverableList extends Component {
     selectedDeliverableId: PropTypes.string,
     visitDeliverable: PropTypes.func.isRequired,
     deliverables: PropTypes.object.isRequired,
-    updateDeliverable: PropTypes.func.isRequired,
-    archiveDeliverable: PropTypes.func.isRequired,
+    updateDeliverable: PropTypes.func,
+    archiveDeliverable: PropTypes.func,
   };
 
   constructor() {
@@ -63,7 +63,6 @@ class DeliverableList extends Component {
                   selected={deliverable.id === selectedDeliverableId}
                   updateDeliverable={updateDeliverable}
                   archiveDeliverable={archiveDeliverable}
-                  conversationContext={!this.props.agendaItemId}
                 />);
             })
           }

@@ -24,20 +24,22 @@ module Api
     end
 
     def show
-      @deliverable = Deliverable.includes({ agenda_item: [:conversation] }, :owner, :assignee).find(params[:id])
+      @deliverable = Deliverable.includes(:parent, :owner, :assignee).find(params[:id])
       authorize @deliverable
-      render json: @deliverable, include: %w(agenda_item agenda_item.conversation)
+      render json: @deliverable, include: %w(parent conversation)
     end
 
     # PUT/PATCH /deliverables/1.json
     def update
       old_body = @deliverable.title
-      original_agenda_item_id = @deliverable.agenda_item_id
+      original_parent_id = @deliverable.parent_id
+      original_parent_type = @deliverable.parent_type
       if @deliverable.toggle_archive(params[:deliverable][:archived]) || @deliverable.update(deliverable_params)
         MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id), old_body)
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')
-        if(deliverable_params[:agenda_item_id].present? && deliverable_params[:agenda_item_id] != original_agenda_item_id)
-          AgendaItemRelayJob.perform_later(agenda_item: AgendaItem.find(original_agenda_item_id), actor_id: nil, action: 'update')
+        if(deliverable_params[:parent_id].present? && deliverable_params[:parent_id] != original_parent_id)
+          # TODO: We probably want to do that for conversation as a parent also
+          AgendaItemRelayJob.perform_later(agenda_item: AgendaItem.find(original_parent_id), actor_id: nil, action: 'update') if original_parent_type == 'AgendaItem'
           MovedDeliverableJob.perform_later(@deliverable, current_user)
         end
       end
@@ -46,11 +48,11 @@ module Api
 
     private
       def deliverable_params
-        params.require(:deliverable).permit(:agenda_item_id, :title, :assignee_id, :status, :due_on)
+        params.require(:deliverable).permit(:parent_id, :parent_type, :title, :assignee_id, :status, :due_on)
       end
 
       def set_deliverable
-        @deliverable = policy_scope(Deliverable).find(params[:id])
+        @deliverable = Deliverable.find(params[:id])
         authorize @deliverable
       end
   end

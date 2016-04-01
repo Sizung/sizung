@@ -20,7 +20,7 @@ const fetchOrganizationsSuccess = (organizations) => {
   };
 };
 
-const fetchOrganizationSuccess = (organization, included, conversations, agendaItems, deliverables) => {
+const fetchOrganizationSuccess = (organization, included, conversations, agendaItems, deliverables, conversationDeliverables) => {
   return {
     type: constants.FETCH_ORGANIZATION,
     status: constants.STATUS_SUCCESS,
@@ -29,6 +29,7 @@ const fetchOrganizationSuccess = (organization, included, conversations, agendaI
     conversations,
     agendaItems,
     deliverables,
+    conversationDeliverables,
   };
 };
 
@@ -38,9 +39,10 @@ const fetchOrganization = (organizationId, dispatch) => {
     const conversations = json.meta.conversations.data.map(transform.transformObjectFromJsonApi);
     const agendaItems = json.meta.agenda_items.data.map(transform.transformObjectFromJsonApi);
     const deliverables = json.meta.deliverables.data.map(transform.transformObjectFromJsonApi);
-    const included = json.included.map(transform.transformObjectFromJsonApi).concat(conversations).concat(agendaItems).concat(deliverables);
+    const conversationDeliverables = json.meta.conversation_deliverables.data.map(transform.transformObjectFromJsonApi);
+    const included = json.included.map(transform.transformObjectFromJsonApi).concat(conversations).concat(agendaItems).concat(deliverables).concat(conversationDeliverables);
 
-    dispatch(fetchOrganizationSuccess(organization, included, conversations, agendaItems, deliverables));
+    dispatch(fetchOrganizationSuccess(organization, included, conversations, agendaItems, deliverables, conversationDeliverables));
     dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
   });
 

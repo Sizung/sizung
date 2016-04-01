@@ -8,10 +8,12 @@ import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
 import * as selectors from '../utils/selectors';
+import * as deliverableUtils from '../utils/deliverableUtils.js';
 
 import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillDeliverable } from '../utils/entityUtils';
+import DeliverableListApp from 'DeliverableListApp';
 
 class DeliverableApp extends React.Component {
   componentDidMount() {
@@ -33,8 +35,13 @@ class DeliverableApp extends React.Component {
     const { commentForm } = this.props;
     const { parent } = commentForm;
     if (parent) {
+      // TODO: fix naming. The commentForm.parent is a deliverable in this container.
+      const conversationId = deliverableUtils.getConversationIdFromParent(parent.parent);
+
+      // const right = <DeliverableListApp parent={deliverableParent} selectedDeliverableId={this.props.params.deliverableId} />;
+      
       return (
-        <ConversationLayoutApp conversationId={parent.agendaItem.conversationId} selectedAgendaItemId={parent.agendaItemId} selectedDeliverableId={parent.id}>
+        <ConversationLayoutApp conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id}>
           <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );
@@ -62,7 +69,7 @@ function nextPageUrl(state, props) {
 
 function mapStateToProps(state, props) {
   const deliverable = fillDeliverable(state, props.params.deliverableId);
-  const agendaItem = deliverable ? deliverable.agendaItem : null;
+  const deliverableParent = deliverable ? deliverable.parent : null;
   const conversationMembersViewVisible = selectors.conversationMemberListVisible(state);
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
@@ -76,7 +83,7 @@ function mapStateToProps(state, props) {
     canCreateDeliverable: true,
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
-    currentConversationId: agendaItem ? agendaItem.conversationId : null,
+    currentConversationId: deliverableParent ? deliverableUtils.getConversationIdFromParent(deliverableParent) : null,
     currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
     conversationMembersViewVisible,

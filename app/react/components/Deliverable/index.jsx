@@ -8,6 +8,7 @@ import TextWithMentions from '../TextWithMentions';
 import DeliverableIcon from '../DeliverableIcon';
 import ResolveIcon from '../ResolveIcon';
 import ArchiveIcon from '../ArchiveIcon';
+import * as deliverableUtils from '../../utils/deliverableUtils.js';
 
 class Deliverable extends React.Component {
 
@@ -43,12 +44,12 @@ class Deliverable extends React.Component {
     this.props.archiveDeliverable(this.props.deliverable.id);
   };
 
-  agendaItemTitle = () => {
+  parentTitle = () => {
     const { deliverable } = this.props;
     return (
       <div className={styles.contextTitleContainer}>
-        <Icon type="agendaItem" />
-        <TextWithMentions maxLength={40}>{ deliverable.agendaItem.title }</TextWithMentions>
+        <Icon type={deliverable.parentType === 'agendaItems' ? 'agendaItem' : 'chat'} />
+        <TextWithMentions maxLength={40}>{ deliverable.parent.title }</TextWithMentions>
       </div>
     );
   };
@@ -125,9 +126,9 @@ class Deliverable extends React.Component {
           <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
         </div>
         <div className={styles.bottomRow}>
-          { selected ? this.renderActions() : this.agendaItemTitle() }
+          { selected ? this.renderActions() : this.parentTitle() }
           <div className={styles.assignee}>
-            <EditableUserApp conversationId={deliverable.agendaItem.conversationId} editable userId={assignee.id} onUpdate={this.handleAssigneeUpdate}/>
+            <EditableUserApp conversationId={deliverableUtils.getConversationIdFromParent(deliverable.parent)} editable userId={assignee.id} onUpdate={this.handleAssigneeUpdate}/>
           </div>
         </div>
       </div>
@@ -139,12 +140,11 @@ Deliverable.propTypes = {
   deliverable: PropTypes.shape({
     title: PropTypes.string.isRequired,
     status: PropTypes.string.isRequired,
-    agendaItem: PropTypes.object.isRequired,
+    parent: PropTypes.object.isRequired,
   }).isRequired,
   visitDeliverable: PropTypes.func.isRequired,
   updateDeliverable: PropTypes.func,
-  conversationContext: PropTypes.bool.isRequired,
-  archiveDeliverable: PropTypes.func.isRequired,
+  archiveDeliverable: PropTypes.func,
 };
 
 export default Deliverable;

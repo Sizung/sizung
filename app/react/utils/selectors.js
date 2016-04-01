@@ -43,6 +43,15 @@ const deliverableReferencesForAgendaItem = (state, agendaItemId) => {
   return deliverableReferences.get('references');
 };
 
+const deliverableReferencesForConversation = (state, conversationId) => {
+  const deliverableReferences = state.getIn(['deliverablesByConversation', conversationId]);
+  if (!deliverableReferences) {
+    return new Immutable.List();
+  }
+
+  return deliverableReferences.get('references');
+};
+
 const sortDeliverables = (deliverablesList) => {
   return deliverablesList.filter((deliverable) => {
     return (deliverable.status === 'open');
@@ -60,19 +69,26 @@ const deliverablesForAgendaItem = (state, agendaItemId) => {
   let deliverablesList = deliverableReferences.map((ref) => {
     return fillConversationObject(state, ref);
   }).filter((deliverable) => {
-    return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
+    return (deliverable.parent && !deliverable.parent.archived) && !deliverable.archived;
   }).toList();
 
   return sortDeliverables(deliverablesList);
 };
 
 const deliverablesForConversation = (state, conversationId) => {
+  const conversationDeliverableReferences = deliverableReferencesForConversation(state, conversationId);
+  const conversationDeliverableList = conversationDeliverableReferences.map((ref) => {
+    return fillConversationObject(state, ref);
+  }).filter((deliverable) => {
+    return (deliverable.parent && !deliverable.parent.archived) && !deliverable.archived;
+  }).toList();
+
   const agendaItemIds = agendaItemIdsForConversation(state, conversationId).map(agendaItem => agendaItem.id);
-  let deliverablesList =  agendaItemIds.map((agendaItemId) => {
+  let deliverablesList = agendaItemIds.map((agendaItemId) => {
     return deliverablesForAgendaItem(state, agendaItemId);
   }).flatten().filter((deliverable) => {
-    return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
-  }).toList();
+    return (deliverable.parent && !deliverable.parent.archived) && !deliverable.archived;
+  }).toList().concat(conversationDeliverableList);
 
   return sortDeliverables(deliverablesList);
 };
