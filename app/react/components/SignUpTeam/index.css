@@ -7,6 +7,7 @@
   color: #37ACD4;
   font-family: Gotham-Medium;
   font-size: 2.5rem;
+  /*width: 47.625rem;*/
   padding: 1.563rem 0 2.875rem 0;
 }
 
@@ -14,10 +15,12 @@
   color: #0A0022;
   font-family: Gotham-Book;
   font-size: 1.375rem;
+  /*width: 47.625rem;*/
   margin-bottom: 3.125rem;
 }
 
 .formInput {
+  /*width: 47.625rem;*/
   height: 8.5rem;
   background-color: #EBEFF0;
   margin-bottom: 10px;

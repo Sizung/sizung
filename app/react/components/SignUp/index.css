@@ -1,0 +1,103 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: stretch;
+}
+
+.leftColumn {
+  flex-direction: column;
+  align-items: stretch;
+  background-color: #0A0022;
+  width: 26%;
+  overflow-y: auto;
+  padding: 0 5.938rem;
+}
+
+.rightColumn {
+  flex-direction: column;
+  align-items: stretch;
+  width: 74%;
+  overflow-y: auto;
+  padding-left: 7rem;
+}
+
+.logoContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  height: 20.125rem;
+}
+
+.stagesContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 6.25rem 0 0;
+}
+
+.stage {
+  flex: 1;
+  font-family: Gotham-Light;
+  font-size: 1.875rem;
+  color: #ffffff;
+  padding: 1.563rem 0;
+}
+
+.currentStage {
+  composes: stage;
+  font-family: Gotham-Medium;
+}
+
+.previousStage {
+  composes: stage;
+  color: #37ACD4;
+  font-family: Gotham-Medium;
+}
+
+
+.stepLabel {
+  margin-right: 10px;
+}
+
+.stage .stepIndicator {
+
+}
+
+.previousStage .stepIndicator {
+  display: inline-block;
+  background: url('/icons/check-icon-blue.svg') no-repeat center;
+  background-size: 1.125rem 1.125rem;
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.currentStage .stepIndicator {
+  display: inline-block;
+  background: url('/icons/caret-left-white.svg') no-repeat center;
+  background-size: 1rem 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.caretLeftWhite {
+  display: inline-block;
+  background: url('/icons/caret-left-white.svg') no-repeat center;
+  background-size: 1rem 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.logo {
+  flex: none;
+  background: url('/icons/sizung-logo-blue.svg') no-repeat center;
+  background-size: 15rem 4.438rem;
+  width: 15rem;
+  height: 4.438rem;
+}

@@ -29,7 +29,7 @@
     - else
       %ul.nav.navbar-nav
         %li.pull-left#login-nav= link_to 'Login', new_user_session_path
-        %li.pull-left#signup-nav= link_to 'Sign up', new_user_registration_path
+        %li.pull-left#signup-nav= link_to 'Sign up', '/signup'
     .container.content-bg.padding-lg.full-width{style: 'min-height: 100%;', class: user_signed_in? ? 'main-content' : ''}
       .row
         .col-lg-12.app-body

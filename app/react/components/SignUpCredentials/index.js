@@ -24,7 +24,7 @@ class SignUpCredentials extends React.Component {
 
   handleNextClick = () => {
     if (this.validateForm()) {
-      this.props.setCurrentStage('information');
+      this.props.setCurrentStage(1);
     }
   };
 
@@ -44,14 +44,15 @@ class SignUpCredentials extends React.Component {
       const emailRegex = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
       if (!emailRegex.test(email)) {
         errorMessage = 'Email Address is not valid';
-      } else {
-        api.fetchJson('/api/users?email=' + email, (json) => {
-          if (json.emailExists) {
-            errorMessage = 'This email address is already taken';
-          }
-          this.setState({ emailErrorMessage: errorMessage });
-        });
       }
+      //else {
+      //  api.fetchJson('/api/users?email=' + email, (json) => {
+      //    if (json.emailExists) {
+      //      errorMessage = 'This email address is already taken';
+      //    }
+      //    this.setState({ emailErrorMessage: errorMessage });
+      //  });
+      //}
     }
     this.setState({ emailErrorMessage: errorMessage });
 
@@ -63,7 +64,6 @@ class SignUpCredentials extends React.Component {
 
   validatePassword = () => {
     const { password } = this.props.user;
-    console.log('password: ' + password);
     let errorMessage = '';
     if (password === null || password === undefined || password.trim() === '') {
       errorMessage = 'Password cannot be empty';
@@ -101,43 +101,19 @@ class SignUpCredentials extends React.Component {
   render() {
     const { email, password, passwordConfirmation } = this.props.user;
     return (
-      <div className={styles.root}>
-        <div className={styles.leftColumn}>
-          <div className={styles.logoContainer}>
-            <div className={styles.logo}>
-            </div>
-            <div className={styles.logoTitle}>
-            </div>
-          </div>
-          <div className={styles.stagesContainer}>
-            <div className={styles.currentStage}>
-              <span style={{ marginRight: '10px'}}>
-                Credentials
-              </span>
-              <span className={styles.caretLeft}>
-              </span>
-            </div>
-            <div className={styles.stage}>
-              Information
-            </div>
-          </div>
+      <div className={styles.formContainer}>
+        <div className={styles.formTitle}>
+          Add your credentials
         </div>
-        <div className={styles.rightColumn} >
-          <div className={styles.formContainer}>
-            <div className={styles.formTitle}>
-              Add your credentials
-            </div>
-            <div className={styles.formSubTitle}>
-              Add your email address as a username to sign into Sizung, along with a secure password.
-            </div>
-            <EmailInput value={email} validate={this.validateEmail} setUser={this.props.setUser} errorMessage={this.state.emailErrorMessage} infoMessage={this.state.emailInfoMessage}/>
-            <PasswordInput value={password} type={'password'} validate={this.validatePassword} setUser={this.props.setUser} errorMessage={this.state.passwordErrorMessage} />
-            <PasswordInput value={passwordConfirmation} type={'passwordConfirmation'} validate={this.validatePasswordConfirmation} setUser={this.props.setUser} errorMessage={this.state.passwordConfirmationErrorMessage}/>
-            <div className={styles.actionContainer}>
-              <div className={styles.formSubmit} onClick={this.handleNextClick} tab-index='4'>
-                NEXT
-              </div>
-            </div>
+        <div className={styles.formSubTitle}>
+          Add your email address as a username to sign into Sizung, along with a secure password.
+        </div>
+        <EmailInput value={email} validate={this.validateEmail} setUser={this.props.setUser} errorMessage={this.state.emailErrorMessage} infoMessage={this.state.emailInfoMessage}/>
+        <PasswordInput value={password} type={'password'} validate={this.validatePassword} setUser={this.props.setUser} errorMessage={this.state.passwordErrorMessage} />
+        <PasswordInput value={passwordConfirmation} type={'passwordConfirmation'} validate={this.validatePasswordConfirmation} setUser={this.props.setUser} errorMessage={this.state.passwordConfirmationErrorMessage}/>
+        <div className={styles.actionContainer}>
+          <div className={styles.formSubmit} onClick={this.handleNextClick} tab-index='4'>
+            NEXT
           </div>
         </div>
       </div>

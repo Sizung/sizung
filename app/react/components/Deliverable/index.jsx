@@ -70,7 +70,7 @@ class Deliverable extends React.Component {
 
   renderResolveAction = () => {
     return (
-      <div className={styles.actionContainer} onClick={this.handleStatusUpdate}>
+      <div className={styles.resolveActionContainer} onClick={this.handleStatusUpdate}>
         <div className={styles.actionIconContainer}>
           <ResolveIcon/>
         </div>
@@ -81,12 +81,9 @@ class Deliverable extends React.Component {
 
   renderArchiveAction = () => {
     return (
-      <div className={styles.actionContainer} onClick={this.handleArchive}>
+      <div className={styles.archiveActionContainer}  onClick={this.handleArchive}>
         <div className={styles.actionIconContainer}>
           <ArchiveIcon/>
-        </div>
-        <div className={styles.actionLabel}>
-          {'Archive'}
         </div>
       </div>
     );
@@ -95,7 +92,12 @@ class Deliverable extends React.Component {
   renderActions = () => {
     const { deliverable, selected } = this.props;
     if (selected && !deliverable.archived) {
-      return (deliverable.status === 'open' ? this.renderResolveAction() : this.renderArchiveAction());
+      return (
+          <div className={styles.actionContainer}>
+            {(deliverable.status === 'open' ? this.renderResolveAction() : false)}
+            {this.renderArchiveAction()}
+          </div>
+      )
     }
     return null;
   };
