@@ -3,6 +3,7 @@ import styles from './AgendaItemComposer.css';
 import SizungInputApp from '../../containers/SizungInputApp';
 import CloseIcon from '../CloseIcon';
 import Icon from '../Icon';
+import * as deliverableUtils from '../../utils/deliverableUtils';
 
 class AgendaItemComposer extends React.Component {
   static propTypes = {
@@ -23,17 +24,7 @@ class AgendaItemComposer extends React.Component {
   handleSubmit = (e) => {
     const { parent } = this.props;
     const title = this.state.value.trim();
-    let conversationId = null;
-
-    if (parent.type === 'conversations') {
-      conversationId = parent.id;
-    } else if (parent.type === 'agendaItems') {
-      conversationId = parent.conversationId;
-    } else if (parent.type === 'deliverables') {
-      conversationId = parent.agendaItem.conversationId;
-    } else {
-      console.warn(`AgendaItemComposer does not support parent of type: ${parent.type}`);
-    }
+    let conversationId = deliverableUtils.getConversationIdFrom(parent);
 
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     this.props.createAgendaItem({ conversation_id: conversationId, title });
