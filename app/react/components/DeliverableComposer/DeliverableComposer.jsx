@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import styles from './DeliverableComposer.css';
 import SizungInputApp from '../../containers/SizungInputApp';
 import CloseIcon from '../CloseIcon';
@@ -6,6 +7,7 @@ import Icon from '../Icon';
 import EditableUserApp from '../../containers/EditableUserApp';
 import EditableDate from '../EditableDate';
 import * as deliverableUtils from '../../utils/deliverableUtils.js';
+import * as ui from '../../utils/ui';
 
 class DeliverableComposer extends React.Component {
   static propTypes = {
@@ -30,6 +32,11 @@ class DeliverableComposer extends React.Component {
     this.state = { value: props.defaultValue, assigneeId: null, dueOn: null };
   }
 
+  componentDidMount() {
+    const el = ReactDOM.findDOMNode(this.refs.name);
+    ui.setCursorToEnd($(el).find('textarea')[0]);
+  }
+  
   getType = (type) => {
     switch (type) {
       case 'conversations':

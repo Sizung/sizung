@@ -4,6 +4,7 @@ import SizungInputApp from '../../containers/SizungInputApp';
 import CloseIcon from '../CloseIcon';
 import Icon from '../Icon';
 import * as deliverableUtils from '../../utils/deliverableUtils';
+import * as ui from '../../utils/ui';
 
 class AgendaItemComposer extends React.Component {
   static propTypes = {
@@ -26,6 +27,11 @@ class AgendaItemComposer extends React.Component {
     this.state = { value: props.defaultValue };
   }
 
+  componentDidMount() {
+    const el = ReactDOM.findDOMNode(this.refs.name);
+    ui.setCursorToEnd($(el).find('textarea')[0]);
+  }
+  
   handleSubmit = (e) => {
     const { parent } = this.props;
     const title = this.state.value.trim();
