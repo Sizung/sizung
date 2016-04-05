@@ -142,8 +142,6 @@ Comment.propTypes = {
     author: PropTypes.object.isRequired,
     createdAt: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired,
-    canCreateAgendaItem: PropTypes.bool.isRequired,
-    canCreateDeliverable: PropTypes.bool.isRequired,
     parent: PropTypes.shape({
       id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,

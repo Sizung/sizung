@@ -78,11 +78,7 @@ function mapStateToProps(state, props) {
     commentForm: {
       currentUser: selectors.currentUser(state),
       parent: fillConversation(state, props.params.conversationId),
-      canCreateAgendaItem: true,
-      canCreateDeliverable: true,
     },
-    canCreateAgendaItem: true,
-    canCreateDeliverable: true,
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
     currentConversationId: props.params.conversationId,

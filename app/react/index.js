@@ -2,8 +2,8 @@ import 'babel-core/polyfill';
 window.React = require('react');
 window.ReactDOM = require('react-dom');
 
-import CommentForm from './components/CommentForm';
-registerComponent('CommentForm', CommentForm);
+import ComposeContainer from './components/ComposeContainer';
+registerComponent('ComposeContainer', ComposeContainer);
 
 import Root from './containers/Root.js';
 registerComponent('Root', Root);

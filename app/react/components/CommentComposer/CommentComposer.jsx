@@ -11,8 +11,6 @@ class CommentComposer extends React.Component {
       id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
     }).isRequired,
-    canCreateAgendaItem: PropTypes.bool.isRequired,
-    canCreateDeliverable: PropTypes.bool.isRequired,
     onSelect: PropTypes.func.isRequired,
   };
 
@@ -40,8 +38,6 @@ class CommentComposer extends React.Component {
   };
 
   render() {
-    const { canCreateAgendaItem, canCreateDeliverable } = this.props;
-
     return (
       <div className={styles.root}>
         <div className={styles.user}>
@@ -51,7 +47,7 @@ class CommentComposer extends React.Component {
           <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
         </form>
         <div className={styles.chatButtons}>
-          <ComposeSelector canCreateAgendaItem={canCreateAgendaItem} canCreateDeliverable={canCreateDeliverable} onSelect={this.handleSelect} />
+          <ComposeSelector onSelect={this.handleSelect} />
         </div>
       </div>
     );
