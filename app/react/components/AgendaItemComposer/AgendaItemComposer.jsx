@@ -14,11 +14,16 @@ class AgendaItemComposer extends React.Component {
       conversationId: PropTypes.string,
     }).isRequired,
     onClose: PropTypes.func.isRequired,
+    defaultValue: PropTypes.string,
   };
 
-  constructor() {
-    super();
-    this.state = { value: '' };
+  static defaultProps = {
+    defaultValue: '',
+  }
+  
+  constructor(props) {
+    super(props);
+    this.state = { value: props.defaultValue };
   }
 
   handleSubmit = (e) => {

@@ -18,11 +18,16 @@ class DeliverableComposer extends React.Component {
     currentUser: PropTypes.shape({
       id: PropTypes.string.isRequired,
     }).isRequired,
+    defaultValue: PropTypes.string,
   };
 
-  constructor() {
-    super();
-    this.state = { value: '', assigneeId: null, dueOn: null };
+  static defaultProps = {
+    defaultValue: '',
+  }
+  
+  constructor(props) {
+    super(props);
+    this.state = { value: props.defaultValue, assigneeId: null, dueOn: null };
   }
 
   getType = (type) => {

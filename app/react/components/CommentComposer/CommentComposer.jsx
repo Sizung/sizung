@@ -30,7 +30,7 @@ class CommentComposer extends React.Component {
   }
 
   handleSelect = (selectedType) => {
-    this.props.onSelect(selectedType);
+    this.props.onSelect(selectedType, this.state.value.trim());
   }
 
   handleChangeInMentionBox = (ev, value) => {
