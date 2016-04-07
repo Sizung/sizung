@@ -23,8 +23,8 @@ class SignIn extends React.Component {
             <input name="utf8" type="hidden" value="✓" />
             <div className={styles.hint}>Enter your email id and password</div>
             <input type="hidden" name="authenticity_token" value={ this.state.authenticityToken } />
-            <input type="email" name="user[email]" placeholder="name@email.com" />
-            <input type="password" name="user[password]" placeholder="password" />
+            <input id="user_email" type="email" name="user[email]" placeholder="name@email.com" />
+            <input id="user_password" type="password" name="user[password]" placeholder="password" />
             <input type="submit" name="commit" value="Log in" className={styles.button} />
             <a className={styles.forgottenPasswordLink} href="/users/password/new">I've forgotten my password</a>
           </form>

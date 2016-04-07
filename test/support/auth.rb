@@ -1,6 +1,7 @@
 def login(user)
   visit user_session_path
   assert_equal 200, page.status_code
+  # save_and_open_page
   fill_in :user_email, with: user.email
   fill_in :user_password, with: 'SuperSecret'
 
