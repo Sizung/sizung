@@ -60,11 +60,11 @@ var config = {
                 }
             },
             {
-              test: /\.css$/,
+              test: /\.s?css$/,
               //loader: 'style-loader!css-loader'
               //loaders: ['style-loader', 'css-loader']
               //loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
-              loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+              loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass?outputStyle=expanded&sourceMap'
             }
         ]
     },

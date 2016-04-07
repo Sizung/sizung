@@ -1,0 +1,76 @@
+$green: #0FEEA0;
+$gray: #8A959F;
+$grayLink: #9E9FA0;
+$black: #0A0022;
+$white: #FFFFFF;
+
+.rowContainer {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  align-items: stretch;
+}
+
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $black;
+  color: $white;
+  font-size: 30px;
+  width: 100%;
+}
+
+.root :global input:not([type='submit']) {
+  font-size: 26px;
+  background-color: transparent;
+  padding: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  border: 1px solid $gray;
+  color: $gray;
+  align-self: stretch;
+}
+
+.logo {
+  margin-bottom: 40px;
+}
+
+.title {
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.hint {
+  margin-bottom: 20px;
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: column;
+  align-items: center;  
+  border: 1px solid #405663;
+  padding: 60px;
+}
+
+.button {
+  background-color: $green;
+  color: $black;
+  font-size: 30px;
+  text-transform: uppercase;
+  padding: 20px 100px 20px 100px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.forgottenPasswordLink {
+  color: $grayLink;
+}
+
+.signUpLink {
+  color: $green;
+}

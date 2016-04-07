@@ -22,3 +22,6 @@ registerComponent('TopBar', TopBar);
 
 import SignUp from './components/SignUp';
 registerComponent('SignUp', SignUp);
+
+import SignIn from './components/SignIn';
+registerComponent('SignIn', SignIn);
