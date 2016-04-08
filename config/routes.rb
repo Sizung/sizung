@@ -75,5 +75,7 @@ Rails.application.routes.draw do
 
   match '/websocket', to: ActionCable.server, via: [:get, :post]
 
-  root 'landing_page#index'
+  devise_scope :user do
+    root to: 'users/sessions#new'    
+  end
 end
