@@ -98,6 +98,18 @@ class SignUpCredentials extends React.Component {
     return true;
   };
 
+  setUserEmail = (email) => {
+    this.props.setUser({ email });
+  };
+
+  setUserPasswordConfirmation = (password) => {
+    this.props.setUser({ passwordConfirmation: password });
+  };
+
+  setUserPassword = (password) => {
+    this.props.setUser({ password });
+  };
+
   render() {
     const { email, password, passwordConfirmation } = this.props.user;
     return (
@@ -108,9 +120,9 @@ class SignUpCredentials extends React.Component {
         <div className={styles.formSubTitle}>
           Add your email address as a username to sign into Sizung, along with a secure password.
         </div>
-        <EmailInput value={email} validate={this.validateEmail} setUser={this.props.setUser} errorMessage={this.state.emailErrorMessage} infoMessage={this.state.emailInfoMessage}/>
-        <PasswordInput value={password} type={'password'} validate={this.validatePassword} setUser={this.props.setUser} errorMessage={this.state.passwordErrorMessage} />
-        <PasswordInput value={passwordConfirmation} type={'passwordConfirmation'} validate={this.validatePasswordConfirmation} setUser={this.props.setUser} errorMessage={this.state.passwordConfirmationErrorMessage}/>
+        <FormInput type='email' value={email} label={'EMAIL ADDRESS'} placeholder='eg: username@domain.com' validate={this.validateEmail} onChange={this.setUserEmail} errorMessage={this.state.emailErrorMessage}/>
+        <FormInput type='password' value={password} label={'PASSWORD'}  placeholder='min 8 character password' validate={this.validatePassword} onChange={this.setUserPassword} errorMessage={this.state.passwordErrorMessage} />
+        <FormInput type='password' value={passwordConfirmation} label={'CONFIRM PASSWORD'} validate={this.validatePasswordConfirmation} setUser={this.setUserPasswordConfirmation} errorMessage={this.state.passwordConfirmationErrorMessage}/>
         <div className={styles.actionContainer}>
           <div className={styles.formSubmit} onClick={this.handleNextClick} tab-index='4'>
             NEXT
