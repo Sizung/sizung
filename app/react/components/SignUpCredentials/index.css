@@ -97,6 +97,10 @@
   margin-bottom: 3.125rem;
 }
 
+.formInputContainer {
+  width: 95.25rem;
+}
+
 .formInput {
   /*width: 47.625rem;*/
   height: 8.5rem;

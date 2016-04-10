@@ -80,7 +80,9 @@ class SignUpTeam extends React.Component {
         <div className={styles.formSubTitle}>
           Seems like you don’t have any invites to existing teams. Would you like to add your company/team?
         </div>
-        <FormInput type='text' label='COMPANY/TEAM NAME' placeholder='#' value={name} validate={this.validateOrganizationName} onChange={this.props.setUser} errorMessage={this.state.organizationNameErrorMessage}/>
+        <div className={styles.formInputContainer}>
+          <FormInput type='text' label='COMPANY/TEAM NAME' placeholder='#' value={name} validate={this.validateOrganizationName} onChange={this.props.setUser} errorMessage={this.state.organizationNameErrorMessage}/>
+        </div>
         <div className={styles.actionContainer}>
           <div className={styles.backLink} onClick={this.handleBackClick}>
             <span className={styles.caretLeftBlack}></span>
