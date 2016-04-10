@@ -14,6 +14,7 @@ class FormInput extends React.Component {
     onChange: PropTypes.func,
     validate: PropTypes.func,
     value: PropTypes.string,
+    disabled: PropTypes.bool,
   };
 
   static defaultProps = {
@@ -22,6 +23,7 @@ class FormInput extends React.Component {
     errorMessage: null,
     required: false,
     value: null,
+    disabled: false,
   };
 
   constructor() {
@@ -45,7 +47,7 @@ class FormInput extends React.Component {
   };
 
   render() {
-    const { label, type, placeholder, tabIndex, autoFocus, value, errorMessage } = this.props;
+    const { label, type, placeholder, tabIndex, autoFocus, value, errorMessage, disabled } = this.props;
     return (
       <div className={styles.formInputContainer}>
         <div className={ (errorMessage === null || errorMessage.trim() === '') ? styles.formInput : styles.formInputError }>
@@ -53,7 +55,7 @@ class FormInput extends React.Component {
             {label}
           </div>
           <div className={styles.formInputValue}>
-            <input ref='input' value={value} type={type} placeholder={placeholder} tab-index={tabIndex} onBlur={this.props.validate} onChange={this.onChange} autoFocus={autoFocus}/>
+            <input ref='input' value={value} type={type} placeholder={placeholder} tab-index={tabIndex} onBlur={this.props.validate} onChange={this.onChange} autoFocus={autoFocus} disabled={disabled}/>
           </div>
         </div>
         { (errorMessage === null || errorMessage.trim() === '') ? '' : this.renderErrorMessage(errorMessage)}
