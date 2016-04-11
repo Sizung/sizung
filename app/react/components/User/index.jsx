@@ -1,13 +1,36 @@
-// Plain components should not have any knowledge of where the data came from and how to change the the state.
-
 import React, { PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
-
-@CSSModules(styles)
 
 class User extends React.Component {
 
+  static propTypes = {
+    user: PropTypes.shape({
+      email: PropTypes.string.isRequired,
+      firstName: PropTypes.string,
+      lastName: PropTypes.string,
+      presenceStatus: PropTypes.string.isRequired,
+    }).isRequired,
+    size: PropTypes.oneOf(['normal', 'large', 'small']).isRequired,
+    showName: PropTypes.bool,
+    showEmail: PropTypes.bool,
+    style: PropTypes.object,
+    innerStyle: PropTypes.object,
+  };
+
+  static defaultProps = {
+    user: {
+      email: 'sizung@example.com',
+      firstName: 'n',
+      lastName: 'A',
+      presenceStatus: 'offline',
+    },
+    size: "normal",
+    showName: false,
+    showEmail: false,
+    style: {},
+    innerStyle: {},
+  };
+  
   constructor() {
     super();
     this.validSizes = ['normal', 'large', 'small'];
@@ -22,23 +45,23 @@ class User extends React.Component {
     let name;
     if (showName) {
       if (firstName && lastName) {
-        name = <span styleName='name'>{firstName + ' ' + lastName}</span>;
+        name = <span className={styles.name}>{firstName + ' ' + lastName}</span>;
       } else {
-        name =  <span styleName="name">{email}</span>;
+        name =  <span className={styles.name}>{email}</span>;
       }
     } else {
       name = '';
     }
-    const userEmail = showEmail ? <span styleName="email"><small>({email})</small></span> : '';
+    const userEmail = showEmail ? <span className={styles.email}><small>({email})</small></span> : '';
 
     return (
-        <div styleName={'root'} title={email} style={style}>
-          <div styleName={'circle-badge-' + size + onlineState} style={innerStyle}>
+        <div className={styles.root} title={email} style={style}>
+          <div className={styles['circle-badge-' + size + onlineState]} style={innerStyle}>
             {initials}
           </div>
           {
             (showName ?
-              <div styleName={'user-title-' + size} >
+              <div className={styles['user-title-' + size]} >
                 {name}
                 {userEmail}
               </div>
@@ -50,33 +73,5 @@ class User extends React.Component {
     );
   }
 }
-
-User.propTypes = {
-  user: PropTypes.shape({
-    email: PropTypes.string.isRequired,
-    firstName: PropTypes.string,
-    lastName: PropTypes.string,
-    presenceStatus: PropTypes.string.isRequired,
-  }).isRequired,
-  size: PropTypes.string.isRequired,
-  showName: PropTypes.bool,
-  showEmail: PropTypes.bool,
-  style: PropTypes.object,
-  innerStyle: PropTypes.object,
-};
-
-User.defaultProps = {
-  user: {
-    email: 'sizung@example.com',
-    firstName: 'n',
-    lastName: 'A',
-    presenceStatus: 'offline',
-  },
-  size: "normal",
-  showName: false,
-  showEmail: false,
-  style: {},
-  innerStyle: {},
-};
 
 export default User;
