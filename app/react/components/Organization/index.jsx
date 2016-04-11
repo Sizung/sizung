@@ -1,19 +1,17 @@
 import React, { PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
-@CSSModules(styles)
 class Organization extends React.Component {
 
   actions = (organization) => {
     if (organization.editable) {
       return (
-        <div styleName="actions">
+        <div className={styles.actions}>
           <small>
-            <a href={'/organizations/' + organization.id + '/edit'} styleName="action">
+            <a href={'/organizations/' + organization.id + '/edit'} className={styles.action}>
               <i className="fa fa-pencil" /> edit
             </a>
-            <a href={'/organizations/' + organization.id + '/organization_members'} styleName="action">
+            <a href={'/organizations/' + organization.id + '/organization_members'} className={styles.action}>
               <i className="fa fa-users" /> members
             </a>
           </small>
@@ -25,7 +23,7 @@ class Organization extends React.Component {
   render() {
     const { organization } = this.props;
     return (
-      <h3 styleName="root">
+      <h3 className={styles.root}>
         { organization.name }
         { this.actions(organization) }
       </h3>

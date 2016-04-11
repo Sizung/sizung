@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
-@CSSModules(styles)
 class ConversationIcon extends React.Component {
 
   constructor() {
@@ -21,7 +19,7 @@ class ConversationIcon extends React.Component {
     }
 
     return (
-      <span styleName={iconStyle} style={style}>
+      <span className={styles[iconStyle]} style={style}>
       </span>
     );
   }

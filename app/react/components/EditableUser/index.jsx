@@ -1,9 +1,7 @@
 import React, { PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import User from '../User/index';
 
-@CSSModules(styles)
 class EditableUser extends React.Component {
   constructor() {
     super();
@@ -62,7 +60,7 @@ class EditableUser extends React.Component {
   }
 
   renderShow(selectedUser, editable) {
-    return <span styleName={'current-user' + (editable ? '-editable' : '')} onClick={editable ? this.handleEditClick : null}><User user={selectedUser} size={this.props.size}/></span>;
+    return <span className={styles['current-user' + (editable ? '-editable' : '')]} onClick={editable ? this.handleEditClick : null}><User user={selectedUser} size={this.props.size}/></span>;
   }
 
   filteredOptions(filter, options) {
@@ -84,20 +82,20 @@ class EditableUser extends React.Component {
       return ( user.firstName && user.lastName) ?  (user.firstName + ' ' + user.lastName).toLowerCase() : user.email.toLowerCase();
     }).map((user) => {
       return (
-        <div styleName='user-row' onClick={() => this.handleUserClick(user.id)} key={user.id}>
-            <span styleName='user-column'><User user={user} showName={true}/></span>
-            <span styleName='marker-column'>{this.selectedMarker(selectedUser, user)}</span>
+        <div clasName={styles['user-row']} onClick={() => this.handleUserClick(user.id)} key={user.id}>
+            <span className={styles['user-column']}><User user={user} showName={true}/></span>
+            <span className={styles['marker-column']}>{this.selectedMarker(selectedUser, user)}</span>
         </div>
       );
     });
 
     return (
-      <span styleName="root" className={styles[direction + 'Direction']}>
-        <div styleName="title">
+      <span className={styles.root} className={styles[direction + 'Direction']}>
+        <div className={styles.title}>
           Members
-          <i styleName="close-icon" onClick={this.triggerCancel}></i>
+          <i className={styles["close-icon"]} onClick={this.triggerCancel}></i>
         </div>
-        <input styleName="input" ref="filterInput" type="text" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange} placeholder="Search Members"/>
+        <input className={styles.input} ref="filterInput" type="text" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange} placeholder="Search Members"/>
         <div>
           {options}
         </div>
@@ -116,7 +114,7 @@ class EditableUser extends React.Component {
     const { user, users, editable } = this.props;
     if (this.state.edit) {
       return (
-        <div styleName='root-container'>
+        <div className={styles['root-container']}>
           {this.renderShow(user, editable)}
           {this.renderEdit(user, users)}
         </div>

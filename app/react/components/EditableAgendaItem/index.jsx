@@ -1,12 +1,10 @@
 import React, { Component, PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 import fetch from 'isomorphic-fetch';
 import MetaTagsManager from '../../utils/MetaTagsManager';
 import { transformAgendaItemFromJsonApi } from '../../utils/jsonApiUtils';
 import Immutable from 'immutable';
 
-@CSSModules(styles)
 class EditableAgendaItem extends React.Component {
   constructor() {
     super();
@@ -44,7 +42,7 @@ class EditableAgendaItem extends React.Component {
   }
 
   renderShow(selectedOption, editable) {
-    return <span styleName={'current-title' + (editable ? '-editable' : '') + (this.props.inverted ? '-inverted' : '') } title={selectedOption.title} onClick={editable ? this.handleEditClick : null}>{this.displayOption(selectedOption)}</span>;
+    return <span className={styles['current-title' + (editable ? '-editable' : '') + (this.props.inverted ? '-inverted' : '')] } title={selectedOption.title} onClick={editable ? this.handleEditClick : null}>{this.displayOption(selectedOption)}</span>;
   }
 
 
@@ -107,20 +105,20 @@ class EditableAgendaItem extends React.Component {
   renderEdit(selectedOption, options) {
     const optionElementList = this.filteredOptions(this.state.filter, options).map((option) => {
       return (
-        <div styleName='agenda-item-row' onClick={() => this.handleOptionClick(option.id)} key={option.id}>
-          <span styleName='agenda-item-column'>{this.displayOption(option)}</span>
-          <span styleName='marker-column'>{this.selectedMarker(selectedOption, option)}</span>
+        <div className={styles['agenda-item-row']} onClick={() => this.handleOptionClick(option.id)} key={option.id}>
+          <span className={styles['agenda-item-column']}>{this.displayOption(option)}</span>
+          <span className={styles['marker-column']}>{this.selectedMarker(selectedOption, option)}</span>
         </div>
       );
     });
 
     return (
-      <div styleName="root">
-        <div styleName="title">
+      <div className={styles.root}>
+        <div className={styles.title}>
           Agenda Items
-          <i styleName="close-icon" onClick={this.triggerCancel}></i>
+          <i className={styles["close-icon"]} onClick={this.triggerCancel}></i>
         </div>
-        <input styleName="input" ref="filterInput" type="text" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange} placeholder="Search Agenda Items"/>
+        <input className={styles.input} ref="filterInput" type="text" onKeyDown={this.handleKeyDown} onChange={this.handleFilterChange} placeholder="Search Agenda Items"/>
         <div>
           {optionElementList}
         </div>
@@ -140,7 +138,7 @@ class EditableAgendaItem extends React.Component {
     if (this.state.edit) {
       const agendaItems = this.state.agendaItems;
       return (
-        <div styleName='root-container'>
+        <div className={styles['root-container']}>
           {this.renderShow(agendaItem, editable)}
           {this.renderEdit(agendaItem, agendaItems)}
         </div>

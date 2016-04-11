@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
-@CSSModules(styles)
 class ResolveIcon extends React.Component {
 
   render() {

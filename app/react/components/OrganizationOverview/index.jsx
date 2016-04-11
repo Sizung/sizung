@@ -6,10 +6,8 @@ import DeliverableList from '../DeliverableList';
 import ConversationLayout from '../ConversationLayout';
 import Icon from '../Icon';
 import PlusIcon from '../PlusIcon';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 
-@CSSModules(styles)
 class OrganizationOverview extends Component {
 
   conversationElements = (conversations) => {
@@ -24,24 +22,24 @@ class OrganizationOverview extends Component {
     const { organization, conversations, agendaItems, visitAgendaItem, deliverables, visitDeliverable } = this.props;
 
     return (
-      <div styleName="root" ref="root">
+      <div className={styles.root} ref="root">
         <Organization organization={organization} ref='organization' />
         <ConversationLayout
           left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } /> }
           right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } /> }
         >
-          <div styleName='center-panel'>
-            <div styleName="header-container">
-              <div styleName='title'>
+          <div className={styles['center-panel']}>
+            <div className={styles["header-container"]}>
+              <div className={styles['title']}>
                 <Icon type="chat" style={{ marginRight: '20px' }}>CONVERSATIONS</Icon>
               </div>
-              <div styleName="action">
+              <div className={styles["action"]}>
                 <a href={'/organizations/' + organization.id + '/conversations/new'}>
                   <PlusIcon />
                 </a>
               </div>
             </div>
-            <div styleName='center-panel-list'>
+            <div className={styles['center-panel-list']}>
               { this.conversationElements(conversations) }
             </div>
           </div>

@@ -47,7 +47,6 @@
     "react": "^0.14.6",
     "react-autosize-textarea": "^0.2.6",
     "react-bootstrap": "^0.28.2",
-    "react-css-modules": "3.6.7",
     "react-datepicker": "^0.18.0",
     "react-dom": "^0.14.6",
     "react-mentions": "0.2.7",

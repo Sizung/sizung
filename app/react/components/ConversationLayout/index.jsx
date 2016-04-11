@@ -4,11 +4,9 @@ import { Row, Col } from 'react-bootstrap';
 
 import AgendaItemListApp from '../../containers/AgendaItemListApp';
 import DeliverableListApp from '../../containers/DeliverableListApp';
-import CSSModules from 'react-css-modules';
 import styles from './index.css';
 import Swipeable from 'react-swipeable';
 
-@CSSModules(styles)
 class ConversationLayout extends Component {
 
   constructor() {

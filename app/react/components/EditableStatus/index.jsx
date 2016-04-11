@@ -1,8 +1,6 @@
 import React, { Component, PropTypes } from 'react';
-import CSSModules from 'react-css-modules';
 import styles from "./index.css";
 
-@CSSModules(styles)
 class EditableStatus extends React.Component {
   constructor() {
     super();
@@ -21,10 +19,10 @@ class EditableStatus extends React.Component {
   render() {
     const { status, editable } = this.props;
     return (
-      <span styleName={"root-" + (editable ? 'editable-' : '') + status} onClick={editable ? this.handleStatusClick : null}>
-        <span styleName="stack">
-          <i styleName="circle"/>
-          <i styleName="status"/>
+      <span className={styles["root-" + (editable ? 'editable-' : '') + status]} onClick={editable ? this.handleStatusClick : null}>
+        <span className={styles.stack}>
+          <i className={styles.circle} />
+          <i className={styles.status} />
         </span>
       </span>
     );
