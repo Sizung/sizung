@@ -15,25 +15,13 @@
     = favicon_link_tag 'apple-touch-icon-72x72-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png', :sizes => '72x72'
     = favicon_link_tag 'apple-touch-icon-precomposed.png', :rel => 'apple-touch-icon-precomposed', :type => 'image/png'
     = favicon_link_tag 'favicon.ico', :rel => 'shortcut icon'
-    = javascript_include_tag "application", 'data-turbolinks-track' => true
+
+  %body
+    = yield
+
+    = javascript_include_tag "application", 'data-turbolinks-track' => false
 
     - if ENV['RAILS_ENV'] == 'development'
       = javascript_include_tag('http://localhost:4000/react-app-bundle.js')
       :javascript
         console.warn("Development mode. Make sure to start 'node devServer.js'");
-
-  %body
-    - if user_signed_in?
-      = react_component('TopBar', {reactLinks: false, currentUser: {firstName: current_user.first_name, lastName: current_user.last_name, name: current_user.name}, organizations: current_user.reload.organizations.as_json, currentOrganization: current_user.last_visited_organization.as_json})
-
-    - else
-      %ul.nav.navbar-nav
-        %li.pull-left#login-nav= link_to 'Login', new_user_session_path
-        %li.pull-left#signup-nav= link_to 'Sign up', '/signup'
-    .container.content-bg.padding-lg.full-width{style: 'min-height: 100%;', class: user_signed_in? ? 'main-content' : ''}
-      .row
-        .col-lg-12.app-body
-          = bootstrap_flash
-          = yield
-      %footer.footer.nav-background
-        &copy; Sizung 2016

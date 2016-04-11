@@ -1,0 +1,116 @@
+$green: #65C192;
+$gray: #8A959F;
+$grayLink: #9E9FA0;
+$black: #0A0022;
+$white: #FFFFFF;
+$blue: #38ACD4;
+$inputBackground: #EBEFF0;
+$inputColor: #130F22;
+$inputGray: $gray;
+$alert: red;
+
+.signin-container {
+  display: flex;
+  flex-direction: row;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.signin-root {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-color: $white;
+  color: $blue;
+  font-size: 30px;
+  margin-left: 15%;
+  margin-top: 10%;
+}
+
+.alert {
+  border: 1px solid;
+  border-radius: 0;
+  color: $alert;
+}
+
+.notice {
+  color: $green;
+}
+
+.signin-root .form-group {
+  width: 640px;
+  background-color: $inputBackground;
+
+  label {
+    color: $inputGray;
+    text-transform: uppercase;
+    margin-left: 20px;
+    font-size: 10px;
+  }
+}
+
+.signin-root input:not([type='submit']) {
+  font-size: 26px;
+  background-color: $inputBackground;
+  padding: 20px;
+  padding-bottom: 25px;
+  margin-bottom: 10px;
+  border: 0;
+  color: $inputColor;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.signin-logo {
+  margin-bottom: 40px;
+}
+
+.signin-title {
+  margin-bottom: 20px;
+}
+
+.simple_form.new_user {
+  display: flex;
+  flex-direction: column;
+}
+
+.signin-button {
+  background-color: $green;
+  color: $black;
+  font-size: 30px;
+  line-height: 30px;
+  text-transform: uppercase;
+  padding: 20px;
+  width: 300px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 0;
+  border: 0;
+  min-height: 70px;
+
+  &:hover {
+    background-color: $green;
+  }
+}
+
+.signin-forgottenPasswordLink {
+  color: $grayLink;
+  font-size: 22px;
+
+  &:hover {
+    color: $grayLink;
+  }
+}
+
+.signin-signUpLink {
+  margin-top: 40px;
+  font-size: 25px;
+  color: $green;
+
+  &:hover {
+    color: $green;
+  }
+}

@@ -1,5 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
-  layout 'conversation', only: [:new]
+  # layout 'conversation', only: [:new]
   
   # before_filter :configure_sign_in_params, only: [:create]
 
