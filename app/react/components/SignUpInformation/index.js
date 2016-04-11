@@ -9,7 +9,7 @@ class SignUpInformation extends React.Component {
   static propTypes = {
     setCurrentStage: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    setUser: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -67,6 +67,14 @@ class SignUpInformation extends React.Component {
     return true;
   };
 
+  setUserFirstName = (text) => {
+    this.props.setUser({ firstName: text });
+  };
+
+  setUserLastName = (text) => {
+    this.props.setUser({ lastName: text });
+  };
+
   render() {
     const { firstName, lastName } = this.props.user;
     return (
@@ -77,8 +85,12 @@ class SignUpInformation extends React.Component {
         <div className={styles.formSubTitle}>
           Just a little information about you.
         </div>
-        <TextInput value={firstName} type={'firstName'} validate={this.validateFirstName} setUser={this.props.setUser} errorMessage={this.state.firstNameErrorMessage}/>
-        <TextInput value={lastName} type={'lastName'} validate={this.validateLastName} setUser={this.props.setUser} errorMessage={this.state.lastNameErrorMessage}/>
+        <div className={styles.formInputContainer}>
+          <FormInput type='text' label='FIRST NAME' value={firstName} validate={this.validateFirstName} onChange={this.setUserFirstName} errorMessage={this.state.firstNameErrorMessage}/>
+        </div>
+        <div className={styles.formInputContainer}>
+          <FormInput type='text' label='LAST NAME' value={lastName} validate={this.validateLastName} onChange={this.setUserLastName} errorMessage={this.state.lastNameErrorMessage}/>
+        </div>
         <div className={styles.actionContainer}>
           <div className={styles.backLink} onClick={this.handleBackClick}>
             <span className={styles.caretLeftBlack}></span>

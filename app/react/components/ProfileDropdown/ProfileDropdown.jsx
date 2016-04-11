@@ -25,7 +25,7 @@ class ProfileDropdown extends React.Component {
           <div className={styles.caretOpen}></div>
         </div>
         <div className={styles.menu}>
-          <a href="/users/edit">Settings</a>
+          <a href="/users/settings">Settings</a>
           <a href="/users/sign_out" data-method="delete">Sign Out</a>
         </div>
       </div>

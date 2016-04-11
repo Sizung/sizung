@@ -42,7 +42,7 @@ Rails.application.routes.draw do
 
     resources :meetings, only: [:create]
 
-    resources :users, only: [:index, :create]
+    resources :users, only: [:index, :create, :update]
   end
 
   resources :organizations, shallow: true do
@@ -53,6 +53,8 @@ Rails.application.routes.draw do
   get 'agenda_items/:id', to: 'react_routes#index', as: :agenda_item
   get 'deliverables/:id', to: 'react_routes#index', as: :deliverable
   get 'signup', to: 'react_routes#new_registration', as: :signup
+  get 'users/settings', to: 'react_routes#index', as: :settings
+
 
   # Old routes are redirected to new shallow routes
   get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: redirect('/deliverables/%{deliverable_id}')
@@ -75,7 +77,8 @@ Rails.application.routes.draw do
 
   match '/websocket', to: ActionCable.server, via: [:get, :post]
 
+  # root 'landing_page#index'
   devise_scope :user do
-    root to: 'users/sessions#new'    
+    root to: 'users/sessions#new'
   end
 end
