@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
 import FormInput from '../FormInput';
-import TextInput from '../TextInput';
 import * as api from '../../utils/api';
 
 class SignUpTeam extends React.Component {
@@ -81,7 +80,7 @@ class SignUpTeam extends React.Component {
           Seems like you don’t have any invites to existing teams. Would you like to add your company/team?
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='text' label='COMPANY/TEAM NAME' placeholder='#' value={name} validate={this.validateOrganizationName} onChange={this.props.setUser} errorMessage={this.state.organizationNameErrorMessage}/>
+          <FormInput type='text' label='COMPANY/TEAM NAME' placeholder='#' value={name} validate={this.validateOrganizationName} onChange={this.props.setOrganizationName} errorMessage={this.state.organizationNameErrorMessage}/>
         </div>
         <div className={styles.actionContainer}>
           <div className={styles.backLink} onClick={this.handleBackClick}>

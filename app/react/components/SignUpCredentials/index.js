@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
 import FormInput from '../FormInput';
-import EmailInput from '../EmailInput';
-import PasswordInput from '../PasswordInput';
 import * as api from '../../utils/api';
 
 class SignUpCredentials extends React.Component {
@@ -127,7 +125,7 @@ class SignUpCredentials extends React.Component {
           <FormInput type='password' value={password} label={'PASSWORD'}  placeholder='min 8 character password' validate={this.validatePassword} onChange={this.setUserPassword} errorMessage={this.state.passwordErrorMessage} />
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='password' value={passwordConfirmation} label={'CONFIRM PASSWORD'} validate={this.validatePasswordConfirmation} setUser={this.setUserPasswordConfirmation} errorMessage={this.state.passwordConfirmationErrorMessage}/>
+          <FormInput type='password' value={passwordConfirmation} label={'CONFIRM PASSWORD'} validate={this.validatePasswordConfirmation} onChange={this.setUserPasswordConfirmation} errorMessage={this.state.passwordConfirmationErrorMessage}/>
         </div>
         <div className={styles.actionContainer}>
           <div className={styles.formSubmit} onClick={this.handleNextClick} tab-index='4'>

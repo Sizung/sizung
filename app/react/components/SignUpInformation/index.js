@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
 import FormInput from '../FormInput';
-import TextInput from '../TextInput';
 import * as api from '../../utils/api';
 
 class SignUpInformation extends React.Component {
@@ -9,7 +8,7 @@ class SignUpInformation extends React.Component {
   static propTypes = {
     setCurrentStage: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
-    onChange: PropTypes.func.isRequired,
+    setUser: PropTypes.func.isRequired,
   };
 
   constructor() {
