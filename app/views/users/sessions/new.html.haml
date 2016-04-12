@@ -1,20 +1,20 @@
-.signin-container
-  .signin-root
-    .signin-logo
+.form-container
+  .form-root
+    .form-logo
       = image_tag 'sizung-sigin-logo.png'
     - if flash[:notice]
       .alert.notice= flash[:notice]
     - if flash[:alert]
       .alert= flash[:alert]
       
-    .signin-title
+    .form-title
       Sign into your team
     = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       = f.error_notification
       = f.input :email, autofocus: true, placeholder: 'name@email.com', label: 'Enter your email id'
       = f.input :password, placeholder: 'password', label: 'Enter your password'
-      = f.button :submit, 'Sign in', class: 'signin-button'
+      = f.button :submit, 'Sign in', class: 'form-button'
 
-      = link_to "I've forgotten my password", new_password_path(resource_name), class: 'signin-forgottenPasswordLink'
-      = link_to 'Create a new team on Sizung', '/signup', class: 'signin-signUpLink'
+      = link_to "I've forgotten my password", new_password_path(resource_name), class: 'form-forgottenPasswordLink'
+      = link_to 'Create a new team on Sizung', '/signup', class: 'form-signUpLink'
 

@@ -9,14 +9,14 @@ $inputColor: #130F22;
 $inputGray: $gray;
 $alert: red;
 
-.signin-container {
+.form-container {
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
 }
 
-.signin-root {
+.form-root {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -36,7 +36,7 @@ $alert: red;
   color: $green;
 }
 
-.signin-root .form-group {
+.form-root .form-group {
   background-color: $inputBackground;
   width: 400px;
   
@@ -50,12 +50,12 @@ $alert: red;
 
 @media only screen
 and (max-width: 400px) {
-  .signin-root .form-group {
+  .form-root .form-group {
     width: 100%;
   }
 }
 
-.signin-root input:not([type='submit']) {
+.form-root input:not([type='submit']) {
   font-size: 26px;
   background-color: $inputBackground;
   padding: 20px;
@@ -67,12 +67,12 @@ and (max-width: 400px) {
   -webkit-box-shadow: none;
 }
 
-.signin-logo img {
+.form-logo img {
   margin-bottom: 40px;
   width: 200px;
 }
 
-.signin-title {
+.form-title {
   margin-bottom: 20px;
 }
 
@@ -82,7 +82,7 @@ and (max-width: 400px) {
   align-items: flex-start;
 }
 
-.signin-button {
+.form-button {
   background-color: $green;
   color: $black;
   font-size: 30px;
@@ -103,13 +103,13 @@ and (max-width: 400px) {
 
 @media only screen
 and (max-width: 400px) {
-  .signin-button {
+  .form-button {
     width: 100%;
   }
 }
 
 
-.signin-forgottenPasswordLink {
+.form-forgottenPasswordLink {
   color: $grayLink;
   font-size: 22px;
 
@@ -118,7 +118,7 @@ and (max-width: 400px) {
   }
 }
 
-.signin-signUpLink {
+.form-signUpLink {
   margin-top: 40px;
   font-size: 25px;
   color: $green;
