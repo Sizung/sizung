@@ -12,11 +12,8 @@ $alert: red;
 .signin-container {
   display: flex;
   flex-direction: row;
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 .signin-root {
@@ -26,8 +23,7 @@ $alert: red;
   background-color: $white;
   color: $blue;
   font-size: 30px;
-  margin-left: 15%;
-  margin-top: 10%;
+  margin-top: 40px;
 }
 
 .alert {
@@ -41,14 +37,21 @@ $alert: red;
 }
 
 .signin-root .form-group {
-  width: 640px;
   background-color: $inputBackground;
-
+  width: 400px;
+  
   label {
     color: $inputGray;
     text-transform: uppercase;
     margin-left: 20px;
     font-size: 10px;
+  }
+}
+
+@media only screen
+and (max-width: 400px) {
+  .signin-root .form-group {
+    width: 100%;
   }
 }
 
@@ -64,8 +67,9 @@ $alert: red;
   -webkit-box-shadow: none;
 }
 
-.signin-logo {
+.signin-logo img {
   margin-bottom: 40px;
+  width: 200px;
 }
 
 .signin-title {
@@ -75,6 +79,7 @@ $alert: red;
 .simple_form.new_user {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .signin-button {
@@ -95,6 +100,14 @@ $alert: red;
     background-color: $green;
   }
 }
+
+@media only screen
+and (max-width: 400px) {
+  .signin-button {
+    width: 100%;
+  }
+}
+
 
 .signin-forgottenPasswordLink {
   color: $grayLink;
