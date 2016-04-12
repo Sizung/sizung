@@ -142,20 +142,31 @@ const currentOrganization = (state) => {
 
 const organizations = (state) => state.getIn(['entities', 'organizations']).map((organization) => { return organization; }).toList();
 
-const organizationMembers = (state) => {
+
+const organizationMembers = (state, organizationId) => {
   const references = state.getIn(['entities', 'organizationMembers']);
-  const currentOrg = currentOrganization(state);
-  if (!references || !currentOrg) {
+
+  console.log('References: ' + JSON.stringify(references));
+  if (!references) {
     return null;
   }
 
   const filteredOrganizationMembers = references.filter((reference) => {
-    return (reference.organizationId === currentOrg.id);
+    return (reference.organizationId === organizationId);
   });
 
   return filteredOrganizationMembers.map((reference) => {
     return state.getIn(['entities', 'users', reference.memberId]);
   });
+};
+
+const currentOrganizationMembers = (state) => {
+  const currentOrg = currentOrganization(state);
+  if (!currentOrg) {
+    return null;
+  }
+
+  return organizationMembers(state, currentOrg.id);
 };
 
 const conversationMembers = (state) => {
@@ -227,6 +238,7 @@ export {
   organizations,
   conversationMembers,
   organizationMembers,
+  currentOrganizationMembers,
   conversationObjects,
   agendaItemsList,
   conversationMembersAsUsers,

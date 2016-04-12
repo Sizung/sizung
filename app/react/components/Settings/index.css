@@ -23,7 +23,7 @@
   align-items: stretch;
   width: 74%;
   overflow-y: auto;
-  padding-left: 7rem;
+  padding: 0 7rem;
   background-color: #ffffff;
 }
 

@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
 import FormInput from '../FormInput';
-import EmailInput from '../EmailInput';
-import PasswordInput from '../PasswordInput';
 import { Link } from 'react-router';
 import * as api from '../../utils/api';
 

@@ -6,7 +6,7 @@ import * as ConversationUiActions from '../actions/conversationUi';
 import * as selectors from '../utils/selectors';
 
 function mapStateToProps(state) {
-  const organizationMembers = selectors.organizationMembers(state);
+  const organizationMembers = selectors.currentOrganizationMembers(state);
   const currentConversation = state.getIn(['currentConversation']);
   const conversationMembers = selectors.conversationMembers(state);
   return {
