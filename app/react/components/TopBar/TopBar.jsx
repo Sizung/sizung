@@ -32,7 +32,6 @@ class TopBar extends React.Component {
 
   renderOrganizationPart = () => {
     const { currentOrganization, reactLinks } = this.props;
-
     if (currentOrganization) {
       return (
         <div className={styles.organizationWrapper}>
@@ -49,13 +48,12 @@ class TopBar extends React.Component {
   };
 
   render() {
-    const { currentUser } = this.props;
-
+    const { currentUser, currentOrganization } = this.props;
     return (
       <div className={styles.root}>
         {this.renderOrganizationPart()}
         <div className={styles.profileDropdown}>
-          <ProfileDropdown currentUser={currentUser} />
+          <ProfileDropdown currentUser={currentUser} currentOrganization={currentOrganization}/>
         </div>
       </div>
     );

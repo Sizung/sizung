@@ -8,6 +8,7 @@
 
 .organizationWrapper {
   display: flex;
+  flex: 1;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
@@ -24,5 +25,7 @@
 }
 
 .profileDropdown {
+  flex: 1;
+  display: flex;
   justify-content: flex-end;
 }
