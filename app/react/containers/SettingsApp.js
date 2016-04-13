@@ -6,6 +6,7 @@ import Settings from '../components/Settings';
 
 import * as OrganizationActions from '../actions/organizations';
 import * as UserActions from '../actions/users';
+import * as OrganizationMemberActions from '../actions/organizationMembers';
 import * as channelHandlers from '../actions/channelHandlers';
 import * as ws from '../utils/websocketUtils';
 
@@ -68,6 +69,7 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({
     ...OrganizationActions,
     ...UserActions,
+    ...OrganizationMemberActions,
     ...channelHandlers,
   }, dispatch);
 }

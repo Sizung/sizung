@@ -39,6 +39,7 @@ Rails.application.routes.draw do
       resources :organization_members, only: [:index, :destroy]
     end
     resources :conversation_members, only: [:create, :destroy]
+    resources :organization_members, only: [:create, :destroy]
 
     resources :meetings, only: [:create]
 
