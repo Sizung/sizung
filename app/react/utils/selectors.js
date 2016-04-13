@@ -145,8 +145,6 @@ const organizations = (state) => state.getIn(['entities', 'organizations']).map(
 
 const organizationMembers = (state, organizationId) => {
   const references = state.getIn(['entities', 'organizationMembers']);
-
-  console.log('References: ' + JSON.stringify(references));
   if (!references) {
     return null;
   }

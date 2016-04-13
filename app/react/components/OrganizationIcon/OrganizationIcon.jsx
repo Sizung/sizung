@@ -22,13 +22,13 @@ class OrganizationIcon extends React.Component {
     if (reactLink) {
       return (
         <Link to={url} className={styles.root} title={name} style={{ ...style }}>
-          {name.charAt(0)}
+          {name.charAt(0).toUpperCase()}
         </Link>
       );
     }
     return (
       <a href={url} className={styles.root} title={name} style={{ ...style }}>
-        {name.charAt(0)}
+        {name.charAt(0).toUpperCase()}
       </a>
     );
   }

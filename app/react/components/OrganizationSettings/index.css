@@ -10,6 +10,14 @@
   margin: 0 0 3.75rem 0;
 }
 
+.membersLabel {
+  color: #130F22;
+  font-family: Gotham-Book;
+  font-size: 1.688rem;
+  width: 47.625rem;
+  margin: 3.75rem 0;
+}
+
 .formInputContainer {
   width: 72rem;
 }
@@ -62,7 +70,27 @@
   border: 0.938rem solid #EBEFF0;
 }
 
+.organizationLogo a,
+.organizationLogoSelected a {
+  text-decoration: none;
+  color: #130F22;
+}
+
 .organizationName {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 1rem 2.5rem;
+  margin: 2.5rem 0 0 0;
+  width: 36rem;
+  min-height: 5rem;
+  background-color: #EBEFF0;
+  color: #838383;
+  font-family: Gotham-Medium;
+  font-size: 1.25rem;
+}
+
+.searchInputContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -74,8 +102,8 @@
   color: #838383;
   font-family: Gotham-Medium;
   font-size: 1.25rem;
-  text-transform: uppercase;
 }
+
 .filterInput {
   flex: 1;
   display: flex;

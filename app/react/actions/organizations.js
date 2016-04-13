@@ -57,8 +57,23 @@ const selectOrganization = (organizationId) => {
   };
 };
 
+const updateOrganization = (id, changedFields) => {
+  return (dispatch) => {
+    api.putJson('/api/organizations/' + id, { organization: changedFields }, (json) => {
+      const organization = transform.transformObjectFromJsonApi(json.data);
+      dispatch({
+        type: constants.UPDATE_ORGANIZATION,
+        status: constants.STATUS_SUCCESS,
+        organization,
+        entity: organization,
+      });
+    });
+  };
+};
+
 export {
   setCurrentOrganization,
   fetchOrganizationsSuccess,
   selectOrganization,
+  updateOrganization,
 };

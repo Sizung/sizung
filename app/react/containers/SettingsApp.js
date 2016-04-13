@@ -60,8 +60,7 @@ function mapStateToProps(state, props) {
     currentOrganization: selectors.currentOrganization(state),
     currentUser: selectors.currentUser(state),
     users: selectors.conversationMembers(state),
-    //organizationMembers is just a placeholder and will be removed when the required actions and reducers in place for same
-    organizationMembers: selectors.users(state),
+    organizationMembers: selectors.currentOrganizationMembers(state),
   };
 }
 

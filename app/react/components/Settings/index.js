@@ -46,7 +46,7 @@ class Settings extends React.Component {
     if (this.state.currentOption === 0) {
       return (<ProfileSettings user={this.state.user} setUser={this.setUser} onSave={this.saveUser}/>);
     } else if (this.state.currentOption === 1) {
-      return (<OrganizationSettings organizationMembers={this.props.organizationMembers} organizations={this.props.organizations} currentOrganization={this.props.currentOrganization}/>);
+      return (<OrganizationSettings organizationMembers={this.props.organizationMembers} organizations={this.props.organizations} currentOrganization={this.props.currentOrganization} {...this.props}/>);
     }
   };
 

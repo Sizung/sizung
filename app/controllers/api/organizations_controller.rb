@@ -1,6 +1,7 @@
 module Api
   class OrganizationsController < ApplicationController
     before_filter :authenticate_user!
+    before_action :set_organization, only: [:update]
     after_action :verify_authorized,    except: :index
     after_action :verify_policy_scoped, only: :index
 
@@ -38,6 +39,12 @@ module Api
              }
     end
 
+    def update
+      authorize @organization
+      @organization.update!(organization_update_params)
+      render json: @organization, serializer: OrganizationSerializer
+    end
+
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_organization
@@ -48,6 +55,10 @@ module Api
       # Never trust parameters from the scary internet, only allow the white list through.
       def organization_params
         params.require(:organization).permit(:name, :mission, :owner_id)
+      end
+
+      def organization_update_params
+        params.require(:organization).permit(:name, :mission)
       end
   end
 end

@@ -12,13 +12,6 @@ class OrganizationSettings extends React.Component {
   static propTypes = {
   };
 
-  constructor() {
-    super();
-    this.state = {
-      currentOrganizationIndex: 0,
-    };
-  }
-
   handleSave = () => {
     if (this.validateForm()) {
       alert('Updating the form');
@@ -30,32 +23,27 @@ class OrganizationSettings extends React.Component {
     window.history.back();
   };
 
-  handleOrganizationClick = (index) => {
-    this.setState({ currentOrganizationIndex: index });
+  handleOrganizationClick = (organizationId) => {
+    this.props.selectOrganization(organizationId);
   };
 
   renderOrganizationList = () => {
-    const { organizations } = this.props;
+    const { organizations, currentOrganization } = this.props;
 
-    return organizations.map((org, index) => {
+    return organizations.map((org) => {
       return (
-        <div className={index === this.state.currentOrganizationIndex ? styles.organizationLogoSelected : styles.organizationLogo} onClick={this.handleOrganizationClick.bind(this, index)}>
+        <div className={org.id === currentOrganization.id ? styles.organizationLogoSelected : styles.organizationLogo} onClick={this.handleOrganizationClick.bind(this, org.id)}>
           <OrganizationIcon key={org.id} name={org.name} url={'#'} reactLink={false}/>
         </div>
       );
     });
   };
 
-  handleOrganizationNameUpdate = () => {
-
+  handleOrganizationNameUpdate = (name) => {
+    this.props.updateOrganization(this.props.currentOrganization.id, { name: name });
   };
 
   renderOrganizationMemberList = () => {
-    //let org = this.props.organizationMembers.filter((org) => {
-    //  return org.id === organizationId
-    //})[0];
-
-    console.log('organizationMembers: ' + JSON.stringify(this.props.organizationMembers));
     return (
       this.props.organizationMembers.map((user) => {
         return (
@@ -70,8 +58,7 @@ class OrganizationSettings extends React.Component {
   };
 
   render() {
-    const { organizations } = this.props;
-    console.log('organizations: ' + JSON.stringify(organizations));
+    const { organizations, currentOrganization } = this.props;
     return (
         <div className={styles.formContainer}>
           <div className={styles.formTitle}>
@@ -81,13 +68,13 @@ class OrganizationSettings extends React.Component {
             {this.renderOrganizationList()}
           </div>
           <div className={styles.organizationName}>
-            <EditableText text={organizations.get(this.state.currentOrganizationIndex).name} onUpdate={this.handleOrganizationNameUpdate} editable maxLength={15} />
+            <EditableText text={currentOrganization.name} onUpdate={this.handleOrganizationNameUpdate} editable maxLength={15} />
           </div>
-          <div className={styles.formTitle}>
+          <div className={styles.membersLabel}>
             MEMBERS
           </div>
           <div className={styles.filterContainer}>
-            <div className={styles.organizationName}>
+            <div className={styles.searchInputContainer}>
               <input type="text" className={styles.filterInput} id="memberName"
                      placeholder="SEARCH MEMBERS" onKeyDown={this.handleKeyDown}
                      onChange={this.handleFilterChange}
@@ -99,14 +86,6 @@ class OrganizationSettings extends React.Component {
           </div>
           <div className={styles.organizationMembersContainer}>
             {this.renderOrganizationMemberList()}
-          </div>
-          <div className={styles.actionContainer}>
-            <div className={styles.formSubmit} onClick={this.handleSave} tab-index='4'>
-              SAVE
-            </div>
-            <div className={styles.backLink} onClick={this.handleCancel}>
-              CANCEL
-            </div>
           </div>
         </div>
     );
