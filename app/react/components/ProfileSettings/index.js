@@ -25,13 +25,11 @@ class ProfileSettings extends React.Component {
 
   handleSave = () => {
     const user = {
-      user: {
-        email: this.props.user.email,
-        first_name: this.props.user.firstName,
-        last_name: this.props.user.lastName,
-        password: this.props.user.password,
-        password_confirmation: this.props.user.passwordConfirmation,
-      },
+      email: this.props.user.email,
+      first_name: this.props.user.firstName,
+      last_name: this.props.user.lastName,
+      password: this.props.user.password,
+      password_confirmation: this.props.user.passwordConfirmation,
     };
     if (this.validateForm()) {
       this.props.onSave(user);

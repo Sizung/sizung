@@ -39,9 +39,7 @@ class Settings extends React.Component {
   };
 
   saveUser = (user) => {
-    api.putJson('/api/users/'+this.props.currentUser.id, user, (json) => {
-      alert('user updated successfully');
-    });
+    this.props.updateUser(this.props.currentUser.id, user);
   };
 
   renderOptions = () => {

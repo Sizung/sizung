@@ -41,7 +41,7 @@ class SettingsApp extends React.Component {
   render() {
     const { organizations, currentOrganization, currentUser, users, organizationMembers } = this.props;
       return (
-         <Settings organizations={organizations} currentOrganization={currentOrganization} currentUser={currentUser} users={users} organizationMembers={organizationMembers}/>
+         <Settings organizations={organizations} currentOrganization={currentOrganization} currentUser={currentUser} users={users} organizationMembers={organizationMembers} {...this.props}/>
       );
   }
 }
