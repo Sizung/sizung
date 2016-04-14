@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './index.css';
 import ProfileSettings from '../ProfileSettings';
 import OrganizationSettings from '../OrganizationSettings';
+import { browserHistory } from 'react-router';
 
 class Settings extends React.Component {
 
@@ -18,6 +19,14 @@ class Settings extends React.Component {
       },
     };
   }
+
+  componentWillMount() {
+    this.setUser(this.props.currentUser);
+  }
+
+  closeSettingsView = () => {
+    browserHistory.push('/organizations/' + this.props.currentOrganization.id);
+  };
 
   setCurrentSettingOption = (option) => {
     this.setState({
@@ -37,6 +46,7 @@ class Settings extends React.Component {
     });
   };
 
+
   getOptionLabelStyle = (option) => {
     if (option === this.state.currentOption) {
       return styles.currentOption;
@@ -50,9 +60,9 @@ class Settings extends React.Component {
 
   renderOptions = () => {
     if (this.state.currentOption === 0) {
-      return (<ProfileSettings user={this.state.user} setUser={this.setUser} onSave={this.saveUser}/>);
+      return (<ProfileSettings user={this.state.user} setUser={this.setUser} onSave={this.saveUser} onClose={this.closeSettingsView}/>);
     } else if (this.state.currentOption === 1) {
-      return (<OrganizationSettings organizationMembers={this.props.organizationMembers} organizations={this.props.organizations} currentOrganization={this.props.currentOrganization} {...this.props}/>);
+      return (<OrganizationSettings {...this.props}/>);
     }
   };
 
@@ -75,16 +85,12 @@ class Settings extends React.Component {
     );
   };
 
-  componentWillMount() {
-    this.setUser(this.props.currentUser);
-  }
-
   render() {
     return (
       <div className={styles.root}>
         <div className={styles.leftColumn}>
           <div className={styles.header}>
-            <div className={styles.settingsLogo}>
+            <div className={styles.settingsIcon}>
             </div>
             <div className={styles.settingsLabel}>
               SETTINGS

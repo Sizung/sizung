@@ -8,6 +8,7 @@ class ProfileSettings extends React.Component {
     user: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
+    onClose: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -144,11 +145,6 @@ class ProfileSettings extends React.Component {
     }
   };
 
-  handleCancel = () => {
-    // ANI: Find the React way of doing it
-    window.history.back();
-  };
-
   render() {
     const { email, password, passwordConfirmation, firstName, lastName } = this.props.user;
     return (
@@ -175,7 +171,7 @@ class ProfileSettings extends React.Component {
           <div className={styles.formSubmit} onClick={this.handleSave}>
             SAVE
           </div>
-          <div className={styles.backLink} onClick={this.handleCancel}>
+          <div className={styles.backLink} onClick={this.props.onClose}>
             CANCEL
           </div>
         </div>
