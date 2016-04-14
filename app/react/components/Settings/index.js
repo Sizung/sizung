@@ -2,7 +2,6 @@ import React from 'react';
 import styles from './index.css';
 import ProfileSettings from '../ProfileSettings';
 import OrganizationSettings from '../OrganizationSettings';
-import * as api from '../../utils/api';
 
 class Settings extends React.Component {
 
@@ -38,6 +37,13 @@ class Settings extends React.Component {
     });
   };
 
+  getOptionLabelStyle = (option) => {
+    if (option === this.state.currentOption) {
+      return styles.currentOption;
+    }
+    return styles.option;
+  };
+
   saveUser = (user) => {
     this.props.updateUser(this.props.currentUser.id, user);
   };
@@ -48,13 +54,6 @@ class Settings extends React.Component {
     } else if (this.state.currentOption === 1) {
       return (<OrganizationSettings organizationMembers={this.props.organizationMembers} organizations={this.props.organizations} currentOrganization={this.props.currentOrganization} {...this.props}/>);
     }
-  };
-
-  getOptionLabelStyle = (option) => {
-    if (option === this.state.currentOption) {
-      return styles.currentOption;
-    }
-    return styles.option;
   };
 
   renderOptionLabel = (option) => {

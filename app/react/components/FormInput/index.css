@@ -87,6 +87,10 @@
   width: 100%;
 }
 
+.formInputValue input:disabled {
+  color: #828282;
+}
+
 .formInputValue input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
   color: #0A0022;
 }

@@ -1,8 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
 import FormInput from '../FormInput';
-import { Link } from 'react-router';
-import * as api from '../../utils/api';
 
 class ProfileSettings extends React.Component {
 
@@ -23,29 +21,24 @@ class ProfileSettings extends React.Component {
     };
   }
 
-  handleSave = () => {
-    const user = {
-      email: this.props.user.email,
-      first_name: this.props.user.firstName,
-      last_name: this.props.user.lastName,
-      password: this.props.user.password,
-      password_confirmation: this.props.user.passwordConfirmation,
-    };
-    if (this.validateForm()) {
-      this.props.onSave(user);
-    }
+  setUserFirstName = (text) => {
+    this.props.setUser({ firstName: text });
   };
 
-  handleCancel = () => {
-    //Find the React way of doing it
-    window.history.back();
+  setUserLastName = (text) => {
+    this.props.setUser({ lastName: text });
   };
 
-  validateForm = () => {
-    if (this.validateFirstName() && this.validateLastName() && this.validatePassword() && this.validatePasswordConfirmation()) {
-      return true;
-    }
-    return false;
+  setUserEmail = (email) => {
+    this.props.setUser({ email });
+  };
+
+  setUserPasswordConfirmation = (password) => {
+    this.props.setUser({ passwordConfirmation: password });
+  };
+
+  setUserPassword = (password) => {
+    this.props.setUser({ password });
   };
 
   validateFirstName = () => {
@@ -131,24 +124,29 @@ class ProfileSettings extends React.Component {
     return true;
   };
 
-  setUserFirstName = (text) => {
-    this.props.setUser({ firstName: text });
+  validateForm = () => {
+    if (this.validateFirstName() && this.validateLastName() && this.validatePassword() && this.validatePasswordConfirmation()) {
+      return true;
+    }
+    return false;
   };
 
-  setUserLastName = (text) => {
-    this.props.setUser({ lastName: text });
+  handleSave = () => {
+    const user = {
+      email: this.props.user.email,
+      first_name: this.props.user.firstName,
+      last_name: this.props.user.lastName,
+      password: this.props.user.password,
+      password_confirmation: this.props.user.passwordConfirmation,
+    };
+    if (this.validateForm()) {
+      this.props.onSave(user);
+    }
   };
 
-  setUserEmail = (email) => {
-    this.props.setUser({ email });
-  };
-
-  setUserPasswordConfirmation = (password) => {
-    this.props.setUser({ passwordConfirmation: password });
-  };
-
-  setUserPassword = (password) => {
-    this.props.setUser({ password });
+  handleCancel = () => {
+    // ANI: Find the React way of doing it
+    window.history.back();
   };
 
   render() {
@@ -174,7 +172,7 @@ class ProfileSettings extends React.Component {
           <FormInput type='password' value={passwordConfirmation} label={'CONFIRM NEW PASSWORD'} validate={this.validatePasswordConfirmation} onChange={this.setUserPasswordConfirmation} errorMessage={this.state.passwordConfirmationErrorMessage}/>
         </div>
         <div className={styles.actionContainer}>
-          <div className={styles.formSubmit} onClick={this.handleSave} tab-index='4'>
+          <div className={styles.formSubmit} onClick={this.handleSave}>
             SAVE
           </div>
           <div className={styles.backLink} onClick={this.handleCancel}>

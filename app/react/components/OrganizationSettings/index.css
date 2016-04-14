@@ -18,9 +18,7 @@
   margin: 3.75rem 0;
 }
 
-.formInputContainer {
-  width: 72rem;
-}
+
 
 .actionContainer {
   width: 47.625rem;
@@ -95,7 +93,6 @@
   flex-direction: row;
   align-items: center;
   width: 72rem;
-  /*max-height: rem;*/
 }
 
 

@@ -40,20 +40,11 @@ class SettingsApp extends React.Component {
   };
 
   render() {
-    const { organizations, currentOrganization, currentUser, users, organizationMembers } = this.props;
-      return (
-         <Settings organizations={organizations} currentOrganization={currentOrganization} currentUser={currentUser} users={users} organizationMembers={organizationMembers} {...this.props}/>
-      );
+    return (
+       <Settings {...this.props}/>
+    );
   }
 }
-
-SettingsApp.propTypes = {
-  organizations: PropTypes.object,
-  currentOrganization: PropTypes.object,
-  currentUser: PropTypes.object,
-  users: PropTypes.object,
-  organizationMembers: PropTypes.object,
-};
 
 function mapStateToProps(state, props) {
   return {
