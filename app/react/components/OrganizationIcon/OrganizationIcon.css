@@ -1,0 +1,35 @@
+@media only screen
+and (max-width: 1440px) {
+  .size {
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+  }
+}
+
+@media only screen
+and (min-width: 1441px) {
+  .size {
+    width: 54px;
+    height: 54px;
+    line-height: 54px;
+  }
+}
+
+.root {
+  composes: size;
+  background-color: white;
+  display: inline-block;
+  border-radius: 50%/50%;
+  border: 1px solid black;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  color: #130F22;
+  cursor: pointer;
+}
+
+.root:hover {
+  text-decoration: none;
+  color: #130F22;
+}

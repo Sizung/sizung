@@ -1,97 +1,143 @@
-.root {
+.default {
   position: relative;
-  cursor: pointer;
+  width: 100%;
+  min-height: 14.125rem;
+  margin: 0 0 5px 0;
+  padding: 0;
 }
 
-.default {
-  composes: card from '../../styles/modules/card.css';
-  composes: hover-container from '../../styles/modules/hover.css';
+.default:after {
+  content: '';
+  clear: both;
+  visibility: hidden;
+}
+
+.unseen {
+  composes: default;
+  border: 1px solid #415764;
+  background-color: transparent;
+  color : #ffffff;
+}
+
+.seen {
+  composes: unseen;
+  opacity: 0.5;
 }
 
 .selected {
   composes: default;
+  border: 1px solid #415764;
+  background-color: #415764;
+  color : #ffffff;
+}
+
+.selected .titleContainer {
+  font-family: Gotham-Medium;
+}
+
+.titleContainer {
   composes: hover-container from '../../styles/modules/hover.css';
-  background-color: #505964;
-  color: #FFFFFF;
-  /*border: 5px solid #ffffff;*/
+  padding: 5px 5px 5px 10px;
+  margin: 10px;
 }
 
-.row {
-  position: relative;
-  max-width: 100%;
-  min-height: 1em;
-  margin-bottom: 1em;
+.titleContainer:hover {
+  background-color: #334752;
 }
 
-.content-container {
-  width: 100%;
-  padding-right: 30px;
+.deliverableIconContainer {
+  float: left;
+  margin-right: 20px;
+  margin-top: 3px;
+}
+
+.title {
   overflow: hidden;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
+  max-height: 4.5rem;
+  font-size: 1.5rem;
+  font-family: Gotham-Book;
+}
 
-  -ms-word-break: break-all;
-  word-break: break-word;
-  font-weight: 600;
+.actionIconContainer {
+  display: flex;
+  flex: none;
+  margin-right: 10px;
+}
+
+.actionContainer {
+  display: flex;
+  flex-direction: row;
+  /*justify-content: flex-start;*/
+  align-items: center;
+  margin-left: 35px;
+  overflow: hidden;
+  font-size: 1.438rem;
+  font-family: Gotham-Medium;
+  /*cursor: pointer;*/
 
 }
 
-.status-container {
-  position: absolute;
-  right: 0px;
-  top: 0px;
+.archiveActionContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  cursor: pointer;
 }
 
-.details-row {
-  composes: row from global;
+.resolveActionContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  cursor: pointer;
+  margin-right: 20px;
 }
 
-.user-container {
-  composes: pull-left from global;
-  padding: 0px 5px;
-  min-width: 60px;
-  max-width: 60px;
+.contextTitleContainer {
+  margin-left: 30px;
+  height: 2.7rem;
+  overflow: hidden;
+  line-height: 2.7rem;
+  font-family: Gotham-Light;
+  font-size: 1.563rem;
+  color: #8C969f;
 }
 
-.due-on {
-  composes: pull-right from global;
+.bottomRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 2em;
+  margin-top: 2em;
+  padding: 0px 20px;
+  margin-bottom: 1.87em;
+}
+
+.dueDateContainer {
+  max-width: 15ch;
   padding: 5px;
-  margin-top: 5px;
-  font-size: smaller;
-  font-weight: 600;
-  color: #57C1E8;
+  margin-top: 2em;
+  margin-left: 55px;
+  background-color: #334752;
+  z-index: 2;
 }
 
-.agenda-title-container {
-  composes: col-xs-12 from global;
-  padding: 0px;
-  height: 1.5em;
-  text-align: left;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  overflow: hidden;
-  float: right;
-  white-space: nowrap;
+.dueDateOverdueContainer {
+  composes: dueDateContainer;
+  color: #f2695d;
 }
 
 .assignee {
-  display: inline-block;
-  width: 50%;
-  padding: 0px;
+  flex: none;
+  justify-content: flex-end;
 }
 
-.details-row1 {
-  composes: col-xs-12 from global;
-  padding: 0px 10px 5px 10px;
-}
-
-.details-row2 {
-  composes: row from global;
-  padding: 0px 15px;
-  margin: 0px;
-}
-
-.comments-count-container {
-  composes: col-xs-4 from global;
-  padding: 0px;
+.dueDateContainer input,
+.dueDateOverdueContainer input {
+  text-align: center;
+  font-family: Gotham-Medium;
+  font-size: 1.25rem;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }

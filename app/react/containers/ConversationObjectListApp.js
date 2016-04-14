@@ -5,6 +5,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import ConversationObjectList from '../components/ConversationObjectList/index';
+import { updateConversation } from '../actions/conversations';
 import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as DeliverableActions from '../actions/deliverables';
@@ -12,11 +13,10 @@ import * as UnseenObjectsActions from '../actions/unseenObjects';
 import { fetchConversationObjects } from '../actions/conversationObjects';
 
 function mapStateToProps(state) {
-  return {};
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({...AgendaItemActions, ...CommentsActions, ...DeliverableActions, fetchConversationObjects, ...UnseenObjectsActions}, dispatch);
+  return bindActionCreators({ updateConversation, ...AgendaItemActions, ...CommentsActions, ...DeliverableActions, fetchConversationObjects, ...UnseenObjectsActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationObjectList);

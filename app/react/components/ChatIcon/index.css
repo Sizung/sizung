@@ -1,48 +1,46 @@
 .common {
   background: no-repeat center;
-  padding: 10px 0px;
 }
 
-.normal {
-  composes: common;
+.gray {
   background-image: url("/icons/chat-icon-gray.png");
-  background-size: 17px 14px;
-  padding-left: 22px;
 }
 
-.inverted {
-  composes: common;
+.white {
   background-image: url("/icons/chat-icon-white.png");
-  background-size: 17px 14px;
-  padding-left: 22px;
 }
 
-.small {
-  composes: normal;
-  background-size: 15px 13px;
-  padding-left: 20px;
+@media only screen
+and (max-width: 1440px) {
+  .normal {
+    composes: common;
+    background-size: 17px 14px;
+    min-width: 17px;
+    min-height: 14px;
+  }
+
+  .large {
+    composes: common;
+    background-size: 21px 17px;
+    min-width: 21px;
+    min-height: 17px;
+  }
 }
 
-.large {
-  composes: normal;
-  background-size: 21px 17px;
-  padding-left: 26px;
-}
 
-.x-large {
-  composes: normal;
-  background-size: 24px 20px;
-  padding-left: 29px;
-}
-
-.inverted-small {
-  composes: inverted small;
-}
-
-.inverted-large {
-  composes: inverted large;
-}
-
-.inverted-x-large {
-  composes: inverted x-large;
+@media only screen
+and (min-width: 1441px) {
+  .normal {
+    composes: common;
+    background-size: 34px 28px;
+    min-width: 34px;
+    min-height: 28px;
+  }
+  
+  .large {
+    composes: common;
+    background-size: 42px 34px;
+    min-width: 42px;
+    min-height: 34px;
+  }
 }

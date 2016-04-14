@@ -1,0 +1,92 @@
+.root {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+.leftColumn {
+  flex-direction: column;
+  align-items: stretch;
+  background-color: #0A0022;
+  width: 26%;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 0 5.313rem;
+}
+
+.rightColumn {
+  flex-direction: column;
+  align-items: stretch;
+  width: 74%;
+  max-height: 100%;
+  overflow-y: auto;
+  padding: 0 7rem;
+  background-color: #ffffff;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  height: 10rem;
+}
+
+.optionsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 0 6.25rem 0 1.6125rem;
+;
+}
+
+.option {
+  flex: 1;
+  font-family: Gotham-Light;
+  font-size: 1.875rem;
+  color: #ffffff;
+  padding: 1.563rem 0;
+  cursor: pointer;
+}
+
+.currentOption {
+  composes: option;
+  font-family: Gotham-Medium;
+}
+
+.optionLabel {
+  margin-right: 10px;
+}
+
+.option .optionIndicator {
+
+}
+
+.currentOption .optionIndicator {
+  display: inline-block;
+  background: url('/icons/caret-left-white.svg') no-repeat center;
+  background-size: 1rem 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.settingsIcon {
+  background: url('/icons/settings-icon.svg') no-repeat center;
+  background-size: 1rem 2rem;
+  width: 1rem;
+  height: 2rem;
+  margin-right: 0.6125rem;
+}
+
+.settingsLabel {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: Gotham-Book;
+  font-size: 1.688rem;
+  letter-spacing: 0.084rem;
+  color: #ffffff;
+}

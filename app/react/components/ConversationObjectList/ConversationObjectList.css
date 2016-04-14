@@ -1,0 +1,36 @@
+.listContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.root {
+  background-color: white;
+  flex: 1;
+  overflow: auto;
+}
+
+.list {
+  background-color: #ffffff;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.loadingMessage {
+  width: 100%;
+  text-align: center;
+  font-size: smaller;
+}
+
+.loadMoreMessage {
+  text-align: center;
+  padding-top: 5px;
+  font-family: Gotham-Book;
+  font-size: 1rem;
+}
+
+.link {
+  composes: text-muted from global;
+  padding-top: 5px;
+  text-decoration: none !important;
+}

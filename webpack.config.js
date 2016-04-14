@@ -22,8 +22,8 @@ module.exports = {
         loader: 'babel-loader'
       },
       {
-        test: /\.css$/,
-        loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]')
+        test: /\.s?css$/,
+        loader: ExtractTextPlugin.extract('style', 'css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!sass')
         // loader: 'style-loader!css-loader?modules'
       }
     ]

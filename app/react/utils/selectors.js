@@ -43,26 +43,59 @@ const deliverableReferencesForAgendaItem = (state, agendaItemId) => {
   return deliverableReferences.get('references');
 };
 
-const deliverablesForAgendaItem = (state, agendaItemId) => {
-  const deliverableReferences = deliverableReferencesForAgendaItem(state, agendaItemId);
-  return deliverableReferences.map((ref) => {
-    return fillConversationObject(state, ref);
-  }).filter((deliverable) => {
-    return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
-  }).toList().sortBy((deliverable) => {
-    return deliverable.dueOn ? 'A' + deliverable.dueOn + deliverable.createdAt : 'B' + deliverable.createdAt;
-  });
+const deliverableReferencesForConversation = (state, conversationId) => {
+  const deliverableReferences = state.getIn(['deliverablesByConversation', conversationId]);
+  if (!deliverableReferences) {
+    return new Immutable.List();
+  }
+
+  return deliverableReferences.get('references');
 };
 
+const sortDeliverables = (deliverablesList) => {
+  return deliverablesList.filter((deliverable) => {
+    return (deliverable.status === 'open');
+  }).sortBy((deliverable) => {
+    return deliverable.dueOn ? 'A' + deliverable.dueOn + deliverable.createdAt : 'B' + deliverable.createdAt;
+  }).concat(deliverablesList.filter((deliverable) => {
+    return (deliverable.status === 'resolved');
+  }).sortBy((deliverable) => {
+    return deliverable.createdAt;
+  }));
+};
+
+const deliverablesForAgendaItem = (state, agendaItemId) => {
+  const deliverableReferences = deliverableReferencesForAgendaItem(state, agendaItemId);
+  let deliverablesList = deliverableReferences.map((ref) => {
+    return fillConversationObject(state, ref);
+  }).filter((deliverable) => {
+    return (deliverable.parent && !deliverable.parent.archived) && !deliverable.archived;
+  }).toList();
+
+  return sortDeliverables(deliverablesList);
+};
+
+const deliverablesForConversationOnly = (state, conversationId) => {
+  const conversationDeliverableList = deliverableReferencesForConversation(state, conversationId).map((ref) => {
+    return fillConversationObject(state, ref);
+  }).filter((deliverable) => {
+    return (deliverable.parent && !deliverable.parent.archived) && !deliverable.archived;
+  }).toList();
+
+  return sortDeliverables(conversationDeliverableList);
+}
+
 const deliverablesForConversation = (state, conversationId) => {
+  const conversationDeliverableList = deliverablesForConversationOnly(state, conversationId);
+
   const agendaItemIds = agendaItemIdsForConversation(state, conversationId).map(agendaItem => agendaItem.id);
-  return agendaItemIds.map((agendaItemId) => {
+  let deliverablesList = agendaItemIds.map((agendaItemId) => {
     return deliverablesForAgendaItem(state, agendaItemId);
   }).flatten().filter((deliverable) => {
-    return (deliverable.agendaItem && !deliverable.agendaItem.archived) && !deliverable.archived;
-  }).toList().sortBy((deliverable) => {
-    return deliverable.dueOn ? 'A' + deliverable.dueOn + deliverable.createdAt : 'B' + deliverable.createdAt;
-  });
+    return (deliverable.parent && !deliverable.parent.archived) && !deliverable.archived;
+  }).toList().concat(conversationDeliverableList);
+
+  return sortDeliverables(deliverablesList);
 };
 
 const deliverablesForOrganization = (state, organizationId) => {
@@ -71,11 +104,11 @@ const deliverablesForOrganization = (state, organizationId) => {
     return null;
   }
 
-  return references.map((reference) => {
+  let deliverablesList = references.map((reference) => {
     return fillConversationObject(state, reference);
-  }).sortBy((deliverable) => {
-    return deliverable.dueOn ? 'A' + deliverable.dueOn : 'B' + deliverable.createdAt;
   });
+
+  return sortDeliverables(deliverablesList);
 };
 
 const conversationsForOrganization = (state, organizationId) => {
@@ -90,10 +123,15 @@ const conversationsForOrganization = (state, organizationId) => {
     return conv.title;
   });
 };
+
+const user = (state, id) => state.getIn(['entities', 'users', id]);
+
 const users = (state) => state.getIn(['entities', 'users']).toList();
 
-const currentUser = (state) => state.getIn(['entities', 'users', state.getIn(['currentUser', 'id'])]);
+const currentUser = (state) => user(state, state.getIn(['currentUser', 'id']));
+
 const currentConversation = (state) => state.getIn(['entities', 'conversations', state.getIn(['currentConversation', 'id'])]);
+
 const currentOrganization = (state) => {
   const currentOrgId = state.getIn(['currentOrganization', 'id']);
   if (!currentOrgId) {
@@ -101,22 +139,32 @@ const currentOrganization = (state) => {
   }
   return state.getIn(['entities', 'organizations', currentOrgId]);
 };
+
 const organizations = (state) => state.getIn(['entities', 'organizations']).map((organization) => { return organization; }).toList();
 
-const organizationMembers = (state) => {
+
+const organizationMembers = (state, organizationId) => {
   const references = state.getIn(['entities', 'organizationMembers']);
-  const currentOrg = currentOrganization(state);
-  if (!references || !currentOrg) {
+  if (!references) {
     return null;
   }
 
   const filteredOrganizationMembers = references.filter((reference) => {
-    return (reference.organizationId === currentOrg.id);
+    return (reference.organizationId === organizationId);
   });
 
   return filteredOrganizationMembers.map((reference) => {
     return state.getIn(['entities', 'users', reference.memberId]);
   });
+};
+
+const currentOrganizationMembers = (state) => {
+  const currentOrg = currentOrganization(state);
+  if (!currentOrg) {
+    return null;
+  }
+
+  return organizationMembers(state, currentOrg.id);
 };
 
 const conversationMembers = (state) => {
@@ -155,20 +203,32 @@ const conversationObjects = (state, objectsToShow) => {
 };
 
 const agendaItemsList = (state, conversationId) => {
-  const agendaItemIds = agendaItemIdsForConversation(state, conversationId);
 
-  return agendaItemIds.map((ref) => {
+  const agendaItemIds = agendaItemIdsForConversation(state, conversationId);
+  let agendaItemsList = agendaItemIds.map((ref) => {
     return state.getIn(['entities', 'agendaItems', ref.id]);
   }).toList().map((agendaItem) => {
     return fillAgendaItem(state, agendaItem.id);
-  }).filter((agendaItem) => {
-    return !agendaItem.archived;
+  });
+
+  agendaItemsList = agendaItemsList.filter((agendaItem) => {
+    return (!agendaItem.archived && agendaItem.status === 'open');
   }).sortBy((conversationObject) => {
     return conversationObject.createdAt;
-  });
+  }).concat(agendaItemsList.filter((agendaItem) => {
+    return (!agendaItem.archived && agendaItem.status === 'resolved');
+  }).sortBy((conversationObject) => {
+    return conversationObject.createdAt;
+  }));
+  return agendaItemsList;
+};
+
+const conversationMemberListVisible = (state) => {
+  return state.getIn(['conversationUi', 'showConversationMembers']);
 };
 
 export {
+  user,
   users,
   currentUser,
   currentConversation,
@@ -176,14 +236,17 @@ export {
   organizations,
   conversationMembers,
   organizationMembers,
+  currentOrganizationMembers,
   conversationObjects,
   agendaItemsList,
   conversationMembersAsUsers,
   agendaItemsForOrganization,
   deliverablesForOrganization,
   deliverablesForConversation,
+  deliverablesForConversationOnly,
   deliverablesForAgendaItem,
   conversationsForOrganization,
   organization,
   conversation,
+  conversationMemberListVisible,
 };

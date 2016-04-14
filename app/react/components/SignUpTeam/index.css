@@ -1,0 +1,135 @@
+.formContainer {
+  margin-top: 20.125rem;
+  width: 47.625rem;
+}
+
+.formTitle {
+  color: #37ACD4;
+  font-family: Gotham-Medium;
+  font-size: 2.5rem;
+  /*width: 47.625rem;*/
+  padding: 1.563rem 0 2.875rem 0;
+}
+
+.formSubTitle {
+  color: #0A0022;
+  font-family: Gotham-Book;
+  font-size: 1.375rem;
+  /*width: 47.625rem;*/
+  margin-bottom: 3.125rem;
+}
+
+.formInputContainer {
+  width: 95.25rem;
+}
+
+.formInput {
+  /*width: 47.625rem;*/
+  height: 8.5rem;
+  background-color: #EBEFF0;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 30px;
+}
+
+.formInputLabel {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: Gotham-Medium;
+  font-size: 1.25rem;
+  color: #828282;
+}
+
+.formInputValue {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  font-family: Gotham-Book;
+  font-size: 2.188rem;
+  color: #0A0022;
+}
+
+.formInputValue input {
+  background-color: transparent;
+  border: none;
+  outline: none;
+  width: 100%;
+}
+
+.actionContainer {
+  margin-top: 40px;
+}
+
+.formSubmit {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  float: right;
+  width: 16.875rem;
+  height: 5rem;
+  font-family: Gotham-Medium;
+  font-size: 1.875rem;
+  color: #ffffff;
+  background-color: #37ACD4;
+
+  cursor: pointer;
+}
+
+.backLink {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  float: left;
+  font-family: Gotham-Medium;
+  font-size: 1.25rem;
+  color: #405663;
+  cursor: pointer;
+  height: 5rem;
+}
+
+.formInputValue input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+  color: #0A0022;
+}
+.formInputValue input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+  color: #0A0022;
+  opacity: 1;
+}
+.formInputValue input::-moz-placeholder { /* Mozilla Firefox 19+ */
+  color: #0A0022;
+  opacity: 1;
+}
+.formInputValue input:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #0A0022;
+}
+.formInputValue input:placeholder-shown { /* Standard (https://drafts.csswg.org/selectors-4/#placeholder) */
+  color: #0A0022;
+}
+
+.formInputError {
+  composes: formInput;
+  border: 1px solid #FF685B;
+}
+
+.formInputErrorMessage {
+  flex: none;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Gotham-Book;
+  font-size: 1.563rem;
+}
+
+.formInputValueContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160202134927) do
+ActiveRecord::Schema.define(version: 20160329094348) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,7 +89,7 @@ ActiveRecord::Schema.define(version: 20160202134927) do
   add_index "conversation_members", ["member_id"], name: "index_conversation_members_on_member_id", using: :btree
 
   create_table "deliverables", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.uuid     "agenda_item_id"
+    t.uuid     "parent_id"
     t.uuid     "owner_id",       null: false
     t.string   "title",          null: false
     t.text     "description"
@@ -97,18 +97,20 @@ ActiveRecord::Schema.define(version: 20160202134927) do
     t.datetime "updated_at",     null: false
     t.uuid     "assignee_id",    null: false
     t.date     "due_on"
-    t.string   "status",         default: "open", null: false
+    t.string   "status",         default: "open",       null: false
     t.string   "archive_number"
     t.datetime "archived_at"
-    t.integer  "comments_count", default: 0,      null: false
+    t.integer  "comments_count", default: 0,            null: false
+    t.string   "parent_type",    default: "AgendaItem", null: false
   end
-  add_index "deliverables", ["agenda_item_id"], name: "index_deliverables_on_agenda_item_id", using: :btree
   add_index "deliverables", ["owner_id"], name: "index_deliverables_on_owner_id", using: :btree
+  add_index "deliverables", ["parent_id"], name: "index_deliverables_on_parent_id", using: :btree
 
   create_view "conversation_objects", <<-'END_VIEW_CONVERSATION_OBJECTS', :force => true
 SELECT comments.id,
     'Comment'::text AS type,
     comments.commentable_id AS parent_id,
+    comments.commentable_type AS parent_type,
     comments.created_at,
     comments.updated_at,
     comments.commentable_id,
@@ -119,7 +121,6 @@ SELECT comments.id,
     NULL::character varying AS title,
     comments.body,
     NULL::character varying AS status,
-    NULL::uuid AS agenda_item_id,
     NULL::text AS description,
     NULL::uuid AS assignee_id,
     NULL::date AS due_on,
@@ -132,6 +133,7 @@ UNION ALL
  SELECT agenda_items.id,
     'AgendaItem'::text AS type,
     agenda_items.conversation_id AS parent_id,
+    'Conversation'::text AS parent_type,
     agenda_items.created_at,
     agenda_items.updated_at,
     NULL::uuid AS commentable_id,
@@ -142,7 +144,6 @@ UNION ALL
     agenda_items.title,
     NULL::text AS body,
     agenda_items.status,
-    NULL::uuid AS agenda_item_id,
     NULL::text AS description,
     NULL::uuid AS assignee_id,
     NULL::date AS due_on,
@@ -154,7 +155,8 @@ UNION ALL
 UNION ALL
  SELECT deliverables.id,
     'Deliverable'::text AS type,
-    deliverables.agenda_item_id AS parent_id,
+    deliverables.parent_id,
+    deliverables.parent_type,
     deliverables.created_at,
     deliverables.updated_at,
     NULL::uuid AS commentable_id,
@@ -165,7 +167,6 @@ UNION ALL
     deliverables.title,
     NULL::text AS body,
     deliverables.status,
-    deliverables.agenda_item_id,
     deliverables.description,
     deliverables.assignee_id,
     deliverables.due_on,
@@ -177,11 +178,12 @@ UNION ALL
   END_VIEW_CONVERSATION_OBJECTS
 
   create_table "conversations", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
-    t.string   "title",           null: false
-    t.uuid     "organization_id", null: false
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
-    t.integer  "comments_count",  default: 0, null: false
+    t.string   "title",              null: false
+    t.uuid     "organization_id",    null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.integer  "comments_count",     default: 0, null: false
+    t.integer  "deliverables_count", default: 0, null: false
   end
   add_index "conversations", ["organization_id"], name: "index_conversations_on_organization_id", using: :btree
 
@@ -269,7 +271,6 @@ UNION ALL
   add_foreign_key "conversation_members", "conversations"
   add_foreign_key "conversation_members", "users", column: "member_id"
   add_foreign_key "conversations", "organizations"
-  add_foreign_key "deliverables", "agenda_items", on_delete: :cascade
   add_foreign_key "deliverables", "users", column: "assignee_id"
   add_foreign_key "deliverables", "users", column: "owner_id"
   add_foreign_key "organization_members", "organizations"

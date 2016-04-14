@@ -1,0 +1,119 @@
+.hoverContainer {
+}
+
+.rootOpen {
+  display: none;
+}
+
+.hoverContainer:hover .rootOpen {
+  z-index: 10;
+  position: relative;
+  display: inline-block;
+  width: 31rem;
+  padding-top: 1.5rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+  background-color: #3d5863;
+  font-size: 1.5rem;
+}
+
+@media only screen
+and (max-width: 1440px) {
+  .roundSize {
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+  }
+
+  .caretSize {
+    width: 9px;
+    height: 6px;
+    background-size: 9px 6px;
+  }
+}
+
+@media only screen
+and (min-width: 1441px) {
+  .roundSize {
+    width: 54px;
+    height: 54px;
+    line-height: 54px;
+  }
+
+  .caretSize {
+    width: 13px;
+    height: 8px;
+    background-size: 13px 8px;
+  }
+}
+
+.caretOpen {
+  composes: caretSize;
+  display: inline-block;
+  background: url("/icons/caret_open.png") no-repeat center;
+  justify-content: flex-end;
+}
+
+.caretClosed {
+  composes: caretSize;
+  display: inline-block;
+  background: url("/icons/caret_closed.png") no-repeat center;
+  margin-left: 1.25rem;
+}
+
+.hoverContainer:hover .rootShow {
+  display: none;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-bottom: 1.625rem;
+  border-bottom: 1px solid silver;
+  margin-bottom: 1.5rem;
+  cursor: pointer;
+}
+
+.menu {
+  padding-bottom: 1.5rem;
+}
+
+.menu a {
+  display: block;
+  line-height: 4.5rem;
+  color: white;
+  cursor: pointer;
+}
+
+.menu a:hover {
+  color: white;
+}
+
+.name {
+  display: inline-block;
+  margin-left: 1.5rem;
+  width: 19.375rem;
+  justify-content: flex-start;
+  color: white;
+}
+
+.rootShow {
+  display: inline-block;
+  padding-top: 1.5rem;
+  padding-right: 3rem;
+  cursor: pointer;
+}
+
+.round {
+  composes: roundSize;
+  justify-content: flex-start;
+  display: inline-block;
+  border-radius: 50%/50%;
+  border: 1px solid black;
+  background-color: white;
+  text-align: center;
+  font-weight: bold;
+  font-size: 2rem;
+  color: #130F22;
+}

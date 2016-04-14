@@ -1,6 +1,7 @@
 import * as agendaItems from './agendaItems';
 import * as comments from './comments';
 import * as deliverables from './deliverables';
+import * as conversations from './conversations';
 import * as users from './users';
 import * as unseenObjects from './unseenObjects';
 import * as transform from '../utils/jsonApiUtils';
@@ -24,30 +25,31 @@ const onOrganizationChannelReceived = (data) => {
   };
 };
 
-const onConversationChannelReceived = (data, currentUserId) => {
+const onConversationChannelReceived = (data) => {
   return (dispatch) => {
-    // noinspection JSUnresolvedVariable
-    if (currentUserId !== data.actor_id) {
-      if (data.payload.data.type === 'agenda_items') {
-        if (data.action === 'create') {
-          dispatch(agendaItems.createAgendaItemRemoteOrigin(transform.transformAgendaItemFromJsonApi(data.payload.data)));
-        } else if (data.action === 'update') {
-          dispatch(agendaItems.updateAgendaItemRemoteOrigin(transform.transformAgendaItemFromJsonApi(data.payload.data)));
-        }
-      } else if (data.payload.data.type === 'comments') {
-        if (data.action === 'create') {
-          dispatch(comments.createCommentRemoteOrigin(transform.transformCommentFromJsonApi(data.payload.data)));
-        } else if (data.action === 'update') {
-          dispatch(comments.updateCommentRemoteOrigin(transform.transformCommentFromJsonApi(data.payload.data)));
-        } else if (data.action === 'delete') {
-          dispatch(comments.deleteCommentRemoteOrigin(transform.transformCommentFromJsonApi(data.payload.data)));
-        }
-      } else if (data.payload.data.type === 'deliverables') {
-        if (data.action === 'create') {
-          dispatch(deliverables.createDeliverableRemoteOrigin(transform.transformDeliverableFromJsonApi(data.payload.data)));
-        } else if (data.action === 'update') {
-          dispatch(deliverables.updateDeliverableRemoteOrigin(transform.transformDeliverableFromJsonApi(data.payload.data)));
-        }
+    if (data.payload.data.type === 'agenda_items') {
+      if (data.action === 'create') {
+        dispatch(agendaItems.createAgendaItemRemoteOrigin(transform.transformAgendaItemFromJsonApi(data.payload.data)));
+      } else if (data.action === 'update') {
+        dispatch(agendaItems.updateAgendaItemRemoteOrigin(transform.transformAgendaItemFromJsonApi(data.payload.data)));
+      }
+    } else if (data.payload.data.type === 'comments') {
+      if (data.action === 'create') {
+        dispatch(comments.createCommentRemoteOrigin(transform.transformCommentFromJsonApi(data.payload.data)));
+      } else if (data.action === 'update') {
+        dispatch(comments.updateCommentRemoteOrigin(transform.transformCommentFromJsonApi(data.payload.data)));
+      } else if (data.action === 'delete') {
+        dispatch(comments.deleteCommentRemoteOrigin(transform.transformCommentFromJsonApi(data.payload.data)));
+      }
+    } else if (data.payload.data.type === 'deliverables') {
+      if (data.action === 'create') {
+        dispatch(deliverables.createDeliverableRemoteOrigin(transform.transformDeliverableFromJsonApi(data.payload.data)));
+      } else if (data.action === 'update') {
+        dispatch(deliverables.updateDeliverableRemoteOrigin(transform.transformDeliverableFromJsonApi(data.payload.data)));
+      }
+    } else if (data.payload.data.type === 'conversations') {
+      if (data.action === 'update') {
+        dispatch(conversations.updateConversationRemoteOrigin(transform.transformConversationFromJsonApi(data.payload.data)));
       }
     }
   };

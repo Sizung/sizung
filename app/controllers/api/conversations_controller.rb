@@ -24,7 +24,7 @@ module Api
       ).find(params[:id])
       authorize @conversation
 
-      render json: @conversation, include: %w(agenda_items deliverables organization organization.organization_members.member conversation_members)
+      render json: @conversation, include: %w(agenda_items deliverables agenda_item_deliverables organization organization.organization_members.member conversation_members)
     end
 
     # POST /conversations.json
@@ -44,9 +44,8 @@ module Api
     # PATCH/PUT /conversations/1.json
     def update
       if @conversation.update(conversation_params)
-        render :show, status: :ok, location: @conversation
-      else
-        render json: @conversation.errors, status: :unprocessable_entity
+        ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'update')
+        render json: @conversation
       end
     end
 

@@ -13,6 +13,7 @@ import * as selectors from '../utils/selectors';
 import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillConversation } from '../utils/entityUtils';
+import * as ConversationUiActions from '../actions/conversationUi';
 
 class ConversationApp extends React.Component {
   componentDidMount() {
@@ -71,25 +72,24 @@ function nextPageUrl(state, props) {
 }
 
 function mapStateToProps(state, props) {
+  const conversationMembersViewVisible = selectors.conversationMemberListVisible(state);
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
       currentUser: selectors.currentUser(state),
       parent: fillConversation(state, props.params.conversationId),
-      canCreateAgendaItem: true,
-      canCreateDeliverable: false,
     },
-    canCreateAgendaItem: true,
-    canCreateDeliverable: false,
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
     currentConversationId: props.params.conversationId,
+    currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
+    conversationMembersViewVisible,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
+  return bindActionCreators({ ...ConversationUiActions, ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationApp);

@@ -10,7 +10,7 @@ const unfollowUserChannel = () => {
 const followConversationChannel = (conversationId, currentUserId, onConversationChannelReceived) => {
   window.App.conversationChannel.followConversation(conversationId);
   window.App.conversationChannel.setOnReceived((data) => {
-    onConversationChannelReceived(data, currentUserId);
+    onConversationChannelReceived(data);
   });
 };
 

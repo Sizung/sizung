@@ -1,73 +1,129 @@
-.root {
+.default {
   position: relative;
+  width: 100%;
+  min-height: 10.688rem;
+  margin: 0 0 5px 0;
+  padding: 0;
+}
+
+.default:after {
+  content: '';
+  clear: both;
+  visibility: hidden;
+}
+
+.unseen {
+  composes: default;
+  border: 1px solid #415764;
+  background-color: transparent;
+  color : #ffffff;
+}
+
+.seen {
+  composes: unseen;
+  opacity: 0.5;
+}
+
+.selected {
+  composes: default;
+  border: 1px solid #38ACD4;
+  background-color: #38ACD4;
+  color : #ffffff;
+}
+
+.leftStrip {
+  float: left;
+  width: 0.768em;
+  min-height: 10.5rem;
+  background-color: #88d3df;
+}
+
+.selected .leftStrip {
+  background: none;
+  border-left: 0.768em solid #38ACD4;
+}
+
+.contentContainer {
+  overflow: hidden;
+  height: 6rem;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+  font-family: Gotham-Book;
+}
+
+.contentContainer:after {
+  content: '';
+  clear: both;
+  visibility: hidden;
+}
+
+.selected .contentContainer {
+  font-family: Gotham-Medium;
+}
+
+.titleContainer {
+  composes: hover-container from '../../styles/modules/hover.css';
+  display: flex;
+  align-items: flex-start;
+  padding: 5px 8px;
+  padding-left: 3px;
+  margin: 10px 10px 10px 0;
+  font-size: 1.5rem;
+}
+
+.selected .titleContainer:hover {
+  background-color: #3297BE;
+}
+
+.seen .titleContainer:hover,
+.unseen .titleContainer:hover {
+  background-color: #334752;
+}
+
+.agendaItemIconContainer {
+  display: flex;
+  flex: none;
+}
+
+.title {
+  overflow: hidden;
+  max-height: 4.5rem;
+  font-family: Gotham-Book;
+  flex: 1;
+}
+
+.archiveContainer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-start;
+  font-family: Gotham-Medium;
+  font-size: 1.438rem;
   cursor: pointer;
 }
 
-.default {
-  composes: card from '../../styles/modules/card.css';
-  composes: hover-container from '../../styles/modules/hover.css';
-}
-.selected {
-  composes: card-selected from '../../styles/modules/card.css';
-  composes: hover-container from '../../styles/modules/hover.css';
-}
-
-.row {
-  position: relative;
-  width: 100%;
-  min-height: 1em;
-  margin-bottom: 1em;
+.statusContainer {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: flex-end;
+  font-family: Gotham-Medium;
+  cursor: pointer;
+  font-size: 1.438rem;
 }
 
-.content-container {
-  width: 100%;
-  padding-right: 30px;
+.iconContainer {
+  margin-right: 10px;
+  align-items: center;
+}
+
+.actionContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
   overflow: hidden;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-
-  -ms-word-break: break-all;
-  word-break: break-word;
-  font-weight: 600;
-}
-
-.status-container {
-  position: absolute;
-  right: 0px;
-  top: 0px;
-}
-
-.comments-icon {
-  composes: fa fa-comment-o from global;
-  vertical-align: bottom;
-}
-
-.deliverables-icon {
-  composes: fa fa-tasks from global;
-  margin-left: 2em;
-  vertical-align: bottom;
-}
-
-.bottom-row {
-  composes: row from global;
-  margin: 0px;
-}
-
-.user-container {
-  composes: pull-right from global;
-}
-
-.counter-container {
-  composes: col-xs-12 from global;
-  padding: 0px;
-}
-
-.conversation-title-container {
-  composes: col-xs-12 from global;
-  padding: 0px;
-  margin-top: 5px;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  overflow: hidden;
-  white-space: nowrap;
+  margin: 10px 20px;
 }

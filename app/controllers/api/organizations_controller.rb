@@ -1,6 +1,7 @@
 module Api
   class OrganizationsController < ApplicationController
     before_filter :authenticate_user!
+    before_action :set_organization, only: [:update]
     after_action :verify_authorized,    except: :index
     after_action :verify_policy_scoped, only: :index
 
@@ -24,7 +25,8 @@ module Api
 
       @conversations = policy_scope(Conversation).where(organization: @organization).includes(:agenda_items, :deliverables, :conversation_members, :organization)
       @agenda_items = AgendaItem.where(conversation: @conversations).includes(:deliverables, :conversation, :owner)
-      @deliverables = Deliverable.where(agenda_item: @agenda_items).where(assignee: current_user).includes(:agenda_item, :owner, :assignee)
+      @deliverables = Deliverable.where(parent_id: @agenda_items).where(assignee: current_user).includes(:parent, :owner, :assignee)
+      @conversation_deliverables = Deliverable.where(parent_id: @conversations).where(assignee: current_user).includes(:parent, :owner, :assignee)
 
       render json: @organization,
              include: %w(organization_members, organization_members.member),
@@ -32,8 +34,15 @@ module Api
                  conversations: to_json_api(@conversations),
                  agenda_items: to_json_api(@agenda_items),
                  deliverables: to_json_api(@deliverables),
+                 conversation_deliverables: to_json_api(@conversation_deliverables),
                  editable: policy(@organization).edit?
              }
+    end
+
+    def update
+      authorize @organization
+      @organization.update!(organization_update_params)
+      render json: @organization, serializer: OrganizationSerializer
     end
 
     private
@@ -46,6 +55,10 @@ module Api
       # Never trust parameters from the scary internet, only allow the white list through.
       def organization_params
         params.require(:organization).permit(:name, :mission, :owner_id)
+      end
+
+      def organization_update_params
+        params.require(:organization).permit(:name, :mission)
       end
   end
 end

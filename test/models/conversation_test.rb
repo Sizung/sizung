@@ -22,7 +22,7 @@ describe Deliverable do
   it 'removes all agenda_items, deliverables and comments when it gets deleted' do
     conversation = FactoryGirl.create(:conversation)
     agenda_item  = FactoryGirl.create(:agenda_item, conversation: conversation)
-    deliverable  = FactoryGirl.create(:deliverable, agenda_item: agenda_item)
+    deliverable  = FactoryGirl.create(:deliverable, parent: agenda_item)
     deliverable.destroy
 
     expect{

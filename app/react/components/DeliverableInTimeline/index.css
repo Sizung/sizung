@@ -1,47 +1,33 @@
 .root {
-  composes: hover-container from '../../styles/modules/hover.css';
-  position: relative;
-  margin: 5px 0px;
-  padding: 5px 0px;
+  display: flex;
+  flex-direction: row;
+  padding: 20px 0px;
   color : #89949E;
 }
 
-.rootArchived {
-  composes: root;
-  opacity: 0.5;
-}
-
 .userContainer {
-  display: table-cell;
-  min-width: 60px;
-  max-width: 60px;
-  padding: 0px 15px;
-  vertical-align: top;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  width: 6.563rem;
 }
 
-.timeContainer {
-  color : #9aa5af;
-  min-height: 23px;
-  margin-top: 5px;
+.root:hover{
+  background-color: #eeeeee;
 }
 
-.deliverableIcon {
-  composes: fa fa-tasks from global;
-  float: left;
-  padding: 5px 10px 0px 0px;
-}
-
-.contentContainer {
-  position: relative;
+.contentWrapper {
   display: table-cell;
   width: 100%;
-  margin: 0px;
-  padding: 0px 30px 0px 0px;
+  padding-right: 50px;
 }
 
 .content {
-  padding-right: 20px;
+  display: block;
   width: 100%;
+  padding-top: 5px;
+  padding-right: 10px;
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-wrap;
@@ -54,22 +40,8 @@
   hyphens: auto;
 }
 
-.actionDropdown {
-  composes: hover-inline from '../../styles/modules/hover.css';
-  position: absolute;
-  display:none;
-  margin-left: 1em;
-  right: 15px;
-  top: 0px;
-}
-
-.root:hover{
-  background-color: #eeeeee;
-}
-
-.gearIcon {
-  composes: fa fa-gear fa-lg text-muted from global;
-  cursor: pointer;
+.content a {
+  text-decoration: none;
 }
 
 .userName {
@@ -77,21 +49,79 @@
 }
 
 .deliverableLabel {
-  font-weight: 600;
+  font-family: Gotham-Book;
+  font-size : 1.375rem;
+  line-height : 1.875rem;
+  letter-spacing : 0.014rem;
+  color : #616C73;
 }
 
 .title {
-  color: #57C1E8;
-  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  color: #130F22;
+  font-family: Gotham-Book;
+  font-size: 1.5rem;
   text-decoration: none;
   cursor: pointer;
+  border: 1px solid #E6E3E2;
+  min-height: 4.563rem;
+  margin-top: 1.875rem;
+  /*padding-top: 1.563rem;*/
 }
 
-.titleArchived {
-  composes: title;
-  cursor: default;
+.title:hover {
+  color: #57C1E8;
 }
 
-.resolvedStatus {
-  composes: text-info pull-right from global;
+.timeContainer {
+  font-family: Gotham-Book;
+  font-size: 1rem;
+  line-height : 4rem;
+  color : #8C9295;
+}
+.dueOnLabel {
+  font-family: Gotham-Book;
+  font-size: 1.063rem;
+  color: #616C73;
+  padding: 0px 20px;
+}
+
+.row {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 4.563rem;
+}
+
+.properties {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-left: 4.563rem;
+  padding-bottom: 20px;
+}
+
+.textContainer {
+  padding: 10px 0;
+  margin-left: 20px;
+}
+
+.dueOnWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.dueDateContainer {
+  max-width: 15ch;
+  padding: 5px 10px;
+  background-color: #ECEFF0;
+  color: #616C73;
+  font-family: Gotham-Book;
+  font-size: 1.25rem;
 }
