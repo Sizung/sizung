@@ -1,0 +1,35 @@
+.root {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: 6.563rem;
+  background-color: #130F22;
+}
+
+.organizationWrapper {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding-left: 42px;
+}
+
+.organizationWrapper a {
+  text-decoration: none;
+}
+
+.otherOrganizations {
+  display: none;
+  margin-left: 24px;
+}
+
+.organizationWrapper:hover .otherOrganizations {
+  display: flex;
+}
+
+.profileDropdown {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}

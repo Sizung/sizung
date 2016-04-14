@@ -17,7 +17,7 @@ class UnsenServiceTest < ActiveSupport::TestCase
     # Move the deliverable
     old_agenda_item = deliverable.agenda_item
     agenda_item = FactoryGirl.create :agenda_item, conversation: deliverable.conversation
-    deliverable.update agenda_item: agenda_item
+    deliverable.update parent: agenda_item
 
     # Move UnseenObjects accordingly
     UnseenService.new.movedDeliverable(deliverable, current_user)

@@ -1,52 +1,24 @@
-.root {
+.unseen {
   position: relative;
   width: 100%;
-  padding: 10px;
-  margin: 0 0 1px 0;
-
+  height: 11.25rem;
+  padding: 30px;
+  margin: 0 0 5px 0;
   background-color: #ffffff;
   color : #89949E;
 
-  -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
 }
 
-.actions {
-  display: none;
+.seen {
+  composes: unseen;
+  opacity: 0.85;
 }
 
-.root:hover .actions {
-  display: inline;
-}
-
-.action {
-  margin-left: 1em;
-  font-size: smaller;
-  color: #89949E;
-}
-
-.action:hover {
-  color: #89949E;
-}
-
-.default {
-}
-
-.row {
-  position: relative;
-  width: 100%;
-  min-height: 1em;
-}
-
-.content-container {
-  width: 100%;
+.contentContainer {
+  composes: hover-container from '../../styles/modules/hover.css';
   overflow: hidden;
-  font-weight: 600;
-  font-size: 1.3em;
   overflow-wrap: break-word;
   word-wrap: break-word;
-
   -ms-word-break: break-all;
   word-break: break-word;
   -ms-hyphens: auto;
@@ -55,7 +27,23 @@
   hyphens: auto;
 }
 
-.member-container {
+.title {
   display: inline-block;
-  margin: 0px 2px 2px 0px;
+  font-family: Gotham-Medium;
+  font-size: 1.563rem;
+  color: #130F22;
+}
+
+.seen .title {
+  color: #616c73;
+}
+
+.conversationMembersContainer {
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.memberContainer {
+  display: inline-block;
+  margin: 0px 5px 5px 0px;
 }

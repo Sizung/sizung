@@ -1,0 +1,22 @@
+.form-container
+  .form-root
+    .form-logo
+      = image_tag 'sizung-sigin-logo.png'
+    - if flash[:notice]
+      .alert.notice= flash[:notice]
+    - if flash[:alert]
+      .alert= flash[:alert]
+      
+    .form-title
+      Accept your invitation
+
+    = simple_form_for resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put } do |f|
+      = f.error_notification
+      = f.hidden_field :invitation_token
+
+      = f.input :first_name
+      = f.input :last_name
+      = f.input :password
+      = f.input :password_confirmation
+
+      = f.button :submit, 'Accept', class: 'form-button'

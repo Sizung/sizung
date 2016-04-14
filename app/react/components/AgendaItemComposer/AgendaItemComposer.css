@@ -1,0 +1,52 @@
+.root {
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.agendaItemIcon {
+  align-self: flex-end;
+  color: #415764;
+  font-size: 1.4rem;
+  margin-left: -0.7rem;
+  margin-bottom: -0.25rem;
+}
+
+.filler {
+  flex: 1;
+}
+
+.formRow {
+  composes: row;
+  margin-bottom: 76px;
+}
+
+.form {
+  flex: 1;
+  color: #415764;
+  margin: 32px 32px 0 0px;
+  font-size: 1.1rem;
+}
+
+.form :global .react-mentions .control.textarea {
+  border: 0;
+}
+
+.charsHint {
+  color: #8C9295;
+  align-self: flex-end;
+  min-width: 5rem;
+  text-align: right;
+  margin-bottom: 0.5rem;
+}
+
+.composeHeader {
+  display: inline-block;
+  background-color: #415764;
+  padding: 10px;
+  padding-right: 40px;
+}

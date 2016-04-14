@@ -1,48 +1,74 @@
 .common {
-  background: no-repeat center;
-  padding: 10px 0px;
+  border: 1px solid #ffffff;
+  -webkit-border-radius: 50%/50%;
+  -moz-border-radius: 50%/50%;
+  border-radius: 50%/50%;
+  display: inline-block;
 }
 
-.normal {
+.default {
   composes: common;
-  background-image: url("/icons/deliverable-icon-gray.png");
-  background-size: 35px 15px;
-  padding-left: 38px;
+  background: none;
+  border-color: #ffffff;
+}
+
+.overdue {
+  composes: common;
+  background-color: #F2695D;
+  border-color: #F2695D;
+}
+
+.dueToday {
+  composes: common;
+  background: none;
+  border-color: #F2695D;
+}
+
+.completed {
+  composes: common;
+  background-color: #65C292;
+  border-color: #65C292;
 }
 
 .inverted {
-  composes: common;
-  background-image: url("/icons/deliverable-icon-white.png");
-  background-size: 35px 15px;
-  padding-left: 38px;
+  composes: default;
+  border-color: #130F22;
 }
 
-.small {
-  composes: normal;
-  background-size: 25px 12px;
-  padding-left: 30px;
+@media only screen
+and (max-width: 1440px) {
+  .small {
+    width: 13px;
+    height: 13px;
+  }
+
+  .normal {
+    width: 16px;
+    height: 16px;
+  }
+
+  .large {
+    width: 20px;
+    height: 20px;
+  }
+
 }
 
-.large {
-  composes: normal;
-  background-size: 37px 17px;
-  padding-left: 42px;
+@media only screen
+and (min-width: 1441px) {
+  .small {
+    width: 21px;
+    height: 21px;
+  }
+
+  .normal {
+    width: 26px;
+    height: 26px;
+  }
+
+  .large {
+    width: 31px;
+    height: 31px;
+  }
 }
 
-.x-large {
-  composes: normal;
-  background-size: 44px 20px;
-  padding-left: 49px;
-}
-
-.inverted-small {
-  composes: inverted small;
-}
-
-.inverted-large {
-  composes: inverted large;
-}
-
-.inverted-x-large {
-  composes: inverted x-large;
-}

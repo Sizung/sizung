@@ -1,0 +1,34 @@
+.common {
+  display: inline-block;
+  background: no-repeat center;
+}
+
+.dark {
+  composes: common;
+  background-image: url("/icons/edit-icon-dark.png");
+}
+
+.light {
+  composes: common;
+  background-image: url("/icons/edit-icon-light.png");
+}
+
+@media only screen
+and (max-width: 1440px) {
+  .normal {
+    composes: common;
+    background-size: 15px 15px;
+    min-width: 15px;
+    min-height: 15px;
+  }
+}
+
+@media only screen
+and (min-width: 1441px) {
+  .normal {
+    composes: common;
+    background-size: 24px 24px;
+    min-width: 24px;
+    min-height: 24px;
+  }
+}

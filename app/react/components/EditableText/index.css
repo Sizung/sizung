@@ -1,51 +1,54 @@
-.edit-link {
-  composes: hover-over from '../../styles/modules/hover.css';
-  -webkit-border-radius: 50%/50%;
-  -moz-border-radius:50%/50% ;
-  border-radius: 50%/50%;
-  width: 20px;
-  height: 20px;
-  margin-top: -5px;
-  background-color: #ffffff;
+.editLinkContainer {
+  /*display: inline-block;*/
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  visibility: hidden;
+  /*float: right;*/
+  margin-left: 5px;
 }
 
-.edit-text-container {
+.persistedTextContainer:hover .editLinkContainer {
+  visibility: visible;
+}
+
+.editLink {
+  float: right;
+}
+
+.editTextContainer {
+  display: inline-block;
   width: 100%;
   padding: 0;
-  color : #89949E;
 }
 
-.edit-text-form {
+.editTextForm {
   width: 100%;
   padding: 0;
 }
 
-.edit-text-input {
+.editTextInput {
   width: 100%;
   padding: 10px;
 }
 
-.persisted-text-container {
+.persistedTextContainer {
   position: relative;
   width: 100%;
   padding: 0;
-  display: inline;
+  display: inline-block;
+  clear: both;
 }
 
-.persisted-text {
+.persistedText {
   display: inline-block;
   max-width: 90%;
   float: left;
   word-wrap: break-word;
 }
 
-.persisted-text-inverted {
-  composes: persisted-text;
+.persistedTextInverted {
+  composes: persistedText;
   color: #ffffff;
 }
 
-.edit-link-container {
-  display: inline;
-  float: left;
-  margin-left: 5px;
-}

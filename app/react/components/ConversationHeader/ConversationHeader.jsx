@@ -1,45 +1,52 @@
 import React, { PropTypes } from 'react';
+import { Link } from 'react-router';
 import styles from './ConversationHeader.css';
-import ChatIcon from '../ChatIcon';
-import ConversationMemberListApp from '../../containers/ConversationMemberListApp';
-import MeetingParticipantListApp from '../../containers/MeetingParticipantListApp';
+import ConversationMembersCounterApp from '../../containers/ConversationMembersCounterApp';
+import EditableText from '../EditableText';
+import CloseIcon from '../CloseIcon';
 
 class ConversationHeader extends React.Component {
+  static propTypes = {
+    conversation: PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      organizationId: PropTypes.string.isRequired,
+    }),
+    updateConversation: PropTypes.func.isRequired,
+    conversationMembersViewVisible: PropTypes.bool.isRequired,
+  }
+
+  handleTitleUpdate = (newTitle) => {
+    this.props.updateConversation(this.props.conversation.id, { title: newTitle });
+  }
+
+  renderTitle = () => {
+    const { conversation } = this.props;
+
+    if (!conversation) { return ''; }
+
+    return <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={40} />;
+  }
+
   render() {
-    let chatType = this.props.chatType;
-    if (chatType !== null) {
-      if (chatType === 'agendaItems') {
-        chatType = '( Agenda Item )';
-      } else if (chatType === 'deliverables') {
-        chatType = '( Deliverable )';
-      } else if (chatType === 'conversations') {
-        chatType = '';
-      }
-    } else {
-      chatType = '';
-    }
+    const { conversation } = this.props;
+    const closeUrl = conversation ? '/organizations/' + conversation.organizationId : '';
 
     return (
-      <div className={styles.listHeader}>
-        <div className={styles.conversationTitleContainer}>
-          <div className={styles.conversationTitle}>
-            <ChatIcon inverted size={'large'} style={{ marginRight: '5px' }}/>
-            {' CHAT ' + chatType}
-          </div>
+      <div className={styles.root}>
+        <div className={styles.prefix}>#</div>
+        <div className={styles.conversationTitle}>
+          { this.renderTitle() }
         </div>
-        <span>
-          <MeetingParticipantListApp parent={this.props.parent} />
-        </span>
-        <span>
-          <ConversationMemberListApp />
-        </span>
+        <div className={styles.conversationMemberContainer}>
+          <ConversationMembersCounterApp conversationMembersViewVisible={this.props.conversationMembersViewVisible}/>
+        </div>
+        <Link to={closeUrl} title="Close Conversation">
+          <CloseIcon type={'transparent'} />
+        </Link>
       </div>
     );
   }
 }
-
-ConversationHeader.propTypes = {
-  chatType: PropTypes.string,
-};
 
 export default ConversationHeader;

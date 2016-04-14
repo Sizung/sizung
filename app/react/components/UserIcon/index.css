@@ -1,46 +1,30 @@
 .common {
   background: no-repeat center;
-  padding: 10px 0px 15px 0px;
 }
 
-.normal {
-  composes: common;
-  background-image: url("/icons/user-icon-gray.png");
-  background-size: 18px 18px;
-  padding-left: 23px;
+.gray {
+  background-image: url("/icons/member-icon.png");
 }
 
-.inverted {
-  composes: common;
-  background-image: url("/icons/user-icon-white.png");
+@media only screen
+and (max-width: 1440px) {
+  .normal {
+    composes: common;
+    background-size: 27px 27px;
+    min-width: 27px;
+    min-height: 27px;
+  }
 }
 
-.small {
-  composes: normal;
-  background-size: 15px 15px;
-  padding-left: 20px;
+@media only screen
+and (min-width: 1441px) {
+  .normal {
+    composes: common;
+    background-size: 43px 43px;
+    min-width: 43px;
+    min-height: 43px;
+  }
 }
 
-.large {
-  composes: normal;
-  background-size: 20px 20px;
-  padding-left: 25px;
-}
 
-.x-large {
-  composes: normal;
-  background-size: 25px 25px;
-  padding-left: 30px;
-}
 
-.inverted-small {
-  composes: inverted small;
-}
-
-.inverted-large {
-  composes: inverted large;
-}
-
-.inverted-x-large {
-  composes: inverted x-large;
-}

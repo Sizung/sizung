@@ -2,16 +2,19 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import * as ConversationActions from '../actions/conversations';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as CommentActions from '../actions/comments';
 import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
 import * as selectors from '../utils/selectors';
+import * as deliverableUtils from '../utils/deliverableUtils.js';
 
 import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillDeliverable } from '../utils/entityUtils';
+import DeliverableList from '../components/DeliverableList';
 
 class DeliverableApp extends React.Component {
   componentDidMount() {
@@ -30,11 +33,14 @@ class DeliverableApp extends React.Component {
   };
 
   render() {
-    const { commentForm } = this.props;
+    const { commentForm, deliverables, deliverable, visitDeliverable, updateDeliverable, archiveDeliverable } = this.props;
     const { parent } = commentForm;
     if (parent) {
+      // TODO: fix naming. The commentForm.parent is a deliverable in this container.
+      const conversationId = deliverableUtils.getConversationIdFromParent(parent.parent);
+
       return (
-        <ConversationLayoutApp conversationId={parent.agendaItem.conversationId} selectedAgendaItemId={parent.agendaItemId} selectedDeliverableId={parent.id}>
+        <ConversationLayoutApp conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } /> }>
           <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );
@@ -62,27 +68,38 @@ function nextPageUrl(state, props) {
 
 function mapStateToProps(state, props) {
   const deliverable = fillDeliverable(state, props.params.deliverableId);
-  const agendaItem = deliverable ? deliverable.agendaItem : null;
 
+  let deliverables = null;
+  switch(deliverable ? deliverable.parentType : null) {
+    case 'agendaItems':
+      deliverables = selectors.deliverablesForAgendaItem(state, deliverable.parentId);
+      break;
+    case 'conversations':
+      deliverables = selectors.deliverablesForConversationOnly(state, deliverable.parentId);
+      break;
+  }
+
+  const deliverableParent = deliverable ? deliverable.parent : null;
+  const conversationMembersViewVisible = selectors.conversationMemberListVisible(state);
   return {
+    deliverable,
+    deliverables,
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
       currentUser: selectors.currentUser(state),
       parent: deliverable,
-      canCreateAgendaItem: false,
-      canCreateDeliverable: false,
     },
-    canCreateAgendaItem: false,
-    canCreateDeliverable: false,
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
-    currentConversationId: agendaItem ? agendaItem.conversationId : null,
+    currentConversationId: deliverableParent ? deliverableUtils.getConversationIdFromParent(deliverableParent) : null,
+    currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
+    conversationMembersViewVisible,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
+  return bindActionCreators({ ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeliverableApp);

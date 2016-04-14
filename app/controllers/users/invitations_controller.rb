@@ -18,9 +18,17 @@ class Users::InvitationsController < Devise::InvitationsController
       if is_flashing_format? && self.resource.invitation_sent_at
         set_flash_message :notice, :send_instructions, :email => self.resource.email
       end
-      respond_with resource, :location => after_invite_path_for(current_inviter)
+      # respond_with resource, :location => after_invite_path_for(current_inviter)
+      @invited_user = User.find_by(email: params[:user][:email])
+      @organization_member = OrganizationMember.find_by(member_id: @invited_user.id, organization_id: params[:user][:organization_id])
+      if @organization_member
+        render json: @organization_member, serializer: OrganizationMemberSerializer
+      else
+        render json: { errorMessage: "User invitation was not persisted" }
+      end
     else
-      redirect_to organization_organization_members_path(@organization)
+      # redirect_to organization_organization_members_path(@organization)
+      render json: { errorMessage: "User could not be invited" }
     end
   end
 
@@ -68,4 +76,6 @@ class Users::InvitationsController < Devise::InvitationsController
     def set_organization
       @organization = policy_scope(Organization).find(params[:user][:organization_id])
     end
+
+
 end

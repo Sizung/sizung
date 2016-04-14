@@ -12,6 +12,10 @@ export default function deliverablesByOrganization(state = initialState, action 
       newState = reducerUtils.setReferenceByObject(newState, entity, action.entity.id);
     });
 
+    action.conversationDeliverables.forEach((entity) => {
+      newState = reducerUtils.setReferenceByObject(newState, entity, action.entity.id);
+    });
+
     return newState;
   }
 

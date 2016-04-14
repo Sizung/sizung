@@ -1,73 +1,39 @@
 .root {
-  position: relative;
-  margin: 5px 40px 5px 0px;
-  padding: 5px 0px;
+  padding: 10px 0;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  min-height: 4.625rem;
+  background-color: #57C1E8;
   color : #89949E;
-}
-
-.rootArchived {
-  composes: root;
-  opacity: 0.5;
-}
-
-.userContainer {
-  display: table-cell;
-  min-width: 60px;
-  max-width: 60px;
-  padding: 0px 15px;
-  vertical-align: top;
 }
 
 .titleContainer {
-  font-weight: 600;
-  color : #89949E;
+  flex: 1;
+  font-size: 1.688rem;
+  font-family: Gotham-Book;
+  color : white;
+  overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
   white-space: pre-wrap;
-
   -ms-word-break: break-all;
   word-break: break-word;
+  margin-left: 1.5rem;
 }
 
-.contentContainer {
-  composes: hover-container from '../../styles/modules/hover.css';
-  display: table-cell;
-  width: 100%;
-  padding: 5px;
-  background-color: transparent;
+.closeLinkContainer {
+  height: 1.250rem;
+  padding-left: 10px;
 }
 
-.statusContainer {
-  composes: pull-right from global;
-  margin-top: -5px;
-  margin-right: 0px;
+.close {
+  font-size: 1.250rem;
+  font-family: Gotham-Book;
+  color: white;
+  margin-right: 25px;
 }
 
-.timeContainer {
-  composes: col-xs-12 from global;
-  margin-top: 5px;
-  padding: 0px;
-  color : #ffffff;
-  min-height: 25px;
-
-}
-
-.discussLink {
-  composes: hover-inline from '../../styles/modules/hover.css';
-  composes: pull-right from global;
-}
-
-.agendaItemIcon {
-  composes: fa fa-tag from global;
-  float: left;
-  padding: 5px 10px 0px 0px;
-}
-
-.actionBtn {
-  composes: btn btn-xs btn-default from global;
-  margin: -1px 0px;
-}
-
-.agendaItemIconContainer {
-  padding: 0px 10px;
+.close:hover {
+  color: white;
 }

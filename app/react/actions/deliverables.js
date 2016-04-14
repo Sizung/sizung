@@ -93,6 +93,7 @@ const createDeliverable = (values) => {
         deliverable,
         entity: deliverable,
       });
+      dispatch(routeActions.push('/deliverables/' + deliverable.id));
     });
   };
 };

@@ -18,12 +18,12 @@ describe Api::DeliverablesController do
       @current_user = @conversation.organization.owner
       sign_in @current_user
       @agenda_item  = FactoryGirl.create(:agenda_item, conversation: @conversation, owner: @current_user)
-      @deliverable = FactoryGirl.create(:deliverable, owner: @current_user, assignee: @current_user, agenda_item: @agenda_item)
+      @deliverable = FactoryGirl.create(:deliverable, owner: @current_user, assignee: @current_user, parent: @agenda_item)
     end
 
     it 'creates deliverable' do
       expect {
-        post :create, deliverable: { title: 'Another big thing', agenda_item_id: @agenda_item.id }, format: :json
+        post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
       }.must_change 'Deliverable.count'
 
       assert_response :success
@@ -59,7 +59,7 @@ describe Api::DeliverablesController do
 
     it 'removes the unseen objects when a deliverable gets archived' do
       conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
-      post :create, deliverable: { title: 'Another big thing', agenda_item_id: @agenda_item.id }, format: :json
+      post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
 
       expect(conversation_member.member.unseen_objects.count).must_equal 1
 
@@ -74,14 +74,14 @@ describe Api::DeliverablesController do
       conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
       other_agenda_item = FactoryGirl.create :agenda_item, conversation: @agenda_item.conversation
 
-      post :create, deliverable: { title: 'Another big thing', agenda_item_id: @agenda_item.id }, format: :json
+      post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
 
       expect(conversation_member.member.unseen_objects.count).must_equal 1
       expect(conversation_member.member.unseen_objects.first.agenda_item_id).must_equal @agenda_item.id
 
       deliverable = Deliverable.find(JSON.parse(response.body)['data']['id'])
       perform_enqueued_jobs do
-        patch :update, id: deliverable.id, deliverable: { agenda_item_id: other_agenda_item.id }
+        patch :update, id: deliverable.id, deliverable: { parent_id: other_agenda_item.id }
       end
       expect(conversation_member.member.unseen_objects.reload.count).must_equal 1
       expect(conversation_member.member.unseen_objects.reload.first.agenda_item_id).must_equal other_agenda_item.id

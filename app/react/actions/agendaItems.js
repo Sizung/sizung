@@ -104,6 +104,7 @@ const createAgendaItem = (values) => {
         agendaItem,
         entity: agendaItem,
       });
+      dispatch(routeActions.push('/agenda_items/' + agendaItem.id));
     });
   };
 };

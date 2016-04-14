@@ -4,11 +4,13 @@ import * as transform from '../utils/jsonApiUtils';
 import * as constants from './constants';
 import { setCurrentOrganization } from './organizations';
 import { setUnseenObjects } from './unseenObjects';
+import * as ConversationUiActions from './conversationUi';
 
 const setCurrentConversation = (conversation, included, json) => {
   const conversationMembers = json.data.relationships.conversation_members.data;
   const agendaItems = json.data.relationships.agenda_items.data;
   const deliverables = json.data.relationships.deliverables.data;
+  const agendaItemDeliverables = json.data.relationships.agenda_item_deliverables.data;
 
   return {
     type: constants.CONVERSATION,
@@ -19,6 +21,30 @@ const setCurrentConversation = (conversation, included, json) => {
     conversationMembers,
     agendaItems,
     deliverables,
+    agendaItemDeliverables,
+  };
+};
+
+const updateConversation = (id, changedFields) => {
+  return (dispatch) => {
+    api.putJson('/api/conversations/' + id, { conversation: changedFields }, (json) => {
+      const conversation = transform.transformObjectFromJsonApi(json.data);
+      dispatch({
+        type: constants.UPDATE_CONVERSATION,
+        status: constants.STATUS_SUCCESS,
+        conversation,
+        entity: conversation,
+      });
+    });
+  };
+};
+
+const updateConversationRemoteOrigin = (conversation) => {
+  return {
+    type: constants.UPDATE_CONVERSATION,
+    status: constants.STATUS_REMOTE_ORIGIN,
+    conversation,
+    entity: conversation,
   };
 };
 
@@ -32,6 +58,7 @@ const fetchConversation = (conversationId) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
       dispatch(setCurrentOrganization({ id: conversation.organizationId, type: 'organizations' }));
+      dispatch(ConversationUiActions.resetConversationUi());
     });
   };
 };
@@ -84,4 +111,6 @@ export {
   fetchConversation,
   selectConversation,
   visitConversation,
+  updateConversation,
+  updateConversationRemoteOrigin,
 };

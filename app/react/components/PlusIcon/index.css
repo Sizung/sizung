@@ -1,0 +1,33 @@
+.default {
+  display: inline-block;
+  box-sizing: border-box;
+  border: none;
+  padding: 1px 0 0 0;
+  -webkit-border-radius: 50%/50%;
+  -moz-border-radius: 50%/50%;
+  border-radius: 50%/50%;
+  background-color: #262C43;
+  font-family: Gotham-Light;
+  color: #ffffff;
+  text-align: center;
+}
+
+.inverted {
+  composes: default;
+  background-color: #EBEFF0;
+  color: #838383;
+}
+
+.normal {
+  width: 3.375rem;
+  height: 3.375rem;
+  line-height: 3.375rem;
+  font-size: 2.625rem;
+}
+
+.small {
+  width: 2.688rem;
+  height: 2.688rem;
+  line-height: 2.688rem;
+  font-size: 2.125rem;
+}

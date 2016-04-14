@@ -1,0 +1,32 @@
+.common {
+  display: inline-block;
+  background: no-repeat center;
+}
+
+.selected {
+  composes: common;
+  background-image: url("/icons/select-icon-selected.png");
+}
+
+.unselected {
+  composes: common;
+  background-image: url("/icons/select-icon-unselected.png");
+}
+
+@media only screen
+and (max-width: 1440px) {
+  .normal {
+    background-size: 30px 30px;
+    width: 30px;
+    height: 30px;
+  }
+}
+
+@media only screen
+and (min-width: 1441px) {
+  .normal {
+    background-size: 43px 43px;
+    width: 43px;
+    height: 43px;
+  }
+}
