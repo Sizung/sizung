@@ -92,7 +92,7 @@ class OrganizationSettings extends React.Component {
 
   filteredOptions = (filter, options) => {
     return options.filter(function (option) {
-      return (option.firstName && option.lastName ? (option.firstName + ' ' + option.lastName).toLowerCase().indexOf(filter.toLowerCase()) > -1 : (option.email).toLowerCase().indexOf(filter.toLowerCase()) > -1);
+      return ((option.firstName && option.lastName) ? (option.firstName + ' ' + option.lastName).toLowerCase().indexOf(filter.toLowerCase()) > -1 : (option.email).toLowerCase().indexOf(filter.toLowerCase()) > -1);
     });
   };
 
@@ -110,7 +110,7 @@ class OrganizationSettings extends React.Component {
               </div>
             </div>
             <div className={styles.userTitleContainer}>
-              { user.firstName && user.lastName ? user.firstName + ' ' + user.lastName : user.email }
+              { (user.firstName && user.lastName) ? user.firstName + ' ' + user.lastName : user.email }
             </div>
           </div>
         );
