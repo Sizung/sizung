@@ -127,7 +127,7 @@ class OrganizationSettings extends React.Component {
           <PlusIcon inverted style={{ fontSize: '2rem' }}/>
         </a>
         <div className={styles.organizationName}>
-          <EditableText text={currentOrganization.name} onUpdate={this.handleOrganizationNameUpdate} editable maxLength={15}/>
+          <EditableText text={currentOrganization.name} onUpdate={this.handleOrganizationNameUpdate} editable maxLength={40}/>
         </div>
       </div>
     );

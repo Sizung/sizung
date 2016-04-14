@@ -5,7 +5,6 @@ import * as constants from './constants';
 const inviteOrganizationMember = (organizationId, email) => {
   return (dispatch) => {
     api.postJson('/users/invitation/', { user: { organization_id: organizationId, email } }, (json) => {
-      console.log("Invited Organization Member: " + JSON.stringify(json));
       if (json.errorMessage && json.errorMessage.trim() !== '') {
         alert(json.errorMessage);
       } else {

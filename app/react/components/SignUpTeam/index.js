@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import styles from './index.css';
 import FormInput from '../FormInput';
 import * as api from '../../utils/api';
+import { browserHistory } from 'react-router';
 
 class SignUpTeam extends React.Component {
 
@@ -32,9 +33,14 @@ class SignUpTeam extends React.Component {
       },
 
     };
-    console.log('Creating User: ' + JSON.stringify(user));
     if (this.validateForm()) {
       api.postJson('/api/users', user, (json) => {
+        if (json.data && json.data.email === user.email) {
+          alert('Please check your email and follow the confirmation link to complete registration!');
+          browserHistory.push('/');
+        } else {
+          alert('There was some problem registering the user');
+        }
       });
     }
   };
