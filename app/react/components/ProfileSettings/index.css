@@ -1,5 +1,8 @@
-.formContainer {
+.root {
   margin-top: 8.75rem;
+  width: 100%;
+  max-height: 100%;
+  padding-bottom: 40px;
 }
 
 .formTitle {
@@ -17,6 +20,7 @@
 .actionContainer {
   width: 47.625rem;
   margin-top: 40px;
+  padding-bottom: 40px;
 }
 
 .formSubmit {

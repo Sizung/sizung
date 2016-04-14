@@ -154,7 +154,7 @@ class ProfileSettings extends React.Component {
   render() {
     const { email, password, passwordConfirmation, firstName, lastName } = this.props.user;
     return (
-      <div className={styles.formContainer}>
+      <div className={styles.root}>
         <div className={styles.formTitle}>
           PROFILE DETAILS
         </div>
