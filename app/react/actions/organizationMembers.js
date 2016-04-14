@@ -2,22 +2,22 @@ import * as transform from '../utils/jsonApiUtils.js';
 import * as api from '../utils/api';
 import * as constants from './constants';
 
-const createOrganizationMember = (organizationId, userId) => {
+const inviteOrganizationMember = (organizationId, email) => {
   return (dispatch) => {
-    api.postJson('/api/organization_members',
-      {
-        organization_member: { organization_id: organizationId, member_id: userId },
-      },
-      (json) => {
+    api.postJson('/users/invitation/', { user: { organization_id: organizationId, email } }, (json) => {
+      console.log("Invited Organization Member: " + JSON.stringify(json));
+      if (json.errorMessage && json.errorMessage.trim() !== '') {
+        alert(json.errorMessage);
+      } else {
         const organizationMember = transform.transformObjectFromJsonApi(json.data);
-
         dispatch({
-          type: constants.CREATE_ORGANIZATION_MEMBER,
+          type: constants.INVITE_ORGANIZATION_MEMBER,
           status: constants.STATUS_SUCCESS,
           organizationMember,
           entity: organizationMember,
         });
-      });
+      }
+    });
   };
 };
 
@@ -40,6 +40,6 @@ const deleteOrganizationMember = (id) => {
 };
 
 export {
-  createOrganizationMember,
+  inviteOrganizationMember,
   deleteOrganizationMember,
 };

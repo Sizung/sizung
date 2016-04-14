@@ -23,7 +23,6 @@ class OrganizationOverview extends Component {
 
     return (
       <div className={styles.root} ref="root">
-        <Organization organization={organization} ref='organization' />
         <ConversationLayout
           left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } /> }
           right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } /> }

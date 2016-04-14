@@ -40,36 +40,39 @@
 and (max-width: 1440px) {
   .user-title-normal {
     composes: user-title;
-    height: 27px;
-    line-height: 27px;
+    height: 34px;
+    line-height: 34px;
+    font-size: 1.3rem;
   }
 
   .user-title-large {
     composes: user-title;
-    height: 34px;
-    line-height: 34px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 1.5rem;
   }
 
   .user-title-small {
     composes: user-title;
     height: 20px;
     line-height: 20px;
+    font-size: 1rem;
   }
 
   .circle-badge-normal {
-    composes: circle-badge;
-    width: 27px;
-    height: 27px;
-    font-size: 1.1rem;
-    line-height: 27px;
-  }
-
-  .circle-badge-large {
     composes: circle-badge;
     width: 34px;
     height: 34px;
     font-size: 1.3rem;
     line-height: 34px;
+  }
+
+  .circle-badge-large {
+    composes: circle-badge;
+    width: 40px;
+    height: 40px;
+    font-size: 1.5rem;
+    line-height: 40px;
   }
 
   .circle-badge-small {
@@ -86,31 +89,26 @@ and (max-width: 1440px) {
 and (min-width: 1441px) {
   .user-title-normal {
     composes: user-title;
-    height: 43px;
-    line-height: 43px;
+    height: 54px;
+    line-height: 54px;
+    font-size: 1.3rem;
   }
 
   .user-title-large {
     composes: user-title;
-    height: 54px;
-    line-height: 54px;
+    height: 64px;
+    line-height: 64px;
+    font-size: 1.5rem;
   }
 
   .user-title-small {
     composes: user-title;
-    height: 35px;
-    line-height: 35px;
+    height: 45px;
+    line-height: 45px;
+    font-size: 1rem;
   }
 
   .circle-badge-normal {
-    composes: circle-badge;
-    width: 43px;
-    height: 43px;
-    font-size: 1.1rem;
-    line-height: 43px;
-  }
-
-  .circle-badge-large {
     composes: circle-badge;
     width: 54px;
     height: 54px;
@@ -118,12 +116,20 @@ and (min-width: 1441px) {
     line-height: 54px;
   }
 
+  .circle-badge-large {
+    composes: circle-badge;
+    width: 64px;
+    height: 64px;
+    font-size: 1.5rem;
+    line-height: 64px;
+  }
+
   .circle-badge-small {
     composes: circle-badge;
-    width: 35px;
-    height: 35px;
-    font-size: .9rem;
-    line-height: 35px;
+    width: 45px;
+    height: 45px;
+    font-size: 1rem;
+    line-height: 45px;
   }
 }
 

@@ -2,7 +2,7 @@
   display: inline-block;
   box-sizing: border-box;
   border: none;
-  padding: 1px 0 0 1px;
+  padding: 1px 0 0 0;
   -webkit-border-radius: 50%/50%;
   -moz-border-radius: 50%/50%;
   border-radius: 50%/50%;
@@ -14,8 +14,8 @@
 
 .inverted {
   composes: default;
-  background-color: #ffffff;
-  color: #262c43;
+  background-color: #EBEFF0;
+  color: #838383;
 }
 
 .normal {

@@ -80,7 +80,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 1rem 2.5rem;
+  padding: 1rem 2rem;
   margin: 2.5rem 0 0 0;
   width: 36rem;
   min-height: 5rem;
@@ -90,12 +90,21 @@
   font-size: 1.25rem;
 }
 
+.emailInputContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 72rem;
+  /*max-height: rem;*/
+}
+
+
 .searchInputContainer {
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding: 1rem 2.5rem;
-  /*margin: 2.5rem 0;*/
+  padding: 1rem 2rem;
+  margin: 2.5rem 0 0 0;
   width: 36rem;
   min-height: 5rem;
   background-color: #EBEFF0;
@@ -140,10 +149,95 @@
   display: flex;
   flex-flow: row wrap;
   width: 100%;
+  margin: 2.5rem 0 0 0;
 }
 
 .organizationMember {
   flex: 0 1 33.333%;
   width: 33.333%;
-  padding: 5px;
+  margin-bottom: 1.5rem;
+  padding: 0 10px 0 0;
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  -ms-word-break: break-all;
+  word-break: break-word;
+}
+
+.userTitleContainer {
+  margin-left: 10px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex: 1;
+  font-family: Gotham-Medium;
+  font-size: 1.25rem;
+  text-transform: uppercase;
+  color: #838383;
+}
+
+@media only screen
+and (min-width: 1441px) {
+  .userLogoContainer {
+    position: relative;
+    border-radius: 50%/50%;
+    width: 54px;
+    height: 54px;
+    line-height: 54px;
+  }
+
+  .action {
+    display: none;
+    width: 54px;
+    height: 54px;
+    line-height: 54px;
+  }
+}
+
+@media only screen
+and (max-width: 1440px) {
+  .userLogoContainer {
+    position: relative;
+    border-radius: 50%/50%;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+  }
+
+  .action {
+    display: none;
+    width: 34px;
+    height: 34px;
+    line-height: 34px;
+  }
+}
+
+.organizationMember:hover .action {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 2;
+  border-radius: 50%/50%;
+  background-color: #000000;
+  opacity: 0.7;
+  color: #ffffff;
+  font-size: 1.5rem;
+  text-align: center;
+  font-family: Gotham-Medium;
+}
+
+.searchIcon {
+  display: inline-block;
+  background: no-repeat center;
+  background-image: url("/icons/search-icon.svg");
+  background-size: 2.125rem 2.125rem;
+  width: 2.125rem;
+  height: 2.125rem;
+  margin-right: 10px;
 }

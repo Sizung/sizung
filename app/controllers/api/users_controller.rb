@@ -26,7 +26,7 @@ module Api
     end
 
     def update
-      # authorize @user
+      authorize @user
       @user.update!(update_user_params)
       render json: @user, serializer: UserSerializer
     end
