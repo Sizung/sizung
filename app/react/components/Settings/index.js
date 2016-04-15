@@ -4,6 +4,7 @@ import ProfileSettings from '../ProfileSettings';
 import OrganizationSettings from '../OrganizationSettings';
 import { browserHistory } from 'react-router';
 
+// TODO: ANI: Please use .jsx for all js files that have jsx in them
 class Settings extends React.Component {
 
   constructor() {
@@ -25,7 +26,8 @@ class Settings extends React.Component {
   }
 
   closeSettingsView = () => {
-    browserHistory.push('/organizations/' + this.props.currentOrganization.id);
+    // TODO: ANI: Please don't use browserHistory directly use https://github.com/reactjs/react-router-redux for that. Either <Link ...> or an action creator doing a push
+    browserHistory.push('/organizations/' + this.props.currentOrganization.id);    
   };
 
   setCurrentSettingOption = (option) => {
@@ -69,6 +71,7 @@ class Settings extends React.Component {
   renderOptionLabel = (option) => {
     let optionLabel = '';
     const optionLabelStyle = this.getOptionLabelStyle(option);
+    // TODO: ANI: Use more descriptive parameters like renderOptionLabel(0 or 1) for signaling which part should be listed
     if (option === 0) {
       optionLabel = 'Profile';
     } else if (option === 1) {

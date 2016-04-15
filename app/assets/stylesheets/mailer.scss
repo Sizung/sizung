@@ -1,0 +1,27 @@
+body {
+  background-color: #130F22;
+  color: white;
+  margin: 80px 64px 80px 64px;
+  font-family: Arial;
+  font-size: 20px;
+}
+
+img.logo {
+  margin-bottom: 40px;
+  width: 200px;
+}
+
+a {
+  font-size: 26px;
+  text-transform: uppercase;
+  padding: 20px 60px 20px 60px;
+  background-color: #65C192;
+  color: white;
+  text-decoration: none;
+
+  &:hover {
+    background-color: #65C192;
+    color: white;
+    text-decoration: none;
+  }
+}
