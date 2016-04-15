@@ -85,7 +85,6 @@ class SignUp extends React.Component {
   };
 
   render() {
-    console.log("User State: " + JSON.stringify(this.state.user));
     return (
       <div className={styles.root}>
         <div className={styles.leftColumn}>

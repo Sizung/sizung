@@ -6,14 +6,14 @@
 }
 
 .formInput {
-  height: 8.5rem;
-  background-color: #EBEFF0;
-  position: relative;
-  padding: 0 30px;
   display: flex;
+  position: relative;
   flex-direction: column;
   flex: none;
   width: 50%;
+  height: 8.5rem;
+  padding: 0 30px;
+  background-color: #EBEFF0;
 }
 
 .formInputMessage {
@@ -21,11 +21,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  color: #FF685B;
+  width: 50%;
   margin-left: 20px;
   font-family: Gotham-Book;
   font-size: 1.563rem;
-  width: 50%;
+  color: #FF685B;
 }
 
 .formInputError {
@@ -80,15 +80,15 @@
   color: #0A0022;
 }
 
+.formInputValue input:disabled {
+  color: #828282;
+}
+
 .formInputValue input {
   background-color: transparent;
   border: none;
   outline: none;
   width: 100%;
-}
-
-.formInputValue input:disabled {
-  color: #828282;
 }
 
 .formInputValue input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
