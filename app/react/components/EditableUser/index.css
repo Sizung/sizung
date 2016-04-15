@@ -42,10 +42,11 @@
 .input {
   composes: form-control from global;
   margin-bottom: 10px;
-  background-color: transparent;
+  background-color: #334752;
   color: #ffffff;
   outline: none;
   border: none;
+  box-shadow: none !important;
 }
 
 .close-icon {
