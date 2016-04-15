@@ -30,6 +30,10 @@ class User < ActiveRecord::Base
     (first_name.present? && last_name.present?) ? [first_name, last_name].join(' ') : email
   end
 
+  def first_name_or_email
+    first_name.present? ? first_name : email
+  end
+  
   def to_s
     name
   end

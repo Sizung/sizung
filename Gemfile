@@ -63,6 +63,8 @@ gem 'newrelic_rpm'
 gem 'activeadmin', '~> 1.0.0.pre2'
 gem 'sidekiq'
 gem 'sinatra', require: nil
+gem 'nokogiri'
+gem 'premailer-rails'
 
 group :production do
   gem 'rails_12factor'

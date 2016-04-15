@@ -1,7 +1,10 @@
-%p= "#{@sender.first_name} is pinging you about \"#{@parent.title}\""
+%p
+  = "Hi,"
 
 %p
-  = link_to @url, @url, target: '_blank'
+  ="#{@sender.first_name_or_email } is pinging you about \"#{@parent.title}\"."
 
-%p= "Cheers,"
-%p= "Sizbot"
+%p
+  %br
+  %br
+  = link_to 'Join', @url, target: '_blank'

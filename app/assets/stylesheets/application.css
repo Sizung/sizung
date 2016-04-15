@@ -11,7 +11,22 @@
  * file per style scope.
  *
  * this file will contain all the custom css for Sizung on top of the default bootstrap css
- *= require_tree .
+ *= require bootstrap_and_overrides
+ *= require comments
+ *= require meetings
+ *= require organizations
+ *= require scaffolds
+ *= require modules/card
+ *= require modules/conversations
+ *= require modules/deliverables
+ *= require modules/footer
+ *= require modules/form
+ *= require modules/hover
+ *= require modules/organization_members
+ *= require modules/react_mentions
+ *= require react-datepicker/react-datepicker
+ *= require react-datepicker/react-datepicker-customizations
+ *= require react_bundle
  *= require_self
  */
 

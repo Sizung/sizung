@@ -1,0 +1,10 @@
+%p
+  = "Hi #{@resource.first_name_or_email},"
+
+%p 
+  Please click on the link below to confirm your email address.
+
+%p
+  %br
+  %br
+  = link_to 'Confirm Email', confirmation_url(@resource, confirmation_token: @token)

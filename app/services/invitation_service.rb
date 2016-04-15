@@ -9,7 +9,7 @@ class InvitationService
 
       yield if block_given? # run block when an invitation email was sent
 
-      InvitationMailer.existing_user_added_to_organization(existing_user).deliver_now
+      InvitationMailer.existing_user_added_to_organization(existing_user, current_organization, current_inviter).deliver_now
       existing_user
     else
       User.invite!({email: invited_email_address}, current_inviter) do |u|

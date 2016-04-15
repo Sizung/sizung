@@ -1,9 +1,14 @@
-%p= "Hello #{@user.email},"
-
-%p Congratulations, you got invited to a new organization!
+%p
+  = "Hi #{@user.first_name_or_email},"
 
 %p
-  Just
-  = link_to 'sign in', root_url
-  to Sizung to review your new possibilities.
+  = "You've been invited to \"#{@organization.name}\""
+  = "by #{@inviter.first_name_or_email}."
+
+%p
+  Click on the link below to join the team.
+%p
+  %br
+  %br
+  = link_to 'Join team', root_url
 
