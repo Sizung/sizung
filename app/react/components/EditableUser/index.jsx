@@ -72,7 +72,7 @@ class EditableUser extends React.Component {
 
   selectedMarker(selectedUser, user) {
     if (selectedUser === user) {
-      return <i className="fa fa-check pull-right" style={{ color: 'green', padding: '5px' }}></i>;
+      return <i className={styles.check}></i>;
     }
   }
 
@@ -82,7 +82,7 @@ class EditableUser extends React.Component {
       return ( user.firstName && user.lastName) ?  (user.firstName + ' ' + user.lastName).toLowerCase() : user.email.toLowerCase();
     }).map((user) => {
       return (
-        <div clasName={styles['user-row']} onClick={() => this.handleUserClick(user.id)} key={user.id}>
+        <div className={styles['user-row']} onClick={() => this.handleUserClick(user.id)} key={user.id}>
             <span className={styles['user-column']}><User user={user} showName={true}/></span>
             <span className={styles['marker-column']}>{this.selectedMarker(selectedUser, user)}</span>
         </div>
@@ -90,7 +90,7 @@ class EditableUser extends React.Component {
     });
 
     return (
-      <span className={styles.root} className={styles[direction + 'Direction']}>
+      <span className={[styles['root'], styles[direction + 'Direction']].join(' ')}>
         <div className={styles.title}>
           Members
           <i className={styles["close-icon"]} onClick={this.triggerCancel}></i>
