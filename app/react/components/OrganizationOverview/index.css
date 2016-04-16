@@ -38,4 +38,5 @@
   composes: hover-inline from '../../styles/modules/hover.css';
   /*display: flex;*/
   justify-content: flex-end;
+  cursor: pointer;
 }

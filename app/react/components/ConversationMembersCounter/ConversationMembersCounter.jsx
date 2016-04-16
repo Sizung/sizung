@@ -5,7 +5,7 @@ import UserIcon from '../UserIcon';
 class ConversationMembersCounter extends React.Component {
 
   handleToggleView = () => {
-    this.props.showConversationMembers(!this.props.conversationMembersViewVisible);
+    this.props.setConversationSettingsState('edit');
   };
 
   render = () => {
@@ -21,8 +21,7 @@ class ConversationMembersCounter extends React.Component {
 
 ConversationMembersCounter.propTypes = {
   conversationMembers: PropTypes.object,
-  showConversationMembers: PropTypes.func,
-  conversationMembersViewVisible: PropTypes.bool.isRequired,
+  setConversationSettingsState: PropTypes.func,
 };
 
 export default ConversationMembersCounter;

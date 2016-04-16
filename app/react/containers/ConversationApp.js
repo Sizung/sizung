@@ -72,7 +72,7 @@ function nextPageUrl(state, props) {
 }
 
 function mapStateToProps(state, props) {
-  const conversationMembersViewVisible = selectors.conversationMemberListVisible(state);
+  const conversationSettingsViewState = selectors.conversationSettingsViewState(state);
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
@@ -84,7 +84,7 @@ function mapStateToProps(state, props) {
     currentConversationId: props.params.conversationId,
     currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
-    conversationMembersViewVisible,
+    conversationSettingsViewState,
   };
 }
 

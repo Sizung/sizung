@@ -13,7 +13,6 @@ class ConversationHeader extends React.Component {
       organizationId: PropTypes.string.isRequired,
     }),
     updateConversation: PropTypes.func.isRequired,
-    conversationMembersViewVisible: PropTypes.bool.isRequired,
   }
 
   handleTitleUpdate = (newTitle) => {
@@ -39,7 +38,7 @@ class ConversationHeader extends React.Component {
           { this.renderTitle() }
         </div>
         <div className={styles.conversationMemberContainer}>
-          <ConversationMembersCounterApp conversationMembersViewVisible={this.props.conversationMembersViewVisible}/>
+          <ConversationMembersCounterApp/>
         </div>
         <Link to={closeUrl} title="Close Conversation">
           <CloseIcon type={'transparent'} />
