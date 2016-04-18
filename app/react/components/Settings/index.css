@@ -90,3 +90,11 @@
   letter-spacing: 0.084rem;
   color: #ffffff;
 }
+
+
+.closeIcon {
+  display: flex;
+  height: 8.75rem;
+  align-items: center;
+  justify-content: flex-end;
+}

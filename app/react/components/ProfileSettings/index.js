@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
 import FormInput from '../FormInput';
+import { Link } from 'react-router';
 
 class ProfileSettings extends React.Component {
 
@@ -8,7 +9,7 @@ class ProfileSettings extends React.Component {
     user: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
-    onClose: PropTypes.func.isRequired,
+    currentOrganization: PropTypes.object.isRequired,
   };
 
   constructor() {
@@ -147,6 +148,8 @@ class ProfileSettings extends React.Component {
 
   render() {
     const { email, password, passwordConfirmation, firstName, lastName } = this.props.user;
+    const { currentOrganization } = this.props;
+    const closeUrl = '/organizations/' + currentOrganization.id;
     return (
       <div className={styles.root}>
         <div className={styles.formTitle}>
@@ -171,9 +174,9 @@ class ProfileSettings extends React.Component {
           <div className={styles.formSubmit} onClick={this.handleSave}>
             SAVE
           </div>
-          <div className={styles.backLink} onClick={this.props.onClose}>
+          <Link className={styles.backLink} to={closeUrl} title="Close">
             CANCEL
-          </div>
+          </Link>
         </div>
       </div>
     );
