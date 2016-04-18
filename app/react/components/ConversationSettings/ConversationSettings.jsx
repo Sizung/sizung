@@ -1,17 +1,20 @@
 import React, { PropTypes } from 'react';
 import User from './../User';
 import SelectableUser from './../SelectableUser';
-import styles from './ConversationMembersEdit.css';
+import styles from './ConversationSettings.css';
 import Immutable from 'immutable';
 import UserIcon from '../UserIcon';
 import CloseIcon from '../CloseIcon';
+import EditableText from '../EditableText';
+import SizungInputApp from '../../containers/SizungInputApp';
 
-class ConversationMembersEdit extends React.Component {
+class ConversationSettings extends React.Component {
   constructor() {
     super();
 
     this.state = {
       filter: '',
+      conversationTitle: '',
     };
   }
 
@@ -78,10 +81,10 @@ class ConversationMembersEdit extends React.Component {
   };
 
   handleToggleView = () => {
-    this.props.showConversationMembers(!this.props.conversationMembersViewVisible);
+    this.props.setConversationSettingsState('hide');
   };
 
-  renderConversationMembersEdit = () => {
+  renderConversationSettings = () => {
     if (this.props.conversationMembers) {
       let conversationMembersAsUsers = new Immutable.List();
       this.props.conversationMembers.toList().map((user) => {
@@ -136,50 +139,78 @@ class ConversationMembersEdit extends React.Component {
     return null;
   };
 
-  render() {
-    if (this.props.conversationMembersViewVisible) {
-      return (
-          <div className={styles.root}>
-            <div className={styles.fullWidthContainer}>
-              <span className={styles.conversationMemberTitle}>
-                {'#' + this.props.currentConversation.get('title') + ' - Members'}
-              </span>
-              <span className={styles.closeButton} onClick={this.handleToggleView}><CloseIcon type={'transparent'}/></span>
-            </div>
-            <div className={styles.conversationMemberList}>
-              {this.renderConversationMembersEdit()}
-            </div>
-            <div className={styles.fullWidthContainer}>
-              <div className={styles.organizationMemberTitle}>
-                {'Organization Members'}
-              </div>
-              <form>
-                <div className={styles.inputContainer}>
-                  <input ref="memberFilter" type="text" className={styles.input} id="memberName"
-                         placeholder="Search" onKeyDown={this.handleKeyDown}
-                         onChange={this.handleFilterChange}
-                      />
-                </div>
-              </form>
-              <div className={styles.organizationMembersContainer}>
-                {this.renderOrganizationMemberList()}
-              </div>
-            </div>
-          </div>
-      );
-    }
-    return false;
+  handleConversationTitleUpdate = (title) => {
+    this.props.updateConversation(this.props.currentConversation.get('id'), { title });
   };
+
+  handleConversationTitleChange = (title) => {
+    this.setState({ conversationtitle: title });
+  };
+
+  saveConversationTitle = (title) => {
+    alert('Saving New Conversation Title');
+  }
+
+  renderCreate = () => {
+    return (
+      <div className={styles.root}>
+        <div className={styles.fullWidthContainer}>
+          <SizungInputApp ref="name" onChange={this.handleConversationTitleChange} onSubmit={this.saveConversationTitle} value={this.state.conversationTitle} rows="1" placeholder="Enter Conversation name" />
+          <span className={styles.closeButton} onClick={this.handleToggleView}><CloseIcon type={'transparent'}/></span>
+        </div>
+      </div>
+    );
+  };
+
+  renderEdit = () => {
+    return (
+      <div className={styles.root}>
+        <div className={styles.fullWidthContainer}>
+          <span className={styles.conversationMemberTitle}>
+            {'#' + this.props.currentConversation.get('title') + ' - Members'}
+          </span>
+          <span className={styles.closeButton} onClick={this.handleToggleView}><CloseIcon type={'transparent'}/></span>
+        </div>
+        <div className={styles.conversationMemberList}>
+          {this.renderConversationSettings()}
+        </div>
+        <div className={styles.fullWidthContainer}>
+          <div className={styles.organizationMemberTitle}>
+            {'Organization Members'}
+          </div>
+          <form>
+            <div className={styles.inputContainer}>
+              <input ref="memberFilter" type="text" className={styles.input} id="memberName"
+                     placeholder="Search" onKeyDown={this.handleKeyDown}
+                     onChange={this.handleFilterChange}
+                  />
+            </div>
+          </form>
+          <div className={styles.organizationMembersContainer}>
+            {this.renderOrganizationMemberList()}
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  render() {
+    if (this.props.conversationSettingsViewState === 'edit') {
+      return this.renderEdit();
+    } else if (this.props.conversationSettingsViewState === 'create') {
+      return this.renderCreate();
+    }
+    return null;
+  }
 }
 
-ConversationMembersEdit.propTypes = {
+ConversationSettings.propTypes = {
   organizationMembers: PropTypes.object,
   conversationMembers: PropTypes.object,
   createConversationMember: PropTypes.func.isRequired,
   deleteConversationMember: PropTypes.func.isRequired,
   currentConversation: PropTypes.object.isRequired,
-  conversationMembersViewVisible: PropTypes.bool.isRequired,
-  showConversationMembers: PropTypes.func,
+  conversationSettingsViewState: PropTypes.string.isRequired,
 };
 
-export default ConversationMembersEdit;
+export default ConversationSettings;

@@ -1,7 +1,8 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import ConversationMembersEdit from '../components/ConversationMembersEdit';
+import ConversationSettings from '../components/ConversationSettings';
 import * as ConversationMemberActions from '../actions/conversationMembers';
+import * as ConversationActions from '../actions/conversations';
 import * as ConversationUiActions from '../actions/conversationUi';
 import * as selectors from '../utils/selectors';
 
@@ -17,7 +18,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ConversationMemberActions, ...ConversationUiActions }, dispatch);
+  return bindActionCreators({ ...ConversationMemberActions, ...ConversationUiActions, ...ConversationActions }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ConversationMembersEdit);
+export default connect(mapStateToProps, mapDispatchToProps)(ConversationSettings);

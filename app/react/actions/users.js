@@ -1,12 +1,16 @@
 import * as constants from './constants';
 import * as transform from '../utils/jsonApiUtils';
 import * as api from '../utils/api';
+import * as ConversationUiActions from './conversationUi';
 
 const setCurrentUser = (currentUserReference) => {
-  return {
-    type: constants.SET_CURRENT_USER,
-    status: constants.STATUS_SUCCESS,
-    currentUser: currentUserReference,
+  return (dispatch) => {
+    dispatch({
+      type: constants.SET_CURRENT_USER,
+      status: constants.STATUS_SUCCESS,
+      currentUser: currentUserReference,
+    });
+    dispatch(ConversationUiActions.resetConversationUi());
   };
 };
 

@@ -64,7 +64,7 @@ function nextPageUrl(state, props) {
 
 function mapStateToProps(state, props) {
   const agendaItem = fillAgendaItem(state, props.params.agendaItemId);
-  const conversationMembersViewVisible = selectors.conversationMemberListVisible(state);
+  const conversationSettingsViewState = selectors.conversationSettingsViewState(state);
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
@@ -76,7 +76,7 @@ function mapStateToProps(state, props) {
     currentConversationId: agendaItem ? agendaItem.conversationId : null,
     currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
-    conversationMembersViewVisible,
+    conversationSettingsViewState,
   };
 }
 

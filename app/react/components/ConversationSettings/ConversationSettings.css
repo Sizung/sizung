@@ -5,13 +5,14 @@
   font-size: 1.3rem;
   overflow: auto;
   padding: 10px;
-  background-color: #EBEFF0;
+  background-color: #ffffff;
 }
 
 .fullWidthContainer {
   width: 100%;
   padding-left: 15px;
   padding-right: 15px;
+  color: #000000;
 }
 
 .conversationMemberList {

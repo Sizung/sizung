@@ -1,12 +1,11 @@
 .unseen {
   position: relative;
   width: 100%;
-  height: 11.25rem;
+  min-height: 11.25rem;
   padding: 30px;
   margin: 0 0 5px 0;
   background-color: #ffffff;
   color : #89949E;
-
 }
 
 .seen {
