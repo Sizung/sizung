@@ -186,7 +186,16 @@ const conversationMembersAsUsers = (state, conversationId) => {
 
   return references.map((reference) => {
     const conversationMember = state.getIn(['entities', 'conversationMembers', reference.id]);
-    return state.getIn(['entities', 'users', conversationMember.memberId]);
+    if (!conversationMember) {
+      console.warn(`ConversationMember Entitiy not found for ConversationMember with id: ${reference.id}`);
+    }
+    const user = state.getIn(['entities', 'users', conversationMember.memberId]);
+    if (!user) {
+      console.warn(`User entity not found for id: ${conversationMember.memberId}`);
+    }
+    return user;
+  }).filter((user) => {
+    return !!user;
   });
 };
 
