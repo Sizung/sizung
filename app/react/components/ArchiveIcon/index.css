@@ -4,6 +4,11 @@
   background-image: url("/icons/archive-icon.png");
 }
 
+.inverted {
+  composes: default;
+  background-image: url('/icons/archive-icon-dark.svg');
+}
+
 @media only screen
 and (max-width: 1440px) {
   .normal {

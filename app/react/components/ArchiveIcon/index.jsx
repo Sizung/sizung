@@ -5,9 +5,13 @@ class ArchiveIcon extends React.Component {
 
   render() {
     const iconStyle = [];
-    const { size, selected } = this.props;
+    const { size, inverted } = this.props;
     const iconSize = (styles[size] ? size : 'normal');
-    iconStyle.push(styles.default);
+    if (inverted) {
+      iconStyle.push(styles.inverted);
+    } else {
+      iconStyle.push(styles.default);
+    }
     iconStyle.push(styles[iconSize]);
 
     return (
@@ -19,6 +23,7 @@ class ArchiveIcon extends React.Component {
 ArchiveIcon.propTypes = {
   style: PropTypes.object,
   size: PropTypes.string,
+  inverted: PropTypes.bool,
 };
 
 ArchiveIcon.defaultProps = {
