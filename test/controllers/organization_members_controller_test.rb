@@ -47,6 +47,29 @@ describe Api::OrganizationMembersController do
 
       assert_response :success
     end
+
+    it 'removes from all conversations of that org when the org member gets removed' do
+      organization_member = FactoryGirl.create :organization_member, organization: @organization
+      user = organization_member.member
+      conversations = FactoryGirl.create_list :conversation_without_owner, 3, organization: @organization
+      conversations.each { |conv| FactoryGirl.create :conversation_member, conversation: conv, member: user }
+
+      other_organization = FactoryGirl.create :organization
+      other_conversation = FactoryGirl.create :conversation_without_owner, organization: other_organization
+      other_conversation_member = FactoryGirl.create :conversation_member, conversation: other_conversation, member: user
+
+      expect(user.organizations.count).must_equal 2
+      expect(user.conversations.count).must_equal 4
+      
+      expect {
+        delete :destroy, id: organization_member.id, format: :json
+      }.must_change 'ConversationMember.count', -3
+      
+      assert_response :success
+
+      expect(user.organizations.count).must_equal 1
+      expect(user.conversations.count).must_equal 1
+    end
     #
     # it 'does not allow to remove organization_member when the user is not part of the organizations organization' do
     #   organization_member = FactoryGirl.create :organization_member, organization: @organization
