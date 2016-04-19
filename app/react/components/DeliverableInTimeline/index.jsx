@@ -60,7 +60,7 @@ class DeliverableInTimeline extends React.Component {
             <Link to={'deliverables/' + deliverable.id} className={styles.title}>
               <div className={styles.row}>
                 <div className={styles.textContainer}>
-                  <Icon type="deliverable" gap="20px" />
+                  <Icon className={styles.icon} type="deliverable" gap="1.5rem" />
                   <TextWithMentions>{deliverable.title}</TextWithMentions>
                 </div>
               </div>

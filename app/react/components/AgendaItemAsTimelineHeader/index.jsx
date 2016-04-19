@@ -19,9 +19,8 @@ class AgendaItemAsTimelineHeader extends React.Component {
     return (
       <div className={ styles.root }>
         <div className={ styles.titleContainer }>
-          <Icon type="agendaItem">
-            <TextWithMentions maxLength={40}>{title}</TextWithMentions>
-          </Icon>
+          <Icon className={ styles.icon } type="agendaItem" gap="2rem"/>
+          <TextWithMentions>{title}</TextWithMentions>
         </div>
         <div className={styles.closeLinkContainer}>
           <Link to={'/conversations/' + agendaItem.conversationId} className={styles.close}>Back to Chat</Link>
