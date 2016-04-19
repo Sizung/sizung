@@ -49,3 +49,8 @@
   width: 26px;
   height: 26px;
 }
+
+.archiveIcon {
+  margin-left: 20px;
+  cursor: pointer;
+}

@@ -107,10 +107,43 @@ const visitConversation = (conversationId) => {
   };
 };
 
+const createConversation = (values) => {
+  return (dispatch) => {
+    api.postJson('/api/conversations', { conversation: values }, (json) => {
+      const conversation = transform.transformObjectFromJsonApi(json.data);
+      dispatch({
+        type: constants.CREATE_CONVERSATION,
+        status: constants.STATUS_SUCCESS,
+        conversation,
+        entity: conversation,
+      });
+    });
+  };
+};
+
+const deleteConversation = (id) => {
+  if (confirm("Are you sure you want to delete this Conversation?")) {
+    return (dispatch) => {
+      api.deleteJson('/api/conversations/' + id, (json) => {
+        const conversation = transform.transformCommentFromJsonApi(json.data);
+        dispatch({
+          type: constants.DELETE_CONVERSATION,
+          status: constants.STATUS_SUCCESS,
+          conversation,
+          entity: conversation,
+        });
+      });
+    };
+  }
+  return null;
+}
+
 export {
   fetchConversation,
   selectConversation,
   visitConversation,
   updateConversation,
   updateConversationRemoteOrigin,
+  createConversation,
+  deleteConversation
 };

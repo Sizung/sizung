@@ -13,7 +13,10 @@ export default function conversationsByOrganization(state = initialState, action
     });
 
     return newState;
+  } else if (action.type === constants.CREATE_CONVERSATION && action.status === constants.STATUS_SUCCESS) {
+    return reducerUtils.setReference(state, action, 'conversation', 'organizationId');
+  } else if (action.type === constants.DELETE_CONVERSATION && action.status === constants.STATUS_SUCCESS) {
+    return reducerUtils.removeReference(state, action, 'conversation', 'organizationId');
   }
-
   return state;
 }

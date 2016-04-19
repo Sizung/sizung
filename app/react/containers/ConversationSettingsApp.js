@@ -8,12 +8,14 @@ import * as selectors from '../utils/selectors';
 
 function mapStateToProps(state) {
   const organizationMembers = selectors.currentOrganizationMembers(state);
-  const currentConversation = state.getIn(['currentConversation']);
+  const currentConversation = selectors.currentConversation(state);
   const conversationMembers = selectors.conversationMembers(state);
+  const currentOrganization = selectors.currentOrganization(state);
   return {
     organizationMembers,
     conversationMembers,
     currentConversation,
+    currentOrganization,
   };
 }
 

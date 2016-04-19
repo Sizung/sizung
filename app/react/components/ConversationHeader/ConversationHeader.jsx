@@ -4,6 +4,7 @@ import styles from './ConversationHeader.css';
 import ConversationMembersCounterApp from '../../containers/ConversationMembersCounterApp';
 import EditableText from '../EditableText';
 import CloseIcon from '../CloseIcon';
+import ArchiveIcon from '../ArchiveIcon';
 
 class ConversationHeader extends React.Component {
   static propTypes = {
@@ -13,11 +14,11 @@ class ConversationHeader extends React.Component {
       organizationId: PropTypes.string.isRequired,
     }),
     updateConversation: PropTypes.func.isRequired,
-  }
+  };
 
   handleTitleUpdate = (newTitle) => {
     this.props.updateConversation(this.props.conversation.id, { title: newTitle });
-  }
+  };
 
   renderTitle = () => {
     const { conversation } = this.props;
@@ -25,7 +26,11 @@ class ConversationHeader extends React.Component {
     if (!conversation) { return ''; }
 
     return <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={40} />;
-  }
+  };
+
+  deleteConversation = () => {
+    this.props.deleteConversation(this.props.conversation.id);
+  };
 
   render() {
     const { conversation } = this.props;
@@ -36,6 +41,9 @@ class ConversationHeader extends React.Component {
         <div className={styles.prefix}>#</div>
         <div className={styles.conversationTitle}>
           { this.renderTitle() }
+        </div>
+        <div className={styles.archiveIcon} onClick={this.deleteConversation}>
+          <ArchiveIcon inverted/>
         </div>
         <div className={styles.conversationMemberContainer}>
           <ConversationMembersCounterApp/>
