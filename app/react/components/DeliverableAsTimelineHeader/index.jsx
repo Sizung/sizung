@@ -27,7 +27,7 @@ class DeliverableInTimelineHeader extends React.Component {
     return (
       <div className={ styles.root }>
         <div className={ styles.titleContainer }>
-          <Icon type="deliverable" gap="2rem" />
+          <Icon className={ styles.icon } type="deliverable" gap="1.5rem" />
           <TextWithMentions>{title}</TextWithMentions>
         </div>
         <div className={styles.closeLinkContainer}>

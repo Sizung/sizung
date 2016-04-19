@@ -227,8 +227,8 @@ class ConversationSettings extends React.Component {
           </div>
         </div>
         <div className={styles.actionContainer}>
-          <div className={styles.cancelButton} onClick={this.handleCloseView}>
-            CANCEL
+          <div className={styles.actionButton} onClick={this.saveConversationTitle}>
+            DONE
           </div>
         </div>
       </div>

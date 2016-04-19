@@ -65,7 +65,7 @@ class Comment extends React.Component {
 
     const editedIndicator = (createdAt !== updatedAt ? 'Edited ' : '');
     return (<div className={styles.timeContainer}>
-      <small>{editedIndicator}<SizungTime value={lastUpdatedAt} /></small>
+      {editedIndicator}<SizungTime value={lastUpdatedAt} />
     </div>);
   };
 
