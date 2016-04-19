@@ -15,6 +15,7 @@ class SizungInput extends React.Component {
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
     users: PropTypes.object,
+    maxLength: PropTypes.number,
   };
 
   static defaultProps = {
@@ -40,6 +41,10 @@ class SizungInput extends React.Component {
   };
 
   handleChange = (ev, value) => {
+    if (this.props.maxLength && value && value.length > this.props.maxLength) {
+      return null;
+    }
+    
     this.setState({
       value,
     });

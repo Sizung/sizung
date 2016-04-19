@@ -29,7 +29,7 @@ class DeliverableComposer extends React.Component {
   
   constructor(props) {
     super(props);
-    this.state = { value: props.defaultValue, assigneeId: null, dueOn: null };
+    this.state = { value: props.defaultValue.substring(0, 40), assigneeId: null, dueOn: null };
   }
 
   componentDidMount() {
@@ -89,6 +89,10 @@ class DeliverableComposer extends React.Component {
     return this.state.assigneeId || this.props.currentUser.id;
   }
 
+  charCounterStyle = () => {
+    return (40 - this.state.value.length) < 5 ? styles.charsHintRed : styles.charsHint;
+  }
+  
   render() {
     const { dueOn } = this.state;
     const assigneeId = this.assigneeId();
@@ -118,8 +122,8 @@ class DeliverableComposer extends React.Component {
         <div className={styles.row}>
           <form className={styles.form} onSubmit={this.handleSubmit}>
             <Icon type="deliverable" style={{ alignSelf: 'flex-end' }} />
-            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Enter Deliverable Name" />
-            <div className={styles.charsHint}>40 chars</div>
+            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} maxLength={ 40 } rows="1" placeholder="Enter Deliverable Name" />
+            <div className={this.charCounterStyle()}>{40 - this.state.value.length} chars</div>
           </form>
         </div>
       </div>
