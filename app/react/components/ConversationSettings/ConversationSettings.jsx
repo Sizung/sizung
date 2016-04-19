@@ -181,10 +181,9 @@ class ConversationSettings extends React.Component {
               <div className={styles.conversationTitle}>
                 <SizungInputApp ref="name" onChange={this.handleConversationTitleChange}
                                 onSubmit={this.saveConversationTitle} value={this.state.conversationTitle} rows="1"
-                                placeholder="Enter Conversation name"/>
+                                placeholder="Enter Conversation name" maxLength={15}/>
               </div>
-              <span className={styles.closeButton} onClick={this.handleCloseView}><CloseIcon
-                  type={'transparent'}/></span>
+              <div className={styles.charsHint}>15 chars</div>
             </div>
             <div className={styles.actionContainer}>
               <div className={styles.cancelButton} onClick={this.handleCloseView}>
@@ -208,7 +207,7 @@ class ConversationSettings extends React.Component {
           <div className={styles.conversationTitle}>
             <EditableText text={currentConversation.title} onUpdate={this.handleConversationTitleUpdate} maxLength={40}/>
           </div>
-          <span className={styles.closeButton} onClick={this.handleCloseView}><CloseIcon type={'transparent'}/></span>
+          <div className={styles.charsHint}>15 chars</div>
         </div>
         <div className={styles.inviteMemberLabel}>
           INVITE TEAMMATES
