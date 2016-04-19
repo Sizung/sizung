@@ -42,7 +42,7 @@ class OrganizationApp extends React.Component {
   };
 
   render() {
-    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState } = this.props;
+    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState, updateAgendaItem, updateDeliverable } = this.props;
 
     if (organization && conversations) {
       return (
@@ -53,6 +53,8 @@ class OrganizationApp extends React.Component {
           deliverables={deliverables || new Immutable.List()}
           visitAgendaItem={visitAgendaItem}
           visitDeliverable={visitDeliverable}
+          updateAgendaItem={updateAgendaItem}
+          updateDeliverable={updateDeliverable}
           users={users}
           conversationSettingsViewState={conversationSettingsViewState}
         />

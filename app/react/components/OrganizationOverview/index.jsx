@@ -63,13 +63,13 @@ class OrganizationOverview extends Component {
     return this.renderConversationListPanel();
   }
   render() {
-    const { organization, conversations, agendaItems, visitAgendaItem, deliverables, visitDeliverable } = this.props;
+    const { organization, conversations, agendaItems, visitAgendaItem, deliverables, visitDeliverable, updateDeliverable, updateAgendaItem } = this.props;
 
     return (
       <div className={styles.root} ref="root">
         <ConversationLayout
-          left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } /> }
-          right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } /> }
+          left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } updateAgendaItem={ updateAgendaItem } /> }
+          right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } /> }
         >
           {this.renderCenterPanel()}
         </ConversationLayout>
@@ -87,6 +87,8 @@ OrganizationOverview.propTypes = {
   visitDeliverable: PropTypes.func.isRequired,
   users: PropTypes.object.isRequired,
   conversationSettingsViewState: PropTypes.string.isRequired,
+  updateDeliverable: PropTypes.func.isRequired,
+  updateAgendaItem: PropTypes.func.isRequired,
 };
 
 export default OrganizationOverview;
