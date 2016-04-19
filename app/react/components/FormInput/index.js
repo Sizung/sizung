@@ -12,6 +12,8 @@ class FormInput extends React.Component {
     autoFocus: PropTypes.bool,
     required: PropTypes.bool,
     onChange: PropTypes.func,
+    onSubmit: PropTypes.func,
+    onCancel: PropTypes.func,
     validate: PropTypes.func,
     value: PropTypes.string,
     disabled: PropTypes.bool,
@@ -28,10 +30,6 @@ class FormInput extends React.Component {
 
   constructor() {
     super();
-
-    this.state = {
-      errorMessage: null,
-    };
   }
 
   renderErrorMessage = (message) => {
@@ -46,6 +44,15 @@ class FormInput extends React.Component {
     this.props.onChange( this.refs.input.value ? this.refs.input.value : '');
   };
 
+  handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      this.props.onSubmit();
+    } else if (event.key === 'Escape') {
+      this.refs.input.value = '';
+      this.props.onCancel();
+    }
+  };
+
   render() {
     const { label, type, placeholder, tabIndex, autoFocus, value, errorMessage, disabled } = this.props;
     return (
@@ -55,7 +62,7 @@ class FormInput extends React.Component {
             {label}
           </div>
           <div className={styles.formInputValue}>
-            <input ref='input' value={value} type={type} placeholder={placeholder} tab-index={tabIndex} onBlur={this.props.validate} onChange={this.onChange} autoFocus={autoFocus} disabled={disabled}/>
+            <input ref='input' value={value} type={type} placeholder={placeholder} tab-index={tabIndex} onBlur={this.props.validate} onChange={this.onChange} onKeyDown={this.handleKeyDown} autoFocus={autoFocus} disabled={disabled}/>
           </div>
         </div>
         { (errorMessage === null || errorMessage.trim() === '') ? '' : this.renderErrorMessage(errorMessage)}
