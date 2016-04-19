@@ -2,7 +2,8 @@ import React from 'react';
 import styles from './index.css';
 import ProfileSettings from '../ProfileSettings';
 import OrganizationSettings from '../OrganizationSettings';
-import { browserHistory } from 'react-router';
+import { Link } from 'react-router';
+import CloseIcon from '../CloseIcon';
 
 // TODO: ANI: Please use .jsx for all js files that have jsx in them
 class Settings extends React.Component {
@@ -10,7 +11,7 @@ class Settings extends React.Component {
   constructor() {
     super();
     this.state = {
-      currentOption: 0,
+      currentOption: 'profile',
       user: {
         email: '',
         firstName: '',
@@ -24,11 +25,6 @@ class Settings extends React.Component {
   componentWillMount() {
     this.setUser(this.props.currentUser);
   }
-
-  closeSettingsView = () => {
-    // TODO: ANI: Please don't use browserHistory directly use https://github.com/reactjs/react-router-redux for that. Either <Link ...> or an action creator doing a push
-    browserHistory.push('/organizations/' + this.props.currentOrganization.id);    
-  };
 
   setCurrentSettingOption = (option) => {
     this.setState({
@@ -61,9 +57,9 @@ class Settings extends React.Component {
   };
 
   renderOptions = () => {
-    if (this.state.currentOption === 0) {
-      return (<ProfileSettings user={this.state.user} setUser={this.setUser} onSave={this.saveUser} onClose={this.closeSettingsView}/>);
-    } else if (this.state.currentOption === 1) {
+    if (this.state.currentOption === 'profile') {
+      return (<ProfileSettings currentOrganization={this.props.currentOrganization} user={this.state.user} setUser={this.setUser} onSave={this.saveUser}/>);
+    } else if (this.state.currentOption === 'organizations') {
       return (<OrganizationSettings {...this.props}/>);
     }
   };
@@ -71,10 +67,10 @@ class Settings extends React.Component {
   renderOptionLabel = (option) => {
     let optionLabel = '';
     const optionLabelStyle = this.getOptionLabelStyle(option);
-    // TODO: ANI: Use more descriptive parameters like renderOptionLabel(0 or 1) for signaling which part should be listed
-    if (option === 0) {
+
+    if (option === 'profile') {
       optionLabel = 'Profile';
-    } else if (option === 1) {
+    } else if (option === 'organizations') {
       optionLabel = 'Teams';
     }
     return (
@@ -89,26 +85,36 @@ class Settings extends React.Component {
   };
 
   render() {
-    return (
-      <div className={styles.root}>
-        <div className={styles.leftColumn}>
-          <div className={styles.header}>
-            <div className={styles.settingsIcon}>
+    const { currentOrganization } = this.props;
+    if (currentOrganization) {
+      const closeUrl = '/organizations/' + currentOrganization.id;
+      return (
+          <div className={styles.root}>
+            <div className={styles.leftColumn}>
+              <div className={styles.header}>
+                <div className={styles.settingsIcon}>
+                </div>
+                <div className={styles.settingsLabel}>
+                  SETTINGS
+                </div>
+              </div>
+              <div className={styles.optionsContainer}>
+                {this.renderOptionLabel('profile')}
+                {this.renderOptionLabel('organizations')}
+              </div>
             </div>
-            <div className={styles.settingsLabel}>
-              SETTINGS
+            <div className={styles.rightColumn}>
+              <div className={styles.closeIcon}>
+                <Link to={closeUrl} title="Close">
+                  <CloseIcon type={'transparent'}/>
+                </Link>
+              </div>
+              {this.renderOptions()}
             </div>
           </div>
-          <div className={styles.optionsContainer}>
-            {this.renderOptionLabel(0)}
-            {this.renderOptionLabel(1)}
-          </div>
-        </div>
-        <div className={styles.rightColumn} >
-          {this.renderOptions()}
-        </div>
-      </div>
-    );
+      );
+    }
+    return null;
   }
 }
 

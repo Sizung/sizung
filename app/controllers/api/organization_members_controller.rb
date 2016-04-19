@@ -33,7 +33,15 @@ module Api
     def destroy
       @organization_member = OrganizationMember.find(params[:id])
       authorize @organization_member
-      @organization_member.destroy
+      @organization_member.transaction do
+        @organization_member.destroy!
+        ConversationMember.
+          joins(conversation: :organization).
+          references(converation: :organization).
+          where(conversations: { organization_id: @organization_member.organization }, member: @organization_member.member).
+          each(&:destroy!)
+      end
+            
       render json: @organization_member, serializer: OrganizationMemberSerializer
     end
 

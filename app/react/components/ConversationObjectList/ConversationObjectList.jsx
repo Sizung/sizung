@@ -6,15 +6,11 @@ import DeliverableInTimeline from './../DeliverableInTimeline';
 import styles from './ConversationObjectList.css';
 import TimelineHeader from '../TimelineHeader/index';
 import ConversationHeader from '../ConversationHeader';
-import ConversationMembersEditApp from '../../containers/ConversationMembersEditApp';
+import ConversationSettingsApp from '../../containers/ConversationSettingsApp';
 
 class ConversationObjectList extends Component {
   constructor() {
     super();
-
-    this.state = {
-      isConversationMembersViewVisible: false,
-    };
   }
 
   componentDidMount() {
@@ -142,10 +138,10 @@ class ConversationObjectList extends Component {
   render() {
     const { createComment, createAgendaItem, createDeliverable, commentForm } = this.props;
 
-    if (this.props.conversationMembersViewVisible) {
+    if (this.props.conversationSettingsViewState === 'edit') {
       return (
           <div className={styles.listContainer}>
-            <ConversationMembersEditApp conversationMembersViewVisible={this.props.conversationMembersViewVisible}/>
+            <ConversationSettingsApp conversationSettingsViewState={this.props.conversationSettingsViewState}/>
           </div>
       );
     }
@@ -155,7 +151,8 @@ class ConversationObjectList extends Component {
           <ConversationHeader conversation={this.props.currentConversation}
                               updateConversation={this.props.updateConversation}
                               parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}
-                              conversationMembersViewVisible={this.props.conversationMembersViewVisible}
+                              conversationSettingsViewState={this.props.conversationSettingsViewState}
+                              deleteConversation={this.props.deleteConversation}
           />
           <TimelineHeader parent={commentForm.parent} />
           {this.renderConversationTimeLine()}
@@ -192,6 +189,7 @@ ConversationObjectList.propTypes = {
   currentConversationId: PropTypes.string.isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
   visitConversation: PropTypes.func,
+  deleteConversation: PropTypes.func.isRequired,
 };
 
 ConversationObjectList.defaultProps = {

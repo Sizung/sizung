@@ -80,7 +80,7 @@ function mapStateToProps(state, props) {
   }
 
   const deliverableParent = deliverable ? deliverable.parent : null;
-  const conversationMembersViewVisible = selectors.conversationMemberListVisible(state);
+  const conversationSettingsViewState = selectors.conversationSettingsViewState(state);
   return {
     deliverable,
     deliverables,
@@ -94,7 +94,7 @@ function mapStateToProps(state, props) {
     currentConversationId: deliverableParent ? deliverableUtils.getConversationIdFromParent(deliverableParent) : null,
     currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
-    conversationMembersViewVisible,
+    conversationSettingsViewState,
   };
 }
 

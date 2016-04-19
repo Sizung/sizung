@@ -5,13 +5,10 @@
 
 import * as constants from './constants';
 
-// Rename the function appropriately for example ... setConversationMemberViewVisibility ... problem here is the logic is set-logic but names is confusing
-// Store is available if needed but
-
-const showConversationMembers = (visibility) => {
+const setConversationSettingsState = (state) => {
   return {
-    type: constants.SHOW_CONVERSATION_MEMBERS,
-    visibility,
+    type: constants.SET_CONVERSATION_SETTINGS_STATE,
+    state,
   };
 };
 
@@ -22,6 +19,6 @@ const resetConversationUi = () => {
 };
 
 export {
-    showConversationMembers,
+    setConversationSettingsState,
     resetConversationUi,
 };

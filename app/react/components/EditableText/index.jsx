@@ -74,13 +74,9 @@ class EditableText extends React.Component {
     if (this.state.edit) {
       return (
         <div className={styles.editTextContainer}>
-          <form className="form-horizontal">
-            <div className="form-group">
-              <div className="col-xs-12">
-                <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} />
-              </div>
-            </div>
-          </form>
+          <div className="col-xs-12 zero-margin zero-padding">
+            <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} />
+          </div>
         </div>
       );
     }

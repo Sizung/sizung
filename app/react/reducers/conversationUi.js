@@ -7,12 +7,12 @@
 import Immutable from 'immutable';
 import * as constants from '../actions/constants';
 
-const initialState = new Immutable.Map({ showConversationMembers: false });
+const initialState = new Immutable.Map({ conversationSettingsState: 'hide' });
 
-export default function showConversationMembers(state = initialState, action = null) {
+export default function conversationUi(state = initialState, action = null) {
   switch (action.type) {
-    case constants.SHOW_CONVERSATION_MEMBERS:
-      return new Immutable.Map({ showConversationMembers: action.visibility });
+    case constants.SET_CONVERSATION_SETTINGS_STATE:
+      return new Immutable.Map({ conversationSettingsState: action.state });
 
     case constants.RESET_CONVERSATION_UI:
       return initialState;

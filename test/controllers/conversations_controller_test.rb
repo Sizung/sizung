@@ -31,5 +31,39 @@ describe Api::ConversationsController do
       get :show, id: @conversation
       assert_response :success
     end
+
+    it 'creates a new conversation' do
+      @organization = FactoryGirl.create(:organization)
+      sign_in @organization.owner
+      expect {
+        post :create, conversation: { title: 'Dark Knight Rises', organization_id: @organization.id }, format: :json
+      }.must_change 'Conversation.count'
+
+      assert_response :success
+      conversation = JSON.parse(response.body)
+
+      assert_equal 'Dark Knight Rises', conversation['data']['attributes']['title']
+    end
+
+    it 'creates a new conversation with multiple members' do
+      @organization = FactoryGirl.create(:organization)
+      @user1 = FactoryGirl.create(:user)
+      @user2 = FactoryGirl.create(:user)
+      sign_in @organization.owner
+      expect {
+        post :create, conversation: { title: 'Dark Knight Rises', organization_id: @organization.id, conversation_members: [ {member_id: @user1.id}, {member_id: @user2.id} ] }, format: :json
+      }.must_change 'Conversation.count'
+
+      assert_response :success
+      conversation = JSON.parse(response.body)
+
+      assert_equal 'Dark Knight Rises', conversation['data']['attributes']['title']
+    end
+
+    it 'deletes a conversation' do
+      assert_difference('Conversation.count', -1) do
+        delete :destroy, id: @conversation
+      end
+    end
   end
 end
