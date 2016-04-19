@@ -32,13 +32,32 @@ module Api
       @conversation = Conversation.new(conversation_params)
       authorize @conversation
 
-      if @conversation.save
-        # TODO: Need to check if there is a better way of achieving the below case of adding conv creator as default member
-        @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>current_user.id)
-        render :show, status: :created, location: @conversation
+      # creating conversation with conversation members
+      if params[:conversation][:conversation_members]
+        if @conversation.save
+          @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>current_user.id)
+          params[:conversation][:conversation_members].each do |member|
+            if member[:member_id] != ''
+              @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>member[:member_id])
+            end
+          end
+          render json: @conversation, serializer: ConversationSerializer
+        else
+          render json: @conversation.errors, status: :unprocessable_entity
+        end
       else
-        render json: @conversation.errors, status: :unprocessable_entity
+        #creating conversatin with just title without any conversation members
+        if @conversation.save
+          # TODO: Need to check if there is a better way of achieving the below case of adding conv creator as default member
+          @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>current_user.id)
+          # render :show, status: :created, location: @conversation
+          render json: @conversation, serializer: ConversationSerializer
+        else
+          render json: @conversation.errors, status: :unprocessable_entity
+        end
       end
+
+
     end
 
     # PATCH/PUT /conversations/1.json
@@ -58,7 +77,11 @@ module Api
     private
       # Use callbacks to share common setup or constraints between actions.
       def set_organization
+        if params[:organization_id]
         @organization = policy_scope(Organization).find(params[:organization_id])
+        elsif params[:conversation] && params[:conversation][:organization_id]
+          @organization = policy_scope(Organization).find(params[:conversation][:organization_id])
+        end
       end
 
       def set_conversation

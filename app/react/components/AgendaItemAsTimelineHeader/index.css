@@ -10,9 +10,12 @@
 
 .titleContainer {
   flex: 1;
+  display: flex;
+  flex-direction: row;
   font-size: 1.688rem;
   font-family: Gotham-Book;
   color : white;
+  max-height: 4.5rem;
   overflow: hidden;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -36,4 +39,8 @@
 
 .close:hover {
   color: white;
+}
+
+.icon {
+  flex: none;
 }

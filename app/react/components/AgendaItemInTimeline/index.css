@@ -1,7 +1,7 @@
 .root {
   display: flex;
   flex-direction: row;
-  padding: 20px 0px;
+  padding: 10px 0px;
   color : #89949E;
 }
 
@@ -44,6 +44,13 @@
   text-decoration: none;
 }
 
+.content a,
+.content a:hover,
+.content a:active,
+.content a:focus {
+  color: #57C1E8;
+}
+
 .userName {
   font-weight: 600;
 }
@@ -78,14 +85,17 @@
 .timeContainer {
   font-family: Gotham-Book;
   font-size: 1rem;
-  line-height : 4rem;
+  margin-top: 1.563rem;
   color : #8C9295;
 }
 
 .icon {
   margin-left: 8px;
+  flex: none;
 }
 
 .textContainer {
-  padding: 10px 0;
+  padding: 10px 10px 10px 0;
+  display: flex;
+  flex-direction: row;
 }
