@@ -48,6 +48,7 @@ export function transformConversationFromJsonApi(conversation) {
     created_at: conversation.created_at,
     updated_at: conversation.updated_at,
     members: conversation.relationships.members.data.map(transformConversationMemberAsMemberFromJsonApi),
+    conversation_members: conversation.relationships.conversation_members.data,
   };
 }
 

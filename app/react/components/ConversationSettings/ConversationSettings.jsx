@@ -103,11 +103,11 @@ class ConversationSettings extends React.Component {
   renderOrganizationMemberList = () => {
     return (
         this.filteredOptions(this.state.filter, this.state.organizationMembers.toList()).filter((member) => {
-          return (member.presenceStatus === 'online' && member.id !== this.props.currentUser.id);
+          return (member.presenceStatus === 'online');
         }).sortBy((member) => {
           return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
         }).concat(this.filteredOptions(this.state.filter, this.state.organizationMembers).filter((member) => {
-          return (member.presenceStatus === 'offline' && member.id !== this.props.currentUser.id);
+          return (member.presenceStatus === 'offline');
         }).sortBy((member) => {
           return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
         })).map((user) => {
@@ -117,7 +117,10 @@ class ConversationSettings extends React.Component {
           const selected = (existingMember ? true : false);
           return (
               <div key={user.id} className={styles.organizationMember}>
-                <SelectableUser key={user.id} user={user} selected={selected} onUpdate={this.triggerUpdate} />
+                { user.id !== this.props.currentUser.id ?
+                    <SelectableUser key={user.id} user={user} selected={selected} onUpdate={this.triggerUpdate}/> :
+                    <SelectableUser key={user.id} user={user} selected={selected}/>
+                }
               </div>
           );
         }, this));

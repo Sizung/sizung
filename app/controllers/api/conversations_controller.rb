@@ -86,7 +86,8 @@ module Api
             @conversation.conversation_members.destroy(member)
           end
         end
-        render json: @conversation
+        # TODO ANI GUGL: Fix this part while sending response to client so that client has control over which attributes to use
+        render json: @conversation, include: %w(conversation_members)
       end
 
   end
