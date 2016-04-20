@@ -114,7 +114,7 @@ class Deliverable extends React.Component {
 
   render() {
     const { deliverable, selected } = this.props;
-    const { title, assignee, dueOn, unseenCount, archived } = deliverable;
+    const { title, assigneeId, dueOn, unseenCount, archived } = deliverable;
     const deliverableIconStatus = this.dueDateStatus();
     let styleName = styles.seen;
 
@@ -140,7 +140,7 @@ class Deliverable extends React.Component {
         <div className={styles.bottomRow}>
           { selected ? this.renderActions() : this.parentTitle() }
           <div className={styles.assignee}>
-            <EditableUserApp conversationId={deliverableUtils.getConversationIdFromParent(deliverable.parent)} editable userId={assignee.id} onUpdate={this.handleAssigneeUpdate}/>
+            <EditableUserApp conversationId={deliverableUtils.getConversationIdFromParent(deliverable.parent)} editable userId={assigneeId} onUpdate={this.handleAssigneeUpdate} />
           </div>
         </div>
       </div>

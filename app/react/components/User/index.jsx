@@ -20,11 +20,11 @@ class User extends React.Component {
   static defaultProps = {
     user: {
       email: 'sizung@example.com',
-      firstName: 'n',
-      lastName: 'A',
+      firstName: '?',
+      lastName: '?',
       presenceStatus: 'offline',
     },
-    size: "normal",
+    size: 'normal',
     showName: false,
     showEmail: false,
     style: {},
@@ -41,7 +41,7 @@ class User extends React.Component {
     const { email, presenceStatus, firstName, lastName } = this.props.user;
     const initials = (firstName && lastName) ? firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase() : email.charAt(0).toUpperCase();
     const onlineState = presenceStatus === 'online' ? '-online' : '';
-    const size = (this.validSizes.indexOf(this.props.size) === -1) ? this.validSizes[0] : this.props.size ;
+    const size = (this.validSizes.indexOf(this.props.size) === -1) ? this.validSizes[0] : this.props.size;
     let name;
     if (showName) {
       if (firstName && lastName) {
