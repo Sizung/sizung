@@ -38,6 +38,11 @@
   margin-bottom: 0.5rem;
 }
 
+.charsHintRed {
+  composes: charsHint;
+  color: #AE4D4B;
+}
+
 .composeHeader {
   display: inline-block;
   background-color: #415764;

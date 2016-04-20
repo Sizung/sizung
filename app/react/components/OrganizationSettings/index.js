@@ -68,11 +68,15 @@ class OrganizationSettings extends React.Component {
     this.props.deleteOrganizationMember(id);
   };
 
-  handleInviteMemberClick = () => {
+  handleInviteMemberSubmit = () => {
     if (this.validateEmail()) {
       this.props.inviteOrganizationMember(this.props.currentOrganization.id, this.state.email);
       this.setState({ email: '' });
     }
+  };
+
+  resetInputValidation = () => {
+    this.setState({ email: '', emailErrorMessage: '' });
   };
 
   handleFilterChange = (event) => {
@@ -136,12 +140,12 @@ class OrganizationSettings extends React.Component {
   renderMemberSettings = () => {
     return (
       <div>
-        <div className={styles.filterContainer}>
+        <div className={styles.inviteContainer}>
           <div className={styles.emailInputContainer}>
-            <FormInput type='email' value={this.state.email} label={'EMAIL ADDRESS'} placeholder='eg: user@domain.com' onChange={this.setUserEmail} errorMessage={this.state.emailErrorMessage}/>
+            <FormInput type='email' value={this.state.email} label={'EMAIL ADDRESS'} placeholder='eg: user@domain.com' onChange={this.setUserEmail} onSubmit={this.handleInviteMemberSubmit} onCancel={this.resetInputValidation} errorMessage={this.state.emailErrorMessage}/>
           </div>
-          <div className={styles.inviteMemberLink} onClick={this.handleInviteMemberClick}>
-            Invite New Members
+          <div className={styles.inviteMemberLink} onClick={this.handleInviteMemberSubmit}>
+            Invite
           </div>
         </div>
         <div className={styles.searchInputContainer}>
@@ -160,7 +164,7 @@ class OrganizationSettings extends React.Component {
     return (
     <div className={styles.formContainer}>
       <div className={styles.formTitle}>
-        TEAM SETTINGS
+        ORGANIZATION SETTINGS
       </div>
       {this.renderTeamSettings()}
       <div className={styles.membersLabel}>

@@ -21,10 +21,10 @@ class AgendaItemComposer extends React.Component {
   static defaultProps = {
     defaultValue: '',
   }
-  
+
   constructor(props) {
     super(props);
-    this.state = { value: props.defaultValue };
+    this.state = { value: props.defaultValue.substring(0, 40) };
   }
 
   componentDidMount() {
@@ -47,6 +47,10 @@ class AgendaItemComposer extends React.Component {
     this.setState({ value });
   };
 
+  charCounterStyle = () => {
+    return (40 - this.state.value.length) < 5 ? styles.charsHintRed : styles.charsHint;
+  }
+  
   render() {
     return (
       <div className={styles.root}>
@@ -60,9 +64,9 @@ class AgendaItemComposer extends React.Component {
         <div className={styles.formRow}>
           <Icon type="agendaItem" className={styles.agendaItemIcon} />
           <form className={styles.form} onSubmit={this.handleSubmit}>
-            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Enter Agenda Name" />
+            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} maxLength={ 40 } rows="1" placeholder="Enter Agenda Name" />
           </form>
-          <div className={styles.charsHint}>40 chars</div>
+          <div className={this.charCounterStyle()}>{40 - this.state.value.length} chars</div>
         </div>
       </div>
     );

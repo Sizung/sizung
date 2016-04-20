@@ -3,6 +3,7 @@
   flex-direction: row;
   align-items: center;
   cursor: pointer;
+  padding: 10px;
 }
 
 .root:hover {
@@ -18,9 +19,10 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
+  padding-left: 10px;
 }
 
 .status {
   order: 1;
-  margin-right: 10px;
+
 }

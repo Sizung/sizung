@@ -65,6 +65,8 @@ gem 'sidekiq'
 gem 'sinatra', require: nil
 gem 'nokogiri'
 gem 'premailer-rails'
+gem 'rollbar'
+gem 'oj'
 
 group :production do
   gem 'rails_12factor'
