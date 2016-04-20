@@ -71,7 +71,7 @@ class Settings extends React.Component {
     if (option === 'profile') {
       optionLabel = 'Profile';
     } else if (option === 'organizations') {
-      optionLabel = 'Teams';
+      optionLabel = 'Organizations';
     }
     return (
       <div className={optionLabelStyle} onClick={this.setCurrentSettingOption.bind(this, option)}>

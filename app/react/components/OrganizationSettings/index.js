@@ -164,7 +164,7 @@ class OrganizationSettings extends React.Component {
     return (
     <div className={styles.formContainer}>
       <div className={styles.formTitle}>
-        TEAM SETTINGS
+        ORGANIZATION SETTINGS
       </div>
       {this.renderTeamSettings()}
       <div className={styles.membersLabel}>
