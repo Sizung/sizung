@@ -23,14 +23,6 @@ class OrganizationOverview extends Component {
   renderCreateConversationPanel = () => {
     return (
       <div className={styles['center-panel']}>
-        <div className={styles["header-container"]}>
-          <div className={styles['title']}>
-            <Icon type="chat" style={{ marginRight: '20px' }}>CONVERSATIONS</Icon>
-          </div>
-          <div className={styles["action"]}>
-            <CreateConversationApp/>
-          </div>
-        </div>
         <ConversationSettingsApp conversationSettingsViewState={this.props.conversationSettingsViewState}/>
       </div>
     );

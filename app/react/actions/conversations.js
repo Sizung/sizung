@@ -121,21 +121,22 @@ const createConversation = (values) => {
   };
 };
 
-const deleteConversation = (id) => {
-  if (confirm("Are you sure you want to delete this Conversation?")) {
+const deleteConversation = (conversationId, organizationId) => {
+
     return (dispatch) => {
-      api.deleteJson('/api/conversations/' + id, (json) => {
-        const conversation = transform.transformCommentFromJsonApi(json.data);
-        dispatch({
-          type: constants.DELETE_CONVERSATION,
-          status: constants.STATUS_SUCCESS,
-          conversation,
-          entity: conversation,
+      if (confirm("Are you sure you want to delete this Conversation?")) {
+        api.deleteJson('/api/conversations/' + conversationId, (json) => {
+          const conversation = transform.transformCommentFromJsonApi(json.data);
+          dispatch({
+            type: constants.DELETE_CONVERSATION,
+            status: constants.STATUS_SUCCESS,
+            conversation,
+            entity: conversation,
+          });
         });
-      });
+        dispatch(routeActions.push('/organizations/' + organizationId));
+      }
     };
-  }
-  return null;
 }
 
 export {
@@ -145,5 +146,5 @@ export {
   updateConversation,
   updateConversationRemoteOrigin,
   createConversation,
-  deleteConversation
+  deleteConversation,
 };

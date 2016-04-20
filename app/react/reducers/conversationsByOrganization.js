@@ -17,6 +17,8 @@ export default function conversationsByOrganization(state = initialState, action
     return reducerUtils.setReference(state, action, 'conversation', 'organizationId');
   } else if (action.type === constants.DELETE_CONVERSATION && action.status === constants.STATUS_SUCCESS) {
     return reducerUtils.removeReference(state, action, 'conversation', 'organizationId');
+  } else if (action.type === constants.UPDATE_CONVERSATION && action.status === constants.STATUS_SUCCESS) {
+    return reducerUtils.updateReference(state, action, 'conversation', 'organizationId');
   }
   return state;
 }

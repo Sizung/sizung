@@ -3,39 +3,27 @@ import User from './../User';
 import SelectableUser from './../SelectableUser';
 import styles from './ConversationSettings.css';
 import Immutable from 'immutable';
-import UserIcon from '../UserIcon';
-import CloseIcon from '../CloseIcon';
-import EditableText from '../EditableText';
 import SizungInputApp from '../../containers/SizungInputApp';
 import Icon from '../Icon';
 
 class ConversationSettings extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       filter: '',
-      conversationTitle: '',
-      conversationMembers: new Immutable.List(),
-      organizationMembers: new Immutable.List(),
+      conversationTitle: props.conversationSettingsViewState === 'edit' ? props.currentConversation.title : '',
+      conversationMembers: props.conversationSettingsViewState === 'edit' ? props.conversationMembersAsUsers : (new Immutable.List()).push(props.currentUser),
+      organizationMembers: props.organizationMembers,
     };
   }
 
-  handleClick = (e) => {
-    e.preventDefault();
-    $(e.currentTarget).find('.status').removeClass('fa-check-circle-o');
+  addMemberToConversation = (member) => {
+    this.setState({ conversationMembers: this.state.conversationMembers.push(member), filter: '' });
   };
 
-  addMemberToConversation = (id) => {
-    this.setState({ filter: '' });
-    this.props.createConversationMember(this.props.currentConversation.id, id);
-    //this.state.conversationMembers = this.state.conversationMembers.push(id);
-  };
-
-  removeMemberFromConversation = (id) => {
-    this.setState({ filter: '' });
-    this.props.deleteConversationMember(id);
-    //this.state.conversationMembers = this.state.conversationMembers.pop(id);
+  removeMemberFromConversation = (member) => {
+    this.setState({ conversationMembers: this.state.conversationMembers.filter((convMember) => { return convMember.id !== member.id }), filter: '' });
   };
 
   handleFilterChange = (event) => {
@@ -51,21 +39,21 @@ class ConversationSettings extends React.Component {
   };
 
   triggerUpdate = (id) => {
-    const existingMember = this.props.conversationMembers.find((member) => {
-      return (member.memberId === id);
-    });
+    const existingMember = (this.state.conversationMembers ? this.state.conversationMembers.find((member) => {
+      return (member.id === id);
+    }) : null);
     if (existingMember) {
-      this.removeMemberFromConversation(existingMember.id);
+      this.removeMemberFromConversation(existingMember);
     } else {
-      this.addMemberToConversation(id);
+      this.addMemberToConversation(this.state.organizationMembers.find((member) => { return member.id === id}));
     }
     this.triggerCancel();
   };
 
   triggerCancel = () => {
-    this.state = {
+    this.setState({
       filter: '',
-    };
+    });
     this.refs.memberFilter.value = '';
   };
 
@@ -89,68 +77,53 @@ class ConversationSettings extends React.Component {
     this.props.setConversationSettingsState('hide');
   };
 
-  renderConversationSettings = () => {
-    if (this.props.conversationMembers) {
-      let conversationMembersAsUsers = new Immutable.List();
-      this.props.conversationMembers.toList().map((user) => {
-        this.props.organizationMembers.forEach((obj) => {
-          if (obj.id === user.memberId) {
-            obj.conversationMemberId = user.id;
-            conversationMembersAsUsers = conversationMembersAsUsers.push(obj);
-          }
-        });
-      });
-      return (
-        conversationMembersAsUsers.filter((member) => {
+  renderConversationMemberList = () => {
+    return (
+        this.state.conversationMembers.filter((member) => {
           return (member.presenceStatus === 'online');
         }).sortBy((member) => {
           return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-        }).concat(conversationMembersAsUsers.filter((member) => {
+        }).concat(this.state.conversationMembers.filter((member) => {
           return (member.presenceStatus === 'offline');
         }).sortBy((member) => {
           return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
         })).map((conversationMember) => {
           return (
-            <div className={styles.userLogoContainer}>
-              <User key={conversationMember.id} user={conversationMember} showName={false}/>
-              <div className={styles.action} onClick={this.removeMemberFromConversation.bind(this, conversationMember.conversationMemberId)}>
-                &times;
+              <div key={conversationMember.id} className={styles.userLogoContainer}>
+                <User key={conversationMember.id} user={conversationMember} showName={false}/>
+                <div className={styles.action} onClick={this.triggerUpdate.bind(this, conversationMember.id)}>
+                  &times;
+                </div>
               </div>
-            </div>
-              );
+          );
         })
-      );
-    }
-    return '';
+    );
   };
 
   renderOrganizationMemberList = () => {
-    if (this.props.conversationMembers) {
-      return (
-          this.filteredOptions(this.state.filter, this.props.organizationMembers.toList()).filter((member) => {
-            return (member.presenceStatus === 'online');
-          }).sortBy((member) => {
-            return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-          }).concat(this.filteredOptions(this.state.filter, this.props.organizationMembers).filter((member) => {
-            return (member.presenceStatus === 'offline');
-          }).sortBy((member) => {
-            return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-          })).map((user) => {
-            const existingMember = this.props.conversationMembers.find((member) => {
-              return (member.memberId === user.id);
-            });
-            const selected = (existingMember ? true : false);
-            return (
-                <div className={styles.organizationMember}>
-                  <SelectableUser key={user.id} user={user} selected={selected} onUpdate={this.triggerUpdate} />
-                </div>
-            );
-          }, this));
-    }
-    return null;
+    return (
+        this.filteredOptions(this.state.filter, this.state.organizationMembers.toList()).filter((member) => {
+          return (member.presenceStatus === 'online' && member.id !== this.props.currentUser.id);
+        }).sortBy((member) => {
+          return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+        }).concat(this.filteredOptions(this.state.filter, this.state.organizationMembers).filter((member) => {
+          return (member.presenceStatus === 'offline' && member.id !== this.props.currentUser.id);
+        }).sortBy((member) => {
+          return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+        })).map((user) => {
+          const existingMember = (this.state.conversationMembers ? this.state.conversationMembers.find((member) => {
+            return (member.id === user.id);
+          }) : null);
+          const selected = (existingMember ? true : false);
+          return (
+              <div key={user.id} className={styles.organizationMember}>
+                <SelectableUser key={user.id} user={user} selected={selected} onUpdate={this.triggerUpdate} />
+              </div>
+          );
+        }, this));
   };
 
-  handleConversationTitleUpdate = (title) => {
+  handleConversationTitleSave = (title) => {
     this.props.updateConversation(this.props.currentConversation.id, { title });
   };
 
@@ -159,101 +132,83 @@ class ConversationSettings extends React.Component {
   };
 
   saveConversationTitle = () => {
-    const newConversation = {
+    const conversationJson = {
       title: this.state.conversationTitle,
       organization_id: this.props.currentOrganization.id,
+      conversation_members: this.state.conversationMembers,
     };
-    this.props.createConversation(newConversation);
+    const { conversationSettingsViewState } = this.props;
+    if (conversationSettingsViewState === 'edit') {
+      conversationJson.conversation_members = conversationJson.conversation_members.map((user) => {
+        return ({
+          conversation_id: this.props.currentConversation.id,
+          member_id: user.id,
+          email: user.email,
+        });
+      });
+      this.props.updateConversation(this.props.currentConversation.id, conversationJson);
+    } else if (conversationSettingsViewState === 'create') {
+      this.props.createConversation(conversationJson);
+    }
+
     this.handleCloseView();
   }
 
-  updateConversation = () => {
-
-  }
-
-  renderCreate = () => {
-    if (this.props.organizationMembers) {
-      return (
-          <div className={styles.root}>
-            <div className={styles.conversationTitleContainer}>
-              <Icon type="chat" contentClassName={styles.chatIcon}/>
-
-              <div className={styles.conversationTitle}>
-                <SizungInputApp ref="name" onChange={this.handleConversationTitleChange}
-                                onSubmit={this.saveConversationTitle} value={this.state.conversationTitle} rows="1"
-                                placeholder="Enter Conversation name" maxLength={15}/>
-              </div>
-              <div className={styles.charsHint}>15 chars</div>
-            </div>
-            <div className={styles.actionContainer}>
-              <div className={styles.cancelButton} onClick={this.handleCloseView}>
-                CANCEL
-              </div>
-              <div className={styles.actionButton} onClick={this.saveConversationTitle}>
-                CREATE
-              </div>
-            </div>
-          </div>
-      );
-    }
-  };
-
-  renderEdit = () => {
-    const { currentConversation } = this.props;
+  render()  {
     return (
       <div className={styles.root}>
         <div className={styles.conversationTitleContainer}>
           <Icon type="chat" contentClassName={styles.chatIcon}/>
+
           <div className={styles.conversationTitle}>
-            <EditableText text={currentConversation.title} onUpdate={this.handleConversationTitleUpdate} maxLength={40}/>
+            <SizungInputApp ref="name" onChange={this.handleConversationTitleChange}
+                            value={this.state.conversationTitle} rows="1"
+                            placeholder="Enter Conversation name" maxLength={15}/>
           </div>
           <div className={styles.charsHint}>15 chars</div>
         </div>
-        <div className={styles.inviteMemberLabel}>
-          INVITE TEAMMATES
-        </div>
-        <div className={styles.conversationMemberList}>
-          {this.renderConversationSettings()}
-        </div>
-        <div className={styles.memberSettingsContainer}>
-          <div className={styles.inputContainer}>
-            <input ref="memberFilter" type="text" className={styles.input} id="memberName"
-                       placeholder="Search" onKeyDown={this.handleKeyDown}
-                       onChange={this.handleFilterChange}
-            />
+        <div className={styles.membersContainer}>
+          <div className={styles.inviteMemberLabel}>
+            INVITE TEAMMATES
           </div>
-          <div className={styles.organizationMembersContainer}>
-             {this.renderOrganizationMemberList()}
+          <div className={styles.conversationMemberList}>
+            {this.renderConversationMemberList()}
+          </div>
+          <div className={styles.memberSettingsContainer}>
+            <div className={styles.inputContainer}>
+              <input ref="memberFilter" type="text" className={styles.input} id="memberName"
+                         placeholder="Search" onKeyDown={this.handleKeyDown}
+                         onChange={this.handleFilterChange}
+              />
+            </div>
+            <div className={styles.organizationMembersContainer}>
+               {this.renderOrganizationMemberList()}
+            </div>
           </div>
         </div>
         <div className={styles.actionContainer}>
+          <div className={styles.cancelButton} onClick={this.handleCloseView}>
+            CANCEL
+          </div>
           <div className={styles.actionButton} onClick={this.saveConversationTitle}>
-            DONE
+            { this.props.conversationSettingsViewState === 'edit' ? 'SAVE' : 'CREATE' }
           </div>
         </div>
       </div>
     );
   };
-
-  render() {
-    if (this.props.conversationSettingsViewState === 'edit') {
-      return this.renderEdit();
-    } else if (this.props.conversationSettingsViewState === 'create') {
-      return this.renderCreate();
-    }
-    return null;
-  }
 }
 
 ConversationSettings.propTypes = {
   organizationMembers: PropTypes.object,
   conversationMembers: PropTypes.object,
-  createConversationMember: PropTypes.func.isRequired,
-  deleteConversationMember: PropTypes.func.isRequired,
-  currentConversation: PropTypes.object.isRequired,
+  conversationMembersAsUsers: PropTypes.object,
+  currentConversation: PropTypes.object,
   conversationSettingsViewState: PropTypes.string.isRequired,
   updateConversation: PropTypes.func.isRequired,
+  createConversation: PropTypes.func.isRequired,
   currentOrganization: PropTypes.object.isRequired,
+  currentUser: PropTypes.object.isRequired,
 };
 
 export default ConversationSettings;
