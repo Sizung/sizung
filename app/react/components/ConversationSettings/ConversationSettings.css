@@ -221,3 +221,7 @@ and (max-width: 1440px) {
   text-align: right;
   margin-left: 20px;
 }
+
+.membersContainer {
+  overflow: auto;
+}

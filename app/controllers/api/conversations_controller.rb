@@ -37,8 +37,8 @@ module Api
         if @conversation.save
           @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>current_user.id)
           params[:conversation][:conversation_members].each do |member|
-            if member[:member_id] != ''
-              @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>member[:member_id])
+            if member[:id] != ''
+              @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>member[:id])
             end
           end
           render json: @conversation, serializer: ConversationSerializer
@@ -62,12 +62,34 @@ module Api
 
     # PATCH/PUT /conversations/1.json
     def update
-      if @conversation.update(conversation_params)
+      if @conversation.update!(conversation_params)
         ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'update')
+        @addMembers = []
+        @removeMembers = []
+        if params[:conversation][:conversation_members]
+          @conversation_members_params = params[:conversation][:conversation_members]
+          params[:conversation][:conversation_members].each do |member|
+            if !ConversationMember.find_by(conversation_id: @conversation.id, member_id: member[:member_id])
+              @addMembers.push(member)
+            end
+          end
+          @conversation.conversation_members.each do |existingMember|
+            @filteredArray = params[:conversation][:conversation_members].select{|member| member[:member_id] == existingMember.member_id}
+            if @filteredArray.empty?
+              @removeMembers.push(existingMember)
+            end
+          end
+          @addMembers.each do |member|
+            @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>member[:member_id])
+          end
+          @removeMembers.each do |member|
+            @conversation.conversation_members.destroy(member)
+          end
+        end
         render json: @conversation
       end
-    end
 
+  end
     # DELETE /conversations/1.json
     def destroy
       @conversation.destroy
@@ -91,6 +113,10 @@ module Api
 
       # Never trust parameters from the scary internet, only allow the white list through.
       def conversation_params
+        params.require(:conversation).permit(:title, :organization_id)
+      end
+
+      def update_conversation_params
         params.require(:conversation).permit(:title, :organization_id)
       end
   end
