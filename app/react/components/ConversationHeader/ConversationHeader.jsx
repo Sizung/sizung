@@ -29,7 +29,7 @@ class ConversationHeader extends React.Component {
   };
 
   deleteConversation = () => {
-    this.props.deleteConversation(this.props.conversation.id);
+    this.props.deleteConversation(this.props.conversation.id, this.props.conversation.organizationId);
   };
 
   render() {
