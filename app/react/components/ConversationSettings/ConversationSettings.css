@@ -95,7 +95,6 @@
 .organizationMember {
   flex: 0 1 33.333%;
   width: 33.333%;
-  padding: 5px;
 }
 
 .chatIcon {
@@ -224,4 +223,7 @@ and (max-width: 1440px) {
 
 .membersContainer {
   overflow: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
