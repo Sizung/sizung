@@ -15,7 +15,7 @@ class SelectableUser extends React.Component {
   render() {
     const { user, selected } = this.props;
     return (
-        <div onClick={this.handleSelect} className={styles.root}>
+        <div onClick={ this.props.onUpdate ? this.handleSelect : false} className={styles.root}>
           <span className={styles.status}>
             <SelectIcon selected={selected}/>
           </span>
@@ -35,7 +35,7 @@ SelectableUser.propTypes = {
     presenceStatus: PropTypes.string.isRequired,
   }).isRequired,
   selected: PropTypes.bool.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  onUpdate: PropTypes.func,
 };
 
 export default SelectableUser;

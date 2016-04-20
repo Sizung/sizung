@@ -4,12 +4,12 @@ const initialMap = Immutable.Map({
   isFetching: false,
   nextPageUrl: undefined,
   pageCount: 0,
-  references: Immutable.Set()
+  references: new Immutable.Set(),
 });
 
 function currentMap(state, key) {
   let map = state.get(key);
-  if (map == null) {
+  if (!map) {
     map = initialMap;
   }
   return map;
@@ -29,6 +29,21 @@ export function fetchInProgress(state, key) {
 export function fetched(state, key, references, action) {
   const map = currentMap(state, key);
   let newSet = map.get('references');
+  references.forEach(reference => {
+    newSet = newSet.add(reference);
+  });
+
+  return state.set(key,
+    map
+      .set('references', newSet)
+      .set('nextPageUrl', action.links ? action.links.next : null)
+      .set('isFetching', false)
+  );
+}
+
+export function fetchedReset(state, key, references, action) {
+  const map = currentMap(state, key);
+  let newSet = new Immutable.Set();
   references.forEach(reference => {
     newSet = newSet.add(reference);
   });

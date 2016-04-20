@@ -77,50 +77,61 @@ class ConversationSettings extends React.Component {
     this.props.setConversationSettingsState('hide');
   };
 
+  validate = () => {
+    if (this.state.conversationTitle && this.state.conversationTitle.length > 0) {
+      return true;
+    }
+    return false;
+  };
+
   renderConversationMemberList = () => {
     return (
-        this.state.conversationMembers.filter((member) => {
-          return (member.presenceStatus === 'online');
-        }).sortBy((member) => {
-          return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-        }).concat(this.state.conversationMembers.filter((member) => {
-          return (member.presenceStatus === 'offline');
-        }).sortBy((member) => {
-          return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-        })).map((conversationMember) => {
-          return (
-              <div key={conversationMember.id} className={styles.userLogoContainer}>
-                <User key={conversationMember.id} user={conversationMember} showName={false}/>
-                <div className={styles.action} onClick={this.triggerUpdate.bind(this, conversationMember.id)}>
-                  &times;
-                </div>
-              </div>
-          );
-        })
+      this.state.conversationMembers.filter((member) => {
+        return (member.presenceStatus === 'online');
+      }).sortBy((member) => {
+        return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+      }).concat(this.state.conversationMembers.filter((member) => {
+        return (member.presenceStatus === 'offline');
+      }).sortBy((member) => {
+        return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+      })).map((conversationMember) => {
+        return (
+          <div key={conversationMember.id} className={styles.userLogoContainer}>
+            <User key={conversationMember.id} user={conversationMember} showName={false}/>
+            { (this.props.conversationSettingsViewState === 'create' && conversationMember.id === this.props.currentUser.id) ?
+              '' : <div className={styles.action} onClick={this.triggerUpdate.bind(this, conversationMember.id)}>
+                &times;
+              </div> }
+          </div>
+        );
+      })
     );
   };
 
   renderOrganizationMemberList = () => {
     return (
-        this.filteredOptions(this.state.filter, this.state.organizationMembers.toList()).filter((member) => {
-          return (member.presenceStatus === 'online' && member.id !== this.props.currentUser.id);
-        }).sortBy((member) => {
-          return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-        }).concat(this.filteredOptions(this.state.filter, this.state.organizationMembers).filter((member) => {
-          return (member.presenceStatus === 'offline' && member.id !== this.props.currentUser.id);
-        }).sortBy((member) => {
-          return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-        })).map((user) => {
-          const existingMember = (this.state.conversationMembers ? this.state.conversationMembers.find((member) => {
-            return (member.id === user.id);
-          }) : null);
-          const selected = (existingMember ? true : false);
-          return (
-              <div key={user.id} className={styles.organizationMember}>
-                <SelectableUser key={user.id} user={user} selected={selected} onUpdate={this.triggerUpdate} />
-              </div>
-          );
-        }, this));
+      this.filteredOptions(this.state.filter, this.state.organizationMembers.toList()).filter((member) => {
+        return (member.presenceStatus === 'online');
+      }).sortBy((member) => {
+        return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+      }).concat(this.filteredOptions(this.state.filter, this.state.organizationMembers).filter((member) => {
+        return (member.presenceStatus === 'offline');
+      }).sortBy((member) => {
+        return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
+      })).map((user) => {
+        const existingMember = (this.state.conversationMembers ? this.state.conversationMembers.find((member) => {
+          return (member.id === user.id);
+        }) : null);
+        const selected = (existingMember ? true : false);
+        return (
+          <div key={user.id} className={styles.organizationMember}>
+            { this.props.conversationSettingsViewState === 'create' && user.id === this.props.currentUser.id ?
+                <SelectableUser key={user.id} user={user} selected={selected}/> :
+                <SelectableUser key={user.id} user={user} selected={selected} onUpdate={this.triggerUpdate}/>
+            }
+          </div>);
+      }, this)
+    );
   };
 
   handleConversationTitleSave = (title) => {
@@ -132,26 +143,30 @@ class ConversationSettings extends React.Component {
   };
 
   saveConversationTitle = () => {
-    const conversationJson = {
-      title: this.state.conversationTitle,
-      organization_id: this.props.currentOrganization.id,
-      conversation_members: this.state.conversationMembers,
-    };
-    const { conversationSettingsViewState } = this.props;
-    if (conversationSettingsViewState === 'edit') {
-      conversationJson.conversation_members = conversationJson.conversation_members.map((user) => {
-        return ({
-          conversation_id: this.props.currentConversation.id,
-          member_id: user.id,
-          email: user.email,
+    if (this.validate()) {
+      const conversationJson = {
+        title: this.state.conversationTitle,
+        organization_id: this.props.currentOrganization.id,
+        conversation_members: this.state.conversationMembers,
+      };
+      const { conversationSettingsViewState } = this.props;
+      if (conversationSettingsViewState === 'edit') {
+        conversationJson.conversation_members = conversationJson.conversation_members.map((user) => {
+          return ({
+            conversation_id: this.props.currentConversation.id,
+            member_id: user.id,
+            email: user.email,
+          });
         });
-      });
-      this.props.updateConversation(this.props.currentConversation.id, conversationJson);
-    } else if (conversationSettingsViewState === 'create') {
-      this.props.createConversation(conversationJson);
-    }
+        this.props.updateConversation(this.props.currentConversation.id, conversationJson);
+      } else if (conversationSettingsViewState === 'create') {
+        this.props.createConversation(conversationJson);
+      }
 
-    this.handleCloseView();
+      this.handleCloseView();
+    } else {
+      alert('Conversation title cannot be blank');
+    }
   }
 
   render()  {
@@ -177,12 +192,12 @@ class ConversationSettings extends React.Component {
           <div className={styles.memberSettingsContainer}>
             <div className={styles.inputContainer}>
               <input ref="memberFilter" type="text" className={styles.input} id="memberName"
-                         placeholder="Search" onKeyDown={this.handleKeyDown}
-                         onChange={this.handleFilterChange}
-              />
+                     placeholder="Search" onKeyDown={this.handleKeyDown}
+                     onChange={this.handleFilterChange}
+                  />
             </div>
             <div className={styles.organizationMembersContainer}>
-               {this.renderOrganizationMemberList()}
+              {this.renderOrganizationMemberList()}
             </div>
           </div>
         </div>
@@ -196,7 +211,7 @@ class ConversationSettings extends React.Component {
         </div>
       </div>
     );
-  };
+  }
 }
 
 ConversationSettings.propTypes = {

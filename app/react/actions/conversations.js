@@ -29,22 +29,28 @@ const updateConversation = (id, changedFields) => {
   return (dispatch) => {
     api.putJson('/api/conversations/' + id, { conversation: changedFields }, (json) => {
       const conversation = transform.transformObjectFromJsonApi(json.data);
+      const conversationMembers = json.data.relationships.conversation_members.data;
+      const entities = json.included.map(transform.transformObjectFromJsonApi);
       dispatch({
         type: constants.UPDATE_CONVERSATION,
         status: constants.STATUS_SUCCESS,
         conversation,
         entity: conversation,
+        entities,
+        conversationMembers,
       });
     });
   };
 };
 
 const updateConversationRemoteOrigin = (conversation) => {
+  const conversationMembers = conversation.conversation_members;
   return {
     type: constants.UPDATE_CONVERSATION,
     status: constants.STATUS_REMOTE_ORIGIN,
     conversation,
     entity: conversation,
+    conversationMembers,
   };
 };
 
@@ -123,21 +129,21 @@ const createConversation = (values) => {
 
 const deleteConversation = (conversationId, organizationId) => {
 
-    return (dispatch) => {
-      if (confirm("Are you sure you want to delete this Conversation?")) {
-        api.deleteJson('/api/conversations/' + conversationId, (json) => {
-          const conversation = transform.transformCommentFromJsonApi(json.data);
-          dispatch({
-            type: constants.DELETE_CONVERSATION,
-            status: constants.STATUS_SUCCESS,
-            conversation,
-            entity: conversation,
-          });
+  return (dispatch) => {
+    if (confirm("Are you sure you want to delete this Conversation?")) {
+      api.deleteJson('/api/conversations/' + conversationId, (json) => {
+        const conversation = transform.transformCommentFromJsonApi(json.data);
+        dispatch({
+          type: constants.DELETE_CONVERSATION,
+          status: constants.STATUS_SUCCESS,
+          conversation,
+          entity: conversation,
         });
-        dispatch(routeActions.push('/organizations/' + organizationId));
-      }
-    };
-}
+      });
+      dispatch(routeActions.push('/organizations/' + organizationId));
+    }
+  };
+};
 
 export {
   fetchConversation,

@@ -86,10 +86,11 @@ module Api
             @conversation.conversation_members.destroy(member)
           end
         end
-        render json: @conversation
+        # TODO ANI GUGL: Fix this part while sending response to client so that client has control over which attributes to use
+        render json: @conversation, include: %w(conversation_members)
       end
 
-  end
+    end
     # DELETE /conversations/1.json
     def destroy
       @conversation.destroy
@@ -97,27 +98,27 @@ module Api
     end
 
     private
-      # Use callbacks to share common setup or constraints between actions.
-      def set_organization
-        if params[:organization_id]
+    # Use callbacks to share common setup or constraints between actions.
+    def set_organization
+      if params[:organization_id]
         @organization = policy_scope(Organization).find(params[:organization_id])
-        elsif params[:conversation] && params[:conversation][:organization_id]
-          @organization = policy_scope(Organization).find(params[:conversation][:organization_id])
-        end
+      elsif params[:conversation] && params[:conversation][:organization_id]
+        @organization = policy_scope(Organization).find(params[:conversation][:organization_id])
       end
+    end
 
-      def set_conversation
-        @conversation = Conversation.find(params[:id])
-        authorize @conversation
-      end
+    def set_conversation
+      @conversation = Conversation.find(params[:id])
+      authorize @conversation
+    end
 
-      # Never trust parameters from the scary internet, only allow the white list through.
-      def conversation_params
-        params.require(:conversation).permit(:title, :organization_id)
-      end
+    # Never trust parameters from the scary internet, only allow the white list through.
+    def conversation_params
+      params.require(:conversation).permit(:title, :organization_id)
+    end
 
-      def update_conversation_params
-        params.require(:conversation).permit(:title, :organization_id)
-      end
+    def update_conversation_params
+      params.require(:conversation).permit(:title, :organization_id)
+    end
   end
 end
