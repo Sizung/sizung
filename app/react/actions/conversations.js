@@ -129,21 +129,21 @@ const createConversation = (values) => {
 
 const deleteConversation = (conversationId, organizationId) => {
 
-    return (dispatch) => {
-      if (confirm("Are you sure you want to delete this Conversation?")) {
-        api.deleteJson('/api/conversations/' + conversationId, (json) => {
-          const conversation = transform.transformCommentFromJsonApi(json.data);
-          dispatch({
-            type: constants.DELETE_CONVERSATION,
-            status: constants.STATUS_SUCCESS,
-            conversation,
-            entity: conversation,
-          });
+  return (dispatch) => {
+    if (confirm("Are you sure you want to delete this Conversation?")) {
+      api.deleteJson('/api/conversations/' + conversationId, (json) => {
+        const conversation = transform.transformCommentFromJsonApi(json.data);
+        dispatch({
+          type: constants.DELETE_CONVERSATION,
+          status: constants.STATUS_SUCCESS,
+          conversation,
+          entity: conversation,
         });
-        dispatch(routeActions.push('/organizations/' + organizationId));
-      }
-    };
-}
+      });
+      dispatch(routeActions.push('/organizations/' + organizationId));
+    }
+  };
+};
 
 export {
   fetchConversation,
