@@ -18,6 +18,8 @@
   flex: 1;
   color: #415764;
   font-size: 1.375rem;
+  /*TODO: ANI GUGL the below usage of breaking long words if required and not breaking short words otherwise works well magically but doesn't seem to be supprted by CSS3'*/
+  word-break: break-word;
 }
 
 .form :global .react-mentions .control.textarea {
