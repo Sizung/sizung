@@ -8,5 +8,5 @@
     = simple_form_for(@organization) do |f|
       = f.input :name, autofocus: true, label: 'Organization Name', required: false
       = f.button :submit, 'Create', class: 'form-button'
-      = link_to "I'm done", root_path,  class: 'form-cancel-link'
+      = link_to "Cancel", root_path,  class: 'form-cancel-link', style: "margin-left: 10px;"
 
