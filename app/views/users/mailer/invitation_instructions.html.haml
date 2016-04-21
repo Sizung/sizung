@@ -1,7 +1,9 @@
-= "Hi, #{@resource.first_name_or_email},"
-
+Hi, 
 %p
-  You've been invited to Sizung.
+  - if @resource.organizations.any?
+    = "You've been invited to join #{@resource.organizations.order(:created_at).first.name} on Sizung."
+  - else
+    You've been invited to Sizung.
 
 %p
   Click on the link below to join.
