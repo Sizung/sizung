@@ -12,7 +12,7 @@ class CommentRelayJob < ActiveJob::Base
     elsif commentable_type == 'Deliverable'
       deliverable = commentable_type.constantize.find(commentable_id)
       DeliverableRelayJob.perform_later(deliverable: deliverable, actor_id: nil, action: 'update')
-      conversation_id = deliverable.agenda_item.conversation_id
+      conversation_id = deliverable.conversation.id
     end
 
     ActionCable.server.broadcast "conversations:#{conversation_id}",
