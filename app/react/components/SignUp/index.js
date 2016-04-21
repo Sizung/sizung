@@ -4,12 +4,13 @@ import SignUpCredentials from '../SignUpCredentials';
 import SignUpTeam from '../SignUpTeam';
 import styles from './index.css';
 
+
 class SignUp extends React.Component {
 
   constructor() {
     super();
     this.state = {
-      currentStage: 0,
+      currentStep: 0,
       user: {
         email: '',
         firstName: '',
@@ -20,12 +21,19 @@ class SignUp extends React.Component {
           name: '',
         },
       },
+      confirmEmail: false,
     };
   }
 
-  setCurrentStage = (newState) => {
+  setConfirmEmail = (newState) => {
     this.setState({
-      currentStage: newState,
+      confirmEmail: newState,
+    });
+  };
+
+  setCurrentStep = (newState) => {
+    this.setState({
+      currentStep: newState,
     });
   };
 
@@ -41,36 +49,37 @@ class SignUp extends React.Component {
           name: ((user.organization !== undefined && user.organization.name !== undefined) ? user.organization.name : this.state.user.organization.name),
         },
       },
+      confirmEmail: false,
     });
   };
 
   renderSteps = () => {
-    if (this.state.currentStage === 0) {
-      return (<SignUpCredentials setCurrentStage={this.setCurrentStage} user={this.state.user} setUser={this.setUser}/>);
-    } else if (this.state.currentStage === 1) {
-      return (<SignUpInformation setCurrentStage={this.setCurrentStage} user={this.state.user} setUser={this.setUser}/>);
-    } else if (this.state.currentStage === 2) {
-      return (<SignUpTeam setCurrentStage={this.setCurrentStage} user={this.state.user} setUser={this.setUser}/>);
+    if (this.state.currentStep === 0) {
+      return (<SignUpCredentials setCurrentStep={this.setCurrentStep} user={this.state.user} setUser={this.setUser}/>);
+    } else if (this.state.currentStep === 1) {
+      return (<SignUpInformation setCurrentStep={this.setCurrentStep} user={this.state.user} setUser={this.setUser}/>);
+    } else if (this.state.currentStep === 2) {
+      return (<SignUpTeam setCurrentStep={this.setCurrentStep} user={this.state.user} setUser={this.setUser} setConfirmEmail={this.setConfirmEmail}/>);
     }
   };
 
-  getStepLabelStyle = (stage) => {
-    if (stage < this.state.currentStage) {
-      return styles.previousStage;
-    } else if (stage === this.state.currentStage) {
-      return styles.currentStage;
+  getStepLabelStyle = (step) => {
+    if (step < this.state.currentStep) {
+      return styles.previousStep;
+    } else if (step === this.state.currentStep) {
+      return styles.currentStep;
     }
-    return styles.stage;
+    return styles.step;
   };
 
-  renderStepLabel = (stage) => {
+  renderStepLabel = (step) => {
     let stepLabel = '';
-    const stepLabelStyle = this.getStepLabelStyle(stage);
-    if (stage === 0) {
+    const stepLabelStyle = this.getStepLabelStyle(step);
+    if (step === 0) {
       stepLabel = 'Account';
-    } else if (stage === 1) {
+    } else if (step === 1) {
       stepLabel = 'Profile';
-    } else if (stage === 2) {
+    } else if (step === 2) {
       stepLabel = 'Create an Organization';
     }
     return (
@@ -84,7 +93,29 @@ class SignUp extends React.Component {
     );
   };
 
-  render() {
+  renderConfirmationEmailPage = () => {
+    return (
+      <div className={styles.confirmEmailRoot}>
+        <div className={styles.logoContainer}>
+          <div className={styles.logo}>
+          </div>
+          <div className={styles.logoTitle}>
+          </div>
+        </div>
+        <div className={styles.confirmationMessage}>
+          Please check your email for confirmation link
+        </div>
+        <a href={'/'} className={styles.signinLink}>
+          Sign in
+        </a>
+        <a href={'/signup'} className={styles.signupLink}>
+          Return to Sign up
+        </a>
+      </div>
+    );
+  };
+
+  renderSignUpPage = () => {
     return (
       <div className={styles.root}>
         <div className={styles.leftColumn}>
@@ -94,7 +125,7 @@ class SignUp extends React.Component {
             <div className={styles.logoTitle}>
             </div>
           </div>
-          <div className={styles.stagesContainer}>
+          <div className={styles.stepsContainer}>
             {this.renderStepLabel(0)}
             {this.renderStepLabel(1)}
             {this.renderStepLabel(2)}
@@ -105,6 +136,10 @@ class SignUp extends React.Component {
         </div>
       </div>
     );
+  };
+
+  render() {
+    return (this.state.confirmEmail ? this.renderConfirmationEmailPage() : this.renderSignUpPage());
   }
 }
 

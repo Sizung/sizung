@@ -9,6 +9,14 @@
   align-items: stretch;
 }
 
+.confirmEmailRoot {
+  composes: root;
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  padding: 5% 30% 0 30%;
+}
+
 .leftColumn {
   flex-direction: column;
   align-items: stretch;
@@ -34,7 +42,7 @@
   height: 20.125rem;
 }
 
-.stagesContainer {
+.stepsContainer {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -42,7 +50,7 @@
   padding: 0 6.25rem 0 0;
 }
 
-.stage {
+.step {
   flex: 1;
   font-family: Gotham-Light;
   font-size: 1.875rem;
@@ -50,13 +58,13 @@
   padding: 1.563rem 0;
 }
 
-.currentStage {
-  composes: stage;
+.currentStep {
+  composes: step;
   font-family: Gotham-Medium;
 }
 
-.previousStage {
-  composes: stage;
+.previousStep {
+  composes: step;
   color: #37ACD4;
   font-family: Gotham-Medium;
 }
@@ -66,11 +74,11 @@
   margin-right: 10px;
 }
 
-.stage .stepIndicator {
+.step .stepIndicator {
 
 }
 
-.previousStage .stepIndicator {
+.previousStep .stepIndicator {
   display: inline-block;
   background: url('/icons/check-icon-blue.svg') no-repeat center;
   background-size: 1.125rem 1.125rem;
@@ -78,7 +86,7 @@
   height: 1.125rem;
 }
 
-.currentStage .stepIndicator {
+.currentStep .stepIndicator {
   display: inline-block;
   background: url('/icons/caret-left-white.svg') no-repeat center;
   background-size: 1rem 1rem;
@@ -100,4 +108,45 @@
   background-size: 15rem 4.438rem;
   width: 15rem;
   height: 4.438rem;
+}
+
+.confirmationMessage {
+  font-family: Gotham-Book;
+  font-size: 2.25rem;
+  color: #38ACD4;
+}
+
+.signupLink {
+  margin-top: 20px;
+  float: left;
+  background-color: transparent;
+  color: #65C192;
+  text-transform: capitalize;
+  font-family: Gotham-Medium;
+  font-size: 1.875rem;
+  cursor: pointer;
+}
+
+.signinLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  width: 16.875rem;
+  height: 5rem;
+  padding: 10px;
+  color: white;
+  text-transform: capitalize;
+  font-family: Gotham-Medium;
+  font-size: 1.875rem;
+  cursor: pointer;
+  background-color: #38ACD4;
+}
+
+.confirmEmailRoot a,
+.confirmEmailRoot a:hover,
+.confirmEmailRoot a:focus,
+.confirmEmailRoot a:active {
+  text-decoration: none;
 }

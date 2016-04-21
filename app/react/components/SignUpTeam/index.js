@@ -7,9 +7,10 @@ import { browserHistory } from 'react-router';
 class SignUpTeam extends React.Component {
 
   static propTypes = {
-    setCurrentStage: PropTypes.func.isRequired,
+    setCurrentStep: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
+    setConfirmEmail: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -36,8 +37,7 @@ class SignUpTeam extends React.Component {
     if (this.validateForm()) {
       api.postJson('/api/users', user, (json) => {
         if (json.data && json.data.email === user.email) {
-          alert('Please check your email and follow the confirmation link to complete registration!');
-          browserHistory.push('/');
+          this.props.setConfirmEmail(true);
         } else {
           alert('There was some problem registering the user');
         }
@@ -46,7 +46,7 @@ class SignUpTeam extends React.Component {
   };
 
   handleBackClick = () => {
-    this.props.setCurrentStage(1);
+    this.props.setCurrentStep(1);
   };
 
   validateForm = () => {
