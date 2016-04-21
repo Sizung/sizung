@@ -75,7 +75,7 @@ class EditableText extends React.Component {
       return (
         <div className={styles.editTextContainer}>
           <div className="col-xs-12 zero-margin zero-padding">
-            <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} />
+            <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} maxLength={this.props.maxLength}/>
           </div>
         </div>
       );
