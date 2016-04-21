@@ -142,7 +142,7 @@ class OrganizationSettings extends React.Component {
       <div>
         <div className={styles.inviteContainer}>
           <div className={styles.emailInputContainer}>
-            <FormInput type='email' value={this.state.email} label={'EMAIL ADDRESS'} placeholder='eg: user@domain.com' onChange={this.setUserEmail} onSubmit={this.handleInviteMemberSubmit} onCancel={this.resetInputValidation} errorMessage={this.state.emailErrorMessage}/>
+            <FormInput type='email' value={this.state.email} label={'ADD MEMBER'} placeholder='e.g. user@domain.com' onChange={this.setUserEmail} onSubmit={this.handleInviteMemberSubmit} onCancel={this.resetInputValidation} errorMessage={this.state.emailErrorMessage}/>
           </div>
           <div className={styles.inviteMemberLink} onClick={this.handleInviteMemberSubmit}>
             Invite

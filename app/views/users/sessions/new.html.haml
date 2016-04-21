@@ -8,13 +8,13 @@
       .alert= flash[:alert]
       
     .form-title
-      Sign into your team
+      Sign in
     = simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
       = f.error_notification
-      = f.input :email, autofocus: true, placeholder: 'name@email.com', label: 'Enter your email id'
+      = f.input :email, autofocus: true, placeholder: 'name@email.com', label: 'Enter your email'
       = f.input :password, placeholder: 'password', label: 'Enter your password'
       = f.button :submit, 'Sign in', class: 'form-button'
 
       = link_to "I've forgotten my password", new_password_path(resource_name), class: 'form-forgottenPasswordLink'
-      = link_to 'Create a new team on Sizung', '/signup', class: 'form-signUpLink'
+      = link_to 'New to Sizung? Sign Up', '/signup', class: 'form-signUpLink'
 

@@ -64,7 +64,12 @@ $alert: red;
       outline: none;
       box-shadow: none;
     }
-  }
+  }  
+}
+
+.form-root .form-group.has-error .help-block {
+  font-size: 20px;
+  margin-left: 20px;
 }
 
 @media only screen
@@ -115,6 +120,14 @@ and (max-width: 400px) {
   }
 }
 
+.form-cancel-link {
+  color: $grayLink;
+  font-size: 20px;
+
+  &:hover, &:visited {
+    color: $grayLink;
+  }
+}
 
 .form-forgottenPasswordLink {
   color: $grayLink;

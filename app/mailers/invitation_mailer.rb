@@ -4,6 +4,6 @@ class InvitationMailer < ApplicationMailer
     @organization = organization
     @inviter = inviter
 
-    mail to: user.email
+    mail from: 'Sizung', to: user.email, subject: "You’ve been added to an organization on Sizung"
   end
 end

@@ -81,6 +81,8 @@ group :development, :test do
   gem 'minitest-reporters'
   gem 'minitest-rails-capybara'
   gem 'email_spec'
+  gem 'guard'
+  gem 'guard-minitest'
 end
 
 group :development do

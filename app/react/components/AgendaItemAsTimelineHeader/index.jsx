@@ -23,7 +23,7 @@ class AgendaItemAsTimelineHeader extends React.Component {
           <TextWithMentions>{title}</TextWithMentions>
         </div>
         <div className={styles.closeLinkContainer}>
-          <Link to={'/conversations/' + agendaItem.conversationId} className={styles.close}>Back to Chat</Link>
+          <Link to={'/conversations/' + agendaItem.conversationId} className={styles.close}>Back to Conversation</Link>
         </div>
       </div>
     );

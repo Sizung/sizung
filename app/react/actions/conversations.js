@@ -123,7 +123,9 @@ const createConversation = (values) => {
         conversation,
         entity: conversation,
       });
+      dispatch(routeActions.push('/conversations/' + conversation.id));
     });
+
   };
 };
 

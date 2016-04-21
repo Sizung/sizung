@@ -25,7 +25,7 @@ class ConversationHeader extends React.Component {
 
     if (!conversation) { return ''; }
 
-    return <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={40} />;
+    return <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} />;
   };
 
   deleteConversation = () => {
