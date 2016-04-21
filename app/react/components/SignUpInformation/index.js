@@ -79,10 +79,7 @@ class SignUpInformation extends React.Component {
     return (
       <div className={styles.formContainer}>
         <div className={styles.formTitle}>
-          Add your profile Information
-        </div>
-        <div className={styles.formSubTitle}>
-          Just a little information about you.
+          Create your profile
         </div>
         <div className={styles.formInputContainer}>
           <FormInput type='text' label='FIRST NAME' value={firstName} validate={this.validateFirstName} onChange={this.setUserFirstName} errorMessage={this.state.firstNameErrorMessage}/>

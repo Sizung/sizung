@@ -112,16 +112,13 @@ class SignUpCredentials extends React.Component {
     return (
       <div className={styles.formContainer}>
         <div className={styles.formTitle}>
-          Add your credentials
-        </div>
-        <div className={styles.formSubTitle}>
-          Add your email address as a username to sign into Sizung, along with a secure password.
+          Create an account
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='email' value={email} label={'EMAIL ADDRESS'} placeholder='eg: username@domain.com' validate={this.validateEmail} onChange={this.setUserEmail} errorMessage={this.state.emailErrorMessage}/>
+          <FormInput type='email' value={email} label={'EMAIL ADDRESS'} placeholder='e.g. name@email.com' validate={this.validateEmail} onChange={this.setUserEmail} errorMessage={this.state.emailErrorMessage}/>
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='password' value={password} label={'PASSWORD'}  placeholder='min 8 character password' validate={this.validatePassword} onChange={this.setUserPassword} errorMessage={this.state.passwordErrorMessage} />
+          <FormInput type='password' value={password} label={'PASSWORD'}  placeholder='minimum 8 characters' validate={this.validatePassword} onChange={this.setUserPassword} errorMessage={this.state.passwordErrorMessage} />
         </div>
         <div className={styles.formInputContainer}>
           <FormInput type='password' value={passwordConfirmation} label={'CONFIRM PASSWORD'} validate={this.validatePasswordConfirmation} onChange={this.setUserPasswordConfirmation} errorMessage={this.state.passwordConfirmationErrorMessage}/>

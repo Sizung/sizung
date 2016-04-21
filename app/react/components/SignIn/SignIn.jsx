@@ -18,7 +18,7 @@ class SignIn extends React.Component {
       <div className={styles.rowContainer}>
         <div className={styles.root}>
           <div className={styles.logo}>Sizung</div>
-          <div className={styles.title}>Sign into your team</div>
+          <div className={styles.title}>Sign in</div>
           <form action="/users/sign_in" acceptCharset="UTF-8" method="post" className={styles.fieldset}>
             <input name="utf8" type="hidden" value="✓" />
             <div className={styles.hint}>Enter your email id and password</div>

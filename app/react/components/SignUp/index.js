@@ -67,11 +67,11 @@ class SignUp extends React.Component {
     let stepLabel = '';
     const stepLabelStyle = this.getStepLabelStyle(stage);
     if (stage === 0) {
-      stepLabel = 'Credentials';
+      stepLabel = 'Account';
     } else if (stage === 1) {
-      stepLabel = 'Information';
+      stepLabel = 'Profile';
     } else if (stage === 2) {
-      stepLabel = 'Pick a Team';
+      stepLabel = 'Create an Organization';
     }
     return (
       <div className={stepLabelStyle}>

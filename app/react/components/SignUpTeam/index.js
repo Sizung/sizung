@@ -80,13 +80,10 @@ class SignUpTeam extends React.Component {
     return (
       <div className={styles.formContainer}>
         <div className={styles.formTitle}>
-          Pick a team
-        </div>
-        <div className={styles.formSubTitle}>
-          Seems like you don’t have any invites to existing teams. Would you like to add your company/team?
+          Create an organization
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='text' label='COMPANY/TEAM NAME' placeholder='#' value={name} validate={this.validateOrganizationName} onChange={this.setOrganizationName} errorMessage={this.state.organizationNameErrorMessage}/>
+          <FormInput type='text' label='ORGANIZATION' placeholder='' value={name} validate={this.validateOrganizationName} onChange={this.setOrganizationName} errorMessage={this.state.organizationNameErrorMessage}/>
         </div>
         <div className={styles.actionContainer}>
           <div className={styles.backLink} onClick={this.handleBackClick}>
