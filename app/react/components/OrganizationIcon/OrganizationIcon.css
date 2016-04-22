@@ -1,21 +1,8 @@
-@media only screen
-and (max-width: 1440px) {
-  .size {
-    width: 34px;
-    height: 34px;
-    min-width: 34px;
-    line-height: 34px;
-  }
-}
-
-@media only screen
-and (min-width: 1441px) {
-  .size {
-    width: 54px;
-    height: 54px;
-    min-width: 54px;
-    line-height: 54px;
-  }
+.size {
+  width: 3.375rem;
+  height: 3.375rem;
+  min-width: 3.375rem;
+  line-height: 3.375rem;
 }
 
 .root {

@@ -108,7 +108,7 @@ class OrganizationSettings extends React.Component {
         return (
           <div key={user.id} className={styles.organizationMember}>
             <div className={styles.userLogoContainer}>
-              <User user={user}/>
+              <User user={user} size={'large'}/>
               <div className={styles.action} onClick={this.handleDeleteOrganizationMember.bind(this, organizationMemberId)}>
                 &times;
               </div>
