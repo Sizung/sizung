@@ -106,6 +106,8 @@ const deliverablesForOrganization = (state, organizationId) => {
 
   let deliverablesList = references.map((reference) => {
     return fillConversationObject(state, reference);
+  }).filter((deliverable) => {
+    return !deliverable.archived;
   });
 
   return sortDeliverables(deliverablesList);
