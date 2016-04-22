@@ -6,7 +6,7 @@ import * as api from '../../utils/api';
 class SignUpInformation extends React.Component {
 
   static propTypes = {
-    setCurrentStage: PropTypes.func.isRequired,
+    setCurrentStep: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
   };
@@ -21,12 +21,12 @@ class SignUpInformation extends React.Component {
 
   handleNextClick = () => {
     if (this.validateForm()) {
-      this.props.setCurrentStage(2);
+      this.props.setCurrentStep(2);
     }
   };
 
   handleBackClick = () => {
-    this.props.setCurrentStage(0);
+    this.props.setCurrentStep(0);
   };
 
   validateForm = () => {

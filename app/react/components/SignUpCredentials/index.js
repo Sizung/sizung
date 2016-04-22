@@ -6,7 +6,7 @@ import * as api from '../../utils/api';
 class SignUpCredentials extends React.Component {
 
   static propTypes = {
-    setCurrentStage: PropTypes.func.isRequired,
+    setCurrentStep: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired,
     setUser: PropTypes.func.isRequired,
   };
@@ -22,7 +22,7 @@ class SignUpCredentials extends React.Component {
 
   handleNextClick = () => {
     if (this.validateForm()) {
-      this.props.setCurrentStage(1);
+      this.props.setCurrentStep(1);
     }
   };
 
@@ -45,7 +45,7 @@ class SignUpCredentials extends React.Component {
       } else {
         api.fetchJson('/api/users?email=' + email, (json) => {
           if (json.emailExists) {
-            errorMessage = 'This email address is already taken';
+            errorMessage = 'Email already registered. Please check your inbox for confirmation link.';
           }
           this.setState({ emailErrorMessage: errorMessage });
         });
