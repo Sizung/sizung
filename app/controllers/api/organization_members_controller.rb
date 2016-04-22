@@ -1,10 +1,56 @@
 module Api
   class OrganizationMembersController < ApplicationController
-    # before_action :set_organization, only: [:create]
-    before_filter :authenticate_user!
+    before_action :set_organization, only: [:create]
+    before_action :authenticate_user!
     after_action :verify_authorized
 
     respond_to :json
+
+    # POST /api/organization_members.json
+    def create
+      @user = InvitationService.new.invite(params[:email], @organization, current_user)
+      authorize @organization, :show?
+      @organization_member = @user.organization_members.find_by(organization: @organization)
+
+      OrganizationMemberRelayJob.perform_later(organization_member: @organization_member, actor_id: current_user.id, action: 'create')
+      
+      render json: @organization_member, include: [:member]
+    end
+    
+    # DELETE /organization_members/1.json
+    def destroy
+      @organization_member = OrganizationMember.find(params[:id])
+      authorize @organization_member
+      @organization_member.transaction do
+        @organization_member.destroy!
+        ConversationMember.
+          joins(conversation: :organization).
+          references(converation: :organization).
+          where(conversations: { organization_id: @organization_member.organization }, member: @organization_member.member).
+          each(&:destroy!)
+      end
+            
+      render json: @organization_member, serializer: OrganizationMemberSerializer
+    end
+
+    private
+      def organization_member_params
+        params.require(:organization_member).permit(:organization_id, :member_id)
+      end
+
+      def set_organization
+        @organization = policy_scope(Organization).find(params[:organization_id])
+      end
+
+    # def invite_resource
+    #   InvitationService.new.invite(params[:email], @organization, current_user) do
+    #     set_flash_message :notice, :send_instructions, email: params[:email]
+    #   end
+    # end
+    #
+    # def set_organization
+    #   @organization = policy_scope(Organization).find(params[:organization_id])
+    # end
 
     # POST /organization_members.json
     # def create
@@ -29,35 +75,6 @@ module Api
     #   end
     # end
 
-    # DELETE /organization_members/1.json
-    def destroy
-      @organization_member = OrganizationMember.find(params[:id])
-      authorize @organization_member
-      @organization_member.transaction do
-        @organization_member.destroy!
-        ConversationMember.
-          joins(conversation: :organization).
-          references(converation: :organization).
-          where(conversations: { organization_id: @organization_member.organization }, member: @organization_member.member).
-          each(&:destroy!)
-      end
-            
-      render json: @organization_member, serializer: OrganizationMemberSerializer
-    end
 
-    private
-      def organization_member_params
-        params.require(:organization_member).permit(:organization_id, :member_id)
-      end
-
-    # def invite_resource
-    #   InvitationService.new.invite(params[:email], @organization, current_user) do
-    #     set_flash_message :notice, :send_instructions, email: params[:email]
-    #   end
-    # end
-    #
-    # def set_organization
-    #   @organization = policy_scope(Organization).find(params[:organization_id])
-    # end
   end
 end

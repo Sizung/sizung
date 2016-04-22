@@ -2,7 +2,8 @@ require 'test_helper'
 
 describe Api::OrganizationMembersController do
   include Devise::TestHelpers
-
+  include ActiveJob::TestHelper
+  
   describe 'visitor' do
     # it 'should not be allowed to create a new organization member' do
     #   organization = FactoryGirl.create :organization
@@ -39,6 +40,36 @@ describe Api::OrganizationMembersController do
     #   }.must_raise Pundit::NotAuthorizedError
     # end
 
+    it 'invites a completely new organization member' do
+      email = 'newsam@sample.com'
+
+      expect {
+        post :create, { organization_id: @organization.id, email: email }
+      }.must_change 'User.count', 1
+
+      assert_enqueued_jobs 1
+      
+      assert_response :success
+
+      organization_member = JSON.parse(response.body)
+      assert_equal 'users', organization_member['data']['relationships']['member']['data']['type']
+      assert_equal email, organization_member['included'].first['attributes']['email']
+    end
+
+    it 'invites an existing user to the organization' do
+      user = FactoryGirl.create :user
+
+      expect {
+        post :create, { organization_id: @organization.id, email: user.email }
+      }.must_change 'OrganizationMember.count', 1
+
+      assert_response :success
+
+      organization_member = JSON.parse(response.body)
+      assert_equal 'users', organization_member['data']['relationships']['member']['data']['type']
+      assert_equal user.email, organization_member['included'].first['attributes']['email']
+    end
+    
     it 'removes organization_member' do
       organization_member = FactoryGirl.create :organization_member, organization: @organization
       expect {

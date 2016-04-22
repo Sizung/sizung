@@ -7,6 +7,7 @@ const initialState = new Immutable.Map();
 
 export default function organizationMembersByOrganization(state = initialState, action = null) {
   switch (action.type) {
+    case constants.CREATE_ORGANIZATION_MEMBER:
     case constants.INVITE_ORGANIZATION_MEMBER: return setReference(state, action, 'organizationMember', 'organizationId');
     case constants.DELETE_ORGANIZATION_MEMBER: return removeReference(state, action, 'organizationMember', 'organizationId');
     default: return state;

@@ -36,7 +36,7 @@ Rails.application.routes.draw do
         concerns :unseen_objects, parent_type: 'Conversation'
       end
 
-      resources :organization_members, only: [:index, :destroy]
+      resources :organization_members, only: [:index, :create, :destroy]
     end
     resources :conversation_members, only: [:create, :destroy]
     resources :organization_members, only: [:create, :destroy]
