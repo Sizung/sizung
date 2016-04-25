@@ -234,8 +234,8 @@ const createdAt = (obj) => {
   return obj.createdAt;
 };
 
-const numberInTitle = (item1, item2) => {
-  return (parseInt(item1.title.split(/(\d+)/)[1], 10) > parseInt(item2.title.split(/(\d+)/)[1], 10));
+const numberInTitle = (obj) => {
+  return parseInt(obj.title.split(/(\d+)/)[1], 10);
 };
 
 const agendaItemsList = (state, conversationId) => {
@@ -249,7 +249,7 @@ const agendaItemsList = (state, conversationId) => {
   // Sort Agenda Item List inside conversation with titles starting with numbers at top and sorted in ascending order
   return list.filter((agendaItem) => {
     return (isAlive(agendaItem) && isStatusOpen(agendaItem) && isNumberedAgendaItem(agendaItem));
-  }).sort(numberInTitle)
+  }).sortBy(numberInTitle)
   .concat(list.filter((agendaItem) => {
     return (isAlive(agendaItem) && isStatusOpen(agendaItem) && !isNumberedAgendaItem(agendaItem));
   }).sortBy(createdAt))
