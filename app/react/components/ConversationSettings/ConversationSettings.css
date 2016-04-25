@@ -162,42 +162,20 @@
 
 }
 
-@media only screen
-and (min-width: 1441px) {
-  .userLogoContainer {
-    position: relative;
-    border-radius: 50%/50%;
-    width: 54px;
-    height: 54px;
-    line-height: 54px;
-    margin: 0 5px 5px 5px;
-  }
-
-  .action {
-    display: none;
-    width: 54px;
-    height: 54px;
-    line-height: 54px;
-  }
+.userLogoContainer {
+  position: relative;
+  border-radius: 50%/50%;
+  width: 2.75rem;
+  height: 2.75rem;
+  line-height: 2.75rem;
+  margin: 0 5px 5px 5px;
 }
 
-@media only screen
-and (max-width: 1440px) {
-  .userLogoContainer {
-    position: relative;
-    border-radius: 50%/50%;
-    width: 34px;
-    height: 34px;
-    line-height: 34px;
-    margin: 0 5px 5px 5px;
-  }
-
-  .action {
-    display: none;
-    width: 34px;
-    height: 34px;
-    line-height: 34px;
-  }
+.action {
+  display: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  line-height: 2.75rem;
 }
 
 .userLogoContainer:hover .action {
