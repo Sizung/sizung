@@ -3,6 +3,7 @@ import * as comments from './comments';
 import * as deliverables from './deliverables';
 import * as conversations from './conversations';
 import * as users from './users';
+import * as organizationMembers from './organizationMembers';
 import * as unseenObjects from './unseenObjects';
 import * as transform from '../utils/jsonApiUtils';
 
@@ -21,7 +22,12 @@ const onUserChannelReceived = (data) => {
 
 const onOrganizationChannelReceived = (data) => {
   return (dispatch) => {
-    dispatch(users.updateUserRemoteOrigin(transform.transformObjectFromJsonApi(data.user.data)));
+    if (data.user) {
+      dispatch(users.updateUserRemoteOrigin(transform.transformObjectFromJsonApi(data.user.data)));
+    } else if (data.organization_member) {
+      const includedEntities = data.organization_member.included.map(transform.transformObjectFromJsonApi);
+      dispatch(organizationMembers.createOrganizationMemberRemoteOrigin(transform.transformObjectFromJsonApi(data.organization_member.data), includedEntities));
+    }
   };
 };
 
