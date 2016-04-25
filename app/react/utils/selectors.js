@@ -223,11 +223,16 @@ const agendaItemsList = (state, conversationId) => {
     return fillAgendaItem(state, agendaItem.id);
   });
 
+  // Sort Agenda Item List inside conversation with titles starting with numbers at top and sorted in ascending order
   agendaItemsList = agendaItemsList.filter((agendaItem) => {
-    return (!agendaItem.archived && agendaItem.status === 'open');
-  }).sortBy((conversationObject) => {
-    return conversationObject.createdAt;
+    return (!agendaItem.archived && agendaItem.status === 'open' && (/^(\d+).*/).test(agendaItem.title));
+  }).sort((item1, item2) => {
+    return (parseInt(item1.title.split(/(\d+)/)[1], 10) > parseInt(item2.title.split(/(\d+)/)[1], 10));
   }).concat(agendaItemsList.filter((agendaItem) => {
+    return (!agendaItem.archived && agendaItem.status === 'open' && (/^(?!\d)/).test(agendaItem.title));
+  }).sortBy((conversationObject) => {
+    return conversationObject.title;
+  })).concat(agendaItemsList.filter((agendaItem) => {
     return (!agendaItem.archived && agendaItem.status === 'resolved');
   }).sortBy((conversationObject) => {
     return conversationObject.createdAt;
