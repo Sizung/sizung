@@ -66,5 +66,13 @@ describe Api::AgendaItemsController do
 
       expect(conversation_member.member.reload.unseen_objects.count).must_equal 0
     end
+
+    it 'shows an archived agenda item' do
+      @agenda_item.toggle_archive(true)
+      
+      get :show, id: @agenda_item
+
+      assert_response :success      
+    end
   end
 end

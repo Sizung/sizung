@@ -86,5 +86,13 @@ describe Api::DeliverablesController do
       expect(conversation_member.member.unseen_objects.reload.count).must_equal 1
       expect(conversation_member.member.unseen_objects.reload.first.agenda_item_id).must_equal other_agenda_item.id
     end
+
+    it 'shows an archived deliverable' do
+      @deliverable.toggle_archive(true)
+      
+      get :show, id: @deliverable
+
+      assert_response :success   
+    end
   end
 end

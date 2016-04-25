@@ -37,5 +37,27 @@ describe Api::ConversationObjectsController do
       assert_equal @comment.id, conversation_objects['data'][0]['id']
       assert_equal @comment_old.id, conversation_objects['data'][1]['id']
     end
+
+    it 'shows archived agenda_items' do
+      @agenda_item = FactoryGirl.create(:agenda_item, archived_at: DateTime.now - 1.day)
+      get :index, agenda_item_id: @agenda_item, parent_type: 'AgendaItem', format: :json
+
+      assert_response :success
+    end
+
+    it 'shows archived deliverables' do
+      @deliverable = FactoryGirl.create(:deliverable, archived_at: DateTime.now - 1.day)
+      get :index, deliverable_id: @deliverable, parent_type: 'Deliverable', format: :json
+
+      assert_response :success
+    end
+
+    # Uncomment this when we can archive conversations
+    # it 'shows archived conversations' do
+    #   @conversation = FactoryGirl.create(:conversation, archived_at: DateTime.now - 1.day)
+    #   get :index, conversation_id: @conversation, parent_type: 'Conversation', format: :json
+    #
+    #   assert_response :success
+    # end
   end
 end

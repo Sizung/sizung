@@ -14,6 +14,10 @@ class DeliverablePolicy < ApplicationPolicy
   def show?
     user.conversation_members.where(conversation_id: record.conversation.id).exists?
   end
+
+  def show_including_archived?
+    user.conversation_members.where(conversation_id: record.conversation.id).unscoped.exists?
+  end
   
   class Scope < Scope
     def resolve

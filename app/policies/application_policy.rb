@@ -14,6 +14,10 @@ class ApplicationPolicy
     scope.where(:id => record.id).exists?
   end
 
+  def show_including_archived?
+    scope.unscoped.where(:id => record.id).exists?
+  end
+  
   def create?
     false
   end
