@@ -6,7 +6,7 @@ import * as constants from '../../actions/constants';
 
 describe('deiverablesByAgendaItem', () => {
   it('sets one deliverable for the agendaItem', () => {
-    const deliverable = { id: '1', type: 'deliverables', agendaItemId: '123' };
+    const deliverable = { id: '1', type: 'deliverables', parentId: '123', parentType: 'agendaItems' };
 
     const nextState = reducer(undefined, {
       type: 'ACTION TYPE DOES NOT MATTER HERE',
@@ -22,7 +22,7 @@ describe('deiverablesByAgendaItem', () => {
   it('moves deliverable from one AgendaItem to another', () => {
     const deliverable = { id: '1', type: 'deliverables', agendaItemId: '123' };
     const initialState = new Immutable.Map({ '123': new Immutable.Map({ 'references': new Immutable.Set([utils.toReference(deliverable)]) }) });
-    const movedDeliverable = { id: '1', type: 'deliverables', agendaItemId: '456' };
+    const movedDeliverable = { id: '1', type: 'deliverables', parentId: '456', parentType: 'agendaItems' };
 
     const nextState = reducer(initialState, {
       type: 'ACTION TYPE DOES NOT MATTER HERE',
