@@ -45,7 +45,7 @@ class ConversationObjectList extends Component {
       let ownerId = null;
       let showOwner = false;
       return conversationObjects.map((conversationObject) => {
-        const uid = conversationObject.type === 'comments' ? conversationObject.author.id : conversationObject.owner.id;
+        const uid = conversationObject.type === 'comments' ? conversationObject.authorId : conversationObject.ownerId;
         if (uid !== ownerId) {
           ownerId = uid;
           showOwner = true;

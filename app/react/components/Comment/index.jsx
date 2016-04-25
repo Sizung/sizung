@@ -79,9 +79,9 @@ class Comment extends React.Component {
 
   renderCommentSettingsOptions = () => {
     const { comment, currentUser } = this.props;
-    const { author } = comment;
+    const { authorId } = comment;
 
-    if (currentUser.id === author.id) {
+    if (currentUser.id === authorId) {
       return (
         <div className={styles.optionsMenu}>
           <CommentDropdown onEditClick={this.openEditForm} onDeleteClick={this.handleDeleteClick} />
@@ -139,7 +139,7 @@ Comment.propTypes = {
   comment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     body: PropTypes.string.isRequired,
-    author: PropTypes.object.isRequired,
+    author: PropTypes.object,
     createdAt: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired,
     parent: PropTypes.shape({
