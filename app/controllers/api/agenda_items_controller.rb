@@ -13,8 +13,8 @@ module Api
     end
 
     def show
-      @agenda_item = AgendaItem.includes({ deliverables: [:owner, :assignee, :comments] }, :owner, :comments).find(params[:id])
-      authorize @agenda_item
+      @agenda_item = AgendaItem.unscoped.includes({ deliverables: [:owner, :assignee, :comments] }, :owner, :comments).find(params[:id])
+      authorize @agenda_item, :show_including_archived?
       render json: @agenda_item, include: %w(deliverables)
     end
 

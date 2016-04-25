@@ -6,7 +6,7 @@ module Api
     respond_to :json
 
     def index
-      authorize parent, :show?
+      authorize parent, :show_including_archived?
       render json: parent.conversation_objects.page(page_number).per(page_size)
     end
 
@@ -24,7 +24,7 @@ module Api
       end
 
       def parent
-        @parent ||= parent_type.constantize.find(params["#{parent_type.underscore}_id"])
+        @parent ||= parent_type.constantize.unscoped.find(params["#{parent_type.underscore}_id"])
       end
   end
 end

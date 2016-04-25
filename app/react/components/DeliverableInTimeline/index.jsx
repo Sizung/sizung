@@ -57,7 +57,7 @@ class DeliverableInTimeline extends React.Component {
         <div className={styles.contentWrapper}>
           <div className={styles.content}>
             <div className={styles.deliverableLabel}>DELIVERABLE created</div>
-            <Link to={'deliverables/' + deliverable.id} className={styles.title}>
+            <Link to={'/deliverables/' + deliverable.id} className={styles.title}>
               <div className={styles.row}>
                 <div className={styles.textContainer}>
                   <Icon className={styles.icon} type="deliverable" gap="1.5rem" />
