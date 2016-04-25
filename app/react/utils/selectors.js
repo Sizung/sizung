@@ -214,30 +214,48 @@ const conversationObjects = (state, objectsToShow) => {
   }).toJS();
 };
 
-const agendaItemsList = (state, conversationId) => {
+const isNumberedAgendaItem = (agendaItem) => {
+  return (/^(\d+).*/).test(agendaItem.title);
+};
 
+const isStatusOpen = (obj) => {
+  return obj.status === 'open';
+};
+
+const isStatusResolved = (obj) => {
+  return obj.status === 'resolved';
+};
+
+const isAlive = (obj) => {
+  return !obj.archived;
+};
+
+const createdAt = (obj) => {
+  return obj.createdAt;
+};
+
+const numberInTitle = (item1, item2) => {
+  return (parseInt(item1.title.split(/(\d+)/)[1], 10) > parseInt(item2.title.split(/(\d+)/)[1], 10));
+};
+
+const agendaItemsList = (state, conversationId) => {
   const agendaItemIds = agendaItemIdsForConversation(state, conversationId);
-  let agendaItemsList = agendaItemIds.map((ref) => {
+  const list = agendaItemIds.map((ref) => {
     return state.getIn(['entities', 'agendaItems', ref.id]);
   }).toList().map((agendaItem) => {
     return fillAgendaItem(state, agendaItem.id);
   });
 
   // Sort Agenda Item List inside conversation with titles starting with numbers at top and sorted in ascending order
-  agendaItemsList = agendaItemsList.filter((agendaItem) => {
-    return (!agendaItem.archived && agendaItem.status === 'open' && (/^(\d+).*/).test(agendaItem.title));
-  }).sort((item1, item2) => {
-    return (parseInt(item1.title.split(/(\d+)/)[1], 10) > parseInt(item2.title.split(/(\d+)/)[1], 10));
-  }).concat(agendaItemsList.filter((agendaItem) => {
-    return (!agendaItem.archived && agendaItem.status === 'open' && (/^(?!\d)/).test(agendaItem.title));
-  }).sortBy((conversationObject) => {
-    return conversationObject.title;
-  })).concat(agendaItemsList.filter((agendaItem) => {
-    return (!agendaItem.archived && agendaItem.status === 'resolved');
-  }).sortBy((conversationObject) => {
-    return conversationObject.createdAt;
-  }));
-  return agendaItemsList;
+  return list.filter((agendaItem) => {
+    return (isAlive(agendaItem) && isStatusOpen(agendaItem) && isNumberedAgendaItem(agendaItem));
+  }).sort(numberInTitle)
+  .concat(list.filter((agendaItem) => {
+    return (isAlive(agendaItem) && isStatusOpen(agendaItem) && !isNumberedAgendaItem(agendaItem));
+  }).sortBy(createdAt))
+  .concat(list.filter((agendaItem) => {
+    return (isAlive(agendaItem) && isStatusResolved(agendaItem));
+  }).sortBy(createdAt));
 };
 
 const conversationSettingsViewState = (state) => {

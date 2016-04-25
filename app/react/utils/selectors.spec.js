@@ -34,6 +34,76 @@ describe('Selectors', () => {
     expect(deliverableList.size).to.be.eq(1);
   });
 
+  it('Gets the agenda item title number', () => {
+    const title = 'hm 11 Hello world';
+    expect(parseInt(title.split(/(\d+)/)[1], 10)).to.be.eq(11);
+  });
+
+  it('Numbered AgendaItems are sorted by their numbers', () => {
+    const conversationId = '1';
+    const a1 = {
+      type: 'agendaItems',
+      id: 'a1',
+      archived: false,
+      status: 'open',
+      title: 'Open',
+      createdAt: '2015-12-1T11:18:29.121Z',
+    };
+    const a2 = {
+      type: 'agendaItems',
+      id: 'a2',
+      archived: false,
+      status: 'open',
+      title: '1 first',
+      createdAt: '2015-12-2T13:18:29.121Z',
+    };
+    const a3 = {
+      type: 'agendaItems',
+      id: 'a3',
+      archived: false,
+      status: 'open',
+      title: '4 fourth',
+      createdAt: '2015-12-3T12:18:29.121Z',
+    };
+    const a4 = {
+      type: 'agendaItems',
+      id: 'a4',
+      archived: false,
+      status: 'open',
+      title: '2 real second',
+      createdAt: '2015-12-3T14:18:29.121Z',
+    };
+
+    const state = new Immutable.Map({
+      entities: new Immutable.Map({
+        agendaItems: new Immutable.Map({
+          a1,
+          a2,
+          a3,
+          a4,
+        }),
+        unseenObjects: new Immutable.Map({}),
+      }),
+      agendaItemsByConversation: new Immutable.Map({
+        1: new Immutable.Map({
+          references: new Immutable.List([
+            { id: 'a1', type: 'agendaItems' },
+            { id: 'a2', type: 'agendaItems' },
+            { id: 'a3', type: 'agendaItems' },
+            { id: 'a4', type: 'agendaItems' },
+          ]),
+        }),
+      }),
+    });
+
+    const agendaItemList = selectors.agendaItemsList(state, conversationId);
+    expect(agendaItemList.size).to.be.eq(4);
+    expect(agendaItemList.get(0).id).to.equal('a2');
+    expect(agendaItemList.get(1).id).to.equal('a4');
+    expect(agendaItemList.get(2).id).to.equal('a3');
+    expect(agendaItemList.get(3).id).to.equal('a1');
+  });
+
   it('Orders agendaItemlist with numbered agendas at top and sorted in ascending order', () => {
     const conversationId = '1';
     const agendaItemStartingWithoutNumber = {
