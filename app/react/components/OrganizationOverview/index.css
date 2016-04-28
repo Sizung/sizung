@@ -15,6 +15,7 @@
 }
 
 .header-container {
+  composes: hidden-xs from global;
   composes: hover-container from '../../styles/modules/hover.css';
   width: 100%;
   flex: none;

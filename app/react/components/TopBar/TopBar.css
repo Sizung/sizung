@@ -12,7 +12,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding-left: 42px;
+  padding-left: 3.125rem;
 }
 
 .organizationWrapper a {
@@ -29,6 +29,7 @@
 }
 
 .profileDropdown {
+  composes: hidden-xs from global;
   flex: 1;
   display: flex;
   justify-content: flex-end;

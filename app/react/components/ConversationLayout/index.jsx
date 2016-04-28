@@ -5,7 +5,7 @@ import { Row, Col } from 'react-bootstrap';
 import AgendaItemListApp from '../../containers/AgendaItemListApp';
 import DeliverableListApp from '../../containers/DeliverableListApp';
 import styles from './index.css';
-import Swipeable from 'react-swipeable';
+import BottomNavigationBar from '../BottomNavigationBar';
 
 class ConversationLayout extends Component {
 
@@ -13,62 +13,33 @@ class ConversationLayout extends Component {
     super();
 
     this.state = {
-      currentPanelInFocus: 'center',
+      panel: 'conversations',
     };
-
-    this.handleLeftPanelLeftSwipe = this.handleLeftPanelLeftSwipe.bind(this);
-    this.handleCenterPanelLeftSwipe = this.handleCenterPanelLeftSwipe.bind(this);
-    this.handleCenterPanelRightSwipe = this.handleCenterPanelRightSwipe.bind(this);
-    this.handleRightPanelRightSwipe = this.handleRightPanelRightSwipe.bind(this);
-    this.handleResetPanelVisibility = this.handleResetPanelVisibility.bind(this);
   }
-
-  componentWillReceiveProps() {
-    if (this.props.selectedAgendaItemIdInState !== null) {
-      this.handleResetPanelVisibility();
-    }
-    if (this.props.selectedDeliverableIdInState !== null) {
-      this.handleResetPanelVisibility();
-    }
-  }
-
-  // TODO: That really has to be done the react way. It will definitely cause problems to change the dom that way.
-  // The better way is to save the state in which the view currently is in the component state, render accordingly to
-  // that state and change the state when the user swipes.
-  handleLeftPanelLeftSwipe() {
-    this.setState({ currentPanelInFocus: 'center' });
-  }
-
-  handleCenterPanelLeftSwipe() {
-    this.setState({ currentPanelInFocus: 'right' });
-  }
-
-  handleCenterPanelRightSwipe() {
-    this.setState({ currentPanelInFocus: 'left' });
-  }
-
-  handleRightPanelRightSwipe() {
-    this.setState({ currentPanelInFocus: 'center' });
-  }
-
-  handleResetPanelVisibility() {
-    this.setState({ currentPanelInFocus: 'center' });
-  }
-
+  
+  setCurrentPanel = (panel) => {
+    this.setState({ panel })
+  };
+  
   render() {
     const left = this.props.left || <AgendaItemListApp conversationId={this.props.conversationId} selectedAgendaItemId={this.props.selectedAgendaItemId} />;
     const right = this.props.right || <DeliverableListApp conversationId={this.props.conversationId} agendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} />;
-
+    const { panel } = this.state;
     return (
       <div className={styles.root}>
-        <div className={styles.left}>
-          { left }
+        <div className={styles.panelContainer}>
+          <div className={ [styles.left, (panel === 'agendaItems' ? {} : styles.hidden)].join(' ') }>
+            { left }
+          </div>
+          <div className={ [styles.center, (panel === 'conversations' ? {} : styles.hidden)].join(' ') }>
+            { this.props.children }
+          </div>
+          <div className={ [styles.right, (panel === 'deliverables' ? {} : styles.hidden)].join(' ') }>
+             { right }
+          </div>
         </div>
-        <div className={styles.center}>
-          { this.props.children }
-        </div>
-        <div className={styles.right}>
-           { right }
+        <div className={styles.bottomNavigationContainer}>
+          <BottomNavigationBar onChange={this.setCurrentPanel} selectedOption={this.state.panel}/>
         </div>
       </div>
     );
