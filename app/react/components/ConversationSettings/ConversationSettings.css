@@ -67,7 +67,7 @@
 }
 
 .inputContainer input {
-  width: 36.25rem;
+  max-width: 36.25rem;
   height: 3.375rem;
   border: none;
   outline: none;

@@ -29,6 +29,7 @@
 }
 
 .profileDropdown {
+  composes: hidden-xs from global;
   flex: 1;
   display: flex;
   justify-content: flex-end;
