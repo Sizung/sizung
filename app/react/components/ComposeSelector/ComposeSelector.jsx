@@ -29,15 +29,15 @@ class ComposeSelector extends React.Component {
   }
 
   renderChat = () => {
-    return <div className={styles.option} onClick={this.handleClose}><Icon type="chat" contentClassName={styles.chat}>Chat</Icon></div>;
+    return <div className={styles.option} onClick={this.handleClose}><Icon type="chat" className={styles.icon} contentClassName={styles.chat}>Chat</Icon></div>;
   }
 
   renderAgendaItem = () => {
-    return <div className={styles.option} onClick={this.selectAgendaItem}><Icon type="agendaItem">Agenda</Icon></div>;
+    return <div className={styles.option} onClick={this.selectAgendaItem}><Icon type="agendaItem" className={styles.icon}>Agenda</Icon></div>;
   }
 
   renderDeliverable = () => {
-    return <div className={styles.option} onClick={this.selectDeliverable}><Icon type="deliverable">Deliverable</Icon></div>;
+    return <div className={styles.option} onClick={this.selectDeliverable}><Icon type="deliverable" className={styles.icon}>Deliverable</Icon></div>;
   }
 
   renderCaret = (type) => {

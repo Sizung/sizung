@@ -28,6 +28,10 @@ module Api
           references(converation: :organization).
           where(conversations: { organization_id: @organization_member.organization }, member: @organization_member.member).
           each(&:destroy!)
+        
+        if(@organization_member.member.last_visited_organization_id == @organization_member.organization_id)
+          @organization_member.member.update! last_visited_organization: @organization_member.member.organizations.where.not(id: @organization_member.organization_id).order(:updated_at).last
+        end
       end
             
       render json: @organization_member, serializer: OrganizationMemberSerializer

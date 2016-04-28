@@ -101,6 +101,46 @@ describe Api::OrganizationMembersController do
       expect(user.organizations.count).must_equal 1
       expect(user.conversations.count).must_equal 1
     end
+
+    it 'resets the last_visited_organization when a org member gets removed from an organization' do
+      user                      = FactoryGirl.create :user_without_organization
+      organization_member       = FactoryGirl.create :organization_member_without_owner, organization: @organization, member: user
+      other_organization        = FactoryGirl.create :organization
+      other_organization_member = FactoryGirl.create :organization_member_without_owner, organization: other_organization, member: user
+      user.update! last_visited_organization: @organization
+
+      expect(user.last_visited_organization_id).must_equal @organization.id
+      expect(user.organizations.count).must_equal 2
+      
+      expect {
+        delete :destroy, id: organization_member.id, format: :json
+      }.must_change 'OrganizationMember.count', -1
+      
+      assert_response :success
+
+      user.reload
+      expect(user.organizations.count).must_equal 1
+      expect(user.last_visited_organization_id).must_equal other_organization.id
+    end
+
+    it 'resets the last_visited_organization to nil when a members last org member gets removed' do
+      user                      = FactoryGirl.create :user_without_organization
+      organization_member       = FactoryGirl.create :organization_member_without_owner, organization: @organization, member: user
+      user.update! last_visited_organization: @organization
+
+      expect(user.last_visited_organization_id).must_equal @organization.id
+      expect(user.organizations.count).must_equal 1
+      
+      expect {
+        delete :destroy, id: organization_member.id, format: :json
+      }.must_change 'OrganizationMember.count', -1
+      
+      assert_response :success
+
+      user.reload
+      expect(user.organizations.count).must_equal 0
+      expect(user.last_visited_organization_id).must_equal nil
+    end
     #
     # it 'does not allow to remove organization_member when the user is not part of the organizations organization' do
     #   organization_member = FactoryGirl.create :organization_member, organization: @organization
