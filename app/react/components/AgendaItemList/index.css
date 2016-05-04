@@ -4,6 +4,7 @@
 }
 
 .header {
+  composes: hidden-xs from global;
   padding: 0px 0.938rem;
   font-family: Gotham-Book;
   font-size : 1.688rem;

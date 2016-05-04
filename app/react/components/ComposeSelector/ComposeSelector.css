@@ -19,8 +19,8 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 1.875rem;
+  padding-right: 1.875rem;
   line-height: 6.563rem;
 }
 
@@ -30,15 +30,35 @@
 }
 
 .chat {
-  margin-left: 20px;
+  margin-left: 1.25rem;
+}
+
+
+@media only screen
+and (max-width: 768px) {
+  .option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    line-height: 6.563rem;
+    padding: 0 1rem;
+  }
+
+  .chat {
+    margin-left: 1rem;
+  }
+
+  .icon {
+    font-size: 1.25rem;
+  }
 }
 
 .caret {
   display: inline-block;
   align-self: center;
   text-align: center;
-  margin-left: 15px;
-  margin-right: 15px;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }
 
 .caretLeft {

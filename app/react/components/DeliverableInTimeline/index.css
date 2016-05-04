@@ -101,13 +101,15 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-left: 5.5rem;
+  margin-left: 3.5rem;
   padding-bottom: 20px;
 }
 
 .textContainer {
   padding: 10px 0;
-  margin-left: 20px;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: row;
 }
 
 .dueOnWrapper {
@@ -131,11 +133,6 @@
 .content a:active,
 .content a:focus {
   color: #130F22;
-}
-
-.textContainer {
-  display: flex;
-  flex-direction: row;
 }
 
 .icon {
