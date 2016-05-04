@@ -5,14 +5,19 @@ class ApidocsController < ActionController::Base
   swagger_root do
     key :swagger, '2.0'
     info do
-      key :version, '1.0.0'
       key :title, 'Sizung API'
       key :description, 'Documentation for the json API endpoints to Sizung.'
+      key :version, '1.0.0'
       key :termsOfService, 'http://sizung.com/terms/'
+
       contact do
         key :name, 'Günter Glück'
       end
     end
+
+    key :host, ENV['SIZUNG_HOST'].split('//').last
+    key :basePath, '/api'
+
     tag do
       key :name, 'auth'
       key :description, 'Authorization'
@@ -21,15 +26,20 @@ class ApidocsController < ActionController::Base
         key :url, 'https://sizung.com'
       end
     end
-    key :host, 'localhost:3000'
-    key :basePath, '/api'
     key :consumes, ['application/json']
     key :produces, ['application/json']
+
+    security_definition :bearer do
+      key :type, :apiKey
+      key :name, :Authorization
+      key :in, :header
+    end
   end
 
   # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
     Api::SessionTokensController,
+    Api::OrganizationsController,
     self,
   ].freeze
 

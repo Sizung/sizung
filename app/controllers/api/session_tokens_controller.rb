@@ -10,21 +10,16 @@ module Api
     swagger_schema :AuthInput do
       key :required, [:user]
 
-      property :user do
-        key :type, :object
-
-        property :email do
-          key :type, :string
-        end
-        property :password do
-          key :type, :string
-        end
+      property :user, type: :object, required: [:email, :password] do
+        property :email, type: :string
+        property :password, type: :string
       end
     end
     
     swagger_path '/session_tokens' do
       operation :post do
-        key :description, 'Returns a Json Web Token for request authorization'
+        key :summary, 'Returns a JSON Web Token for request authorization'
+        key :description, 'The JWT that you get here should be used as the **Bearer Authorization header** for the other api endpoints'
         key :operationId, 'createJWT'
         key :tags, ['auth']
         key :produces, ['application/json']
@@ -35,10 +30,21 @@ module Api
         end
         
         response 201 do
-          key :description, 'jwt response'
+          key :description, 'Your JSON Web Token for request authorization'
+          schema do
+            key :required, [:token]
+            property :token, type: :string, description: 'Your JSON Web Token for request authorization'
+          end
+        end
+        response 401 do
+          key :description, 'Invalid email or password'
+          schema do
+            key :required, [:error]
+            property :error, type: :string, description: 'Error description', enum: ['Invalid email or password.']
+          end
         end
         response :default do
-          key :description, 'Invalid email or password'
+          key :description, 'Unexpected error'
         end
       end
     end
