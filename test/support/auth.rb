@@ -9,6 +9,11 @@ def login(user)
   assert_equal 200, page.status_code
 end
 
+def set_jwt(user)
+  jwt = JsonWebToken.encode(user_id: user.id)
+  request.headers['Authorization'] = "Bearer #{jwt}"
+end
+
 def logout
   Capybara.current_session.driver.delete destroy_user_session_path
 end
