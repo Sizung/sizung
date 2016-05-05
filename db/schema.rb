@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160505144856) do
+ActiveRecord::Schema.define(version: 20160505172921) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(version: 20160505144856) do
     t.uuid     "member_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.datetime "archived_at"
   end
   add_index "conversation_members", ["conversation_id", "member_id"], name: "index_conversation_members_on_conversation_id_and_member_id", unique: true, using: :btree
   add_index "conversation_members", ["conversation_id"], name: "index_conversation_members_on_conversation_id", using: :btree
@@ -195,7 +194,6 @@ UNION ALL
     t.uuid     "member_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
-    t.datetime "archived_at"
   end
   add_index "organization_members", ["member_id"], name: "index_organization_members_on_member_id", using: :btree
   add_index "organization_members", ["organization_id", "member_id"], name: "index_organization_members_on_organization_id_and_member_id", unique: true, using: :btree
