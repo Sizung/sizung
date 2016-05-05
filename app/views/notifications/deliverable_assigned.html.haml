@@ -1,0 +1,8 @@
+= "Hi #{@assignee.first_name}, "
+%p
+  = "#{@actor.name} assigned you a deliverable: #{@deliverable.title}"
+  %br
+%p
+  = link_to 'Reply', @target_url
+%br
+%p
