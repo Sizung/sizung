@@ -27,9 +27,12 @@ $alert: red;
 }
 
 .alert {
+  padding: 0.625rem;
+  margin-bottom: 1.25rem;
   border: 1px solid;
   border-radius: 0;
   color: $alert;
+  font-size: 1.625rem;
 }
 
 .notice {
@@ -43,8 +46,9 @@ $alert: red;
   label {
     color: $inputGray;
     text-transform: uppercase;
-    margin-left: 20px;
-    font-size: 10px;
+    margin-top: 2rem;
+    margin-left: 2rem;
+    font-size: 1rem;
   }
 
   input {
@@ -98,11 +102,11 @@ and (max-width: 400px) {
 .form-root .form-button {
   background-color: $green;
   color: $black;
-  font-size: 1.875rem;
-  line-height: 1.875rem;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
   text-transform: uppercase;
   padding: 1.25rem;
-  width: 18.75rem;
+  width: 15rem;
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
   border-radius: 0;
