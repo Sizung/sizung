@@ -1,4 +1,6 @@
 class Conversation < ActiveRecord::Base
+  include Archival
+  
   belongs_to :organization
   has_many :deliverables, as: :parent, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
