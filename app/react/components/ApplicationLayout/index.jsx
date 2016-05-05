@@ -5,11 +5,11 @@ import styles from './index.css';
 
 class ApplicationLayout extends Component {
   render() {
-    const { currentUser, organizations, currentOrganization } = this.props;
+    const { currentUser, organizations, currentOrganization, currentConversation } = this.props;
 
     return (
       <div className={styles.root}>
-        <TopBar currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} />
+        <TopBar currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation}/>
         <div className={styles.mainContent} >
           <StaleNotification />
           { this.props.children }

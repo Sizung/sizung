@@ -99,3 +99,7 @@
   font-size: 2rem;
   color: #130F22;
 }
+
+.settings {
+  composes: hidden-xs from global;
+}
