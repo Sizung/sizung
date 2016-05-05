@@ -31,6 +31,20 @@
  */
 
 @media only screen
+and (-webkit-min-device-pixel-ratio:0)
+and (max-width: 768px) {
+  input,
+  textarea,
+  select,
+  input:focus,
+  textarea:focus,
+  select:focus {
+    font-size: 16px;
+  }
+}
+
+
+@media only screen
 and (max-width: 1280px) {
   html, body {
     height: 100%;
