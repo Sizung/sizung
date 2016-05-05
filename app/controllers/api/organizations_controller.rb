@@ -7,6 +7,65 @@ module Api
 
     respond_to :json
 
+    include Swagger::Blocks
+
+    swagger_schema :Organization do
+      key :required, [:id, :type, :attributes]
+
+      property :id, type: :string
+      property :type, type: :string, enum: ['organizations']
+      property :attributes do
+        key :type, :object
+
+        property :name do
+          key :type, :string
+        end
+      end
+      property :relationships do
+        property :owner do
+          property :data do
+            property :id, type: :string, required: true
+            property :type, type: :string, required: true, enum: ['users']
+          end
+        end
+
+        property :organization_members do
+          property :data, type: :array do
+            items do
+              property :id, type: :string, required: true
+              property :type, type: :string, required: true, enum: ['organization_members']
+            end
+          end
+        end
+      end
+    end
+    
+    swagger_path '/organizations' do
+      operation :get do
+        key :summary, 'List organizations'
+        key :description, 'Returns the list of organizations the user is a member of'
+        key :operationId, 'listOrganizations'
+        key :tags, ['organizations']
+        key :produces, ['application/json']
+        
+        response 200 do
+          key :description, 'An array of organizations'
+          schema do
+            property :data do
+              key :type, :array
+              items do
+                key :'$ref', :Organization
+              end
+            end
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+
+    
     # GET /organizations.json
     def index
       @organizations = policy_scope(Organization)

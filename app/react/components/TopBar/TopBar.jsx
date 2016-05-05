@@ -16,6 +16,7 @@ class TopBar extends React.Component {
       name: PropTypes.string.isRequired,
     }).isRequired,
     reactLinks: PropTypes.bool,
+    currentConversation: PropTypes.object,
   };
 
   static defaultProps = {
@@ -48,9 +49,9 @@ class TopBar extends React.Component {
   };
 
   render() {
-    const { currentUser, currentOrganization } = this.props;
+    const { currentUser, currentOrganization, currentConversation } = this.props;
     return (
-      <div className={styles.root}>
+      <div className={ currentConversation === null ? styles.root : styles.rootHiddenOnMobile}>
         {this.renderOrganizationPart()}
         <div className={styles.profileDropdown}>
           <ProfileDropdown currentUser={currentUser} currentOrganization={currentOrganization}/>

@@ -26,7 +26,6 @@ Rails.application.routes.draw do
     end
 
     resources :comments
-
     resources :organizations, shallow: true do
       concerns :unseen_objects, parent_type: 'Organization'
 
@@ -40,12 +39,12 @@ Rails.application.routes.draw do
     end
     resources :conversation_members, only: [:create, :destroy]
     resources :organization_members, only: [:create, :destroy]
-
     resources :meetings, only: [:create]
-
     resources :users, only: [:index, :create, :update]
-
     resources :conversations, only: [:create, :update, :destroy]
+    devise_scope :user do
+      resources :session_tokens, only: [:create, :show]
+    end
   end
 
   resources :organizations, shallow: true do
@@ -58,7 +57,6 @@ Rails.application.routes.draw do
   get 'signup', to: 'react_routes#new_registration', as: :signup
   get 'organizations/:id/settings', to: 'react_routes#index', as: :settings
 
-
   # Old routes are redirected to new shallow routes
   get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: redirect('/deliverables/%{deliverable_id}')
   get 'conversations/:id/agenda_items/:agenda_item_id', to: redirect('/agenda_items/%{agenda_item_id}')
@@ -70,6 +68,8 @@ Rails.application.routes.draw do
                    }
   resources :samples, only: [:index]
 
+  resources :apidocs, only: [:index]
+  
   authenticated :user do
     root to: 'organizations#index', as: :authenticated_root
   end

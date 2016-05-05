@@ -67,6 +67,9 @@ gem 'nokogiri'
 gem 'premailer-rails'
 gem 'rollbar'
 gem 'oj'
+gem 'jwt'
+gem 'swagger-blocks'
+gem 'rack-cors'
 
 group :production do
   gem 'rails_12factor'

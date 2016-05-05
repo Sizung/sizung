@@ -6,6 +6,11 @@
   background-color: #130F22;
 }
 
+.rootHiddenOnMobile {
+  composes: root;
+  composes: hidden-xs from global;
+}
+
 .organizationWrapper {
   display: flex;
   flex: 1;
@@ -29,7 +34,6 @@
 }
 
 .profileDropdown {
-  composes: hidden-xs from global;
   flex: 1;
   display: flex;
   justify-content: flex-end;

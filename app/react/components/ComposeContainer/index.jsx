@@ -57,6 +57,7 @@ class ComposeContainer extends React.Component {
         return <CommentComposer parent={parent}
                                 createComment={createComment}
                                 onSelect={this.handleSelect}
+                                currentUser={currentUser}
                />;
     }
   }

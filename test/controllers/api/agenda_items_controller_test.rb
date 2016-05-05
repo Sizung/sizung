@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'support/auth'
 
 describe Api::AgendaItemsController do
   include Devise::TestHelpers
@@ -15,7 +16,7 @@ describe Api::AgendaItemsController do
       @conversation = FactoryGirl.create(:conversation)
       @request.env['devise.mapping'] = Devise.mappings[:user]
       @current_user = @conversation.organization.owner
-      sign_in @current_user
+      set_jwt(@current_user)
       @agenda_item  = FactoryGirl.create(:agenda_item, conversation: @conversation, owner: @current_user)
     end
 

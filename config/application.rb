@@ -29,5 +29,13 @@ module Sizung
       g.test_framework :minitest, spec: true
       g.fixture_replacement :factory_girl, dir: 'test/factories'
     end
+    config.autoload_paths << Rails.root.join('lib')
+
+    config.middleware.insert_before 0, "Rack::Cors" do
+      allow do
+        origins '*'
+        resource '*', :headers => :any, :methods => [:get, :post, :options]
+      end
+    end
   end
 end
