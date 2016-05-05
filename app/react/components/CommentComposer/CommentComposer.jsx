@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './CommentComposer.css';
-import PlusIcon from '../PlusIcon';
+import User from '../User';
 import SizungInputApp from '../../containers/SizungInputApp';
 import ComposeSelector from '../ComposeSelector/ComposeSelector';
 
@@ -41,7 +41,7 @@ class CommentComposer extends React.Component {
     return (
       <div className={styles.root}>
         <div className={styles.user}>
-          <PlusIcon size={'small'}/>
+          <User user={this.props.currentUser}/>
         </div>
         <form className={styles.form} onSubmit={this.handleSubmit}>
           <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
