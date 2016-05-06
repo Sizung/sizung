@@ -110,6 +110,18 @@ describe Api::DeliverablesController do
       value(mail.subject).must_match "#{@current_user.first_name} assigned a deliverable to you"
     end
 
+    it 'only notifies when assigned to someone else' do
+      perform_enqueued_jobs do
+        post :create, deliverable: { title: 'Something to do', parent_id: @conversation.id, parent_type: 'Conversation', assignee_id: @current_user.id }
+      end
+      assert_response :success
+      expect(@current_user.assigned_deliverables.count).must_equal 2 # the other deliverable is created in the setup section on the top
+      
+      expect {
+        open_email(@current_user.email)
+      }.must_raise EmailSpec::CouldNotFindEmailError
+    end
+    
     it 'sends an email notification when a deliverable gets reassigned' do
       @other_user = FactoryGirl.create(:conversation_member, conversation: @conversation).member
       
@@ -124,6 +136,21 @@ describe Api::DeliverablesController do
       value(mail.subject).must_match "#{@current_user.first_name} assigned a deliverable to you"
     end
 
+    it 'only notifies when reassigned to someone else' do
+      @other_user = FactoryGirl.create :user
+      @new_deliverable = FactoryGirl.create :deliverable, assignee: @other_user, parent: @agenda_item
+      
+      perform_enqueued_jobs do
+        post :update, id: @new_deliverable.id, deliverable: { assignee_id: @current_user.id }
+      end
+      assert_response :success
+      expect(@current_user.assigned_deliverables.count).must_equal 2 # the other deliverable is created in the setup section on the top
+      
+      expect {
+        open_email(@current_user.email)
+      }.must_raise EmailSpec::CouldNotFindEmailError
+    end
+    
     it 'does not send an email notification when a deliverable gets updated but not reassigned' do
       @other_user = FactoryGirl.create(:conversation_member, conversation: @conversation).member
       

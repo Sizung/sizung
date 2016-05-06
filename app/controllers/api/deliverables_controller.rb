@@ -18,7 +18,9 @@ module Api
         MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id))
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'create')
         UnseenService.new.handle_with(@deliverable, current_user)
-        Notifications.deliverable_assigned(@deliverable, current_user).deliver_later
+        if @deliverable.assignee != current_user
+          Notifications.deliverable_assigned(@deliverable, current_user).deliver_later
+        end
       end
 
       render json: @deliverable, serializer: DeliverableSerializer
@@ -39,7 +41,7 @@ module Api
       if @deliverable.toggle_archive(params[:deliverable][:archived]) || @deliverable.update(deliverable_params)
         MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id), old_body)
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')
-        if @deliverable.assignee != old_assignee
+        if @deliverable.assignee != old_assignee && @deliverable.assignee != current_user
           Notifications.deliverable_assigned(@deliverable, current_user).deliver_later
         end
         
