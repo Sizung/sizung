@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'support/email'
 
 describe Api::DeliverablesController do
   include Devise::TestHelpers
@@ -20,7 +21,7 @@ describe Api::DeliverablesController do
       @agenda_item  = FactoryGirl.create(:agenda_item, conversation: @conversation, owner: @current_user)
       @deliverable = FactoryGirl.create(:deliverable, owner: @current_user, assignee: @current_user, parent: @agenda_item)
     end
-
+    
     it 'creates deliverable' do
       expect {
         post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
@@ -93,6 +94,50 @@ describe Api::DeliverablesController do
       get :show, id: @deliverable
 
       assert_response :success   
+    end
+
+    it 'sends an email notification when a deliverable gets assigned' do
+      @other_user = FactoryGirl.create(:conversation_member, conversation: @conversation).member
+
+      perform_enqueued_jobs do
+        post :create, deliverable: { title: 'Something to do', parent_id: @conversation.id, parent_type: 'Conversation', assignee_id: @other_user.id }
+      end
+      assert_response :success
+      expect(@other_user.assigned_deliverables.count).must_equal 1
+
+      mail = open_email(@other_user.email)
+      expect(mail).must_be :present?
+      value(mail.subject).must_match "#{@current_user.first_name} assigned a deliverable to you"
+    end
+
+    it 'sends an email notification when a deliverable gets reassigned' do
+      @other_user = FactoryGirl.create(:conversation_member, conversation: @conversation).member
+      
+      perform_enqueued_jobs do
+        patch :update, id: @deliverable.id, deliverable: { assignee_id: @other_user.id }
+      end
+      assert_response :success
+      expect(@other_user.assigned_deliverables.count).must_equal 1
+
+      mail = open_email(@other_user.email)
+      expect(mail).must_be :present?
+      value(mail.subject).must_match "#{@current_user.first_name} assigned a deliverable to you"
+    end
+
+    it 'does not send an email notification when a deliverable gets updated but not reassigned' do
+      @other_user = FactoryGirl.create(:conversation_member, conversation: @conversation).member
+      
+      perform_enqueued_jobs do
+        patch :update, id: @deliverable.id, deliverable: { title: 'Changed title' }
+      end
+      assert_response :success
+      expect(@other_user.assigned_deliverables.count).must_equal 0
+
+      [@other_user, @current_user, @deliverable.owner, @deliverable.assignee].each do |user|
+        expect {
+          open_email(user.email)
+        }.must_raise EmailSpec::CouldNotFindEmailError
+      end
     end
   end
 end

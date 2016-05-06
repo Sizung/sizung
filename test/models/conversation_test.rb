@@ -29,4 +29,16 @@ describe Deliverable do
       conversation.reload.destroy!
     }.must_change('Conversation.count', -1)
   end
+
+  it 'remove a conversation should only archive it' do
+    conversation = FactoryGirl.create :conversation
+    conversation.destroy
+
+    expect(Conversation.unscoped.size).must_equal 2
+    expect {
+      Conversation.find(conversation.id)
+    }.must_raise ActiveRecord::RecordNotFound
+
+    expect(Conversation.unscoped.find(conversation.id)).must_be :present?
+  end
 end

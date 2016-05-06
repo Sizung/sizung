@@ -1,4 +1,6 @@
 class Organization < ActiveRecord::Base
+  include Archival
+  
   belongs_to :owner, class_name: 'User'
   has_many :organization_members, dependent: :destroy
   has_many :members, through: :organization_members

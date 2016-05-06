@@ -1,4 +1,5 @@
-Hi, 
+%p
+  = 'Hi,'
 %p
   - if @resource.organizations.any?
     = "You've been invited to join #{@resource.organizations.order(:created_at).first.name} on Sizung."

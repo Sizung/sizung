@@ -65,5 +65,15 @@ describe Api::ConversationsController do
         delete :destroy, id: @conversation
       end
     end
+
+    it 'archive conversation' do
+      patch :update, id: @conversation.id, conversation: { archived: true }
+
+      assert_response :success
+      expect(@conversation.reload).must_be :paranoia_destroyed?
+
+      conversation = JSON.parse(response.body)
+      assert_equal true, conversation['data']['attributes']['archived']
+    end
   end
 end

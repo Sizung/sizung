@@ -13,7 +13,7 @@ class UnseenService
   end
 
   def remove(object)
-    unless [AgendaItem, Deliverable, Comment].include? object.class
+    unless [Conversation, AgendaItem, Deliverable, Comment].include? object.class
       raise ArgumentError.new('Unseen Objects can only be removed for AgendaItems, Deliverables and Comments')
     end
 

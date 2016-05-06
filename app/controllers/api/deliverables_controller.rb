@@ -18,6 +18,7 @@ module Api
         MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id))
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'create')
         UnseenService.new.handle_with(@deliverable, current_user)
+        Notifications.deliverable_assigned(@deliverable, current_user).deliver_later
       end
 
       render json: @deliverable, serializer: DeliverableSerializer
@@ -34,9 +35,14 @@ module Api
       old_body = @deliverable.title
       original_parent_id = @deliverable.parent_id
       original_parent_type = @deliverable.parent_type
+      old_assignee = @deliverable.assignee
       if @deliverable.toggle_archive(params[:deliverable][:archived]) || @deliverable.update(deliverable_params)
         MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id), old_body)
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')
+        if @deliverable.assignee != old_assignee
+          Notifications.deliverable_assigned(@deliverable, current_user).deliver_later
+        end
+        
         if(deliverable_params[:parent_id].present? && deliverable_params[:parent_id] != original_parent_id)
           # TODO: We probably want to do that for conversation as a parent also
           AgendaItemRelayJob.perform_later(agenda_item: AgendaItem.find(original_parent_id), actor_id: nil, action: 'update') if original_parent_type == 'AgendaItem'

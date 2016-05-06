@@ -1,4 +1,5 @@
 class Notifications < ApplicationMailer
+  include Rails.application.routes.url_helpers
 
   def mentioned(user, mentionable, actor, target_url)
     @user = user
@@ -10,5 +11,14 @@ class Notifications < ApplicationMailer
     subject = "#{actor.first_name} mentioned you"
 
     mail to: @user.email, subject: subject
+  end
+
+  def deliverable_assigned(deliverable, actor)
+    @deliverable = deliverable
+    @assignee    = deliverable.assignee
+    @actor       = actor
+    @target_url  = deliverable_url(deliverable)
+    
+    mail to: @deliverable.assignee.email, subject: "#{@actor.first_name} assigned a deliverable to you"
   end
 end
