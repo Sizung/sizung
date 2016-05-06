@@ -1,7 +1,6 @@
 .root {
   display: flex;
   flex-direction: column;
-  overflow: auto;
   flex: 1;
 }
 
@@ -17,4 +16,5 @@
 
 .list {
   flex: 1;
+  overflow: auto;
 }
