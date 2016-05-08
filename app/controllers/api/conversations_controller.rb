@@ -8,12 +8,54 @@ module Api
 
     respond_to :json
 
+    include Swagger::Blocks
+    
+    swagger_path '/organizations/{organization_id}/conversations' do
+      operation :get do
+        key :summary, 'List conversations'
+        key :description, 'Returns the list of conversations for a specific organization that the user is a member of'
+        key :operationId, 'listConversationsByOrganizationId'
+        key :tags, ['conversation']
+        key :produces, ['application/json']
+        
+        response 200 do
+          key :description, 'An array of conversations'
+          schema do
+            key :'$ref', :responseMany_Conversation
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
     # GET /conversations.json
     def index
       @conversations = policy_scope(Conversation).where(organization: @organization).order(:title)
       render json: @conversations
     end
 
+    swagger_path '/conversations/{id}' do
+      operation :get do
+        key :summary, 'Details for a specific Conversatino'
+        key :description, 'Returns the all details for a Conversation as well as the list of its Agenda Items and Deliverables'
+        key :operationId, 'findConversationById'
+        key :tags, ['conversation']
+        key :produces, ['application/json']
+        
+        response 200 do
+          key :description, 'Conversation response'
+          schema do
+            key :'$ref', :responseOne_Conversation
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
     # GET /conversations/1.json
     def show
       @conversation = Conversation.includes(
@@ -27,6 +69,45 @@ module Api
       render json: @conversation, include: %w(agenda_items deliverables agenda_item_deliverables organization organization.organization_members.member conversation_members)
     end
 
+    swagger_schema :ConversationInput do
+      key :required, [:conversation]
+
+      property :conversation, type: :object, required: [:name] do
+        property :name, type: :string
+        property :conversation_members, type: :array do
+          items do
+            property :member_id, type: :string
+          end
+        end
+      end
+    end
+
+    swagger_path '/organizations/{organization_id}/conversations' do
+      operation :post do
+        key :summary, 'Create a new Conversation'
+        key :description, 'Create a new Conversation within an Organization'
+        key :operationId, 'createConversationByOrganizationId'
+        key :tags, ['conversation']
+        key :produces, ['application/json']
+
+        parameter name: :conversation, in: :body, required: true, description: 'Conversation fields' do
+          schema do
+            key :'$ref', :ConversationInput
+          end
+        end
+
+        response 200 do
+          key :description, 'Conversation response'
+          schema do
+            key :'$ref', :responseOne_Conversation
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
     # POST /conversations.json
     def create
       @conversation = Conversation.new(conversation_params)
@@ -56,8 +137,32 @@ module Api
           render json: @conversation.errors, status: :unprocessable_entity
         end
       end
+    end
 
+    swagger_path '/conversations/{id}' do
+      operation :patch do
+        key :summary, 'Update a specific Conversation'
+        key :description, 'Updates fields for a specific Conversation'
+        key :operationId, 'updateConversationById'
+        key :tags, ['conversation']
+        key :produces, ['application/json']
 
+        parameter name: :conversation, in: :body, required: true, description: 'Conversation fields to update' do
+          schema do
+            key :'$ref', :ConversationInput
+          end
+        end
+
+        response 200 do
+          key :description, 'Conversation response'
+          schema do
+            key :'$ref', :responseOne_Conversation
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
     end
 
     # PATCH/PUT /conversations/1.json
@@ -88,6 +193,24 @@ module Api
         end
         # TODO ANI GUGL: Fix this part while sending response to client so that client has control over which attributes to use
         render json: @conversation, include: %w(conversation_members)
+      end
+    end
+
+
+    swagger_path '/conversations/{id}' do
+      operation :delete do
+        key :summary, 'Archive a specific Conversation'
+        key :description, 'Archive a specific Conversation'
+        key :operationId, 'archiveConversationById'
+        key :tags, ['conversation']
+        key :produces, ['application/json']
+
+        response 200 do
+          key :description, 'No content'
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
       end
     end
 
