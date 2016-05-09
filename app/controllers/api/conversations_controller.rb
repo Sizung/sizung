@@ -11,22 +11,15 @@ module Api
     include Swagger::Blocks
     
     swagger_path '/organizations/{organization_id}/conversations' do
-      operation :get do
-        key :summary, 'List conversations'
+      operation :get, summary: 'List conversations', operationId: 'listConversationsByOrganizationId', tags: ['conversation'] do
         key :description, 'Returns the list of conversations for a specific organization that the user is a member of'
-        key :operationId, 'listConversationsByOrganizationId'
-        key :tags, ['conversation']
-        key :produces, ['application/json']
         
-        response 200 do
-          key :description, 'An array of conversations'
+        response 200, description: 'An array of conversations' do
           schema do
             key :'$ref', :responseMany_Conversation
           end
         end
-        response :default do
-          key :description, 'Unexpected error'
-        end
+        response :default, description: 'Unexpected error'
       end
     end
     
@@ -42,7 +35,6 @@ module Api
         key :description, 'Returns the all details for a Conversation as well as the list of its Agenda Items and Deliverables'
         key :operationId, 'findConversationById'
         key :tags, ['conversation']
-        key :produces, ['application/json']
         
         response 200 do
           key :description, 'Conversation response'
@@ -85,10 +77,9 @@ module Api
     swagger_path '/organizations/{organization_id}/conversations' do
       operation :post do
         key :summary, 'Create a new Conversation'
-        key :description, 'Create a new Conversation within an Organization'
+        key :description, 'Creates a new Conversation and adds ConversationMembers to it'
         key :operationId, 'createConversationByOrganizationId'
         key :tags, ['conversation']
-        key :produces, ['application/json']
 
         parameter name: :conversation, in: :body, required: true, description: 'Conversation fields' do
           schema do
@@ -142,10 +133,8 @@ module Api
     swagger_path '/conversations/{id}' do
       operation :patch do
         key :summary, 'Update a specific Conversation'
-        key :description, 'Updates fields for a specific Conversation'
         key :operationId, 'updateConversationById'
         key :tags, ['conversation']
-        key :produces, ['application/json']
 
         parameter name: :conversation, in: :body, required: true, description: 'Conversation fields to update' do
           schema do
@@ -200,10 +189,8 @@ module Api
     swagger_path '/conversations/{id}' do
       operation :delete do
         key :summary, 'Archive a specific Conversation'
-        key :description, 'Archive a specific Conversation'
         key :operationId, 'archiveConversationById'
         key :tags, ['conversation']
-        key :produces, ['application/json']
 
         response 200 do
           key :description, 'No content'
