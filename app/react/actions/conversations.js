@@ -3,7 +3,6 @@ import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
 import * as constants from './constants';
 import { setCurrentOrganization } from './organizations';
-import { setUnseenObjects } from './unseenObjects';
 import * as ConversationUiActions from './conversationUi';
 
 const setCurrentConversation = (conversation, included, json) => {
@@ -56,10 +55,6 @@ const updateConversationRemoteOrigin = (conversation) => {
 
 const fetchConversation = (conversationId) => {
   return (dispatch) => {
-    api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
-      dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
-    });
-
     api.fetchJson('/api/conversations/' + conversationId, (json) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
@@ -92,12 +87,9 @@ const fetchObjects = (conversationId, dispatch) => {
   });
 };
 
+// TODO: Is this still used?
 const selectConversation = (conversationId) => {
   return (dispatch) => {
-    api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
-      dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
-    });
-
     api.fetchJson('/api/conversations/' + conversationId, (json) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));

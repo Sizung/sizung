@@ -40,7 +40,9 @@ Rails.application.routes.draw do
     resources :conversation_members, only: [:create, :destroy]
     resources :organization_members, only: [:create, :destroy]
     resources :meetings, only: [:create]
-    resources :users, only: [:index, :create, :update]
+    resources :users, only: [:index, :create, :update], shallow: true do
+      concerns :unseen_objects, parent_type: 'User'
+    end
     resources :conversations, only: [:create, :update, :destroy]
     devise_scope :user do
       resources :session_tokens, only: [:create, :show]

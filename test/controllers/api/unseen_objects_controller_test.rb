@@ -3,13 +3,6 @@ require 'test_helper'
 describe Api::UnseenObjectsController do
   include Devise::TestHelpers
 
-  # describe 'visitor' do
-  #   it 'should not be allowed to create a new comment' do
-  #     post :create, comment: {body: 'A comment from an unregistered visitor.'}
-  #     assert_redirected_to new_user_session_path
-  #   end
-  # end
-
   describe 'signed in' do
     setup do
       @agenda_item = FactoryGirl.create(:agenda_item)
@@ -47,6 +40,16 @@ describe Api::UnseenObjectsController do
       }.must_change 'UnseenObject.count', -1
 
       assert_response :success
+    end
+
+    it 'gets all unseen objects for a user' do
+      get :index, parent_type: 'User', user_id: @current_user.id
+      
+      assert_response :success
+
+      body = JSON.parse(response.body)
+      expect(body['data'].size).must_equal 1
+      expect(body['data'].first['id']).must_equal @unseen_object.id
     end
   end
 end

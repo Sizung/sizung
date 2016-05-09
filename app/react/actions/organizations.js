@@ -1,9 +1,7 @@
 import * as constants from './constants';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
-import { setUnseenObjects } from './unseenObjects';
 import * as ConversationUiActions from './conversationUi.js';
-
 
 const setCurrentOrganization = (organization) => {
   return {
@@ -47,10 +45,6 @@ const fetchOrganization = (organizationId, dispatch) => {
     dispatch(fetchOrganizationSuccess(organization, included, conversations, agendaItems, deliverables, conversationDeliverables));
     dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
     dispatch(ConversationUiActions.resetConversationUi());
-  });
-
-  api.fetchJson('/api/organizations/' + organizationId + '/unseen_objects', (json) => {
-    dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
   });
 };
 

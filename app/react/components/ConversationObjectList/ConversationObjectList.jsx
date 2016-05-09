@@ -9,9 +9,6 @@ import ConversationHeader from '../ConversationHeader';
 import ConversationSettingsApp from '../../containers/ConversationSettingsApp';
 
 class ConversationObjectList extends Component {
-  constructor() {
-    super();
-  }
 
   componentDidMount() {
     const listNode = this.refs.conversationObjectList;
@@ -26,7 +23,7 @@ class ConversationObjectList extends Component {
   componentWillUpdate() {
     const root = this.refs.root;
     if (root) {
-      //A tolerance of +/- 5px to avoid issues due to pixel calculations of scroll height based on rem heights
+      // A tolerance of +/- 5px to avoid issues due to pixel calculations of scroll height based on rem heights
       this.shouldScrollBottom = Math.abs(root.scrollTop + root.offsetHeight - root.scrollHeight) <= 5;
     }
   }
