@@ -35,8 +35,13 @@ Custom Scroll Bar
 */
 
 ::-webkit-scrollbar {
+  display: none;
+}
+
+div:hover::-webkit-scrollbar {
   display: initial;
   width: 8px;
+  height: 16px;
 }
 
 ::-webkit-scrollbar-thumb {
