@@ -38,7 +38,7 @@ Custom Scroll Bar
   /*display: none;*/
   display: initial;
   width: 8px;
-  height: 16px;
+  height: 8px;
 }
 
 /*div:hover::-webkit-scrollbar {*/
