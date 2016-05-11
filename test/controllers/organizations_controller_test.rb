@@ -15,7 +15,8 @@ describe OrganizationsController do
       @organization = FactoryGirl.create(:organization)
       @another_organization = FactoryGirl.create(:organization)
       @request.env['devise.mapping'] = Devise.mappings[:user]
-      sign_in @organization.owner
+      @current_user = @organization.owner
+      sign_in @current_user
     end
 
     it 'lists all organizations for json' do
@@ -29,8 +30,16 @@ describe OrganizationsController do
     it 'lists all organizations for html redirects to first organization' do
       get :index
       assert_response :redirect
+      assert_redirected_to @organization
     end
 
+    it 'redirects a user that is not part of any organization to the new-organization page' do
+      @current_user.organization_members.destroy_all
+      get :index
+
+      assert_redirected_to new_organization_path
+    end
+    
     it 'creates a new organization' do
       assert_difference('Organization.count') do
         post :create, organization: { name: 'My second organization' }
