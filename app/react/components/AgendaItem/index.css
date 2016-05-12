@@ -76,11 +76,6 @@
   background-color: #3297BE;
 }
 
-.seen .titleContainer:hover,
-.unseen .titleContainer:hover {
-  background-color: #334752;
-}
-
 .agendaItemIconContainer {
   display: flex;
   flex: none;

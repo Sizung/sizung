@@ -68,6 +68,16 @@ class AgendaItem extends React.Component {
     return null;
   };
 
+  renderTitle = () => {
+    const { agendaItem, selected } = this.props;
+    if (selected) {
+      return (
+        <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected} inverted maxLength={40} />
+      );
+    }
+    return (agendaItem.title);
+  };
+
   render() {
     const { agendaItem, selected } = this.props;
     let styleName = styles.seen;
@@ -85,7 +95,7 @@ class AgendaItem extends React.Component {
               <Icon type="agendaItem" />
             </div>
             <div className={styles.title}>
-              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={!agendaItem.archived} inverted maxLength={40} />
+              {this.renderTitle()}
             </div>
           </div>
         </div>
