@@ -60,6 +60,13 @@ export function fillComment(state, id) {
   return comment;
 }
 
+const fillAttachment = (state, id) => {
+  let attachment = Immutable.fromJS(state.getIn(['entities', 'attachments', id])).toJS();
+  attachment.owner = state.getIn(['entities', 'users', attachment.ownerId]);
+  attachment.parent = state.getIn(['entities', attachment.parentType, attachment.parentId]);
+  return attachment;
+}
+
 export function fillConversationObject(state, {id, type}) {
   if(type === 'agendaItems') {
     return fillAgendaItem(state, id);
@@ -72,6 +79,9 @@ export function fillConversationObject(state, {id, type}) {
   }
   else if(type === 'deliverables') {
     return fillDeliverable(state, id);
+  }
+  else if(type === 'attachments') {
+    return fillAttachment(state, id);
   }
   else {
     console.warn('Unknown ConversationObject to fill: ', id, type);

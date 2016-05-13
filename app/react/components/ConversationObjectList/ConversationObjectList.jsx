@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ComposeContainer from './../ComposeContainer';
 import Comment from './../Comment/index';
+import Attachment from './../Attachment';
 import AgendaItemInTimeline from './../AgendaItemInTimeline';
 import DeliverableInTimeline from './../DeliverableInTimeline';
 import styles from './ConversationObjectList.css';
@@ -58,6 +59,9 @@ class ConversationObjectList extends Component {
         } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
           return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} />;
+        } else if (conversationObject.type === 'attachments') {
+          const attachment = conversationObject;
+          return <Attachment key={attachment.id} showOwner={showOwner} attachment={attachment} />;
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
