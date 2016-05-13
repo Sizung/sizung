@@ -63,7 +63,7 @@ class EditableText extends React.Component {
 
     if (editable) {
       return (
-        <a className={styles.editLink} href="#" onClick={this.handleEditClick}>
+        <a className={styles.editLink} href="#">
           <EditIcon inverted={inverted} />
         </a>
       );
@@ -82,8 +82,9 @@ class EditableText extends React.Component {
     }
 
     const persistedTextStyle = this.props.inverted ? styles.persistedTextInverted : styles.persistedText;
+
     return (
-      <div className={styles.persistedTextContainer}  onClick={this.handleEditClick}>
+      <div className={styles.persistedTextContainer}  onClick={editable ? this.handleEditClick : null }>
         <div className={persistedTextStyle}>
           <TextWithMentions maxLength={this.props.maxLength}>{persistedText}</TextWithMentions>
         </div>

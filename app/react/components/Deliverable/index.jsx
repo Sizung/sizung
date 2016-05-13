@@ -131,7 +131,7 @@ class Deliverable extends React.Component {
             <DeliverableIcon status={deliverableIconStatus} size={'small'} />
           </div>
           <div className={styles.title}>
-            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted maxLength={40} />
+            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={selected} inverted maxLength={40} />
           </div>
         </div>
         <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}>

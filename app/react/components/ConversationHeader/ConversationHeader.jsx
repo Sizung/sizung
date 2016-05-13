@@ -21,30 +21,40 @@ class ConversationHeader extends React.Component {
   };
 
   renderTitle = () => {
-    const { conversation } = this.props;
+    const { conversation, chatType } = this.props;
 
     if (!conversation) { return ''; }
 
-    return <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} />;
+    return <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} editable={chatType === 'conversations' ? true : false}/>;
   };
 
   deleteConversation = () => {
     this.props.deleteConversation(this.props.conversation.id, this.props.conversation.organizationId);
   };
 
+  renderArchiveAction = () => {
+    const { chatType } = this.props;
+    if ( chatType === 'conversations') {
+      return (
+        <div className={styles.archiveIcon} onClick={this.deleteConversation}>
+          <ArchiveIcon inverted/>
+        </div>
+      );
+    }
+    return null;
+  };
+
   render() {
-    const { conversation } = this.props;
+    const { conversation, chatType } = this.props;
     const closeUrl = conversation ? '/organizations/' + conversation.organizationId : '';
 
     return (
-      <div className={styles.root}>
+      <div className={ chatType === 'conversations' ? styles.editableRoot : styles.root }>
         <div className={styles.prefix}>#</div>
         <div className={styles.conversationTitle}>
           { this.renderTitle() }
         </div>
-        <div className={styles.archiveIcon} onClick={this.deleteConversation}>
-          <ArchiveIcon inverted/>
-        </div>
+        { this.renderArchiveAction() }
         <div className={styles.conversationMemberContainer}>
           <ConversationMembersCounterApp/>
         </div>

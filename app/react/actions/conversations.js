@@ -124,7 +124,7 @@ const createConversation = (values) => {
 const deleteConversation = (conversationId, organizationId) => {
 
   return (dispatch) => {
-    if (confirm("Are you sure you want to delete this Conversation?")) {
+    if (confirm("Are you sure you want to archive this Conversation?")) {
       dispatch(updateConversation(conversationId, { archived: true }));
       dispatch(routeActions.push('/organizations/' + organizationId));
 
