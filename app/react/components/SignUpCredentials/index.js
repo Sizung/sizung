@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import styles from './index.css';
 import FormInput from '../FormInput';
 import * as api from '../../utils/api';
+import { Link } from 'react-router';
 
 class SignUpCredentials extends React.Component {
 
@@ -135,6 +136,17 @@ class SignUpCredentials extends React.Component {
     );
   };
 
+  renderResendConfirmationLink = () => {
+    if (this.state.emailErrorMessage.indexOf('Email already registered. Please check your inbox for confirmation link.') > -1) {
+      return (
+        <div className={styles.resendConfirmationLinkContainer}>
+          <a href={'/users/confirmation/new'} className={styles.resendConfirmationLink}>Resend Confirmation Link</a>
+        </div>
+      );
+    }
+    return null;
+  };
+
   render() {
     const { email, password, passwordConfirmation } = this.props.user;
     return (
@@ -145,6 +157,7 @@ class SignUpCredentials extends React.Component {
         <div className={styles.formInputContainer}>
           <FormInput type='email' value={email} label={'EMAIL ADDRESS'} placeholder='e.g. name@email.com' validate={this.validateEmail} onChange={this.setUserEmail} onSubmit={this.handleNextClick} errorMessage={this.state.emailErrorMessage}/>
         </div>
+        {this.renderResendConfirmationLink()}
         <div className={styles.formInputContainer}>
           <FormInput type='password' value={password} label={'PASSWORD'}  placeholder='minimum 8 characters' validate={this.validatePassword} onChange={this.setUserPassword} onSubmit={this.handleNextClick} errorMessage={this.state.passwordErrorMessage} />
         </div>
