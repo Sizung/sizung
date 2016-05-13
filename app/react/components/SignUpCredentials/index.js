@@ -143,13 +143,13 @@ class SignUpCredentials extends React.Component {
           Create an account
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='email' value={email} label={'EMAIL ADDRESS'} placeholder='e.g. name@email.com' validate={this.validateEmail} onChange={this.setUserEmail} errorMessage={this.state.emailErrorMessage}/>
+          <FormInput type='email' value={email} label={'EMAIL ADDRESS'} placeholder='e.g. name@email.com' validate={this.validateEmail} onChange={this.setUserEmail} onSubmit={this.handleNextClick} errorMessage={this.state.emailErrorMessage}/>
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='password' value={password} label={'PASSWORD'}  placeholder='minimum 8 characters' validate={this.validatePassword} onChange={this.setUserPassword} errorMessage={this.state.passwordErrorMessage} />
+          <FormInput type='password' value={password} label={'PASSWORD'}  placeholder='minimum 8 characters' validate={this.validatePassword} onChange={this.setUserPassword} onSubmit={this.handleNextClick} errorMessage={this.state.passwordErrorMessage} />
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='password' value={passwordConfirmation} label={'CONFIRM PASSWORD'} validate={this.validatePasswordConfirmation} onChange={this.setUserPasswordConfirmation} errorMessage={this.state.passwordConfirmationErrorMessage}/>
+          <FormInput type='password' value={passwordConfirmation} label={'CONFIRM PASSWORD'} validate={this.validatePasswordConfirmation} onChange={this.setUserPasswordConfirmation} onSubmit={this.handleNextClick} errorMessage={this.state.passwordConfirmationErrorMessage}/>
         </div>
         <div className={styles.actionContainer}>
           {this.renderNextButton()}

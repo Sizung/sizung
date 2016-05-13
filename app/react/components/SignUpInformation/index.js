@@ -82,10 +82,10 @@ class SignUpInformation extends React.Component {
           Create your profile
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='text' label='FIRST NAME' value={firstName} validate={this.validateFirstName} onChange={this.setUserFirstName} errorMessage={this.state.firstNameErrorMessage}/>
+          <FormInput type='text' label='FIRST NAME' value={firstName} validate={this.validateFirstName} onChange={this.setUserFirstName} onSubmit={this.handleNextClick} errorMessage={this.state.firstNameErrorMessage}/>
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='text' label='LAST NAME' value={lastName} validate={this.validateLastName} onChange={this.setUserLastName} errorMessage={this.state.lastNameErrorMessage}/>
+          <FormInput type='text' label='LAST NAME' value={lastName} validate={this.validateLastName} onChange={this.setUserLastName} onSubmit={this.handleNextClick} errorMessage={this.state.lastNameErrorMessage}/>
         </div>
         <div className={styles.actionContainer}>
           <div className={styles.backLink} onClick={this.handleBackClick}>
