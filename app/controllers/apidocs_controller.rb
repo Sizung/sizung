@@ -41,8 +41,10 @@ class ApidocsController < ActionController::Base
     Api::SessionTokensController,
     Api::OrganizationsController,
     Api::ConversationsController,
+    Api::AttachmentsController,
     OrganizationSerializer,
     ConversationSerializer,
+    AttachmentSerializer,
     self,
   ].freeze
 

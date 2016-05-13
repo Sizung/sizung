@@ -15,17 +15,12 @@ Rails.application.routes.draw do
       # resources :unseen_objects, options.merge(only: [:destroy_all])
     end
 
-    resources :agenda_items, only: [:create, :show, :update] do
-      concerns :list_conversation_objects, parent_type: 'AgendaItem'
-      concerns :unseen_objects, parent_type: 'AgendaItem'
+    concern :attachments do |options|
+      resources :attachments, options.merge(only: [:new, :create])
     end
 
-    resources :deliverables, only: [:create, :show, :update] do
-      concerns :list_conversation_objects, parent_type: 'Deliverable'
-      concerns :unseen_objects, parent_type: 'Deliverable'
-    end
 
-    resources :comments
+    
     resources :organizations, shallow: true do
       concerns :unseen_objects, parent_type: 'Organization'
 
@@ -33,10 +28,25 @@ Rails.application.routes.draw do
         resources :agenda_items, only: [:index]
         concerns :list_conversation_objects, parent_type: 'Conversation'
         concerns :unseen_objects, parent_type: 'Conversation'
+        concerns :attachments, parent_type: 'Conversation'
       end
 
       resources :organization_members, only: [:index, :create, :destroy]
     end
+
+    resources :agenda_items, only: [:create, :show, :update] do
+      concerns :list_conversation_objects, parent_type: 'AgendaItem'
+      concerns :unseen_objects, parent_type: 'AgendaItem'
+      concerns :attachments, parent_type: 'AgendaItem'
+    end
+
+    resources :deliverables, only: [:create, :show, :update] do
+      concerns :list_conversation_objects, parent_type: 'Deliverable'
+      concerns :unseen_objects, parent_type: 'Deliverable'
+      concerns :attachments, parent_type: 'Deliverable'
+    end
+
+    resources :comments
     resources :conversation_members, only: [:create, :destroy]
     resources :organization_members, only: [:create, :destroy]
     resources :meetings, only: [:create]
