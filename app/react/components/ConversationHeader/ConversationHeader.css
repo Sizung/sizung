@@ -9,7 +9,11 @@
   color: #626c72;
 }
 
-.root:hover .prefix, .root:hover .conversationTitle {
+.editableRoot {
+  composes: root;
+}
+
+.editableRoot:hover .prefix, .editableRoot:hover .conversationTitle {
   background-color: #D9DEDF;
 }
 

@@ -112,16 +112,6 @@ class Deliverable extends React.Component {
     return null;
   };
 
-  renderTitle = () => {
-    const { deliverable, selected } = this.props;
-    if (selected) {
-      return (
-          <EditableText text={deliverable.title} onUpdate={this.handleTitleUpdate} editable={selected} inverted maxLength={40} />
-      );
-    }
-    return (deliverable.title);
-  };
-
   render() {
     const { deliverable, selected } = this.props;
     const { title, assigneeId, dueOn, unseenCount, archived } = deliverable;
@@ -141,7 +131,7 @@ class Deliverable extends React.Component {
             <DeliverableIcon status={deliverableIconStatus} size={'small'} />
           </div>
           <div className={styles.title}>
-            {this.renderTitle()}
+            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={selected} inverted maxLength={40} />
           </div>
         </div>
         <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}>
