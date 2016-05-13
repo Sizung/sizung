@@ -21,13 +21,24 @@ class SignUpCredentials extends React.Component {
   }
 
   handleNextClick = () => {
-    if (this.validateForm()) {
-      this.props.setCurrentStep(1);
-    }
+    this.validateForm();
+    setTimeout(() => {
+      this.setState({ validating: false });
+      if (this.isFormValid()) {
+        this.props.setCurrentStep(1);
+      }
+    }, 2000);
   };
 
   validateForm = () => {
-    if (this.validateEmail() && this.validatePassword() && this.validatePasswordConfirmation()) {
+    this.setState({ validating: true });
+    this.validateEmail();
+    this.validatePassword();
+    this.validatePasswordConfirmation();
+  };
+
+  isFormValid = () => {
+    if (this.state.emailErrorMessage === '' && this.state.passwordErrorMessage === '' && this.state.passwordConfirmationErrorMessage === '') {
       return true;
     }
     return false;
@@ -46,8 +57,10 @@ class SignUpCredentials extends React.Component {
         api.fetchJson('/api/users?email=' + email, (json) => {
           if (json.emailExists) {
             errorMessage = 'Email already registered. Please check your inbox for confirmation link.';
+            this.setState({ emailErrorMessage: errorMessage });
+          } else {
+            this.setState({ emailErrorMessage: '' });
           }
-          this.setState({ emailErrorMessage: errorMessage });
         });
       }
     }
@@ -107,6 +120,21 @@ class SignUpCredentials extends React.Component {
     this.props.setUser({ password });
   };
 
+  renderNextButton = () => {
+    if (this.state.validating) {
+      return (
+        <div className={styles.formSubmitValidating} tab-index='4'>
+          { 'NEXT '}<i className={styles.spinner}></i>
+        </div>
+      );
+    }
+    return (
+      <div className={styles.formSubmit} onClick={this.handleNextClick} tab-index='4'>
+        NEXT
+      </div>
+    );
+  };
+
   render() {
     const { email, password, passwordConfirmation } = this.props.user;
     return (
@@ -124,9 +152,7 @@ class SignUpCredentials extends React.Component {
           <FormInput type='password' value={passwordConfirmation} label={'CONFIRM PASSWORD'} validate={this.validatePasswordConfirmation} onChange={this.setUserPasswordConfirmation} errorMessage={this.state.passwordConfirmationErrorMessage}/>
         </div>
         <div className={styles.actionContainer}>
-          <div className={styles.formSubmit} onClick={this.handleNextClick} tab-index='4'>
-            NEXT
-          </div>
+          {this.renderNextButton()}
         </div>
       </div>
     );

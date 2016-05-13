@@ -161,7 +161,15 @@
   cursor: pointer;
 }
 
+.formSubmitValidating {
+  composes: formSubmit;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
+.spinner {
+  composes: fa fa-spinner fa-spin from global;
+}
 .formInputValue input::-webkit-input-placeholder { /* WebKit, Blink, Edge */
   color: #0A0022;
 }
