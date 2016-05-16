@@ -15,12 +15,37 @@ class Attachment extends React.Component {
     </div>);
   };
 
+  formatSize = (size) => {
+    var i = Math.floor(Math.log(size) / Math.log(1024));
+    return (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + ['Bytes', 'KB', 'MB', 'GB', 'TB'][i];
+  };
+
+  downLoadAttachment = () => {
+    console.log('Call download Api');
+  }
+
   renderShowAttachment = () => {
-    const { fileName } = this.props.attachment;
+    const { fileName, fileSize } = this.props.attachment;
+    console.log('attachment: ' + JSON.stringify(this.props.attachment));
     return (
       <div className={styles.contentContainer}>
-        <div className={styles.fileName}>
-          {fileName}
+        <div className={styles.iconContainer} onClick={this.downLoadAttachment}>
+          <div className={styles.icon}>
+            <div className={styles.extension}>
+              {fileName.split('.')[1].toUpperCase()}
+            </div>
+          </div>
+          <div className={styles.detailsContainer}>
+            <div className={styles.label}>
+              ATTACHMENT
+            </div>
+            <div className={styles.fileName}>
+              {fileName}
+            </div>
+            <div className={styles.size}>
+              {this.formatSize(parseInt(fileSize, 10))}
+            </div>
+          </div>
         </div>
         {this.lastUpdatedTime()}
       </div>
