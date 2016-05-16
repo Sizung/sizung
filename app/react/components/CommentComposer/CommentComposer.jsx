@@ -3,6 +3,7 @@ import styles from './CommentComposer.css';
 import User from '../User';
 import SizungInputApp from '../../containers/SizungInputApp';
 import ComposeSelector from '../ComposeSelector/ComposeSelector';
+import ReactS3Uploader from 'react-s3-uploader';
 
 class CommentComposer extends React.Component {
   static propTypes = {
@@ -37,7 +38,24 @@ class CommentComposer extends React.Component {
     this.setState({ value });
   };
 
+  onUploadProgress = (data) => {
+    console.log('onUploadProgress: ', data);
+  }
+
+  onUploadError = (data) => {
+    console.log('onUploadError: ', data);
+  }
+
+  onUploadFinish = (data) => {
+    console.log('onUploadFinish: ', data);
+  }
+  
   render() {
+    const { parent } = this.props;
+    const headers = [];
+    const queryParams = [];
+    const signingUrl = `/api/${parent.type}/${parent.id}/attachments/new`;
+    
     return (
       <div className={styles.root}>
         <div className={styles.user}>
@@ -46,6 +64,17 @@ class CommentComposer extends React.Component {
         <form className={styles.form} onSubmit={this.handleSubmit}>
           <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
         </form>
+        
+        <ReactS3Uploader
+            signingUrl={signingUrl}
+            accept="image/*"
+            onProgress={this.onUploadProgress}
+            onError={this.onUploadError}
+            onFinish={this.onUploadFinish}
+            signingUrlHeaders={{ additional: headers }}
+            signingUrlQueryParams={{ additional: queryParams }}
+            uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
+            contentDisposition="auto" />
         <div className={styles.chatButtons}>
           <ComposeSelector onSelect={this.handleSelect} />
         </div>
