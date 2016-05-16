@@ -112,6 +112,12 @@ class Deliverable extends React.Component {
     return null;
   };
 
+  componentDidUpdate() {
+    if (this.props.selected) {
+      this.refs.deliverable.scrollIntoViewIfNeeded();
+    }
+  }
+
   render() {
     const { deliverable, selected } = this.props;
     const { title, assigneeId, dueOn, unseenCount, archived } = deliverable;
@@ -125,7 +131,7 @@ class Deliverable extends React.Component {
     }
 
     return (
-      <div className={styleName} onClick={this.handleClick}>
+      <div ref='deliverable' className={styleName} onClick={this.handleClick}>
         <div className={styles.titleContainer} title={title}>
           <div className={styles.deliverableIconContainer}>
             <DeliverableIcon status={deliverableIconStatus} size={'small'} />

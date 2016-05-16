@@ -68,6 +68,12 @@ class AgendaItem extends React.Component {
     return null;
   };
 
+  componentDidUpdate() {
+    if (this.props.selected) {
+      this.refs.agendaItem.scrollIntoViewIfNeeded();
+    }
+  }
+
   render() {
     const { agendaItem, selected } = this.props;
     let styleName = styles.seen;
@@ -77,7 +83,7 @@ class AgendaItem extends React.Component {
       styleName = styles.unseen;
     }
     return (
-      <div className={styleName} onClick={this.handleClick}>
+      <div ref='agendaItem' className={styleName} onClick={this.handleClick}>
         <div className={styles.leftStrip}></div>
         <div className={styles.contentContainer} title={agendaItem.title}>
           <div className={styles.titleContainer}>
