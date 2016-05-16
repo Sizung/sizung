@@ -114,7 +114,7 @@ class Deliverable extends React.Component {
 
   componentDidUpdate() {
     if (this.props.selected) {
-      this.refs.deliverable.scrollIntoViewIfNeeded();
+      this.refs.deliverable.scrollIntoView();
     }
   }
 

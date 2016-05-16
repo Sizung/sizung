@@ -70,7 +70,7 @@ class AgendaItem extends React.Component {
 
   componentDidUpdate() {
     if (this.props.selected) {
-      this.refs.agendaItem.scrollIntoViewIfNeeded();
+      this.refs.agendaItem.scrollIntoView();
     }
   }
 
