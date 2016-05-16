@@ -155,6 +155,7 @@ class ConversationObjectList extends Component {
                               parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}
                               conversationSettingsViewState={this.props.conversationSettingsViewState}
                               deleteConversation={this.props.deleteConversation}
+                              routeBackToPreviousPage={this.props.routeBackToPreviousPage}
           />
           <TimelineHeader parent={commentForm.parent} />
           {this.renderConversationTimeLine()}
@@ -192,6 +193,7 @@ ConversationObjectList.propTypes = {
   updateAgendaItem: PropTypes.func.isRequired,
   visitConversation: PropTypes.func,
   deleteConversation: PropTypes.func.isRequired,
+  routeBackToPreviousPage: PropTypes.func.isRequired,
 };
 
 ConversationObjectList.defaultProps = {

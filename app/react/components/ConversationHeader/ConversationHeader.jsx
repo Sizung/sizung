@@ -14,6 +14,7 @@ class ConversationHeader extends React.Component {
       organizationId: PropTypes.string.isRequired,
     }),
     updateConversation: PropTypes.func.isRequired,
+    routeBackToPreviousPage: PropTypes.func.isRequired,
   };
 
   handleTitleUpdate = (newTitle) => {
@@ -58,9 +59,9 @@ class ConversationHeader extends React.Component {
         <div className={styles.conversationMemberContainer}>
           <ConversationMembersCounterApp/>
         </div>
-        <Link to={closeUrl} title="Close Conversation">
+        <div onClick={this.props.routeBackToPreviousPage} title="Close Conversation">
           <CloseIcon type={'transparent'} />
-        </Link>
+        </div>
       </div>
     );
   }

@@ -128,6 +128,7 @@ const deleteConversation = (conversationId, organizationId) => {
       dispatch(updateConversation(conversationId, { archived: true }));
       dispatch(routeActions.push('/organizations/' + organizationId));
 
+
     }
 
 //      api.deleteJson('/api/conversations/' + conversationId, (json) => {
@@ -142,6 +143,12 @@ const deleteConversation = (conversationId, organizationId) => {
   };
 };
 
+const routeBackToPreviousPage = () => {
+  return (dispatch) => {
+    dispatch(routeActions.goBack());
+  };
+}
+
 export {
   fetchConversation,
   selectConversation,
@@ -150,4 +157,5 @@ export {
   updateConversationRemoteOrigin,
   createConversation,
   deleteConversation,
+  routeBackToPreviousPage,
 };

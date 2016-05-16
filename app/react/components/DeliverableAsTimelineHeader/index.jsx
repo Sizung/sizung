@@ -14,12 +14,12 @@ class DeliverableInTimelineHeader extends React.Component {
 
   renderBackLink = (deliverable) => {
     if (deliverable.parentType === 'agendaItems') {
-      return <Link to={'/agenda_items/' + deliverable.parentId} className={styles.close}>Back to Agenda Item</Link>
+      return <Link to={'/agenda_items/' + deliverable.parentId} className={styles.close}>Back to Agenda Item</Link>;
     }
 
-    return <Link to={'/conversations/' + deliverable.parentId} className={styles.close}>Back to Conversation</Link>
-  }
-  
+    return <Link to={'/conversations/' + deliverable.parentId} className={styles.close}>Back to Conversation</Link>;
+  };
+
   render() {
     const { deliverable } = this.props;
     const { title } = deliverable;
@@ -31,7 +31,7 @@ class DeliverableInTimelineHeader extends React.Component {
           <TextWithMentions>{title}</TextWithMentions>
         </div>
         <div className={styles.closeLinkContainer}>
-          { this.renderBackLink(deliverable) }
+          { /*this.renderBackLink(deliverable)*/ }
         </div>
       </div>
     );
