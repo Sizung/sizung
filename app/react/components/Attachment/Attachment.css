@@ -16,15 +16,83 @@
 }
 
 .contentContainer {
-  position: relative;
-  display: table-cell;
-  width: 100%;
   margin: 0;
-  padding: 0 30px 0 0;
+  width: 100%;
   font-family: Gotham-Book;
   font-size: 1.375rem;
   line-height : 1.875rem;
   min-height: 4rem;
+}
+
+.iconContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 11.25rem;
+  height: 4rem;
+  cursor: pointer;
+}
+
+.icon {
+  flex: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 3.375rem;
+  height: 3.875rem;
+  background-image: url('/icons/attachment-icon.svg');
+  background-size: 100% 100%;
+}
+
+.extension {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  font-family: Gotham-Medium;
+  font-size: .875rem;
+  color: #2F82A9;
+}
+
+.detailsContainer {
+  flex: none;
+  display: flex;
+  flex-direction: column;
+  align-content: space-around;
+  width: 7rem;
+  height: 3.875rem;
+  margin-left: 1rem;
+}
+
+.label {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Gotham-Book;
+  font-size: .813rem;
+  color: #8C9295;
+}
+
+.fileName {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Gotham-Medium;
+  font-size: 1rem;
+  color: #2F82A9;
+}
+
+.size {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  font-family: Gotham-Book;
+  font-size: 1rem;
+  color: #8C9295;
 }
 
 .timeContainer {
@@ -40,24 +108,24 @@
   background-color: #eeeeee;
 }
 
-.fileName {
-  padding-top: 5px;
-  padding-right: 20px;
-  width: 100%;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  white-space: pre-wrap;
+/*.fileName {*/
+  /*padding-top: 5px;*/
+  /*padding-right: 20px;*/
+  /*width: 100%;*/
+  /*overflow-wrap: break-word;*/
+  /*word-wrap: break-word;*/
+  /*white-space: pre-wrap;*/
 
-  -ms-word-break: break-all;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
+  /*-ms-word-break: break-all;*/
+  /*word-break: break-word;*/
+  /*-ms-hyphens: auto;*/
+  /*-moz-hyphens: auto;*/
+  /*-webkit-hyphens: auto;*/
+  /*hyphens: auto;*/
 
-  font-family: Gotham-Book;
-  font-size: 1.375rem;
-  line-height : 1.875rem;
-  letter-spacing : 0.014rem;
-  color : #616C73;
-}
+  /*font-family: Gotham-Book;*/
+  /*font-size: 1.375rem;*/
+  /*line-height : 1.875rem;*/
+  /*letter-spacing : 0.014rem;*/
+  /*color : #616C73;*/
+/*}*/

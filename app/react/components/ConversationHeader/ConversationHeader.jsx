@@ -26,7 +26,17 @@ class ConversationHeader extends React.Component {
 
     if (!conversation) { return ''; }
 
-    return <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} editable={chatType === 'conversations' ? true : false}/>;
+    if (chatType === 'agendaItems' || chatType === 'deliverables') {
+      return (
+        <Link to={'/conversations/' + conversation.id} className={styles.conversationLink}>
+          {conversation.title}
+        </Link>
+      );
+    } else if (chatType === 'conversations') {
+      return (
+        <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} editable={chatType === 'conversations' ? true : false}/>
+      );
+    }
   };
 
   deleteConversation = () => {
@@ -46,8 +56,7 @@ class ConversationHeader extends React.Component {
   };
 
   render() {
-    const { conversation, chatType } = this.props;
-    const closeUrl = conversation ? '/organizations/' + conversation.organizationId : '';
+    const { chatType } = this.props;
 
     return (
       <div className={ chatType === 'conversations' ? styles.editableRoot : styles.root }>
