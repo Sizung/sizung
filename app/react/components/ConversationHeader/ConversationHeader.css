@@ -58,3 +58,9 @@
   margin-left: 10px;
   cursor: pointer;
 }
+
+.conversationLink,
+.conversationLink:hover {
+  color: #626c72;
+  text-decoration: none;
+}
