@@ -14,6 +14,7 @@ import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillConversation } from '../utils/entityUtils';
 import * as ConversationUiActions from '../actions/conversationUi';
+import * as AttachmentActions from '../actions/attachments';
 
 class ConversationApp extends React.Component {
   componentDidMount() {
@@ -89,7 +90,7 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ConversationUiActions, ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions }, dispatch);
+  return bindActionCreators({ ...ConversationUiActions, ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...AttachmentActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationApp);

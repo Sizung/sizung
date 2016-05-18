@@ -26,7 +26,6 @@ class Attachment extends React.Component {
 
   renderShowAttachment = () => {
     const { fileName, fileSize } = this.props.attachment;
-    console.log('attachment: ' + JSON.stringify(this.props.attachment));
     return (
       <div className={styles.contentContainer}>
         <div className={styles.iconContainer} onClick={this.downLoadAttachment}>
@@ -53,7 +52,7 @@ class Attachment extends React.Component {
   };
 
   render() {
-    const { owner, fileName } = this.props.attachment;
+    const { owner } = this.props.attachment;
     return (
       <div className={styles.root}>
         <div className={styles.userContainer}>

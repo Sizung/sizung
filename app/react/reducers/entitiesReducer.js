@@ -7,6 +7,7 @@ const initialState = new Immutable.Map({
   agendaItems: new Immutable.Map(),
   deliverables: new Immutable.Map(),
   unseenObjects: new Immutable.Map(),
+  attachments: new Immutable.Map(),
 });
 
 const isEntity = (candidate) => {

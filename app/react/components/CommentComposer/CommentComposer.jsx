@@ -13,6 +13,7 @@ class CommentComposer extends React.Component {
       type: PropTypes.string.isRequired,
     }).isRequired,
     onSelect: PropTypes.func.isRequired,
+    createAttachment: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -32,7 +33,7 @@ class CommentComposer extends React.Component {
 
   handleSelect = (selectedType) => {
     this.props.onSelect(selectedType, this.state.value.trim());
-  }
+  };
 
   handleChangeInMentionBox = (ev, value) => {
     this.setState({ value });
@@ -40,22 +41,26 @@ class CommentComposer extends React.Component {
 
   onUploadProgress = (data) => {
     console.log('onUploadProgress: ', data);
-  }
+  };
 
   onUploadError = (data) => {
     console.log('onUploadError: ', data);
-  }
+  };
 
   onUploadFinish = (data) => {
     console.log('onUploadFinish: ', data);
-  }
-  
+    const { parent } = this.props;
+    const fileUrlSplit = data.signedUrl.split('?')[0].split('/');
+    const fileName = fileUrlSplit[fileUrlSplit.length - 1];
+    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: fileName, file_size: 435453 });
+  };
+
   render() {
     const { parent } = this.props;
     const headers = [];
     const queryParams = [];
-    const signingUrl = `/api/${parent.type}/${parent.id}/attachments/new`;
-    
+    const signingUrl = `/api/${parent.type === 'agendaItems' ? 'agenda_items' : ''}/${parent.id}/attachments/new`;
+
     return (
       <div className={styles.root}>
         <div className={styles.user}>
@@ -64,17 +69,17 @@ class CommentComposer extends React.Component {
         <form className={styles.form} onSubmit={this.handleSubmit}>
           <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
         </form>
-        
-        <ReactS3Uploader
-            signingUrl={signingUrl}
-            accept="image/*"
-            onProgress={this.onUploadProgress}
-            onError={this.onUploadError}
-            onFinish={this.onUploadFinish}
-            signingUrlHeaders={{ additional: headers }}
-            signingUrlQueryParams={{ additional: queryParams }}
-            uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
-            contentDisposition="auto" />
+
+          <ReactS3Uploader
+              signingUrl={signingUrl}
+              accept="image/*"
+              onProgress={this.onUploadProgress}
+              onError={this.onUploadError}
+              onFinish={this.onUploadFinish}
+              signingUrlHeaders={{ additional: headers }}
+              signingUrlQueryParams={{ additional: queryParams }}
+              uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
+              contentDisposition="auto" />
         <div className={styles.chatButtons}>
           <ComposeSelector onSelect={this.handleSelect} />
         </div>

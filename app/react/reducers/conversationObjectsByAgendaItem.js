@@ -11,6 +11,7 @@ export default function conversationObjectsByAgendaItem(state = initialState, ac
     case constants.DELETE_COMMENT: return deleteCommentReference(state, action, 'agendaItems');
     case constants.CREATE_DELIVERABLE: return setReference(state, action, 'deliverable', 'agendaItemId');
     case constants.UPDATE_DELIVERABLE: return updateReference(state, action, 'deliverable', 'agendaItemId');
+    case constants.CREATE_ATTACHMENT: return setReference(state, action, 'attachment', 'parentId');
     default: return state;
   }
 }
