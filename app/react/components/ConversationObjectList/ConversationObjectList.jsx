@@ -138,7 +138,7 @@ class ConversationObjectList extends Component {
   };
 
   render() {
-    const { createComment, createAgendaItem, createDeliverable, commentForm } = this.props;
+    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment } = this.props;
 
     if (this.props.conversationSettingsViewState === 'edit') {
       return (
@@ -162,6 +162,7 @@ class ConversationObjectList extends Component {
           <ComposeContainer createComment={createComment}
                             createAgendaItem={createAgendaItem}
                             createDeliverable={createDeliverable}
+                            createAttachment={createAttachment}
                             {...commentForm}
           />
         </div>
@@ -194,6 +195,7 @@ ConversationObjectList.propTypes = {
   visitConversation: PropTypes.func,
   deleteConversation: PropTypes.func.isRequired,
   routeBackToPreviousPage: PropTypes.func.isRequired,
+  createAttachment: PropTypes.func.isRequired,
 };
 
 ConversationObjectList.defaultProps = {

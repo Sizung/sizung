@@ -10,6 +10,7 @@ export default function conversationObjectsByConversation(state = initialState, 
     case constants.DELETE_COMMENT: return deleteCommentReference(state, action, 'conversations');
     case constants.CREATE_COMMENT: return setCommentReference(state, action, 'conversations');
     case constants.CREATE_AGENDA_ITEM: return setReference(state, action, 'agendaItem', 'conversationId');
+    case constants.CREATE_ATTACHMENT: return setReference(state, action, 'attachment', 'parentId');
     default: return state;
   }
 }

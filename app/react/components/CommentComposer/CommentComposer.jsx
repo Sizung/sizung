@@ -3,6 +3,7 @@ import styles from './CommentComposer.css';
 import User from '../User';
 import SizungInputApp from '../../containers/SizungInputApp';
 import ComposeSelector from '../ComposeSelector/ComposeSelector';
+import ReactS3Uploader from 'react-s3-uploader';
 
 class CommentComposer extends React.Component {
   static propTypes = {
@@ -12,6 +13,7 @@ class CommentComposer extends React.Component {
       type: PropTypes.string.isRequired,
     }).isRequired,
     onSelect: PropTypes.func.isRequired,
+    createAttachment: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -19,6 +21,8 @@ class CommentComposer extends React.Component {
 
     this.state = {
       value: '',
+      uploadStatus: '',
+      uploadPercentage: 0,
     };
 
     this.handleSubmit = (e) => {
@@ -31,13 +35,35 @@ class CommentComposer extends React.Component {
 
   handleSelect = (selectedType) => {
     this.props.onSelect(selectedType, this.state.value.trim());
-  }
+  };
 
   handleChangeInMentionBox = (ev, value) => {
     this.setState({ value });
   };
 
+  onUploadProgress = (data) => {
+    this.setState({ uploadStatus: 'InProgress', uploadPercentage: data });
+  };
+
+  onUploadError = (data) => {
+    this.setState({ uploadStatus: 'Error' });
+  };
+
+  onUploadFinish = (data) => {
+    const fileObject = ReactDOM.findDOMNode(this.refs.input).files[0];
+    this.setState({ uploadStatus: '' });
+    const { parent } = this.props;
+    const fileUrlSplit = data.signedUrl.split('?')[0].split('/');
+    const fileName = fileObject.name;
+    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: fileObject.name, file_size: fileObject.size, file_type: fileObject.type });
+  };
+
   render() {
+    const { parent } = this.props;
+    const headers = [];
+    const queryParams = [];
+    const signingUrl = `/api/${parent.type === 'agendaItems' ? 'agenda_items' : parent.type}/${parent.id}/attachments/new`;
+
     return (
       <div className={styles.root}>
         <div className={styles.user}>
@@ -46,6 +72,22 @@ class CommentComposer extends React.Component {
         <form className={styles.form} onSubmit={this.handleSubmit}>
           <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
         </form>
+
+        <div className={styles.upload}>
+          <div className={ this.state.uploadStatus === '' ? '' : styles['upload' + this.state.uploadStatus] }>
+          </div>
+          <ReactS3Uploader
+              ref='input'
+              signingUrl={signingUrl}
+              accept="image/*"
+              onProgress={this.onUploadProgress}
+              onError={this.onUploadError}
+              onFinish={this.onUploadFinish}
+              signingUrlHeaders={{ additional: headers }}
+              signingUrlQueryParams={{ additional: queryParams }}
+              uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
+              contentDisposition="auto" />
+        </div>
         <div className={styles.chatButtons}>
           <ComposeSelector onSelect={this.handleSelect} />
         </div>

@@ -144,6 +144,8 @@ const transformAttachmentFromJsonApi = (attachment) => {
     type: attachment.type,
     fileName: attachment.attributes.file_name,
     fileSize: attachment.attributes.file_size,
+    fileUrl: attachment.attributes.file_url,
+    fileType: attachment.attributes.file_type,
     parentId: relId(attachment, 'parent'),
     parentType: relType(attachment, 'parent'),
     ownerId: relId(attachment, 'owner'),

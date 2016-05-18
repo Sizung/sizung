@@ -11,7 +11,26 @@ module Api
     # GET /api/<parent_type>/<parent_id>/attachments/new.json
     def new
       parent
-      render json: { signedUrl: 'http://example.com' }
+
+      storage = Fog::Storage.new(
+        provider:              'AWS',
+        aws_access_key_id:     ENV['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key: ENV['AWS_SECRET_ACCESS_KEY']
+      )
+
+      options = { path_style: true }
+      # headers = { "Content-Type" => params[:contentType], "x-amz-acl" => "public-read" }
+      headers = { "x-amz-acl" => "private" }
+
+      @url = storage.put_object_url(
+        ENV['S3_BUCKET_NAME'],
+        "organizations/#{parent.organization.id}/attachments/#{SecureRandom.uuid}/#{params[:objectName]}",
+        15.minutes.from_now.to_time.to_i,
+        headers,
+        options
+      )
+
+      render json: { signedUrl: @url }
     end
 
     swagger_schema :AttachmentInput do
@@ -51,6 +70,7 @@ module Api
     # GET /api/<parent_type>/<parent_id>/attachments/created.json
     def create
       @attachment = Attachment.new(attachment_params)
+      @attachment.persistent_file_id = @attachment.persistent_file_id.split('?').first.gsub("https://s3.amazonaws.com/#{ENV['S3_BUCKET_NAME']}/", '')
       @attachment.parent = parent
       authorize @attachment
       @attachment.owner = current_user
@@ -65,7 +85,7 @@ module Api
     private
 
     def attachment_params
-      params.require(:attachment).permit(:persistent_file_id, :file_name, :file_size)
+      params.require(:attachment).permit(:persistent_file_id, :file_name, :file_size, :file_type)
     end
     
     def parent_type

@@ -30,4 +30,10 @@ describe Attachment do
     attachment = FactoryGirl.build :attachment, file_size: nil
     expect(attachment).wont_be :valid?
   end
+
+  it "generates a file_url" do
+    attachment = FactoryGirl.create :attachment
+    expect(attachment.file_url).must_be :present?
+    expect(attachment.file_url).must_equal "#{ENV['SIZUNG_HOST']}/attachments/#{attachment.id}"
+  end
 end
