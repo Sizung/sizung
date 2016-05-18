@@ -21,6 +21,8 @@ class CommentComposer extends React.Component {
 
     this.state = {
       value: '',
+      uploadStatus: '',
+      uploadPercentage: 0,
     };
 
     this.handleSubmit = (e) => {
@@ -40,26 +42,30 @@ class CommentComposer extends React.Component {
   };
 
   onUploadProgress = (data) => {
-    console.log('onUploadProgress: ', data);
+    //console.log('onUploadProgress: ', data);
+    this.setState({ uploadStatus: 'InProgress', uploadPercentage: data });
   };
 
   onUploadError = (data) => {
-    console.log('onUploadError: ', data);
+    //console.log('onUploadError: ', data);
+    this.setState({ uploadStatus: 'Error' });
   };
 
   onUploadFinish = (data) => {
-    console.log('onUploadFinish: ', data);
+    //console.log('onUploadFinish: ', data);
+    const fileObject = ReactDOM.findDOMNode(this.refs.input).files[0];
+    this.setState({ uploadStatus: '' });
     const { parent } = this.props;
     const fileUrlSplit = data.signedUrl.split('?')[0].split('/');
-    const fileName = fileUrlSplit[fileUrlSplit.length - 1];
-    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: fileName, file_size: 435453 });
+    const fileName = fileObject.name;
+    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: fileObject.name, file_size: fileObject.size });
   };
 
   render() {
     const { parent } = this.props;
     const headers = [];
     const queryParams = [];
-    const signingUrl = `/api/${parent.type === 'agendaItems' ? 'agenda_items' : ''}/${parent.id}/attachments/new`;
+    const signingUrl = `/api/${parent.type === 'agendaItems' ? 'agenda_items' : parent.type}/${parent.id}/attachments/new`;
 
     return (
       <div className={styles.root}>
@@ -70,7 +76,11 @@ class CommentComposer extends React.Component {
           <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
         </form>
 
+        <div className={styles.upload}>
+          <div className={ this.state.uploadStatus === '' ? '' : styles['upload' + this.state.uploadStatus] }>
+          </div>
           <ReactS3Uploader
+              ref='input'
               signingUrl={signingUrl}
               accept="image/*"
               onProgress={this.onUploadProgress}
@@ -80,6 +90,7 @@ class CommentComposer extends React.Component {
               signingUrlQueryParams={{ additional: queryParams }}
               uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
               contentDisposition="auto" />
+        </div>
         <div className={styles.chatButtons}>
           <ComposeSelector onSelect={this.handleSelect} />
         </div>

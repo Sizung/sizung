@@ -12,7 +12,7 @@ import * as api from '../utils/api';
 
 const createAttachment = (parentType, parentId, values) => {
   return (dispatch) => {
-    api.postJson('/api/' + (parentType === 'agendaItems' ? 'agenda_items' : '') + '/' + parentId + '/attachments', { attachment: values }, (json) => {
+    api.postJson('/api/' + (parentType === 'agendaItems' ? 'agenda_items' : parentType) + '/' + parentId + '/attachments', { attachment: values }, (json) => {
       const attachment = transform.transformObjectFromJsonApi(json.data);
       dispatch({
         type: constants.CREATE_ATTACHMENT,

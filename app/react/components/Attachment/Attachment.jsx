@@ -22,18 +22,33 @@ class Attachment extends React.Component {
 
   downLoadAttachment = () => {
     console.log('Call download Api');
-  }
+  };
+
+  renderAttachmentIcon = () => {
+    const { fileName, persistentFileId, fileType } = this.props.attachment;
+    //Expecting fileType as mime type .. for example image/jpeg, image/png etc.
+    if (fileType && fileType.indexOf('image') > -1) {
+      return (
+        <div className={styles.iconImage}>
+          <img src={persistentFileId} width='100%' height='100%'/>
+        </div>
+      );
+    }
+    return (
+      <div className={styles.icon}>
+        <div className={styles.extension}>
+          {fileName.split('.')[1].toUpperCase()}
+        </div>
+      </div>
+    );
+  };
 
   renderShowAttachment = () => {
     const { fileName, fileSize } = this.props.attachment;
     return (
       <div className={styles.contentContainer}>
         <div className={styles.iconContainer} onClick={this.downLoadAttachment}>
-          <div className={styles.icon}>
-            <div className={styles.extension}>
-              {fileName.split('.')[1].toUpperCase()}
-            </div>
-          </div>
+          {this.renderAttachmentIcon()}
           <div className={styles.detailsContainer}>
             <div className={styles.label}>
               ATTACHMENT
@@ -68,6 +83,8 @@ Attachment.propTypes = {
   attachment: PropTypes.shape({
     id: PropTypes.string.isRequired,
     fileName: PropTypes.string.isRequired,
+    fileType: PropTypes.string,
+    persistentFileId: PropTypes.string.isRequired,
     owner: PropTypes.object,
     createdAt: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired,
@@ -77,6 +94,7 @@ Attachment.propTypes = {
     }).isRequired,
   }).isRequired,
   showOwner: PropTypes.bool.isRequired,
+
 };
 
 Attachment.defaultProps = {

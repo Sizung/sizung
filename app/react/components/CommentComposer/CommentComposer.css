@@ -32,3 +32,50 @@
   color: #415764;
   align-items: stretch;
 }
+
+.uploadContainer {
+  width: 5rem;
+  min-height: 6.563rem;
+  flex: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: stretch;
+  cursor: pointer;
+}
+
+.upload {
+  composes: uploadContainer;
+  background: no-repeat center url('/icons/attachment-icon.svg');
+  background-size: 1.25rem 2.5rem;
+  padding: 5px 0;
+  color: #415764;
+}
+
+.uploadInProgress {
+  composes: fa fa-spinner fa-spin fa-lg from global;
+  color: #415764;
+}
+
+.uploadError {
+  composes: fa fa-warning fa-lg from global;
+  color: #415764;
+}
+
+.uploadPercentage {
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-end;
+  align-content: stretch;
+  cursor: pointer;
+}
+
+.upload input {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  opacity: 0 !important;
+  overflow: hidden !important;
+  cursor: pointer;
+}
