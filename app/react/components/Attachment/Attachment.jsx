@@ -30,15 +30,15 @@ class Attachment extends React.Component {
     console.log('fileType: ', fileType);
     if (fileType && fileType.indexOf('image') > -1) {
       return (
-        <div className={styles.iconImage}>
-          <img src={fileUrl} width='100%' height='100%'/>
+        <div className={styles.thumbnailContainer}>
+          <img src={fileUrl} className={styles.thumbnail}/>
         </div>
       );
     }
     return (
       <div className={styles.icon}>
         <a href={fileUrl} target="_blank" className={styles.extension}>
-          {fileName.split('.')[1].toUpperCase()}
+          {fileName.split('.').pop().toUpperCase()}
         </a>
       </div>
     );

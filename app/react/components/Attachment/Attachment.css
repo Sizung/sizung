@@ -27,7 +27,7 @@
 .iconContainer {
   display: flex;
   flex-direction: row;
-  align-items: center;
+  align-items: flex-start;
   width: 11.25rem;
   min-height: 4rem;
   cursor: pointer;
@@ -41,11 +41,12 @@
   align-items: center;
   width: 3.375rem;
   min-height: 3.875rem;
+  margin-right: 1rem;
   background-image: url('/icons/attachment-doc-icon.svg');
   background-size: 100% 100%;
 }
 
-.iconImage {
+.thumbnailContainer {
   flex: none;
   display: flex;
   flex-direction: row;
@@ -53,6 +54,15 @@
   align-items: center;
   width: 18.25rem;
   height: 27.5rem;
+  margin-right: 2.5rem;
+  padding: 1rem;
+  border: 1px solid #dddddd;
+}
+
+.thumbnail {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .extension {
@@ -72,7 +82,6 @@
   align-content: space-around;
   /*width: 7rem;*/
   height: 3.875rem;
-  margin-left: 1rem;
 }
 
 .label {
