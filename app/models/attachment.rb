@@ -5,4 +5,8 @@ class Attachment < ActiveRecord::Base
   belongs_to :owner, class_name: 'User'
 
   validates_presence_of :parent, :owner, :file_name, :file_size, :persistent_file_id
+
+  def file_url
+    "#{ENV['SIZUNG_HOST']}/attachments/#{id}"
+  end
 end

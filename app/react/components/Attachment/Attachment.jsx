@@ -25,26 +25,27 @@ class Attachment extends React.Component {
   };
 
   renderAttachmentIcon = () => {
-    const { fileName, persistentFileId, fileType } = this.props.attachment;
-    //Expecting fileType as mime type .. for example image/jpeg, image/png etc.
+    const { fileName, fileUrl, fileType } = this.props.attachment;
+    // Expecting fileType as mime type .. for example image/jpeg, image/png etc.
+    console.log('fileType: ', fileType);
     if (fileType && fileType.indexOf('image') > -1) {
       return (
         <div className={styles.iconImage}>
-          <img src={persistentFileId} width='100%' height='100%'/>
+          <img src={fileUrl} width='100%' height='100%'/>
         </div>
       );
     }
     return (
       <div className={styles.icon}>
-        <div className={styles.extension}>
+        <a href={fileUrl} target="_blank" className={styles.extension}>
           {fileName.split('.')[1].toUpperCase()}
-        </div>
+        </a>
       </div>
     );
   };
 
   renderShowAttachment = () => {
-    const { fileName, fileSize } = this.props.attachment;
+    const { fileName, fileSize, fileUrl } = this.props.attachment;
     return (
       <div className={styles.contentContainer}>
         <div className={styles.iconContainer} onClick={this.downLoadAttachment}>
@@ -53,9 +54,9 @@ class Attachment extends React.Component {
             <div className={styles.label}>
               ATTACHMENT
             </div>
-            <div className={styles.fileName}>
+            <a href={fileUrl} target="_blank" className={styles.fileName}>
               {fileName}
-            </div>
+            </a>
             <div className={styles.size}>
               {this.formatSize(parseInt(fileSize, 10))}
             </div>
@@ -84,7 +85,7 @@ Attachment.propTypes = {
     id: PropTypes.string.isRequired,
     fileName: PropTypes.string.isRequired,
     fileType: PropTypes.string,
-    persistentFileId: PropTypes.string.isRequired,
+    fileUrl: PropTypes.string.isRequired,
     owner: PropTypes.object,
     createdAt: PropTypes.string.isRequired,
     updatedAt: PropTypes.string.isRequired,

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160513122515) do
+ActiveRecord::Schema.define(version: 20160518165904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -74,6 +74,7 @@ ActiveRecord::Schema.define(version: 20160513122515) do
     t.datetime "archived_at"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
+    t.string   "file_type"
   end
   add_index "attachments", ["owner_id"], name: "index_attachments_on_owner_id", using: :btree
   add_index "attachments", ["parent_type", "parent_id"], name: "index_attachments_on_parent_type_and_parent_id", using: :btree
@@ -144,7 +145,8 @@ SELECT comments.id,
     NULL::integer AS comments_count,
     NULL::character varying AS persistent_file_id,
     NULL::character varying AS file_name,
-    NULL::integer AS file_size
+    NULL::integer AS file_size,
+    NULL::character varying AS file_type
    FROM comments
 UNION ALL
  SELECT attachments.id,
@@ -170,7 +172,8 @@ UNION ALL
     NULL::integer AS comments_count,
     attachments.persistent_file_id,
     attachments.file_name,
-    attachments.file_size
+    attachments.file_size,
+    attachments.file_type
    FROM attachments
 UNION ALL
  SELECT agenda_items.id,
@@ -196,7 +199,8 @@ UNION ALL
     agenda_items.comments_count,
     NULL::character varying AS persistent_file_id,
     NULL::character varying AS file_name,
-    NULL::integer AS file_size
+    NULL::integer AS file_size,
+    NULL::character varying AS file_type
    FROM agenda_items
 UNION ALL
  SELECT deliverables.id,
@@ -222,7 +226,8 @@ UNION ALL
     deliverables.comments_count,
     NULL::character varying AS persistent_file_id,
     NULL::character varying AS file_name,
-    NULL::integer AS file_size
+    NULL::integer AS file_size,
+    NULL::character varying AS file_type
    FROM deliverables
   END_VIEW_CONVERSATION_OBJECTS
 

@@ -70,6 +70,7 @@ module Api
     # GET /api/<parent_type>/<parent_id>/attachments/created.json
     def create
       @attachment = Attachment.new(attachment_params)
+      @attachment.persistent_file_id = @attachment.persistent_file_id.split('?').first.gsub("https://s3.amazonaws.com/#{ENV['S3_BUCKET_NAME']}/", '')
       @attachment.parent = parent
       authorize @attachment
       @attachment.owner = current_user
@@ -84,7 +85,7 @@ module Api
     private
 
     def attachment_params
-      params.require(:attachment).permit(:persistent_file_id, :file_name, :file_size)
+      params.require(:attachment).permit(:persistent_file_id, :file_name, :file_size, :file_type)
     end
     
     def parent_type

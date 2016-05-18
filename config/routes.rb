@@ -59,6 +59,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :attachments, only: [:show]
+  
   resources :organizations, shallow: true do
     resources :organization_members, only: [:index, :destroy]
     resources :conversations

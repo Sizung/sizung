@@ -1,5 +1,5 @@
 class AttachmentSerializer < ActiveModel::Serializer
-  attributes :id, :persistent_file_id, :file_name, :file_size, :created_at, :updated_at, :archived, :archived_at
+  attributes :id, :file_url, :file_name, :file_size, :file_type, :created_at, :updated_at, :archived, :archived_at
   belongs_to :parent
   belongs_to :owner
 
@@ -13,9 +13,10 @@ class AttachmentSerializer < ActiveModel::Serializer
     property :attributes do
       key :type, :object
 
-      property :persistent_file_id, type: :string
+      property :file_url, type: :string
       property :file_name, type: :string
       property :file_size, type: :integer
+      property :file_type, type: :string
       property :created_at, type: :datetime
       property :updated_at, type: :datetime
       property :archived, type: :boolean

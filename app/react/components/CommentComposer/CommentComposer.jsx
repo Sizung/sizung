@@ -58,7 +58,7 @@ class CommentComposer extends React.Component {
     const { parent } = this.props;
     const fileUrlSplit = data.signedUrl.split('?')[0].split('/');
     const fileName = fileObject.name;
-    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: fileObject.name, file_size: fileObject.size });
+    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: fileObject.name, file_size: fileObject.size, file_type: fileObject.type });
   };
 
   render() {
