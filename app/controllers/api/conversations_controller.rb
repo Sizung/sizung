@@ -157,7 +157,6 @@ module Api
     # PATCH/PUT /conversations/1.json
     def update
       if @conversation.toggle_archive(params[:conversation][:archived]) || @conversation.update(conversation_params)
-        ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'update')
         @addMembers = []
         @removeMembers = []
         if params[:conversation][:conversation_members]
@@ -180,6 +179,9 @@ module Api
             @conversation.conversation_members.destroy(member)
           end
         end
+
+        ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'update')
+
         # TODO ANI GUGL: Fix this part while sending response to client so that client has control over which attributes to use
         render json: @conversation, include: %w(conversation_members)
       end

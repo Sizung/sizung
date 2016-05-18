@@ -42,13 +42,14 @@ const updateConversation = (id, changedFields) => {
   };
 };
 
-const updateConversationRemoteOrigin = (conversation) => {
+const updateConversationRemoteOrigin = (conversation, entities) => {
   const conversationMembers = conversation.conversation_members;
   return {
     type: constants.UPDATE_CONVERSATION,
     status: constants.STATUS_REMOTE_ORIGIN,
     conversation,
     entity: conversation,
+    entities,
     conversationMembers,
   };
 };
