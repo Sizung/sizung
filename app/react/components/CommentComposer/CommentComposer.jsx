@@ -42,22 +42,17 @@ class CommentComposer extends React.Component {
   };
 
   onUploadProgress = (data) => {
-    //console.log('onUploadProgress: ', data);
     this.setState({ uploadStatus: 'InProgress', uploadPercentage: data });
   };
 
   onUploadError = (data) => {
-    //console.log('onUploadError: ', data);
     this.setState({ uploadStatus: 'Error' });
   };
 
   onUploadFinish = (data) => {
-    //console.log('onUploadFinish: ', data);
     const fileObject = ReactDOM.findDOMNode(this.refs.input).files[0];
     this.setState({ uploadStatus: '' });
     const { parent } = this.props;
-    const fileUrlSplit = data.signedUrl.split('?')[0].split('/');
-    const fileName = fileObject.name;
     this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: fileObject.name, file_size: fileObject.size });
   };
 
