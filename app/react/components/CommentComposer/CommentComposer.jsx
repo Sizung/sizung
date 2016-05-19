@@ -53,8 +53,6 @@ class CommentComposer extends React.Component {
     const fileObject = ReactDOM.findDOMNode(this.refs.input).files[0];
     this.setState({ uploadStatus: '' });
     const { parent } = this.props;
-    const fileUrlSplit = data.signedUrl.split('?')[0].split('/');
-    const fileName = fileObject.name;
     this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: fileObject.name, file_size: fileObject.size, file_type: fileObject.type });
   };
 
@@ -79,7 +77,7 @@ class CommentComposer extends React.Component {
           <ReactS3Uploader
               ref='input'
               signingUrl={signingUrl}
-              accept="image/*"
+              accept="*/*"
               onProgress={this.onUploadProgress}
               onError={this.onUploadError}
               onFinish={this.onUploadFinish}

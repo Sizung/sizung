@@ -30,17 +30,17 @@ class Attachment extends React.Component {
     console.log('fileType: ', fileType);
     if (fileType && fileType.indexOf('image') > -1) {
       return (
-        <div className={styles.iconImage}>
-          <img src={fileUrl} width='100%' height='100%'/>
-        </div>
+        <a href={fileUrl} target="_blank" className={styles.thumbnailContainer}>
+          <img src={fileUrl} className={styles.thumbnail}/>
+        </a>
       );
     }
     return (
-      <div className={styles.icon}>
-        <a href={fileUrl} target="_blank" className={styles.extension}>
-          {fileName.split('.')[1].toUpperCase()}
-        </a>
-      </div>
+      <a href={fileUrl} target="_blank" className={styles.icon}>
+        <span className={styles.extension}>
+          {fileName.split('.').pop().toUpperCase()}
+        </span>
+      </a>
     );
   };
 
@@ -50,17 +50,17 @@ class Attachment extends React.Component {
       <div className={styles.contentContainer}>
         <div className={styles.iconContainer} onClick={this.downLoadAttachment}>
           {this.renderAttachmentIcon()}
-          <div className={styles.detailsContainer}>
+          <a href={fileUrl} target="_blank" className={styles.detailsContainer}>
             <div className={styles.label}>
               ATTACHMENT
             </div>
-            <a href={fileUrl} target="_blank" className={styles.fileName}>
+            <div className={styles.fileName}>
               {fileName}
-            </a>
+            </div>
             <div className={styles.size}>
               {this.formatSize(parseInt(fileSize, 10))}
             </div>
-          </div>
+          </a>
         </div>
         {this.lastUpdatedTime()}
       </div>
