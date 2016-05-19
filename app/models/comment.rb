@@ -4,7 +4,7 @@ class Comment < ActiveRecord::Base
   belongs_to :commentable, polymorphic: true, counter_cache: true
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
-  validates_presence_of :author, :commentable
+  validates_presence_of :author, :commentable, :body
 
   def title
     body

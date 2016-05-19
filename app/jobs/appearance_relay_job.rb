@@ -5,7 +5,7 @@ class AppearanceRelayJob < ActiveJob::Base
     logger.info('Broadcasting new appearance')
     user.organizations.each do |organization|
       ActionCable.server.broadcast "organizations:#{organization.id}",
-                                   user: ActiveModel::SerializableResource.new(user).serializable_hash,
+                                   user: ActiveModelSerializers::SerializableResource.new(user).serializable_hash,
                                    actor_id: actor_id,
                                    action: action
     end

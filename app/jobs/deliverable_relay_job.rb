@@ -8,7 +8,7 @@ class DeliverableRelayJob < ActiveJob::Base
     AgendaItemRelayJob.perform_later(agenda_item: agenda_item, actor_id: nil, action: 'update') if agenda_item.present?
 
     ActionCable.server.broadcast "conversations:#{deliverable.conversation.id}",
-                                 payload: ActiveModel::SerializableResource.new(deliverable).serializable_hash,
+                                 payload: ActiveModelSerializers::SerializableResource.new(deliverable).serializable_hash,
                                  actor_id: actor_id,
                                  action: action
   end

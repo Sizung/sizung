@@ -11,7 +11,7 @@ module Api
     include Swagger::Blocks
     
     swagger_path '/organizations/{organization_id}/conversations' do
-      operation :get, summary: 'List conversations', operationId: 'listConversationsByOrganizationId', tags: ['conversation'] do
+      operation :get, summary: 'List conversations', operationId: 'listConversationsByOrganizationId', tags: ['conversation'], security: [bearer: []] do
         key :description, 'Returns the list of conversations for a specific organization that the user is a member of'
 
         parameter name: :organization_id, in: :path, type: :string, required: true
@@ -32,7 +32,7 @@ module Api
     end
 
     swagger_path '/conversations/{id}' do
-      operation :get do
+      operation :get, security: [bearer: []] do
         key :summary, 'Details for a specific Conversatino'
         key :description, 'Returns the all details for a Conversation as well as the list of its Agenda Items and Deliverables'
         key :operationId, 'findConversationById'
@@ -79,7 +79,7 @@ module Api
     end
 
     swagger_path '/organizations/{organization_id}/conversations' do
-      operation :post do
+      operation :post, security: [bearer: []] do
         key :summary, 'Create a new Conversation'
         key :description, 'Creates a new Conversation and adds ConversationMembers to it'
         key :operationId, 'createConversationByOrganizationId'
@@ -137,7 +137,7 @@ module Api
     end
 
     swagger_path '/conversations/{id}' do
-      operation :patch do
+      operation :patch, security: [bearer: []] do
         key :summary, 'Update a specific Conversation'
         key :operationId, 'updateConversationById'
         key :tags, ['conversation']
@@ -197,7 +197,7 @@ module Api
 
 
     swagger_path '/conversations/{id}' do
-      operation :delete do
+      operation :delete, security: [bearer: []] do
         key :summary, 'Archive a specific Conversation'
         key :operationId, 'archiveConversationById'
         key :tags, ['conversation']

@@ -26,7 +26,7 @@ class UnseenService
 
     unseen_objects.each do |unseen_object|
       ActionCable.server.broadcast "users:#{unseen_object.user_id}",
-                                   payload: ActiveModel::SerializableResource.new(unseen_object).serializable_hash,
+                                   payload: ActiveModelSerializers::SerializableResource.new(unseen_object).serializable_hash,
                                    action: 'delete'
     end
     unseen_objects.destroy_all
@@ -38,7 +38,7 @@ class UnseenService
       unseen_object.update agenda_item_id: deliverable.agenda_item.try(:id)
       unseen_object.update conversation_id: deliverable.conversation.id
       ActionCable.server.broadcast "users:#{unseen_object.user_id}",
-                                   payload: ActiveModel::SerializableResource.new(unseen_object).serializable_hash,
+                                   payload: ActiveModelSerializers::SerializableResource.new(unseen_object).serializable_hash,
                                    action: 'update'
     end
   end

@@ -13,7 +13,7 @@ describe CommentRelayJob do
     conversation = FactoryGirl.create :conversation
     deliverable = FactoryGirl.create :deliverable, parent: conversation
     comment = FactoryGirl.create :comment, commentable: deliverable
-    payload = ActiveModel::SerializableResource.new(comment).serializable_hash.to_json
+    payload = ActiveModelSerializers::SerializableResource.new(comment).serializable_hash.to_json
     assert_performed_jobs 2 do
       CommentRelayJob.perform_later(payload: payload, commentable_id: comment.commentable_id, commentable_type: comment.commentable_type, actor_id: nil, action: 'create')
     end

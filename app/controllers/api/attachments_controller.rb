@@ -40,6 +40,7 @@ module Api
         property :persistent_file_id, type: :string
         property :file_name, type: :string
         property :file_size, type: :integer, description: 'File size in bytes'
+        property :file_type, type: :string, description: 'The mime type of the file'
       end
     end
     
@@ -64,6 +65,12 @@ module Api
             key :'$ref', :responseOne_Attachment
           end
         end
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+
         response :default do
           key :description, 'Unexpected error'
         end

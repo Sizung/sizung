@@ -10,7 +10,7 @@ module Api
     include Swagger::Blocks
     
     swagger_path '/organizations' do
-      operation :get do
+      operation :get, security: [bearer: []] do
         key :summary, 'List organizations'
         key :description, 'Returns the list of organizations the user is a member of'
         key :operationId, 'listOrganizations'
@@ -38,7 +38,7 @@ module Api
 
     
     swagger_path '/organizations/{id}' do
-      operation :get do
+      operation :get, security: [bearer: []] do
         key :summary, 'Details for a specific Organization'
         key :description, 'Returns the all details for the organization overview'
         key :operationId, 'findOrganizationById'
@@ -94,7 +94,7 @@ module Api
     end
     
     swagger_path '/organizations/{id}' do
-      operation :patch do
+      operation :patch, security: [bearer: []] do
         key :summary, 'Update a specific Organization'
         key :description, 'Returns the all details for the organization overview'
         key :operationId, 'updateOrganizationById'
