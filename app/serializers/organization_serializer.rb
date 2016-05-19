@@ -19,17 +19,17 @@ class OrganizationSerializer < ActiveModel::Serializer
     end
     property :relationships do
       property :owner do
-        property :data do
-          property :id, type: :string, required: true
-          property :type, type: :string, required: true, enum: ['users']
+        property :data, required: [:id, :type] do
+          property :id, type: :string
+          property :type, type: :string, enum: ['users']
         end
       end
 
       property :organization_members do
         property :data, type: :array do
           items do
-            property :id, type: :string, required: true
-            property :type, type: :string, required: true, enum: ['organization_members']
+            property :id, type: :string
+            property :type, type: :string, enum: ['organization_members']
           end
         end
       end

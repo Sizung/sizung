@@ -5,7 +5,7 @@ class AttachmentSerializer < ActiveModel::Serializer
 
   include Swagger::Blocks
 
-  swagger_schema :Attachment do
+  swagger_schema :Attachment, type: :object do
     key :required, [:id, :type, :attributes]
 
     property :id, type: :string
@@ -17,21 +17,21 @@ class AttachmentSerializer < ActiveModel::Serializer
       property :file_name, type: :string
       property :file_size, type: :integer
       property :file_type, type: :string
-      property :created_at, type: :datetime
-      property :updated_at, type: :datetime
+      property :created_at, type: :string, format: 'date-time'
+      property :updated_at, type: :string, format: 'date-time'
       property :archived, type: :boolean
     end
     property :relationships do
       property :owner do
-        property :data do
-          property :id, type: :string, required: true
-          property :type, type: :string, required: true, enum: ['users']
+        property :data, required: [:id, :type] do
+          property :id, type: :string
+          property :type, type: :string, enum: ['users']
         end
       end
       property :parent do
-        property :data do
-          property :id, type: :string, required: true
-          property :type, type: :string, required: true, enum: ['conversations', 'agenda_items', 'deliverables'] # TODO: maybe also comments?
+        property :data, required: [:id, :type] do
+          property :id, type: :string
+          property :type, type: :string, enum: ['conversations', 'agenda_items', 'deliverables'] # TODO: maybe also comments?
         end
       end
     end
@@ -42,13 +42,4 @@ class AttachmentSerializer < ActiveModel::Serializer
       key :'$ref', :Attachment
     end
   end
-
-  swagger_schema :responseMany_Attachment do
-    property :data, type: :array do
-      items do
-        key :'$ref', :Attachment
-      end
-    end
-  end
-
 end

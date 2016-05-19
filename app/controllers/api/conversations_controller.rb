@@ -13,6 +13,8 @@ module Api
     swagger_path '/organizations/{organization_id}/conversations' do
       operation :get, summary: 'List conversations', operationId: 'listConversationsByOrganizationId', tags: ['conversation'] do
         key :description, 'Returns the list of conversations for a specific organization that the user is a member of'
+
+        parameter name: :organization_id, in: :path, type: :string, required: true
         
         response 200, description: 'An array of conversations' do
           schema do
@@ -35,6 +37,8 @@ module Api
         key :description, 'Returns the all details for a Conversation as well as the list of its Agenda Items and Deliverables'
         key :operationId, 'findConversationById'
         key :tags, ['conversation']
+
+        parameter name: :id, in: :path, type: :string, required: true
         
         response 200 do
           key :description, 'Conversation response'
@@ -81,6 +85,8 @@ module Api
         key :operationId, 'createConversationByOrganizationId'
         key :tags, ['conversation']
 
+        parameter name: :organization_id, in: :path, type: :string, required: true
+        
         parameter name: :conversation, in: :body, required: true, description: 'Conversation fields' do
           schema do
             key :'$ref', :ConversationInput
@@ -136,6 +142,8 @@ module Api
         key :operationId, 'updateConversationById'
         key :tags, ['conversation']
 
+        parameter name: :id, in: :path, type: :string, required: true
+        
         parameter name: :conversation, in: :body, required: true, description: 'Conversation fields to update' do
           schema do
             key :'$ref', :ConversationInput
@@ -194,6 +202,8 @@ module Api
         key :operationId, 'archiveConversationById'
         key :tags, ['conversation']
 
+        parameter name: :id, in: :path, type: :string, required: true
+        
         response 200 do
           key :description, 'No content'
         end

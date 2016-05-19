@@ -43,12 +43,15 @@ module Api
       end
     end
     
-    swagger_path '/conversations/{conversation_id}/attachments' do
-      operation :post do
-        key :summary, 'Create a new Attachment. This is the conversation example.'
+    swagger_path '/{parent_type}/{parent_id}/attachments' do
+      operation :post, security: [bearer: []] do
+        key :summary, 'Create a new Attachment.'
         key :description, 'Creates a new attachment'
         key :tags, ['attachment']
-
+        
+        parameter name: :parent_id, in: :path, type: :string, required: true
+        parameter name: :parent_type, in: :path, type: :string, required: true
+        
         parameter name: :attachment, in: :body, required: true, description: 'Attachment fields' do
           schema do
             key :'$ref', :AttachmentInput

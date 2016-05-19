@@ -44,6 +44,8 @@ module Api
         key :operationId, 'findOrganizationById'
         key :tags, ['organization']
         key :produces, ['application/json']
+
+        parameter name: :id, in: :path, type: :string, required: true
         
         response 200 do
           key :description, 'Organization response'
@@ -99,6 +101,8 @@ module Api
         key :tags, ['organization']
         key :produces, ['application/json']
 
+        parameter name: :id, in: :path, type: :string, required: true
+        
         parameter name: :organization, in: :body, required: true, description: 'Organization fields to update' do
           schema do
             key :'$ref', :OrganizationInput
