@@ -66,6 +66,7 @@ and (max-width: 1280px) {
     width: 100%;
     font-family: 'Gotham-Book';
     font-size: 8px;
+    overflow-y: hidden;
   }
 
 }
@@ -78,6 +79,7 @@ and (max-width: 1440px) {
     width: 100%;
     font-family: 'Gotham-Book';
     font-size: 10px;
+    overflow-y: hidden;
   }
 }
 
@@ -89,6 +91,7 @@ and (max-width: 1680px) {
     width: 100%;
     font-family: 'Gotham-Book';
     font-size: 12px;
+    overflow-y: hidden;
   }
 }
 
@@ -100,6 +103,7 @@ and (max-width: 1920px) {
     width: 100%;
     font-family: 'Gotham-Book';
     font-size: 14px;
+    overflow-y: hidden;
   }
 }
 
@@ -110,6 +114,7 @@ and (min-width: 1921px) {
     width: 100%;
     font-family: 'Gotham-Book';
     font-size: 16px;
+    overflow-y: hidden;
   }
 }
 
