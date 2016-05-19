@@ -7,7 +7,14 @@
     = "\"#{@organization.name}\""
   = "by #{@inviter.name}."
 
-- unless @user.confirmed?
+- if @user.confirmed?
+  %p
+    Click on the link below to join #{@organization.name}.
+  %p
+    %br
+    %br
+    = link_to 'Join', root_url
+- else
   %p
     An account has already been created with this email address. 
     Please click here to confirm the email address:
@@ -17,10 +24,4 @@
     = link_to 'Confirm', confirmation_url(@user, confirmation_token: @user.generate_and_return_confirmation_token!)
   %br
   %br
-%p
-  Click on the link below to join #{@organization.name}.
-%p
-  %br
-  %br
-  = link_to 'Join', root_url
 
