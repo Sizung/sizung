@@ -68,8 +68,13 @@ class AgendaItem extends React.Component {
     return null;
   };
 
+  isElementOutViewport = (el) => {
+    const rect = el.getBoundingClientRect();
+    return rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight;
+  };
+
   componentDidUpdate() {
-    if (this.props.selected) {
+    if (this.props.selected && this.isElementOutViewport(this.refs.agendaItem)) {
       this.refs.agendaItem.scrollIntoView();
     }
   }
