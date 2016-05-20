@@ -10,6 +10,7 @@ class EditableText extends React.Component {
     onUpdate: PropTypes.func.isRequired,
     editable: PropTypes.bool,
     inverted: PropTypes.bool,
+    backgroundHover: PropTypes.bool, //enable this when you want a in built hover on editable text
   };
 
   static defaultProps = {
@@ -74,22 +75,21 @@ class EditableText extends React.Component {
     if (this.state.edit) {
       return (
         <div className={styles.editTextContainer}>
-          <div className="col-xs-12 zero-margin zero-padding">
-            <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} maxLength={this.props.maxLength}/>
-          </div>
+          <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} maxLength={this.props.maxLength}/>
         </div>
       );
     }
 
     const persistedTextStyle = this.props.inverted ? styles.persistedTextInverted : styles.persistedText;
-
     return (
       <div className={styles.persistedTextContainer}  onClick={editable ? this.handleEditClick : null }>
         <div className={persistedTextStyle}>
-          <TextWithMentions maxLength={this.props.maxLength}>{persistedText}</TextWithMentions>
-        </div>
-        <div className={styles.editLinkContainer}>
-          {this.editLink(editable)}
+          <span className={ (this.props.backgroundHover ? styles.textHoverContainer : '') }>
+            <TextWithMentions maxLength={this.props.maxLength}>{persistedText}</TextWithMentions>
+          </span>
+          <div className={styles.editLinkContainer}>
+            {this.editLink(editable)}
+          </div>
         </div>
       </div>
     );

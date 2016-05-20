@@ -34,7 +34,7 @@ class ConversationHeader extends React.Component {
       );
     } else if (chatType === 'conversations') {
       return (
-        <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} editable={chatType === 'conversations' ? true : false}/>
+        <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} editable={chatType === 'conversations' ? true : false} backgroundHover/>
       );
     }
   };
@@ -60,16 +60,20 @@ class ConversationHeader extends React.Component {
 
     return (
       <div className={ chatType === 'conversations' ? styles.editableRoot : styles.root }>
-        <div className={styles.prefix}>#</div>
-        <div className={styles.conversationTitle}>
-          { this.renderTitle() }
+        <div className={styles.titleContainer}>
+          <div className={styles.prefix}>#</div>
+          <div className={styles.conversationTitle}>
+            { this.renderTitle() }
+          </div>
         </div>
-        { this.renderArchiveAction() }
-        <div className={styles.conversationMemberContainer}>
-          <ConversationMembersCounterApp/>
-        </div>
-        <div onClick={this.props.routeBackToPreviousPage} title="Close Conversation">
-          <CloseIcon type={'transparent'} />
+        <div className={styles.actionContainer}>
+          { this.renderArchiveAction() }
+          <div className={styles.conversationMemberContainer}>
+            <ConversationMembersCounterApp/>
+          </div>
+          <div onClick={this.props.routeBackToPreviousPage} title="Close Conversation" className={styles.close}>
+            <CloseIcon type={'transparent'} />
+          </div>
         </div>
       </div>
     );

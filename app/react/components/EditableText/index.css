@@ -1,6 +1,6 @@
 .editLinkContainer {
-  /*display: inline-block;*/
-  display: flex;
+  display: inline;
+  /*display: flex;*/
   flex-direction: row;
   justify-content: flex-end;
   visibility: hidden;
@@ -13,12 +13,15 @@
 }
 
 .editLink {
-  float: right;
+  /*float: right;*/
+  margin-right: 10px;
 }
 
 .editTextContainer {
-  display: inline-block;
-  width: 100%;
+  composes: col-xs-12 zero-margin zero-padding from global;
+  display: inline;
+  max-width: 100%;
+  /*width: 30rem;*/
   padding: 0;
 }
 
@@ -40,8 +43,9 @@
 }
 
 .persistedText {
-  display: inline-block;
-  max-width: 90%;
+  display: inline;
+  /*max-width: 90%;*/
+  /*width: 30rem;*/
   float: left;
   word-wrap: break-word;
 }
@@ -51,3 +55,21 @@
   color: #ffffff;
 }
 
+.textHoverContainer {
+  display: inline;
+}
+
+.persistedText .textHoverContainer {
+  padding: 10px;
+}
+
+.persistedText:hover .textHoverContainer {
+  background-color: #D9DEDF;
+}
+
+.persistedTextInverted:hover .textHolder {
+  background: none;
+}
+/*#3297BE*/
+/*#334752*/
+/*#D9DEDF*/

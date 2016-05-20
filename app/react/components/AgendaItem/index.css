@@ -45,7 +45,7 @@
 
 .contentContainer {
   overflow: hidden;
-  height: 6rem;
+  height: 6.5rem;
   overflow-wrap: break-word;
   word-wrap: break-word;
   -ms-word-break: break-all;
@@ -119,5 +119,5 @@
   flex-wrap: wrap;
   justify-content: space-between;
   overflow: hidden;
-  margin: 10px 20px;
+  margin: 5px 20px;
 }
