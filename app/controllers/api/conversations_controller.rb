@@ -131,7 +131,7 @@ module Api
           # TODO: Need to check if there is a better way of achieving the below case of adding conv creator as default member
           @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>current_user.id)
           # render :show, status: :created, location: @conversation
-          ConversationRelayJob.perform_later(conversation: conversation, actor_id: current_user.id, action: 'create')
+          ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'create')
           UnseenService.new.handle_with(@conversation, current_user)
           render json: @conversation, serializer: ConversationSerializer
         else
