@@ -10,7 +10,6 @@ class EditableText extends React.Component {
     onUpdate: PropTypes.func.isRequired,
     editable: PropTypes.bool,
     inverted: PropTypes.bool,
-    backgroundHover: PropTypes.bool, //enable this when you want a in built hover on editable text
   };
 
   static defaultProps = {
@@ -64,9 +63,9 @@ class EditableText extends React.Component {
 
     if (editable) {
       return (
-        <a className={styles.editLink} href="#">
-          <EditIcon inverted={inverted} />
-        </a>
+          <a className={styles.editLink} href="#">
+            <EditIcon inverted={inverted} />
+          </a>
       );
     }
   }
@@ -74,24 +73,25 @@ class EditableText extends React.Component {
   textElement = (persistedText, editable) => {
     if (this.state.edit) {
       return (
-        <div className={styles.editTextContainer}>
-          <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} maxLength={this.props.maxLength}/>
-        </div>
+          <div className={styles.editTextContainer}>
+            <div className="col-xs-12 zero-margin zero-padding">
+              <SizungInputApp ref="input" className="form-control" className={styles.editTextInput} onKeyDown={this.handleKeyDown} onSubmit={this.handleSubmit} onBlur={this.handleBlur} defaultValue={persistedText} maxLength={this.props.maxLength}/>
+            </div>
+          </div>
       );
     }
 
     const persistedTextStyle = this.props.inverted ? styles.persistedTextInverted : styles.persistedText;
+
     return (
-      <div className={styles.persistedTextContainer}  onClick={editable ? this.handleEditClick : null }>
-        <div className={persistedTextStyle}>
-          <span className={ (this.props.backgroundHover ? styles.textHoverContainer : '') }>
+        <div className={styles.persistedTextContainer}  onClick={editable ? this.handleEditClick : null }>
+          <div className={persistedTextStyle}>
             <TextWithMentions maxLength={this.props.maxLength}>{persistedText}</TextWithMentions>
-          </span>
+          </div>
           <div className={styles.editLinkContainer}>
             {this.editLink(editable)}
           </div>
         </div>
-      </div>
     );
   }
 
@@ -103,4 +103,3 @@ class EditableText extends React.Component {
 }
 
 export default EditableText;
-

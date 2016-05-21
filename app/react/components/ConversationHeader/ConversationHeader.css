@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
   padding: 0 25px 0 15px;
   min-height: 6.438rem;
   background-color: #edf2f4;
@@ -13,24 +13,8 @@
   composes: root;
 }
 
-/*.editableRoot:hover .prefix, .editableRoot:hover .conversationTitle {*/
-  /*background-color: #D9DEDF;*/
-/*}*/
-
-.titleContainer {
-  flex: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.actionContainer {
-  flex: none;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
+.editableRoot:hover .prefix, .editableRoot:hover .conversationTitle {
+  background-color: #D9DEDF;
 }
 
 .prefix {
@@ -43,12 +27,12 @@
 }
 
 .conversationTitle {
+  flex: 2;
   font-size: 1.563rem;
   font-family: Gotham-Medium;
   padding: 0 10px 0 0;
   line-height: 3.188rem;
   height: 3.188rem;
-  width: 30rem;
   overflow: hidden;
 }
 
@@ -64,11 +48,13 @@
 }
 
 .close {
-  /*float: right;*/
+  display: inline-block;
+  background-image: url("/icons/close-icon.png");
+  width: 26px;
+  height: 26px;
 }
 
 .archiveIcon {
-  /*float: right;*/
   margin-left: 10px;
   cursor: pointer;
 }

@@ -28,13 +28,13 @@ class ConversationHeader extends React.Component {
 
     if (chatType === 'agendaItems' || chatType === 'deliverables') {
       return (
-        <Link to={'/conversations/' + conversation.id} className={styles.conversationLink}>
-          {conversation.title}
-        </Link>
+          <Link to={'/conversations/' + conversation.id} className={styles.conversationLink}>
+            {conversation.title}
+          </Link>
       );
     } else if (chatType === 'conversations') {
       return (
-        <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} editable={chatType === 'conversations' ? true : false} backgroundHover/>
+          <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} editable={chatType === 'conversations' ? true : false}/>
       );
     }
   };
@@ -47,9 +47,9 @@ class ConversationHeader extends React.Component {
     const { chatType } = this.props;
     if ( chatType === 'conversations') {
       return (
-        <div className={styles.archiveIcon} onClick={this.deleteConversation}>
-          <ArchiveIcon inverted/>
-        </div>
+          <div className={styles.archiveIcon} onClick={this.deleteConversation}>
+            <ArchiveIcon inverted/>
+          </div>
       );
     }
     return null;
@@ -59,23 +59,19 @@ class ConversationHeader extends React.Component {
     const { chatType } = this.props;
 
     return (
-      <div className={ chatType === 'conversations' ? styles.editableRoot : styles.root }>
-        <div className={styles.titleContainer}>
+        <div className={ chatType === 'conversations' ? styles.editableRoot : styles.root }>
           <div className={styles.prefix}>#</div>
           <div className={styles.conversationTitle}>
             { this.renderTitle() }
           </div>
-        </div>
-        <div className={styles.actionContainer}>
           { this.renderArchiveAction() }
           <div className={styles.conversationMemberContainer}>
             <ConversationMembersCounterApp/>
           </div>
-          <div onClick={this.props.routeBackToPreviousPage} title="Close Conversation" className={styles.close}>
+          <div onClick={this.props.routeBackToPreviousPage} title="Close Conversation">
             <CloseIcon type={'transparent'} />
           </div>
         </div>
-      </div>
     );
   }
 }
