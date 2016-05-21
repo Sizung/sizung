@@ -1,8 +1,8 @@
-import { fillConversationObject, fillAgendaItem } from './entityUtils';
+import { fillConversationObject, fillAgendaItem, fillOrganization } from './entityUtils';
 import Immutable from 'immutable';
 
 const organization = (state, organizationId) => {
-  return state.getIn(['entities', 'organizations', organizationId]);
+  return fillOrganization(state, organizationId);
 };
 
 const conversation = (state, conversationId) => {
@@ -139,10 +139,19 @@ const currentOrganization = (state) => {
   if (!currentOrgId) {
     return null;
   }
-  return state.getIn(['entities', 'organizations', currentOrgId]);
+  return organization(state, currentOrgId);
 };
 
-const organizations = (state) => state.getIn(['entities', 'organizations']).map((organization) => { return organization; }).toList();
+const organizations = (state) =>  {
+  const references = state.getIn(['entities', 'organizations']);
+  if (!references) {
+    return null;
+  }
+
+  return references.map((reference) => {
+    return fillOrganization(state, reference.id);
+  });
+};
 
 
 const organizationMembers = (state, organizationId) => {

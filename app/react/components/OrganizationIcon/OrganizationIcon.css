@@ -6,6 +6,7 @@
 }
 
 .root {
+  position: relative;
   composes: size;
   background-color: white;
   display: inline-block;
@@ -21,4 +22,14 @@
 .root:hover {
   text-decoration: none;
   color: #130F22;
+}
+
+.unseenMarker {
+  position: absolute;
+  top: -40%;
+  right: -40%;
+  width: 2.75rem;
+  height: 2.75rem;
+  background-image: url('/icons/organization_unseen_marker.svg');
+  background-size: 100% 100%;
 }

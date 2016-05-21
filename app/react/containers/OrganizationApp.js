@@ -72,7 +72,6 @@ OrganizationApp.propTypes = {
 
 function mapStateToProps(state, props) {
   const conversationSettingsViewState = selectors.conversationSettingsViewState(state);
-  console.log('conversationSettingsViewState: ' + conversationSettingsViewState);
   return {
     organization: selectors.organization(state, props.params.organizationId),
     conversations: selectors.conversationsForOrganization(state, props.params.organizationId),

@@ -1,5 +1,18 @@
 import Immutable from 'immutable';
 
+export function fillOrganization(state, id) {
+  if (!id || !state.getIn(['entities', 'organizations', id])) {
+    return null;
+  }
+
+  const organization       = Immutable.fromJS(state.getIn(['entities', 'organizations', id])).toJS();
+  organization.owner       = state.getIn(['entities', 'users', organization.ownerId]);
+  organization.unseen      = state.getIn(['entities', 'unseenObjects']).some((unseenObject) => { return unseenObject.targetId === id; });
+  organization.unseenCount = state.getIn(['entities', 'unseenObjects']).filter((unseenObject) => { return unseenObject.organizationId === id; }).size;
+
+  return organization;
+}
+
 export function fillDeliverable(state, id) {
   if (!id || !state.getIn(['entities', 'deliverables', id])) {
     return null;
