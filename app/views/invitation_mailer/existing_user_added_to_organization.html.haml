@@ -4,7 +4,7 @@
 %p
   = "You've been invited to "
   %b
-    = "\"#{@organization.name}\""
+    = "#{@organization.name}"
   = "by #{@inviter.name}."
 
 - if @user.confirmed?
