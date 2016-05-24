@@ -20,19 +20,19 @@ class BottomNavigationBar extends React.Component {
         <div className={ selectedOption === 'agendaItems' ? styles.optionSelected : styles.option } onClick={this.handleClick.bind(this, 'agendaItems')}>
           <Icon type="agendaItem" className={styles.optionIcon}/>
           <div className={styles.optionLabel}>
-            Agendas
+            To Discuss
           </div>
         </div>
         <div className={ selectedOption === 'conversations' ? styles.optionSelected : styles.option } onClick={this.handleClick.bind(this, 'conversations')}>
           <Icon type="chat" className={styles.optionIcon}/>
           <div className={styles.optionLabel}>
-            Conversations
+            Teams
           </div>
         </div>
         <div className={ selectedOption === 'deliverables' ? styles.optionSelected : styles.option } onClick={this.handleClick.bind(this, 'deliverables')}>
           <Icon type="deliverable" className={styles.optionIcon}/>
           <div className={styles.optionLabel}>
-            Deliverables
+            To Do
           </div>
         </div>
       </div>

@@ -36,7 +36,7 @@ class AgendaItemList extends Component {
       <div className={styles.root}>
         <div className={styles.header}>
           <Icon type="agendaItem">
-            AGENDA
+            TO DISCUSS
           </Icon>
         </div>
         <div ref="agendaItemList" className={styles.list}>
