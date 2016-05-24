@@ -271,6 +271,10 @@ const conversationSettingsViewState = (state) => {
   return state.getIn(['conversationUi', 'conversationSettingsState']);
 };
 
+const navigationHistory = (state) => {
+  return state.getIn(['navigationHistory']);
+};
+
 export {
   user,
   users,
@@ -293,4 +297,5 @@ export {
   organization,
   conversation,
   conversationSettingsViewState,
+  navigationHistory,
 };

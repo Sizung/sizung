@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
+import * as OrganizationActions from '../actions/organizations';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as CommentActions from '../actions/comments';
 import * as DeliverableActions from '../actions/deliverables';
@@ -78,11 +79,12 @@ function mapStateToProps(state, props) {
     currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
     conversationSettingsViewState,
+    navigationHistory: selectors.navigationHistory(state),
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...ConversationActions, ...AttachmentActions }, dispatch);
+  return bindActionCreators({ ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...ConversationActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AgendaItemApp);

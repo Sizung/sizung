@@ -1,3 +1,4 @@
+import { routeActions } from 'redux-simple-router';
 import * as constants from './constants';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
@@ -68,9 +69,16 @@ const updateOrganization = (id, changedFields) => {
   };
 };
 
+const visitOrganization = (organizationId) => {
+  return (dispatch) => {
+    dispatch(routeActions.push('/organizations/' + organizationId));
+  };
+};
+
 export {
   setCurrentOrganization,
   fetchOrganizationsSuccess,
   selectOrganization,
   updateOrganization,
+  visitOrganization,
 };

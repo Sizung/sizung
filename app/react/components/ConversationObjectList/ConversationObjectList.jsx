@@ -152,10 +152,14 @@ class ConversationObjectList extends Component {
         <div className={styles.listContainer}>
           <ConversationHeader conversation={this.props.currentConversation}
                               updateConversation={this.props.updateConversation}
-                              parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}
+                              currentConversationObject={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}
                               conversationSettingsViewState={this.props.conversationSettingsViewState}
                               deleteConversation={this.props.deleteConversation}
-                              routeBackToPreviousPage={this.props.routeBackToPreviousPage}
+                              navigationHistory={this.props.navigationHistory}
+                              visitAgendaItem={this.props.visitAgendaItem}
+                              visitDeliverable={this.props.visitDeliverable}
+                              visitConversation={this.props.visitConversation}
+                              visitOrganization={this.props.visitOrganization}
           />
           <TimelineHeader parent={commentForm.parent} />
           {this.renderConversationTimeLine()}
@@ -193,9 +197,10 @@ ConversationObjectList.propTypes = {
   currentConversationId: PropTypes.string.isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
   visitConversation: PropTypes.func,
+  visitOrganization: PropTypes.func,
   deleteConversation: PropTypes.func.isRequired,
-  routeBackToPreviousPage: PropTypes.func.isRequired,
   createAttachment: PropTypes.func.isRequired,
+  navigationHistory: PropTypes.object,
 };
 
 ConversationObjectList.defaultProps = {

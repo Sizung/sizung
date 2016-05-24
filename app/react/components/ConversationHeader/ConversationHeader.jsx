@@ -14,7 +14,7 @@ class ConversationHeader extends React.Component {
       organizationId: PropTypes.string.isRequired,
     }),
     updateConversation: PropTypes.func.isRequired,
-    routeBackToPreviousPage: PropTypes.func.isRequired,
+    navigationHistory: PropTypes.object,
   };
 
   handleTitleUpdate = (newTitle) => {
@@ -55,6 +55,48 @@ class ConversationHeader extends React.Component {
     return null;
   };
 
+  visitMostRecentVisitedParentUrl = () => {
+    const { currentConversationObject, navigationHistory } = this.props;
+    let mostRecentParentUrl = null;
+    const filteredNavigationHistory = navigationHistory.filter((url) => {
+      if (currentConversationObject.type === 'deliverables' && currentConversationObject.parent.type === 'agendaItems') {
+        if (url.indexOf('/agenda_items/' + currentConversationObject.parent.id) > -1
+            || url.indexOf('/conversations/' + currentConversationObject.parent.conversation.id) > -1
+            || url.indexOf('/organizations/' + currentConversationObject.parent.conversation.organizationId) > -1) {
+          return url;
+        }
+      } else if (currentConversationObject.type === 'deliverables' && currentConversationObject.parent.type === 'conversations') {
+        if (url.indexOf('/conversations/' + currentConversationObject.parent.id) > -1
+            || url.indexOf('/organizations/' + currentConversationObject.parent.organizationId) > -1) {
+          return url;
+        }
+      } else if (currentConversationObject.type === 'agendaItems') {
+        if (url.indexOf('/conversations/' + currentConversationObject.conversation.id) > -1
+            || url.indexOf('/organizations/' + currentConversationObject.conversation.organizationId) > -1) {
+          return url;
+        }
+      }
+    });
+
+    mostRecentParentUrl = (filteredNavigationHistory.size > 0 ? filteredNavigationHistory.last() : '/organizations/' + this.props.conversation.organizationId);
+    const mostRecentParentType = mostRecentParentUrl.split('/')[1];
+    const mostRecentParentId = mostRecentParentUrl.split('/')[2];
+    switch (mostRecentParentType) {
+      case 'organizations':
+        this.props.visitOrganization(mostRecentParentId);
+        break;
+      case  'conversations':
+        this.props.visitConversation(mostRecentParentId);
+        break;
+      case 'agenda_items':
+        this.props.visitAgendaItem(mostRecentParentId);
+        break;
+      default:
+        this.props.visitOrganization(mostRecentParentId);
+        break;
+    }
+  };
+
   render() {
     const { chatType } = this.props;
 
@@ -68,7 +110,7 @@ class ConversationHeader extends React.Component {
           <div className={styles.conversationMemberContainer}>
             <ConversationMembersCounterApp/>
           </div>
-          <div onClick={this.props.routeBackToPreviousPage} title="Close Conversation">
+          <div onClick={this.visitMostRecentVisitedParentUrl} title="Close Conversation">
             <CloseIcon type={'transparent'} />
           </div>
         </div>

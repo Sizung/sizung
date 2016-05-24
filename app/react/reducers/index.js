@@ -17,6 +17,7 @@ import deliverablesByConversation from './deliverablesByConversation';
 import conversationUi from './conversationUi';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import entitiesReducer from './entitiesReducer';
+import navigationHistory from './navigationHistoryReducer';
 
 const rootReducer = combineReducers({
   routing: routeReducer,
@@ -35,6 +36,7 @@ const rootReducer = combineReducers({
   deliverablesByConversation,
   conversationMembersByConversation,
   conversationUi,
+  navigationHistory,
 });
 
 export default rootReducer;

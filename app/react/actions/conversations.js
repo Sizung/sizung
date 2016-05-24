@@ -128,27 +128,9 @@ const deleteConversation = (conversationId, organizationId) => {
     if (confirm("Are you sure you want to archive this Conversation?")) {
       dispatch(updateConversation(conversationId, { archived: true }));
       dispatch(routeActions.push('/organizations/' + organizationId));
-
-
     }
-
-//      api.deleteJson('/api/conversations/' + conversationId, (json) => {
-//        const conversation = transform.transformCommentFromJsonApi(json.data);
-//        dispatch({
-//          type: constants.DELETE_CONVERSATION,
-//          status: constants.STATUS_SUCCESS,
-//          conversation,
-//         entity: conversation,
-//        });
-//      });
   };
 };
-
-const routeBackToPreviousPage = () => {
-  return (dispatch) => {
-    dispatch(routeActions.goBack());
-  };
-}
 
 export {
   fetchConversation,
@@ -158,5 +140,4 @@ export {
   updateConversationRemoteOrigin,
   createConversation,
   deleteConversation,
-  routeBackToPreviousPage,
 };
