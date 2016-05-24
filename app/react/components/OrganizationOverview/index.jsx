@@ -34,7 +34,7 @@ class OrganizationOverview extends Component {
       <div className={styles['center-panel']}>
         <div className={styles["header-container"]}>
           <div className={styles['title']}>
-            <Icon type="chat" style={{ marginRight: '20px' }}>CONVERSATIONS</Icon>
+            <Icon type="chat" style={{ marginRight: '20px' }}>TEAMS</Icon>
           </div>
           <div className={styles["action"]}>
             <CreateConversationApp/>

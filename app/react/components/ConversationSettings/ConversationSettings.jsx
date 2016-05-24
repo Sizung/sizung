@@ -178,7 +178,7 @@ class ConversationSettings extends React.Component {
           <div className={styles.conversationTitle}>
             <SizungInputApp ref="name" onChange={this.handleConversationTitleChange}
                             value={this.state.conversationTitle} rows="1"
-                            placeholder="Enter Conversation name" maxLength={15}/>
+                            placeholder="Enter Team name" maxLength={15}/>
           </div>
           <div className={styles.charsHint}>15 chars</div>
         </div>

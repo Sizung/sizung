@@ -11,6 +11,7 @@
   align-items: flex-start;
   justify-content: center;
   width: 6.563rem;
+  margin-top: 1rem;
 }
 
 .root:hover{
@@ -26,7 +27,7 @@
 .content {
   display: block;
   width: 100%;
-  padding-top: 5px;
+  /*padding-top: 5px;*/
   padding-right: 10px;
   overflow-wrap: break-word;
   word-wrap: break-word;
@@ -75,7 +76,7 @@
   cursor: pointer;
   border: 1px solid #E6E3E2;
   min-height: 4.563rem;
-  margin-top: 1.875rem;
+  /*margin-top: 1.875rem;*/
 }
 
 .title:hover {

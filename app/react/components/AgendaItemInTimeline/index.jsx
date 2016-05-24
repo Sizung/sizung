@@ -27,7 +27,6 @@ class AgendaItemInTimeline extends React.Component {
           </div>
           <div className={styles.contentWrapper}>
             <div className={styles.content}>
-              <div className={styles.agendaItemLabel}>AGENDA created</div>
               <Link to={'/agenda_items/' + agendaItem.id} className={styles.title}>
                 <div className={styles.textContainer}>
                   <Icon type="agendaItem" className={styles.icon} gap={'0.5rem'}/>

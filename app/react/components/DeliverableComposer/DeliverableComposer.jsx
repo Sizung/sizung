@@ -108,7 +108,7 @@ class DeliverableComposer extends React.Component {
       <div className={styles.root}>
         <div className={styles.row}>
           <div className={styles.composeHeader}>
-            NEW DELIVERABLE
+            TO DO
           </div>
           <div className={styles.filler}></div>
           <CloseIcon onClick={this.props.onClose} style={{ marginBottom: '0' }} type="transparent" />
