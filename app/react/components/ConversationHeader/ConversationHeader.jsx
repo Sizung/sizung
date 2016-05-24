@@ -102,7 +102,6 @@ class ConversationHeader extends React.Component {
 
     return (
         <div className={ chatType === 'conversations' ? styles.editableRoot : styles.root }>
-          <div className={styles.prefix}>#</div>
           <div className={styles.conversationTitle}>
             { this.renderTitle() }
           </div>

@@ -128,7 +128,7 @@ class DeliverableComposer extends React.Component {
         <div className={styles.row}>
           <form className={styles.form} onSubmit={this.handleSubmit}>
             <Icon type="deliverable" style={{ alignSelf: 'flex-end' }} />
-            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} maxLength={ 40 } rows="1" placeholder="Enter Deliverable Name" />
+            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} maxLength={ 40 } rows="1" placeholder="What needs to be done?" />
             <div className={this.charCounterStyle()}>{40 - this.state.value.length} chars</div>
           </form>
         </div>

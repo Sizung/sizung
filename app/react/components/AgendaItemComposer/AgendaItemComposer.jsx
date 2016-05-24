@@ -64,7 +64,7 @@ class AgendaItemComposer extends React.Component {
         <div className={styles.formRow}>
           <Icon type="agendaItem" className={styles.agendaItemIcon} />
           <form className={styles.form} onSubmit={this.handleSubmit}>
-            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} maxLength={ 40 } rows="1" placeholder="Enter Agenda Name" />
+            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} maxLength={ 40 } rows="1" placeholder="What would you like to discuss?" />
           </form>
           <div className={this.charCounterStyle()}>{40 - this.state.value.length} chars</div>
         </div>
