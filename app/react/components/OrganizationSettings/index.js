@@ -54,7 +54,7 @@ class OrganizationSettings extends React.Component {
     return organizations.entrySeq().map((org) => {
       return (
         <div key={org[1].id} className={org[1].id === currentOrganization.id ? styles.organizationLogoSelected : styles.organizationLogo} onClick={this.handleOrganizationClick.bind(this, org[1].id)}>
-          <OrganizationIcon name={org[1].name} url={'#'} reactLink={false}/>
+          <OrganizationIcon organization={org[1]} url={'#'} reactLink={false}/>
         </div>
       );
     });

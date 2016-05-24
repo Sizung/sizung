@@ -9,7 +9,11 @@
   color: #626c72;
 }
 
-.root:hover .prefix, .root:hover .conversationTitle {
+.editableRoot {
+  composes: root;
+}
+
+.editableRoot:hover .prefix, .editableRoot:hover .conversationTitle {
   background-color: #D9DEDF;
 }
 
@@ -53,4 +57,10 @@
 .archiveIcon {
   margin-left: 10px;
   cursor: pointer;
+}
+
+.conversationLink,
+.conversationLink:hover {
+  color: #626c72;
+  text-decoration: none;
 }

@@ -36,7 +36,7 @@ class DeliverableComposer extends React.Component {
     const el = ReactDOM.findDOMNode(this.refs.name);
     ui.setCursorToEnd($(el).find('textarea')[0]);
   }
-  
+
   getType = (type) => {
     switch (type) {
       case 'conversations':
@@ -49,7 +49,7 @@ class DeliverableComposer extends React.Component {
     }
   }
 
-  handleSubmit = (e) => {
+  handleSubmit = () => {
     const { parent } = this.props;
     const title = this.state.value.trim();
     const { dueOn } = this.state;
@@ -92,7 +92,13 @@ class DeliverableComposer extends React.Component {
   charCounterStyle = () => {
     return (40 - this.state.value.length) < 5 ? styles.charsHintRed : styles.charsHint;
   }
-  
+
+  handleKeyDownOnDueDate = (event) => {
+    if (event.key === 'Enter') {
+      this.handleSubmit();
+    }
+  };
+
   render() {
     const { dueOn } = this.state;
     const assigneeId = this.assigneeId();
@@ -114,7 +120,7 @@ class DeliverableComposer extends React.Component {
           </div>
           <div className={styles.dueOnContainer}>
             <div className={styles.dueOnLabel}>DUE ON</div>
-            <div className={styles.dueOnWrapper}>
+            <div className={styles.dueOnWrapper} onKeyDown={this.handleKeyDownOnDueDate}>
               <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable />
             </div>
           </div>

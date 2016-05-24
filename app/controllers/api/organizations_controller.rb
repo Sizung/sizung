@@ -8,55 +8,19 @@ module Api
     respond_to :json
 
     include Swagger::Blocks
-
-    swagger_schema :Organization do
-      key :required, [:id, :type, :attributes]
-
-      property :id, type: :string
-      property :type, type: :string, enum: ['organizations']
-      property :attributes do
-        key :type, :object
-
-        property :name do
-          key :type, :string
-        end
-      end
-      property :relationships do
-        property :owner do
-          property :data do
-            property :id, type: :string, required: true
-            property :type, type: :string, required: true, enum: ['users']
-          end
-        end
-
-        property :organization_members do
-          property :data, type: :array do
-            items do
-              property :id, type: :string, required: true
-              property :type, type: :string, required: true, enum: ['organization_members']
-            end
-          end
-        end
-      end
-    end
     
     swagger_path '/organizations' do
-      operation :get do
+      operation :get, security: [bearer: []] do
         key :summary, 'List organizations'
         key :description, 'Returns the list of organizations the user is a member of'
         key :operationId, 'listOrganizations'
-        key :tags, ['organizations']
+        key :tags, ['organization']
         key :produces, ['application/json']
         
         response 200 do
           key :description, 'An array of organizations'
           schema do
-            property :data do
-              key :type, :array
-              items do
-                key :'$ref', :Organization
-              end
-            end
+            key :'$ref', :responseMany_Organization
           end
         end
         response :default do
@@ -64,7 +28,6 @@ module Api
         end
       end
     end
-
     
     # GET /organizations.json
     def index
@@ -72,6 +35,30 @@ module Api
       render json: @organizations
     end
 
+
+    
+    swagger_path '/organizations/{id}' do
+      operation :get, security: [bearer: []] do
+        key :summary, 'Details for a specific Organization'
+        key :description, 'Returns the all details for the organization overview'
+        key :operationId, 'findOrganizationById'
+        key :tags, ['organization']
+        key :produces, ['application/json']
+
+        parameter name: :id, in: :path, type: :string, required: true
+        
+        response 200 do
+          key :description, 'Organization response'
+          schema do
+            key :'$ref', :responseOne_Organization
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
     # GET /organizations/1.json
     def show
       # TODO: Remove that workaround when we switch to the final ActionCable release and can use connection-tokens
@@ -98,6 +85,42 @@ module Api
              }
     end
 
+    swagger_schema :OrganizationInput do
+      key :required, [:organization]
+
+      property :organization, type: :object do
+        property :name, type: :string
+      end
+    end
+    
+    swagger_path '/organizations/{id}' do
+      operation :patch, security: [bearer: []] do
+        key :summary, 'Update a specific Organization'
+        key :description, 'Returns the all details for the organization overview'
+        key :operationId, 'updateOrganizationById'
+        key :tags, ['organization']
+        key :produces, ['application/json']
+
+        parameter name: :id, in: :path, type: :string, required: true
+        
+        parameter name: :organization, in: :body, required: true, description: 'Organization fields to update' do
+          schema do
+            key :'$ref', :OrganizationInput
+          end
+        end
+
+        response 200 do
+          key :description, 'Organization response'
+          schema do
+            key :'$ref', :responseOne_Organization
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
     def update
       authorize @organization
       @organization.update!(organization_update_params)

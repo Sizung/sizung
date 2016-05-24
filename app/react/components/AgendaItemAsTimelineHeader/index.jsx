@@ -12,6 +12,15 @@ class AgendaItemAsTimelineHeader extends React.Component {
     }).isRequired,
   };
 
+  renderBackLink = () => {
+    const { agendaItem } = this.props;
+    return (
+        <div className={styles.closeLinkContainer}>
+          <Link to={'/conversations/' + agendaItem.conversationId} className={styles.close}>Back to Conversation</Link>
+        </div>
+    );
+  };
+
   render() {
     const { agendaItem } = this.props;
     const { title } = agendaItem;
@@ -22,9 +31,7 @@ class AgendaItemAsTimelineHeader extends React.Component {
           <Icon className={ styles.icon } type="agendaItem" gap="2rem"/>
           <TextWithMentions>{title}</TextWithMentions>
         </div>
-        <div className={styles.closeLinkContainer}>
-          <Link to={'/conversations/' + agendaItem.conversationId} className={styles.close}>Back to Conversation</Link>
-        </div>
+        {/*this.renderBackLink()*/}
       </div>
     );
   }

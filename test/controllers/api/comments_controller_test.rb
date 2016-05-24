@@ -26,6 +26,15 @@ describe Api::CommentsController do
       assert_response :success
     end
 
+    it 'complains if the comment body is missing' do
+      post :create, comment: { body: nil, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type }
+      assert_response 422
+      res = JSON.parse(response.body)
+      expect(res['errors'].size).must_equal 1
+      expect(res['errors'].first['source']['pointer']).must_equal '/data/attributes/body'
+      expect(res['errors'].first['detail']).must_equal "can't be blank"
+    end
+    
     it 'updates comment' do
       patch :update, id: @comment.id, comment: { body: 'changed body' }
 

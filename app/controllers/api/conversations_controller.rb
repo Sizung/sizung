@@ -8,12 +8,50 @@ module Api
 
     respond_to :json
 
+    include Swagger::Blocks
+    
+    swagger_path '/organizations/{organization_id}/conversations' do
+      operation :get, summary: 'List conversations', operationId: 'listConversationsByOrganizationId', tags: ['conversation'], security: [bearer: []] do
+        key :description, 'Returns the list of conversations for a specific organization that the user is a member of'
+
+        parameter name: :organization_id, in: :path, type: :string, required: true
+        
+        response 200, description: 'An array of conversations' do
+          schema do
+            key :'$ref', :responseMany_Conversation
+          end
+        end
+        response :default, description: 'Unexpected error'
+      end
+    end
+    
     # GET /conversations.json
     def index
       @conversations = policy_scope(Conversation).where(organization: @organization).order(:title)
       render json: @conversations
     end
 
+    swagger_path '/conversations/{id}' do
+      operation :get, security: [bearer: []] do
+        key :summary, 'Details for a specific Conversatino'
+        key :description, 'Returns the all details for a Conversation as well as the list of its Agenda Items and Deliverables'
+        key :operationId, 'findConversationById'
+        key :tags, ['conversation']
+
+        parameter name: :id, in: :path, type: :string, required: true
+        
+        response 200 do
+          key :description, 'Conversation response'
+          schema do
+            key :'$ref', :responseOne_Conversation
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
     # GET /conversations/1.json
     def show
       @conversation = Conversation.includes(
@@ -27,6 +65,46 @@ module Api
       render json: @conversation, include: %w(agenda_items deliverables agenda_item_deliverables organization organization.organization_members.member conversation_members)
     end
 
+    swagger_schema :ConversationInput do
+      key :required, [:conversation]
+
+      property :conversation, type: :object, required: [:name] do
+        property :name, type: :string
+        property :conversation_members, type: :array do
+          items do
+            property :member_id, type: :string
+          end
+        end
+      end
+    end
+
+    swagger_path '/organizations/{organization_id}/conversations' do
+      operation :post, security: [bearer: []] do
+        key :summary, 'Create a new Conversation'
+        key :description, 'Creates a new Conversation and adds ConversationMembers to it'
+        key :operationId, 'createConversationByOrganizationId'
+        key :tags, ['conversation']
+
+        parameter name: :organization_id, in: :path, type: :string, required: true
+        
+        parameter name: :conversation, in: :body, required: true, description: 'Conversation fields' do
+          schema do
+            key :'$ref', :ConversationInput
+          end
+        end
+
+        response 200 do
+          key :description, 'Conversation response'
+          schema do
+            key :'$ref', :responseOne_Conversation
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
     # POST /conversations.json
     def create
       @conversation = Conversation.new(conversation_params)
@@ -41,29 +119,56 @@ module Api
               @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>member[:id])
             end
           end
+          ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'create')
+          UnseenService.new.handle_with(@conversation, current_user)
           render json: @conversation, serializer: ConversationSerializer
         else
           render json: @conversation.errors, status: :unprocessable_entity
         end
       else
-        #creating conversatin with just title without any conversation members
+        #creating conversation with just title without any conversation members
         if @conversation.save
           # TODO: Need to check if there is a better way of achieving the below case of adding conv creator as default member
           @conversation.conversation_members.create(:conversation_id=>@conversation.id, :member_id=>current_user.id)
           # render :show, status: :created, location: @conversation
+          ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'create')
+          UnseenService.new.handle_with(@conversation, current_user)
           render json: @conversation, serializer: ConversationSerializer
         else
           render json: @conversation.errors, status: :unprocessable_entity
         end
       end
+    end
 
+    swagger_path '/conversations/{id}' do
+      operation :patch, security: [bearer: []] do
+        key :summary, 'Update a specific Conversation'
+        key :operationId, 'updateConversationById'
+        key :tags, ['conversation']
 
+        parameter name: :id, in: :path, type: :string, required: true
+        
+        parameter name: :conversation, in: :body, required: true, description: 'Conversation fields to update' do
+          schema do
+            key :'$ref', :ConversationInput
+          end
+        end
+
+        response 200 do
+          key :description, 'Conversation response'
+          schema do
+            key :'$ref', :responseOne_Conversation
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
     end
 
     # PATCH/PUT /conversations/1.json
     def update
       if @conversation.toggle_archive(params[:conversation][:archived]) || @conversation.update(conversation_params)
-        ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'update')
         @addMembers = []
         @removeMembers = []
         if params[:conversation][:conversation_members]
@@ -86,8 +191,29 @@ module Api
             @conversation.conversation_members.destroy(member)
           end
         end
+
+        ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'update')
+
         # TODO ANI GUGL: Fix this part while sending response to client so that client has control over which attributes to use
         render json: @conversation, include: %w(conversation_members)
+      end
+    end
+
+
+    swagger_path '/conversations/{id}' do
+      operation :delete, security: [bearer: []] do
+        key :summary, 'Archive a specific Conversation'
+        key :operationId, 'archiveConversationById'
+        key :tags, ['conversation']
+
+        parameter name: :id, in: :path, type: :string, required: true
+        
+        response 200 do
+          key :description, 'No content'
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
       end
     end
 

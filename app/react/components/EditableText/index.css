@@ -36,7 +36,6 @@
   position: relative;
   width: 100%;
   padding: 0;
-  display: inline-block;
   clear: both;
 }
 
@@ -51,4 +50,3 @@
   composes: persistedText;
   color: #ffffff;
 }
-

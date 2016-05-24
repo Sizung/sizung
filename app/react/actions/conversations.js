@@ -3,7 +3,6 @@ import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
 import * as constants from './constants';
 import { setCurrentOrganization } from './organizations';
-import { setUnseenObjects } from './unseenObjects';
 import * as ConversationUiActions from './conversationUi';
 
 const setCurrentConversation = (conversation, included, json) => {
@@ -43,23 +42,20 @@ const updateConversation = (id, changedFields) => {
   };
 };
 
-const updateConversationRemoteOrigin = (conversation) => {
+const updateConversationRemoteOrigin = (conversation, entities) => {
   const conversationMembers = conversation.conversation_members;
   return {
     type: constants.UPDATE_CONVERSATION,
     status: constants.STATUS_REMOTE_ORIGIN,
     conversation,
     entity: conversation,
+    entities,
     conversationMembers,
   };
 };
 
 const fetchConversation = (conversationId) => {
   return (dispatch) => {
-    api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
-      dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
-    });
-
     api.fetchJson('/api/conversations/' + conversationId, (json) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
@@ -92,12 +88,9 @@ const fetchObjects = (conversationId, dispatch) => {
   });
 };
 
+// TODO: Is this still used?
 const selectConversation = (conversationId) => {
   return (dispatch) => {
-    api.fetchJson('/api/conversations/' + conversationId + '/unseen_objects', (json) => {
-      dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
-    });
-
     api.fetchJson('/api/conversations/' + conversationId, (json) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
@@ -132,21 +125,10 @@ const createConversation = (values) => {
 const deleteConversation = (conversationId, organizationId) => {
 
   return (dispatch) => {
-    if (confirm("Are you sure you want to delete this Conversation?")) {
+    if (confirm("Are you sure you want to archive this Conversation?")) {
       dispatch(updateConversation(conversationId, { archived: true }));
       dispatch(routeActions.push('/organizations/' + organizationId));
-
     }
-
-//      api.deleteJson('/api/conversations/' + conversationId, (json) => {
-//        const conversation = transform.transformCommentFromJsonApi(json.data);
-//        dispatch({
-//          type: constants.DELETE_CONVERSATION,
-//          status: constants.STATUS_SUCCESS,
-//          conversation,
-//         entity: conversation,
-//        });
-//      });
   };
 };
 

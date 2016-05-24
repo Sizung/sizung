@@ -14,6 +14,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import configureStore from '../store/configureStore';
 import { setCurrentUser } from '../actions/users';
+import { fetchUnseenObjects } from '../actions/unseenObjects';
 import { fetchOrganizationsSuccess } from '../actions/organizations';
 import { transformUserFromJsonApi, transformOrganizationFromJsonApi } from '../utils/jsonApiUtils';
 import { setUsers } from '../actions/users';
@@ -40,6 +41,7 @@ export default class Root extends Component {
 
   componentDidMount() {
     ws.followUserChannel(this.props.currentUser.id, bindActionCreators(channelHandlers.onUserChannelReceived, store.dispatch));
+    store.dispatch(fetchUnseenObjects('users', this.props.currentUser.id));
   }
 
   componentWillUnmount() {
@@ -54,8 +56,8 @@ export default class Root extends Component {
             <Route path="/organizations/:organizationId/settings" component={SettingsApp} />
             <Route path="/organizations/:organizationId" component={OrganizationApp} />
             <Route path="/conversations/:conversationId" component={ConversationApp} />
-            <Route path="/agenda_items/:agendaItemId" component={AgendaItemApp}/>
-            <Route path="/deliverables/:deliverableId" component={DeliverableApp}/>
+            <Route path="/agenda_items/:agendaItemId" component={AgendaItemApp} />
+            <Route path="/deliverables/:deliverableId" component={DeliverableApp} />
           </Route>
         </Router>
       );

@@ -83,7 +83,7 @@ class SignUpTeam extends React.Component {
           Create an organization
         </div>
         <div className={styles.formInputContainer}>
-          <FormInput type='text' label='ORGANIZATION' placeholder='' value={name} validate={this.validateOrganizationName} onChange={this.setOrganizationName} errorMessage={this.state.organizationNameErrorMessage}/>
+          <FormInput type='text' label='ORGANIZATION' placeholder='' value={name} validate={this.validateOrganizationName} onChange={this.setOrganizationName} onSubmit={this.handleSubmitClick} errorMessage={this.state.organizationNameErrorMessage}/>
         </div>
         <div className={styles.actionContainer}>
           <div className={styles.backLink} onClick={this.handleBackClick}>

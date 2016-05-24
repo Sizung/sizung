@@ -38,4 +38,9 @@ class User < ActiveRecord::Base
   def to_s
     name
   end
+
+  def generate_and_return_confirmation_token!
+    generate_confirmation_token!
+    @raw_confirmation_token
+  end
 end

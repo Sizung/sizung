@@ -16,6 +16,7 @@ class ComposeContainer extends React.Component {
       id: PropTypes.string.isRequired,
       type: PropTypes.string.isRequired,
     }).isRequired,
+    createAttachment: PropTypes.func.isRequired,
   };
 
   constructor() {
@@ -36,7 +37,7 @@ class ComposeContainer extends React.Component {
   }
 
   renderComposer(composerType) {
-    const { currentUser, parent, createComment, createAgendaItem, createDeliverable } = this.props;
+    const { currentUser, parent, createComment, createAgendaItem, createDeliverable, createAttachment } = this.props;
 
     switch (composerType) {
       case 'agendaItem':
@@ -44,6 +45,7 @@ class ComposeContainer extends React.Component {
                                    createAgendaItem={createAgendaItem}
                                    onClose={this.handleClose}
                                    defaultValue={this.state.value}
+                                   createAttachment={createAttachment}
                />;
       case 'deliverable':
         return <DeliverableComposer parent={parent}
@@ -51,6 +53,7 @@ class ComposeContainer extends React.Component {
                                     onClose={this.handleClose}
                                     currentUser={currentUser}
                                     defaultValue={this.state.value}
+                                    createAttachment={createAttachment}
                />;
       case 'comment':
       default:
@@ -58,6 +61,7 @@ class ComposeContainer extends React.Component {
                                 createComment={createComment}
                                 onSelect={this.handleSelect}
                                 currentUser={currentUser}
+                                createAttachment={createAttachment}
                />;
     }
   }

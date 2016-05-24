@@ -17,8 +17,8 @@ class ConversationsController < ApplicationController
   def show
     @conversation = Conversation.find(params[:id])
     authorize @conversation
-    @organizations_json = ActiveModel::SerializableResource.new(policy_scope(Organization)).serializable_hash
-    @users_json = ActiveModel::SerializableResource.new(@conversation.organization.members).serializable_hash
+    @organizations_json = ActiveModelSerializers::SerializableResource.new(policy_scope(Organization)).serializable_hash
+    @users_json = ActiveModelSerializers::SerializableResource.new(@conversation.organization.members).serializable_hash
 
     render :show
   end

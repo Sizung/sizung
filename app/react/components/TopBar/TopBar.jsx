@@ -27,7 +27,7 @@ class TopBar extends React.Component {
     const { organizations, currentOrganization, reactLinks } = this.props;
 
     return organizations.filter(org => org.id !== currentOrganization.id).map((org) => {
-      return <OrganizationIcon key={org.id} reactLink={reactLinks} name={org.name} url={'/organizations/' + org.id} style={{ marginLeft: '24px' }} />;
+      return <OrganizationIcon key={org.id} reactLink={reactLinks} organization={org} url={'/organizations/' + org.id} style={{ marginLeft: '24px' }}/>;
     });
   };
 
@@ -36,7 +36,7 @@ class TopBar extends React.Component {
     if (currentOrganization) {
       return (
         <div className={styles.organizationWrapper}>
-          <OrganizationIcon name={currentOrganization.name} reactLink={reactLinks} url={'/organizations/' + currentOrganization.id} />
+          <OrganizationIcon organization={currentOrganization} reactLink={reactLinks} url={'/organizations/' + currentOrganization.id}/>
           <div className={styles.otherOrganizations}>
             {this.renderOrganizationList()}
             <a href={'/organizations/new'} title={'+ New Organization'} style={{ marginLeft: '48px' }}>

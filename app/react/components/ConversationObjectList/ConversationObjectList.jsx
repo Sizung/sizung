@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import ComposeContainer from './../ComposeContainer';
 import Comment from './../Comment/index';
+import Attachment from './../Attachment';
 import AgendaItemInTimeline from './../AgendaItemInTimeline';
 import DeliverableInTimeline from './../DeliverableInTimeline';
 import styles from './ConversationObjectList.css';
@@ -9,9 +10,6 @@ import ConversationHeader from '../ConversationHeader';
 import ConversationSettingsApp from '../../containers/ConversationSettingsApp';
 
 class ConversationObjectList extends Component {
-  constructor() {
-    super();
-  }
 
   componentDidMount() {
     const listNode = this.refs.conversationObjectList;
@@ -26,7 +24,7 @@ class ConversationObjectList extends Component {
   componentWillUpdate() {
     const root = this.refs.root;
     if (root) {
-      //A tolerance of +/- 5px to avoid issues due to pixel calculations of scroll height based on rem heights
+      // A tolerance of +/- 5px to avoid issues due to pixel calculations of scroll height based on rem heights
       this.shouldScrollBottom = Math.abs(root.scrollTop + root.offsetHeight - root.scrollHeight) <= 5;
     }
   }
@@ -61,6 +59,9 @@ class ConversationObjectList extends Component {
         } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
           return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} />;
+        } else if (conversationObject.type === 'attachments') {
+          const attachment = conversationObject;
+          return <Attachment key={attachment.id} showOwner={showOwner} attachment={attachment} />;
         }
         if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
@@ -137,7 +138,7 @@ class ConversationObjectList extends Component {
   };
 
   render() {
-    const { createComment, createAgendaItem, createDeliverable, commentForm } = this.props;
+    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment } = this.props;
 
     if (this.props.conversationSettingsViewState === 'edit') {
       return (
@@ -151,15 +152,21 @@ class ConversationObjectList extends Component {
         <div className={styles.listContainer}>
           <ConversationHeader conversation={this.props.currentConversation}
                               updateConversation={this.props.updateConversation}
-                              parent={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}
+                              currentConversationObject={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}
                               conversationSettingsViewState={this.props.conversationSettingsViewState}
                               deleteConversation={this.props.deleteConversation}
+                              navigationHistory={this.props.navigationHistory}
+                              visitAgendaItem={this.props.visitAgendaItem}
+                              visitDeliverable={this.props.visitDeliverable}
+                              visitConversation={this.props.visitConversation}
+                              visitOrganization={this.props.visitOrganization}
           />
           <TimelineHeader parent={commentForm.parent} />
           {this.renderConversationTimeLine()}
           <ComposeContainer createComment={createComment}
                             createAgendaItem={createAgendaItem}
                             createDeliverable={createDeliverable}
+                            createAttachment={createAttachment}
                             {...commentForm}
           />
         </div>
@@ -190,7 +197,10 @@ ConversationObjectList.propTypes = {
   currentConversationId: PropTypes.string.isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
   visitConversation: PropTypes.func,
+  visitOrganization: PropTypes.func,
   deleteConversation: PropTypes.func.isRequired,
+  createAttachment: PropTypes.func.isRequired,
+  navigationHistory: PropTypes.object,
 };
 
 ConversationObjectList.defaultProps = {

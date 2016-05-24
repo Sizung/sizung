@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160505172921) do
+ActiveRecord::Schema.define(version: 20160518165904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -63,6 +63,21 @@ ActiveRecord::Schema.define(version: 20160505172921) do
   add_index "agenda_items", ["conversation_id"], name: "index_agenda_items_on_conversation_id", using: :btree
   add_index "agenda_items", ["created_at"], name: "index_agenda_items_on_created_at", order: {"created_at"=>:desc}, using: :btree
   add_index "agenda_items", ["owner_id"], name: "index_agenda_items_on_owner_id", using: :btree
+
+  create_table "attachments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "parent_id"
+    t.string   "parent_type"
+    t.uuid     "owner_id"
+    t.string   "persistent_file_id"
+    t.string   "file_name"
+    t.integer  "file_size"
+    t.datetime "archived_at"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "file_type"
+  end
+  add_index "attachments", ["owner_id"], name: "index_attachments_on_owner_id", using: :btree
+  add_index "attachments", ["parent_type", "parent_id"], name: "index_attachments_on_parent_type_and_parent_id", using: :btree
 
   create_table "comments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "commentable_id"
@@ -127,8 +142,39 @@ SELECT comments.id,
     comments.archive_number,
     comments.archived_at,
     NULL::integer AS deliverables_count,
-    NULL::integer AS comments_count
+    NULL::integer AS comments_count,
+    NULL::character varying AS persistent_file_id,
+    NULL::character varying AS file_name,
+    NULL::integer AS file_size,
+    NULL::character varying AS file_type
    FROM comments
+UNION ALL
+ SELECT attachments.id,
+    'Attachment'::text AS type,
+    attachments.parent_id,
+    attachments.parent_type,
+    attachments.created_at,
+    attachments.updated_at,
+    NULL::uuid AS commentable_id,
+    NULL::character varying AS commentable_type,
+    NULL::uuid AS conversation_id,
+    NULL::uuid AS author_id,
+    attachments.owner_id,
+    NULL::character varying AS title,
+    NULL::text AS body,
+    NULL::character varying AS status,
+    NULL::text AS description,
+    NULL::uuid AS assignee_id,
+    NULL::date AS due_on,
+    NULL::character varying AS archive_number,
+    attachments.archived_at,
+    NULL::integer AS deliverables_count,
+    NULL::integer AS comments_count,
+    attachments.persistent_file_id,
+    attachments.file_name,
+    attachments.file_size,
+    attachments.file_type
+   FROM attachments
 UNION ALL
  SELECT agenda_items.id,
     'AgendaItem'::text AS type,
@@ -150,7 +196,11 @@ UNION ALL
     agenda_items.archive_number,
     agenda_items.archived_at,
     agenda_items.deliverables_count,
-    agenda_items.comments_count
+    agenda_items.comments_count,
+    NULL::character varying AS persistent_file_id,
+    NULL::character varying AS file_name,
+    NULL::integer AS file_size,
+    NULL::character varying AS file_type
    FROM agenda_items
 UNION ALL
  SELECT deliverables.id,
@@ -173,7 +223,11 @@ UNION ALL
     deliverables.archive_number,
     deliverables.archived_at,
     NULL::integer AS deliverables_count,
-    deliverables.comments_count
+    deliverables.comments_count,
+    NULL::character varying AS persistent_file_id,
+    NULL::character varying AS file_name,
+    NULL::integer AS file_size,
+    NULL::character varying AS file_type
    FROM deliverables
   END_VIEW_CONVERSATION_OBJECTS
 
@@ -270,6 +324,7 @@ UNION ALL
 
   add_foreign_key "agenda_items", "conversations", on_delete: :cascade
   add_foreign_key "agenda_items", "users", column: "owner_id"
+  add_foreign_key "attachments", "users", column: "owner_id"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "conversation_members", "conversations"
   add_foreign_key "conversation_members", "users", column: "member_id"

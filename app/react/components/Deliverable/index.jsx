@@ -107,10 +107,21 @@ class Deliverable extends React.Component {
             {(deliverable.status === 'open' ? this.renderResolveAction() : false)}
             {this.renderArchiveAction()}
           </div>
-      )
+      );
     }
     return null;
   };
+
+  //isElementOutViewport = (el) => {
+  //  const rect = el.getBoundingClientRect();
+  //  return rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight;
+  //};
+  //
+  //componentDidUpdate() {
+  //  if (this.props.selected && this.isElementOutViewport(this.refs.deliverable)) {
+  //    this.refs.deliverable.scrollIntoView();
+  //  }
+  //}
 
   render() {
     const { deliverable, selected } = this.props;
@@ -125,13 +136,13 @@ class Deliverable extends React.Component {
     }
 
     return (
-      <div className={styleName} onClick={this.handleClick}>
+      <div ref='deliverable' className={styleName} onClick={this.handleClick}>
         <div className={styles.titleContainer} title={title}>
           <div className={styles.deliverableIconContainer}>
             <DeliverableIcon status={deliverableIconStatus} size={'small'} />
           </div>
           <div className={styles.title}>
-            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={!archived} inverted maxLength={40} />
+            <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={selected} inverted maxLength={40} />
           </div>
         </div>
         <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}>

@@ -68,6 +68,17 @@ class AgendaItem extends React.Component {
     return null;
   };
 
+  //isElementOutViewport = (el) => {
+  //  const rect = el.getBoundingClientRect();
+  //  return rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight;
+  //};
+  //
+  //componentDidUpdate() {
+  //  if (this.props.selected && this.isElementOutViewport(this.refs.agendaItem)) {
+  //    this.refs.agendaItem.scrollIntoView();
+  //  }
+  //}
+
   render() {
     const { agendaItem, selected } = this.props;
     let styleName = styles.seen;
@@ -77,7 +88,7 @@ class AgendaItem extends React.Component {
       styleName = styles.unseen;
     }
     return (
-      <div className={styleName} onClick={this.handleClick}>
+      <div ref='agendaItem' className={styleName} onClick={this.handleClick}>
         <div className={styles.leftStrip}></div>
         <div className={styles.contentContainer} title={agendaItem.title}>
           <div className={styles.titleContainer}>
@@ -85,7 +96,7 @@ class AgendaItem extends React.Component {
               <Icon type="agendaItem" />
             </div>
             <div className={styles.title}>
-              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={!agendaItem.archived} inverted maxLength={40} />
+              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected} inverted maxLength={40} />
             </div>
           </div>
         </div>

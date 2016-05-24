@@ -1,6 +1,17 @@
 # -*- coding: utf-8 -*-
 class ApidocsController < ActionController::Base
   include Swagger::Blocks
+
+  swagger_schema :errors, required: [:errors] do
+    property :errors, type: :array do
+      items do
+        property :source, type: :object do
+          property :pointer, type: :string
+        end
+        property :detail, type: :string
+      end
+    end
+  end
   
   swagger_root do
     key :swagger, '2.0'
@@ -40,6 +51,13 @@ class ApidocsController < ActionController::Base
   SWAGGERED_CLASSES = [
     Api::SessionTokensController,
     Api::OrganizationsController,
+    Api::ConversationsController,
+    Api::AttachmentsController,
+    Api::CommentsController,
+    OrganizationSerializer,
+    ConversationSerializer,
+    AttachmentSerializer,
+    CommentSerializer,
     self,
   ].freeze
 

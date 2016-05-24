@@ -11,8 +11,15 @@ class OrganizationsController < ApplicationController
   # GET /organizations.json
   def index
     @organizations = policy_scope(Organization)
+
+    next_path = if current_user.organizations.any?
+                  organization_path(current_user.last_visited_organization || current_user.organizations.order(:created_at).last)
+                else
+                  new_organization_path
+                end
+    
     respond_to do |format|
-      format.html { redirect_to organization_path(current_user.last_visited_organization || current_user.organizations.order(:created_at).last) }
+      format.html { redirect_to next_path}
       format.json { render json: @organizations }
     end
   end
@@ -26,8 +33,8 @@ class OrganizationsController < ApplicationController
         authorize @organization
         current_user.update last_visited_organization: @organization
 
-        @organizations_json = ActiveModel::SerializableResource.new(policy_scope(Organization)).serializable_hash
-        @users_json = ActiveModel::SerializableResource.new(@organization.members).serializable_hash
+        @organizations_json = ActiveModelSerializers::SerializableResource.new(policy_scope(Organization)).serializable_hash
+        @users_json = ActiveModelSerializers::SerializableResource.new(@organization.members).serializable_hash
         render :show
       end
 

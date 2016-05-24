@@ -5,7 +5,7 @@ class OrganizationMemberRelayJob < ActiveJob::Base
     logger.info('Broadcasting new organization member')
 
     ActionCable.server.broadcast "organizations:#{organization_member.organization.id}",
-      organization_member: ActiveModel::SerializableResource.new(organization_member, include: :member).serializable_hash,
+      organization_member: ActiveModelSerializers::SerializableResource.new(organization_member, include: :member).serializable_hash,
       actor_id: actor_id,
       action: action
   end

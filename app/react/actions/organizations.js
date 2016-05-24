@@ -1,9 +1,8 @@
+import { routeActions } from 'redux-simple-router';
 import * as constants from './constants';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
-import { setUnseenObjects } from './unseenObjects';
 import * as ConversationUiActions from './conversationUi.js';
-
 
 const setCurrentOrganization = (organization) => {
   return {
@@ -48,10 +47,6 @@ const fetchOrganization = (organizationId, dispatch) => {
     dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
     dispatch(ConversationUiActions.resetConversationUi());
   });
-
-  api.fetchJson('/api/organizations/' + organizationId + '/unseen_objects', (json) => {
-    dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
-  });
 };
 
 const selectOrganization = (organizationId) => {
@@ -74,9 +69,16 @@ const updateOrganization = (id, changedFields) => {
   };
 };
 
+const visitOrganization = (organizationId) => {
+  return (dispatch) => {
+    dispatch(routeActions.push('/organizations/' + organizationId));
+  };
+};
+
 export {
   setCurrentOrganization,
   fetchOrganizationsSuccess,
   selectOrganization,
   updateOrganization,
+  visitOrganization,
 };

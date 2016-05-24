@@ -55,7 +55,8 @@ const onConversationChannelReceived = (data) => {
       }
     } else if (data.payload.data.type === 'conversations') {
       if (data.action === 'update') {
-        dispatch(conversations.updateConversationRemoteOrigin(transform.transformConversationFromJsonApi(data.payload.data)));
+        const includedEntities = data.payload.included.map(transform.transformObjectFromJsonApi);
+        dispatch(conversations.updateConversationRemoteOrigin(transform.transformConversationFromJsonApi(data.payload.data), includedEntities));
       }
     }
   };

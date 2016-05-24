@@ -1,20 +1,29 @@
 import Immutable from 'immutable';
 
+export function fillOrganization(state, id) {
+  if (!id || !state.getIn(['entities', 'organizations', id])) {
+    return null;
+  }
+
+  const organization       = Immutable.fromJS(state.getIn(['entities', 'organizations', id])).toJS();
+  organization.owner       = state.getIn(['entities', 'users', organization.ownerId]);
+  organization.unseen      = state.getIn(['entities', 'unseenObjects']).some((unseenObject) => { return unseenObject.targetId === id; });
+  organization.unseenCount = state.getIn(['entities', 'unseenObjects']).filter((unseenObject) => { return unseenObject.organizationId === id; }).size;
+
+  return organization;
+}
+
 export function fillDeliverable(state, id) {
   if (!id || !state.getIn(['entities', 'deliverables', id])) {
     return null;
   }
 
-  const deliverable = Immutable.fromJS(state.getIn(['entities', 'deliverables', id])).toJS();
-  deliverable.parent = fillConversationObject(state, { id: deliverable.parentId, type: deliverable.parentType });
-  deliverable.owner = state.getIn(['entities', 'users', deliverable.ownerId]);
-  deliverable.assignee = state.getIn(['entities', 'users', deliverable.assigneeId]);
-  deliverable.unseen = state.getIn(['entities', 'unseenObjects']).some((unseenObject) => {
-    return unseenObject.targetId === id;
-  });
-  deliverable.unseenCount = state.getIn(['entities', 'unseenObjects']).filter((unseenObject) => {
-    return unseenObject.deliverableId === id;
-  }).size;
+  const deliverable       = Immutable.fromJS(state.getIn(['entities', 'deliverables', id])).toJS();
+  deliverable.parent      = fillConversationObject(state, { id: deliverable.parentId, type: deliverable.parentType });
+  deliverable.owner       = state.getIn(['entities', 'users', deliverable.ownerId]);
+  deliverable.assignee    = state.getIn(['entities', 'users', deliverable.assigneeId]);
+  deliverable.unseen      = state.getIn(['entities', 'unseenObjects']).some((unseenObject) => { return unseenObject.targetId === id; });
+  deliverable.unseenCount = state.getIn(['entities', 'unseenObjects']).filter((unseenObject) => { return unseenObject.deliverableId === id; }).size;
 
   return deliverable;
 }
@@ -64,6 +73,13 @@ export function fillComment(state, id) {
   return comment;
 }
 
+const fillAttachment = (state, id) => {
+  let attachment = Immutable.fromJS(state.getIn(['entities', 'attachments', id])).toJS();
+  attachment.owner = state.getIn(['entities', 'users', attachment.ownerId]);
+  attachment.parent = state.getIn(['entities', attachment.parentType, attachment.parentId]);
+  return attachment;
+}
+
 export function fillConversationObject(state, {id, type}) {
   if(type === 'agendaItems') {
     return fillAgendaItem(state, id);
@@ -76,6 +92,9 @@ export function fillConversationObject(state, {id, type}) {
   }
   else if(type === 'deliverables') {
     return fillDeliverable(state, id);
+  }
+  else if(type === 'attachments') {
+    return fillAttachment(state, id);
   }
   else {
     console.warn('Unknown ConversationObject to fill: ', id, type);

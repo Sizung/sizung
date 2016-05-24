@@ -41,7 +41,7 @@
   margin: 10px;
 }
 
-.titleContainer:hover {
+.selected .titleContainer:hover {
   background-color: #334752;
 }
 

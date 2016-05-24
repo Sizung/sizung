@@ -26,6 +26,15 @@ const setUnseenObjects = (unseenObjects) => {
   };
 };
 
+const fetchUnseenObjects = (type, id) => {
+  return (dispatch) => {
+    console.log('fetching unseen objects for: ', type, id);
+    api.fetchJson('/api/' + type + '/' + id + '/unseen_objects', (json) => {
+      dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
+    });
+  };
+};
+
 const createUnseenObjectRemoteOrigin = (unseenObject) => {
   return {
     type: constants.CREATE_UNSEEN_OBJECT,
@@ -45,7 +54,7 @@ const deleteUnseenObjectRemoteOrigin = (unseenObject) => {
 
 export {
   markAsSeen,
-  setUnseenObjects,
   createUnseenObjectRemoteOrigin,
   deleteUnseenObjectRemoteOrigin,
+  fetchUnseenObjects,
 };

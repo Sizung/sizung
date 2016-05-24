@@ -2,7 +2,7 @@
   = 'Hi,'
 %p
   - if @resource.organizations.any?
-    = "You've been invited to join #{@resource.organizations.order(:created_at).first.name} on Sizung."
+    = "You've been invited to join #{@resource.organization_members.order(:updated_at).last.organization.name} on Sizung."
   - else
     You've been invited to Sizung.
 
