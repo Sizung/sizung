@@ -54,7 +54,7 @@ $alert: red;
   input {
     font-size: 1.625rem;
     background-color: $inputBackground;
-    margin-bottom: 0.625rem;
+    //margin-bottom: 0.625rem;
     margin-left: 0.625rem;
     border: none;
     outline: none;
@@ -74,6 +74,13 @@ $alert: red;
 .form-root .form-group.has-error .help-block {
   font-size: 1.25rem;
   margin-left: 1.25rem;
+  color: $alert;
+}
+
+.help-block {
+  font-size: 1.25rem;
+  padding: 5px;
+  color: $alert;
 }
 
 @media only screen
@@ -101,7 +108,7 @@ and (max-width: 400px) {
 
 .form-root .form-button {
   background-color: $green;
-  color: $black;
+  color: $white;
   font-size: 1.5rem;
   line-height: 1.5rem;
   text-transform: uppercase;

@@ -1,0 +1,19 @@
+.form-container
+  .form-root
+    .form-logo
+      = image_tag 'sizung-sigin-logo.png'
+    - if flash[:notice]
+      .alert.notice= flash[:notice]
+    - if flash[:alert]
+      .alert= flash[:alert]
+
+    .form-title
+      Reset your password
+
+    = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f|
+      = f.error_notification
+      = f.input :reset_password_token, as: :hidden
+      = f.full_error :reset_password_token
+      = f.input :password, label: 'Enter new password', autofocus: true, placeholder: 'password'
+      = f.input :password_confirmation, label: "Confirm new password", placeholder: 'password'
+      = f.button :submit, 'Reset', class: 'form-button'
