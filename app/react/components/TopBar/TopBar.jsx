@@ -23,12 +23,30 @@ class TopBar extends React.Component {
     reactLinks: true,
   };
 
+  otherOrganizationsUnseenCount = () => {
+    const { organizations, currentOrganization } = this.props;
+    let count = 0;
+    organizations.filter((org) => {
+      return org.id !== currentOrganization.id;
+    }).map((otherOrganization) => {
+      count += otherOrganization.unseenCount;
+    });
+    return count;
+  };
+
   renderOrganizationList = () => {
     const { organizations, currentOrganization, reactLinks } = this.props;
 
     return organizations.filter(org => org.id !== currentOrganization.id).map((org) => {
-      return <OrganizationIcon key={org.id} reactLink={reactLinks} organization={org} url={'/organizations/' + org.id} style={{ marginLeft: '24px' }}/>;
+      return <OrganizationIcon key={org.id} reactLink={reactLinks} organization={org} url={'/organizations/' + org.id} showUnseenNotification style={{ marginLeft: '2rem' }}/>;
     });
+  };
+
+  renderUnseenNotification = () => {
+    if (this.otherOrganizationsUnseenCount() > 0) {
+      return <div className={styles.notification}/>;
+    }
+    return null;
   };
 
   renderOrganizationPart = () => {
@@ -36,10 +54,11 @@ class TopBar extends React.Component {
     if (currentOrganization) {
       return (
         <div className={styles.organizationWrapper}>
+          {this.renderUnseenNotification()}
           <OrganizationIcon organization={currentOrganization} reactLink={reactLinks} url={'/organizations/' + currentOrganization.id}/>
           <div className={styles.otherOrganizations}>
             {this.renderOrganizationList()}
-            <a href={'/organizations/new'} title={'+ New Organization'} style={{ marginLeft: '48px' }}>
+            <a href={'/organizations/new'} title={'+ New Organization'} style={{ marginLeft: '3rem' }}>
               <PlusIcon/>
             </a>
           </div>
