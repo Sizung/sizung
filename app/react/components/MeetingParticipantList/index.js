@@ -218,4 +218,5 @@ MeetingParticipantList.propTypes = {
   currentUser: PropTypes.object.isRequired,
 };
 
+
 export default MeetingParticipantList;
