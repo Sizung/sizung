@@ -63,12 +63,6 @@ class DeliverableInTimeline extends React.Component {
                   <TextWithMentions>{deliverable.title}</TextWithMentions>
                 </div>
               </div>
-              <div className={styles.properties}>
-                <div style={{ flex: 'none' }}>
-                  <User user={deliverable.assignee} />
-                </div>
-                {this.dueOn()}
-              </div>
             </Link>
           </div>
           <div className={styles.timeContainer}>
