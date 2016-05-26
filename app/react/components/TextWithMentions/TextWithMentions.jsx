@@ -22,4 +22,5 @@ class TextWithMentions extends React.Component {
     );
   }
 }
+
 export default TextWithMentions;
