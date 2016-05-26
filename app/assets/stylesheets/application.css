@@ -21,6 +21,7 @@
  *= require modules/deliverables
  *= require modules/footer
  *= require modules/form
+ *= require modules/errors
  *= require modules/hover
  *= require modules/organization_members
  *= require modules/react_mentions

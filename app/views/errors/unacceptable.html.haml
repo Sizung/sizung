@@ -1,0 +1,20 @@
+.error-container
+  .error-root
+    .error-left-container.col-xs-12.col-sm-6
+      .logo
+        = image_tag 'sizung-sigin-logo.png'
+
+      .title-container
+        .error-title
+          = '422 Error'
+        .error-sub-title
+          = 'The change you wanted was rejected. May be you tried to change something you didn\'t have access to.'
+      .message-container
+        %p.message Congratulations!!!
+        %p.message You've found Whiskers.
+
+      = link_to "Go back to the previous page", :back, class: 'backLink'
+      = link_to 'Return to Sizung', '/', class: 'homeLink'
+    .error-right-container.col-xs-12.col-sm-6
+      .error-image
+        = image_tag 'cat.svg'
