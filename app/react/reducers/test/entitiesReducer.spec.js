@@ -2,7 +2,7 @@ import reducer from '../entitiesReducer';
 import { expect } from 'chai';
 import Immutable from 'immutable';
 
-import { STATUS_SUCCESS } from '../../actions/statuses.js';
+import { STATUS_SUCCESS } from '../../actions/constants.js';
 
 describe('entitiesReducer', () => {
   it('sets multiple entities by type', () => {

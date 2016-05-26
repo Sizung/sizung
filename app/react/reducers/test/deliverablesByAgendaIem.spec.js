@@ -3,7 +3,7 @@ import { expect } from 'chai';
 import Immutable from 'immutable';
 import * as utils from '../../utils/paginationUtils';
 
-import { STATUS_SUCCESS } from '../../actions/statuses.js';
+import { STATUS_SUCCESS } from '../../actions/constants';
 
 describe('deiverablesByAgendaItem', () => {
   it('sets one deliverable for the agendaItem', () => {
