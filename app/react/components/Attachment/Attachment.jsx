@@ -55,7 +55,7 @@ class Attachment extends React.Component {
               ATTACHMENT
             </div>
             <div className={styles.fileName}>
-              {fileName}
+              {fileName.length > 30 ? fileName.substr(0,30) + '...' + fileName.split('.').pop() : fileName }
             </div>
             <div className={styles.size}>
               {this.formatSize(parseInt(fileSize, 10))}

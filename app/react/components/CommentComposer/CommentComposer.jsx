@@ -3,7 +3,8 @@ import styles from './CommentComposer.css';
 import User from '../User';
 import SizungInputApp from '../../containers/SizungInputApp';
 import ComposeSelector from '../ComposeSelector/ComposeSelector';
-import ReactS3Uploader from 'react-s3-uploader';
+//import ReactS3Uploader from 'react-s3-uploader';
+import ReactS3Uploader from '../ReactS3Uploader';
 
 class CommentComposer extends React.Component {
   static propTypes = {
@@ -53,7 +54,7 @@ class CommentComposer extends React.Component {
     const fileObject = ReactDOM.findDOMNode(this.refs.input).files[0];
     this.setState({ uploadStatus: '' });
     const { parent } = this.props;
-    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: fileObject.name, file_size: fileObject.size, file_type: fileObject.type });
+    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: (data.signedUrl.split('?')[0].split('/').pop()), file_size: fileObject.size, file_type: fileObject.type });
   };
 
   render() {
