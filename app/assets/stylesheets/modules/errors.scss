@@ -1,0 +1,114 @@
+$green: #65C192;
+$gray: #8A959F;
+$grayLink: #9E9FA0;
+$black: #0A0022;
+$white: #FFFFFF;
+$blue: #38ACD4;
+$inputBackground: #EBEFF0;
+$inputColor: #130F22;
+$inputGray: $gray;
+$alert: red;
+
+.error-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.error-root {
+  display: flex;
+  flex-flow: row wrap;
+  width: 120rem;
+}
+
+.error-left-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 0 5rem;
+  justify-content: space-around;
+}
+
+.error-right-container {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5rem;
+}
+
+.error-image {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+
+.error-image img{
+  width: 42.5rem;
+  height: 55rem;
+  object-fit: contain;
+}
+
+
+.logo img {
+  margin: 0 0 2.5rem 0;
+  width: 22.75rem;
+  height: 6.75rem;
+}
+
+.backLink {
+  color: #838383;
+  font-size: 1.375rem;
+  font-family: Gotham-Book;
+
+  &:hover {
+    color: $grayLink;
+  }
+}
+
+.homeLink {
+  margin-top: 2.5rem;
+  font-size: 1.563rem;
+  color: $green;
+  font-family: Gotham-Bold;
+
+  &:hover {
+    color: $green;
+  }
+}
+
+.title-container {
+  margin: 1.5rem 0;
+}
+
+.message-container {
+  margin: 1.5rem 0;
+}
+
+.error-title {
+  color: $alert;
+  font-size: 2.5rem;
+  font-family: Gotham-Medium;
+}
+
+.error-sub-title {
+  color: $alert;
+  font-size: 1.875rem;
+  font-family: Gotham-Medium;
+}
+
+.message {
+  color: $blue;
+  font-size: 2.5rem;
+  font-family: Gotham-Medium;
+  margin: .5rem 0;
+}

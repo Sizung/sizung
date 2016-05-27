@@ -37,5 +37,8 @@ module Sizung
         resource '*', :headers => :any, :methods => [:get, :post, :options]
       end
     end
+
+    # Route any exceptions caught to the router Rack app
+    config.exceptions_app = self.routes
   end
 end

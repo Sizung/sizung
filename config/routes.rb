@@ -75,6 +75,11 @@ Rails.application.routes.draw do
   get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: redirect('/deliverables/%{deliverable_id}')
   get 'conversations/:id/agenda_items/:agenda_item_id', to: redirect('/agenda_items/%{agenda_item_id}')
 
+  # Route each error code to it's respective action in ErrorsController
+  match '/404', :to => 'errors#not_found', :via => :all
+  match '/422', :to => 'errors#unacceptable', :via => :all
+  match '/500', :to => 'errors#internal_error', :via => :all
+
   devise_for :users, controllers: {
                        registrations: 'users/registrations',
                        sessions:      'users/sessions',
