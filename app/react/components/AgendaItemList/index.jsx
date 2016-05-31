@@ -7,6 +7,7 @@ class AgendaItemList extends Component {
   static propTypes = {
     agendaItems: PropTypes.object.isRequired,
     visitAgendaItem: PropTypes.func.isRequired,
+    context: PropTypes.string,
   };
 
   componentDidMount() {
@@ -50,7 +51,7 @@ class AgendaItemList extends Component {
                   selected={agendaItem.id === selectedAgendaItemId}
                   updateAgendaItem={updateAgendaItem}
                   visitAgendaItem={visitAgendaItem}
-                  organizationContext={!this.props.conversationId}
+                  context={this.props.context}
                   archiveAgendaItem={archiveAgendaItem}
                 />);
             })

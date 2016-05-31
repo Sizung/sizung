@@ -4,6 +4,7 @@ import EditableText from '../EditableText';
 import Icon from '../Icon';
 import ArchiveIcon from '../ArchiveIcon';
 import ResolveIcon from '../ResolveIcon';
+import TextWithMentions from '../TextWithMentions';
 
 class AgendaItem extends React.Component {
 
@@ -56,16 +57,12 @@ class AgendaItem extends React.Component {
   };
 
   renderActions = () => {
-    const { agendaItem, selected } = this.props;
-    if (selected && !agendaItem.archived) {
-      return (
-        <div className={styles.actionContainer}>
-          {this.renderArchiveAction()}
-          {this.renderResolveAction()}
-        </div>
-      );
-    }
-    return null;
+    return (
+      <div className={styles.actionContainer}>
+        {this.renderArchiveAction()}
+        {this.renderResolveAction()}
+      </div>
+    );
   };
 
   //isElementOutViewport = (el) => {
@@ -78,6 +75,25 @@ class AgendaItem extends React.Component {
   //    this.refs.agendaItem.scrollIntoView();
   //  }
   //}
+
+  parentTitle = () => {
+    const { agendaItem } = this.props;
+    return (
+      <div className={styles.contextTitleContainer}>
+        <Icon type="chat" gap="1rem" style={{ fontSize: '1rem' }} />
+        <TextWithMentions maxLength={40}>{ agendaItem.conversation.title }</TextWithMentions>
+      </div>
+    );
+  };
+
+  renderBottomRow = () => {
+    const { context, selected } = this.props;
+    if (selected) {
+      return this.renderActions();
+    } else if (context && context === 'organization') {
+      return this.parentTitle();
+    }
+  };
 
   render() {
     const { agendaItem, selected } = this.props;
@@ -100,7 +116,7 @@ class AgendaItem extends React.Component {
             </div>
           </div>
         </div>
-        {this.renderActions()}
+        {this.renderBottomRow()}
       </div>
     );
   }
@@ -117,6 +133,7 @@ AgendaItem.propTypes = {
   }).isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
   archiveAgendaItem: PropTypes.func,
+  context: PropTypes.string,
 };
 
 export default AgendaItem;

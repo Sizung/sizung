@@ -2,7 +2,7 @@
 
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
-import styles from './index.css';
+import styles from './Conversation.css';
 import EditableText from '../EditableText';
 import User from '../User';
 import Immutable from 'immutable';
@@ -41,7 +41,7 @@ class Conversation extends React.Component {
       <Link to={'/conversations/' + conversation.id}>
         <div className={conversation.unseenCount > 0 ? styles.unseen : styles.seen}>
           <div className={styles.contentContainer}>
-            <div className={styles.title}>{ '#' + (conversation.title.length > 40 ? conversation.title.substr(0, 40) + '...' : conversation.title) }</div>
+            <div className={styles.title}>{ '@' + (conversation.title.length > 40 ? conversation.title.substr(0, 40) + '...' : conversation.title) }</div>
           </div>
           <div className={styles.conversationMembersContainer}>
             {this.renderConversationMembers()}
