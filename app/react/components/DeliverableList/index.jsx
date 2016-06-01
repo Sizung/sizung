@@ -10,6 +10,7 @@ class DeliverableList extends Component {
     deliverables: PropTypes.object.isRequired,
     updateDeliverable: PropTypes.func,
     archiveDeliverable: PropTypes.func,
+    context: PropTypes.string,
   };
 
   constructor() {
@@ -63,6 +64,7 @@ class DeliverableList extends Component {
                   selected={deliverable.id === selectedDeliverableId}
                   updateDeliverable={updateDeliverable}
                   archiveDeliverable={archiveDeliverable}
+                  context={this.props.context}
                 />);
             })
           }

@@ -44,22 +44,25 @@ class Deliverable extends React.Component {
     this.props.archiveDeliverable(this.props.deliverable.id);
   };
 
-  parentTitle = () => {
-    const { deliverable } = this.props;
+  parentContextTitle = () => {
+    const { deliverable, context } = this.props;
     let icon;
+    let contextTitle = deliverable.parent.title;
 
-    switch(deliverable.parentType) {
-      case 'agendaItems':
-        icon = <Icon type="agendaItem" style={{ marginLeft: '-10px'}}/>;
-        break;
-      case 'conversations':
+    if (deliverable.parentType === 'agendaItems') {
+      if (context === 'organization') {
         icon = <Icon type="chat" gap="15px" />;
-        break;
+        contextTitle = deliverable.parent.conversation.title;
+      } else {
+        icon = <Icon type="agendaItem" style={{ marginLeft: '-10px'}}/>;
+      }
+    } else if (deliverable.parentType === 'conversations') {
+      icon = <Icon type="chat" gap="15px" />;
     }
     return (
       <div className={styles.contextTitleContainer}>
         { icon }
-        <TextWithMentions maxLength={40}>{ deliverable.parent.title }</TextWithMentions>
+        <TextWithMentions maxLength={40}>{ contextTitle }</TextWithMentions>
       </div>
     );
   };
@@ -149,7 +152,7 @@ class Deliverable extends React.Component {
           <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
         </div>
         <div className={styles.bottomRow}>
-          { selected ? this.renderActions() : this.parentTitle() }
+          { selected ? this.renderActions() : this.parentContextTitle() }
           <div className={styles.assignee}>
             <EditableUserApp conversationId={deliverableUtils.getConversationIdFromParent(deliverable.parent)} editable userId={assigneeId} onUpdate={this.handleAssigneeUpdate} />
           </div>
@@ -168,6 +171,7 @@ Deliverable.propTypes = {
   visitDeliverable: PropTypes.func.isRequired,
   updateDeliverable: PropTypes.func,
   archiveDeliverable: PropTypes.func,
+  context: PropTypes.string,
 };
 
 export default Deliverable;
