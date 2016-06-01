@@ -118,14 +118,16 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-between;
+  align-items: center;
   overflow: hidden;
   margin: 10px 20px;
 }
 
-.contextTitleContainer {
-  margin: 1rem 0 0 1.5rem;
-  height: 2rem;
-  overflow: hidden;
+.contextTitle {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   line-height: 2rem;
   font-family: Gotham-Light;
   font-size: 1.25rem;
