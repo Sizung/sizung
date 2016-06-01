@@ -40,27 +40,32 @@ class AgendaItem extends React.Component {
   };
 
   renderResolveAction = () => {
-    const { agendaItem } = this.props;
-    if (agendaItem.status !== 'resolved') {
+    const { agendaItem, selected } = this.props;
+    if (agendaItem.status !== 'resolved' && selected) {
       return (
         <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
           <span className={styles.iconContainer}>
-            <ResolveIcon size={'x-large'} />
+            <ResolveIcon />
           </span>
           <span>
             {'Resolve'}
           </span>
         </div>
       );
+    } else if (agendaItem.status === 'resolved') {
+      return (
+        <ResolveIcon resolved/>
+      );
     }
     return null;
   };
 
-  renderActions = () => {
+  renderBottomRow = () => {
+    const { selected } = this.props;
     return (
       <div className={styles.actionContainer}>
-        {this.renderArchiveAction()}
-        {this.renderResolveAction()}
+        { selected ? this.renderArchiveAction() : this.parentContextTitle()}
+        { this.renderResolveAction() }
       </div>
     );
   };
@@ -76,25 +81,16 @@ class AgendaItem extends React.Component {
   //  }
   //}
 
-  parentTitle = () => {
+  parentContextTitle = () => {
     const { agendaItem } = this.props;
     return (
-      <div className={styles.contextTitleContainer}>
+      <div className={styles.contextTitle}>
         <Icon type="chat" gap="1rem" style={{ fontSize: '1rem' }} />
         <TextWithMentions maxLength={40}>{ agendaItem.conversation.title }</TextWithMentions>
       </div>
     );
   };
-
-  renderBottomRow = () => {
-    const { context, selected } = this.props;
-    if (selected) {
-      return this.renderActions();
-    } else if (context && context === 'organization') {
-      return this.parentTitle();
-    }
-  };
-
+  
   render() {
     const { agendaItem, selected } = this.props;
     let styleName = styles.seen;

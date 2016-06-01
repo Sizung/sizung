@@ -3,11 +3,22 @@ import styles from './index.css';
 
 class ResolveIcon extends React.Component {
 
+  static propTypes = {
+    style: PropTypes.object,
+    size: PropTypes.string,
+    resolved: PropTypes.bool,
+  };
+
+  static defaultProps = {
+    size: 'normal',
+    resolved: false,
+  };
+
   render() {
     const iconStyle = [];
-    const { size, selected } = this.props;
+    const { size, resolved } = this.props;
     const iconSize = (styles[size] ? size : 'normal');
-    iconStyle.push(styles.default);
+    iconStyle.push(resolved ? styles.resolved : styles.default);
     iconStyle.push(styles[iconSize]);
 
     return (
@@ -15,10 +26,5 @@ class ResolveIcon extends React.Component {
     );
   }
 }
-
-ResolveIcon.propTypes = {
-  style: PropTypes.object,
-  size: PropTypes.string,
-};
 
 export default ResolveIcon;

@@ -15,13 +15,13 @@ const agendaItemsForOrganization = (state, organizationId) => {
     return null;
   }
 
-  return references.map((reference) => {
+  const list = references.map((reference) => {
     return fillConversationObject(state, reference);
-  }).toList().filter((agendaItem) => {
-    return !agendaItem.archived;
-  }).sortBy((conversationObject) => {
-    return conversationObject.createdAt;
-  });
+  }).toList();
+
+  // Sort Agenda Item List inside conversation with titles starting with numbers at top and sorted in ascending order
+  return groupAndSortAgendaItemList(list);
+
 };
 
 const agendaItemIdsForConversation = (state, conversationId) => {
@@ -247,15 +247,7 @@ const numberInTitle = (obj) => {
   return parseInt(obj.title.split(/(\d+)/)[1], 10);
 };
 
-const agendaItemsList = (state, conversationId) => {
-  const agendaItemIds = agendaItemIdsForConversation(state, conversationId);
-  const list = agendaItemIds.map((ref) => {
-    return state.getIn(['entities', 'agendaItems', ref.id]);
-  }).toList().map((agendaItem) => {
-    return fillAgendaItem(state, agendaItem.id);
-  });
-
-  // Sort Agenda Item List inside conversation with titles starting with numbers at top and sorted in ascending order
+const groupAndSortAgendaItemList = (list) => {
   return list.filter((agendaItem) => {
     return (isAlive(agendaItem) && isStatusOpen(agendaItem) && isNumberedAgendaItem(agendaItem));
   }).sortBy(numberInTitle)
@@ -265,6 +257,18 @@ const agendaItemsList = (state, conversationId) => {
   .concat(list.filter((agendaItem) => {
     return (isAlive(agendaItem) && isStatusResolved(agendaItem));
   }).sortBy(createdAt));
+};
+
+const agendaItemsList = (state, conversationId) => {
+  const agendaItemIds = agendaItemIdsForConversation(state, conversationId);
+  const list = agendaItemIds.map((ref) => {
+    return state.getIn(['entities', 'agendaItems', ref.id]);
+  }).toList().map((agendaItem) => {
+    return fillAgendaItem(state, agendaItem.id);
+  });
+
+  // Sort Agenda Item List inside conversation with titles starting with numbers at top and sorted in ascending order
+  return groupAndSortAgendaItemList(list);
 };
 
 const conversationSettingsViewState = (state) => {
