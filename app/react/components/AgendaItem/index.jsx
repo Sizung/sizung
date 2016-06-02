@@ -82,13 +82,16 @@ class AgendaItem extends React.Component {
   //}
 
   parentContextTitle = () => {
-    const { agendaItem } = this.props;
-    return (
-      <div className={styles.contextTitle}>
-        <Icon type="chat" gap="1rem" style={{ fontSize: '1rem' }} />
-        <TextWithMentions maxLength={40}>{ agendaItem.conversation.title }</TextWithMentions>
-      </div>
-    );
+    const { agendaItem, context } = this.props;
+    if (context === 'organization') {
+      return (
+        <div className={styles.contextTitle}>
+          <Icon type="chat" gap="1rem" style={{ fontSize: '1rem' }}/>
+          <TextWithMentions maxLength={40}>{ agendaItem.conversation.title }</TextWithMentions>
+        </div>
+      );
+    }
+    return null;
   };
   
   render() {
