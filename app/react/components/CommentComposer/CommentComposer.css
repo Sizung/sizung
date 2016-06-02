@@ -1,7 +1,38 @@
-.root {
+.rootClosed {
   display: flex;
   flex-direction: row;
   align-items: center;
+}
+
+.rootOpen {
+  display: flex;
+  flex-direction: column;
+}
+
+.optionsRoot {
+  flex: 0;
+  display: flex;
+  flex-direction: row;
+  font-size: 1.6rem;
+  align-items: stretch;
+  justify-content: flex-end;
+  color: #405764;
+  /*background: transparent;*/
+  border-bottom: 1px solid #EBEEEF;
+}
+
+@media only screen
+and (max-width: 768px) {
+  .optionsRoot {
+    flex: 0;
+    display: flex;
+    flex-direction: row;
+    font-size: 1.6rem;
+    align-items: stretch;
+    justify-content: flex-start;
+    color: #405764;
+    border-bottom: 1px solid #EBEEEF;
+  }
 }
 
 .user {
@@ -26,7 +57,7 @@
   border: 0;
 }
 
-.chatButtons {
+.optionsButton {
   display: flex;
   flex-direction: row;
   color: #415764;
@@ -47,20 +78,24 @@
 
 .upload {
   composes: uploadContainer;
+  position: relative;
   background: no-repeat center url('/icons/attachment-icon.svg');
   background-size: 1.25rem 2.5rem;
-  padding: 5px 0;
+  width: 6rem;
   color: #415764;
+  cursor: pointer;
 }
 
 .uploadInProgress {
-  composes: fa fa-spinner fa-spin fa-lg from global;
+  composes: fa fa-spinner fa-spin from global;
+  margin-left: 3.5rem;
   color: #415764;
 }
 
 .uploadError {
-  composes: fa fa-warning fa-lg from global;
-  color: #415764;
+  composes: fa fa-warning from global;
+  margin-left: 3.5rem;
+  color: #f2695d;
 }
 
 .uploadPercentage {
@@ -72,10 +107,125 @@
 }
 
 .upload input {
-  display: block !important;
+  /*display: block !important;*/
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
   width: 100% !important;
   height: 100% !important;
   opacity: 0 !important;
   overflow: hidden !important;
-  cursor: pointer;
+  cursor: pointer !important;
+}
+
+.separator {
+  margin: 1.375rem 0;
+  border-left: 1px solid #E6E3E2;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.875rem;
+  line-height: 6.563rem;
+  min-height:6.563rem;
+  background-color: #ebeeef;
+}
+
+@media only screen
+and (max-width: 768px) {
+  .option {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.875rem;
+    line-height: 6.563rem;
+    min-height:6.563rem;
+    background-color: #ebeeef;
+  }
+}
+
+.option:hover {
+  background-color: #415764;
+  color: white;
+}
+
+.chat {
+  margin-left: 1.25rem;
+}
+
+
+@media only screen
+and (max-width: 768px) {
+  .option {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    line-height: 6.563rem;
+    padding: 0 1rem;
+  }
+
+  .chat {
+    margin-left: 1rem;
+  }
+
+  .icon {
+    font-size: 1.25rem;
+  }
+}
+
+
+.caretContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 6rem;
+  line-height: 6.563rem;
+  min-height:6.563rem;
+}
+
+.caretContainer:hover {
+  background-color: #415764;
+  color: white;
+}
+
+.caret {
+  display: inline-block;
+  align-self: center;
+  text-align: center;
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+.caretDown {
+  composes: caret;
+  background: url('/icons/caret-down-gray.svg') no-repeat;
+  width: 1.5rem;
+  height: 0.75rem;
+}
+
+.caretContainer:hover .caretDown {
+  background: url('/icons/caret-down-white.svg') no-repeat;
+  width: 1.5rem;
+  height: 0.75rem;
+}
+
+.caretUp {
+  composes: caret;
+  background: url('/icons/caret-up-gray.svg') no-repeat;
+  width: 1.5rem;
+  height: 0.75rem;
+}
+
+.caretContainer:hover .caretUp {
+  background: url('/icons/caret-up-white.svg') no-repeat;
+  width: 1.5rem;
+  height: 0.75rem;
 }
