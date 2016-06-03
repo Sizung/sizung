@@ -35,8 +35,13 @@ class Composer extends React.Component {
     value: 'default Text',
     mentions: [
       {
-        name: 'Matthew Russell',
-        id: '111',
+        name: 'Günter Glück',
+        id: '1',
+        avatar: 'https://pbs.twimg.com/profile_images/517863945/mattsailing_400x400.jpg',
+      },
+      {
+        name: 'Sam Sample',
+        id: '2',
         avatar: 'https://pbs.twimg.com/profile_images/517863945/mattsailing_400x400.jpg',
       },
     ],

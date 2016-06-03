@@ -27,8 +27,8 @@ class CommentComposer extends React.Component {
       open: false,
     };
 
-    this.handleSubmit = (e) => {
-      const name = this.state.value.trim();
+    this.handleSubmit = (text) => {
+      const name = text.trim();
       if (name === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
       this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
       this.setState({ value: '' });
@@ -134,7 +134,7 @@ class CommentComposer extends React.Component {
         <div className={styles.user}>
           <User user={this.props.currentUser}/>
         </div>
-        <Composer ref="name" onSubmit={this.handleSubmit} value={this.state.value} placeholder="Write your comment here" />
+        <Composer ref="name" onReturn={this.handleSubmit} value={this.state.value} placeholder="Write your comment here" />
         {this.renderCompositionOptionsButton()}
       </div>
     );
