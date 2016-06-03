@@ -4,6 +4,7 @@ import User from '../User';
 import SizungInputApp from '../../containers/SizungInputApp';
 import ReactS3Uploader from '../ReactS3Uploader';
 import Icon from '../Icon';
+import Composer from '../Composer';
 
 class CommentComposer extends React.Component {
   static propTypes = {
@@ -123,15 +124,17 @@ class CommentComposer extends React.Component {
     );
   };
 
+//  <form className={styles.form} onSubmit={this.handleSubmit}>
+//  <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
+//  </form>
+
   renderCommentCompositionBoxOnly = () => {
     return (
       <div className={styles.rootClosed}>
         <div className={styles.user}>
           <User user={this.props.currentUser}/>
         </div>
-        <form className={styles.form} onSubmit={this.handleSubmit}>
-          <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
-        </form>
+        <Composer ref="name" onSubmit={this.handleSubmit} value={this.state.value} placeholder="Write your comment here" />
         {this.renderCompositionOptionsButton()}
       </div>
     );

@@ -1,0 +1,18 @@
+.root {
+  flex: 1;
+  color: #415764;
+  font-size: 1.5em;
+
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  cursor: text;
+  padding: 16px;
+  border-radius: 2px;
+  margin-bottom: 2em;
+  box-shadow: inset 0px 1px 8px -3px #ABABAB;
+  background: #fefefe;
+}
+
+.root :global(.public-DraftEditor-content) {
+  min-height: 140px;
+}

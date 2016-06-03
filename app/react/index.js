@@ -25,3 +25,6 @@ registerComponent('SignUp', SignUp);
 
 import SignIn from './components/SignIn';
 registerComponent('SignIn', SignIn);
+
+import Composer from './components/Composer';
+registerComponent('Composer', Composer);
