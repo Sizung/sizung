@@ -4,7 +4,7 @@ import User from '../User';
 import SizungInputApp from '../../containers/SizungInputApp';
 import ReactS3Uploader from '../ReactS3Uploader';
 import Icon from '../Icon';
-import Composer from '../Composer';
+import ComposerApp from '../../containers/ComposerApp';
 
 class CommentComposer extends React.Component {
   static propTypes = {
@@ -27,11 +27,12 @@ class CommentComposer extends React.Component {
       open: false,
     };
 
-    this.handleSubmit = (text) => {
-      const name = text.trim();
-      if (name === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
-      this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
-      this.setState({ value: '' });
+    this.handleSubmit = (text, plainText) => {
+      const body = text.trim();
+      const trimmedPlainText = plainText.trim().replace(/\s*/g, '');
+      if (trimmedPlainText.length > 0) {
+        this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body });
+      }
     };
   }
 
@@ -132,9 +133,9 @@ class CommentComposer extends React.Component {
     return (
       <div className={styles.rootClosed}>
         <div className={styles.user}>
-          <User user={this.props.currentUser}/>
+          <User user={this.props.currentUser} />
         </div>
-        <Composer ref="name" onReturn={this.handleSubmit} value={this.state.value} placeholder="Write your comment here" />
+        <ComposerApp ref="name" onSubmit={this.handleSubmit} value={this.state.value} placeholder="Write your comment here" />
         {this.renderCompositionOptionsButton()}
       </div>
     );

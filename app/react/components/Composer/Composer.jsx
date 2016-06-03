@@ -28,7 +28,7 @@ class Composer extends React.Component {
         avatar: PropTypes.string.isRequired,
       }).isRequired
     ),
-    onReturn: PropTypes.function,
+    onSubmit: PropTypes.func,
   };
 
   static defaultProps = {
@@ -45,7 +45,7 @@ class Composer extends React.Component {
         avatar: 'https://pbs.twimg.com/profile_images/517863945/mattsailing_400x400.jpg',
       },
     ],
-    onReturn: (markdownText) => {
+    onSubmit: (markdownText) => {
       console.log(markdownText);
     },
   };
@@ -88,24 +88,43 @@ class Composer extends React.Component {
     this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   };
 
-  _handleReturn = () => {
-    this.props.onReturn(markdownFromState(this.state.editorState.getCurrentContent()));
-    return false;
-  };
+  //  _handleReturn = (e) => {
+  //    const contentState = this.state.editorState.getCurrentContent();
+  //    const plainText = contentState.getPlainText();
+  //    if (!e.shiftKey && contentState.hasText()) {
+  //      this.props.onSubmit(markdownFromState(contentState), plainText);
+  //      window.setTimeout(() => {
+  //        const emptyContentState = EditorState.createEmpty().getCurrentContent();
+  //        const newEditorState    = EditorState.push(this.state.editorState, emptyContentState, 'apply-entity');
+  //        this.onChange(newEditorState);
+  //      }, 2000);
+  //      return false;
+  //    }
+  //    return false;
+  //  };
 
   _handleLogClick = () => {
     const contentState = this.state.editorState.getCurrentContent();
     console.log('raw: ', convertToRaw(contentState));
   };
 
+  _handleSubmitClick = () => {
+    const contentState = this.state.editorState.getCurrentContent();
+    const plainText = contentState.getPlainText();
+    if (contentState.hasText()) {
+      this.props.onSubmit(markdownFromState(contentState), plainText);
+      const emptyContentState = EditorState.createEmpty().getCurrentContent();
+      const newEditorState    = EditorState.push(this.state.editorState, emptyContentState, 'apply-entity');
+      this.onChange(newEditorState);
+    }
+  };
+
   render() {
     const { editorState, suggestions } = this.state;
     const { placeholder } = this.props;
-    
+
     return (
       <div className={styles.root}>
-        <button onClick={this._handleBoldClick}>Bold</button>
-        <button onClick={this._handleLogClick}>Log</button>
         <Editor editorState={editorState}
                 onChange={this.onChange}
                 handleKeyCommand={this.handleKeyCommand}
@@ -117,6 +136,7 @@ class Composer extends React.Component {
             onSearchChange={ this.onSearchChange }
             suggestions={ suggestions }
         />
+        <button onClick={this._handleSubmitClick}>Submit</button>
       </div>
     );
   }
