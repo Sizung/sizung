@@ -29,6 +29,7 @@ class Composer extends React.Component {
       }).isRequired
     ),
     onSubmit: PropTypes.func,
+    onChange: PropTypes.func,
   };
 
   static defaultProps = {
@@ -48,6 +49,7 @@ class Composer extends React.Component {
     onSubmit: (markdownText) => {
       console.log(markdownText);
     },
+    onChange: () => {},
   };
 
   constructor(props) {
@@ -63,10 +65,25 @@ class Composer extends React.Component {
     };
   }
 
-  onChange = (editorState) => {
+  getMarkdown = () => {
+    const contentState = this.state.editorState.getCurrentContent();
+    if (contentState.hasText()) {
+      return markdownFromState(contentState).trim();
+    }
+    return null;
+  }
+
+  hasText = () => {
+    const plainText = this.state.editorState.getCurrentContent().getPlainText();
+    const trimmedPlainText = plainText.trim().replace(/\s*/g, '');
+    return trimmedPlainText.length > 0;
+  }
+
+  handleChange = (editorState) => {
     this.setState({
       editorState,
     });
+    this.props.onChange(editorState);
   };
 
   onSearchChange = ({ value }) => {
@@ -78,14 +95,14 @@ class Composer extends React.Component {
   handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
     if (newState) {
-      this.onChange(newState);
+      this.handleChange(newState);
       return true;
     }
     return false;
   };
 
   _handleBoldClick = () => {
-    this.onChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
+    this.handleChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   };
 
   //  _handleReturn = (e) => {
@@ -96,9 +113,9 @@ class Composer extends React.Component {
   //      window.setTimeout(() => {
   //        const emptyContentState = EditorState.createEmpty().getCurrentContent();
   //        const newEditorState    = EditorState.push(this.state.editorState, emptyContentState, 'apply-entity');
-  //        this.onChange(newEditorState);
+  //        this.handleChange(newEditorState);
   //      }, 2000);
-  //      return false;
+  //      return true;
   //    }
   //    return false;
   //  };
@@ -109,13 +126,11 @@ class Composer extends React.Component {
   };
 
   _handleSubmitClick = () => {
-    const contentState = this.state.editorState.getCurrentContent();
-    const plainText = contentState.getPlainText();
-    if (contentState.hasText()) {
-      this.props.onSubmit(markdownFromState(contentState), plainText);
+    if (this.hasText()) {
+      this.props.onSubmit(this.getMarkdown());
       const emptyContentState = EditorState.createEmpty().getCurrentContent();
       const newEditorState    = EditorState.push(this.state.editorState, emptyContentState, 'apply-entity');
-      this.onChange(newEditorState);
+      this.handleChange(newEditorState);
     }
   };
 
@@ -126,7 +141,7 @@ class Composer extends React.Component {
     return (
       <div className={styles.root}>
         <Editor editorState={editorState}
-                onChange={this.onChange}
+                onChange={this.handleChange}
                 handleKeyCommand={this.handleKeyCommand}
                 plugins={plugins}
                 placeholder={placeholder}

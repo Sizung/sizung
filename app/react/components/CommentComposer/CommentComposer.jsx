@@ -1,7 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './CommentComposer.css';
 import User from '../User';
-import SizungInputApp from '../../containers/SizungInputApp';
 import ReactS3Uploader from '../ReactS3Uploader';
 import Icon from '../Icon';
 import ComposerApp from '../../containers/ComposerApp';
@@ -27,12 +26,8 @@ class CommentComposer extends React.Component {
       open: false,
     };
 
-    this.handleSubmit = (text, plainText) => {
-      const body = text.trim();
-      const trimmedPlainText = plainText.trim().replace(/\s*/g, '');
-      if (trimmedPlainText.length > 0) {
-        this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body });
-      }
+    this.handleSubmit = (text) => {
+      this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: text });
     };
   }
 

@@ -2,7 +2,6 @@ import { expect } from 'chai';
 import Immutable from 'immutable';
 import { render } from 'enzyme';
 import React from 'react';
-import { toEditorState, toMarkdown } from './ComposerUtils';
 
 // import { stub } from 'sinon'; ... to mock api calls https://github.com/pure-ui/react-pure-ui/blob/master/test/unit/components/BooleanControl.js
 
@@ -15,16 +14,16 @@ describe('Composer', () => {
     };
 
     const result = render(<Composer {...props} />);
-    //expect(result.text()).to.match(/Hello World/);
+    // expect(result.text()).to.match(/Hello World/);
     // expect(result.contains(<div>Write the DeliverableList spec.</div>)).to.be.true;
   });
 
   it('imports and exports links', () => {
     const text = 'Hello **World**\n[URL and title](/url/ "title")\n';
-    const editorState = toEditorState(text);
-    console.log(editorState);
-    const exportedText = toMarkdown(editorState);
-    //expect(exportedText).to.equal(text);
+    // const editorState = toEditorState(text);
+    // console.log(editorState);
+    // const exportedText = toMarkdown(editorState);
+    // expect(exportedText).to.equal(text);
   });
 });
 

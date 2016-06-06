@@ -47,7 +47,6 @@
     "isomorphic-fetch": "^2.2.1",
     "lodash": "^3.5.0",
     "marked": "^0.3.5",
-    "markup-it": "git+https://github.com/gugl/markup-it.git",
     "moment": "^2.11.1",
     "node-sass": "^3.4.2",
     "react": "^0.14.6",

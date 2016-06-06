@@ -5,6 +5,7 @@ import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
 import SizungInputApp from '../../containers/SizungInputApp';
 import CommentDropdown from '../CommentDropdown/index';
+import ComposerApp from '../../containers/ComposerApp';
 
 class Comment extends React.Component {
   constructor() {
@@ -45,8 +46,11 @@ class Comment extends React.Component {
   };
 
   handleSave = () => {
-    const value = this.state.value || this.props.comment.body;
-    this.handleSubmit(value);
+    // TODO: Here we should transform the contentState to markdown and call the handleSubmit callback with it    
+
+    // This was the code for the old composer component
+    //    const value = this.state.value || this.props.comment.body;
+    //    this.handleSubmit(value);
   };
 
   handleChange = (ev, value) => {
@@ -90,12 +94,14 @@ class Comment extends React.Component {
     }
   }
 
+  //  <SizungInputApp ref="input" className="form-control" onSubmit={this.handleSubmit} onChange={this.handleChange} rows="3" defaultValue={body} />
+
   renderEditComment = (body) => {
     return (<div className={styles.contentContainer}>
         <div className="form-horizontal">
           <div className="form-group" style={{ marginBottom: '5px' }}>
             <div className="col-xs-12">
-              <SizungInputApp ref="input" className="form-control" onSubmit={this.handleSubmit} onChange={this.handleChange} rows="3" defaultValue={body} />
+              <ComposerApp ref="input" className="form-control" onSubmit={this.handleSubmit} value={body} />
             </div>
           </div>
           <div className="form-group" style={{ marginBottom: '5px' }}>
