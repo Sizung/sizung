@@ -30,7 +30,7 @@ module Api
           when 'Conversation'
             scope.where(conversation: parent).where("target_type = 'Conversation' OR target_type = 'AgendaItem' OR (target_type = 'Comment' AND agenda_item_id IS NULL)").destroy_all
           when 'AgendaItem'
-            scope.where(agenda_item: parent).where("target_type = 'Deliverable' OR (target_type = 'Comment' AND deliverable_id IS NULL)").destroy_all
+            scope.where(agenda_item: parent).where("target_type = 'AgendaItem' OR target_type = 'Deliverable' OR (target_type = 'Comment' AND deliverable_id IS NULL)").destroy_all
           when 'Deliverable'
             scope.where(deliverable: parent).destroy_all
           else

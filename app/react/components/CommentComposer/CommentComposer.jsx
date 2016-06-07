@@ -2,9 +2,8 @@ import React, { PropTypes } from 'react';
 import styles from './CommentComposer.css';
 import User from '../User';
 import SizungInputApp from '../../containers/SizungInputApp';
-import ComposeSelector from '../ComposeSelector/ComposeSelector';
-//import ReactS3Uploader from 'react-s3-uploader';
 import ReactS3Uploader from '../ReactS3Uploader';
+import Icon from '../Icon';
 
 class CommentComposer extends React.Component {
   static propTypes = {
@@ -24,6 +23,7 @@ class CommentComposer extends React.Component {
       value: '',
       uploadStatus: '',
       uploadPercentage: 0,
+      open: false,
     };
 
     this.handleSubmit = (e) => {
@@ -33,14 +33,6 @@ class CommentComposer extends React.Component {
       this.setState({ value: '' });
     };
   }
-
-  handleSelect = (selectedType) => {
-    this.props.onSelect(selectedType, this.state.value.trim());
-  };
-
-  handleChangeInMentionBox = (ev, value) => {
-    this.setState({ value });
-  };
 
   onUploadProgress = (data) => {
     this.setState({ uploadStatus: 'InProgress', uploadPercentage: data });
@@ -57,21 +49,51 @@ class CommentComposer extends React.Component {
     this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: (data.signedUrl.split('?')[0].split('/').pop()), file_size: fileObject.size, file_type: fileObject.type });
   };
 
-  render() {
+  handleChangeInMentionBox = (ev, value) => {
+    this.setState({ value });
+  };
+
+  handleSelect = (selectedType) => {
+    this.props.onSelect(selectedType, this.state.value.trim());
+  };
+
+  handleOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  selectAgendaItem = () => {
+    this.handleSelect('agendaItem');
+  };
+
+  selectDeliverable = () => {
+    this.handleSelect('deliverable');
+  };
+
+  renderAgendaItem = () => {
+    return <div className={styles.option} onClick={this.selectAgendaItem}><Icon type="agendaItem" className={styles.icon}>To Discuss</Icon></div>;
+  };
+
+  renderDeliverable = () => {
+    return <div className={styles.option} onClick={this.selectDeliverable}><Icon type="deliverable" className={styles.icon} gap='0.5rem'>To Do</Icon></div>;
+  };
+
+  renderCaret = (type) => {
+    if (type === 'up') {
+      return <div className={styles.caretUp} onClick={this.handleOpen}></div>;
+    }
+    return <div className={styles.caretDown} onClick={this.handleClose}></div>;
+  };
+
+  renderFileUploader = () => {
     const { parent } = this.props;
     const headers = [];
     const queryParams = [];
     const signingUrl = `/api/${parent.type === 'agendaItems' ? 'agenda_items' : parent.type}/${parent.id}/attachments/new`;
-
     return (
-      <div className={styles.root}>
-        <div className={styles.user}>
-          <User user={this.props.currentUser}/>
-        </div>
-        <form className={styles.form} onSubmit={this.handleSubmit}>
-          <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
-        </form>
-
         <div className={styles.upload}>
           <div className={ this.state.uploadStatus === '' ? '' : styles['upload' + this.state.uploadStatus] }>
           </div>
@@ -87,12 +109,51 @@ class CommentComposer extends React.Component {
               uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
               contentDisposition="auto" />
         </div>
-        <div className={styles.chatButtons}>
-          <ComposeSelector onSelect={this.handleSelect} />
+    );
+  };
+
+  renderCompositionOptionsButton = () => {
+    return (
+      <div className={styles.optionsButton} onClick={ this.state.open ? this.handleClose : this.handleOpen }>
+        <div className={styles.separator}></div>
+        <div className={styles.caretContainer}>
+          {this.renderCaret(this.state.open ? 'down' : 'up')}
         </div>
       </div>
     );
+  };
+
+  renderCommentCompositionBoxOnly = () => {
+    return (
+      <div className={styles.rootClosed}>
+        <div className={styles.user}>
+          <User user={this.props.currentUser}/>
+        </div>
+        <form className={styles.form} onSubmit={this.handleSubmit}>
+          <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
+        </form>
+        {this.renderCompositionOptionsButton()}
+      </div>
+    );
+  };
+
+  renderCommentCompositionBoxWithOptions = () => {
+    return (
+      <div className={styles.rootOpen}>
+        <div className={styles.optionsRoot}>
+          {this.renderFileUploader()}
+          {this.renderAgendaItem()}
+          {this.renderDeliverable()}
+        </div>
+        {this.renderCommentCompositionBoxOnly()}
+      </div>
+    );
+  };
+
+  render() {
+    return this.state.open ? this.renderCommentCompositionBoxWithOptions() : this.renderCommentCompositionBoxOnly();
   }
+
 }
 
 export default CommentComposer;
