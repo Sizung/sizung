@@ -17,6 +17,17 @@ class AgendaItemInTimeline extends React.Component {
     return <SizungTime value={createdAt} />;
   };
 
+  renderTime = () => {
+    if (this.props.showTimeStamp) {
+      return (
+        <div className={styles.timeContainer}>
+          {this.lastUpdatedTime()}
+        </div>
+      );
+    }
+    return null;
+  };
+
   render() {
     const { agendaItem, showOwner } = this.props;
     const { owner } = agendaItem;
@@ -34,9 +45,7 @@ class AgendaItemInTimeline extends React.Component {
                 </div>
               </Link>
             </div>
-            <div className={styles.timeContainer}>
-              {this.lastUpdatedTime()}
-            </div>
+            {this.renderTime()}
           </div>
         </div>
     );
@@ -53,10 +62,12 @@ AgendaItemInTimeline.propTypes = {
   updateAgendaItem: PropTypes.func.isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
   showOwner: PropTypes.bool.isRequired,
+  showTimeStamp: PropTypes.bool.isRequired,
   currentUser: PropTypes.object,
 };
 
 AgendaItemInTimeline.defaultProps = {
   showOwner: true,
+  showTimeStamp: true,
 };
 export default AgendaItemInTimeline;

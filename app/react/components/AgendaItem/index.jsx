@@ -44,9 +44,9 @@ class AgendaItem extends React.Component {
     if (agendaItem.status !== 'resolved' && selected) {
       return (
         <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
-          <span className={styles.iconContainer}>
+          <div className={styles.iconContainer}>
             <ResolveIcon />
-          </span>
+          </div>
           <span>
             {'Resolve'}
           </span>
@@ -54,7 +54,9 @@ class AgendaItem extends React.Component {
       );
     } else if (agendaItem.status === 'resolved') {
       return (
-        <ResolveIcon resolved/>
+          <div className={styles.resolvedIcon}>
+            <ResolveIcon resolved/>
+          </div>
       );
     }
     return null;

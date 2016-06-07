@@ -13,11 +13,11 @@
 
 .organizationWrapper {
   display: flex;
-  flex: 1;
+  flex: none;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding-left: 3.125rem;
+  padding: 0 3.125rem;
 }
 
 .organizationWrapper a {
@@ -34,7 +34,7 @@
 }
 
 .profileDropdown {
-  flex: 1;
+  flex: none;
   display: flex;
   justify-content: flex-end;
 }

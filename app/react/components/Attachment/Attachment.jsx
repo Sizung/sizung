@@ -62,7 +62,7 @@ class Attachment extends React.Component {
             </div>
           </a>
         </div>
-        {this.lastUpdatedTime()}
+        { this.props.showTimeStamp ? this.lastUpdatedTime() : null}
       </div>
     );
   };
@@ -95,11 +95,12 @@ Attachment.propTypes = {
     }).isRequired,
   }).isRequired,
   showOwner: PropTypes.bool.isRequired,
-
+  showTimeStamp: PropTypes.bool.isRequired,
 };
 
 Attachment.defaultProps = {
   showOwner: true,
+  showTimeStamp: true,
 };
 
 
