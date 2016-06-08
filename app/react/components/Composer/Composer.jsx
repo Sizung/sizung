@@ -109,7 +109,7 @@ class Composer extends React.Component {
      const { editorState } = this.state;
      const contentState = editorState.getCurrentContent();
      const plainText = contentState.getPlainText();
-     if (!e.shiftKey && contentState.hasText()) {
+     if (!e.shiftKey && contentState.hasText() && !this.mentionSuggestionOpen) {
        this.props.onSubmit(markdownFromState(contentState), plainText);
        const blocks = editorState.getCurrentContent().getBlockMap().toList();
        const updatedSelection = editorState.getSelection().merge({
@@ -135,14 +135,13 @@ class Composer extends React.Component {
     console.log('raw: ', convertToRaw(contentState));
   };
 
-  _handleSubmitClick = () => {
-    if (this.hasText()) {
-      this.props.onSubmit(this.getMarkdown());
-      const emptyContentState = EditorState.createEmpty().getCurrentContent();
-      const newEditorState    = EditorState.push(this.state.editorState, emptyContentState, 'apply-entity');
-      this.handleChange(newEditorState);
-    }
-  };
+  _mentionSuggestionsOpen = () => {
+    this.mentionSuggestionOpen = true;
+  }
+
+  _mentionSuggestionsClose = () => {
+    this.mentionSuggestionOpen = false;
+  }
 
   render() {
     const { editorState, suggestions } = this.state;
@@ -160,8 +159,9 @@ class Composer extends React.Component {
         <MentionSuggestions
             onSearchChange={ this.onSearchChange }
             suggestions={ suggestions }
+            onOpen={this._mentionSuggestionsOpen}
+            onClose={this._mentionSuggestionsClose}
         />
-        <button onClick={this._handleSubmitClick}>Submit</button>
       </div>
     );
   }
