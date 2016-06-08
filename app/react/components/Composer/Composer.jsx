@@ -111,9 +111,12 @@ class Composer extends React.Component {
      const plainText = contentState.getPlainText();
      if (!e.shiftKey && contentState.hasText()) {
        this.props.onSubmit(markdownFromState(contentState), plainText);
+       const blocks = editorState.getCurrentContent().getBlockMap().toList();
        const updatedSelection = editorState.getSelection().merge({
+         anchorKey: blocks.first().get('key'),
          anchorOffset: 0,
-         focusOffset: plainText.length,
+         focusKey: blocks.last().get('key'),
+         focusOffset: blocks.last().getLength(),
        });
        const newContentState = Modifier.removeRange(
          editorState.getCurrentContent(),
