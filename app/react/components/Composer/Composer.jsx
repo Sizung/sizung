@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
 import styles from './Composer.css';
 
+import { clearEditorContent } from './composerUtil';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
 import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
-import { EditorState, RichUtils, convertToRaw, Modifier } from 'draft-js';
+import { EditorState, RichUtils, convertToRaw } from 'draft-js';
 import Immutable from 'immutable';
 import stateFromMarkdown from '../../utils/stateFromMarkdown';
 import markdownFromState from '../../utils/markdownFromState';
@@ -111,20 +112,7 @@ class Composer extends React.Component {
      const plainText = contentState.getPlainText();
      if (!e.shiftKey && contentState.hasText() && !this.mentionSuggestionOpen) {
        this.props.onSubmit(markdownFromState(contentState), plainText);
-       const blocks = editorState.getCurrentContent().getBlockMap().toList();
-       const updatedSelection = editorState.getSelection().merge({
-         anchorKey: blocks.first().get('key'),
-         anchorOffset: 0,
-         focusKey: blocks.last().get('key'),
-         focusOffset: blocks.last().getLength(),
-       });
-       const newContentState = Modifier.removeRange(
-         editorState.getCurrentContent(),
-         updatedSelection,
-         'forward'
-       );
-       const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
-       this.handleChange(newEditorState);
+       this.handleChange(clearEditorContent(editorState));
        return true;
      }
      return false;
