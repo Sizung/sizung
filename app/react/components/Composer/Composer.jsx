@@ -4,7 +4,7 @@ import styles from './Composer.css';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
 import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
-import { EditorState, RichUtils, convertToRaw } from 'draft-js';
+import { EditorState, RichUtils, convertToRaw, Modifier } from 'draft-js';
 import Immutable from 'immutable';
 import stateFromMarkdown from '../../utils/stateFromMarkdown';
 import markdownFromState from '../../utils/markdownFromState';
@@ -105,20 +105,27 @@ class Composer extends React.Component {
     this.handleChange(RichUtils.toggleInlineStyle(this.state.editorState, 'BOLD'));
   };
 
-  //  _handleReturn = (e) => {
-  //    const contentState = this.state.editorState.getCurrentContent();
-  //    const plainText = contentState.getPlainText();
-  //    if (!e.shiftKey && contentState.hasText()) {
-  //      this.props.onSubmit(markdownFromState(contentState), plainText);
-  //      window.setTimeout(() => {
-  //        const emptyContentState = EditorState.createEmpty().getCurrentContent();
-  //        const newEditorState    = EditorState.push(this.state.editorState, emptyContentState, 'apply-entity');
-  //        this.handleChange(newEditorState);
-  //      }, 2000);
-  //      return true;
-  //    }
-  //    return false;
-  //  };
+   _handleReturn = (e) => {
+     const { editorState } = this.state;
+     const contentState = editorState.getCurrentContent();
+     const plainText = contentState.getPlainText();
+     if (!e.shiftKey && contentState.hasText()) {
+       this.props.onSubmit(markdownFromState(contentState), plainText);
+       const updatedSelection = editorState.getSelection().merge({
+         anchorOffset: 0,
+         focusOffset: plainText.length,
+       });
+       const newContentState = Modifier.removeRange(
+         editorState.getCurrentContent(),
+         updatedSelection,
+         'forward'
+       );
+       const newEditorState = EditorState.push(editorState, newContentState, 'remove-range');
+       this.handleChange(newEditorState);
+       return true;
+     }
+     return false;
+   };
 
   _handleLogClick = () => {
     const contentState = this.state.editorState.getCurrentContent();
