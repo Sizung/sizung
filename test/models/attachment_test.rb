@@ -42,8 +42,8 @@ describe Attachment do
     old_updated_at = DateTime.now - 1.day
     deliverable.update!(updated_at: old_updated_at)
     deliverable.reload
-    expect(deliverable.updated_at).must_equal(old_updated_at)
+    expect(deliverable.updated_at.to_i).must_equal(old_updated_at.to_i)
     attachment = Attachment.create(parent: deliverable, file_name: 'something', file_size: 1, owner: deliverable.owner, persistent_file_id: 'someurl.com')
-    expect(deliverable.updated_at).wont_equal(old_updated_at)
+    expect(deliverable.updated_at.to_i).wont_equal(old_updated_at.to_i)
   end
 end
