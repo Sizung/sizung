@@ -68,7 +68,7 @@ S3Upload.prototype.executeOnSignedUrl = function(file, callback) {
   // list of unsafe characters mentioned here
   // http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html
 
-  var normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+? \\\/\x00-\x1F\x7f]/ig, '_'));
+  var normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+? \\\/\x00-\x1F\x7f]+/ig, '_'));
   var fileName = latinize(normalizedFileName);
   var queryString = '?objectName=' + fileName + '&contentType=' + encodeURIComponent(file.type);
   if (this.signingUrlQueryParams) {
@@ -144,7 +144,7 @@ S3Upload.prototype.uploadToS3 = function(file, signResult) {
     // FileName normalized to replace unsafe characters with underscore
     // list of unsafe characters mentioned here
     // http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html
-    var normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+? \\\/\x00-\x1F\x7f]/ig, '_'));
+    var normalizedFileName = unorm.nfc(file.name.replace(/[!\^`><{}\[\]()*#%'"~|&@:;$=+? \\\/\x00-\x1F\x7f]+/ig, '_'));
     var fileName = latinize(normalizedFileName);
     console.log('New filename: ' + fileName);
     xhr.setRequestHeader('Content-Disposition', disposition + '; filename=' + fileName);
