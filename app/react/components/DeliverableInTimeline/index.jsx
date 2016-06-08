@@ -16,10 +16,12 @@ class DeliverableInTimeline extends React.Component {
       createdAt: PropTypes.string.isRequired,
     }).isRequired,
     showOwner: PropTypes.bool.isRequired,
+    showTimeStamp: PropTypes.bool.isRequired,
   };
 
   static defaultProps = {
     showOwner: true,
+    showTimeStamp: true,
   };
 
   lastUpdatedTime = () => {
@@ -45,6 +47,17 @@ class DeliverableInTimeline extends React.Component {
     }
   };
 
+  renderTime = () => {
+    if (this.props.showTimeStamp) {
+      return (
+          <div className={styles.timeContainer}>
+            {this.lastUpdatedTime()}
+          </div>
+      );
+    }
+    return null;
+  };
+
   render() {
     const { deliverable, showOwner } = this.props;
     const { owner } = deliverable;
@@ -65,9 +78,7 @@ class DeliverableInTimeline extends React.Component {
               </div>
             </Link>
           </div>
-          <div className={styles.timeContainer}>
-            {this.lastUpdatedTime()}
-          </div>
+          {this.renderTime()}
         </div>
       </div>
     );

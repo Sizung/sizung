@@ -117,7 +117,7 @@ class Comment extends React.Component {
         <div className={styles.commentBody} ref="commentBody">
           <TextWithMentions>{body}</TextWithMentions>
         </div>
-        {this.lastUpdatedTime()}
+        {this.props.showTimeStamp ? this.lastUpdatedTime() : null}
       </div>
     );
   };
@@ -150,10 +150,12 @@ Comment.propTypes = {
   currentUser: PropTypes.object.isRequired,
   handleCommentSettingsDropdownScroll: PropTypes.func.isRequired,
   showAuthor: PropTypes.bool.isRequired,
+  showTimeStamp: PropTypes.bool.isRequired,
 };
 
 Comment.defaultProps = {
   showAuthor: true,
+  showTimeStamp: true,
 };
 
 

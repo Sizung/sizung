@@ -1,7 +1,7 @@
 .root {
   display: flex;
   flex-direction: row;
-  padding: 10px 0px;
+  padding: 10px 0 0 0;
   color : #89949E;
 }
 
@@ -77,9 +77,10 @@
 }
 
 .timeContainer {
+  margin-top: 1.563rem;
+  margin-bottom: 10px;
   font-family: Gotham-Book;
   font-size: 1rem;
-  margin-top: 1.563rem;
   color : #8C9295;
 }
 .dueOnLabel {
