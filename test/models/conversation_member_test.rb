@@ -16,4 +16,13 @@ describe ConversationMember do
 
     expect(conv_member).must_be :valid?
   end
+
+  it 'cleans unseen objects when destroyed' do
+    conversation_member = FactoryGirl.create :conversation_member
+    UnseenObject.create(user: conversation_member.member, conversation: conversation_member.conversation)
+    expect {
+      conversation_member.destroy
+    }.must_change 'UnseenObject.count', -1
+  end
+  
 end
