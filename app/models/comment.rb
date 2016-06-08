@@ -1,7 +1,7 @@
 class Comment < ActiveRecord::Base
   include Archival
 
-  belongs_to :commentable, polymorphic: true, counter_cache: true
+  belongs_to :commentable, polymorphic: true, counter_cache: true, touch: true
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
   validates_presence_of :author, :commentable, :body

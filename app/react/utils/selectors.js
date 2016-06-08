@@ -243,6 +243,10 @@ const createdAt = (obj) => {
   return obj.createdAt;
 };
 
+const updatedAt = (obj) => {
+  return -(new Date(obj.updatedAt)).getTime();
+};
+
 const numberInTitle = (obj) => {
   return parseInt(obj.title.split(/(\d+)/)[1], 10);
 };
@@ -253,10 +257,10 @@ const groupAndSortAgendaItemList = (list) => {
   }).sortBy(numberInTitle)
   .concat(list.filter((agendaItem) => {
     return (isAlive(agendaItem) && isStatusOpen(agendaItem) && !isNumberedAgendaItem(agendaItem));
-  }).sortBy(createdAt))
+  }).sortBy(updatedAt))
   .concat(list.filter((agendaItem) => {
     return (isAlive(agendaItem) && isStatusResolved(agendaItem));
-  }).sortBy(createdAt));
+  }).sortBy(updatedAt));
 };
 
 const agendaItemsList = (state, conversationId) => {

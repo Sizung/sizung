@@ -22,7 +22,6 @@ describe Api::CommentsController do
       expect {
         post :create, comment: { body: @comment.body, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type }
       }.must_change 'Comment.count'
-
       assert_response :success
     end
 
@@ -88,6 +87,18 @@ describe Api::CommentsController do
       delete :destroy, id: comment
 
       expect(conversation_member.member.reload.unseen_objects.count).must_equal 0
+    end
+
+    it 'updates the parent\'s update_at timestamp when a comment gets creates in that parent\'s timeline' do
+      previousUpdatedAtTimestamp = @comment.commentable.updated_at
+      previousCommentsCount = @comment.commentable.comments_count
+      sleep 3
+      expect {
+        post :create, comment: { body: @comment.body, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type }
+      }.must_change 'Comment.count'
+      assert_response :success
+      expect(@comment.reload.commentable.comments_count).wont_equal previousCommentsCount
+      expect(@comment.reload.commentable.updated_at).wont_equal previousUpdatedAtTimestamp
     end
   end
 end
