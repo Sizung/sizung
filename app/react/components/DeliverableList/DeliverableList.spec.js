@@ -32,7 +32,7 @@ describe ('DeliverableList', () => {
     const store = createStore(reducer, Immutable.fromJS({}));    
     const result = render(<Provider store={store}><DeliverableList {...props} /></Provider>);
 
-    expect(result.text()).to.be.eq('DELIVERABLESWrite the DeliverableList spec.\n??');
+    expect(result.text()).to.be.eq('TO DOWrite the DeliverableList spec.\n??');
     // expect(result.contains(<div>Write the DeliverableList spec.</div>)).to.be.true;
   });
 });

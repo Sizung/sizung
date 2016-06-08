@@ -9,11 +9,11 @@ App.conversationChannel = App.cable.subscriptions.create "ConversationChannel",
 
   followConversation: (conversationId) ->
     @perform 'follow', conversation_id: conversationId
-    # console.log('ConversationChannel following conversation: ' + conversationId)
+    console.log('ConversationChannel following conversation: ' + conversationId)
 
   setOnReceived: (callback) ->
     this.onReceived = callback
 
   unfollowConversation: ->
-    # console.log('ConversationChannel unfollow')
+    console.log('ConversationChannel unfollow')
     @perform 'unfollow'
