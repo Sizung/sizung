@@ -1,6 +1,4 @@
-import { render, mount } from 'enzyme';
-import { assert } from 'chai';
-import { spy } from 'sinon';
+import { render } from 'enzyme';
 import React from 'react';
 
 // import { stub } from 'sinon'; ... to mock api calls https://github.com/pure-ui/react-pure-ui/blob/master/test/unit/components/BooleanControl.js
@@ -24,12 +22,5 @@ describe('Composer', () => {
     // console.log(editorState);
     // const exportedText = toMarkdown(editorState);
     // expect(exportedText).to.equal(text);
-  });
-
-  xit('should call props.onSubmit when enter key is pressed', () => {
-    const onSubmit = spy();
-    const editor = mount(<Composer onSubmit={onSubmit} />);
-    editor.simulate('keypress', { which: 'Enter' });
-    assert.isTrue(spy.calledOnce);
   });
 });
