@@ -23,4 +23,14 @@ describe AgendaItem do
     comment = FactoryGirl.create(:comment, commentable: agenda_item)
     assert_equal [comment], agenda_item.conversation_objects.to_a
   end
+
+  it 'cleans unseen objects when destroyed' do
+    agenda_item = FactoryGirl.create :agenda_item
+    UnseenObject.create(user: agenda_item.conversation.conversation_members.first.member, agenda_item: agenda_item)
+
+    expect {
+      agenda_item.destroy
+    }.must_change 'UnseenObject.count', -1
+  end
+
 end

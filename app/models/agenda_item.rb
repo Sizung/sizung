@@ -1,13 +1,12 @@
 class AgendaItem < ActiveRecord::Base
   include Archival
-
+  include HasUnseenObjects
+  
   belongs_to :conversation
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
-
   has_many :deliverables, as: :parent, dependent: :destroy
   has_many :conversation_objects, foreign_key: :parent_id
   has_many :comments, as: :commentable, dependent: :destroy
-  has_many :unseen_objects
 
   validates_presence_of :conversation, :owner, :title, :status
 

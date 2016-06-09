@@ -1,14 +1,13 @@
 class Deliverable < ActiveRecord::Base
   include Archival
-
-  belongs_to :parent, polymorphic: true, counter_cache: true, touch: true
+  include HasUnseenObjects
   
+  belongs_to :parent, polymorphic: true, counter_cache: true, touch: true
   belongs_to :owner, class_name: 'User', foreign_key: 'owner_id'
   belongs_to :assignee, class_name: 'User', foreign_key: 'assignee_id'
-
   has_many :conversation_objects, foreign_key: :parent_id
   has_many :comments, as: :commentable, dependent: :destroy
-
+  
   validates_presence_of :parent, :owner, :title, :assignee, :status
 
   def deliverable
