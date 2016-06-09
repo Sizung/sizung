@@ -8,11 +8,11 @@
   cursor: text;
   padding: 16px;
   border-radius: 2px;
-  margin-bottom: 2em;
+  margin: 5px 5px 10px 0;
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
   background: #fefefe;
 }
 
-.root :global(.public-DraftEditor-content) {
+.root:global(.public-DraftEditor-content) {
   min-height: 32px;
 }

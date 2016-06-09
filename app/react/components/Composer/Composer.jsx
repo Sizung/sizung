@@ -84,7 +84,7 @@ class Composer extends React.Component {
     this.setState({
       editorState,
     });
-    this.props.onChange(editorState);
+    this.props.onChange(editorState.getCurrentContent());
   };
 
   onSearchChange = ({ value }) => {
