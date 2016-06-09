@@ -46,4 +46,15 @@ describe Attachment do
     attachment = Attachment.create(parent: deliverable, file_name: 'something', file_size: 1, owner: deliverable.owner, persistent_file_id: 'someurl.com')
     expect(deliverable.updated_at.to_i).wont_equal(old_updated_at.to_i)
   end
+
+  it 'cleans unseen objects when destroyed' do
+    conversation = FactoryGirl.create :conversation
+    attachment = FactoryGirl.create :attachment, parent: conversation
+    UnseenObject.create(user: conversation.conversation_members.first.member, target: attachment, conversation: conversation)
+
+    expect {
+      attachment.destroy
+    }.must_change 'UnseenObject.count', -1
+  end
+
 end

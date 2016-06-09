@@ -2,7 +2,6 @@ module HasUnseenObjects
   extend ActiveSupport::Concern
 
   included do
-    has_many :unseen_objects
     after_destroy :clear_unseen_objects
   end
 
