@@ -27,6 +27,7 @@ describe('ConversationObjectList', () => {
     const store   = createStore(reducer, Immutable.fromJS({}));
     const result  = render(<Provider store={store}><ConversationObjectList {...props} /></Provider>);
 
-    expect(result.text()).to.be.eq('0??Write your comment here');
+    expect(result.text()).to.be.eq('#0?? Chat');
   });
 });
+
