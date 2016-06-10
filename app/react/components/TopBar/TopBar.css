@@ -13,11 +13,11 @@
 
 .organizationWrapper {
   display: flex;
-  flex: 1;
+  flex: none;
   flex-direction: row;
   align-items: center;
   justify-content: flex-start;
-  padding-left: 3.125rem;
+  padding: 0 3.125rem;
 }
 
 .organizationWrapper a {
@@ -34,7 +34,7 @@
 }
 
 .profileDropdown {
-  flex: 1;
+  flex: none;
   display: flex;
   justify-content: flex-end;
 }
@@ -42,6 +42,8 @@
 .notification {
   width: 3.375rem;
   height: 3.375rem;
+  min-width: 3.375rem;
+  line-height: 3.375rem;
   margin: 0 2rem 0 0;
   background-image: url('/icons/notification_icon.svg');
   background-size: 100% 100%;

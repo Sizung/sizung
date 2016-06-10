@@ -44,12 +44,22 @@ describe Api::UnseenObjectsController do
 
     it 'gets all unseen objects for a user' do
       get :index, parent_type: 'User', user_id: @current_user.id
-      
+
       assert_response :success
 
       body = JSON.parse(response.body)
       expect(body['data'].size).must_equal 1
       expect(body['data'].first['id']).must_equal @unseen_object.id
+    end
+
+    it 'destroys unseen object for an agenda item on visiting agenda item w/o visiting it\'s parent conversation' do
+      @new_agenda_item = FactoryGirl.create(:agenda_item)
+      @unseen_object = UnseenObject.create_from!(@new_agenda_item, @current_user)
+      expect {
+        delete :destroy_all, agenda_item_id: @new_agenda_item, parent_type: 'AgendaItem'
+      }.must_change 'UnseenObject.count', -1
+
+      assert_response :success
     end
   end
 end

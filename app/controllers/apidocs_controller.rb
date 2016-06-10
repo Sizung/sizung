@@ -54,10 +54,12 @@ class ApidocsController < ActionController::Base
     Api::ConversationsController,
     Api::AttachmentsController,
     Api::CommentsController,
+    Api::AgendaItemsController,
     OrganizationSerializer,
     ConversationSerializer,
     AttachmentSerializer,
     CommentSerializer,
+    AgendaItemSerializer,
     self,
   ].freeze
 

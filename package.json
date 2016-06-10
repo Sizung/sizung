@@ -58,7 +58,7 @@
     "react-mentions": "0.2.7",
     "react-redux": "^4.0.6",
     "react-router": "^2.0.0-rc5",
-    "react-s3-uploader": "^3.0.3",
+    "react-s3-uploader": "^3.1.0",
     "react-swipeable": "^3.1.0",
     "react-time": "^4.0.0",
     "react-tools": "*",
