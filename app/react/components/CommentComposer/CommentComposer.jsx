@@ -1,9 +1,9 @@
 import React, { PropTypes } from 'react';
 import styles from './CommentComposer.css';
 import User from '../User';
-import SizungInputApp from '../../containers/SizungInputApp';
 import ReactS3Uploader from '../ReactS3Uploader';
 import Icon from '../Icon';
+import ComposerApp from '../../containers/ComposerApp';
 
 class CommentComposer extends React.Component {
   static propTypes = {
@@ -26,11 +26,8 @@ class CommentComposer extends React.Component {
       open: false,
     };
 
-    this.handleSubmit = (e) => {
-      const name = this.state.value.trim();
-      if (name === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
-      this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: name });
-      this.setState({ value: '' });
+    this.handleSubmit = (text) => {
+      this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: text });
     };
   }
 
@@ -123,15 +120,17 @@ class CommentComposer extends React.Component {
     );
   };
 
+//  <form className={styles.form} onSubmit={this.handleSubmit}>
+//  <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
+//  </form>
+
   renderCommentCompositionBoxOnly = () => {
     return (
       <div className={styles.rootClosed}>
         <div className={styles.user}>
-          <User user={this.props.currentUser}/>
+          <User user={this.props.currentUser} />
         </div>
-        <form className={styles.form} onSubmit={this.handleSubmit}>
-          <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
-        </form>
+        <ComposerApp ref="name" onSubmit={this.handleSubmit} value={this.state.value} placeholder="Write your comment here" />
         {this.renderCompositionOptionsButton()}
       </div>
     );

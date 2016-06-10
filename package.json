@@ -3,11 +3,12 @@
   "devDependencies": {
     "babel-eslint": "^4.1.6",
     "babel-plugin-react-transform": "^1.1.1",
+    "babel-register": "^6.9.0",
     "chai": "^3.5.0",
     "chai-immutable": "^1.5.3",
     "css-modules-require-hook": "^2.1.0",
     "dirty-chai": "^1.2.2",
-    "enzyme": "^1.2.0",
+    "enzyme": "^2.3.0",
     "eslint": "^1.10.3",
     "eslint-config-airbnb": "^2.1.1",
     "eslint-plugin-babel": "^3.0.0",
@@ -36,6 +37,10 @@
     "babel-core": "^5.8.19",
     "babel-loader": "^5.3.2",
     "css-loader": "0.23.0",
+    "draft-js": "0.6.0",
+    "draft-js-export-markdown": "git+https://github.com/gugl/draft-js-export-markdown.git",
+    "draft-js-mention-plugin": "^1.1.1",
+    "draft-js-plugins-editor": "^1.0.1",
     "es6-promise": "^3.0.2",
     "extract-text-webpack-plugin": "0.8.2",
     "history": "^2.0.0-rc2",
@@ -63,10 +68,10 @@
     "redux-thunk": "^1.0.3",
     "sass-loader": "^3.2.0",
     "style-loader": "^0.13.0",
-    "webpack": "1.12.2"
+    "webpack": "^1.13.0"
   },
   "scripts": {
-    "test": "mocha './app/react/**/*.spec.js'  --recursive --require ./app/react/test_helper.js --compilers js:babel/register",
+    "test": "mocha './app/react/**/*.spec.js'  --recursive --require ./app/react/test_helper.js --compilers js:babel/register config/test-setup.js",
     "test:watch": "npm run test -- --watch",
     "start": "node devServer.js",
     "build": "webpack --config webpack/production.config.js",
