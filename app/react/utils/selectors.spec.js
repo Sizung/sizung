@@ -209,8 +209,8 @@ describe('Selectors', () => {
     expect(agendaItemList.get(2).id).to.equal('a4');
     expect(agendaItemList.get(3).id).to.equal('a8');
     expect(agendaItemList.get(4).id).to.equal('a1');
-    expect(agendaItemList.get(5).id).to.equal('a5');
-    expect(agendaItemList.get(6).id).to.equal('a2');
+    expect(agendaItemList.get(5).id).to.equal('a2');
+    expect(agendaItemList.get(6).id).to.equal('a5');
   });
 
 });

@@ -25,9 +25,11 @@
  *= require modules/hover
  *= require modules/organization_members
  *= require modules/react_mentions
+ *= require modules/draftjs
  *= require react-datepicker/react-datepicker
  *= require react-datepicker/react-datepicker-customizations
  *= require react_bundle
+ *= require Draft.css
  *= require_self
  */
 

@@ -30,4 +30,3 @@ describe('AgendaItemList', () => {
     // expect(result.contains(<div>Write the DeliverableList spec.</div>)).to.be.true;
   });
 });
-

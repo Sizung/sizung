@@ -25,4 +25,6 @@
 /config/application.yml
 
 .ruby-version
+
+npm-debug.log
 dump.rdb
