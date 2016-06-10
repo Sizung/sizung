@@ -88,7 +88,7 @@ module Api
       if @attachment.save
         render json: @attachment
       else
-        render json: @attachment, status: :unprocessable
+        render json: @attachment, status: :unprocessable_entity
       end
     end
 

@@ -25,6 +25,13 @@ describe Api::CommentsController do
       assert_response :success
     end
 
+    it 'returns 422 on create if it is unprocessable' do
+      expect {
+        post :create, comment: { commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type }
+      }.wont_change 'Comment.count'
+      assert_response 422
+    end
+
     it 'complains if the comment body is missing' do
       post :create, comment: { body: nil, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type }
       assert_response 422
@@ -41,6 +48,13 @@ describe Api::CommentsController do
       expect(@comment.reload.body).must_equal 'changed body'
     end
 
+    it 'returns 422 on update if it is unprocessable' do
+      expect {
+        post :update, id: @comment.id, comment: { body: nil }
+      }.wont_change 'Comment.count'
+      assert_response 422
+    end
+    
     it 'archive comment' do
       patch :update, id: @comment.id, comment: { archived: true }
 
