@@ -10,13 +10,6 @@ import Immutable from 'immutable';
 import stateFromMarkdown from '../../utils/stateFromMarkdown';
 import markdownFromState from '../../utils/markdownFromState';
 
-const mentionPlugin = createMentionPlugin({
-  entityMutability: 'IMMUTABLE',
-  mentionPrefix: '',
-});
-const { MentionSuggestions } = mentionPlugin;
-const plugins = [mentionPlugin];
-
 class Composer extends React.Component {
 
   static propTypes = {
@@ -55,7 +48,6 @@ class Composer extends React.Component {
 
   constructor(props) {
     super(props);
-
     const contentState = stateFromMarkdown(props.value);
     const editorState = EditorState.createWithContent(contentState);
     const suggestions = Immutable.fromJS(props.mentions);
@@ -64,6 +56,12 @@ class Composer extends React.Component {
       editorState,
       suggestions,
     };
+    this.mentionPlugin = createMentionPlugin({
+      entityMutability: 'IMMUTABLE',
+      mentionPrefix: '',
+    });
+    this.MentionSuggestions = this.mentionPlugin.MentionSuggestions;
+    this.plugins = [this.mentionPlugin];
   }
 
   getMarkdown = () => {
@@ -140,11 +138,11 @@ class Composer extends React.Component {
         <Editor editorState={editorState}
                 onChange={this.handleChange}
                 handleKeyCommand={this.handleKeyCommand}
-                plugins={plugins}
+                plugins={this.plugins}
                 placeholder={placeholder}
                 handleReturn={this._handleReturn}
         />
-        <MentionSuggestions
+        <this.MentionSuggestions
             onSearchChange={ this.onSearchChange }
             suggestions={ suggestions }
             onOpen={this._mentionSuggestionsOpen}
