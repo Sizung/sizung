@@ -33,6 +33,11 @@ describe Api::DeliverablesController do
       assert_equal @current_user.id, deliverable['data']['relationships']['owner']['data']['id']
     end
 
+    it 'returns a 422 when unprocessable' do
+      post :create, deliverable: { parent_id: @conversation.id, parent_type: 'Conversation' }, format: :json
+      expect(response.status).must_equal 422
+    end
+    
     it 'updates the deliverable' do
       patch :update, id: @deliverable.id, deliverable: { title: 'Changed title' }, format: :json
 

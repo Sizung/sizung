@@ -6,24 +6,69 @@ module Api
 
     respond_to :json
 
-    # POST /deliverables.json
+    include Swagger::Blocks
+
+    swagger_schema :DeliverableInput do
+      key :required, [:deliverable]
+
+      property :deliverable, type: :object, required: [:parent_type, :parent_id, :title] do
+        property :parent_type, type: :string
+        property :parent_id, type: :string
+        property :title, type: :string
+        property :status, type: :string
+        property :assignee_id, type: :string
+        property :due_on, type: :string, format: :date
+      end
+    end
+
+    
+    swagger_path '/deliverables' do
+      operation :post, security: [bearer: []] do
+        key :summary, 'Create a new Deliverable.'
+        key :tags, ['deliverable']
+        
+        parameter name: :deliverable, in: :body, required: true, description: 'Deliverable fields' do
+          schema do
+            key :'$ref', :DeliverableInput
+          end
+        end
+
+        response 200 do
+          key :description, 'Deliverable response'
+          schema do
+            key :'$ref', :responseOne_Deliverable
+          end
+        end
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+
     def create
       @deliverable = Deliverable.new(deliverable_params)
       authorize @deliverable
       @deliverable.owner = current_user
       @deliverable.assignee_id = current_user.id unless @deliverable.assignee_id
-      @deliverable.save
 
-      if @deliverable.persisted?
+      if @deliverable.save
         MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id))
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'create')
         UnseenService.new.handle_with(@deliverable, current_user)
         if @deliverable.assignee != current_user
           Notifications.deliverable_assigned(@deliverable, current_user).deliver_later
         end
+        render json: @deliverable, serializer: DeliverableSerializer
+      else
+        render json: @deliverable, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
       end
 
-      render json: @deliverable, serializer: DeliverableSerializer
     end
 
     def show
@@ -32,7 +77,6 @@ module Api
       render json: @deliverable, include: %w(parent conversation)
     end
 
-    # PUT/PATCH /deliverables/1.json
     def update
       old_body = @deliverable.title
       original_parent_id = @deliverable.parent_id

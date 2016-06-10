@@ -31,9 +31,9 @@ class AgendaItemSerializer < ActiveModel::Serializer
       property :comments_count, type: :number, description: :deprecated
       property :deliverables_count, type: :number, description: :deprecated
       property :archived, type: :boolean
-      property :archived_at, type: :number
-      property :created_at, type: :number
-      property :updated_at, type: :number
+      property :archived_at, type: :string, format: 'date-time'
+      property :created_at, type: :string, format: 'date-time'
+      property :updated_at, type: :string, format: 'date-time'
     end
     property :relationships do
       property :owner, '$ref': :reference_User
