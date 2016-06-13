@@ -97,6 +97,12 @@ class Composer extends React.Component {
     this.setSuggestion(value, this.props.mentions);
   };
 
+  /**
+  * The function will derive the suggestion to be used for mentionsPlugin,
+  * it will use the filterText from state and mentions from props.
+  * Form the prespective of optimizing the render function the function is not called in each render cycle,
+  * but only when state.filterText or props.mentions change and suggestions are saved as a value in variable this.
+  */
   setSuggestion = (filterText, mentions) => {
     let suggestions = Immutable.fromJS(mentions);
     if (filterText) {
@@ -146,6 +152,7 @@ class Composer extends React.Component {
   render() {
     const { editorState } = this.state;
     const { placeholder } = this.props;
+    const { suggestions } = this;
     return (
       <div className={styles.root}>
         <Editor editorState={editorState}
@@ -157,7 +164,7 @@ class Composer extends React.Component {
         />
         <this.MentionSuggestions
             onSearchChange={ this.onSearchChange }
-            suggestions={ this.suggestions }
+            suggestions={ suggestions }
             onOpen={this._mentionSuggestionsOpen}
             onClose={this._mentionSuggestionsClose}
         />
