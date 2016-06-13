@@ -55,10 +55,11 @@
   border: 1px solid #eee;
   // margin-top: 1.75em;
   // position: absolute;
+  width: 220px;
   min-width: 220px;
   max-width: 440px;
-  max-height: 150px;
-  overflow-y: scroll;
+  max-height: 220px;
+  overflow: auto;
   background: #fff;
   border-radius: 2px;
   box-shadow: 0px 4px 30px 0px rgba(220,220,220,1);
