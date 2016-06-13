@@ -128,7 +128,8 @@ class Composer extends React.Component {
      const { editorState } = this.state;
      const contentState = editorState.getCurrentContent();
      const plainText = contentState.getPlainText();
-     if (!e.shiftKey && contentState.hasText() && !this.mentionSuggestionOpen) {
+     const trimmedText = plainText && plainText.trim();
+     if (!e.shiftKey && trimmedText && trimmedText.length > 0 && !this.mentionSuggestionOpen) {
        this.props.onSubmit(markdownFromState(contentState), plainText);
        this.handleChange(clearEditorContent(editorState));
        return true;
