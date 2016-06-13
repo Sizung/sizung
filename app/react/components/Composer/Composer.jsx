@@ -50,11 +50,9 @@ class Composer extends React.Component {
     super(props);
     const contentState = stateFromMarkdown(props.value);
     const editorState = EditorState.createWithContent(contentState);
-    const suggestions = Immutable.fromJS(props.mentions);
 
     this.state = {
       editorState,
-      suggestions,
     };
     this.mentionPlugin = createMentionPlugin({
       entityMutability: 'IMMUTABLE',
@@ -62,6 +60,13 @@ class Composer extends React.Component {
     });
     this.MentionSuggestions = this.mentionPlugin.MentionSuggestions;
     this.plugins = [this.mentionPlugin];
+    this.setSuggestion('', props.mentions);
+  }
+
+  componentWillReceiveProps(properties) {
+    if (properties.mentions !== this.props.mentions) {
+      this.setSuggestion(this.state.filterText, properties.mentions);
+    }
   }
 
   getMarkdown = () => {
@@ -87,9 +92,24 @@ class Composer extends React.Component {
 
   onSearchChange = ({ value }) => {
     this.setState({
-      suggestions: defaultSuggestionsFilter(value, this.state.suggestions),
+      filterText: value,
     });
+    this.setSuggestion(value, this.props.mentions);
   };
+
+  /**
+  * The function will derive the suggestion to be used for mentionsPlugin,
+  * it will use the filterText from state and mentions from props.
+  * Form the prespective of optimizing the render function the function is not called in each render cycle,
+  * but only when state.filterText or props.mentions change and suggestions are saved as a value in variable this.
+  */
+  setSuggestion = (filterText, mentions) => {
+    let suggestions = Immutable.fromJS(mentions);
+    if (filterText) {
+      suggestions = defaultSuggestionsFilter(filterText, suggestions);
+    }
+    this.suggestions = suggestions;
+  }
 
   handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
@@ -108,7 +128,8 @@ class Composer extends React.Component {
      const { editorState } = this.state;
      const contentState = editorState.getCurrentContent();
      const plainText = contentState.getPlainText();
-     if (!e.shiftKey && contentState.hasText() && !this.mentionSuggestionOpen) {
+     const trimmedText = plainText && plainText.trim();
+     if (!e.shiftKey && trimmedText && trimmedText.length > 0 && !this.mentionSuggestionOpen) {
        this.props.onSubmit(markdownFromState(contentState), plainText);
        this.handleChange(clearEditorContent(editorState));
        return true;
@@ -130,9 +151,9 @@ class Composer extends React.Component {
   }
 
   render() {
-    const { editorState, suggestions } = this.state;
+    const { editorState } = this.state;
     const { placeholder } = this.props;
-
+    const { suggestions } = this;
     return (
       <div className={styles.root}>
         <Editor editorState={editorState}

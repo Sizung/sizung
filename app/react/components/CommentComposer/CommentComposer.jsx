@@ -125,7 +125,7 @@ class CommentComposer extends React.Component {
 //  <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
 //  </form>
 
-  renderCommentCompositionBoxOnly = () => {
+  renderCommentCompositionBox = () => {
     return (
       <div className={styles.rootClosed}>
         <div className={styles.user}>
@@ -146,7 +146,7 @@ class CommentComposer extends React.Component {
             {this.renderAgendaItem()}
             {this.renderDeliverable()}
           </div> : undefined }
-        {this.renderCommentCompositionBoxOnly()}
+        {this.renderCommentCompositionBox()}
       </div>
     );
   }
