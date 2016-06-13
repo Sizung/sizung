@@ -6,8 +6,8 @@ import {
 } from 'draft-js';
 import { clearEditorContent } from './composerUtil';
 
-describe('_handleReturn test suite', () => {
-  it('should clear editor content when enter is clicked', () => {
+describe('clearEditorContent test suite', () => {
+  it('should clear editor content', () => {
     const contentBlocks = convertFromHTML(
       '<h1>aaaaaaaaaa</h1><h1>aaaaaaaaaa</h1>'
     );

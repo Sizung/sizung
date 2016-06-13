@@ -104,7 +104,8 @@ class CommentComposer extends React.Component {
               signingUrlHeaders={{ additional: headers }}
               signingUrlQueryParams={{ additional: queryParams }}
               uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
-              contentDisposition="auto" />
+              contentDisposition="auto"
+          />
         </div>
     );
   };
@@ -136,21 +137,18 @@ class CommentComposer extends React.Component {
     );
   };
 
-  renderCommentCompositionBoxWithOptions = () => {
+  render() {
     return (
       <div className={styles.rootOpen}>
-        <div className={styles.optionsRoot}>
-          {this.renderFileUploader()}
-          {this.renderAgendaItem()}
-          {this.renderDeliverable()}
-        </div>
+        { this.state.open ?
+          <div className={styles.optionsRoot}>
+            {this.renderFileUploader()}
+            {this.renderAgendaItem()}
+            {this.renderDeliverable()}
+          </div> : undefined }
         {this.renderCommentCompositionBoxOnly()}
       </div>
     );
-  };
-
-  render() {
-    return this.state.open ? this.renderCommentCompositionBoxWithOptions() : this.renderCommentCompositionBoxOnly();
   }
 
 }
