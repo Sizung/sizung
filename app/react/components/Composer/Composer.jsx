@@ -50,11 +50,9 @@ class Composer extends React.Component {
     super(props);
     const contentState = stateFromMarkdown(props.value);
     const editorState = EditorState.createWithContent(contentState);
-    const suggestions = Immutable.fromJS(props.mentions);
 
     this.state = {
       editorState,
-      suggestions,
     };
     this.mentionPlugin = createMentionPlugin({
       entityMutability: 'IMMUTABLE',
@@ -62,6 +60,13 @@ class Composer extends React.Component {
     });
     this.MentionSuggestions = this.mentionPlugin.MentionSuggestions;
     this.plugins = [this.mentionPlugin];
+    this.setSuggestion('', props.mentions);
+  }
+
+  componentWillReceiveProps(properties) {
+    if (properties.mentions !== this.props.mentions) {
+      this.setSuggestion(this.state.filterText, properties.mentions);
+    }
   }
 
   getMarkdown = () => {
@@ -87,9 +92,18 @@ class Composer extends React.Component {
 
   onSearchChange = ({ value }) => {
     this.setState({
-      suggestions: defaultSuggestionsFilter(value, this.state.suggestions),
+      filterText: value,
     });
+    this.setSuggestion(value, this.props.mentions);
   };
+
+  setSuggestion = (filterText, mentions) => {
+    let suggestions = Immutable.fromJS(mentions);
+    if (filterText) {
+      suggestions = defaultSuggestionsFilter(filterText, suggestions);
+    }
+    this.suggestions = suggestions;
+  }
 
   handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(this.state.editorState, command);
@@ -130,9 +144,8 @@ class Composer extends React.Component {
   }
 
   render() {
-    const { editorState, suggestions } = this.state;
+    const { editorState } = this.state;
     const { placeholder } = this.props;
-
     return (
       <div className={styles.root}>
         <Editor editorState={editorState}
@@ -144,7 +157,7 @@ class Composer extends React.Component {
         />
         <this.MentionSuggestions
             onSearchChange={ this.onSearchChange }
-            suggestions={ suggestions }
+            suggestions={ this.suggestions }
             onOpen={this._mentionSuggestionsOpen}
             onClose={this._mentionSuggestionsClose}
         />
