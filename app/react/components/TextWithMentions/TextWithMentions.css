@@ -2,6 +2,15 @@
 
 }
 
+.root > ol, ul {
+  margin: 0;
+  padding: 0;
+}
+
+.root li {
+  margin-left: 1.5em;
+}
+
 .root>p {
   display: inline;
   margin: 0;
