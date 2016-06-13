@@ -50,6 +50,7 @@ class Composer extends React.Component {
     super(props);
     const contentState = stateFromMarkdown(props.value);
     const editorState = EditorState.createWithContent(contentState);
+    const suggestions = Immutable.fromJS(props.mentions);
 
     this.state = {
       editorState,

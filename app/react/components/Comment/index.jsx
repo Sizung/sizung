@@ -5,6 +5,8 @@ import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
 import SizungInputApp from '../../containers/SizungInputApp';
 import CommentDropdown from '../CommentDropdown/index';
+import ComposerApp from '../../containers/ComposerApp';
+import markdownFromState from '../../utils/markdownFromState';
 
 class Comment extends React.Component {
   constructor() {
@@ -44,13 +46,12 @@ class Comment extends React.Component {
     this.setState({ edit: true });
   };
 
-  handleSave = () => {
-    const value = this.state.value || this.props.comment.body;
-    this.handleSubmit(value);
+  onEditorContentChange = (editorContentState) => {
+    this.editorContentState = editorContentState;
   };
 
-  handleChange = (ev, value) => {
-    this.setState({ value });
+  onCommentSave = () => {
+    this.handleSubmit(markdownFromState(this.editorContentState));
   };
 
   handleSubmit = (value) => {
@@ -95,12 +96,12 @@ class Comment extends React.Component {
         <div className="form-horizontal">
           <div className="form-group" style={{ marginBottom: '5px' }}>
             <div className="col-xs-12">
-              <SizungInputApp ref="input" className="form-control" onSubmit={this.handleSubmit} onChange={this.handleChange} rows="3" defaultValue={body} />
+              <ComposerApp ref="input" className="form-control" onSubmit={this.handleSubmit} value={body} onChange={this.onEditorContentChange}/>
             </div>
           </div>
           <div className="form-group" style={{ marginBottom: '5px' }}>
             <div className="col-xs-12">
-              <div className="btn btn-sm btn-success" onClick={this.handleSave} style={{ marginRight: '5px' }}>Save</div>
+              <div className="btn btn-sm btn-success" onClick={this.onCommentSave} style={{ marginRight: '5px' }}>Save</div>
               <div className="btn btn-sm btn-default" onClick={this.closeEditForm}>Cancel</div>
             </div>
           </div>

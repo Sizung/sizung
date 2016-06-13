@@ -26,8 +26,7 @@ describe('AgendaItemList', () => {
     };
 
     const result = render(<AgendaItemList {...props} />);
-    expect(result.text()).to.be.eq('AGENDADiscuss the AgendaItemList spec.\n');
+    expect(result.text()).to.be.eq('TO DISCUSSDiscuss the AgendaItemList spec.\n');
     // expect(result.contains(<div>Write the DeliverableList spec.</div>)).to.be.true;
   });
 });
-
