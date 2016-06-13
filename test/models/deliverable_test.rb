@@ -35,4 +35,14 @@ describe Deliverable do
     value(deliverable.agenda_item).must_equal nil
     value(deliverable.conversation).must_equal conversation
   end
+
+  it 'cleans unseen objects when destroyed' do
+    deliverable = FactoryGirl.create :deliverable
+    UnseenObject.create(user: deliverable.conversation.conversation_members.first.member, deliverable: deliverable)
+
+    expect {
+      deliverable.destroy
+    }.must_change 'UnseenObject.count', -1
+  end
+
 end

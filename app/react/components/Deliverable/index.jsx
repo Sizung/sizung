@@ -115,16 +115,16 @@ class Deliverable extends React.Component {
     return null;
   };
 
-  //isElementOutViewport = (el) => {
-  //  const rect = el.getBoundingClientRect();
-  //  return rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight;
-  //};
-  //
-  //componentDidUpdate() {
-  //  if (this.props.selected && this.isElementOutViewport(this.refs.deliverable)) {
-  //    this.refs.deliverable.scrollIntoView();
-  //  }
-  //}
+  isElementOutViewport = (el) => {
+    const rect = el.getBoundingClientRect();
+    return rect.bottom < 0 || rect.right < 0 || rect.left > window.innerWidth || rect.top > window.innerHeight;
+  };
+
+  componentDidUpdate() {
+    if (this.props.selected && this.isElementOutViewport(this.refs.deliverable)) {
+      this.refs.deliverable.scrollIntoView();
+    }
+  }
 
   render() {
     const { deliverable, selected } = this.props;

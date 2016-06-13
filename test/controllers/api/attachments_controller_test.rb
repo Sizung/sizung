@@ -45,6 +45,11 @@ describe Api::AttachmentsController do
       expect(body['data']['attributes']['file_size']).must_equal file_size
       expect(body['data']['relationships']['owner']['data']['id']).must_equal @current_user.id
     end
+
+    it 'returns a 422 when unprocessable' do
+      post :create, { parent_type: 'Conversation', conversation_id: @conversation.id, attachment: { persistent_file_id: 'example' } }, format: :json
+      expect(response.status).must_equal 422
+    end
   end
 end
 

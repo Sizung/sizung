@@ -16,7 +16,8 @@ describe Api::ConversationsController do
       @conversation = FactoryGirl.create(:conversation)
       @other_conversation = FactoryGirl.create(:conversation, organization: @conversation.organization)
       @request.env['devise.mapping'] = Devise.mappings[:user]
-      sign_in @conversation.organization.owner
+      @current_user = @conversation.organization.owner
+      sign_in @current_user
     end
 
     it 'lists all conversations for json' do
@@ -74,6 +75,26 @@ describe Api::ConversationsController do
 
       conversation = JSON.parse(response.body)
       assert_equal true, conversation['data']['attributes']['archived']
+    end
+
+    it 'updates conversation_members for a conversation' do
+      conversation_member = FactoryGirl.create :conversation_member, conversation: @conversation
+      other_user          = conversation_member.member
+      comment             = FactoryGirl.create :comment, author: @current_user, commentable: @conversation
+      UnseenService.new.create(comment, @current_user)
+      UnseenService.new.create(comment, other_user)
+      unseen_object       = UnseenObject.find_by(conversation: @conversation, target: comment, user: other_user)
+
+      expect(unseen_object).must_be :present?
+      expect(@conversation.conversation_members.size).must_equal 2
+      expect {
+        patch :update, id: @conversation.id, conversation: {
+          conversation_members: [{ conversation_id: @conversation.id, member_id: @current_user.id, email: @current_user.email }]
+        }
+      }.must_change 'UnseenObject.count', -1
+
+      assert_response :success
+      expect(@conversation.conversation_members.size).must_equal 1
     end
   end
 end

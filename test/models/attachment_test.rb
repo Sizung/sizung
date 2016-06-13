@@ -36,4 +36,25 @@ describe Attachment do
     expect(attachment.file_url).must_be :present?
     expect(attachment.file_url).must_equal "#{ENV['SIZUNG_HOST']}/attachments/#{attachment.id}"
   end
+
+  it "touches the parent object" do
+    deliverable = FactoryGirl.create :deliverable
+    old_updated_at = DateTime.now - 1.day
+    deliverable.update!(updated_at: old_updated_at)
+    deliverable.reload
+    expect(deliverable.updated_at.to_i).must_equal(old_updated_at.to_i)
+    attachment = Attachment.create(parent: deliverable, file_name: 'something', file_size: 1, owner: deliverable.owner, persistent_file_id: 'someurl.com')
+    expect(deliverable.updated_at.to_i).wont_equal(old_updated_at.to_i)
+  end
+
+  it 'cleans unseen objects when destroyed' do
+    conversation = FactoryGirl.create :conversation
+    attachment = FactoryGirl.create :attachment, parent: conversation
+    UnseenObject.create(user: conversation.conversation_members.first.member, target: attachment, conversation: conversation)
+
+    expect {
+      attachment.destroy
+    }.must_change 'UnseenObject.count', -1
+  end
+
 end

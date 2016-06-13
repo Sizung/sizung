@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import styles from './CommentComposer.css';
 import User from '../User';
 import SizungInputApp from '../../containers/SizungInputApp';
-import ReactS3Uploader from '../ReactS3Uploader';
+import ReactS3Uploader from 'react-s3-uploader';
 import Icon from '../Icon';
 
 class CommentComposer extends React.Component {
@@ -107,7 +107,8 @@ class CommentComposer extends React.Component {
               signingUrlHeaders={{ additional: headers }}
               signingUrlQueryParams={{ additional: queryParams }}
               uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
-              contentDisposition="auto" />
+              contentDisposition="auto"
+          />
         </div>
     );
   };
@@ -123,7 +124,7 @@ class CommentComposer extends React.Component {
     );
   };
 
-  renderCommentCompositionBoxOnly = () => {
+  renderCommentCompositionBox = () => {
     return (
       <div className={styles.rootClosed}>
         <div className={styles.user}>
@@ -137,21 +138,18 @@ class CommentComposer extends React.Component {
     );
   };
 
-  renderCommentCompositionBoxWithOptions = () => {
+  render() {
     return (
       <div className={styles.rootOpen}>
-        <div className={styles.optionsRoot}>
-          {this.renderFileUploader()}
-          {this.renderAgendaItem()}
-          {this.renderDeliverable()}
-        </div>
-        {this.renderCommentCompositionBoxOnly()}
+        { this.state.open ?
+          <div className={styles.optionsRoot}>
+            {this.renderFileUploader()}
+            {this.renderAgendaItem()}
+            {this.renderDeliverable()}
+          </div> : undefined }
+        {this.renderCommentCompositionBox()}
       </div>
     );
-  };
-
-  render() {
-    return this.state.open ? this.renderCommentCompositionBoxWithOptions() : this.renderCommentCompositionBoxOnly();
   }
 
 }

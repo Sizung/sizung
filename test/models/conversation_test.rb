@@ -41,4 +41,13 @@ describe Deliverable do
 
     expect(Conversation.unscoped.find(conversation.id)).must_be :present?
   end
+
+  it 'cleans unseen objects when destroyed' do
+    conversation = FactoryGirl.create :conversation
+    UnseenObject.create(user: conversation.conversation_members.first.member, conversation: conversation)
+
+    expect {
+      conversation.destroy
+    }.must_change 'UnseenObject.count', -1
+  end
 end

@@ -31,6 +31,11 @@ describe Api::AgendaItemsController do
       assert_equal @current_user.id, agenda_item['data']['relationships']['owner']['data']['id']
     end
 
+    it 'returns a 422 when unprocessable' do
+      post :create, agenda_item: { conversation_id: @conversation.id }, format: :json
+      expect(response.status).must_equal 422
+    end
+    
     it 'updates the agenda item' do
       patch :update, id: @agenda_item.id, agenda_item: { title: 'Changed title' }, format: :json
 
