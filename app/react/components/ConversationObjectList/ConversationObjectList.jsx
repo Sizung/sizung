@@ -37,12 +37,12 @@ class ConversationObjectList extends Component {
   componentWillUpdate(nextProps) {
     const root = this.refs.root;
     const { currentUser } = this.props.commentForm;
-    const filteredOldConversationObjects = this.props.conversationObjects.filter((obj) => {
+    const filteredOldConversationObjects = this.props.conversationObjects ? this.props.conversationObjects.filter((obj) => {
       return (this.getConversationObjectOwnerId(obj) !== currentUser.id);
-    });
-    const filteredNewConversationObjects = nextProps.conversationObjects.filter((obj) => {
+    }) : null;
+    const filteredNewConversationObjects = nextProps.conversationObjects ? nextProps.conversationObjects.filter((obj) => {
       return (this.getConversationObjectOwnerId(obj) !== currentUser.id);
-    });
+    }) : null;
     if (root) {
       this.shouldScrollBottom = this.isScrolledToBottom(root);
     }
