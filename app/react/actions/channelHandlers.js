@@ -1,5 +1,6 @@
 import * as agendaItems from './agendaItems';
 import * as comments from './comments';
+import * as attachments from './attachments';
 import * as deliverables from './deliverables';
 import * as conversations from './conversations';
 import * as users from './users';
@@ -46,6 +47,10 @@ const onConversationChannelReceived = (data) => {
         dispatch(comments.updateCommentRemoteOrigin(transform.transformCommentFromJsonApi(data.payload.data)));
       } else if (data.action === 'delete') {
         dispatch(comments.deleteCommentRemoteOrigin(transform.transformCommentFromJsonApi(data.payload.data)));
+      }
+    } else if (data.payload.data.type === 'attachments') {
+      if (data.action === 'create') {
+        dispatch(attachments.createAttachmentRemoteOrigin(transform.transformObjectFromJsonApi(data.payload.data)));
       }
     } else if (data.payload.data.type === 'deliverables') {
       if (data.action === 'create') {

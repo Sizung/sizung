@@ -10,6 +10,16 @@ import * as constants from './constants';
 import * as transform from '../utils/jsonApiUtils';
 import * as api from '../utils/api';
 
+const createAttachmentRemoteOrigin = (attachment) => {
+  return {
+    type: constants.CREATE_ATTACHMENT,
+    status: constants.STATUS_REMOTE_ORIGIN,
+    attachment,
+    entity: attachment,
+  };
+};
+
+
 const createAttachment = (parentType, parentId, values) => {
   return (dispatch) => {
     api.postJson('/api/' + (parentType === 'agendaItems' ? 'agenda_items' : parentType) + '/' + parentId + '/attachments', { attachment: values }, (json) => {
@@ -26,4 +36,5 @@ const createAttachment = (parentType, parentId, values) => {
 
 export {
   createAttachment,
+  createAttachmentRemoteOrigin,
 };
