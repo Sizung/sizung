@@ -17,7 +17,7 @@ class ComposeContainer extends React.Component {
       type: PropTypes.string.isRequired,
     }).isRequired,
     createAttachment: PropTypes.func.isRequired,
-    newObjects: PropTypes.integer,
+    newObjects: PropTypes.number,
     handleNewObjectMarkerClick: PropTypes.func,
   };
 
