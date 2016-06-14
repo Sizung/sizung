@@ -11,21 +11,40 @@ import ConversationSettingsApp from '../../containers/ConversationSettingsApp';
 
 class ConversationObjectList extends Component {
 
+  constructor() {
+    super();
+
+    this.state = {
+      newObjects: 0,
+    };
+  }
+
   componentDidMount() {
     const listNode = this.refs.conversationObjectList;
     if (listNode) {
       if (this.props.commentForm.parent) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
       }
+      this.refs.root.addEventListener('scroll', this.handleScroll);
     }
     this.scrollListToBottom();
   }
 
-  componentWillUpdate() {
+  componentWillUnmount() {
+    this.refs.root.removeEventListener('scroll', this.handleScroll);
+  }
+
+  componentWillUpdate(nextProps) {
     const root = this.refs.root;
     if (root) {
-      // A tolerance of +/- 5px to avoid issues due to pixel calculations of scroll height based on rem heights
-      this.shouldScrollBottom = Math.abs(root.scrollTop + root.offsetHeight - root.scrollHeight) <= 5;
+      this.shouldScrollBottom = this.isScrolledToBottom(root);
+    }
+    if (this.props.conversationObjects && this.props.conversationObjects.length > 0 && nextProps.conversationObjects && nextProps.conversationObjects.length > 0) {
+      const previousListLastObjectTimestamp = (new Date(this.props.conversationObjects[this.props.conversationObjects.length - 1].createdAt)).getTime();
+      const nextListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
+      if (previousListLastObjectTimestamp < nextListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length) {
+        this.setState({newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length)});
+      }
     }
   }
 
@@ -105,10 +124,25 @@ class ConversationObjectList extends Component {
     // }
   };
 
+  isScrolledToBottom = (element) => {
+    // A tolerance of +/- 5px to avoid issues due to pixel calculations of scroll height based on rem heights if any
+    return (Math.abs(element.scrollTop + element.offsetHeight - element.scrollHeight) <= 5);
+  };
+
+  handleScroll = (evt) => {
+    const root = this.refs.root;
+    if (root && this.isScrolledToBottom(root)) {
+      this.setState({ newObjects: 0 });
+    }
+  };
+
   scrollListToBottom = () => {
     const root = this.refs.root;
     if (root) {
       root.scrollTop = root.scrollHeight;
+      if (this.state.newObjects > 0) {
+        this.setState({ newObjects: 0 });
+      }
     }
   };
 
@@ -146,12 +180,28 @@ class ConversationObjectList extends Component {
 
     return (
       <div ref="root" className={styles.root}>
+        {this.renderNewObjectsMarker()}
         <div ref="conversationObjectList" className={styles.list}>
           { showMore }
           { conversationObjectElements }
         </div>
       </div>
     );
+  };
+
+  renderNewObjectsMarker = () => {
+    const root = this.refs.root;
+    if (this.state.newObjects > 0 && root && !this.isScrolledToBottom(root)) {
+      return (
+        <div className={styles.newObjectsMarkerContainer}>
+          <div className={styles.newObjectsMarker} onClick={this.scrollListToBottom}>
+            { this.state.newObjects + (this.state.newObjects === 1 ? ' New Comment' : ' New Comments') }
+            <span className={styles.caret}/>
+          </div>
+        </div>
+      );
+    }
+    return undefined;
   };
 
   render() {
