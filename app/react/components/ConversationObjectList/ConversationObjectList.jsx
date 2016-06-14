@@ -37,24 +37,39 @@ class ConversationObjectList extends Component {
   componentWillUpdate(nextProps) {
     const root = this.refs.root;
     const { currentUser } = this.props.commentForm;
-    const filteredOldConversationObjects = this.props.conversationObjects ? this.props.conversationObjects.filter((obj) => {
-      return (this.getConversationObjectOwnerId(obj) !== currentUser.id);
-    }) : null;
-    const filteredNewConversationObjects = nextProps.conversationObjects ? nextProps.conversationObjects.filter((obj) => {
-      return (this.getConversationObjectOwnerId(obj) !== currentUser.id);
-    }) : null;
     if (root) {
       this.shouldScrollBottom = this.isScrolledToBottom(root);
     }
-    if (filteredOldConversationObjects && filteredOldConversationObjects.length > 0 && filteredNewConversationObjects && filteredNewConversationObjects.length > 0) {
-      const oldListLastObjectTimestamp = (new Date(filteredOldConversationObjects[filteredOldConversationObjects.length - 1].createdAt)).getTime();
+    if (this.props.conversationObjects && this.props.conversationObjects.length > 0 && nextProps.conversationObjects && nextProps.conversationObjects.length > 0) {
+      const oldListLastObjectTimestamp = (new Date(this.props.conversationObjects[this.props.conversationObjects.length - 1].createdAt)).getTime();
 
-      const newListLastObjectTimestamp = (new Date(filteredNewConversationObjects[filteredNewConversationObjects.length - 1].createdAt)).getTime();
+      const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
 
-      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && filteredOldConversationObjects.length < filteredNewConversationObjects.length) {
-        this.setState({ newObjects: this.state.newObjects + (filteredNewConversationObjects.length - filteredOldConversationObjects.length) });
+      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length) {
+        this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
       }
     }
+    /*
+    TODO @ani: Either below or above code to be persisted after review of the functionality on staging. Remove the unncessary code after decision made
+     */
+    //const filteredOldConversationObjects = this.props.conversationObjects ? this.props.conversationObjects.filter((obj) => {
+    //  return (this.getConversationObjectOwnerId(obj) !== currentUser.id);
+    //}) : null;
+    //const filteredNewConversationObjects = nextProps.conversationObjects ? nextProps.conversationObjects.filter((obj) => {
+    //  return (this.getConversationObjectOwnerId(obj) !== currentUser.id);
+    //}) : null;
+    //if (root) {
+    //  this.shouldScrollBottom = this.isScrolledToBottom(root);
+    //}
+    //if (filteredOldConversationObjects && filteredOldConversationObjects.length > 0 && filteredNewConversationObjects && filteredNewConversationObjects.length > 0) {
+    //  const oldListLastObjectTimestamp = (new Date(filteredOldConversationObjects[filteredOldConversationObjects.length - 1].createdAt)).getTime();
+    //
+    //  const newListLastObjectTimestamp = (new Date(filteredNewConversationObjects[filteredNewConversationObjects.length - 1].createdAt)).getTime();
+    //
+    //  if (oldListLastObjectTimestamp < newListLastObjectTimestamp && filteredOldConversationObjects.length < filteredNewConversationObjects.length) {
+    //    this.setState({ newObjects: this.state.newObjects + (filteredNewConversationObjects.length - filteredOldConversationObjects.length) });
+    //  }
+    //}
   }
 
   componentDidUpdate(prevProps) {
