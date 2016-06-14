@@ -11,4 +11,20 @@ class Attachment < ActiveRecord::Base
   def file_url
     "#{ENV['SIZUNG_HOST']}/attachments/#{id}"
   end
+
+  def deliverable
+    parent.deliverable
+  end
+
+  def agenda_item
+    parent.agenda_item
+  end
+
+  def conversation
+    parent.conversation
+  end
+
+  def organization
+    parent.organization
+  end
 end
