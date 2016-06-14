@@ -1,10 +1,10 @@
 import React, { PropTypes } from 'react';
 import styles from './Composer.css';
 
-import { clearEditorContent } from './composerUtil';
+import { clearEditorContent, suggestionsFilter } from './composerUtil';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
-import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
+import createMentionPlugin from 'draft-js-mention-plugin';
 import { EditorState, RichUtils, convertToRaw } from 'draft-js';
 import Immutable from 'immutable';
 import stateFromMarkdown from '../../utils/stateFromMarkdown';
@@ -99,20 +99,13 @@ class Composer extends React.Component {
 
   /**
   * The function will derive the suggestion to be used for mentionsPlugin,
-  * it will use the filterText from state and mentions from props.
+  * it will use the filterText and mentions for the purpose.
   * Form the prespective of optimizing the render function the function is not called in each render cycle,
   * but only when state.filterText or props.mentions change and suggestions are saved as a value in variable this.
   */
   setSuggestion = (filterText, mentions) => {
-    let suggestions = Immutable.fromJS(mentions);
-    suggestions = suggestions.filter((suggestion) => {
-      const name = suggestion.get('name');
-      return name && name.trim().length > 0;
-    });
-    if (filterText) {
-      suggestions = defaultSuggestionsFilter(filterText, suggestions);
-    }
-    this.suggestions = suggestions;
+    const suggestions = Immutable.fromJS(mentions);
+    this.suggestions = suggestionsFilter(filterText, suggestions);
   }
 
   handleKeyCommand = (command) => {

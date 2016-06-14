@@ -15,3 +15,13 @@ export function clearEditorContent(editorState) {
   );
   return EditorState.push(editorState, newContentState, 'remove-range');
 }
+
+export function suggestionsFilter(searchValue, suggestions) {
+  const value = searchValue && searchValue.toLowerCase();
+  const filteredSuggestions = suggestions.filter((suggestion) => {
+    const name = suggestion.get('name') && suggestion.get('name').trim();
+    return name && name.length > 0 &&
+      (!value || suggestion.get('name').toLowerCase().indexOf(value) > -1);
+  });
+  return filteredSuggestions;
+}
