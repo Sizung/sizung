@@ -105,6 +105,10 @@ class Composer extends React.Component {
   */
   setSuggestion = (filterText, mentions) => {
     let suggestions = Immutable.fromJS(mentions);
+    suggestions = suggestions.filter((suggestion) => {
+      const name = suggestion.get('name');
+      return name && name.trim().length > 0;
+    });
     if (filterText) {
       suggestions = defaultSuggestionsFilter(filterText, suggestions);
     }
