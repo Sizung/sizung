@@ -180,7 +180,6 @@ class ConversationObjectList extends Component {
 
     return (
       <div ref="root" className={styles.root}>
-        {this.renderNewObjectsMarker()}
         <div ref="conversationObjectList" className={styles.list}>
           { showMore }
           { conversationObjectElements }
@@ -189,23 +188,9 @@ class ConversationObjectList extends Component {
     );
   };
 
-  renderNewObjectsMarker = () => {
-    const root = this.refs.root;
-    if (this.state.newObjects > 0 && root && !this.isScrolledToBottom(root)) {
-      return (
-        <div className={styles.newObjectsMarkerContainer}>
-          <div className={styles.newObjectsMarker} onClick={this.scrollListToBottom}>
-            { this.state.newObjects + (this.state.newObjects === 1 ? ' New Comment' : ' New Comments') }
-            <span className={styles.caret}/>
-          </div>
-        </div>
-      );
-    }
-    return undefined;
-  };
-
   render() {
     const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment } = this.props;
+    const root = this.refs.root;
 
     if (this.props.conversationSettingsViewState === 'edit') {
       return (
@@ -234,6 +219,8 @@ class ConversationObjectList extends Component {
                             createAgendaItem={createAgendaItem}
                             createDeliverable={createDeliverable}
                             createAttachment={createAttachment}
+                            handleNewObjectMarkerClick={this.scrollListToBottom}
+                            newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
                             {...commentForm}
           />
         </div>
