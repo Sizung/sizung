@@ -121,10 +121,6 @@ class CommentComposer extends React.Component {
     );
   };
 
-//  <form className={styles.form} onSubmit={this.handleSubmit}>
-//  <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} rows="1" placeholder="Write your comment here" />
-//  </form>
-
   renderCommentCompositionBox = () => {
     return (
       <div className={styles.rootClosed}>
