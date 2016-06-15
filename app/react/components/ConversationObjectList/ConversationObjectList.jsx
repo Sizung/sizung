@@ -33,11 +33,13 @@ class ConversationObjectList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const unseenObjectsList = nextProps.conversationObjects.filter((obj) => {
-      return obj.unseen;
-    });
-    if (nextProps.conversationObjects && unseenObjectsList.length === nextProps.conversationObjects.length && nextProps.nextPageUrl) {
-      this.handleShowMore();
+    if (nextProps.conversationObjects) {
+      const unseenObjectsList = nextProps.conversationObjects.filter((obj) => {
+        return obj.unseen;
+      });
+      if (unseenObjectsList.length === nextProps.conversationObjects.length && nextProps.nextPageUrl) {
+        this.handleShowMore();
+      }
     }
   }
 
