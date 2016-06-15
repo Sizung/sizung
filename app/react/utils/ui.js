@@ -1,10 +1,12 @@
 const setCursorToEnd = (inputElement) => {
-  const lastPos = inputElement.value.length;
+  if (inputElement && inputElement.value) {
+    const lastPos = inputElement.value.length;
 
-  inputElement.selectionStart = lastPos;
-  inputElement.selectionEnd   = lastPos;
+    inputElement.selectionStart = lastPos;
+    inputElement.selectionEnd   = lastPos;
+  }
 };
 
 export {
   setCursorToEnd,
-}
+};

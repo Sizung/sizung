@@ -27,7 +27,7 @@ class Composer extends React.Component {
   };
 
   static defaultProps = {
-    value: 'default Text',
+    value: '',
     mentions: [
       {
         name: 'Günter Glück',
@@ -69,6 +69,13 @@ class Composer extends React.Component {
     }
   }
 
+  onSearchChange = ({ value }) => {
+    this.setState({
+      filterText: value,
+    });
+    this.setSuggestion(value, this.props.mentions);
+  };
+
   getMarkdown = () => {
     const contentState = this.state.editorState.getCurrentContent();
     if (contentState.hasText()) {
@@ -76,26 +83,6 @@ class Composer extends React.Component {
     }
     return null;
   }
-
-  hasText = () => {
-    const plainText = this.state.editorState.getCurrentContent().getPlainText();
-    const trimmedPlainText = plainText.trim().replace(/\s*/g, '');
-    return trimmedPlainText.length > 0;
-  }
-
-  handleChange = (editorState) => {
-    this.setState({
-      editorState,
-    });
-    this.props.onChange(editorState.getCurrentContent());
-  };
-
-  onSearchChange = ({ value }) => {
-    this.setState({
-      filterText: value,
-    });
-    this.setSuggestion(value, this.props.mentions);
-  };
 
   /**
   * The function will derive the suggestion to be used for mentionsPlugin,
@@ -106,6 +93,19 @@ class Composer extends React.Component {
   setSuggestion = (filterText, mentions) => {
     const suggestions = Immutable.fromJS(mentions);
     this.suggestions = suggestionsFilter(filterText, suggestions);
+  }
+
+  handleChange = (editorState) => {
+    this.setState({
+      editorState,
+    });
+    this.props.onChange(editorState.getCurrentContent());
+  };
+
+  hasText = () => {
+    const plainText = this.state.editorState.getCurrentContent().getPlainText();
+    const trimmedPlainText = plainText.trim().replace(/\s*/g, '');
+    return trimmedPlainText.length > 0;
   }
 
   handleKeyCommand = (command) => {

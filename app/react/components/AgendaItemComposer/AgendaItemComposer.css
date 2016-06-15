@@ -21,7 +21,7 @@
 
 .inputRow {
   composes: row;
-  padding-bottom: 4.75rem;
+  padding-bottom: 2rem;
   display: flex;
   align-items: center;
   margin-top: 2rem;
@@ -51,7 +51,7 @@
   height: 25px;
   font-size: 12px;
   resize: none;
-  color: black;
+  color: #415764;
 }
 
 .agendaInput:focus {

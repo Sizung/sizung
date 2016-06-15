@@ -68,14 +68,10 @@
 
 .inputRow {
   composes: row;
-  padding-bottom: 4.75rem;
+  padding-bottom: 2rem;
   display: flex;
   align-items: center;
   margin-top: 2rem;
-  color: black;
-}
-
-.inputIcon {
   color: #415764;
 }
 

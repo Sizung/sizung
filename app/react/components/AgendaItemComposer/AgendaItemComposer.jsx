@@ -26,11 +26,6 @@ class AgendaItemComposer extends React.Component {
     this.state = { value: props.defaultValue.substring(0, 40) };
   }
 
-  componentDidMount() {
-    const el = ReactDOM.findDOMNode(this.refs.name);
-    ui.setCursorToEnd($(el).find('textarea')[0]);
-  }
-
   handleSubmit = () => {
     const { parent } = this.props;
     const title = this.state.value.trim();

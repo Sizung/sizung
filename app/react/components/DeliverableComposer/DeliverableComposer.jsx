@@ -32,11 +32,6 @@ class DeliverableComposer extends React.Component {
     this.state = { value: props.defaultValue.substring(0, 40), assigneeId: null, dueOn: null };
   }
 
-  componentDidMount() {
-    const el = ReactDOM.findDOMNode(this.refs.name);
-    ui.setCursorToEnd($(el).find('textarea')[0]);
-  }
-
   getType = (type) => {
     switch (type) {
       case 'conversations':
@@ -131,7 +126,7 @@ class DeliverableComposer extends React.Component {
           </div>
         </div>
         <div className={styles.inputRow}>
-          <Icon type="deliverable" className={styles.inputIcon} />
+          <Icon type="deliverable" />
           <textarea
             rows="1"
             ref="name"
