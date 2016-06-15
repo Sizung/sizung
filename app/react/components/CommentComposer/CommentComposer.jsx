@@ -20,7 +20,7 @@ class CommentComposer extends React.Component {
     super();
 
     this.state = {
-      value: '',
+      editorContent: undefined,
       uploadStatus: '',
       uploadPercentage: 0,
       open: false,
@@ -46,12 +46,13 @@ class CommentComposer extends React.Component {
     this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: (data.signedUrl.split('?')[0].split('/').pop()), file_size: fileObject.size, file_type: fileObject.type });
   };
 
-  handleChangeInMentionBox = (ev, value) => {
-    this.setState({ value });
+  handleChangeInMentionBox = (editorContent) => {
+    this.setState({ editorContent });
   };
 
   handleSelect = (selectedType) => {
-    this.props.onSelect(selectedType, this.state.value.trim());
+    const plainText = this.state.editorContent && this.state.editorContent.getPlainText();
+    this.props.onSelect(selectedType, plainText && plainText.trim());
   };
 
   handleOpen = () => {
@@ -95,7 +96,7 @@ class CommentComposer extends React.Component {
           <div className={ this.state.uploadStatus === '' ? '' : styles['upload' + this.state.uploadStatus] }>
           </div>
           <ReactS3Uploader
-              ref='input'
+              ref="input"
               signingUrl={signingUrl}
               accept="*/*"
               onProgress={this.onUploadProgress}
@@ -127,7 +128,13 @@ class CommentComposer extends React.Component {
         <div className={styles.user}>
           <User user={this.props.currentUser} />
         </div>
-        <ComposerApp ref="name" onSubmit={this.handleSubmit} value={this.state.value} placeholder="Write your comment here" />
+        <ComposerApp
+          ref="name"
+          value={this.props.defaultValue}
+          onSubmit={this.handleSubmit}
+          placeholder="Write your comment here"
+          onChange={this.handleChangeInMentionBox}
+        />
         {this.renderCompositionOptionsButton()}
       </div>
     );

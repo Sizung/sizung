@@ -12,24 +12,6 @@
   flex: 1;
 }
 
-.form {
-  composes: row;
-  align-items: center;
-  flex: 1;
-  color: #415764;
-  margin: 2rem 2rem 2rem 0;
-  font-size: 1.375rem;
-}
-
-.form :global .react-mentions .control.textarea {
-  border: 0;
-}
-
-.form :global .react-mentions {
-  flex: 1;
-  margin-left: 1.25rem;
-}
-
 .charsHint {
   color: #8C9295;
   align-self: flex-end;
@@ -82,4 +64,25 @@
   max-width: 11.25rem;
   font-family: Gotham-Book;
   font-size: 1.25rem;
+}
+
+.inputRow {
+  composes: row;
+  composes: row;
+  padding: 2rem 0;
+  display: flex;
+  align-items: center;
+  color: #415764;
+}
+
+.deliverableInput {
+  width: 100%;
+  border: none;
+  height: 25px;
+  font-size: 12px;
+  resize: none;
+}
+
+.deliverableInput:focus {
+  outline: none;
 }
