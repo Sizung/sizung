@@ -51,8 +51,8 @@ class CommentComposer extends React.Component {
   };
 
   handleSelect = (selectedType) => {
-    const plainText = this.state.editorContent.getPlainText();
-    this.props.onSelect(selectedType, plainText.trim());
+    const plainText = this.state.editorContent && this.state.editorContent.getPlainText();
+    this.props.onSelect(selectedType, plainText && plainText.trim());
   };
 
   handleOpen = () => {
