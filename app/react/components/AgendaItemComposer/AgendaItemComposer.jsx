@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import styles from './AgendaItemComposer.css';
-import SizungInputApp from '../../containers/SizungInputApp';
 import CloseIcon from '../CloseIcon';
 import Icon from '../Icon';
 import * as deliverableUtils from '../../utils/deliverableUtils';
@@ -31,11 +30,11 @@ class AgendaItemComposer extends React.Component {
     const el = ReactDOM.findDOMNode(this.refs.name);
     ui.setCursorToEnd($(el).find('textarea')[0]);
   }
-  
-  handleSubmit = (e) => {
+
+  handleSubmit = () => {
     const { parent } = this.props;
     const title = this.state.value.trim();
-    let conversationId = deliverableUtils.getConversationIdFrom(parent);
+    const conversationId = deliverableUtils.getConversationIdFrom(parent);
 
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     this.props.createAgendaItem({ conversation_id: conversationId, title });
@@ -43,15 +42,20 @@ class AgendaItemComposer extends React.Component {
     this.props.onClose();
   };
 
-  handleChangeInMentionBox = (ev, value) => {
+  handleKeyDown = (e) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      e.preventDefault();
+      this.handleSubmit();
+    }
+  };
+
+  handleChangeInMentionBox = (ev) => {
+    const { value } = ev.target;
     this.setState({ value });
   };
 
-  charCounterStyle = () => {
-    return (40 - this.state.value.length) < 5 ? styles.charsHintRed : styles.charsHint;
-  }
-  
   render() {
+    const { value } = this.state;
     return (
       <div className={styles.root}>
         <div className={styles.row}>
@@ -61,12 +65,25 @@ class AgendaItemComposer extends React.Component {
           <div className={styles.filler}></div>
           <CloseIcon type="transparent" style={{ marginBottom: '0' }} onClick={this.props.onClose} />
         </div>
-        <div className={styles.formRow}>
+        <div className={styles.inputRow}>
           <Icon type="agendaItem" className={styles.agendaItemIcon} />
-          <form className={styles.form} onSubmit={this.handleSubmit}>
-            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} maxLength={ 40 } rows="1" placeholder="What would you like to discuss?" />
-          </form>
-          <div className={this.charCounterStyle()}>{40 - this.state.value.length} chars</div>
+          <textarea
+            rows="1"
+            ref="name"
+            type="text"
+            maxLength={ 40 }
+            onKeyDown={this.handleKeyDown}
+            onSubmit={this.handleSubmit}
+            value={this.state.value}
+            className={styles.agendaInput}
+            onChange={this.handleChangeInMentionBox}
+            placeholder="What would you like to discuss?"
+          />
+          <div
+            className={(value && (40 - value.length)) < 5 ? styles.charsHintRed : styles.charsHint}
+          >
+            {40 - ((value && value.length) || 0)} chars
+          </div>
         </div>
       </div>
     );

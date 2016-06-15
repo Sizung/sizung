@@ -26,7 +26,7 @@ class DeliverableComposer extends React.Component {
   static defaultProps = {
     defaultValue: '',
   }
-  
+
   constructor(props) {
     super(props);
     this.state = { value: props.defaultValue.substring(0, 40), assigneeId: null, dueOn: null };
@@ -73,7 +73,15 @@ class DeliverableComposer extends React.Component {
     this.props.onClose();
   };
 
-  handleChangeInMentionBox = (ev, value) => {
+  handleKeyDown = (e) => {
+    if (e.keyCode === 13 && !e.shiftKey) {
+      e.preventDefault();
+      this.handleSubmit();
+    }
+  };
+
+  handleChangeInMentionBox = (ev) => {
+    const { value } = ev.target;
     this.setState({ value });
   };
 
@@ -89,10 +97,6 @@ class DeliverableComposer extends React.Component {
     return this.state.assigneeId || this.props.currentUser.id;
   }
 
-  charCounterStyle = () => {
-    return (40 - this.state.value.length) < 5 ? styles.charsHintRed : styles.charsHint;
-  }
-
   handleKeyDownOnDueDate = (event) => {
     if (event.key === 'Enter') {
       this.handleSubmit();
@@ -103,7 +107,8 @@ class DeliverableComposer extends React.Component {
     const { dueOn } = this.state;
     const assigneeId = this.assigneeId();
     const { parent } = this.props;
-    
+    const { value } = this.state;
+
     return (
       <div className={styles.root}>
         <div className={styles.row}>
@@ -125,13 +130,27 @@ class DeliverableComposer extends React.Component {
             </div>
           </div>
         </div>
-        <div className={styles.row}>
-          <form className={styles.form} onSubmit={this.handleSubmit}>
-            <Icon type="deliverable" style={{ alignSelf: 'flex-end' }} />
-            <SizungInputApp ref="name" onChange={this.handleChangeInMentionBox} onSubmit={this.handleSubmit} value={this.state.value} maxLength={ 40 } rows="1" placeholder="What needs to be done?" />
-            <div className={this.charCounterStyle()}>{40 - this.state.value.length} chars</div>
-          </form>
+        <div className={styles.inputRow}>
+          <Icon type="deliverable" className={styles.inputIcon} />
+          <textarea
+            rows="1"
+            ref="name"
+            type="text"
+            maxLength={ 40 }
+            onKeyDown={this.handleKeyDown}
+            onSubmit={this.handleSubmit}
+            value={this.state.value}
+            className={styles.deliverableInput}
+            onChange={this.handleChangeInMentionBox}
+            placeholder="What needs to be done?"
+          />
+          <div
+            className={(value && (40 - value.length)) < 5 ? styles.charsHintRed : styles.charsHint}
+          >
+            {40 - ((value && value.length) || 0)} chars
+          </div>
         </div>
+
       </div>
     );
   }
