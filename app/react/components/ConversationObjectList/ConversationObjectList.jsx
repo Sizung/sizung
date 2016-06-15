@@ -19,23 +19,24 @@ class ConversationObjectList extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.conversationObjects && nextProps.conversationObjects.filter((obj) => {
-          return obj.unseen;
-        }).length === nextProps.conversationObjects.length && nextProps.nextPageUrl) {
-      this.handleShowMore();
-    }
-  }
-
   componentDidMount() {
     const root = this.refs.root;
     if (root) {
       this.refs.root.addEventListener('scroll', this.handleScroll);
       if (this.refs.newObjectsMarker) {
-        this.refs.newObjectsMarker.scrollIntoView({block: 'end', behavior: 'smooth'});
+        this.refs.newObjectsMarker.scrollIntoView({ block: 'end', behavior: 'smooth' });
       } else {
         this.scrollListToBottom();
       }
+    }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const unseenObjectsList = nextProps.conversationObjects.filter((obj) => {
+      return obj.unseen;
+    });
+    if (nextProps.conversationObjects && unseenObjectsList.length === nextProps.conversationObjects.length && nextProps.nextPageUrl) {
+      this.handleShowMore();
     }
   }
 
@@ -102,12 +103,6 @@ class ConversationObjectList extends Component {
       let showOwner = false;
       return conversationObjects.map((conversationObject, index) => {
 
-        if (!conversationObject.unseen && index < (conversationObjects.length - 1) && conversationObjects[index + 1].unseen) {
-          return this.newObjectsMarker(conversationObjects.filter((obj) => {
-            return obj.unseen;
-          }).length);
-        }
-        
         const uid = this.getConversationObjectOwnerId(conversationObject);
         if (uid !== ownerId) {
           ownerId = uid;
@@ -123,17 +118,18 @@ class ConversationObjectList extends Component {
           comment.parent = parent;
           return (<Comment key={comment.id} comment={comment} showAuthor={showOwner}
                            showTimeStamp={showTimeStamp} currentUser={currentUser}
-                           handleCommentSettingsDropdownScroll={this.handleCommentSettingsDropdownScroll}
                            updateComment={updateComment} deleteComment={deleteComment}
                            createAgendaItem={createAgendaItem}
-                           createDeliverable={createDeliverable}/>);
+                           createDeliverable={createDeliverable}
+              />);
         } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
           return (<AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner}
                                         showTimeStamp={showTimeStamp} currentUser={currentUser}
                                         agendaItem={agendaItem} visitAgendaItem={visitAgendaItem}
                                         archiveAgendaItem={archiveAgendaItem}
-                                        updateAgendaItem={updateAgendaItem}/>);
+                                        updateAgendaItem={updateAgendaItem}
+              />);
         } else if (conversationObject.type === 'attachments') {
           const attachment = conversationObject;
           return (<Attachment key={attachment.id} showOwner={showOwner}
@@ -158,14 +154,6 @@ class ConversationObjectList extends Component {
     } else if (nextPageUrl) {
       return <div className={styles.loadMoreMessage}><a className={styles.link} href="#" onClick={this.handleShowMore}>Show More</a></div>;
     }
-  };
-
-  handleCommentSettingsDropdownScroll = (commentGearIconNode) => {
-    // if (commentGearIconNode && this.commentFormNode) {
-    //   if (($(commentGearIconNode).offset().top + $(commentGearIconNode).outerHeight()) - $(this.commentFormNode).offset().top > 0) {
-    //     this.listNode.scrollTop += $(commentGearIconNode).outerHeight();
-    //   }
-    // }
   };
 
   isScrolledToBottom = (element) => {
@@ -204,14 +192,44 @@ class ConversationObjectList extends Component {
     this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
   };
 
+  checkAndInsertNewObjectsMarker = (conversationObjectElements, conversationObjects) => {
+    let newObjectsMarker;
+    let newObjectsMarkerIndex = -1;
+    const { nextPageUrl } = this.props;
+    if (!nextPageUrl && conversationObjects.length > 0 && conversationObjects[0].unseen) {
+      newObjectsMarkerIndex = 0;
+    } else {
+      conversationObjects.forEach((conversationObject, index) => {
+        if (!conversationObject.unseen && index < (conversationObjects.length - 1) && conversationObjects[index + 1].unseen) {
+          newObjectsMarkerIndex = index + 1;
+          return false;
+        }
+      });
+    }
+    newObjectsMarker = this.newObjectsMarker(conversationObjects.filter((obj) => {
+      return obj.unseen;
+    }).length);
+
+    if (newObjectsMarker) {
+      return conversationObjectElements.filter((obj, index) => {
+        return index < newObjectsMarkerIndex;
+      }).concat(newObjectsMarker).concat(
+          conversationObjectElements.filter((obj, index) => {
+            return index >= newObjectsMarkerIndex;
+          })
+      );
+    }
+    return conversationObjectElements;
+  };
+
   renderConversationTimeLine = () => {
     const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl,
         visitAgendaItem, visitDeliverable } = this.props;
 
     const showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    const conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser);
-
+    let conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser);
+    conversationObjectElements = this.checkAndInsertNewObjectsMarker(conversationObjectElements, conversationObjects);
     return (
       <div ref="root" className={styles.root}>
         <div ref="conversationObjectList" className={styles.list}>
