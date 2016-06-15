@@ -21,11 +21,11 @@ class AgendaItemSerializer < ActiveModel::Serializer
   end
   
   swagger_schema :AgendaItem do
-    key :required, [:id, :title, :status, :comments_count, :deliverables_count, :archived, :archived_at, :created_at, :updated_at]
+    key :required, [:id, :type]
 
     property :id, type: :string
     property :type, type: :string, enum: ['agenda_items']
-    property :attributes, type: :object do
+    property :attributes, type: :object, required: [:title, :status, :comments_count, :deliverables_count, :archived, :archived_at, :created_at, :updated_at] do
       property :title, type: :string
       property :status, type: :string
       property :comments_count, type: :number, description: :deprecated
@@ -55,13 +55,4 @@ class AgendaItemSerializer < ActiveModel::Serializer
       key :'$ref', :AgendaItem
     end
   end
-
-  swagger_schema :responseMany_AgendaItem do
-    property :data, type: :array do
-      items do
-        key :'$ref', :AgendaItem
-      end
-    end
-  end
-
 end

@@ -30,6 +30,7 @@
   align-items: flex-start;
   width: 11.25rem;
   min-height: 4rem;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 

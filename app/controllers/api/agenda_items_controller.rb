@@ -8,7 +8,7 @@ module Api
 
     include Swagger::Blocks
 
-    swagger_path '/conversations/:conversation_id/agenda_items' do
+    swagger_path '/conversations/{conversation_id}/agenda_items' do
       operation :post, security: [bearer: []] do
         key :summary, 'List Agenda Items'
         key :tags, ['agenda_item', 'conversation']
@@ -33,7 +33,7 @@ module Api
       render json: @conversation.agenda_items.includes(:owner, :conversation, :deliverables)
     end
 
-    swagger_path '/agenda_items/:id' do
+    swagger_path '/agenda_items/{id}' do
       operation :get, security: [bearer: []] do
         key :summary, 'Get an Agenda Item.'
         key :tags, ['agenda_item']
@@ -114,7 +114,7 @@ module Api
     end
 
 
-    swagger_path '/agenda_items/:id' do
+    swagger_path '/agenda_items/{id}' do
       operation :patch, security: [bearer: []] do
         key :summary, 'Update an Agenda Item.'
         key :tags, ['agenda_item']
