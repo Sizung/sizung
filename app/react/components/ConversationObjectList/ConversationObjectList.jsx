@@ -19,19 +19,24 @@ class ConversationObjectList extends Component {
     };
   }
 
-  componentDidMount() {
-    const listNode = this.refs.conversationObjectList;
-    if (listNode) {
-      if (this.props.commentForm.parent) {
-        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
-      }
-      this.refs.root.addEventListener('scroll', this.handleScroll);
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.conversationObjects && nextProps.conversationObjects.filter((obj) => {
+          return obj.unseen;
+        }).length === nextProps.conversationObjects.length && nextProps.nextPageUrl) {
+      this.handleShowMore();
     }
-    this.scrollListToBottom();
   }
 
-  componentWillUnmount() {
-    this.refs.root.removeEventListener('scroll', this.handleScroll);
+  componentDidMount() {
+    const root = this.refs.root;
+    if (root) {
+      this.refs.root.addEventListener('scroll', this.handleScroll);
+      if (this.refs.newObjectsMarker) {
+        this.refs.newObjectsMarker.scrollIntoView({block: 'end', behavior: 'smooth'});
+      } else {
+        this.scrollListToBottom();
+      }
+    }
   }
 
   componentWillUpdate(nextProps) {
@@ -77,8 +82,21 @@ class ConversationObjectList extends Component {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     }
 
+    if (this.refs.newObjectsMarker) {
+      this.refs.newObjectsMarker.scrollIntoView();
+    } else
     if (this.shouldScrollBottom) {
       this.scrollListToBottom();
+    }
+  }
+
+  componentWillUnmount() {
+    const root = this.refs.root;
+    if (root) {
+      if (this.props.commentForm.parent) {
+        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      }
+      this.refs.root.removeEventListener('scroll', this.handleScroll);
     }
   }
 
@@ -106,6 +124,13 @@ class ConversationObjectList extends Component {
       let ownerId = null;
       let showOwner = false;
       return conversationObjects.map((conversationObject, index) => {
+        let childElement;
+
+        if (!conversationObject.unseen && index < (conversationObjects.length - 1) && conversationObjects[index + 1].unseen) {
+          return this.newObjectsMarker(conversationObjects.filter((obj) => {
+            return obj.unseen;
+          }).length);
+        }
         const uid = this.getConversationObjectOwnerId(conversationObject);
         if (uid !== ownerId) {
           ownerId = uid;
@@ -119,17 +144,31 @@ class ConversationObjectList extends Component {
         if (conversationObject.type === 'comments') {
           const comment = conversationObject;
           comment.parent = parent;
-          return (<Comment key={comment.id} comment={comment} showAuthor={showOwner} showTimeStamp={showTimeStamp} currentUser={currentUser} handleCommentSettingsDropdownScroll={this.handleCommentSettingsDropdownScroll} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable}/>);
+          return (<Comment key={comment.id} comment={comment} showAuthor={showOwner}
+                           showTimeStamp={showTimeStamp} currentUser={currentUser}
+                           handleCommentSettingsDropdownScroll={this.handleCommentSettingsDropdownScroll}
+                           updateComment={updateComment} deleteComment={deleteComment}
+                           createAgendaItem={createAgendaItem}
+                           createDeliverable={createDeliverable}/>);
         } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
-          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} showTimeStamp={showTimeStamp} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} />;
+          return (<AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner}
+                                        showTimeStamp={showTimeStamp} currentUser={currentUser}
+                                        agendaItem={agendaItem} visitAgendaItem={visitAgendaItem}
+                                        archiveAgendaItem={archiveAgendaItem}
+                                        updateAgendaItem={updateAgendaItem}/>);
         } else if (conversationObject.type === 'attachments') {
           const attachment = conversationObject;
-          return <Attachment key={attachment.id} showOwner={showOwner} showTimeStamp={showTimeStamp} attachment={attachment} />;
-        }
-        if (conversationObject.type === 'deliverables') {
+          return (<Attachment key={attachment.id} showOwner={showOwner}
+                              showTimeStamp={showTimeStamp} attachment={attachment}/>);
+        } else if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} showTimeStamp={showTimeStamp} currentUser={currentUser}  deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} />;
+          return (<DeliverableInTimeline key={deliverable.id} showOwner={showOwner}
+                                         showTimeStamp={showTimeStamp} currentUser={currentUser}
+                                         deliverable={deliverable}
+                                         visitDeliverable={visitDeliverable}
+                                         archiveDeliverable={archiveDeliverable}
+                                         updateDeliverable={updateDeliverable}/>);
         }
         console.warn('Component not found for conversationObject: ', conversationObject);
       });
@@ -159,7 +198,7 @@ class ConversationObjectList extends Component {
 
   handleScroll = (evt) => {
     const root = this.refs.root;
-    if (root && this.isScrolledToBottom(root)) {
+    if (root && this.isScrolledToBottom(root) && this.state.newObjects > 0) {
       this.setState({ newObjects: 0 });
     }
   };
@@ -168,9 +207,9 @@ class ConversationObjectList extends Component {
     const root = this.refs.root;
     if (root) {
       root.scrollTop = root.scrollHeight;
-      if (this.state.newObjects > 0) {
-        this.setState({ newObjects: 0 });
-      }
+      //if (this.state.newObjects > 0) {
+      //  this.setState({ newObjects: 0 });
+      //}
     }
   };
 
@@ -192,7 +231,9 @@ class ConversationObjectList extends Component {
   };
 
   handleShowMore = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     const parentType = this.props.commentForm.parent.type ? this.props.commentForm.parent.type : 'conversations';
 
     this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
@@ -214,6 +255,20 @@ class ConversationObjectList extends Component {
         </div>
       </div>
     );
+  };
+
+  newObjectsMarker = (newObjectsCount) => {
+    if (newObjectsCount > 0) {
+      return (
+          <div ref='newObjectsMarker' className={styles.newObjectsMarkerContainer}>
+            <div className={styles.newObjectsMarkerLabel}>
+              { newObjectsCount + ' new comment' + (newObjectsCount === 1 ? '' : 's')}
+            </div>
+            <hr className={styles.newObjectsMarkerLine}/>
+          </div>
+      );
+    }
+    return undefined;
   };
 
   render() {
