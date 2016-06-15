@@ -17,13 +17,14 @@ class ConversationObjectList extends Component {
     this.state = {
       newObjects: 0,
     };
+    this.newObjectsMarkerSeen = false;
   }
 
   componentDidMount() {
     const root = this.refs.root;
     if (root) {
       this.refs.root.addEventListener('scroll', this.handleScroll);
-      if (this.refs.newObjectsMarker) {
+      if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
         this.refs.newObjectsMarker.scrollIntoView({ block: 'end', behavior: 'smooth' });
       } else {
         this.scrollListToBottom();
@@ -61,8 +62,9 @@ class ConversationObjectList extends Component {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     }
 
-    if (this.refs.newObjectsMarker) {
+    if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
       this.refs.newObjectsMarker.scrollIntoView();
+      this.newObjectsMarkerSeen = true;
     } else if (this.shouldScrollBottom) {
       this.scrollListToBottom();
     }
@@ -229,7 +231,9 @@ class ConversationObjectList extends Component {
 
     const showMore = this.prepareShowMore(isFetching, nextPageUrl);
     let conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser);
-    conversationObjectElements = this.checkAndInsertNewObjectsMarker(conversationObjectElements, conversationObjects);
+    if (conversationObjects && conversationObjectElements) {
+      conversationObjectElements = this.checkAndInsertNewObjectsMarker(conversationObjectElements, conversationObjects);
+    }
     return (
       <div ref="root" className={styles.root}>
         <div ref="conversationObjectList" className={styles.list}>
