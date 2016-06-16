@@ -36,7 +36,7 @@ class ComposeContainer extends React.Component {
   }
 
   handleClose = () => {
-    this.handleSelect('comment');
+    this.setState({ composerType: 'comment' });
   }
 
   renderComposer(composerType) {
@@ -64,6 +64,7 @@ class ComposeContainer extends React.Component {
                                 createComment={createComment}
                                 onSelect={this.handleSelect}
                                 currentUser={currentUser}
+                                defaultValue={this.state.value}
                                 createAttachment={createAttachment}
                />;
     }
