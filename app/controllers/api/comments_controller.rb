@@ -1,5 +1,5 @@
 module Api
-  class CommentsController < ApplicationController
+  class CommentsController < Base
     before_filter :authenticate_user!
     before_action :set_comment, only: [:update, :destroy]
     after_action :verify_authorized

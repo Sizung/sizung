@@ -1,5 +1,5 @@
 module Api
-  class UnseenObjectsController < ApplicationController
+  class UnseenObjectsController < Base
     before_filter :authenticate_user!
     # after_action :verify_authorized
 

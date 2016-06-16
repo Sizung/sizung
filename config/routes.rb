@@ -48,7 +48,7 @@ Rails.application.routes.draw do
 
     resources :comments
     resources :conversation_members, only: [:create, :destroy]
-    resources :organization_members, only: [:create, :destroy]
+    resources :organization_members, only: [:create, :update, :destroy]
     resources :meetings, only: [:create]
     resources :users, only: [:index, :create, :update], shallow: true do
       concerns :unseen_objects, parent_type: 'User'

@@ -1,5 +1,5 @@
 module Api
-  class ConversationsController < ApplicationController
+  class ConversationsController < Base
     before_filter :authenticate_user!
     before_action :set_conversation, only: [:update, :destroy]
     before_action :set_organization, only: [:create, :index]

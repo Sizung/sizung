@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518165904) do
+ActiveRecord::Schema.define(version: 20160615132926) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -248,6 +248,7 @@ UNION ALL
     t.uuid     "member_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.boolean  "admin",           default: false, null: false
   end
   add_index "organization_members", ["member_id"], name: "index_organization_members_on_member_id", using: :btree
   add_index "organization_members", ["organization_id", "member_id"], name: "index_organization_members_on_organization_id_and_member_id", unique: true, using: :btree

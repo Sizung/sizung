@@ -1,5 +1,5 @@
 module Api
-  class AgendaItemsController < ApplicationController
+  class AgendaItemsController < Base
     before_filter :authenticate_user!
     after_action :verify_authorized
     before_action :set_agenda_item, only: [:update]

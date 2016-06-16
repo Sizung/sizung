@@ -1,5 +1,5 @@
 module Api
-  class OrganizationsController < ApplicationController
+  class OrganizationsController < Base
     before_filter :authenticate_user!
     before_action :set_organization, only: [:update]
     after_action :verify_authorized,    except: :index

@@ -1,5 +1,5 @@
 module Api
-  class MeetingsController < ApplicationController
+  class MeetingsController < Base
     before_filter :authenticate_user!
     respond_to :json
 

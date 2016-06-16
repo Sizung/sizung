@@ -1,5 +1,5 @@
 module Api
-  class ConversationObjectsController < ApplicationController
+  class ConversationObjectsController < Base
     before_filter :authenticate_user!
     after_action :verify_authorized
 

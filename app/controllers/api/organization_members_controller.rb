@@ -1,14 +1,53 @@
 module Api
-  class OrganizationMembersController < ApplicationController
+  class OrganizationMembersController < Base
     before_action :set_organization, only: [:create]
     before_action :authenticate_user!
     after_action :verify_authorized
 
     respond_to :json
 
-    # POST /api/organization_members.json
+    include Swagger::Blocks
+
+    swagger_schema :OrganizationMemberInputForCreate do
+      key :required, [:organization_id, :email]
+
+      property :organization_id, type: :string
+      property :email, type: :string
+      property :admin, type: :boolean, description: 'true if the user should have admin privileges on the organization, false otherwise. Default: false'
+    end
+    
+    swagger_path '/organization_members' do
+      operation :post, security: [bearer: []] do
+        key :summary, 'Create a new Organization Member.'
+        key :tags, ['organization_member']
+        
+        parameter name: :organization_member, in: :body, required: true, description: 'Organization member fields' do
+          schema do
+            key :'$ref', :OrganizationMemberInputForCreate
+          end
+        end
+
+        response 200 do
+          key :description, 'Organization Member response'
+          schema do
+            key :'$ref', :responseOne_OrganizationMember
+          end
+        end
+        
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
     def create
-      @user = InvitationService.new.invite(params[:email], @organization, current_user)
+      @user = InvitationService.new.invite(params[:email], @organization, current_user, params[:admin])
       authorize @organization, :show?
       @organization_member = @user.organization_members.find_by(organization: @organization)
 
@@ -16,8 +55,54 @@ module Api
       
       render json: @organization_member, include: [:member]
     end
+
+    swagger_schema :OrganizationMemberInput do
+      property :admin, type: :boolean, description: 'true if the user should have admin privileges on the organization, false otherwise.'
+    end
+
     
-    # DELETE /organization_members/1.json
+    swagger_path '/organization_members/{id}' do
+      operation :patch, security: [bearer: []] do
+        key :summary, 'Update an existing Organization Member.'
+        key :tags, ['organization_member']
+
+        parameter name: :id, type: :string, in: :path, required: true, description: 'The id of the Organization Member object to update'
+        
+        parameter name: :organization_member, in: :body, required: true, description: 'Organization member fields' do
+          schema do
+            key :'$ref', :OrganizationMemberInput
+          end
+        end
+
+        response 200 do
+          key :description, 'Organization Member response'
+          schema do
+            key :'$ref', :responseOne_OrganizationMember
+          end
+        end
+        
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
+    def update
+      @organization_member = OrganizationMember.find(params[:id])
+      authorize @organization_member, :update?
+      if @organization_member.update(organization_member_params)
+        render json: @organization_member, include: [:member]
+      else
+        render json: @organization_member, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
+      end
+    end
+    
     def destroy
       @organization_member = OrganizationMember.find(params[:id])
       authorize @organization_member
@@ -39,7 +124,7 @@ module Api
 
     private
       def organization_member_params
-        params.require(:organization_member).permit(:organization_id, :member_id)
+        params.require(:organization_member).permit(:organization_id, :member_id, :admin)
       end
 
       def set_organization
