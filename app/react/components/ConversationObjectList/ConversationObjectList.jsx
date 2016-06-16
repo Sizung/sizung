@@ -61,11 +61,11 @@ class ConversationObjectList extends Component {
 
   componentDidUpdate(prevProps) {
     if (ConversationObjectList.shouldMarkAsSeen(prevProps, this.props)) {
-      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      this.props.markAsSeen(prevProps.commentForm.parent.type, prevProps.commentForm.parent.id);
     }
 
     if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
-      this.refs.newObjectsMarker.scrollIntoView();
+      this.refs.newObjectsMarker.scrollIntoView({ block: 'end', behavior: 'smooth' });
       this.newObjectsMarkerSeen = true;
     } else if (this.shouldScrollBottom) {
       this.scrollListToBottom();
@@ -180,11 +180,10 @@ class ConversationObjectList extends Component {
   };
 
   static shouldMarkAsSeen = (prevProps, props) => {
-    const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
-
-    const unseenPrev = prevProps.conversationObjects ? prevProps.conversationObjects.some((obj) => { return obj.unseen; }) : false;
-    const unseenNow = props.conversationObjects ? props.conversationObjects.some((obj) => { return obj.unseen; }) : false;
-    return (notHandledByMount || !unseenPrev && unseenNow || prevProps.commentForm.parent.id !== props.commentForm.parent.id && unseenNow);
+    //const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
+    //const unseenPrev = prevProps.conversationObjects ? prevProps.conversationObjects.some((obj) => { return obj.unseen; }) : false;
+    //const unseenNow = props.conversationObjects ? props.conversationObjects.some((obj) => { return obj.unseen; }) : false;
+    return (prevProps.commentForm.parent.id !== props.commentForm.parent.id);
   };
 
   handleShowMore = (e) => {
