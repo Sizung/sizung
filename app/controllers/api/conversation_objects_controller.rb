@@ -11,12 +11,17 @@ module Api
     end
 
     private
+      def initial_page_size_containing_all_unseen_objects
+        unseen_conv_objects = parent.conversation_objects.select {|obj| obj.unseen_objects.select {|unseen_obj| unseen_obj.target_id === obj.id}.size > 0}
+        unseen_conv_objects.size < 10 ? 10 : (unseen_conv_objects.size + 1)
+      end
+
       def page_number
         params[:page] ? params[:page][:number] : 1
       end
 
       def page_size
-        params[:page] ? params[:page][:size] : 10
+        params[:page] ? params[:page][:size] : initial_page_size_containing_all_unseen_objects
       end
 
       def parent_type
