@@ -26,7 +26,7 @@ describe Notifications do
     value(mail.from).must_equal ['no-reply@sizung.com']
     value(mail.subject).must_equal "#{actor.first_name} assigned a deliverable to you"
     value(body).must_match "Hi #{assignee.first_name},"
-    value(body).must_match "#{actor.name} assigned you a deliverable: #{deliverable.title}"
+    value(body).must_match "#{actor.name} assigned you an action: #{deliverable.title}"
     value(body).must_match "http://localhost:3000/deliverables/#{deliverable.id}"
   end
 end

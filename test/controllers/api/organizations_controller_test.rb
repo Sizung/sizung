@@ -17,6 +17,27 @@ describe Api::OrganizationsController do
       expect(@organization.reload.mission).must_equal 'Save the World'
     end
 
+    it 'returns a 422 when unprocessable' do
+      post :update, id: @organization, organization: { name: nil }, format: :json
+      expect(response.status).must_equal 422
+    end
+
+    it 'creates a new organization' do
+      expect {
+        post :create, organization: { name: 'Avengers created', mission: 'Save the World' }
+      }.must_change 'Organization.count'
+
+      expect(response.status).must_equal 200
+      @organization = Organization.find_by(name: 'Avengers created')
+      expect(@organization.name).must_equal 'Avengers created'
+      expect(@organization.mission).must_equal 'Save the World'
+    end
+
+    it 'returns a 422 when create is unprocessable' do
+      post :create, organization: { name: nil }, format: :json
+      expect(response.status).must_equal 422
+    end
+
     it 'should give me a 200 when found' do
       get :show, id: @organization
       expect(response.status).must_equal 200

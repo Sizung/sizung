@@ -1,5 +1,5 @@
 module Api
-  class ConversationsController < ApplicationController
+  class ConversationsController < Base
     before_filter :authenticate_user!
     before_action :set_conversation, only: [:update, :destroy]
     before_action :set_organization, only: [:create, :index]
@@ -99,6 +99,13 @@ module Api
             key :'$ref', :responseOne_Conversation
           end
         end
+        
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+        
         response :default do
           key :description, 'Unexpected error'
         end
@@ -123,7 +130,7 @@ module Api
           UnseenService.new.handle_with(@conversation, current_user)
           render json: @conversation, serializer: ConversationSerializer
         else
-          render json: @conversation.errors, status: :unprocessable_entity
+          render json: @conversation, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
         end
       else
         #creating conversation with just title without any conversation members
@@ -135,7 +142,7 @@ module Api
           UnseenService.new.handle_with(@conversation, current_user)
           render json: @conversation, serializer: ConversationSerializer
         else
-          render json: @conversation.errors, status: :unprocessable_entity
+          render json: @conversation, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
         end
       end
     end
@@ -160,13 +167,19 @@ module Api
             key :'$ref', :responseOne_Conversation
           end
         end
+
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+
         response :default do
           key :description, 'Unexpected error'
         end
       end
     end
 
-    # PATCH/PUT /conversations/1.json
     def update
       if @conversation.toggle_archive(params[:conversation][:archived]) || @conversation.update(conversation_params)
         @addMembers = []
@@ -195,7 +208,11 @@ module Api
         ConversationRelayJob.perform_later(conversation: @conversation, actor_id: current_user.id, action: 'update')
 
         # TODO ANI GUGL: Fix this part while sending response to client so that client has control over which attributes to use
-        render json: @conversation, include: %w(conversation_members)
+        if @conversation.valid?
+          render json: @conversation, include: %w(conversation_members)
+        else
+          render json: @conversation, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
+        end
       end
     end
 

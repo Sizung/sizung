@@ -9,7 +9,6 @@
 }
 
 .agendaItemIcon {
-  align-self: flex-end;
   color: #415764;
   font-size: 1.4rem;
   margin-left: -0.7rem;
@@ -20,20 +19,11 @@
   flex: 1;
 }
 
-.formRow {
+.inputRow {
   composes: row;
-  margin-bottom: 4.75rem;
-}
-
-.form {
-  flex: 1;
-  color: #415764;
-  margin: 2rem 2rem 0 0;
-  font-size: 1.375rem;
-}
-
-.form :global .react-mentions .control.textarea {
-  border: 0;
+  padding: 2rem 0;
+  display: flex;
+  align-items: center;
 }
 
 .charsHint {
@@ -52,4 +42,17 @@
   display: inline-block;
   background-color: #415764;
   padding: 0.625rem 2.5rem 0.625rem 2.5rem;
+}
+
+.agendaInput {
+  width: 100%;
+  border: none;
+  height: 25px;
+  font-size: 12px;
+  resize: none;
+  color: #415764;
+}
+
+.agendaInput:focus {
+  outline: none;
 }

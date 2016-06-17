@@ -3,10 +3,9 @@ import SizungTime from '../SizungTime';
 import User from './../User/index';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
-import SizungInputApp from '../../containers/SizungInputApp';
 import CommentDropdown from '../CommentDropdown/index';
 import ComposerApp from '../../containers/ComposerApp';
-import markdownFromState from '../../utils/markdownFromState';
+import { toMarkdown } from '../../utils/markdownUtils';
 
 class Comment extends React.Component {
   constructor() {
@@ -51,7 +50,7 @@ class Comment extends React.Component {
   };
 
   onCommentSave = () => {
-    this.handleSubmit(markdownFromState(this.editorContentState));
+    this.handleSubmit(toMarkdown(this.editorContentState));
   };
 
   handleSubmit = (value) => {
@@ -96,7 +95,13 @@ class Comment extends React.Component {
         <div className="form-horizontal">
           <div className="form-group" style={{ marginBottom: '5px' }}>
             <div className="col-xs-12">
-              <ComposerApp ref="input" className="form-control" onSubmit={this.handleSubmit} value={body} onChange={this.onEditorContentChange}/>
+              <ComposerApp
+                ref="input"
+                className="form-control"
+                onSubmit={this.handleSubmit}
+                value={body}
+                onChange={this.onEditorContentChange}
+              />
             </div>
           </div>
           <div className="form-group" style={{ marginBottom: '5px' }}>

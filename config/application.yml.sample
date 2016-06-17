@@ -11,3 +11,75 @@
 #   stripe_publishable_key: pk_live_9lcthxpSIHbGwmdO941O1XVU
 
 EMAIL_FROM_ADDRESS: 'Sizung <no-reply@sizung.com>'
+APN_ENV: 'development'
+APN_CERTIFICATE_DATA: |
+                      Bag Attributes
+                          friendlyName: Apple Development IOS Push Services: com.sizung.app.ios
+                          localKeyID: F5 DA A8 81 A5 BA 70 E4 04 39 24 2F EC DE 57 F9 81 FD 66 26
+                      subject=/UID=com.sizung.app.ios/CN=Apple Development IOS Push Services: com.sizung.app.ios/OU=N7XA4D3XV9/C=US
+                      issuer=/C=US/O=Apple Inc./OU=Apple Worldwide Developer Relations/CN=Apple Worldwide Developer Relations Certification Authority
+                      -----BEGIN CERTIFICATE-----
+                      MIIFiTCCBHGgAwIBAgIIN8q5UHQ44+wwDQYJKoZIhvcNAQEFBQAwgZYxCzAJBgNV
+                      BAYTAlVTMRMwEQYDVQQKDApBcHBsZSBJbmMuMSwwKgYDVQQLDCNBcHBsZSBXb3Js
+                      ZHdpZGUgRGV2ZWxvcGVyIFJlbGF0aW9uczFEMEIGA1UEAww7QXBwbGUgV29ybGR3
+                      aWRlIERldmVsb3BlciBSZWxhdGlvbnMgQ2VydGlmaWNhdGlvbiBBdXRob3JpdHkw
+                      HhcNMTYwNjE3MTczMzU1WhcNMTcwNjE3MTczMzU1WjCBiDEiMCAGCgmSJomT8ixk
+                      AQEMEmNvbS5zaXp1bmcuYXBwLmlvczFAMD4GA1UEAww3QXBwbGUgRGV2ZWxvcG1l
+                      bnQgSU9TIFB1c2ggU2VydmljZXM6IGNvbS5zaXp1bmcuYXBwLmlvczETMBEGA1UE
+                      CwwKTjdYQTREM1hWOTELMAkGA1UEBhMCVVMwggEiMA0GCSqGSIb3DQEBAQUAA4IB
+                      DwAwggEKAoIBAQD81tPTkHIpthzUEb/+KrngJlVaPhacfm7j0tSEanGiK5YXSIIJ
+                      DpKdXsqeuFPpMJ4d3kqV4HD+mkEOeJMt0a+FR8U5sojfJem/tK8KrHk91KbyLuR6
+                      erq8Y7UrLoMl1VTBekW2KwSvLFHQjEutCVTMgqH6W+iGiuSPp8OS6pIMPqyx6WT6
+                      6vtMl/6E3CwH/kmQvyF5qoHVZlac1xa0Poz2pqwmT62xilBt8EZYSxqcRKXtoCK+
+                      REFJ8mCgi3Bqxg7dBt5lDctPNh1HbVLo+deMjLk6SyjuVrDTZi5UVvDn5vHCKQ7d
+                      I2ubhkrSZbGRSFmEOMrJg7PTQzT9D3sM/QzBAgMBAAGjggHlMIIB4TAdBgNVHQ4E
+                      FgQU9dqogaW6cOQEOSQv7N5X+YH9ZiYwCQYDVR0TBAIwADAfBgNVHSMEGDAWgBSI
+                      JxcJqbYYYIvs67r2R1nFUlSjtzCCAQ8GA1UdIASCAQYwggECMIH/BgkqhkiG92Nk
+                      BQEwgfEwgcMGCCsGAQUFBwICMIG2DIGzUmVsaWFuY2Ugb24gdGhpcyBjZXJ0aWZp
+                      Y2F0ZSBieSBhbnkgcGFydHkgYXNzdW1lcyBhY2NlcHRhbmNlIG9mIHRoZSB0aGVu
+                      IGFwcGxpY2FibGUgc3RhbmRhcmQgdGVybXMgYW5kIGNvbmRpdGlvbnMgb2YgdXNl
+                      LCBjZXJ0aWZpY2F0ZSBwb2xpY3kgYW5kIGNlcnRpZmljYXRpb24gcHJhY3RpY2Ug
+                      c3RhdGVtZW50cy4wKQYIKwYBBQUHAgEWHWh0dHA6Ly93d3cuYXBwbGUuY29tL2Fw
+                      cGxlY2EvME0GA1UdHwRGMEQwQqBAoD6GPGh0dHA6Ly9kZXZlbG9wZXIuYXBwbGUu
+                      Y29tL2NlcnRpZmljYXRpb25hdXRob3JpdHkvd3dkcmNhLmNybDALBgNVHQ8EBAMC
+                      B4AwEwYDVR0lBAwwCgYIKwYBBQUHAwIwEAYKKoZIhvdjZAYDAQQCBQAwDQYJKoZI
+                      hvcNAQEFBQADggEBAK9COOJ1JITy7UHlrNhztKZgYf1VDBP7JRIBaH2oxnJ8SjNh
+                      VlwvQZ6sfm6/YvFiYWwGDX0bPSPZxcszbDz+/0tMJql1qb3lmzYhQASjqORYTH7g
+                      SeVEUlAvCtji7kMKxAv3ka1DZov4BUUeJyJtEzp141y5EGgQ3jiEYxRQUKQT3vXX
+                      wTi9nGnreLscMMKfL3NBo6Wm0JF8qqjtjj/vqECCjG84xEh7D8jkJZbW4ZpYQFsN
+                      NyerZk4/QAOusRAK+HwdRMscFrlq7kbF9plHAnD/SGJmsas1t1xU54FTFpRpqvKt
+                      vhks8Ab4qi/MEB7Mzq7hItPNm3anC9lxIOTx8iM=
+                      -----END CERTIFICATE-----
+                      Bag Attributes
+                          friendlyName: Staging
+                          localKeyID: F5 DA A8 81 A5 BA 70 E4 04 39 24 2F EC DE 57 F9 81 FD 66 26
+                      Key Attributes: <No Attributes>
+                      -----BEGIN RSA PRIVATE KEY-----
+                      MIIEpAIBAAKCAQEA/NbT05ByKbYc1BG//iq54CZVWj4WnH5u49LUhGpxoiuWF0iC
+                      CQ6SnV7KnrhT6TCeHd5KleBw/ppBDniTLdGvhUfFObKI3yXpv7SvCqx5PdSm8i7k
+                      enq6vGO1Ky6DJdVUwXpFtisEryxR0IxLrQlUzIKh+lvohorkj6fDkuqSDD6sselk
+                      +ur7TJf+hNwsB/5JkL8heaqB1WZWnNcWtD6M9qasJk+tsYpQbfBGWEsanESl7aAi
+                      vkRBSfJgoItwasYO3QbeZQ3LTzYdR21S6PnXjIy5Okso7law02YuVFbw5+bxwikO
+                      3SNrm4ZK0mWxkUhZhDjKyYOz00M0/Q97DP0MwQIDAQABAoIBABp+HBX39a5fMaga
+                                       8AYezfkpqxnYlZ/yM4ZVqgTx7lQywvhPlaiDSWOJ8istX0V43ah9iU0pBk33Ncfh
+                      ZHKRnRWXDphcF7FiFJsMwKaaqd2Lsa6AsVoQEA77V5ldt0o4jzfyqulKmqQMPcpf
+                      WPKZnrQLIBPOm4+1b/uJdZmoUINNvJOFtz85Xi2Qz3MnVVPjlWXnaqxSAQxul8yk
+                           Frcuw7SX7wQKPHNlAQeoVP/3F3tGNUJkfWUKR0YGhwsvxBfgo4ref48lJQXdKz8H
+                      EL4Y1OMUvta+UliQrakZRLzV/AB6gM+aHkjCZaAhymas3cOGIjk+YTo+a4acNgvw
+                      9TMk9r0CgYEA/8qdPOjlwXYURa1jzYkJCtcyHU3NgUYR6OwciywATkJuk5fXfAct
+                      eZkj9mdJWp1qA8faDM7cqNQY/2762yJFf3PwduLxm8Ew5X6Om+U31meqEfOdwc24
+                      rsRECyfxCMEIu3TVGh9eRBD0sc6qGqBdHMX3JiIgxYGvGb//yd2nncsCgYEA/QuY
+                      2Xyno4dLpxkNqBPuX/XNQ9rdzv+0TaiIBIg5qeg84d49H+WVTVstloA7cT8/av0J
+                      TxpAVApqlOlJVMPoev/h744pmacQsiquL2wVGgNPXThkqq66CLQGOJFvwTbqsKZ3
+                      ac3jCdjNrDvKol8VmLLAc4h+o2wrNshWl8soLiMCgYEA1VClPGyFXocYdNsahgen
+                      8NBxzJpbrVlACl0NmMqDHsCr8o4IeDiMJgIeSZjtRZJNHQYHw/KndmwaxLpKnYDB
+                      MH8BpEOydc/w9RJL35qSrE0bOYlOoJbtU2H91MfkbQZ+P8Y5CWXreRwi1D2jAj2G
+                      KT6206hWaB+0ZOcHa9Nbu20CgYB9U+AZX7b7tEfQ9ASiiXSXzHskr2MKYfUgPWdY
+                      r0u4DlERIWwuvxvKW21hzBMkzMmRKNASgJL5zMrrA/wQ4pLjUJbLeiK6elc3lxH8
+                      ZNCyuI73QbYCH1X+d4NZQxcRoCxu35PnMFTRjLKZKmf7MZLVtTrCPglS0YE5udHB
+                      jppQ9wKBgQCi/1HwyFEWMdzPksAjvOCI8ZB7V287s48Lky+l8FPC73JjSThb9LJa
+                      0n2ntMyNj2pKJAFFBU7bYSXN+UE3Wdqd/IY7wR/D2VVVqrapwp0m1EdOiCK2K/Hq
+                      7rNFPgSvlFMdOXf+fy2OcSBoqqDslaxCHoqUPQE2gFdzTlc0AQD2Lw==
+                      -----END RSA PRIVATE KEY-----
+    
+

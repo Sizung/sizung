@@ -7,13 +7,14 @@ class DeliverableSerializer < ActiveModel::Serializer
   include Swagger::Blocks
 
   swagger_schema :Deliverable do
-    key :required, [:id, :title, :status, :due_on, :comments_count, :archived, :archived_at, :created_at, :updated_at]
+    key :required, [:id, :type]
 
     property :id, type: :string
     property :type, type: :string, enum: ['agenda_items']
-    property :attributes, type: :object do
+    property :attributes, type: :object, required: [:title, :status, :due_on, :comments_count, :archived, :archived_at, :created_at, :updated_at] do
       property :title, type: :string
       property :status, type: :string
+      property :due_on, type: :string, format: 'date'
       property :comments_count, type: :number, description: :deprecated
       property :deliverables_count, type: :number, description: :deprecated
       property :archived, type: :boolean
@@ -38,13 +39,4 @@ class DeliverableSerializer < ActiveModel::Serializer
       key :'$ref', :Deliverable
     end
   end
-
-  swagger_schema :responseMany_Deliverable do
-    property :data, type: :array do
-      items do
-        key :'$ref', :Deliverable
-      end
-    end
-  end
-
 end

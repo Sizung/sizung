@@ -1,5 +1,5 @@
 module Api
-  class AttachmentsController < ApplicationController
+  class AttachmentsController < Base
     before_filter :authenticate_user!
     after_action :verify_authorized
     # after_action :verify_policy_scoped,   only: :index
@@ -86,6 +86,9 @@ module Api
       @attachment.owner = current_user
 
       if @attachment.save
+        payload = ActiveModelSerializers::SerializableResource.new(@attachment).serializable_hash.to_json
+        AttachmentRelayJob.perform_later(payload: payload, parent_id: @attachment.parent_id, parent_type: @attachment.parent_type, actor_id: current_user.id, action: 'create')
+        UnseenService.new.handle_with(@attachment, current_user)
         render json: @attachment
       else
         render json: @attachment, status: :unprocessable_entity

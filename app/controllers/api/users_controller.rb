@@ -1,5 +1,5 @@
 module Api
-  class UsersController < ApplicationController
+  class UsersController < Base
     skip_before_action :verify_authenticity_token, only: [:create]
     before_action :set_user, only: [:update]
     respond_to :json

@@ -46,9 +46,8 @@ describe Api::ConversationMembersController do
 
     it 'does not allow to create conversation_member when the user is not part of the conversations organization' do
       user = FactoryGirl.create :user
-      expect {
-        post :create, conversation_member: { conversation_id: @conversation.id, member_id: user.id }, format: :json
-      }.must_raise Pundit::NotAuthorizedError
+      post :create, conversation_member: { conversation_id: @conversation.id, member_id: user.id }, format: :json
+      expect(response.status).must_equal 401
     end
 
     it 'removes conversation_member' do
@@ -63,9 +62,8 @@ describe Api::ConversationMembersController do
 
     it 'does not allow to remove conversation_member when the user is not part of the conversations organization' do
       conversation_member = FactoryGirl.create :conversation_member, conversation: @conversation
-      expect {
-        delete :destroy, id: conversation_member.id, format: :json
-      }.must_raise Pundit::NotAuthorizedError
+      delete :destroy, id: conversation_member.id, format: :json
+      expect(response.status).must_equal 401
     end
   end
 end

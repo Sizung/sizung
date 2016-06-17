@@ -7,6 +7,7 @@ export function clearEditorContent(editorState) {
     anchorOffset: 0,
     focusKey: blocks.last().get('key'),
     focusOffset: blocks.last().getLength(),
+    isBackward: false,
   });
   const newContentState = Modifier.removeRange(
     editorState.getCurrentContent(),
@@ -14,4 +15,14 @@ export function clearEditorContent(editorState) {
     'forward'
   );
   return EditorState.push(editorState, newContentState, 'remove-range');
+}
+
+export function suggestionsFilter(searchValue, suggestions) {
+  const value = searchValue && searchValue.toLowerCase();
+  const filteredSuggestions = suggestions.filter((suggestion) => {
+    const name = suggestion.get('name') && suggestion.get('name').trim();
+    return name && name.length > 0 &&
+      (!value || suggestion.get('name').toLowerCase().indexOf(value) > -1);
+  });
+  return filteredSuggestions;
 }

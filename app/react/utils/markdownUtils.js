@@ -1,5 +1,12 @@
 import draft, { Modifier, Entity, SelectionState } from 'draft-js';
+import { stateFromMarkdown } from 'draft-js-import-markdown';
+import { stateToMarkdown   } from 'draft-js-export-markdown';
 import Immutable from 'immutable';
+
+const toMarkdown = (contentState) => {
+  const md = stateToMarkdown(contentState);
+  return md.replace(/\n$/, '');
+};
 
 const mentionPattern = new RegExp(/(.*)@\[([^\]]*)\]\(([^\)]*)\)(.*)/);
 
@@ -45,9 +52,12 @@ const replaceTokens = (contentState) => {
   return contentState;
 };
 
-const stateFromMarkdown = (markdown) => {
-  const contentState = draft.ContentState.createFromText(markdown);
+const toContentState = (markdown) => {
+  const contentState = stateFromMarkdown(markdown);
   return replaceTokens(contentState);
 };
 
-export default stateFromMarkdown;
+export {
+  toContentState,
+  toMarkdown,
+}

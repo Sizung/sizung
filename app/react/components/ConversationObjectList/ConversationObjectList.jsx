@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ComposeContainer from './../ComposeContainer';
 import Comment from './../Comment/index';
 import Attachment from './../Attachment';
@@ -11,33 +12,74 @@ import ConversationSettingsApp from '../../containers/ConversationSettingsApp';
 
 class ConversationObjectList extends Component {
 
-  componentDidMount() {
-    const listNode = this.refs.conversationObjectList;
-    if (listNode) {
-      if (this.props.commentForm.parent) {
-        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
-      }
-    }
-    this.scrollListToBottom();
+  constructor() {
+    super();
+
+    this.state = {
+      newObjects: 0,
+    };
+    this.newObjectsMarkerSeen = false;
   }
 
-  componentWillUpdate() {
+  componentDidMount() {
     const root = this.refs.root;
     if (root) {
-      // A tolerance of +/- 5px to avoid issues due to pixel calculations of scroll height based on rem heights
-      this.shouldScrollBottom = Math.abs(root.scrollTop + root.offsetHeight - root.scrollHeight) <= 5;
+      this.refs.root.addEventListener('scroll', this.handleScroll);
+      if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
+        //this.refs.newObjectsMarker.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        root.scrollTop = 0;
+        root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
+      } else {
+        this.scrollListToBottom();
+      }
+    }
+  }
+
+  componentWillUpdate(nextProps) {
+    const root = this.refs.root;
+    if (root) {
+      this.shouldScrollBottom = this.isScrolledToBottom(root);
+    }
+    if (this.props.conversationObjects && this.props.conversationObjects.length > 0 && nextProps.conversationObjects && nextProps.conversationObjects.length > 0) {
+      const oldListLastObjectTimestamp = (new Date(this.props.conversationObjects[this.props.conversationObjects.length - 1].createdAt)).getTime();
+
+      const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
+
+      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && this.newObjectsMarkerSeen) {
+        this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
+      }
     }
   }
 
   componentDidUpdate(prevProps) {
     if (ConversationObjectList.shouldMarkAsSeen(prevProps, this.props)) {
-      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      this.props.markAsSeen(prevProps.commentForm.parent.type, prevProps.commentForm.parent.id);
     }
 
-    if (this.shouldScrollBottom) {
+    if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
+      //this.refs.newObjectsMarker.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      this.refs.root.scrollTop =  0;
+      this.refs.root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
+      //this.refs.root.scrollTop =  Math.abs(this.root.offset().top - this.refs.newObjectsMarker.offset().top);
+      this.newObjectsMarkerSeen = true;
+    } else if (this.shouldScrollBottom) {
       this.scrollListToBottom();
     }
   }
+
+  componentWillUnmount() {
+    const root = this.refs.root;
+    if (root) {
+      if (this.props.commentForm.parent) {
+        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      }
+      this.refs.root.removeEventListener('scroll', this.handleScroll);
+    }
+  }
+
+  getConversationObjectOwnerId = (obj) => {
+    return (obj.type === 'comments' ? obj.authorId : obj.ownerId);
+  };
 
   shouldShowTimeStamp = (currentConversationObject, nextConversationObject, showOwner) => {
     if (!showOwner) {
@@ -59,7 +101,10 @@ class ConversationObjectList extends Component {
       let ownerId = null;
       let showOwner = false;
       return conversationObjects.map((conversationObject, index) => {
-        const uid = conversationObject.type === 'comments' ? conversationObject.authorId : conversationObject.ownerId;
+        const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
+        let unseenObjectMarkerRef = '';
+        const uid = this.getConversationObjectOwnerId(conversationObject);
+
         if (uid !== ownerId) {
           ownerId = uid;
           showOwner = true;
@@ -67,22 +112,39 @@ class ConversationObjectList extends Component {
           showOwner = false;
         }
 
-        const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
+        if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
+          unseenObjectMarkerRef = 'newObjectsMarker';
+        }
 
         if (conversationObject.type === 'comments') {
           const comment = conversationObject;
           comment.parent = parent;
-          return (<Comment key={comment.id} comment={comment} showAuthor={showOwner} showTimeStamp={showTimeStamp} currentUser={currentUser} handleCommentSettingsDropdownScroll={this.handleCommentSettingsDropdownScroll} updateComment={updateComment} deleteComment={deleteComment} createAgendaItem={createAgendaItem} createDeliverable={createDeliverable}/>);
+          return (<Comment ref={unseenObjectMarkerRef} key={comment.id} comment={comment} showAuthor={showOwner}
+                           showTimeStamp={showTimeStamp} currentUser={currentUser}
+                           updateComment={updateComment} deleteComment={deleteComment}
+                           createAgendaItem={createAgendaItem}
+                           createDeliverable={createDeliverable}
+              />);
         } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
-          return <AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner} showTimeStamp={showTimeStamp} currentUser={currentUser} agendaItem={agendaItem} visitAgendaItem={visitAgendaItem} archiveAgendaItem={archiveAgendaItem} updateAgendaItem={updateAgendaItem} />;
+          return (<AgendaItemInTimeline ref={unseenObjectMarkerRef} key={agendaItem.id} showOwner={showOwner}
+                                        showTimeStamp={showTimeStamp} currentUser={currentUser}
+                                        agendaItem={agendaItem} visitAgendaItem={visitAgendaItem}
+                                        archiveAgendaItem={archiveAgendaItem}
+                                        updateAgendaItem={updateAgendaItem}
+              />);
         } else if (conversationObject.type === 'attachments') {
           const attachment = conversationObject;
-          return <Attachment key={attachment.id} showOwner={showOwner} showTimeStamp={showTimeStamp} attachment={attachment} />;
-        }
-        if (conversationObject.type === 'deliverables') {
+          return (<Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}
+                              showTimeStamp={showTimeStamp} attachment={attachment}/>);
+        } else if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return <DeliverableInTimeline key={deliverable.id} showOwner={showOwner} showTimeStamp={showTimeStamp} currentUser={currentUser}  deliverable={deliverable} visitDeliverable={visitDeliverable} archiveDeliverable={archiveDeliverable} updateDeliverable={updateDeliverable} />;
+          return (<DeliverableInTimeline ref={unseenObjectMarkerRef} key={deliverable.id} showOwner={showOwner}
+                                         showTimeStamp={showTimeStamp} currentUser={currentUser}
+                                         deliverable={deliverable}
+                                         visitDeliverable={visitDeliverable}
+                                         archiveDeliverable={archiveDeliverable}
+                                         updateDeliverable={updateDeliverable}/>);
         }
         console.warn('Component not found for conversationObject: ', conversationObject);
       });
@@ -97,12 +159,23 @@ class ConversationObjectList extends Component {
     }
   };
 
-  handleCommentSettingsDropdownScroll = (commentGearIconNode) => {
-    // if (commentGearIconNode && this.commentFormNode) {
-    //   if (($(commentGearIconNode).offset().top + $(commentGearIconNode).outerHeight()) - $(this.commentFormNode).offset().top > 0) {
-    //     this.listNode.scrollTop += $(commentGearIconNode).outerHeight();
-    //   }
-    // }
+  isScrolledToBottom = (element) => {
+    // A tolerance of +/- 20px to avoid issues due to pixel/dom calculations of scroll height if any
+    return (Math.abs(element.scrollTop + element.offsetHeight - element.scrollHeight) <= 20);
+  };
+
+  handleScroll = (evt) => {
+    const root = this.refs.root;
+    if (root && this.isScrolledToBottom(root) && this.state.newObjects > 0) {
+      this.setState({ newObjects: 0 });
+    }
+  };
+
+  ifAlreadyAtBottomScrollListToBottom = () => {
+    const root = this.refs.root;
+    if (this.isScrolledToBottom(root)) {
+      this.scrollListToBottom();
+    }
   };
 
   scrollListToBottom = () => {
@@ -112,28 +185,55 @@ class ConversationObjectList extends Component {
     }
   };
 
-  scrollListToTop = () => {
-    window.requestAnimationFrame(() => {
-      const listNode = this.refs.conversationObjectList;
-      if (listNode) {
-        listNode.scrollTop = 0;
-      }
-    });
-  };
-
   static shouldMarkAsSeen = (prevProps, props) => {
-    const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
-
-    const unseenPrev = prevProps.conversationObjects ? prevProps.conversationObjects.some((obj) => { return obj.unseen; }) : false;
-    const unseenNow = props.conversationObjects ? props.conversationObjects.some((obj) => { return obj.unseen; }) : false;
-    return (notHandledByMount || !unseenPrev && unseenNow || prevProps.commentForm.parent.id !== props.commentForm.parent.id && unseenNow);
+    //const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
+    //const unseenPrev = prevProps.conversationObjects ? prevProps.conversationObjects.some((obj) => { return obj.unseen; }) : false;
+    //const unseenNow = props.conversationObjects ? props.conversationObjects.some((obj) => { return obj.unseen; }) : false;
+    return (prevProps.commentForm.parent.id !== props.commentForm.parent.id);
   };
 
   handleShowMore = (e) => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     const parentType = this.props.commentForm.parent.type ? this.props.commentForm.parent.type : 'conversations';
 
     this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
+  };
+
+  nextObjectIsFirstUnseenObject = (conversationObject, conversationObjects, index) => {
+    return (!conversationObject.unseen && index < (conversationObjects.length - 1) && conversationObjects[index + 1].unseen);
+  };
+
+  checkAndInsertNewObjectsMarker = (conversationObjectElements, conversationObjects) => {
+    let newObjectsMarker;
+    let newObjectsMarkerIndex = -1;
+    const { nextPageUrl } = this.props;
+    if (!nextPageUrl && conversationObjects.length > 0 && conversationObjects[0].unseen) {
+      newObjectsMarkerIndex = 0;
+    } else {
+      conversationObjects.forEach((conversationObject, index) => {
+        if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
+          newObjectsMarkerIndex = index + 1;
+          return false;
+        }
+      });
+    }
+    newObjectsMarker = this.newObjectsMarker(conversationObjects.filter((obj) => {
+      return obj.unseen;
+    }).length, (newObjectsMarkerIndex === 0));
+
+    //Insert New Object Marker Dom between last seen and first unseen object
+    if (newObjectsMarker) {
+      return conversationObjectElements.filter((obj, index) => {
+        return index < newObjectsMarkerIndex;
+      }).concat(newObjectsMarker).concat(
+          conversationObjectElements.filter((obj, index) => {
+            return index >= newObjectsMarkerIndex;
+          })
+      );
+    }
+    return conversationObjectElements;
   };
 
   renderConversationTimeLine = () => {
@@ -142,8 +242,10 @@ class ConversationObjectList extends Component {
         visitAgendaItem, visitDeliverable } = this.props;
 
     const showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    const conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser);
-
+    let conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser);
+    if (conversationObjects && conversationObjectElements) {
+      conversationObjectElements = this.checkAndInsertNewObjectsMarker(conversationObjectElements, conversationObjects);
+    }
     return (
       <div ref="root" className={styles.root}>
         <div ref="conversationObjectList" className={styles.list}>
@@ -154,8 +256,23 @@ class ConversationObjectList extends Component {
     );
   };
 
+  newObjectsMarker = (newObjectsCount, isFirstObjectUnseen) => {
+    if (newObjectsCount > 0) {
+      return (
+          <div ref={ isFirstObjectUnseen ? 'newObjectsMarker' : ''} className={styles.newObjectsMarkerContainer}>
+            <div className={styles.newObjectsMarkerLabel}>
+              { newObjectsCount + ' new comment' + (newObjectsCount === 1 ? '' : 's')}
+            </div>
+            <hr className={styles.newObjectsMarkerLine}/>
+          </div>
+      );
+    }
+    return undefined;
+  };
+
   render() {
     const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment } = this.props;
+    const root = this.refs.root;
 
     if (this.props.conversationSettingsViewState === 'edit') {
       return (
@@ -184,6 +301,9 @@ class ConversationObjectList extends Component {
                             createAgendaItem={createAgendaItem}
                             createDeliverable={createDeliverable}
                             createAttachment={createAttachment}
+                            handleNewObjectMarkerClick={this.scrollListToBottom}
+                            scrollListToBottom={this.ifAlreadyAtBottomScrollListToBottom}
+                            newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
                             {...commentForm}
           />
         </div>

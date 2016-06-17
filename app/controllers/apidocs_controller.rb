@@ -51,17 +51,21 @@ class ApidocsController < ActionController::Base
   SWAGGERED_CLASSES = [
     Api::SessionTokensController,
     Api::OrganizationsController,
+    Api::OrganizationMembersController,
     Api::ConversationsController,
     Api::AttachmentsController,
     Api::CommentsController,
     Api::AgendaItemsController,
     Api::DeliverablesController,
+    Api::DevicesController,
     OrganizationSerializer,
+    OrganizationMemberSerializer,
     ConversationSerializer,
     AttachmentSerializer,
     CommentSerializer,
     AgendaItemSerializer,
     DeliverableSerializer,
+    DeviceSerializer,
     self,
   ].freeze
 

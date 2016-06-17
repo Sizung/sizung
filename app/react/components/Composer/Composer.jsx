@@ -1,14 +1,13 @@
 import React, { PropTypes } from 'react';
 import styles from './Composer.css';
 
-import { clearEditorContent } from './composerUtil';
+import { clearEditorContent, suggestionsFilter } from './composerUtil';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
-import createMentionPlugin, { defaultSuggestionsFilter } from 'draft-js-mention-plugin';
+import createMentionPlugin from 'draft-js-mention-plugin';
 import { EditorState, RichUtils, convertToRaw } from 'draft-js';
 import Immutable from 'immutable';
-import stateFromMarkdown from '../../utils/stateFromMarkdown';
-import markdownFromState from '../../utils/markdownFromState';
+import { toContentState, toMarkdown } from '../../utils/markdownUtils';
 
 class Composer extends React.Component {
 
@@ -24,10 +23,11 @@ class Composer extends React.Component {
     ),
     onSubmit: PropTypes.func,
     onChange: PropTypes.func,
+    scrollListToBottom: PropTypes.func,
   };
 
   static defaultProps = {
-    value: 'default Text',
+    value: '',
     mentions: [
       {
         name: 'Günter Glück',
@@ -48,7 +48,7 @@ class Composer extends React.Component {
 
   constructor(props) {
     super(props);
-    const contentState = stateFromMarkdown(props.value);
+    const contentState = toContentState(props.value);
     const editorState = EditorState.createWithContent(contentState);
 
     this.state = {
@@ -69,18 +69,34 @@ class Composer extends React.Component {
     }
   }
 
+  componentDidUpdate() {
+    this.props.scrollListToBottom();
+  }
+
+  onSearchChange = ({ value }) => {
+    this.setState({
+      filterText: value,
+    });
+    this.setSuggestion(value, this.props.mentions);
+  };
+
   getMarkdown = () => {
     const contentState = this.state.editorState.getCurrentContent();
     if (contentState.hasText()) {
-      return markdownFromState(contentState).trim();
+      return toMarkdown(contentState).trim();
     }
     return null;
   }
 
-  hasText = () => {
-    const plainText = this.state.editorState.getCurrentContent().getPlainText();
-    const trimmedPlainText = plainText.trim().replace(/\s*/g, '');
-    return trimmedPlainText.length > 0;
+  /**
+  * The function will derive the suggestion to be used for mentionsPlugin,
+  * it will use the filterText and mentions for the purpose.
+  * Form the prespective of optimizing the render function the function is not called in each render cycle,
+  * but only when state.filterText or props.mentions change and suggestions are saved as a value in variable this.
+  */
+  setSuggestion = (filterText, mentions) => {
+    const suggestions = Immutable.fromJS(mentions);
+    this.suggestions = suggestionsFilter(filterText, suggestions);
   }
 
   handleChange = (editorState) => {
@@ -90,25 +106,10 @@ class Composer extends React.Component {
     this.props.onChange(editorState.getCurrentContent());
   };
 
-  onSearchChange = ({ value }) => {
-    this.setState({
-      filterText: value,
-    });
-    this.setSuggestion(value, this.props.mentions);
-  };
-
-  /**
-  * The function will derive the suggestion to be used for mentionsPlugin,
-  * it will use the filterText from state and mentions from props.
-  * Form the prespective of optimizing the render function the function is not called in each render cycle,
-  * but only when state.filterText or props.mentions change and suggestions are saved as a value in variable this.
-  */
-  setSuggestion = (filterText, mentions) => {
-    let suggestions = Immutable.fromJS(mentions);
-    if (filterText) {
-      suggestions = defaultSuggestionsFilter(filterText, suggestions);
-    }
-    this.suggestions = suggestions;
+  hasText = () => {
+    const plainText = this.state.editorState.getCurrentContent().getPlainText();
+    const trimmedPlainText = plainText.trim().replace(/\s*/g, '');
+    return trimmedPlainText.length > 0;
   }
 
   handleKeyCommand = (command) => {
@@ -130,7 +131,7 @@ class Composer extends React.Component {
      const plainText = contentState.getPlainText();
      const trimmedText = plainText && plainText.trim();
      if (!e.shiftKey && trimmedText && trimmedText.length > 0 && !this.mentionSuggestionOpen) {
-       this.props.onSubmit(markdownFromState(contentState), plainText);
+       this.props.onSubmit(toMarkdown(contentState), plainText);
        this.handleChange(clearEditorContent(editorState));
        return true;
      }

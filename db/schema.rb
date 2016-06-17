@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160518165904) do
+ActiveRecord::Schema.define(version: 20160617161937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20160518165904) do
     t.datetime "archived_at"
     t.integer  "deliverables_count", default: 0,      null: false
     t.integer  "comments_count",     default: 0,      null: false
+    t.date     "due_on"
   end
   add_index "agenda_items", ["conversation_id"], name: "index_agenda_items_on_conversation_id", using: :btree
   add_index "agenda_items", ["created_at"], name: "index_agenda_items_on_created_at", order: {"created_at"=>:desc}, using: :btree
@@ -192,7 +193,7 @@ UNION ALL
     agenda_items.status,
     NULL::text AS description,
     NULL::uuid AS assignee_id,
-    NULL::date AS due_on,
+    agenda_items.due_on,
     agenda_items.archive_number,
     agenda_items.archived_at,
     agenda_items.deliverables_count,
@@ -243,11 +244,20 @@ UNION ALL
   end
   add_index "conversations", ["organization_id"], name: "index_conversations_on_organization_id", using: :btree
 
+  create_table "devices", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "user_id",    null: false
+    t.string   "token",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+  add_index "devices", ["user_id"], name: "index_devices_on_user_id", using: :btree
+
   create_table "organization_members", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "organization_id"
     t.uuid     "member_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.boolean  "admin",           default: false, null: false
   end
   add_index "organization_members", ["member_id"], name: "index_organization_members_on_member_id", using: :btree
   add_index "organization_members", ["organization_id", "member_id"], name: "index_organization_members_on_organization_id_and_member_id", unique: true, using: :btree
@@ -331,6 +341,7 @@ UNION ALL
   add_foreign_key "conversations", "organizations"
   add_foreign_key "deliverables", "users", column: "assignee_id"
   add_foreign_key "deliverables", "users", column: "owner_id"
+  add_foreign_key "devices", "users"
   add_foreign_key "organization_members", "organizations"
   add_foreign_key "organization_members", "users", column: "member_id"
   add_foreign_key "organizations", "users", column: "owner_id"

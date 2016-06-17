@@ -31,6 +31,30 @@ describe Api::AgendaItemsController do
       assert_equal @current_user.id, agenda_item['data']['relationships']['owner']['data']['id']
     end
 
+    it 'creates agenda item with a different owner' do
+      user = FactoryGirl.create :unconfirmed_user_without_organization
+      expect {
+        post :create, agenda_item: { title: 'Last months review', conversation_id: @conversation.id, owner_id: user.id }, format: :json
+      }.must_change 'AgendaItem.count'
+
+      assert_response :success
+      agenda_item = JSON.parse(response.body)
+      assert_equal 'Last months review', agenda_item['data']['attributes']['title']
+      assert_equal user.id, agenda_item['data']['relationships']['owner']['data']['id']
+    end
+
+    it 'creates agenda item with a due_on date' do
+      expect {
+        post :create, agenda_item: { title: 'Last months review', conversation_id: @conversation.id, due_on: Date.today }, format: :json
+      }.must_change 'AgendaItem.count'
+
+      assert_response :success
+      agenda_item = JSON.parse(response.body)
+      assert_equal 'Last months review', agenda_item['data']['attributes']['title']
+      assert_equal @current_user.id, agenda_item['data']['relationships']['owner']['data']['id']
+      assert_equal Date.today.to_s(:db), agenda_item['data']['attributes']['due_on']
+    end
+    
     it 'returns a 422 when unprocessable' do
       post :create, agenda_item: { conversation_id: @conversation.id }, format: :json
       expect(response.status).must_equal 422
@@ -54,6 +78,17 @@ describe Api::AgendaItemsController do
       assert_equal true, agenda_item['data']['attributes']['archived']
     end
 
+    it 'updates owner and due_on date' do
+      user = FactoryGirl.create :unconfirmed_user_without_organization
+      patch :update, id: @agenda_item.id, agenda_item: { owner_id: user.id, due_on: Date.today }
+
+      assert_response :success
+
+      agenda_item = JSON.parse(response.body)
+      assert_equal Date.today.to_s(:db), agenda_item['data']['attributes']['due_on']
+      assert_equal user.id, agenda_item['data']['relationships']['owner']['data']['id']
+    end
+    
     it 'should freeze archived agenda items' do
       patch :update, id: @agenda_item.id, agenda_item: { archived: true }
       expect {

@@ -1,5 +1,5 @@
 module Api
-  class AgendaItemsController < ApplicationController
+  class AgendaItemsController < Base
     before_filter :authenticate_user!
     after_action :verify_authorized
     before_action :set_agenda_item, only: [:update]
@@ -8,7 +8,7 @@ module Api
 
     include Swagger::Blocks
 
-    swagger_path '/conversations/:conversation_id/agenda_items' do
+    swagger_path '/conversations/{conversation_id}/agenda_items' do
       operation :post, security: [bearer: []] do
         key :summary, 'List Agenda Items'
         key :tags, ['agenda_item', 'conversation']
@@ -33,7 +33,7 @@ module Api
       render json: @conversation.agenda_items.includes(:owner, :conversation, :deliverables)
     end
 
-    swagger_path '/agenda_items/:id' do
+    swagger_path '/agenda_items/{id}' do
       operation :get, security: [bearer: []] do
         key :summary, 'Get an Agenda Item.'
         key :tags, ['agenda_item']
@@ -64,6 +64,8 @@ module Api
 
       property :agenda_item, type: :object, required: [:conversation_id, :title] do
         property :conversation_id, type: :string
+        property :owner_id, type: :string
+        property :due_on, type: :string, format: 'date'
         property :title, type: :string
         property :status, type: :string
       end
@@ -101,7 +103,7 @@ module Api
     def create
       @agenda_item = AgendaItem.new(agenda_item_params)
       authorize @agenda_item
-      @agenda_item.owner = current_user
+      @agenda_item.owner = current_user unless @agenda_item.owner
 
       if @agenda_item.save
         MentionedJob.perform_later(@agenda_item, current_user, agenda_item_url(id: @agenda_item.id))
@@ -114,7 +116,7 @@ module Api
     end
 
 
-    swagger_path '/agenda_items/:id' do
+    swagger_path '/agenda_items/{id}' do
       operation :patch, security: [bearer: []] do
         key :summary, 'Update an Agenda Item.'
         key :tags, ['agenda_item']
@@ -157,7 +159,7 @@ module Api
 
     private
       def agenda_item_params
-        params.require(:agenda_item).permit(:conversation_id, :title, :status)
+        params.require(:agenda_item).permit(:conversation_id, :owner_id, :due_on, :title, :status)
       end
 
       def set_agenda_item

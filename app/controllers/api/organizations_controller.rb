@@ -1,5 +1,5 @@
 module Api
-  class OrganizationsController < ApplicationController
+  class OrganizationsController < Base
     before_filter :authenticate_user!
     before_action :set_organization, only: [:update]
     after_action :verify_authorized,    except: :index
@@ -8,7 +8,7 @@ module Api
     respond_to :json
 
     include Swagger::Blocks
-    
+
     swagger_path '/organizations' do
       operation :get, security: [bearer: []] do
         key :summary, 'List organizations'
@@ -34,8 +34,6 @@ module Api
       @organizations = policy_scope(Organization)
       render json: @organizations
     end
-
-
     
     swagger_path '/organizations/{id}' do
       operation :get, security: [bearer: []] do
@@ -92,6 +90,49 @@ module Api
         property :name, type: :string
       end
     end
+
+    swagger_path '/organizations' do
+      operation :post, security: [bearer: []] do
+        key :operationId, 'createOrganization'
+        key :summary, 'Create Organization'
+        key :tags, ['organization']
+        key :produces, ['application/json']
+
+        parameter name: :organization, in: :body, required: true, description: 'Organization fields' do
+          schema do
+            key :'$ref', :OrganizationInput
+          end
+        end
+
+        response 200 do
+          key :description, 'Organization response'
+          schema do
+            key :'$ref', :responseOne_Organization
+          end
+        end
+
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
+    def create
+      @organization = Organization.new(organization_params)
+      @organization.owner = current_user
+      authorize @organization
+      if @organization.save
+        render json: @organization, serializer: OrganizationSerializer
+      else
+        render json: @organization, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
+      end
+    end
     
     swagger_path '/organizations/{id}' do
       operation :patch, security: [bearer: []] do
@@ -115,6 +156,13 @@ module Api
             key :'$ref', :responseOne_Organization
           end
         end
+
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+
         response :default do
           key :description, 'Unexpected error'
         end
@@ -123,8 +171,12 @@ module Api
     
     def update
       authorize @organization
-      @organization.update!(organization_update_params)
-      render json: @organization, serializer: OrganizationSerializer
+
+      if @organization.update(organization_update_params)
+        render json: @organization, serializer: OrganizationSerializer
+      else
+        render json: @organization, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
+      end
     end
 
     private

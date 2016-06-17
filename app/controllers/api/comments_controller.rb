@@ -1,5 +1,5 @@
 module Api
-  class CommentsController < ApplicationController
+  class CommentsController < Base
     before_filter :authenticate_user!
     before_action :set_comment, only: [:update, :destroy]
     after_action :verify_authorized
@@ -62,7 +62,7 @@ module Api
       end
     end
 
-    swagger_path '/comments/:id' do
+    swagger_path '/comments/{id}' do
       operation :patch, security: [bearer: []] do
         key :summary, 'Update an existing Comment.'
         key :tags, ['comment']
@@ -107,7 +107,7 @@ module Api
       end
     end
 
-    swagger_path '/comments/:id' do
+    swagger_path '/comments/{id}' do
       operation :delete, security: [bearer: []] do
         key :summary, 'Delete a Comment.'
         key :tags, ['comment']

@@ -21,26 +21,7 @@ describe Api::OrganizationMembersController do
       sign_in @current_user
     end
 
-    # it 'creates organization_member' do
-    #   user = FactoryGirl.create :user
-    #   expect {
-    #     post :create, organization_member: { organization_id: @organization.id, member_id: user.id }, format: :json
-    #   }.must_change 'OrganizationMember.count'
-    #
-    #   assert_response :success
-    #   organization_member = JSON.parse(response.body)
-    #   assert_equal @organization.id, organization_member['data']['relationships']['organization']['data']['id']
-    #   assert_equal user.id, organization_member['data']['relationships']['member']['data']['id']
-    # end
-
-    # it 'does not allow to create organization_member when the user is not part of the organization' do
-    #   user = FactoryGirl.create :user
-    #   expect {
-    #     post :create, organization_member: { organization_id: @organization.id, member_id: user.id }, format: :json
-    #   }.must_raise Pundit::NotAuthorizedError
-    # end
-
-    it 'invites a completely new organization member' do
+    it 'invites a completely new organization member as normal member by default' do
       email = 'newsam@sample.com'
 
       expect {
@@ -54,9 +35,44 @@ describe Api::OrganizationMembersController do
       organization_member = JSON.parse(response.body)
       assert_equal 'users', organization_member['data']['relationships']['member']['data']['type']
       assert_equal email, organization_member['included'].first['attributes']['email']
+      expect(organization_member['data']['attributes']['admin']).must_equal false
     end
 
-    it 'invites an existing user to the organization' do
+    it 'invites a completely new organization member as normal member' do
+      email = 'newsam@sample.com'
+
+      expect {
+        post :create, { organization_id: @organization.id, email: email, admin: false }
+      }.must_change 'User.count', 1
+
+      assert_enqueued_jobs 1
+      
+      assert_response :success
+
+      organization_member = JSON.parse(response.body)
+      assert_equal 'users', organization_member['data']['relationships']['member']['data']['type']
+      assert_equal email, organization_member['included'].first['attributes']['email']
+      expect(organization_member['data']['attributes']['admin']).must_equal false
+    end
+    
+    it 'invites a completely new organization member as admin' do
+      email = 'newsam@sample.com'
+
+      expect {
+        post :create, { organization_id: @organization.id, email: email, admin: true }
+      }.must_change 'User.count', 1
+
+      assert_enqueued_jobs 1
+      
+      assert_response :success
+
+      organization_member = JSON.parse(response.body)
+      assert_equal 'users', organization_member['data']['relationships']['member']['data']['type']
+      assert_equal email, organization_member['included'].first['attributes']['email']
+      expect(organization_member['data']['attributes']['admin']).must_equal true
+    end
+    
+    it 'invites an existing user to the organization as member by default' do
       user = FactoryGirl.create :user
 
       expect {
@@ -68,6 +84,37 @@ describe Api::OrganizationMembersController do
       organization_member = JSON.parse(response.body)
       assert_equal 'users', organization_member['data']['relationships']['member']['data']['type']
       assert_equal user.email, organization_member['included'].first['attributes']['email']
+      expect(organization_member['data']['attributes']['admin']).must_equal false
+    end
+
+    it 'invites an existing user to the organization as member' do
+      user = FactoryGirl.create :user
+
+      expect {
+        post :create, { organization_id: @organization.id, email: user.email, admin: false }
+      }.must_change 'OrganizationMember.count', 1
+
+      assert_response :success
+
+      organization_member = JSON.parse(response.body)
+      assert_equal 'users', organization_member['data']['relationships']['member']['data']['type']
+      assert_equal user.email, organization_member['included'].first['attributes']['email']
+      expect(organization_member['data']['attributes']['admin']).must_equal false
+    end
+
+    it 'invites an existing user to the organization as admin' do
+      user = FactoryGirl.create :user
+
+      expect {
+        post :create, { organization_id: @organization.id, email: user.email, admin: true }
+      }.must_change 'OrganizationMember.count', 1
+
+      assert_response :success
+
+      organization_member = JSON.parse(response.body)
+      assert_equal 'users', organization_member['data']['relationships']['member']['data']['type']
+      assert_equal user.email, organization_member['included'].first['attributes']['email']
+      expect(organization_member['data']['attributes']['admin']).must_equal true
     end
     
     it 'removes organization_member' do
@@ -148,5 +195,30 @@ describe Api::OrganizationMembersController do
     #     delete :destroy, id: organization_member.id, format: :json
     #   }.must_raise Pundit::NotAuthorizedError
     # end
+
+    it 'updates the organization member to have admin privileges' do
+      user                      = FactoryGirl.create :user_without_organization
+      my_organization_member    = OrganizationMember.find_by(organization: @organization, member: @current_user)
+      my_organization_member.update!(admin: true)
+      organization_member       = FactoryGirl.create :organization_member_without_owner, organization: @organization, member: user
+      expect(organization_member).must_be :member_only?
+      
+      patch :update, id: organization_member.id, organization_member: { admin: true }, format: :json
+
+      assert_response :success
+      expect(organization_member.reload).must_be :admin?
+    end
+
+    it 'complains when non-admins try to update organization members' do
+      user                      = FactoryGirl.create :user_without_organization
+      my_organization_member    = OrganizationMember.find_by(organization: @organization, member: @current_user)
+      organization_member       = FactoryGirl.create :organization_member_without_owner, organization: @organization, member: user
+      expect(organization_member).must_be :member_only?
+
+      patch :update, id: organization_member.id, organization_member: { admin: true }, format: :json
+
+      assert_response 401
+      expect(organization_member.reload).must_be :member_only?
+    end
   end
 end

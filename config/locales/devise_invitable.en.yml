@@ -4,7 +4,7 @@ en:
       invited: "You have a pending invitation, accept it to finish creating your account."
     invitations:
       send_instructions: "An invitation email has been sent to %{email}."
-      invitation_token_invalid: "The invitation token provided is not valid!"
+      invitation_token_invalid: "This invite is no longer valid. Please check your email for a new invite."
       updated: "Your password was set successfully. You are now signed in."
       updated_not_active: "Your password was set successfully."
       no_invitations_remaining: "No invitations remaining"

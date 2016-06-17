@@ -17,6 +17,9 @@ class ComposeContainer extends React.Component {
       type: PropTypes.string.isRequired,
     }).isRequired,
     createAttachment: PropTypes.func.isRequired,
+    newObjects: PropTypes.number,
+    handleNewObjectMarkerClick: PropTypes.func,
+    scrollListToBottom: PropTypes.func,
   };
 
   constructor() {
@@ -25,6 +28,7 @@ class ComposeContainer extends React.Component {
     this.state = {
       value: '',
       composerType: 'comment',
+      newObjects: 0,
     };
   }
 
@@ -33,7 +37,7 @@ class ComposeContainer extends React.Component {
   }
 
   handleClose = () => {
-    this.handleSelect('comment');
+    this.setState({ composerType: 'comment' });
   }
 
   renderComposer(composerType) {
@@ -61,14 +65,32 @@ class ComposeContainer extends React.Component {
                                 createComment={createComment}
                                 onSelect={this.handleSelect}
                                 currentUser={currentUser}
+                                defaultValue={this.state.value}
                                 createAttachment={createAttachment}
+                                scrollListToBottom={this.props.scrollListToBottom}
                />;
     }
   }
 
+  renderNewObjectsMarker = () => {
+    const { newObjects } = this.props;
+    if (newObjects > 0) {
+      return (
+          <div className={styles.newObjectsMarkerContainer}>
+            <div className={styles.newObjectsMarker} onClick={this.props.handleNewObjectMarkerClick}>
+              { newObjects + (newObjects === 1 ? ' New Comment' : ' New Comments') }
+              <span className={styles.caret}/>
+            </div>
+          </div>
+      );
+    }
+    return undefined;
+  };
+
   render() {
     return (
       <div className={styles.wrapper}>
+        {this.renderNewObjectsMarker()}
         <div className={styles.root}>
           { this.renderComposer(this.state.composerType) }
         </div>
