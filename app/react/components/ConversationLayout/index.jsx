@@ -39,7 +39,7 @@ class ConversationLayout extends Component {
           </div>
         </div>
         <div className={styles.bottomNavigationContainer}>
-          <BottomNavigationBar onChange={this.setCurrentPanel} selectedOption={this.state.panel}/>
+          <BottomNavigationBar onChange={this.setCurrentPanel} selectedOption={this.state.panel} conversation={this.props.conversation}/>
         </div>
       </div>
     );
