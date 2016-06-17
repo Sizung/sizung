@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ReactDOM from 'react-dom';
 import ComposeContainer from './../ComposeContainer';
 import Comment from './../Comment/index';
 import Attachment from './../Attachment';
@@ -25,20 +26,11 @@ class ConversationObjectList extends Component {
     if (root) {
       this.refs.root.addEventListener('scroll', this.handleScroll);
       if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
-        this.refs.newObjectsMarker.scrollIntoView({ block: 'end', behavior: 'smooth' });
+        //this.refs.newObjectsMarker.scrollIntoView({ block: 'start', behavior: 'smooth' });
+        root.scrollTop = 0;
+        root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
       } else {
         this.scrollListToBottom();
-      }
-    }
-  }
-
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.conversationObjects) {
-      const unseenObjectsList = nextProps.conversationObjects.filter((obj) => {
-        return obj.unseen;
-      });
-      if (unseenObjectsList.length === nextProps.conversationObjects.length && nextProps.nextPageUrl) {
-        this.handleShowMore();
       }
     }
   }
@@ -53,7 +45,7 @@ class ConversationObjectList extends Component {
 
       const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
 
-      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length) {
+      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && this.newObjectsMarkerSeen) {
         this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
       }
     }
@@ -65,7 +57,10 @@ class ConversationObjectList extends Component {
     }
 
     if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
-      this.refs.newObjectsMarker.scrollIntoView({ block: 'end', behavior: 'smooth' });
+      //this.refs.newObjectsMarker.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      this.refs.root.scrollTop =  0;
+      this.refs.root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
+      //this.refs.root.scrollTop =  Math.abs(this.root.offset().top - this.refs.newObjectsMarker.offset().top);
       this.newObjectsMarkerSeen = true;
     } else if (this.shouldScrollBottom) {
       this.scrollListToBottom();
@@ -106,8 +101,10 @@ class ConversationObjectList extends Component {
       let ownerId = null;
       let showOwner = false;
       return conversationObjects.map((conversationObject, index) => {
-
+        const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
+        let unseenObjectMarkerRef = '';
         const uid = this.getConversationObjectOwnerId(conversationObject);
+
         if (uid !== ownerId) {
           ownerId = uid;
           showOwner = true;
@@ -115,12 +112,14 @@ class ConversationObjectList extends Component {
           showOwner = false;
         }
 
-        const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
+        if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
+          unseenObjectMarkerRef = 'newObjectsMarker';
+        }
 
         if (conversationObject.type === 'comments') {
           const comment = conversationObject;
           comment.parent = parent;
-          return (<Comment key={comment.id} comment={comment} showAuthor={showOwner}
+          return (<Comment ref={unseenObjectMarkerRef} key={comment.id} comment={comment} showAuthor={showOwner}
                            showTimeStamp={showTimeStamp} currentUser={currentUser}
                            updateComment={updateComment} deleteComment={deleteComment}
                            createAgendaItem={createAgendaItem}
@@ -128,7 +127,7 @@ class ConversationObjectList extends Component {
               />);
         } else if (conversationObject.type === 'agendaItems') {
           const agendaItem = conversationObject;
-          return (<AgendaItemInTimeline key={agendaItem.id} showOwner={showOwner}
+          return (<AgendaItemInTimeline ref={unseenObjectMarkerRef} key={agendaItem.id} showOwner={showOwner}
                                         showTimeStamp={showTimeStamp} currentUser={currentUser}
                                         agendaItem={agendaItem} visitAgendaItem={visitAgendaItem}
                                         archiveAgendaItem={archiveAgendaItem}
@@ -136,11 +135,11 @@ class ConversationObjectList extends Component {
               />);
         } else if (conversationObject.type === 'attachments') {
           const attachment = conversationObject;
-          return (<Attachment key={attachment.id} showOwner={showOwner}
+          return (<Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}
                               showTimeStamp={showTimeStamp} attachment={attachment}/>);
         } else if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
-          return (<DeliverableInTimeline key={deliverable.id} showOwner={showOwner}
+          return (<DeliverableInTimeline ref={unseenObjectMarkerRef} key={deliverable.id} showOwner={showOwner}
                                          showTimeStamp={showTimeStamp} currentUser={currentUser}
                                          deliverable={deliverable}
                                          visitDeliverable={visitDeliverable}
@@ -161,14 +160,21 @@ class ConversationObjectList extends Component {
   };
 
   isScrolledToBottom = (element) => {
-    // A tolerance of +/- 5px to avoid issues due to pixel calculations of scroll height based on rem heights if any
-    return (Math.abs(element.scrollTop + element.offsetHeight - element.scrollHeight) <= 5);
+    // A tolerance of +/- 20px to avoid issues due to pixel/dom calculations of scroll height if any
+    return (Math.abs(element.scrollTop + element.offsetHeight - element.scrollHeight) <= 20);
   };
 
   handleScroll = (evt) => {
     const root = this.refs.root;
     if (root && this.isScrolledToBottom(root) && this.state.newObjects > 0) {
       this.setState({ newObjects: 0 });
+    }
+  };
+
+  ifAlreadyAtBottomScrollListToBottom = () => {
+    const root = this.refs.root;
+    if (this.isScrolledToBottom(root)) {
+      this.scrollListToBottom();
     }
   };
 
@@ -195,6 +201,10 @@ class ConversationObjectList extends Component {
     this.props.fetchConversationObjects(parentType, this.props.commentForm.parent.id, this.props.nextPageUrl);
   };
 
+  nextObjectIsFirstUnseenObject = (conversationObject, conversationObjects, index) => {
+    return (!conversationObject.unseen && index < (conversationObjects.length - 1) && conversationObjects[index + 1].unseen);
+  };
+
   checkAndInsertNewObjectsMarker = (conversationObjectElements, conversationObjects) => {
     let newObjectsMarker;
     let newObjectsMarkerIndex = -1;
@@ -203,7 +213,7 @@ class ConversationObjectList extends Component {
       newObjectsMarkerIndex = 0;
     } else {
       conversationObjects.forEach((conversationObject, index) => {
-        if (!conversationObject.unseen && index < (conversationObjects.length - 1) && conversationObjects[index + 1].unseen) {
+        if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
           newObjectsMarkerIndex = index + 1;
           return false;
         }
@@ -211,8 +221,9 @@ class ConversationObjectList extends Component {
     }
     newObjectsMarker = this.newObjectsMarker(conversationObjects.filter((obj) => {
       return obj.unseen;
-    }).length);
+    }).length, (newObjectsMarkerIndex === 0));
 
+    //Insert New Object Marker Dom between last seen and first unseen object
     if (newObjectsMarker) {
       return conversationObjectElements.filter((obj, index) => {
         return index < newObjectsMarkerIndex;
@@ -245,10 +256,10 @@ class ConversationObjectList extends Component {
     );
   };
 
-  newObjectsMarker = (newObjectsCount) => {
+  newObjectsMarker = (newObjectsCount, isFirstObjectUnseen) => {
     if (newObjectsCount > 0) {
       return (
-          <div ref='newObjectsMarker' className={styles.newObjectsMarkerContainer}>
+          <div ref={ isFirstObjectUnseen ? 'newObjectsMarker' : ''} className={styles.newObjectsMarkerContainer}>
             <div className={styles.newObjectsMarkerLabel}>
               { newObjectsCount + ' new comment' + (newObjectsCount === 1 ? '' : 's')}
             </div>
@@ -291,6 +302,7 @@ class ConversationObjectList extends Component {
                             createDeliverable={createDeliverable}
                             createAttachment={createAttachment}
                             handleNewObjectMarkerClick={this.scrollListToBottom}
+                            scrollListToBottom={this.ifAlreadyAtBottomScrollListToBottom}
                             newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
                             {...commentForm}
           />

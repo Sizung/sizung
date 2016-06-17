@@ -23,6 +23,7 @@ class Composer extends React.Component {
     ),
     onSubmit: PropTypes.func,
     onChange: PropTypes.func,
+    scrollListToBottom: PropTypes.func,
   };
 
   static defaultProps = {
@@ -66,6 +67,10 @@ class Composer extends React.Component {
     if (properties.mentions !== this.props.mentions) {
       this.setSuggestion(this.state.filterText, properties.mentions);
     }
+  }
+
+  componentDidUpdate() {
+    this.props.scrollListToBottom();
   }
 
   onSearchChange = ({ value }) => {
