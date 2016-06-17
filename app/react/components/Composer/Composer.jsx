@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import styles from './Composer.css';
 
-import { clearEditorContent, suggestionsFilter, handleSoftNewLine } from './composerUtil';
+import { clearEditorContent, suggestionsFilter } from './composerUtil';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
 import createMentionPlugin from 'draft-js-mention-plugin';
