@@ -65,7 +65,7 @@ class ApidocsController < ActionController::Base
     CommentSerializer,
     AgendaItemSerializer,
     DeliverableSerializer,
-    DevicesSerializer,
+    DeviceSerializer,
     self,
   ].freeze
 
