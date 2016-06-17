@@ -14,6 +14,7 @@ class CommentComposer extends React.Component {
     }).isRequired,
     onSelect: PropTypes.func.isRequired,
     createAttachment: PropTypes.func.isRequired,
+    scrollListToBottom: PropTypes.func,
   };
 
   constructor() {
@@ -134,6 +135,7 @@ class CommentComposer extends React.Component {
           onSubmit={this.handleSubmit}
           placeholder="Write your comment here"
           onChange={this.handleChangeInMentionBox}
+          scrollListToBottom={this.props.scrollListToBottom}
         />
         {this.renderCompositionOptionsButton()}
       </div>

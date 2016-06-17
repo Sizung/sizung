@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import styles from './Composer.css';
 
-import { clearEditorContent, suggestionsFilter } from './composerUtil';
+import { clearEditorContent, suggestionsFilter, handleSoftNewLine } from './composerUtil';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
 import createMentionPlugin from 'draft-js-mention-plugin';
@@ -23,6 +23,7 @@ class Composer extends React.Component {
     ),
     onSubmit: PropTypes.func,
     onChange: PropTypes.func,
+    scrollListToBottom: PropTypes.func,
   };
 
   static defaultProps = {
@@ -66,6 +67,10 @@ class Composer extends React.Component {
     if (properties.mentions !== this.props.mentions) {
       this.setSuggestion(this.state.filterText, properties.mentions);
     }
+  }
+
+  componentDidUpdate() {
+    this.props.scrollListToBottom();
   }
 
   onSearchChange = ({ value }) => {

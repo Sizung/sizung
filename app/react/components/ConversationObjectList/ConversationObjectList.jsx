@@ -291,6 +291,7 @@ class ConversationObjectList extends Component {
                             createDeliverable={createDeliverable}
                             createAttachment={createAttachment}
                             handleNewObjectMarkerClick={this.scrollListToBottom}
+                            scrollListToBottom={this.scrollListToBottom}
                             newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
                             {...commentForm}
           />

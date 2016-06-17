@@ -19,6 +19,7 @@ class ComposeContainer extends React.Component {
     createAttachment: PropTypes.func.isRequired,
     newObjects: PropTypes.number,
     handleNewObjectMarkerClick: PropTypes.func,
+    scrollListToBottom: PropTypes.func,
   };
 
   constructor() {
@@ -66,6 +67,7 @@ class ComposeContainer extends React.Component {
                                 currentUser={currentUser}
                                 defaultValue={this.state.value}
                                 createAttachment={createAttachment}
+                                scrollListToBottom={this.props.scrollListToBottom}
                />;
     }
   }
