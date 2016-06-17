@@ -50,7 +50,7 @@ class DeliverableList extends Component {
       <div className={styles.root}>
         <div className={styles.header}>
           <Icon type="deliverable" gap="10px">
-            TO DO
+            ACTION
           </Icon>
         </div>
         <div ref="deliverableList" className={styles.list}>
