@@ -7,6 +7,7 @@ export function clearEditorContent(editorState) {
     anchorOffset: 0,
     focusKey: blocks.last().get('key'),
     focusOffset: blocks.last().getLength(),
+    isBackward: false,
   });
   const newContentState = Modifier.removeRange(
     editorState.getCurrentContent(),
