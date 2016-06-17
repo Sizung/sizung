@@ -54,7 +54,7 @@ class Deliverable extends React.Component {
         icon = <Icon type="chat" gap="15px" />;
         contextTitle = deliverable.parent.conversation.title;
       } else {
-        icon = <Icon type="agendaItem" style={{ marginLeft: '-10px'}}/>;
+        icon = <Icon type="agendaItem"/>;
       }
     } else if (deliverable.parentType === 'conversations') {
       icon = <Icon type="chat" gap="15px" />;
@@ -62,7 +62,7 @@ class Deliverable extends React.Component {
     return (
       <div className={styles.contextTitleContainer}>
         { icon }
-        <TextWithMentions maxLength={40}>{ contextTitle }</TextWithMentions>
+        { contextTitle }
       </div>
     );
   };
