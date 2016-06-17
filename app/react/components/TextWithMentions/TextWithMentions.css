@@ -16,7 +16,7 @@
 
 .root p {
   /*display: inline-block;*/
-  white-space: pre;
+  white-space: pre-wrap;
   margin: 0;
   padding: 0;
 }
