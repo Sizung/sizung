@@ -45,7 +45,7 @@ class ConversationObjectList extends Component {
 
       const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
 
-      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length) {
+      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && this.newObjectsMarkerSeen) {
         this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
       }
     }
@@ -160,14 +160,21 @@ class ConversationObjectList extends Component {
   };
 
   isScrolledToBottom = (element) => {
-    // A tolerance of +/- 5px to avoid issues due to pixel calculations of scroll height based on rem heights if any
-    return (Math.abs(element.scrollTop + element.offsetHeight - element.scrollHeight) <= 5);
+    // A tolerance of +/- 20px to avoid issues due to pixel/dom calculations of scroll height if any
+    return (Math.abs(element.scrollTop + element.offsetHeight - element.scrollHeight) <= 20);
   };
 
   handleScroll = (evt) => {
     const root = this.refs.root;
     if (root && this.isScrolledToBottom(root) && this.state.newObjects > 0) {
       this.setState({ newObjects: 0 });
+    }
+  };
+
+  ifAlreadyAtBottomScrollListToBottom = () => {
+    const root = this.refs.root;
+    if (this.isScrolledToBottom(root)) {
+      this.scrollListToBottom();
     }
   };
 
@@ -295,7 +302,7 @@ class ConversationObjectList extends Component {
                             createDeliverable={createDeliverable}
                             createAttachment={createAttachment}
                             handleNewObjectMarkerClick={this.scrollListToBottom}
-                            scrollListToBottom={this.scrollListToBottom}
+                            scrollListToBottom={this.ifAlreadyAtBottomScrollListToBottom}
                             newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
                             {...commentForm}
           />
