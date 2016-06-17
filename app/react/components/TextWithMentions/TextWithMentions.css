@@ -1,17 +1,22 @@
 .root {
-
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .root > ol, ul {
-  margin: 5px 0 !important;
+  margin: 0 !important;
   padding: 0 !important;
+  display: inline-block;
 }
 
 .root li {
   margin-left: 1.5em !important;
+  display: inline-block;
 }
 
-.root>p {
+.root p {
+  /*display: inline-block;*/
+  white-space: pre;
   margin: 0;
   padding: 0;
 }

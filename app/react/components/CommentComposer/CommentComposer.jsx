@@ -73,11 +73,11 @@ class CommentComposer extends React.Component {
   };
 
   renderAgendaItem = () => {
-    return <div className={styles.option} onClick={this.selectAgendaItem}><Icon type="agendaItem" className={styles.icon}>To Discuss</Icon></div>;
+    return <div className={styles.option} onClick={this.selectAgendaItem}><Icon type="agendaItem" className={styles.icon}>Priority</Icon></div>;
   };
 
   renderDeliverable = () => {
-    return <div className={styles.option} onClick={this.selectDeliverable}><Icon type="deliverable" className={styles.icon} gap='0.5rem'>To Do</Icon></div>;
+    return <div className={styles.option} onClick={this.selectDeliverable}><Icon type="deliverable" className={styles.icon} gap='0.5rem'>Action</Icon></div>;
   };
 
   renderCaret = (type) => {
