@@ -9,7 +9,7 @@ class NotificationService
     # conveniently use `Houston::Client.development` or `Houston::Client.production`.
     apn = ENV['APN_ENV'] == 'production' ? Houston::Client.production : Houston::Client.development
 
-    # apn.certificate = ENV['APN_CERTIFICATE_DATA']
+    apn.certificate = ENV['APN_CERTIFICATE_DATA']
 
     user.devices.each do |device|
       token = device.token
