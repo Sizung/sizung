@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160615132926) do
+ActiveRecord::Schema.define(version: 20160617095250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -59,6 +59,7 @@ ActiveRecord::Schema.define(version: 20160615132926) do
     t.datetime "archived_at"
     t.integer  "deliverables_count", default: 0,      null: false
     t.integer  "comments_count",     default: 0,      null: false
+    t.date     "due_on"
   end
   add_index "agenda_items", ["conversation_id"], name: "index_agenda_items_on_conversation_id", using: :btree
   add_index "agenda_items", ["created_at"], name: "index_agenda_items_on_created_at", order: {"created_at"=>:desc}, using: :btree
@@ -192,7 +193,7 @@ UNION ALL
     agenda_items.status,
     NULL::text AS description,
     NULL::uuid AS assignee_id,
-    NULL::date AS due_on,
+    agenda_items.due_on,
     agenda_items.archive_number,
     agenda_items.archived_at,
     agenda_items.deliverables_count,
