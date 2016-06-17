@@ -77,7 +77,7 @@ class AgendaItemComposer extends React.Component {
           <div
             className={(value && (40 - value.length)) < 5 ? styles.charsHintRed : styles.charsHint}
           >
-            {40 - ((value && value.length) || 0)} chars
+            {40 - ((value && value.length) || 0) + ' chars'}
           </div>
         </div>
       </div>

@@ -126,7 +126,7 @@ class DeliverableComposer extends React.Component {
           </div>
         </div>
         <div className={styles.inputRow}>
-          <Icon type="deliverable" />
+          <Icon type="deliverable" gap="1.5rem"/>
           <textarea
             rows="1"
             ref="name"
@@ -142,7 +142,7 @@ class DeliverableComposer extends React.Component {
           <div
             className={(value && (40 - value.length)) < 5 ? styles.charsHintRed : styles.charsHint}
           >
-            {40 - ((value && value.length) || 0)} chars
+            {40 - ((value && value.length) || 0) + ' chars'}
           </div>
         </div>
 
