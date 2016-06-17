@@ -19,6 +19,6 @@ class Notifications < ApplicationMailer
     @actor       = actor
     @target_url  = deliverable_url(deliverable)
     
-    mail to: @deliverable.assignee.email, subject: "#{@actor.first_name} assigned a deliverable to you"
+    mail to: @deliverable.assignee.email, subject: "#{@actor.first_name} assigned an action to you"
   end
 end
