@@ -5,7 +5,7 @@ import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
 import CommentDropdown from '../CommentDropdown/index';
 import ComposerApp from '../../containers/ComposerApp';
-import markdownFromState from '../../utils/markdownFromState';
+import { toMarkdown } from '../../utils/markdownUtils';
 
 class Comment extends React.Component {
   constructor() {
@@ -50,7 +50,7 @@ class Comment extends React.Component {
   };
 
   onCommentSave = () => {
-    this.handleSubmit(markdownFromState(this.editorContentState));
+    this.handleSubmit(toMarkdown(this.editorContentState));
   };
 
   handleSubmit = (value) => {

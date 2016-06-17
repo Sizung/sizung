@@ -2,6 +2,6 @@
   %head
     = stylesheet_link_tag "mailer"
   %body
-    %img.logo{src: "#{ENV['SIZUNG_HOST']}#{image_path('sizung-sigin-logo.png')}"}
+    %img.logo{src: "#{ENV['SIZUNG_HOST']}#{image_path('sizung-sigin-logo.png')}", alt: 'Sizung Logo'}
     %br
     = yield

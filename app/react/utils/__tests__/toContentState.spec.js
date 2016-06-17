@@ -1,10 +1,10 @@
 const { describe, it } = global;
 import expect from 'expect';
-import stateFromMarkdown from '../stateFromMarkdown';
+import { toContentState } from '../markdownUtils';
 import { convertToRaw } from 'draft-js';
 import Immutable from 'immutable';
 
-describe('stateFromMarkdown', () => {
+describe('toContentState', () => {
   const removeKeys = (blocks) => {
     return blocks.map((block) => {
       const { key, ...other } = block; // eslint-disable-line no-unused-vars
@@ -13,7 +13,7 @@ describe('stateFromMarkdown', () => {
   };
 
   it('create content state', () => {
-    const contentState    = stateFromMarkdown('Hello World');
+    const contentState    = toContentState('Hello World');
     const blocks          = removeKeys(convertToRaw(contentState).blocks);
 
     expect(blocks).toEqual(
@@ -22,7 +22,7 @@ describe('stateFromMarkdown', () => {
   });
 
   it('create multiple lines', () => {
-    const contentState    = stateFromMarkdown('Hello World\nSecond line');
+    const contentState    = toContentState('Hello World\n\nSecond line');
     const blocks          = removeKeys(convertToRaw(contentState).blocks);
 
     expect(blocks).toEqual(
@@ -34,7 +34,7 @@ describe('stateFromMarkdown', () => {
   });
 
   it('creates a mention', () => {
-    const contentState    = stateFromMarkdown('Hello @[Günter Glück](123abc)');
+    const contentState    = toContentState('Hello @[Günter Glück](123abc)');
     const rawContentState = convertToRaw(contentState);
     const blocks          = removeKeys(rawContentState.blocks);
 
@@ -52,7 +52,7 @@ describe('stateFromMarkdown', () => {
   });
 
   it('creates two mentions in one line', () => {
-    const contentState    = stateFromMarkdown('Hello @[Günter Glück](123abc) and @[Sam Sample](456def) how are you?');
+    const contentState    = toContentState('Hello @[Günter Glück](123abc) and @[Sam Sample](456def) how are you?');
     const rawContentState = convertToRaw(contentState);
     const blocks          = removeKeys(rawContentState.blocks);
 

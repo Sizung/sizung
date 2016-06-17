@@ -7,8 +7,7 @@ import 'draft-js-mention-plugin/lib/plugin.css';
 import createMentionPlugin from 'draft-js-mention-plugin';
 import { EditorState, RichUtils, convertToRaw } from 'draft-js';
 import Immutable from 'immutable';
-import stateFromMarkdown from '../../utils/stateFromMarkdown';
-import markdownFromState from '../../utils/markdownFromState';
+import { toContentState, toMarkdown } from '../../utils/markdownUtils';
 
 class Composer extends React.Component {
 
@@ -48,7 +47,7 @@ class Composer extends React.Component {
 
   constructor(props) {
     super(props);
-    const contentState = stateFromMarkdown(props.value);
+    const contentState = toContentState(props.value);
     const editorState = EditorState.createWithContent(contentState);
 
     this.state = {
@@ -79,7 +78,7 @@ class Composer extends React.Component {
   getMarkdown = () => {
     const contentState = this.state.editorState.getCurrentContent();
     if (contentState.hasText()) {
-      return markdownFromState(contentState).trim();
+      return toMarkdown(contentState).trim();
     }
     return null;
   }
@@ -127,7 +126,7 @@ class Composer extends React.Component {
      const plainText = contentState.getPlainText();
      const trimmedText = plainText && plainText.trim();
      if (!e.shiftKey && trimmedText && trimmedText.length > 0 && !this.mentionSuggestionOpen) {
-       this.props.onSubmit(markdownFromState(contentState), plainText);
+       this.props.onSubmit(toMarkdown(contentState), plainText);
        this.handleChange(clearEditorContent(editorState));
        return true;
      }
