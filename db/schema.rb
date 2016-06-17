@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617095250) do
+ActiveRecord::Schema.define(version: 20160617161937) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -244,6 +244,14 @@ UNION ALL
   end
   add_index "conversations", ["organization_id"], name: "index_conversations_on_organization_id", using: :btree
 
+  create_table "devices", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "user_id",    null: false
+    t.string   "token",      null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+  add_index "devices", ["user_id"], name: "index_devices_on_user_id", using: :btree
+
   create_table "organization_members", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "organization_id"
     t.uuid     "member_id"
@@ -333,6 +341,7 @@ UNION ALL
   add_foreign_key "conversations", "organizations"
   add_foreign_key "deliverables", "users", column: "assignee_id"
   add_foreign_key "deliverables", "users", column: "owner_id"
+  add_foreign_key "devices", "users"
   add_foreign_key "organization_members", "organizations"
   add_foreign_key "organization_members", "users", column: "member_id"
   add_foreign_key "organizations", "users", column: "owner_id"

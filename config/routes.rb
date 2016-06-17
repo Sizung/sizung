@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     devise_scope :user do
       resources :session_tokens, only: [:create, :show]
     end
+    resources :devices, only: [:create]
   end
 
   resources :attachments, only: [:show]
