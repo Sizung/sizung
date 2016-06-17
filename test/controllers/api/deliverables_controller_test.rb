@@ -112,7 +112,7 @@ describe Api::DeliverablesController do
 
       mail = open_email(@other_user.email)
       expect(mail).must_be :present?
-      value(mail.subject).must_match "#{@current_user.first_name} assigned a deliverable to you"
+      value(mail.subject).must_match "#{@current_user.first_name} assigned an action to you"
     end
 
     it 'only notifies when assigned to someone else' do
@@ -138,7 +138,7 @@ describe Api::DeliverablesController do
 
       mail = open_email(@other_user.email)
       expect(mail).must_be :present?
-      value(mail.subject).must_match "#{@current_user.first_name} assigned a deliverable to you"
+      value(mail.subject).must_match "#{@current_user.first_name} assigned an action to you"
     end
 
     it 'only notifies when reassigned to someone else' do
