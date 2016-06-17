@@ -71,6 +71,7 @@ gem 'jwt'
 gem 'swagger-blocks'
 gem 'rack-cors'
 gem 'fog'
+gem 'houston'
 
 group :production do
   gem 'rails_12factor'
