@@ -13,16 +13,16 @@ class UnseenService
   end
 
   def remove(object)
-    unless [Conversation, AgendaItem, Deliverable, Comment].include? object.class
-      raise ArgumentError.new('Unseen Objects can only be removed for AgendaItems, Deliverables and Comments')
+    unless [Conversation, AgendaItem, Deliverable, Comment, Attachment].include? object.class
+      raise ArgumentError.new('Unseen Objects can only be removed for Conversations, AgendaItems, Deliverables, Comments and Attachments')
     end
 
     unseen_objects = case object
-      when Comment
-        UnseenObject.all.where(target: object)
-      else
-        UnseenObject.all.where("#{object.class.name.underscore}_id = ?", object.id)
-    end
+                     when Comment, Attachment
+                       UnseenObject.all.where(target: object)
+                     else
+                       UnseenObject.all.where("#{object.class.name.underscore}_id = ?", object.id)
+                     end
 
     unseen_objects.each do |unseen_object|
       ActionCable.server.broadcast "users:#{unseen_object.user_id}",

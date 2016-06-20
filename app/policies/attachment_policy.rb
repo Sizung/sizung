@@ -11,6 +11,10 @@ class AttachmentPolicy < ApplicationPolicy
     show?
   end
 
+  def show?
+    record.parent.conversation.members.include? user
+  end
+  
   class Scope < Scope
     def resolve
       # TODO: find a way to scope attachments so that we can use the policy scope again

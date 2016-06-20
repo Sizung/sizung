@@ -19,6 +19,7 @@ Rails.application.routes.draw do
       resources :attachments, options.merge(only: [:new, :create])
     end
 
+    resources :attachments, only: [:update]
 
     
     resources :organizations, shallow: true do
