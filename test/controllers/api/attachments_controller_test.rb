@@ -50,6 +50,14 @@ describe Api::AttachmentsController do
       post :create, { parent_type: 'Conversation', conversation_id: @conversation.id, attachment: { persistent_file_id: 'example' } }, format: :json
       expect(response.status).must_equal 422
     end
+
+    it 'archive attachment' do
+      @attachment = FactoryGirl.create :attachment, parent: @conversation
+      patch :update, id: @attachment.id, attachment: { archived: true }
+
+      assert_response :success
+      expect(@attachment.reload).must_be :paranoia_destroyed?
+    end
   end
 end
 

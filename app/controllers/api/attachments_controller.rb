@@ -3,7 +3,8 @@ module Api
     before_filter :authenticate_user!
     after_action :verify_authorized
     # after_action :verify_policy_scoped,   only: :index
-
+    before_action :set_attachment, only: [:update]
+    
     respond_to :json
 
     include Swagger::Blocks
@@ -43,7 +44,7 @@ module Api
         property :file_type, type: :string, description: 'The mime type of the file'
       end
     end
-    
+
     swagger_path '/{parent_type}/{parent_id}/attachments' do
       operation :post, security: [bearer: []] do
         key :summary, 'Create a new Attachment.'
@@ -95,6 +96,57 @@ module Api
       end
     end
 
+    swagger_schema :AttachmentInputForUpdate do
+      key :required, [:attachment]
+
+      property :attachment, type: :object, required: [:archived] do
+        property :archived, type: :boolean, description: 'Set to true if you want to archive the attachment'
+      end
+    end
+    
+    swagger_path '/attachments/{id}' do
+      operation :post, security: [bearer: []] do
+        key :summary, 'Update an attachment.'
+        key :description, 'Update an attachment'
+        key :tags, ['attachment']
+        
+        parameter name: :id, in: :path, type: :string, required: true
+        
+        parameter name: :attachment, in: :body, required: true, description: 'Attachment fields' do
+          schema do
+            key :'$ref', :AttachmentInputForUpdate
+          end
+        end
+
+        response 200 do
+          key :description, 'Attachment response'
+          schema do
+            key :'$ref', :responseOne_Attachment
+          end
+        end
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+    
+    def update
+      authorize @attachment
+
+      if @attachment.toggle_archive(params[:attachment][:archived])
+        payload = ActiveModelSerializers::SerializableResource.new(@attachment).serializable_hash.to_json
+        AttachmentRelayJob.perform_later(payload: payload, parent_id: @attachment.parent_id, parent_type: @attachment.parent_type, actor_id: current_user.id, action: 'update')
+        render json: @attachment, serializer: AttachmentSerializer
+      else
+        render json: @attachment, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
+      end
+    end
+    
     private
 
     def attachment_params
@@ -109,6 +161,11 @@ module Api
       @parent ||= parent_type.constantize.unscoped.find(params["#{parent_type.underscore}_id"])
       authorize @parent, :show?
       @parent
+    end
+
+    def set_attachment
+      @attachment = Attachment.find(params[:id])
+      authorize @attachment
     end
   end
 end
