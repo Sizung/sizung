@@ -89,7 +89,7 @@ class AgendaItem extends React.Component {
       return (
         <div className={styles.contextTitle}>
           <Icon type="chat" gap="1rem" style={{ fontSize: '1rem' }}/>
-          <TextWithMentions maxLength={40}>{ agendaItem.conversation.title }</TextWithMentions>
+          { agendaItem.conversation.title }
         </div>
       );
     }
