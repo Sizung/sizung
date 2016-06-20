@@ -423,6 +423,7 @@ GEM
     rdoc (4.2.0)
     react_webpack_rails (0.0.4)
       rails (>= 3.2)
+    redcarpet (3.3.4)
     redis (3.2.1)
     ref (2.0.0)
     responders (2.1.0)
@@ -550,6 +551,7 @@ DEPENDENCIES
   rails (= 4.2.4)
   rails_12factor
   react_webpack_rails (= 0.0.4)
+  redcarpet
   redis
   rollbar
   sass-rails (~> 5.0)

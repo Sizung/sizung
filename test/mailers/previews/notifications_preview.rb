@@ -7,7 +7,7 @@ class NotificationsPreview < ActionMailer::Preview
     user = User.first
     actor = User.last
     conversation = Conversation.first
-    mentionable = FactoryGirl.create :agenda_item, conversation: conversation, title: "Hello @[#{user.name}](#{user.id}). How are you?", owner: actor
+    mentionable = FactoryGirl.create :agenda_item, conversation: conversation, title: "Hello @[#{user.name}](#{user.id}). How are **you**?\n\n* first bullet\n* second bullet\n\nAnd this is the first line.\nAnd the second line.\n\nAnd a new paragraph", owner: actor
     target_url = agenda_item_url(mentionable, host: 'localhost')
     Notifications.mentioned(user, mentionable, actor, target_url)
   end
