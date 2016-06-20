@@ -151,13 +151,18 @@ class Composer extends React.Component {
     this.mentionSuggestionOpen = false;
   }
 
+  _focusEditor = () => {
+    this.refs.editor.focus();
+  }
+
   render() {
     const { editorState } = this.state;
     const { placeholder } = this.props;
     const { suggestions } = this;
     return (
-      <div className={styles.root}>
-        <Editor editorState={editorState}
+      <div className={styles.root} onClick={this._focusEditor}>
+        <Editor ref="editor"
+                editorState={editorState}
                 onChange={this.handleChange}
                 handleKeyCommand={this.handleKeyCommand}
                 plugins={this.plugins}
