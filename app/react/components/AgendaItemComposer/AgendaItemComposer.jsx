@@ -15,11 +15,12 @@ class AgendaItemComposer extends React.Component {
     }).isRequired,
     onClose: PropTypes.func.isRequired,
     defaultValue: PropTypes.string,
+    setComposerValue: PropTypes.func
   };
 
   static defaultProps = {
     defaultValue: '',
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -34,7 +35,8 @@ class AgendaItemComposer extends React.Component {
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     this.props.createAgendaItem({ conversation_id: conversationId, title });
     this.setState({ value: '' });
-    //this.props.onClose();
+    this.props.setComposerValue('');
+    this.props.onClose();
   };
 
   handleKeyDown = (e) => {
