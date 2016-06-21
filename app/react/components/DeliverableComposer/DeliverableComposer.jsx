@@ -65,7 +65,7 @@ class DeliverableComposer extends React.Component {
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     this.props.createDeliverable({ parent_id: parentId, parent_type: parentType, title, assignee_id: assigneeId, due_on: dueOn });
     this.setState({ value: '', assigneeId: null, dueOn: null });
-    this.props.onClose();
+    //this.props.onClose();
   };
 
   handleKeyDown = (e) => {
@@ -97,6 +97,12 @@ class DeliverableComposer extends React.Component {
       this.handleSubmit();
     }
   };
+
+  componentDidMount() {
+    if (this.refs.name) {
+      this.refs.name.focus();
+    }
+  }
 
   render() {
     const { dueOn } = this.state;

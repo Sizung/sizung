@@ -34,7 +34,7 @@ class AgendaItemComposer extends React.Component {
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     this.props.createAgendaItem({ conversation_id: conversationId, title });
     this.setState({ value: '' });
-    this.props.onClose();
+    //this.props.onClose();
   };
 
   handleKeyDown = (e) => {
@@ -48,6 +48,12 @@ class AgendaItemComposer extends React.Component {
     const { value } = ev.target;
     this.setState({ value });
   };
+
+  componentDidMount() {
+    if (this.refs.name) {
+      this.refs.name.focus();
+    }
+  }
 
   render() {
     const { value } = this.state;
