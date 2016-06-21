@@ -128,6 +128,7 @@ Attachment.propTypes = {
     email: PropTypes.string.isRequired,
   }),
   showTimeStamp: PropTypes.bool.isRequired,
+  archiveAttachment: PropTypes.func.isRequired,
 };
 
 Attachment.defaultProps = {

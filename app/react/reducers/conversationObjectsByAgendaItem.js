@@ -12,6 +12,7 @@ export default function conversationObjectsByAgendaItem(state = initialState, ac
     case constants.CREATE_DELIVERABLE: return setReference(state, action, 'deliverable', 'agendaItemId');
     case constants.UPDATE_DELIVERABLE: return updateReference(state, action, 'deliverable', 'agendaItemId');
     case constants.CREATE_ATTACHMENT: return setReference(state, action, 'attachment', 'parentId');
+    case constants.UPDATE_ATTACHMENT: return updateReference(state, action, 'attachment', 'parentId');
     default: return state;
   }
 }
