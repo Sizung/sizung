@@ -136,7 +136,7 @@ class ConversationObjectList extends Component {
         } else if (conversationObject.type === 'attachments') {
           const attachment = conversationObject;
           return (<Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}
-                              showTimeStamp={showTimeStamp} attachment={attachment}/>);
+                               currentUser={currentUser} showTimeStamp={showTimeStamp} attachment={attachment}/>);
         } else if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
           return (<DeliverableInTimeline ref={unseenObjectMarkerRef} key={deliverable.id} showOwner={showOwner}
