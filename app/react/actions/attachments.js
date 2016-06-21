@@ -34,7 +34,30 @@ const createAttachment = (parentType, parentId, values) => {
   };
 };
 
+const updateAttachment = (id, changedFields) => {
+  // return (dispatch) => {
+  //   api.putJson('/api/agenda_items/' + id, { agenda_item: changedFields }, (json) => {
+  //     const agendaItem = transform.transformObjectFromJsonApi(json.data);
+  //     dispatch({
+  //       type: constants.UPDATE_AGENDA_ITEM,
+  //       status: constants.STATUS_SUCCESS,
+  //       agendaItem,
+  //       entity: agendaItem,
+  //     });
+  //   });
+  // };
+};
+
+const archiveAttachment = (id) => {
+  console.log('into archive attachment')
+  // if (confirm("Are you sure you want to archive this Attachment?")) {
+  //   return updateAttachment(id, { archived: true });
+  // }
+  // return null;
+};
+
 export {
   createAttachment,
+  archiveAttachment,
   createAttachmentRemoteOrigin,
 };

@@ -14,6 +14,12 @@ class Attachment extends React.Component {
       function: this.handleDeleteClick,
     }];
   }
+
+  handleDeleteClick = (e) => {
+    e.preventDefault();
+    this.props.archiveAttachment(this.props.attachment.id);
+  };
+
   lastUpdatedTime = () => {
     const { createdAt, updatedAt } = this.props.attachment;
     const lastUpdatedAt = (createdAt !== updatedAt ? updatedAt : createdAt);
