@@ -21,6 +21,7 @@ class DeliverableComposer extends React.Component {
       id: PropTypes.string.isRequired,
     }).isRequired,
     defaultValue: PropTypes.string,
+    setComposerValue: PropTypes.func
   };
 
   static defaultProps = {
@@ -65,7 +66,8 @@ class DeliverableComposer extends React.Component {
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     this.props.createDeliverable({ parent_id: parentId, parent_type: parentType, title, assignee_id: assigneeId, due_on: dueOn });
     this.setState({ value: '', assigneeId: null, dueOn: null });
-    //this.props.onClose();
+    this.props.setComposerValue('');
+    this.props.onClose();
   };
 
   handleKeyDown = (e) => {

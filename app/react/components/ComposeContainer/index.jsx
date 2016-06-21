@@ -34,11 +34,15 @@ class ComposeContainer extends React.Component {
 
   handleSelect = (composerType, value) => {
     this.setState({ composerType, value });
-  }
+  };
 
   handleClose = () => {
     this.setState({ composerType: 'comment' });
-  }
+  };
+
+  setValue = (value) => {
+    this.setState({ value });
+  };
 
   renderComposer(composerType) {
     const { currentUser, parent, createComment, createAgendaItem, createDeliverable, createAttachment } = this.props;
@@ -50,6 +54,7 @@ class ComposeContainer extends React.Component {
                                    onClose={this.handleClose}
                                    defaultValue={this.state.value}
                                    createAttachment={createAttachment}
+                                   setComposerValue={this.setValue}
                />;
       case 'deliverable':
         return <DeliverableComposer parent={parent}
@@ -58,6 +63,7 @@ class ComposeContainer extends React.Component {
                                     currentUser={currentUser}
                                     defaultValue={this.state.value}
                                     createAttachment={createAttachment}
+                                    setComposerValue={this.setValue}
                />;
       case 'comment':
       default:

@@ -77,6 +77,9 @@ const fillAttachment = (state, id) => {
   let attachment = Immutable.fromJS(state.getIn(['entities', 'attachments', id])).toJS();
   attachment.owner = state.getIn(['entities', 'users', attachment.ownerId]);
   attachment.parent = state.getIn(['entities', attachment.parentType, attachment.parentId]);
+  attachment.unseen = state.getIn(['entities', 'unseenObjects']).some((unseenObject) => {
+    return unseenObject.targetId === id;
+  });
   return attachment;
 }
 
