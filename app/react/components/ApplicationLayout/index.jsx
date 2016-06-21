@@ -7,7 +7,6 @@ class ApplicationLayout extends Component {
 
   _handleKeyDown = (event) => {
     if (event.which === 8 || event.which === 46) {
-      event.stopPropagation();
       event.preventDefault();
     }
   }

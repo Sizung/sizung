@@ -40,6 +40,7 @@ class EditableText extends React.Component {
   }
 
   handleKeyDown = (e) => {
+    e.stopPropagation();
     if (e.keyCode === 27) {
       this.cancelEdit();
     }

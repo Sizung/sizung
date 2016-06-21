@@ -1,10 +1,9 @@
 import React, { PropTypes } from 'react';
-import styles from './CommentDropdown.css';
+import styles from './OptionsDropdown.css';
 
-class CommentDropdown extends React.Component {
+class OptionsDropdown extends React.Component {
   static propTypes = {
-    onEditClick: PropTypes.func,
-    onDeleteClick: PropTypes.func,
+    options: PropTypes.array,
   }
 
   constructor() {
@@ -21,13 +20,16 @@ class CommentDropdown extends React.Component {
   }
 
   renderEdit = () => {
-    const { onEditClick, onDeleteClick } = this.props;
+    const { options } = this.props;
 
     return (
       <div className={styles.editContainer}>
         <ul className={styles.list}>
-          <li className={styles.item} onClick={onEditClick}>Edit Comment</li>
-          <li className={styles.item} onClick={onDeleteClick}>Delete Comment</li>
+        {
+          options.map((option) => {
+            return <li className={styles.item} onClick={option.function}>{option.label}</li>;
+          })
+        }
         </ul>
         {this.renderGearIcon()}
       </div>
@@ -43,4 +45,4 @@ class CommentDropdown extends React.Component {
   }
 }
 
-export default CommentDropdown;
+export default OptionsDropdown;

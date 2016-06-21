@@ -34,7 +34,26 @@ const createAttachment = (parentType, parentId, values) => {
   };
 };
 
+const updateAttachment = (id, changedFields) => {
+  return (dispatch) => {
+    api.putJson('/api/attachments/' + id, { attachment: changedFields }, (json) => {
+      const attachment = transform.transformObjectFromJsonApi(json.data);
+      dispatch({
+        type: constants.UPDATE_ATTACHMENT,
+        status: constants.STATUS_SUCCESS,
+        attachment,
+        entity: attachment,
+      });
+    });
+  };
+};
+
+const archiveAttachment = (id) => {
+  return updateAttachment(id, { archived: true });
+};
+
 export {
   createAttachment,
+  archiveAttachment,
   createAttachmentRemoteOrigin,
 };
