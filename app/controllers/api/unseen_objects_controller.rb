@@ -28,9 +28,9 @@ module Api
       def scope_to_delete(scope)
         case params[:parent_type]
           when 'Conversation'
-            scope.where(conversation: parent).where("target_type = 'Attachment' OR target_type = 'Conversation' OR target_type = 'AgendaItem' OR (target_type = 'Comment' AND agenda_item_id IS NULL)").destroy_all
+            scope.where(conversation: parent).where("(target_type = 'Attachment' AND agenda_item_id IS NULL AND deliverable_id IS NULL) OR target_type = 'Conversation' OR target_type = 'AgendaItem' OR (target_type = 'Comment' AND agenda_item_id IS NULL AND deliverable_id IS NULL) ").destroy_all
           when 'AgendaItem'
-            scope.where(agenda_item: parent).where("target_type = 'Attachment' OR target_type = 'AgendaItem' OR target_type = 'Deliverable' OR (target_type = 'Comment' AND deliverable_id IS NULL)").destroy_all
+            scope.where(agenda_item: parent).where("(target_type = 'Attachment' AND deliverable_id IS NULL) OR target_type = 'AgendaItem' OR target_type = 'Deliverable' OR (target_type = 'Comment' AND deliverable_id IS NULL)").destroy_all
           when 'Deliverable'
             scope.where(deliverable: parent).destroy_all
           else
