@@ -42,7 +42,7 @@ class DeliverableApp extends React.Component {
       const conversationId = deliverableUtils.getConversationIdFromParent(parent.parent);
 
       return (
-        <ConversationLayoutApp conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } /> }>
+        <ConversationLayoutApp context={'deliverable'} conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } /> }>
           <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );

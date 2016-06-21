@@ -22,8 +22,8 @@ class ConversationLayout extends Component {
   };
   
   render() {
-    const left = this.props.left || <AgendaItemListApp conversationId={this.props.conversationId} selectedAgendaItemId={this.props.selectedAgendaItemId} />;
-    const right = this.props.right || <DeliverableListApp conversationId={this.props.conversationId} agendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} />;
+    const left = this.props.left || <AgendaItemListApp context={this.props.context} conversationId={this.props.conversationId} selectedAgendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId}/>;
+    const right = this.props.right || <DeliverableListApp context={this.props.context} conversationId={this.props.conversationId} agendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} />;
     const { panel } = this.state;
     return (
       <div className={styles.root}>
@@ -50,6 +50,7 @@ ConversationLayout.propTypes = {
   left: PropTypes.object,
   children: PropTypes.object.isRequired,
   right: PropTypes.object,
+  context: PropTypes.string.isRequired,
 };
 
 export default ConversationLayout;
