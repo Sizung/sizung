@@ -40,6 +40,7 @@ class AgendaItemComposer extends React.Component {
   };
 
   handleKeyDown = (e) => {
+    e.stopPropagation();
     if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
       this.handleSubmit();

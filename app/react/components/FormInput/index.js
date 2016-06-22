@@ -45,6 +45,7 @@ class FormInput extends React.Component {
   };
 
   handleKeyDown = (event) => {
+    event.stopPropagation();
     if (event.key === 'Enter') {
       this.props.onSubmit();
     } else if (event.key === 'Escape') {

@@ -34,12 +34,16 @@ class DeliverableInTimeline extends React.Component {
     return <SizungTime value={createdAt} />;
   };
 
+  handleKeyDown = (event) => {
+    event.stopPropagation();
+  };
+
   dueOn = () => {
     if (this.props.deliverable.dueOn) {
       return (
         <div className={styles.dueOnWrapper}>
           <div className={styles.dueOnLabel}>{'DUE ON'}</div>
-          <div className={styles.dueDateContainer}>
+          <div className={styles.dueDateContainer} onKeyDown={this.handleKeyDown}>
             <Time value={this.props.deliverable.dueOn} format="DD MMM - YYYY" />
           </div>
         </div>
@@ -86,4 +90,3 @@ class DeliverableInTimeline extends React.Component {
 }
 
 export default DeliverableInTimeline;
-

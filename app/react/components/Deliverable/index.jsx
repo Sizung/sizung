@@ -126,6 +126,10 @@ class Deliverable extends React.Component {
     }
   }
 
+  handleKeyDown(event) {
+    event.stopPropagation();
+  }
+
   render() {
     const { deliverable, selected } = this.props;
     const { title, assigneeId, dueOn, unseenCount, archived } = deliverable;
@@ -148,7 +152,9 @@ class Deliverable extends React.Component {
             <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={selected} inverted maxLength={40} />
           </div>
         </div>
-        <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}>
+        <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}
+         onKeyDown={this.handleKeyDown}
+        >
           <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
         </div>
         <div className={styles.bottomRow}>

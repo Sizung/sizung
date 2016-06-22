@@ -31,6 +31,7 @@ class ConversationSettings extends React.Component {
   };
 
   handleKeyDown = (event) => {
+    event.stopPropagation();
     if (event.key === 'Enter') {
       this.handleInputSubmit(event);
     } else if (event.key === 'Escape') {

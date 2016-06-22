@@ -33,6 +33,12 @@ class DeliverableComposer extends React.Component {
     this.state = { value: props.defaultValue.substring(0, 40), assigneeId: null, dueOn: null };
   }
 
+  componentDidMount() {
+    if (this.refs.name) {
+      this.refs.name.focus();
+    }
+  }
+
   getType = (type) => {
     switch (type) {
       case 'conversations':
@@ -71,6 +77,7 @@ class DeliverableComposer extends React.Component {
   };
 
   handleKeyDown = (e) => {
+    e.stopPropagation();
     if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
       this.handleSubmit();
@@ -95,16 +102,11 @@ class DeliverableComposer extends React.Component {
   }
 
   handleKeyDownOnDueDate = (event) => {
+    event.stopPropagation();
     if (event.key === 'Enter') {
       this.handleSubmit();
     }
   };
-
-  componentDidMount() {
-    if (this.refs.name) {
-      this.refs.name.focus();
-    }
-  }
 
   render() {
     const { dueOn } = this.state;
