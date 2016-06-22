@@ -42,7 +42,6 @@ class Attachment extends React.Component {
   renderAttachmentIcon = () => {
     const { fileName, fileUrl, fileType } = this.props.attachment;
     // Expecting fileType as mime type .. for example image/jpeg, image/png etc.
-    console.log('fileType: ', fileType);
     if (fileType && fileType.indexOf('image') > -1) {
       return (
         <a href={fileUrl} target="_blank" className={styles.thumbnailContainer}>
@@ -102,6 +101,7 @@ class Attachment extends React.Component {
           { this.props.showOwner ? <User user={owner} /> : ''}
         </div>
         { this.renderShowAttachment() }
+        { this.renderCommentSettingsOptions(owner) }
       </div>
     );
   }

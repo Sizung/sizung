@@ -45,22 +45,21 @@ class ConversationObjectList extends Component {
 
       const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
 
-      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && ((nextProps.conversationObjects.filter((obj) => { return obj.unseen }).length > 0 && this.newObjectsMarkerSeen) || !this.newObjectsMarkerSeen )) {
+      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && ((nextProps.conversationObjects.filter((obj) => { return obj.unseen; }).length > 0 && this.newObjectsMarkerSeen) || !this.newObjectsMarkerSeen)) {
         this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
       }
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (ConversationObjectList.shouldMarkAsSeen(prevProps, this.props)) {
+    if (ConversationObjectList.hasTimelineSwitched(prevProps, this.props)) {
       this.props.markAsSeen(prevProps.commentForm.parent.type, prevProps.commentForm.parent.id);
+      this.newObjectsMarkerSeen = false;
     }
 
     if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
-      //this.refs.newObjectsMarker.scrollIntoView({ block: 'start', behavior: 'smooth' });
       this.refs.root.scrollTop =  0;
       this.refs.root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
-      //this.refs.root.scrollTop =  Math.abs(this.root.offset().top - this.refs.newObjectsMarker.offset().top);
       this.newObjectsMarkerSeen = true;
     } else if (this.shouldScrollBottom) {
       this.scrollListToBottom();
@@ -187,10 +186,7 @@ class ConversationObjectList extends Component {
     }
   };
 
-  static shouldMarkAsSeen = (prevProps, props) => {
-    //const notHandledByMount = ((!!prevProps.conversationObjects === false || !!prevProps.commentForm.parent === false) && (!!props.conversationObjects === true && !!props.commentForm.parent === true));
-    //const unseenPrev = prevProps.conversationObjects ? prevProps.conversationObjects.some((obj) => { return obj.unseen; }) : false;
-    //const unseenNow = props.conversationObjects ? props.conversationObjects.some((obj) => { return obj.unseen; }) : false;
+  static hasTimelineSwitched = (prevProps, props) => {
     return (prevProps.commentForm.parent.id !== props.commentForm.parent.id);
   };
 

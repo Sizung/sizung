@@ -72,7 +72,7 @@ class AgendaItem extends React.Component {
   };
 
   isEditable = () => {
-    return (this.props.selected && this.props.context && this.props.context !== 'deliverable');
+    return (this.props.selected && this.props.currentTimeline && this.props.currentTimeline !== 'deliverable');
   };
 
   isElementOutViewport = (el) => {
@@ -87,8 +87,8 @@ class AgendaItem extends React.Component {
   }
 
   parentContextTitle = () => {
-    const { agendaItem, context } = this.props;
-    if (context === 'organization') {
+    const { agendaItem, currentTimeline } = this.props;
+    if (currentTimeline === 'organization') {
       return (
         <div className={styles.contextTitle}>
           <Icon type="chat" gap="1rem" style={{ fontSize: '1rem' }}/>
@@ -137,7 +137,7 @@ AgendaItem.propTypes = {
   }).isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
   archiveAgendaItem: PropTypes.func,
-  context: PropTypes.string,
+  currentTimeline: PropTypes.string,
 };
 
 export default AgendaItem;
