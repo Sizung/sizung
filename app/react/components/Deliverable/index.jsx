@@ -45,12 +45,12 @@ class Deliverable extends React.Component {
   };
 
   parentContextTitle = () => {
-    const { deliverable, context } = this.props;
+    const { deliverable, currentTimeline } = this.props;
     let icon;
     let contextTitle = deliverable.parent.title;
 
     if (deliverable.parentType === 'agendaItems') {
-      if (context === 'organization') {
+      if (currentTimeline === 'organization') {
         icon = <Icon type="chat" gap="15px" />;
         contextTitle = deliverable.parent.conversation.title;
       } else {
@@ -177,7 +177,7 @@ Deliverable.propTypes = {
   visitDeliverable: PropTypes.func.isRequired,
   updateDeliverable: PropTypes.func,
   archiveDeliverable: PropTypes.func,
-  context: PropTypes.string,
+  currentTimeline: PropTypes.string,
 };
 
 export default Deliverable;

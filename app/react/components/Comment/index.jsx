@@ -77,14 +77,6 @@ class Comment extends React.Component {
     </div>);
   };
 
-
-  handleScroll = () => {
-    const node = this.refs.gearDropDown;
-    if (node) {
-      this.props.handleCommentSettingsDropdownScroll(node);
-    }
-  };
-
   renderCommentSettingsOptions = () => {
     const { comment, currentUser } = this.props;
     const { authorId } = comment;
@@ -162,7 +154,6 @@ Comment.propTypes = {
     }).isRequired,
   }).isRequired,
   currentUser: PropTypes.object.isRequired,
-  handleCommentSettingsDropdownScroll: PropTypes.func.isRequired,
   showAuthor: PropTypes.bool.isRequired,
   showTimeStamp: PropTypes.bool.isRequired,
 };

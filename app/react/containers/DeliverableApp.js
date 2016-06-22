@@ -37,12 +37,13 @@ class DeliverableApp extends React.Component {
   render() {
     const { commentForm, deliverables, deliverable, visitDeliverable, updateDeliverable, archiveDeliverable } = this.props;
     const { parent } = commentForm;
+
     if (parent) {
       // TODO: fix naming. The commentForm.parent is a deliverable in this container.
       const conversationId = deliverableUtils.getConversationIdFromParent(parent.parent);
 
       return (
-        <ConversationLayoutApp context={'deliverable'} conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } /> }>
+        <ConversationLayoutApp currentTimeline={'deliverable'} conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList currentTimeline={'deliverable'} deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } /> }>
           <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );

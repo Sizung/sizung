@@ -40,14 +40,14 @@ class ConversationApp extends React.Component {
     if (parent) {
       if (conversationObjects) {
         return (
-          <ConversationLayoutApp conversationId={parent.id} context={'conversation'}>
+          <ConversationLayoutApp conversationId={parent.id} currentTimeline={'conversation'}>
             <ConversationObjectList {...this.props} />
           </ConversationLayoutApp>
         );
       }
 
       return (
-        <ConversationLayoutApp conversationId={parent.id} context={'conversation'}>
+        <ConversationLayoutApp conversationId={parent.id} currentTimeline={'conversation'}>
           <div className="text-center"><h5>Loading Conversation...</h5></div>
         </ConversationLayoutApp>
       );
