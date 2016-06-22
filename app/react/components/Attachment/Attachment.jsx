@@ -102,7 +102,6 @@ class Attachment extends React.Component {
           { this.props.showOwner ? <User user={owner} /> : ''}
         </div>
         { this.renderShowAttachment() }
-        { this.renderCommentSettingsOptions(owner) }
       </div>
     );
   }
