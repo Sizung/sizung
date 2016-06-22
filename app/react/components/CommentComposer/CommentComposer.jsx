@@ -41,10 +41,12 @@ class CommentComposer extends React.Component {
   };
 
   onUploadFinish = (data) => {
-    const fileObject = ReactDOM.findDOMNode(this.refs.input).files[0];
+    const fileInput = ReactDOM.findDOMNode(this.refs.input);
+    const fileObject = fileInput.files[0];
     this.setState({ uploadStatus: '' });
     const { parent } = this.props;
     this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: (data.signedUrl.split('?')[0].split('/').pop()), file_size: fileObject.size, file_type: fileObject.type });
+    fileInput.value = '';
   };
 
   handleChangeInMentionBox = (editorContent) => {
