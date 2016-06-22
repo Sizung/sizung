@@ -15,11 +15,12 @@ class AgendaItemComposer extends React.Component {
     }).isRequired,
     onClose: PropTypes.func.isRequired,
     defaultValue: PropTypes.string,
+    setComposerValue: PropTypes.func
   };
 
   static defaultProps = {
     defaultValue: '',
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -34,10 +35,12 @@ class AgendaItemComposer extends React.Component {
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     this.props.createAgendaItem({ conversation_id: conversationId, title });
     this.setState({ value: '' });
+    this.props.setComposerValue('');
     this.props.onClose();
   };
 
   handleKeyDown = (e) => {
+    e.stopPropagation();
     if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
       this.handleSubmit();
@@ -48,6 +51,12 @@ class AgendaItemComposer extends React.Component {
     const { value } = ev.target;
     this.setState({ value });
   };
+
+  componentDidMount() {
+    if (this.refs.name) {
+      this.refs.name.focus();
+    }
+  }
 
   render() {
     const { value } = this.state;

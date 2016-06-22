@@ -4,7 +4,8 @@
   = "#{@actor.name} mentioned you in #{@parent_title}:"
 %p
   %br
-  = "#{@display_body}"
+  :markdown
+    #{@display_body}
   %br
   %br
 %p

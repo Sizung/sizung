@@ -4,11 +4,18 @@ import StaleNotification from '../StaleNotification';
 import styles from './index.css';
 
 class ApplicationLayout extends Component {
+
+  _handleKeyDown = (event) => {
+    if (event.which === 8 || event.which === 46) {
+      event.preventDefault();
+    }
+  }
+
   render() {
     const { currentUser, organizations, currentOrganization, currentConversation } = this.props;
 
     return (
-      <div className={styles.root}>
+      <div className={styles.root} onKeyDown={this._handleKeyDown} tabIndex="1">
         <TopBar currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation}/>
         <div className={styles.mainContent} >
           <StaleNotification />

@@ -40,8 +40,8 @@ class AgendaItem extends React.Component {
   };
 
   renderResolveAction = () => {
-    const { agendaItem, selected } = this.props;
-    if (agendaItem.status !== 'resolved' && selected) {
+    const { agendaItem } = this.props;
+    if (agendaItem.status !== 'resolved' && this.isEditable()) {
       return (
         <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
           <div className={styles.iconContainer}>
@@ -63,13 +63,16 @@ class AgendaItem extends React.Component {
   };
 
   renderBottomRow = () => {
-    const { selected } = this.props;
     return (
       <div className={styles.actionContainer}>
-        { selected ? this.renderArchiveAction() : this.parentContextTitle()}
+        { this.isEditable() ? this.renderArchiveAction() : this.parentContextTitle()}
         { this.renderResolveAction() }
       </div>
     );
+  };
+
+  isEditable = () => {
+    return (this.props.selected && this.props.currentTimeline && this.props.currentTimeline !== 'deliverable');
   };
 
   isElementOutViewport = (el) => {
@@ -84,8 +87,8 @@ class AgendaItem extends React.Component {
   }
 
   parentContextTitle = () => {
-    const { agendaItem, context } = this.props;
-    if (context === 'organization') {
+    const { agendaItem, currentTimeline } = this.props;
+    if (currentTimeline === 'organization') {
       return (
         <div className={styles.contextTitle}>
           <Icon type="chat" gap="1rem" style={{ fontSize: '1rem' }}/>
@@ -113,7 +116,7 @@ class AgendaItem extends React.Component {
               <Icon type="agendaItem" />
             </div>
             <div className={styles.title}>
-              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={selected} inverted maxLength={40} />
+              <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={this.isEditable()} inverted maxLength={40} />
             </div>
           </div>
         </div>
@@ -134,7 +137,7 @@ AgendaItem.propTypes = {
   }).isRequired,
   visitAgendaItem: PropTypes.func.isRequired,
   archiveAgendaItem: PropTypes.func,
-  context: PropTypes.string,
+  currentTimeline: PropTypes.string,
 };
 
 export default AgendaItem;

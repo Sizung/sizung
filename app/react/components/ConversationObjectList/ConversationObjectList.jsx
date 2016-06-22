@@ -45,7 +45,7 @@ class ConversationObjectList extends Component {
 
       const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
 
-      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && this.newObjectsMarkerSeen) {
+      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && ((nextProps.conversationObjects.filter((obj) => { return obj.unseen }).length > 0 && this.newObjectsMarkerSeen) || !this.newObjectsMarkerSeen )) {
         this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
       }
     }
@@ -96,7 +96,7 @@ class ConversationObjectList extends Component {
     return true;
   };
 
-  prepareChildElements = (conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, parent, currentUser) => {
+  prepareChildElements = (conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, parent, currentUser, archiveAttachment) => {
     if (conversationObjects) {
       let ownerId = null;
       let showOwner = false;
@@ -133,10 +133,11 @@ class ConversationObjectList extends Component {
                                         archiveAgendaItem={archiveAgendaItem}
                                         updateAgendaItem={updateAgendaItem}
               />);
-        } else if (conversationObject.type === 'attachments') {
+        } else if (conversationObject.type === 'attachments' && !conversationObject.archived) {
           const attachment = conversationObject;
           return (<Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}
-                              showTimeStamp={showTimeStamp} attachment={attachment}/>);
+                              archiveAttachment={archiveAttachment}
+                              currentUser={currentUser} showTimeStamp={showTimeStamp} attachment={attachment}/>);
         } else if (conversationObject.type === 'deliverables') {
           const deliverable = conversationObject;
           return (<DeliverableInTimeline ref={unseenObjectMarkerRef} key={deliverable.id} showOwner={showOwner}
@@ -146,6 +147,7 @@ class ConversationObjectList extends Component {
                                          archiveDeliverable={archiveDeliverable}
                                          updateDeliverable={updateDeliverable}/>);
         }
+        return undefined;
         console.warn('Component not found for conversationObject: ', conversationObject);
       });
     }
@@ -239,10 +241,10 @@ class ConversationObjectList extends Component {
   renderConversationTimeLine = () => {
     const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl,
-        visitAgendaItem, visitDeliverable } = this.props;
+        visitAgendaItem, visitDeliverable, archiveAttachment } = this.props;
 
     const showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    let conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser);
+    let conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser, archiveAttachment);
     if (conversationObjects && conversationObjectElements) {
       conversationObjectElements = this.checkAndInsertNewObjectsMarker(conversationObjectElements, conversationObjects);
     }
@@ -271,7 +273,7 @@ class ConversationObjectList extends Component {
   };
 
   render() {
-    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment } = this.props;
+    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment } = this.props;
     const root = this.refs.root;
 
     if (this.props.conversationSettingsViewState === 'edit') {
@@ -301,6 +303,7 @@ class ConversationObjectList extends Component {
                             createAgendaItem={createAgendaItem}
                             createDeliverable={createDeliverable}
                             createAttachment={createAttachment}
+                            archiveAttachment={archiveAttachment}
                             handleNewObjectMarkerClick={this.scrollListToBottom}
                             scrollListToBottom={this.ifAlreadyAtBottomScrollListToBottom}
                             newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
@@ -337,6 +340,7 @@ ConversationObjectList.propTypes = {
   visitOrganization: PropTypes.func,
   deleteConversation: PropTypes.func.isRequired,
   createAttachment: PropTypes.func.isRequired,
+  archiveAttachment: PropTypes.func.isRequired,
   navigationHistory: PropTypes.object,
 };
 

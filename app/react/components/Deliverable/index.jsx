@@ -45,12 +45,12 @@ class Deliverable extends React.Component {
   };
 
   parentContextTitle = () => {
-    const { deliverable, context } = this.props;
+    const { deliverable, currentTimeline } = this.props;
     let icon;
     let contextTitle = deliverable.parent.title;
 
     if (deliverable.parentType === 'agendaItems') {
-      if (context === 'organization') {
+      if (currentTimeline === 'organization') {
         icon = <Icon type="chat" gap="15px" />;
         contextTitle = deliverable.parent.conversation.title;
       } else {
@@ -126,6 +126,10 @@ class Deliverable extends React.Component {
     }
   }
 
+  handleKeyDown(event) {
+    event.stopPropagation();
+  }
+
   render() {
     const { deliverable, selected } = this.props;
     const { title, assigneeId, dueOn, unseenCount, archived } = deliverable;
@@ -148,7 +152,9 @@ class Deliverable extends React.Component {
             <EditableText text={title} onUpdate={this.handleTitleUpdate} editable={selected} inverted maxLength={40} />
           </div>
         </div>
-        <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}>
+        <div className={deliverableIconStatus === 'overdue' ? styles.dueDateOverdueContainer : styles.dueDateContainer}
+         onKeyDown={this.handleKeyDown}
+        >
           <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
         </div>
         <div className={styles.bottomRow}>
@@ -171,7 +177,7 @@ Deliverable.propTypes = {
   visitDeliverable: PropTypes.func.isRequired,
   updateDeliverable: PropTypes.func,
   archiveDeliverable: PropTypes.func,
-  context: PropTypes.string,
+  currentTimeline: PropTypes.string,
 };
 
 export default Deliverable;

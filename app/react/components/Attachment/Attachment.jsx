@@ -2,9 +2,24 @@ import React, { PropTypes } from 'react';
 import SizungTime from '../SizungTime';
 import User from './../User/index';
 import styles from './Attachment.css';
-import SizungInputApp from '../../containers/SizungInputApp';
+import OptionsDropdown from '../OptionsDropdown/index';
 
 class Attachment extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.dropDownOptions = [{
+      label: 'Delete Attachment',
+      function: this.handleDeleteClick,
+    }];
+  }
+
+  handleDeleteClick = (e) => {
+    e.preventDefault();
+    this.props.archiveAttachment(this.props.attachment.id);
+  };
+
   lastUpdatedTime = () => {
     const { createdAt, updatedAt } = this.props.attachment;
     const lastUpdatedAt = (createdAt !== updatedAt ? updatedAt : createdAt);
@@ -27,7 +42,6 @@ class Attachment extends React.Component {
   renderAttachmentIcon = () => {
     const { fileName, fileUrl, fileType } = this.props.attachment;
     // Expecting fileType as mime type .. for example image/jpeg, image/png etc.
-    console.log('fileType: ', fileType);
     if (fileType && fileType.indexOf('image') > -1) {
       return (
         <a href={fileUrl} target="_blank" className={styles.thumbnailContainer}>
@@ -67,6 +81,18 @@ class Attachment extends React.Component {
     );
   };
 
+  renderCommentSettingsOptions = (owner) => {
+    const { currentUser } = this.props;
+
+    if (currentUser.id === owner.id) {
+      return (
+        <div className={styles.optionsMenu}>
+          <OptionsDropdown options={this.dropDownOptions} />
+        </div>
+      );
+    }
+  }
+
   render() {
     const { owner } = this.props.attachment;
     return (
@@ -75,6 +101,7 @@ class Attachment extends React.Component {
           { this.props.showOwner ? <User user={owner} /> : ''}
         </div>
         { this.renderShowAttachment() }
+        { this.renderCommentSettingsOptions(owner) }
       </div>
     );
   }
@@ -95,7 +122,12 @@ Attachment.propTypes = {
     }).isRequired,
   }).isRequired,
   showOwner: PropTypes.bool.isRequired,
+  currentUser: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+  }),
   showTimeStamp: PropTypes.bool.isRequired,
+  archiveAttachment: PropTypes.func.isRequired,
 };
 
 Attachment.defaultProps = {

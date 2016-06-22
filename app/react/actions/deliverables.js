@@ -51,7 +51,7 @@ const fetchDeliverable = (deliverableId) => {
     });
 
     // fetch objects if not already there
-    if (!getState().getIn(['conversationObjectsByDeliverable', deliverableId])) {
+    //if (!getState().getIn(['conversationObjectsByDeliverable', deliverableId])) {
       api.fetchJson('/api/deliverables/' + deliverableId + '/conversation_objects', (json) => {
         const conversationObjects = json.data.map(transform.transformObjectFromJsonApi);
 
@@ -64,7 +64,7 @@ const fetchDeliverable = (deliverableId) => {
           entities: conversationObjects,
         });
       });
-    }
+    //}
   };
 };
 

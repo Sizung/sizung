@@ -3,7 +3,7 @@ import SizungTime from '../SizungTime';
 import User from './../User/index';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
-import CommentDropdown from '../CommentDropdown/index';
+import OptionsDropdown from '../OptionsDropdown/index';
 import ComposerApp from '../../containers/ComposerApp';
 import { toMarkdown } from '../../utils/markdownUtils';
 
@@ -14,6 +14,14 @@ class Comment extends React.Component {
     this.state = {
       edit: false,
     };
+
+    this.dropDownOptions = [{
+      label: 'Edit Comment',
+      function: this.openEditForm,
+    }, {
+      label: 'Delete Comment',
+      function: this.handleDeleteClick,
+    }];
   }
 
   handleDeleteClick = (e) => {
@@ -69,14 +77,6 @@ class Comment extends React.Component {
     </div>);
   };
 
-
-  handleScroll = () => {
-    const node = this.refs.gearDropDown;
-    if (node) {
-      this.props.handleCommentSettingsDropdownScroll(node);
-    }
-  };
-
   renderCommentSettingsOptions = () => {
     const { comment, currentUser } = this.props;
     const { authorId } = comment;
@@ -84,7 +84,7 @@ class Comment extends React.Component {
     if (currentUser.id === authorId) {
       return (
         <div className={styles.optionsMenu}>
-          <CommentDropdown onEditClick={this.openEditForm} onDeleteClick={this.handleDeleteClick} />
+          <OptionsDropdown options={this.dropDownOptions} />
         </div>
       );
     }
@@ -154,7 +154,6 @@ Comment.propTypes = {
     }).isRequired,
   }).isRequired,
   currentUser: PropTypes.object.isRequired,
-  handleCommentSettingsDropdownScroll: PropTypes.func.isRequired,
   showAuthor: PropTypes.bool.isRequired,
   showTimeStamp: PropTypes.bool.isRequired,
 };
