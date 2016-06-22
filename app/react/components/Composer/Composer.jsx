@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import styles from './Composer.css';
 
-import { clearEditorContent, suggestionsFilter } from './composerUtil';
+import { clearEditorContent, suggestionsFilter, addListForListKeyCombinations } from './composerUtil';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
 import createMentionPlugin from 'draft-js-mention-plugin';
@@ -100,10 +100,11 @@ class Composer extends React.Component {
   }
 
   handleChange = (editorState) => {
+    const newEditorState = addListForListKeyCombinations(editorState);
     this.setState({
-      editorState,
+      editorState: newEditorState,
     });
-    this.props.onChange(editorState.getCurrentContent());
+    this.props.onChange(newEditorState.getCurrentContent());
   };
 
   hasText = () => {
