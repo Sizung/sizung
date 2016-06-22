@@ -133,7 +133,7 @@ class ConversationObjectList extends Component {
                                         archiveAgendaItem={archiveAgendaItem}
                                         updateAgendaItem={updateAgendaItem}
               />);
-        } else if (conversationObject.type === 'attachments') {
+        } else if (conversationObject.type === 'attachments' && !conversationObject.archived) {
           const attachment = conversationObject;
           return (<Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}
                               archiveAttachment={archiveAttachment}
@@ -147,6 +147,7 @@ class ConversationObjectList extends Component {
                                          archiveDeliverable={archiveDeliverable}
                                          updateDeliverable={updateDeliverable}/>);
         }
+        return undefined;
         console.warn('Component not found for conversationObject: ', conversationObject);
       });
     }

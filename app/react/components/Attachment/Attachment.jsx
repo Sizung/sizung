@@ -10,7 +10,7 @@ class Attachment extends React.Component {
     super(props);
 
     this.dropDownOptions = [{
-      label: 'Delete Comment',
+      label: 'Delete Attachment',
       function: this.handleDeleteClick,
     }];
   }
