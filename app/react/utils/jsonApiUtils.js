@@ -152,6 +152,8 @@ const transformAttachmentFromJsonApi = (attachment) => {
     ownerType: relType(attachment, 'owner'),
     createdAt: attachment.attributes.created_at,
     updatedAt: attachment.attributes.updated_at,
+    archived: attachment.attributes.archived,
+    archivedAt: attachment.attributes.archived_at,
   };
 }
 
