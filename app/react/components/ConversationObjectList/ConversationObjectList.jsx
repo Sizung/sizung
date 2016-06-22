@@ -45,7 +45,7 @@ class ConversationObjectList extends Component {
 
       const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
 
-      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && this.newObjectsMarkerSeen) {
+      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && ((nextProps.conversationObjects.filter((obj) => { return obj.unseen }).length > 0 && this.newObjectsMarkerSeen) || !this.newObjectsMarkerSeen )) {
         this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
       }
     }
