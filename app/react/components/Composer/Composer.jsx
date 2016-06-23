@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import styles from './Composer.css';
 
-import { clearEditorContent, suggestionsFilter, addListForListKeyCombinations } from './composerUtil';
+import { clearEditorContent, suggestionsFilter, handleSoftNewLine } from './composerUtil';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
 import createMentionPlugin from 'draft-js-mention-plugin';
@@ -100,11 +100,10 @@ class Composer extends React.Component {
   }
 
   handleChange = (editorState) => {
-    const newEditorState = addListForListKeyCombinations(editorState);
     this.setState({
-      editorState: newEditorState,
+      editorState,
     });
-    this.props.onChange(newEditorState.getCurrentContent());
+    this.props.onChange(editorState.getCurrentContent());
   };
 
   hasText = () => {
@@ -135,6 +134,12 @@ class Composer extends React.Component {
        this.props.onSubmit(toMarkdown(contentState), plainText);
        this.handleChange(clearEditorContent(editorState));
        return true;
+     } else if (e.shiftKey) {
+       const newState = handleSoftNewLine(editorState);
+       if (newState) {
+         this.handleChange(newState);
+         return true;
+       }
      }
      return false;
    };
