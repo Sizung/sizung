@@ -6,18 +6,14 @@
 .root > ol, .root > ul {
   margin: 0 !important;
   padding: 0 !important;
-  display: inline-block;
-  white-space: pre-wrap;
+  margin-left: 1.5em !important;
 }
 
 .root li {
-  margin-left: 1.5em !important;
-  display: inline-block;
   white-space: pre-wrap;
 }
 
 .root p {
-  /*display: inline-block;*/
   white-space: pre-wrap;
   margin: 0;
   padding: 0;
