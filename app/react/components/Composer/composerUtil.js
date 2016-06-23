@@ -51,22 +51,6 @@ function getSelectedBlock(editorState) {
   return undefined;
 }
 
-function addLineBreakRemovingSelection(editorState: EditorState): EditorState {
-  const content = editorState.getCurrentContent();
-  const selection = editorState.getSelection();
-  let newContent = Modifier.removeRange(content, selection, 'forward');
-  const fragment = newContent.getSelectionAfter();
-  const currentClock = newContent.getBlockForKey(fragment.getStartKey());
-  newContent = Modifier.insertText(
-    newContent,
-    fragment,
-    '\n',
-    currentClock.getInlineStyleAt(fragment.getStartOffset()),
-    null,
-  );
-  return EditorState.push(editorState, newContent, 'insert-fragment');
-}
-
 function addNewListBlocks(editorState) {
   let newState = editorState;
   const selectedBlock = getSelectedBlock(newState);
@@ -116,18 +100,8 @@ function addNewListBlocks(editorState) {
 
 export function handleSoftNewLine(editorState) {
   const selectedBlock = getSelectedBlock(editorState);
-  if (selectedBlock.type !== 'unordered-list-item' && selectedBlock.type !== 'ordered-list-item') {
-    let newState = editorState;
-    if (selectedBlock.getText().startsWith('* ') || selectedBlock.getText().startsWith('1. ')) {
-      newState = addNewListBlocks(newState);
-    } else {
-      const selection = newState.getSelection();
-      if (selection.isCollapsed()) {
-        newState = RichUtils.insertSoftNewline(newState);
-      } else {
-        newState = addLineBreakRemovingSelection(newState);
-      }
-    }
-    return newState;
+  if (selectedBlock.type !== 'unordered-list-item' && selectedBlock.type !== 'ordered-list-item' &&
+    (selectedBlock.getText().startsWith('* ') || selectedBlock.getText().startsWith('1. '))) {
+    return addNewListBlocks(editorState);
   }
 }
