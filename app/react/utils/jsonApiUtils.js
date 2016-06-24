@@ -135,6 +135,7 @@ export function transformOrganizationMemberFromJsonApi(orgMember) {
     type: 'organizationMembers',
     organizationId: orgMember.relationships.organization.data.id,
     memberId: orgMember.relationships.member.data.id,
+    admin: orgMember.attributes.admin,
   };
 }
 
