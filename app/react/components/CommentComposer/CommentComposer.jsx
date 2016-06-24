@@ -15,6 +15,7 @@ class CommentComposer extends React.Component {
     onSelect: PropTypes.func.isRequired,
     createAttachment: PropTypes.func.isRequired,
     scrollListToBottom: PropTypes.func,
+    entityId: PropTypes.string,
   };
 
   constructor() {
@@ -133,6 +134,7 @@ class CommentComposer extends React.Component {
         </div>
         <ComposerApp
           ref="name"
+          entityId={this.props.entityId}
           value={this.props.defaultValue}
           onSubmit={this.handleSubmit}
           placeholder="Write your comment here"

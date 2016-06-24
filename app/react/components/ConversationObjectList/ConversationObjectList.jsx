@@ -269,7 +269,7 @@ class ConversationObjectList extends Component {
   };
 
   render() {
-    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment } = this.props;
+    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, deliverable, params } = this.props;
     const root = this.refs.root;
 
     if (this.props.conversationSettingsViewState === 'edit') {
@@ -296,6 +296,7 @@ class ConversationObjectList extends Component {
           <TimelineHeader parent={commentForm.parent} />
           {this.renderConversationTimeLine()}
           <ComposeContainer createComment={createComment}
+                            entityId={params.deliverableId || params.agendaItemId}
                             createAgendaItem={createAgendaItem}
                             createDeliverable={createDeliverable}
                             createAttachment={createAttachment}

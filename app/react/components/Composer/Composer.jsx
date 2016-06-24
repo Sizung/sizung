@@ -64,9 +64,16 @@ class Composer extends React.Component {
   }
 
   componentWillReceiveProps(properties) {
+    if (properties.entityId !== this.props.entityId) {
+      this.refs.editor.focus();
+    }
     if (properties.mentions !== this.props.mentions) {
       this.setSuggestion(this.state.filterText, properties.mentions);
     }
+  }
+
+  componentDidMount() {
+    this.refs.editor.focus();
   }
 
   componentDidUpdate() {
