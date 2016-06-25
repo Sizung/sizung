@@ -1,8 +1,5 @@
 import React, { PropTypes } from 'react';
 import styles from './SizungInput.css';
-import { Mention, MentionsInput } from 'react-mentions';
-//import defaultStyle from './mentionStyle.js';
-//import { Mention, MentionsInput } from '../Mentions';
 
 class SizungInput extends React.Component {
 
@@ -40,11 +37,12 @@ class SizungInput extends React.Component {
     return this.state.value;
   };
 
-  handleChange = (ev, value) => {
+  handleChange = (ev) => {
+    const { value } = ev.target;
     if (this.props.maxLength && value && value.length > this.props.maxLength) {
       return null;
     }
-    
+
     this.setState({
       value,
     });
@@ -86,26 +84,16 @@ class SizungInput extends React.Component {
 
   render() {
     const { placeholder } = this.props;
-    
     return (
-      <MentionsInput value={this.state.value}
-                     placeholder={placeholder}
-                     onChange={this.handleChange}
-                     onKeyDown={this.handleKeyDown}
-                     onKeyUp={this.handleKeyUp}
-                     onBlur={this.handleBlur}
-                     rows="1"
-                     markup="@[__display__](__id__)"
-                     autoFocus
-                     //style={defaultStyle()}
-      >
-        <Mention  trigger="@"
-                  singleLine={false}
-                  placeholder={"Mention people using '@'"}
-                  data={this.userSuggestions()}
-                  renderSuggestion={this.renderUserSuggestion}
-        />
-      </MentionsInput>
+      <input type="text"
+        value={this.state.value}
+        placeholder={placeholder}
+        onChange={this.handleChange}
+        onKeyDown={this.handleKeyDown}
+        onKeyUp={this.handleKeyUp}
+        onBlur={this.handleBlur}
+        className={styles.input}
+      />
     );
   }
 }
