@@ -13,7 +13,7 @@
   %p
     %br
     %br
-    = link_to 'Join', root_url
+    = link_to 'Join', root_url, class: 'actionLink'
 - else
   %p
     An account has already been created with this email address. 
@@ -21,7 +21,7 @@
   %p
     %br
     %br
-    = link_to 'Confirm', confirmation_url(@user, confirmation_token: @user.generate_and_return_confirmation_token!)
+    = link_to 'Confirm', confirmation_url(@user, confirmation_token: @user.generate_and_return_confirmation_token!), class: 'actionLink'
   %br
   %br
 
