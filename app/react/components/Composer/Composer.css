@@ -14,7 +14,7 @@
   margin: 5px 5px 5px 0;
   box-shadow: inset 0px 1px 8px -3px #ABABAB;
   background: #fefefe;
-  max-width: 600px;
+  max-width: 1000px;
 }
 
 .root:global(.public-DraftEditor-content) {
