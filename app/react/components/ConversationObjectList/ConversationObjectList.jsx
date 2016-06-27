@@ -269,7 +269,7 @@ class ConversationObjectList extends Component {
   };
 
   render() {
-    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, deliverable, params } = this.props;
+    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params } = this.props;
     const root = this.refs.root;
 
     if (this.props.conversationSettingsViewState === 'edit') {

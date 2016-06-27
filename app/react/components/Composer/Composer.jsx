@@ -72,9 +72,11 @@ class Composer extends React.Component {
     }
   }
 
-  componentDidMount() {
-    this.refs.editor.focus();
-  }
+  // componentDidMount() {
+  //   if (this.refs.editor) {
+  //     this.refs.editor.focus();
+  //   }
+  // }
 
   componentDidUpdate() {
     this.props.scrollListToBottom();
