@@ -28,5 +28,17 @@ describe Api::DevicesController do
       assert_equal 'this is a random token', agenda_item['data']['attributes']['token']
       assert_equal @current_user.id, agenda_item['data']['relationships']['user']['data']['id']
     end
+
+    it 'should not create a duplicated token for the same user' do
+      device = FactoryGirl.create :device, token: 'abc123', user: @current_user
+      expect {
+        post :create, device: { token: 'abc123' }, format: :json
+      }.wont_change 'Device.count'
+
+      assert_response :success
+      agenda_item = JSON.parse(response.body)
+      assert_equal 'abc123', agenda_item['data']['attributes']['token']
+      assert_equal @current_user.id, agenda_item['data']['relationships']['user']['data']['id']
+    end
   end
 end
