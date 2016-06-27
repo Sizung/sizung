@@ -21,14 +21,17 @@ class TextWithMentions extends React.Component {
     let text = this.props.children;
 
     while (text.match(pattern)) {
-      text = text.replace(pattern, '$1__$2__$3');
+      text = text.replace(pattern, '$1 &sizung_mention$2&&sizung_mention $3');
     }
 
     text = this.props.maxLength && text.length > this.props.maxLength ?
            `${text.substring(0, this.props.maxLength)}...`
          : text;
 
-    const rawMarkup = marked(text, { sanitize: true, renderer });
+    let rawMarkup = marked(text, { sanitize: true, renderer });
+    rawMarkup = rawMarkup.replace('&amp;sizung_mention', `<span class="${styles.mention}">`);
+    rawMarkup = rawMarkup.replace('&amp;&amp;sizung_mention', '</span>');
+
     return { __html: rawMarkup };
   };
 

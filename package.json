@@ -56,7 +56,6 @@
     "react-bootstrap": "^0.28.2",
     "react-datepicker": "^0.18.0",
     "react-dom": "^0.14.6",
-    "react-mentions": "0.2.7",
     "react-redux": "^4.0.6",
     "react-router": "^2.0.0-rc5",
     "react-s3-uploader": "^3.1.0",

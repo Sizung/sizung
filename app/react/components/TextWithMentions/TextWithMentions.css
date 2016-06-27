@@ -3,22 +3,28 @@
   white-space: nowrap;
 }
 
-.root > ol, ul {
+.root > ol, .root > ul {
   margin: 0 !important;
   padding: 0 !important;
-  display: inline-block;
-  white-space: pre-wrap;
+  margin-left: 1.5em !important;
 }
 
 .root li {
-  margin-left: 1.5em !important;
-  display: inline-block;
   white-space: pre-wrap;
 }
 
 .root p {
-  /*display: inline-block;*/
   white-space: pre-wrap;
   margin: 0;
   padding: 0;
+}
+
+.mention {
+  color: #3297BE;
+  font-family: Gotham-Bold;
+  background: #e6f3ff;
+  padding-left: 2px;
+  padding-right: 2px;
+  border-radius: 2px;
+  text-decoration: none;
 }

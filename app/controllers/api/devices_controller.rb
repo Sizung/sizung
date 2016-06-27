@@ -45,8 +45,7 @@ module Api
     end
 
     def create
-      @device = Device.new(device_params)
-      @device.user = current_user
+      @device = Device.where(user: current_user).first_or_initialize(device_params)
       authorize @device
 
       if @device.save

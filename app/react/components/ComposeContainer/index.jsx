@@ -20,6 +20,7 @@ class ComposeContainer extends React.Component {
     newObjects: PropTypes.number,
     handleNewObjectMarkerClick: PropTypes.func,
     scrollListToBottom: PropTypes.func,
+    entityId: PropTypes.string,
   };
 
   constructor() {
@@ -45,7 +46,7 @@ class ComposeContainer extends React.Component {
   };
 
   renderComposer(composerType) {
-    const { currentUser, parent, createComment, createAgendaItem, createDeliverable, createAttachment } = this.props;
+    const { currentUser, parent, createComment, createAgendaItem, createDeliverable, createAttachment, entityId } = this.props;
 
     switch (composerType) {
       case 'agendaItem':
@@ -68,6 +69,7 @@ class ComposeContainer extends React.Component {
       case 'comment':
       default:
         return <CommentComposer parent={parent}
+                                entityId={entityId}
                                 createComment={createComment}
                                 onSelect={this.handleSelect}
                                 currentUser={currentUser}

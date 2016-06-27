@@ -1,4 +1,4 @@
-import { EditorState, Modifier } from 'draft-js';
+import { EditorState, Modifier, RichUtils } from 'draft-js';
 
 export function clearEditorContent(editorState) {
   const blocks = editorState.getCurrentContent().getBlockMap().toList();
@@ -25,4 +25,83 @@ export function suggestionsFilter(searchValue, suggestions) {
       (!value || suggestion.get('name').toLowerCase().indexOf(value) > -1);
   });
   return filteredSuggestions;
+}
+
+function getSelectedBlocksMap(editorState) {
+  const selectionState = editorState.getSelection();
+  const contentState = editorState.getCurrentContent();
+  const startKey = selectionState.getStartKey();
+  const endKey = selectionState.getEndKey();
+  const blockMap = contentState.getBlockMap();
+  return blockMap
+    .toSeq()
+    .skipUntil((_, k) => k === startKey)
+    .takeUntil((_, k) => k === endKey)
+    .concat([[endKey, blockMap.get(endKey)]]);
+}
+
+function getSelectedBlocksList(editorState) {
+  return getSelectedBlocksMap(editorState).toList();
+}
+
+function getSelectedBlock(editorState) {
+  if (editorState) {
+    return getSelectedBlocksList(editorState).get(0);
+  }
+  return undefined;
+}
+
+function addNewListBlocks(editorState) {
+  let newState = editorState;
+  const selectedBlock = getSelectedBlock(newState);
+
+  const removeRangeLength = selectedBlock.getText().startsWith('* ') ? 2 : 3;
+  const blockType = selectedBlock.getText().startsWith('* ') ? 'unordered-list-item' : 'ordered-list-item';
+
+  // remove '* ' or '1. ' from beginning of block
+  let updatedSelection = newState.getSelection().merge({
+    anchorKey: selectedBlock.get('key'),
+    anchorOffset: 0,
+    focusKey: selectedBlock.get('key'),
+    focusOffset: removeRangeLength,
+    isBackward: false,
+  });
+  let newContentState = Modifier.removeRange(
+    editorState.getCurrentContent(),
+    updatedSelection,
+    'forward'
+  );
+  newState = EditorState.push(newState, newContentState, 'remove-range');
+
+  // move seleciton back to end of block
+  updatedSelection = newState.getSelection().merge({
+    anchorKey: selectedBlock.get('key'),
+    anchorOffset: selectedBlock.getLength(),
+    focusKey: selectedBlock.get('key'),
+    focusOffset: selectedBlock.getLength(),
+    isBackward: false,
+  });
+  newState = EditorState.acceptSelection(newState, updatedSelection);
+
+  // toggle block type
+  newState = RichUtils.toggleBlockType(
+    newState,
+    blockType
+  );
+
+  // split block
+  newContentState = Modifier.splitBlock(
+    newState.getCurrentContent(),
+    newState.getSelection()
+  );
+
+  return EditorState.push(newState, newContentState, 'split-block');
+}
+
+export function handleSoftNewLine(editorState) {
+  const selectedBlock = getSelectedBlock(editorState);
+  if (selectedBlock.type !== 'unordered-list-item' && selectedBlock.type !== 'ordered-list-item' &&
+    (selectedBlock.getText().startsWith('* ') || selectedBlock.getText().startsWith('1. '))) {
+    return addNewListBlocks(editorState);
+  }
 }

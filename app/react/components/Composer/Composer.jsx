@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import styles from './Composer.css';
 
-import { clearEditorContent, suggestionsFilter } from './composerUtil';
+import { clearEditorContent, suggestionsFilter, handleSoftNewLine } from './composerUtil';
 import Editor from 'draft-js-plugins-editor';
 import 'draft-js-mention-plugin/lib/plugin.css';
 import createMentionPlugin from 'draft-js-mention-plugin';
@@ -64,10 +64,19 @@ class Composer extends React.Component {
   }
 
   componentWillReceiveProps(properties) {
+    if (properties.entityId !== this.props.entityId) {
+      this.refs.editor.focus();
+    }
     if (properties.mentions !== this.props.mentions) {
       this.setSuggestion(this.state.filterText, properties.mentions);
     }
   }
+
+  // componentDidMount() {
+  //   if (this.refs.editor) {
+  //     this.refs.editor.focus();
+  //   }
+  // }
 
   componentDidUpdate() {
     this.props.scrollListToBottom();
@@ -134,6 +143,12 @@ class Composer extends React.Component {
        this.props.onSubmit(toMarkdown(contentState), plainText);
        this.handleChange(clearEditorContent(editorState));
        return true;
+     } else if (e.shiftKey) {
+       const newState = handleSoftNewLine(editorState);
+       if (newState) {
+         this.handleChange(newState);
+         return true;
+       }
      }
      return false;
    };
