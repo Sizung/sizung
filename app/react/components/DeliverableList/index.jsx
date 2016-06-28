@@ -14,32 +14,11 @@ class DeliverableList extends Component {
     currentUser: PropTypes.object.isRequired,
   };
 
-  constructor() {
+  constructor(props) {
     super();
-    this.deliverableListSize = 0;
     this.state = {
-      filter: 'team',
+      filter: (props.currentTimeline === 'organization' ? 'my' : 'team'),
     };
-  }
-
-  componentDidMount() {
-    const deliverableList = this.refs.deliverableList;
-    if (deliverableList) {
-      deliverableList.scrollTop = 0;
-    }
-  }
-
-  componentDidUpdate() {
-  }
-
-  scrollList() {
-    const _this = this;
-    window.requestAnimationFrame(() => {
-      const node = _this.refs.deliverableList;
-      if (node !== undefined) {
-        node.scrollTop = node.scrollHeight;
-      }
-    });
   }
 
   handleFilter = (filter) => {
@@ -79,7 +58,7 @@ class DeliverableList extends Component {
           </Icon>
         </div>
         <div className={styles.filter}>
-          <span className={this.state.filter === 'team' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'team')}>Team Actions</span>
+          <span className={this.state.filter === 'team' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'team')}>{this.props.currentTimeline === 'organization' ? 'All Actions' : 'Team Actions'}</span>
           <span className={this.state.filter === 'my' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'my')}>My Actions</span>
         </div>
         <div ref="deliverableList" className={styles.list}>
