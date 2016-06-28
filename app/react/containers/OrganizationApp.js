@@ -42,7 +42,7 @@ class OrganizationApp extends React.Component {
   };
 
   render() {
-    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState, updateAgendaItem, updateDeliverable } = this.props;
+    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState, updateAgendaItem, updateDeliverable, currentUser } = this.props;
 
     if (organization && conversations) {
       return (
@@ -57,6 +57,7 @@ class OrganizationApp extends React.Component {
           updateDeliverable={updateDeliverable}
           users={users}
           conversationSettingsViewState={conversationSettingsViewState}
+          currentUser={currentUser}
         />
       );
     }
@@ -79,6 +80,7 @@ function mapStateToProps(state, props) {
     deliverables: selectors.deliverablesForOrganization(state, props.params.organizationId),
     users: selectors.users(state),
     conversationSettingsViewState,
+    currentUser: selectors.currentUser(state),
   };
 }
 

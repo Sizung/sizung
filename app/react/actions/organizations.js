@@ -21,7 +21,8 @@ const fetchOrganizationsSuccess = (organizations) => {
   };
 };
 
-const fetchOrganizationSuccess = (organization, included, conversations, agendaItems, deliverables, conversationDeliverables) => {
+//const fetchOrganizationSuccess = (organization, included, conversations, agendaItems, deliverables, conversationDeliverables) => {
+const fetchOrganizationSuccess = (organization, included, conversations, agendaItems) => {
   return {
     type: constants.FETCH_ORGANIZATION,
     status: constants.STATUS_SUCCESS,
@@ -29,8 +30,8 @@ const fetchOrganizationSuccess = (organization, included, conversations, agendaI
     entities: included,
     conversations,
     agendaItems,
-    deliverables,
-    conversationDeliverables,
+    //deliverables,
+    //conversationDeliverables,
   };
 };
 
@@ -39,11 +40,14 @@ const fetchOrganization = (organizationId, dispatch) => {
     const organization = transform.transformObjectFromJsonApi(json.data, json.meta);
     const conversations = json.meta.conversations.data.map(transform.transformObjectFromJsonApi);
     const agendaItems = json.meta.agenda_items.data.map(transform.transformObjectFromJsonApi);
-    const deliverables = json.meta.deliverables.data.map(transform.transformObjectFromJsonApi);
-    const conversationDeliverables = json.meta.conversation_deliverables.data.map(transform.transformObjectFromJsonApi);
-    const included = json.included.map(transform.transformObjectFromJsonApi).concat(conversations).concat(agendaItems).concat(deliverables).concat(conversationDeliverables);
+    const organizationDeliverables = json.meta.organization_deliverables.data.map(transform.transformObjectFromJsonApi);
+    //const deliverables = json.meta.deliverables.data.map(transform.transformObjectFromJsonApi);
+    //const conversationDeliverables = json.meta.conversation_deliverables.data.map(transform.transformObjectFromJsonApi);
+    //const included = json.included.map(transform.transformObjectFromJsonApi).concat(conversations).concat(agendaItems).concat(deliverables).concat(conversationDeliverables);
+    const included = json.included.map(transform.transformObjectFromJsonApi).concat(conversations).concat(agendaItems).concat(organizationDeliverables);
 
-    dispatch(fetchOrganizationSuccess(organization, included, conversations, agendaItems, deliverables, conversationDeliverables));
+    //dispatch(fetchOrganizationSuccess(organization, included, conversations, agendaItems, deliverables, conversationDeliverables));
+    dispatch(fetchOrganizationSuccess(organization, included, conversations, agendaItems));
     dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
     dispatch(ConversationUiActions.resetConversationUi());
   });
