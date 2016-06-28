@@ -79,8 +79,8 @@ class DeliverableList extends Component {
           </Icon>
         </div>
         <div className={styles.filter}>
-          <span className={this.state.filter === 'team' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'team')}>TEAM</span>
-          <span className={this.state.filter === 'my' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'my')}>MY</span>
+          <span className={this.state.filter === 'team' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'team')}>Team Actions</span>
+          <span className={this.state.filter === 'my' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'my')}>My Actions</span>
         </div>
         <div ref="deliverableList" className={styles.list}>
           { this.filteredDeliverableList() }
