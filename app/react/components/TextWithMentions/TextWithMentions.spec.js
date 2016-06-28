@@ -12,6 +12,6 @@ describe('TextWithMentions', () => {
     };
 
     const result = render(<TextWithMentions {...props} />);
-    expect(result.text()).to.be.eq('before mention Sam Sample after mention ) after bracket\n');
+    expect(result.text()).to.be.eq('before mention  Sam Sample  after mention ) after bracket\n');
   });
 });

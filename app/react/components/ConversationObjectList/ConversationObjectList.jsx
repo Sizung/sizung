@@ -296,7 +296,7 @@ class ConversationObjectList extends Component {
           <TimelineHeader parent={commentForm.parent} />
           {this.renderConversationTimeLine()}
           <ComposeContainer createComment={createComment}
-                            entityId={params.deliverableId || params.agendaItemId}
+                            entityId={params && (params.deliverableId || params.agendaItemId)}
                             createAgendaItem={createAgendaItem}
                             createDeliverable={createDeliverable}
                             createAttachment={createAttachment}

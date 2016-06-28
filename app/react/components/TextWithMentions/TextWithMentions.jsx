@@ -30,7 +30,7 @@ class TextWithMentions extends React.Component {
 
     let rawMarkup = marked(text, { sanitize: true, renderer });
     const mentionOpenMarkup = `<span class="${styles.mention}">`;
-    const mentionCloseMarkup = `</span>`;
+    const mentionCloseMarkup = '</span>';
     rawMarkup = rawMarkup.split('sizung_mention_open').join(mentionOpenMarkup);
     rawMarkup = rawMarkup.split('sizung_mention_close').join(mentionCloseMarkup);
 
