@@ -37,7 +37,7 @@
   justify-content: flex-start;
 }
 .action {
-  composes: hover-inline from '../../styles/modules/hover.css';
+  /*composes: hover-inline from '../../styles/modules/hover.css';*/
   /*display: flex;*/
   justify-content: flex-end;
   cursor: pointer;
