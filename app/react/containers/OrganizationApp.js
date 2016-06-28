@@ -12,6 +12,7 @@ import * as selectors from '../utils/selectors';
 import * as ws from '../utils/websocketUtils';
 
 import OrganizationOverview from '../components/OrganizationOverview';
+import LoadingPage from '../components/LoadingPage';
 
 class OrganizationApp extends React.Component {
   componentDidMount() {
