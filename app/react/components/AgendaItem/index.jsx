@@ -24,7 +24,8 @@ class AgendaItem extends React.Component {
 
   handleArchive = (e) => {
     e.preventDefault();
-    this.props.archiveAgendaItem(this.props.agendaItem.id);
+    e.stopPropagation();
+    this.props.archiveAgendaItem(this.props.agendaItem.id, this.props.agendaItem.conversation.id);
   };
 
   renderArchiveAction = () => {
