@@ -28,22 +28,43 @@ class AgendaItemInTimeline extends React.Component {
     return null;
   };
 
+  renderTitle = () => {
+    const { agendaItem } = this.props;
+    return (
+      <div className={styles.textContainer}>
+        <Icon type="agendaItem" className={styles.icon} gap={'0.5rem'}/>
+        <TextWithMentions>{agendaItem.title}</TextWithMentions>
+      </div>
+    );
+  };
+
+  renderContent = () => {
+    const { agendaItem } = this.props;
+    if (agendaItem.archived) {
+      return (
+        <div className={styles.title}>
+          {this.renderTitle()}
+        </div>
+      );
+    }
+    return (
+      <Link to={'/agenda_items/' + agendaItem.id} className={styles.title}>
+        {this.renderTitle()}
+      </Link>
+    );
+  };
+
   render() {
     const { agendaItem, showOwner } = this.props;
     const { owner } = agendaItem;
     return (
-        <div className={styles.root}>
+        <div className={ agendaItem.archived ? styles.archived : styles.root }>
           <div className={styles.userContainer}>
             { showOwner ? <User user={owner}/> : ''}
           </div>
           <div className={styles.contentWrapper}>
             <div className={styles.content}>
-              <Link to={'/agenda_items/' + agendaItem.id} className={styles.title}>
-                <div className={styles.textContainer}>
-                  <Icon type="agendaItem" className={styles.icon} gap={'0.5rem'}/>
-                  <TextWithMentions>{agendaItem.title}</TextWithMentions>
-                </div>
-              </Link>
+              {this.renderContent()}
             </div>
             {this.renderTime()}
           </div>

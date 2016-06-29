@@ -5,6 +5,11 @@
   color : #89949E;
 }
 
+.archived {
+  composes: root;
+  opacity: 0.6;
+}
+
 .userContainer {
   display: flex;
   flex-direction: row;
@@ -78,6 +83,10 @@
   border: 1px solid #E6E3E2;
   min-height: 4.563rem;
   /*margin-top: 1.875rem;*/
+}
+
+.archived .title {
+  cursor: not-allowed;
 }
 
 .title:hover {

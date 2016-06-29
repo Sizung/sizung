@@ -62,25 +62,46 @@ class DeliverableInTimeline extends React.Component {
     return null;
   };
 
+  renderTitle = () => {
+    const { deliverable } = this.props;
+    return (
+      <div className={styles.row}>
+        <div className={styles.textContainer}>
+          <Icon className={styles.icon} type="deliverable" gap="0.5rem" />
+          <TextWithMentions>{deliverable.title}</TextWithMentions>
+        </div>
+      </div>
+    );
+  };
+
+  renderContent = () => {
+    const { deliverable } = this.props;
+    if (deliverable.archived) {
+      return (
+        <div to={'/deliverables/' + deliverable.id} className={styles.title}>
+          {this.renderTitle()}
+        </div>
+      );
+    }
+    return (
+      <Link to={'/deliverables/' + deliverable.id} className={styles.title}>
+        {this.renderTitle()}
+      </Link>
+    );
+  };
+
   render() {
     const { deliverable, showOwner } = this.props;
     const { owner } = deliverable;
 
     return (
-      <div className={styles.root}>
+      <div className={ deliverable.archived ? styles.archived : styles.root }>
         <div className={styles.userContainer}>
           { showOwner ? <User user={owner} /> : ''}
         </div>
         <div className={styles.contentWrapper}>
           <div className={styles.content}>
-            <Link to={'/deliverables/' + deliverable.id} className={styles.title}>
-              <div className={styles.row}>
-                <div className={styles.textContainer}>
-                  <Icon className={styles.icon} type="deliverable" gap="0.5rem" />
-                  <TextWithMentions>{deliverable.title}</TextWithMentions>
-                </div>
-              </div>
-            </Link>
+            {this.renderContent()}
           </div>
           {this.renderTime()}
         </div>

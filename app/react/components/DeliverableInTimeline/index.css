@@ -5,6 +5,11 @@
   color : #89949E;
 }
 
+.archived {
+  composes: root;
+  opacity: 0.6;
+}
+
 .userContainer {
   display: flex;
   flex-direction: row;
@@ -73,8 +78,12 @@
   /*padding-top: 1.563rem;*/
 }
 
+.archived .title {
+  cursor: not-allowed;
+}
+
 .title:hover {
-  color: #57C1E8;
+  /*color: #57C1E8;*/
 }
 
 .timeContainer {
