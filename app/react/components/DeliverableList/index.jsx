@@ -49,6 +49,20 @@ class DeliverableList extends Component {
     }));
   };
 
+  renderFilterOptions = () => {
+    if (this.props.deliverables.length > 0) {
+      return (
+        <div className={styles.filter}>
+          <span className={this.state.filter === 'team' ? styles.filterOptionSelected : styles.filterOption}
+                onClick={this.handleFilter.bind(this, 'team')}>{this.props.currentTimeline === 'organization' ? 'All Actions' : 'Team Actions'}</span>
+          <span className={this.state.filter === 'my' ? styles.filterOptionSelected : styles.filterOption}
+                onClick={this.handleFilter.bind(this, 'my')}>My Actions</span>
+        </div>
+      );
+    }
+    return undefined;
+  };
+
   render() {
     return (
       <div className={styles.root}>
@@ -57,10 +71,7 @@ class DeliverableList extends Component {
             ACTION
           </Icon>
         </div>
-        <div className={styles.filter}>
-          <span className={this.state.filter === 'team' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'team')}>{this.props.currentTimeline === 'organization' ? 'All Actions' : 'Team Actions'}</span>
-          <span className={this.state.filter === 'my' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'my')}>My Actions</span>
-        </div>
+        {this.renderFilterOptions()}
         <div ref="deliverableList" className={styles.list}>
           { this.filteredDeliverableList() }
         </div>
