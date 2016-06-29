@@ -95,11 +95,11 @@ class DeliverableInTimeline extends React.Component {
     const { owner } = deliverable;
 
     return (
-      <div className={ deliverable.archived ? styles.archived : styles.root }>
+      <div className={ styles.root }>
         <div className={styles.userContainer}>
           { showOwner ? <User user={owner} /> : ''}
         </div>
-        <div className={styles.contentWrapper}>
+        <div className={ deliverable.archived ? styles.contentWrapperArchived : styles.contentWrapper }>
           <div className={styles.content}>
             {this.renderContent()}
           </div>

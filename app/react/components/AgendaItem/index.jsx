@@ -19,7 +19,7 @@ class AgendaItem extends React.Component {
 
   handleStatusUpdate = () => {
     const { agendaItem } = this.props;
-    this.props.updateAgendaItem(this.props.agendaItem.id, { status: (agendaItem.status === 'open' ? 'resolved' : agendaItem.status) });
+    this.props.updateAgendaItem(this.props.agendaItem.id, { status: (agendaItem.status === 'open' ? 'resolved' : 'open') });
   };
 
   handleArchive = (e) => {
@@ -41,7 +41,7 @@ class AgendaItem extends React.Component {
   };
 
   renderResolveAction = () => {
-    const { agendaItem } = this.props;
+    const { agendaItem, selected } = this.props;
     if (agendaItem.status !== 'resolved' && this.isEditable()) {
       return (
         <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
@@ -55,7 +55,7 @@ class AgendaItem extends React.Component {
       );
     } else if (agendaItem.status === 'resolved') {
       return (
-          <div className={styles.resolvedIcon}>
+          <div className={styles.resolvedIcon} onClick={ selected ? this.handleStatusUpdate : null }>
             <ResolveIcon resolved/>
           </div>
       );

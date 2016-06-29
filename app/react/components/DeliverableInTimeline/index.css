@@ -5,11 +5,6 @@
   color : #89949E;
 }
 
-.archived {
-  composes: root;
-  opacity: 0.5;
-}
-
 .userContainer {
   display: flex;
   flex-direction: row;
@@ -27,6 +22,11 @@
   display: table-cell;
   width: 100%;
   padding-right: 50px;
+}
+
+.contentWrapperArchived {
+  composes: contentWrapper;
+  opacity: 0.5;
 }
 
 .content {
@@ -78,7 +78,7 @@
   /*padding-top: 1.563rem;*/
 }
 
-.archived .title {
+.contentWrapperArchived .title {
   cursor: not-allowed;
 }
 

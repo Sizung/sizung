@@ -7,7 +7,6 @@
 
 .archived {
   composes: root;
-  opacity: 0.6;
 }
 
 .userContainer {
@@ -27,6 +26,11 @@
   display: table-cell;
   width: 100%;
   padding-right: 50px;
+}
+
+.contentWrapperArchived {
+  composes: contentWrapper;
+  opacity: 0.6;
 }
 
 .content {
@@ -85,7 +89,7 @@
   /*margin-top: 1.875rem;*/
 }
 
-.archived .title {
+.contentWrapperArchived .title {
   cursor: not-allowed;
 }
 

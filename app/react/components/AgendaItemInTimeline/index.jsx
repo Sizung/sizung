@@ -58,11 +58,11 @@ class AgendaItemInTimeline extends React.Component {
     const { agendaItem, showOwner } = this.props;
     const { owner } = agendaItem;
     return (
-        <div className={ agendaItem.archived ? styles.archived : styles.root }>
+        <div className={ styles.root }>
           <div className={styles.userContainer}>
             { showOwner ? <User user={owner}/> : ''}
           </div>
-          <div className={styles.contentWrapper}>
+          <div className={ agendaItem.archived ? styles.contentWrapperArchived : styles.contentWrapper }>
             <div className={styles.content}>
               {this.renderContent()}
             </div>
