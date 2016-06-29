@@ -50,7 +50,7 @@ class DeliverableList extends Component {
   };
 
   renderFilterOptions = () => {
-    if (this.props.deliverables.length > 0) {
+    if (this.props.deliverables.toJS().length > 0) {
       return (
         <div className={styles.filter}>
           <span className={this.state.filter === 'team' ? styles.filterOptionSelected : styles.filterOption}
