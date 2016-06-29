@@ -2,7 +2,15 @@ function transformTypeFromJsonApi(type) {
   switch(type) {
     case 'agenda_items': return 'agendaItems';
     case 'unseen_objects': return 'unseenObjects';
-    default: return type
+    default: return type;
+  }
+}
+
+export function reverseTransformTypeFromJsonApi(type) {
+  switch(type) {
+    case 'agendaItems': return 'agenda_items';
+    case 'unseenObjects': return 'unseen_objects';
+    default: return type;
   }
 }
 
