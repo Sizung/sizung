@@ -24,6 +24,11 @@
   padding-right: 50px;
 }
 
+.contentWrapperArchived {
+  composes: contentWrapper;
+  opacity: 0.5;
+}
+
 .content {
   display: block;
   width: 100%;
@@ -73,8 +78,12 @@
   /*padding-top: 1.563rem;*/
 }
 
+.contentWrapperArchived .title {
+  cursor: not-allowed;
+}
+
 .title:hover {
-  color: #57C1E8;
+  /*color: #57C1E8;*/
 }
 
 .timeContainer {

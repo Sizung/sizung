@@ -69,8 +69,10 @@ module Api
 
       @conversations = policy_scope(Conversation).where(organization: @organization).includes(:agenda_items, :deliverables, :conversation_members, :organization)
       @agenda_items = AgendaItem.where(conversation: @conversations).includes(:deliverables, :conversation, :owner)
-      @deliverables = Deliverable.where(parent_id: @agenda_items).where(assignee: current_user).includes(:parent, :owner, :assignee)
-      @conversation_deliverables = Deliverable.where(parent_id: @conversations).where(assignee: current_user).includes(:parent, :owner, :assignee)
+      @deliverables = Deliverable.where(parent_id: @agenda_items).includes(:parent, :owner, :assignee)
+      @conversation_deliverables = Deliverable.where(parent_id: @conversations).includes(:parent, :owner, :assignee)
+      #TODO: need to get rid of the above 2 deliverable keys since we are anyways passing all deliverables in the below key
+      @organization_deliverables = Deliverable.where(parent_id: @conversations || @agenda_items).includes(:parent, :owner, :assignee)
 
       render json: @organization,
              include: %w(organization_members, organization_members.member),
@@ -79,6 +81,7 @@ module Api
                  agenda_items: to_json_api(@agenda_items),
                  deliverables: to_json_api(@deliverables),
                  conversation_deliverables: to_json_api(@conversation_deliverables),
+                 organization_deliverables: to_json_api(@organization_deliverables),
                  editable: policy(@organization).edit?
              }
     end

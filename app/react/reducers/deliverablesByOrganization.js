@@ -8,13 +8,26 @@ export default function deliverablesByOrganization(state = initialState, action 
   if (action.type === constants.FETCH_ORGANIZATION && (action.status === constants.STATUS_SUCCESS || action.status === constants.STATUS_REMOTE_ORIGIN)) {
     let newState = state;
 
-    action.deliverables.forEach((entity) => {
-      newState = reducerUtils.setReferenceByObject(newState, entity, action.entity.id);
-    });
+    //action.deliverables.forEach((entity) => {
+    //  newState = reducerUtils.setReferenceByObject(newState, entity, action.entity.id);
+    //});
+    //
+    //action.conversationDeliverables.forEach((entity) => {
+    //  newState = reducerUtils.setReferenceByObject(newState, entity, action.entity.id);
+    //});
 
-    action.conversationDeliverables.forEach((entity) => {
-      newState = reducerUtils.setReferenceByObject(newState, entity, action.entity.id);
-    });
+    if (action.entities) {
+      action.entities.forEach((entity) => {
+        const type = entity.type;
+        if (type === 'deliverables') {
+          newState = reducerUtils.updateReferenceByObject(newState, entity, action.entity.id);
+        }
+      });
+    }
+
+    if (action.entity && action.entity.type === 'deliverables') {
+      newState = reducerUtils.updateReferenceByObject(newState, action.entity, action.entity.id);
+    }
 
     return newState;
   }

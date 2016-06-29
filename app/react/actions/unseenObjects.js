@@ -28,7 +28,6 @@ const setUnseenObjects = (unseenObjects) => {
 
 const fetchUnseenObjects = (type, id) => {
   return (dispatch) => {
-    console.log('fetching unseen objects for: ', type, id);
     api.fetchJson('/api/' + type + '/' + id + '/unseen_objects', (json) => {
       dispatch(setUnseenObjects(json.data.map(transform.transformUnseenObjectFromJsonApi)));
     });
