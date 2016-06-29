@@ -60,8 +60,8 @@ class OrganizationOverview extends Component {
     return (
       <div className={styles.root} ref="root">
         <ConversationLayout
-          left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } updateAgendaItem={ updateAgendaItem } /> }
-          right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } currentUser={currentUser}/> }
+          left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } updateAgendaItem={ updateAgendaItem } currentTimeline={'organization'}/> }
+          right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } currentTimeline={'organization'} currentUser={currentUser}/> }
           currentTimeline={'organization'}
         >
           {this.renderCenterPanel()}
