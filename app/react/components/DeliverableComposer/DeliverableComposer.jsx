@@ -69,6 +69,7 @@ class DeliverableComposer extends React.Component {
   };
 
   handleKeyDown = (e) => {
+    console.log('into handle key down')
     e.stopPropagation();
     if (e.keyCode === 13 && !e.shiftKey) {
       e.preventDefault();
@@ -123,7 +124,7 @@ class DeliverableComposer extends React.Component {
           <CloseIcon onClick={this.props.onClose} style={{ marginBottom: '0' }} type="transparent" />
         </div>
         <div className={styles.properties}>
-          <div className={styles.assigneeContainer}>
+          <div className={styles.assigneeContainer} onKeyDown={this.handleKeyDown} tabIndex="0">
             <div className={styles.assignLabel}>ASSIGN TO</div>
             <EditableUserApp userId={assigneeId} conversationId={deliverableUtils.getConversationIdFrom(parent)} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
           </div>
