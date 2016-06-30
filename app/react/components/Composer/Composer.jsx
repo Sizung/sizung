@@ -64,8 +64,8 @@ class Composer extends React.Component {
   }
 
   componentWillReceiveProps(properties) {
-    if (properties.entityId !== this.props.entityId) {
-      this.refs.editor.focus();
+    if (properties.entityId !== this.props.entityId && this.editor) {
+      this.editor.focus();
     }
     if (properties.mentions !== this.props.mentions) {
       this.setSuggestion(this.state.filterText, properties.mentions);
@@ -73,13 +73,20 @@ class Composer extends React.Component {
   }
 
   // componentDidMount() {
-  //   if (this.refs.editor) {
-  //     this.refs.editor.focus();
+  //   if (this.editor) {
+  //     this.editor.focus();
   //   }
   // }
 
   componentDidUpdate() {
     this.props.scrollListToBottom();
+  }
+
+  _setEditor = (editor) => {
+    if (editor) {
+      editor.focus();
+      this.editor = editor;
+    }
   }
 
   onSearchChange = ({ value }) => {
@@ -167,7 +174,9 @@ class Composer extends React.Component {
   }
 
   _focusEditor = () => {
-    this.refs.editor.focus();
+    if (this.editor) {
+      this.editor.focus();
+    }
   }
 
   render() {
@@ -176,7 +185,7 @@ class Composer extends React.Component {
     const { suggestions } = this;
     return (
       <div className={styles.root} onClick={this._focusEditor}>
-        <Editor ref="editor"
+        <Editor ref={this._setEditor}
                 spellCheck
                 editorState={editorState}
                 onChange={this.handleChange}
