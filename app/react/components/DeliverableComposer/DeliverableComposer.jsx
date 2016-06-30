@@ -1,13 +1,11 @@
 import React, { PropTypes } from 'react';
-import ReactDOM from 'react-dom';
 import styles from './DeliverableComposer.css';
-import SizungInputApp from '../../containers/SizungInputApp';
 import CloseIcon from '../CloseIcon';
 import Icon from '../Icon';
 import EditableUserApp from '../../containers/EditableUserApp';
 import EditableDate from '../EditableDate';
 import * as deliverableUtils from '../../utils/deliverableUtils.js';
-import * as ui from '../../utils/ui';
+import SizungInput from '../SizungInput';
 
 class DeliverableComposer extends React.Component {
   static propTypes = {
@@ -21,7 +19,7 @@ class DeliverableComposer extends React.Component {
       id: PropTypes.string.isRequired,
     }).isRequired,
     defaultValue: PropTypes.string,
-    setComposerValue: PropTypes.func
+    setComposerValue: PropTypes.func,
   };
 
   static defaultProps = {
@@ -31,12 +29,6 @@ class DeliverableComposer extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: props.defaultValue.substring(0, 40), assigneeId: null, dueOn: null };
-  }
-
-  componentDidMount() {
-    if (this.refs.name) {
-      this.refs.name.focus();
-    }
   }
 
   getType = (type) => {
@@ -84,7 +76,7 @@ class DeliverableComposer extends React.Component {
     }
   };
 
-  handleChangeInMentionBox = (ev) => {
+  handleChangeInInput = (ev) => {
     const { value } = ev.target;
     this.setState({ value });
   };
@@ -107,6 +99,11 @@ class DeliverableComposer extends React.Component {
       this.handleSubmit();
     }
   };
+
+  _setInputRef = (input) => {
+    this.inputRef = input;
+    input.focus();
+  }
 
   render() {
     const { dueOn } = this.state;
@@ -137,16 +134,14 @@ class DeliverableComposer extends React.Component {
         </div>
         <div className={styles.inputRow}>
           <Icon type="deliverable" gap="1.5rem"/>
-          <textarea
-            rows="1"
-            ref="name"
-            type="text"
-            maxLength={ 40 }
-            onKeyDown={this.handleKeyDown}
-            onSubmit={this.handleSubmit}
+          <SizungInput
+            maxLength={40}
             value={this.state.value}
+            inputRef={this._setInputRef}
+            onSubmit={this.handleSubmit}
             className={styles.deliverableInput}
-            onChange={this.handleChangeInMentionBox}
+            onChange={this.handleChangeInInput}
+            onKeyDown={this.handleKeyDown}
             placeholder="What needs to be done?"
           />
           <div
