@@ -41,6 +41,7 @@ class Deliverable extends React.Component {
 
   handleArchive = (e) => {
     e.preventDefault();
+    e.stopPropagation();
     this.props.archiveDeliverable(this.props.deliverable.id);
   };
 

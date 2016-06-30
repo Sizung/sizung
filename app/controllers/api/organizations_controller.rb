@@ -69,18 +69,16 @@ module Api
 
       @conversations = policy_scope(Conversation).where(organization: @organization).includes(:agenda_items, :deliverables, :conversation_members, :organization)
       @agenda_items = AgendaItem.where(conversation: @conversations).includes(:deliverables, :conversation, :owner)
-      # @deliverables = Deliverable.where(parent_id: @agenda_items).includes(:parent, :owner, :assignee)
-      # @conversation_deliverables = Deliverable.where(parent_id: @conversations).includes(:parent, :owner, :assignee)
-      @organization_deliverables = Deliverable.where(parent_id: @conversations || @agenda_items).includes(:parent, :owner, :assignee)
+      @deliverables = Deliverable.where(parent_id: @agenda_items).includes(:parent, :owner, :assignee)
+      @conversation_deliverables = Deliverable.where(parent_id: @conversations).includes(:parent, :owner, :assignee)
 
       render json: @organization,
              include: %w(organization_members, organization_members.member),
              meta: {
                  conversations: to_json_api(@conversations),
                  agenda_items: to_json_api(@agenda_items),
-                 # deliverables: to_json_api(@deliverables),
-                 # conversation_deliverables: to_json_api(@conversation_deliverables),
-                 organization_deliverables: to_json_api(@organization_deliverables),
+                 deliverables: to_json_api(@deliverables),
+                 conversation_deliverables: to_json_api(@conversation_deliverables),
                  editable: policy(@organization).edit?
              }
     end

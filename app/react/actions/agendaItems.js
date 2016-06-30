@@ -29,6 +29,9 @@ const updateAgendaItem = (id, changedFields) => {
         agendaItem,
         entity: agendaItem,
       });
+      if (changedFields.archived) {
+        dispatch(routeActions.push('/conversations/' + agendaItem.conversationId));
+      }
     });
   };
 };

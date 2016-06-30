@@ -17,7 +17,7 @@ class DeliverableList extends Component {
   constructor(props) {
     super();
     this.state = {
-      filter: (props.currentTimeline === 'organization' ? 'my' : 'team'),
+      filter: (props.currentTimeline === 'organization' ? 'my' : 'all'),
     };
   }
 
@@ -34,7 +34,8 @@ class DeliverableList extends Component {
         currentUser,
         } = this.props;
 
-    const filteredDeliverables = (this.state.filter === 'my' ? deliverables.filter((deliverable) => { return (deliverable.owner.id === currentUser.id || deliverable.assignee.id === currentUser.id); }) : deliverables);
+    const filteredDeliverables = (this.state.filter === 'my' ? deliverables.filter((deliverable) => { return (deliverable.ownerId === currentUser.id || deliverable.assigneeId === currentUser.id); }) : deliverables);
+    //const filteredDeliverables = deliverables;
     return (filteredDeliverables.map((deliverable) => {
       return (
           <Deliverable
@@ -49,6 +50,18 @@ class DeliverableList extends Component {
     }));
   };
 
+  renderFilterOptions = () => {
+    if (this.props.deliverables.toJS().length > 0) {
+      return (
+        <div className={styles.filter}>
+          <span className={this.state.filter === 'all' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'all')}>All</span>
+          <span className={this.state.filter === 'my' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'my')}>My</span>
+        </div>
+      );
+    }
+    return undefined;
+  };
+
   render() {
     return (
       <div className={styles.root}>
@@ -57,10 +70,7 @@ class DeliverableList extends Component {
             ACTION
           </Icon>
         </div>
-        <div className={styles.filter}>
-          <span className={this.state.filter === 'team' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'team')}>{this.props.currentTimeline === 'organization' ? 'All Actions' : 'Team Actions'}</span>
-          <span className={this.state.filter === 'my' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'my')}>My Actions</span>
-        </div>
+        {this.renderFilterOptions()}
         <div ref="deliverableList" className={styles.list}>
           { this.filteredDeliverableList() }
         </div>
