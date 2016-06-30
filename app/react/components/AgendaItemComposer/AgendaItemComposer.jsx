@@ -28,8 +28,10 @@ class AgendaItemComposer extends React.Component {
   }
 
   _setInputRef = (input) => {
-    this.inputRef = input;
-    input.focus();
+    if (input) {
+      this.inputRef = input;
+      input.focus();
+    }
   }
 
   handleSubmit = () => {

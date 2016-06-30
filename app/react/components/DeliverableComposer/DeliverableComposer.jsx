@@ -101,8 +101,10 @@ class DeliverableComposer extends React.Component {
   };
 
   _setInputRef = (input) => {
-    this.inputRef = input;
-    input.focus();
+    if (input) {
+      this.inputRef = input;
+      input.focus();
+    }
   }
 
   render() {
