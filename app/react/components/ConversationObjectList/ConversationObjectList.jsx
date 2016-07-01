@@ -156,7 +156,13 @@ class ConversationObjectList extends Component {
     if (isFetching) {
       return <div className={styles.loadingMessage}>Loading...</div>;
     } else if (nextPageUrl) {
-      return <div className={styles.loadMoreMessage}><a className={styles.link} href="#" onClick={this.handleShowMore}>Show More</a></div>;
+      return (
+        <div className={styles.loadMoreMessageContainer}>
+          <div className={styles.loadMoreMessage} onClick={this.handleShowMore}>
+            Show More
+          </div>
+        </div>
+      );
     }
   };
 
