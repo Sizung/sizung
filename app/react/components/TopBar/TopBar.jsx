@@ -37,7 +37,13 @@ class TopBar extends React.Component {
   renderOrganizationList = () => {
     const { organizations, currentOrganization, reactLinks } = this.props;
 
-    return organizations.filter(org => org.id !== currentOrganization.id).map((org) => {
+    const otherOrganization = organizations.filter(org => org.id !== currentOrganization.id);
+    const unseenOrganization = otherOrganization
+      .filter(org => org.unseenCount > 0)
+      .sort(org => org.unseenCount);
+    const seenOrganization = otherOrganization.filter(org => org.unseenCount <= 0);
+
+    return unseenOrganization.concat(seenOrganization).map((org) => {
       return <OrganizationIcon key={org.id} reactLink={reactLinks} organization={org} url={'/organizations/' + org.id} showUnseenNotification style={{ marginLeft: '2rem' }}/>;
     });
   };
