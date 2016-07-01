@@ -9,7 +9,7 @@ const isOrganizationOfTypeClosingMatrix = (organization) => {
 
 const agendaItemLabel = (organization) => {
   if (organization) {
-    return (isOrganizationOfTypeClosingMatrix(organization) ? 'CLOSING ITEM' : 'PRIORITY');
+    return (isOrganizationOfTypeClosingMatrix(organization) ? 'CLOSING ITEM' : 'AGENDA');
   }
   return '';
 };
