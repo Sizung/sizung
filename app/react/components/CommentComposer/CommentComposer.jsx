@@ -46,7 +46,7 @@ class CommentComposer extends React.Component {
     const fileObject = fileInput.files[0];
     this.setState({ uploadStatus: '' });
     const { parent } = this.props;
-    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: (data.signedUrl.split('?')[0].split('/').pop()), file_size: fileObject.size, file_type: fileObject.type });
+    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: decodeURIComponent(data.signedUrl.split('?')[0].split('/').pop()), file_size: fileObject.size, file_type: fileObject.type });
     fileInput.value = '';
   };
 
@@ -109,7 +109,6 @@ class CommentComposer extends React.Component {
               signingUrlHeaders={{ additional: headers }}
               signingUrlQueryParams={{ additional: queryParams }}
               uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
-              contentDisposition="auto"
           />
         </div>
     );
