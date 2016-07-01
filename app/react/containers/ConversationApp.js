@@ -16,6 +16,7 @@ import ConversationObjectList from '../components/ConversationObjectList';
 import { fillConversation } from '../utils/entityUtils';
 import * as ConversationUiActions from '../actions/conversationUi';
 import * as AttachmentActions from '../actions/attachments';
+import * as labels from '../utils/entityLabels';
 
 class ConversationApp extends React.Component {
   componentDidMount() {
@@ -34,20 +35,20 @@ class ConversationApp extends React.Component {
   };
 
   render() {
-    const { conversationObjects, commentForm } = this.props;
+    const { conversationObjects, commentForm, labels } = this.props;
     const { parent } = commentForm;
 
     if (parent) {
       if (conversationObjects) {
         return (
-          <ConversationLayoutApp conversationId={parent.id} currentTimeline={'conversation'}>
+          <ConversationLayoutApp conversationId={parent.id} currentTimeline={'conversation'} labels={labels}>
             <ConversationObjectList {...this.props} />
           </ConversationLayoutApp>
         );
       }
 
       return (
-        <ConversationLayoutApp conversationId={parent.id} currentTimeline={'conversation'}>
+        <ConversationLayoutApp conversationId={parent.id} currentTimeline={'conversation'} labels={labels}>
           <div className="text-center"><h5>Loading Conversation...</h5></div>
         </ConversationLayoutApp>
       );
@@ -88,6 +89,7 @@ function mapStateToProps(state, props) {
     conversationMembers: selectors.conversationMembers(state),
     conversationSettingsViewState,
     navigationHistory: selectors.navigationHistory(state),
+    labels: labels.organizationObjectsLabels(state),
   };
 }
 

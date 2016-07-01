@@ -20,6 +20,7 @@ class DeliverableComposer extends React.Component {
     }).isRequired,
     defaultValue: PropTypes.string,
     setComposerValue: PropTypes.func,
+    labels: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -111,14 +112,14 @@ class DeliverableComposer extends React.Component {
   render() {
     const { dueOn } = this.state;
     const assigneeId = this.assigneeId();
-    const { parent } = this.props;
+    const { parent, labels } = this.props;
     const { value } = this.state;
 
     return (
       <div className={styles.root}>
         <div className={styles.row}>
           <div className={styles.composeHeader}>
-            ACTION
+            { labels.deliverableLabel }
           </div>
           <div className={styles.filler}></div>
           <CloseIcon onClick={this.props.onClose} style={{ marginBottom: '0' }} type="transparent" />
@@ -145,7 +146,7 @@ class DeliverableComposer extends React.Component {
             className={styles.deliverableInput}
             onChange={this.handleChangeInInput}
             onKeyDown={this.handleKeyDown}
-            placeholder="What needs to be done?"
+            placeholder={ labels.deliverableInputPlaceholder }
           />
           <div
             className={(value && (40 - value.length)) < 5 ? styles.charsHintRed : styles.charsHint}

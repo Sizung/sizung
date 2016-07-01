@@ -16,6 +16,7 @@ class AgendaItemComposer extends React.Component {
     onClose: PropTypes.func.isRequired,
     defaultValue: PropTypes.string,
     setComposerValue: PropTypes.func,
+    labels: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -65,7 +66,7 @@ class AgendaItemComposer extends React.Component {
       <div className={styles.root}>
         <div className={styles.row}>
           <div className={styles.composeHeader}>
-            PRIORITY
+            { this.props.labels.agendaItemLabel }
           </div>
           <div className={styles.filler}></div>
           <CloseIcon type="transparent" style={{ marginBottom: '0' }} onClick={this.props.onClose} />
@@ -80,7 +81,7 @@ class AgendaItemComposer extends React.Component {
             onChange={this.handleChangeInInput}
             onKeyDown={this.handleKeyDown}
             value={this.state.value}
-            placeholder="What would you like to discuss?"
+            placeholder={ this.props.labels.agendaItemInputPlaceholder }
           />
           <div
             className={(value && (40 - value.length)) < 5 ? styles.charsHintRed : styles.charsHint}

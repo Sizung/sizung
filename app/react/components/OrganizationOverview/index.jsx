@@ -55,14 +55,15 @@ class OrganizationOverview extends Component {
     return this.renderConversationListPanel();
   }
   render() {
-    const { organization, conversations, agendaItems, visitAgendaItem, deliverables, visitDeliverable, updateDeliverable, updateAgendaItem, currentUser } = this.props;
+    const { organization, conversations, agendaItems, visitAgendaItem, deliverables, visitDeliverable, updateDeliverable, updateAgendaItem, currentUser, labels } = this.props;
 
     return (
       <div className={styles.root} ref="root">
         <ConversationLayout
-          left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } updateAgendaItem={ updateAgendaItem } currentTimeline={'organization'}/> }
-          right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } currentTimeline={'organization'} currentUser={currentUser}/> }
+          left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } updateAgendaItem={ updateAgendaItem } currentTimeline={'organization'} labels={labels}/> }
+          right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } currentTimeline={'organization'} currentUser={currentUser} labels={labels}/> }
           currentTimeline={'organization'}
+          labels={labels}
         >
           {this.renderCenterPanel()}
         </ConversationLayout>
@@ -83,6 +84,7 @@ OrganizationOverview.propTypes = {
   updateDeliverable: PropTypes.func.isRequired,
   updateAgendaItem: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,
+  labels: PropTypes.object.isRequired,
 };
 
 export default OrganizationOverview;

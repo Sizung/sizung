@@ -22,8 +22,8 @@ class ConversationLayout extends Component {
   };
   
   render() {
-    const left = this.props.left || <AgendaItemListApp currentTimeline={this.props.currentTimeline} conversationId={this.props.conversationId} selectedAgendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId}/>;
-    const right = this.props.right || <DeliverableListApp currentTimeline={this.props.currentTimeline} conversationId={this.props.conversationId} agendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} />;
+    const left = this.props.left || <AgendaItemListApp currentTimeline={this.props.currentTimeline} conversationId={this.props.conversationId} selectedAgendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} labels={this.props.labels}/>;
+    const right = this.props.right || <DeliverableListApp currentTimeline={this.props.currentTimeline} conversationId={this.props.conversationId} agendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} labels={this.props.labels}/>;
     const { panel } = this.state;
     return (
       <div className={styles.root}>
@@ -51,6 +51,7 @@ ConversationLayout.propTypes = {
   children: PropTypes.object.isRequired,
   right: PropTypes.object,
   currentTimeline: PropTypes.string.isRequired,
+  labels: PropTypes.object.isRequired,
 };
 
 export default ConversationLayout;

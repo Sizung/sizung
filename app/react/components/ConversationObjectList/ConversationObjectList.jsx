@@ -275,7 +275,7 @@ class ConversationObjectList extends Component {
   };
 
   render() {
-    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params } = this.props;
+    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params, labels } = this.props;
     const root = this.refs.root;
 
     if (this.props.conversationSettingsViewState === 'edit') {
@@ -310,6 +310,7 @@ class ConversationObjectList extends Component {
                             handleNewObjectMarkerClick={this.scrollListToBottom}
                             scrollListToBottom={this.ifAlreadyAtBottomScrollListToBottom}
                             newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
+                            labels={labels}
                             {...commentForm}
           />
         </div>
@@ -345,6 +346,7 @@ ConversationObjectList.propTypes = {
   createAttachment: PropTypes.func.isRequired,
   archiveAttachment: PropTypes.func.isRequired,
   navigationHistory: PropTypes.object,
+  labels: PropTypes.object.isRequired,
 };
 
 ConversationObjectList.defaultProps = {

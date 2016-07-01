@@ -15,6 +15,7 @@ import * as selectors from '../utils/selectors';
 import ConversationObjectList from '../components/ConversationObjectList';
 import ConversationLayoutApp from './ConversationLayoutApp';
 import { fillAgendaItem } from '../utils/entityUtils';
+import * as labels from '../utils/entityLabels';
 
 class AgendaItemApp extends React.Component {
   componentDidMount() {
@@ -33,12 +34,12 @@ class AgendaItemApp extends React.Component {
   };
 
   render() {
-    const { commentForm } = this.props;
+    const { commentForm, labels } = this.props;
     const { parent } = commentForm;
 
     if (parent) {
       return (
-        <ConversationLayoutApp conversationId={parent.conversationId} selectedAgendaItemId={parent.id} currentTimeline={'agendaItem'}>
+        <ConversationLayoutApp conversationId={parent.conversationId} selectedAgendaItemId={parent.id} currentTimeline={'agendaItem'} labels={labels}>
           <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );
@@ -80,6 +81,7 @@ function mapStateToProps(state, props) {
     conversationMembers: selectors.conversationMembers(state),
     conversationSettingsViewState,
     navigationHistory: selectors.navigationHistory(state),
+    labels: labels.organizationObjectsLabels(state),
   };
 }
 
