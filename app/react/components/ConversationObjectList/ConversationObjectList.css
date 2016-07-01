@@ -24,17 +24,30 @@
   font-size: smaller;
 }
 
-.loadMoreMessage {
-  text-align: center;
-  padding-top: 5px;
-  font-family: Gotham-Book;
-  font-size: 1rem;
+.loadMoreMessageContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 5px 0 0 0;
 }
 
-.link {
-  composes: text-muted from global;
-  padding-top: 5px;
-  text-decoration: none !important;
+.loadMoreMessage {
+  display: flex;
+  flex: none;
+  flex-direction: row;
+  justify-content: center;
+  min-width: 11.375rem;
+  height: 1.875rem;
+  padding: 0px 10px;
+  align-items: center;
+  text-align: center;
+  background-color: #eceff0;
+  font-family: Gotham-Book;
+  font-size: 1rem;
+  color: #415764;
+  border-radius: 1rem;
+  cursor: pointer;
 }
 
 .newObjectsMarkerContainer {
