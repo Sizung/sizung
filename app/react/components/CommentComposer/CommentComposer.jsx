@@ -46,7 +46,10 @@ class CommentComposer extends React.Component {
     const fileObject = fileInput.files[0];
     this.setState({ uploadStatus: '' });
     const { parent } = this.props;
-    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: decodeURIComponent(data.signedUrl.split('?')[0].split('/').pop()), file_size: fileObject.size, file_type: fileObject.type });
+    const fileName = data.signedUrl.split('?')[0].split('/').pop();
+    const decodedFileName = decodeURIComponent(fileName);
+    const persistentFileId = data.signedUrl.replace(fileName, decodedFileName)
+    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: persistentFileId, file_name: decodedFileName, file_size: fileObject.size, file_type: fileObject.type });
     fileInput.value = '';
   };
 
