@@ -24,6 +24,7 @@ import DeliverableApp from './DeliverableApp';
 import ConversationApp from './ConversationApp';
 import OrganizationApp from './OrganizationApp';
 import SettingsApp from './SettingsApp';
+import ActivitiesApp from './ActivitiesApp';
 import { bindActionCreators } from 'redux';
 import * as channelHandlers from '../actions/channelHandlers';
 
@@ -54,6 +55,7 @@ export default class Root extends Component {
         <Router history={browserHistory}>
           <Route path="/" component={ApplicationLayoutApp}>
             <Route path="/organizations/:organizationId/settings" component={SettingsApp} />
+            <Route path="/organizations/:organizationId/activities" component={ActivitiesApp} />
             <Route path="/organizations/:organizationId" component={OrganizationApp} />
             <Route path="/conversations/:conversationId" component={ConversationApp} />
             <Route path="/agenda_items/:agendaItemId" component={AgendaItemApp} />
