@@ -34,7 +34,7 @@ class ConversationHeader extends React.Component {
       );
     } else if (chatType === 'conversations') {
       return (
-          <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={15} editable={chatType === 'conversations' ? true : false}/>
+          <EditableText text={conversation.title} onUpdate={this.handleTitleUpdate} maxLength={25} editable={chatType === 'conversations' ? true : false}/>
       );
     }
   };

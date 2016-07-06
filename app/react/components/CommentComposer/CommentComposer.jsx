@@ -16,6 +16,7 @@ class CommentComposer extends React.Component {
     createAttachment: PropTypes.func.isRequired,
     scrollListToBottom: PropTypes.func,
     entityId: PropTypes.string,
+    labels: PropTypes.object.isRequired,
   };
 
   constructor() {
@@ -46,7 +47,10 @@ class CommentComposer extends React.Component {
     const fileObject = fileInput.files[0];
     this.setState({ uploadStatus: '' });
     const { parent } = this.props;
-    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: data.signedUrl, file_name: (data.signedUrl.split('?')[0].split('/').pop()), file_size: fileObject.size, file_type: fileObject.type });
+    const fileName = data.signedUrl.split('?')[0].split('/').pop();
+    const decodedFileName = decodeURIComponent(fileName);
+    const persistentFileId = data.signedUrl.replace(fileName, decodedFileName)
+    this.props.createAttachment(parent.type, parent.id, { persistent_file_id: persistentFileId, file_name: decodedFileName, file_size: fileObject.size, file_type: fileObject.type });
     fileInput.value = '';
   };
 
@@ -76,11 +80,11 @@ class CommentComposer extends React.Component {
   };
 
   renderAgendaItem = () => {
-    return <div className={styles.option} onClick={this.selectAgendaItem}><Icon type="agendaItem" className={styles.icon}>Priority</Icon></div>;
+    return <div className={styles.option} onClick={this.selectAgendaItem}><Icon type="agendaItem" className={styles.icon}>{this.props.labels.agendaItemLabel}</Icon></div>;
   };
 
   renderDeliverable = () => {
-    return <div className={styles.option} onClick={this.selectDeliverable}><Icon type="deliverable" className={styles.icon} gap='0.5rem'>Action</Icon></div>;
+    return <div className={styles.option} onClick={this.selectDeliverable}><Icon type="deliverable" className={styles.icon} gap='0.5rem'>{this.props.labels.deliverableLabel}</Icon></div>;
   };
 
   renderCaret = (type) => {
@@ -109,7 +113,6 @@ class CommentComposer extends React.Component {
               signingUrlHeaders={{ additional: headers }}
               signingUrlQueryParams={{ additional: queryParams }}
               uploadRequestHeaders={{ 'x-amz-acl': 'private' }}
-              contentDisposition="auto"
           />
         </div>
     );
@@ -137,7 +140,7 @@ class CommentComposer extends React.Component {
           entityId={this.props.entityId}
           value={this.props.defaultValue}
           onSubmit={this.handleSubmit}
-          placeholder="Write your comment here"
+          placeholder={ this.props.labels.commentInputPlaceholder }
           onChange={this.handleChangeInMentionBox}
           scrollListToBottom={this.props.scrollListToBottom}
         />

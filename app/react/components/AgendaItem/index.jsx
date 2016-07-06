@@ -5,6 +5,7 @@ import Icon from '../Icon';
 import ArchiveIcon from '../ArchiveIcon';
 import ResolveIcon from '../ResolveIcon';
 import TextWithMentions from '../TextWithMentions';
+import EditableUserApp from '../../containers/EditableUserApp';
 
 class AgendaItem extends React.Component {
 
@@ -19,12 +20,19 @@ class AgendaItem extends React.Component {
 
   handleStatusUpdate = () => {
     const { agendaItem } = this.props;
-    this.props.updateAgendaItem(this.props.agendaItem.id, { status: (agendaItem.status === 'open' ? 'resolved' : agendaItem.status) });
+    this.props.updateAgendaItem(this.props.agendaItem.id, { status: (agendaItem.status === 'open' ? 'resolved' : 'open') });
+  };
+
+  handleOwnerUpdate = (ownerId) => {
+    if (ownerId !== this.props.agendaItem.ownerId) {
+      this.props.updateAgendaItem(this.props.agendaItem.id, { owner_id: ownerId });
+    }
   };
 
   handleArchive = (e) => {
     e.preventDefault();
-    this.props.archiveAgendaItem(this.props.agendaItem.id);
+    e.stopPropagation();
+    this.props.archiveAgendaItem(this.props.agendaItem.id, this.props.agendaItem.conversation.id);
   };
 
   renderArchiveAction = () => {
@@ -33,14 +41,11 @@ class AgendaItem extends React.Component {
         <span className={styles.iconContainer}>
           <ArchiveIcon size={'x-large'} />
         </span>
-        <span>
-          {'Archive'}
-        </span>
     </div>);
   };
 
   renderResolveAction = () => {
-    const { agendaItem } = this.props;
+    const { agendaItem, selected } = this.props;
     if (agendaItem.status !== 'resolved' && this.isEditable()) {
       return (
         <div className={styles.statusContainer} onClick={this.handleStatusUpdate}>
@@ -52,21 +57,21 @@ class AgendaItem extends React.Component {
           </span>
         </div>
       );
-    } else if (agendaItem.status === 'resolved') {
-      return (
-          <div className={styles.resolvedIcon}>
-            <ResolveIcon resolved/>
-          </div>
-      );
     }
     return null;
   };
 
   renderBottomRow = () => {
+    const { agendaItem } = this.props;
     return (
       <div className={styles.actionContainer}>
-        { this.isEditable() ? this.renderArchiveAction() : this.parentContextTitle()}
-        { this.renderResolveAction() }
+        <div className={styles.actions}>
+          { this.renderResolveAction() }
+          { this.isEditable() ? this.renderArchiveAction() : this.parentContextTitle()}
+        </div>
+        <div className={styles.owner}>
+          <EditableUserApp conversationId={agendaItem.conversationId} editable userId={agendaItem.ownerId} onUpdate={this.handleOwnerUpdate} />
+        </div>
       </div>
     );
   };
@@ -98,12 +103,33 @@ class AgendaItem extends React.Component {
     }
     return null;
   };
-  
+
+  renderResolvedIcon = () => {
+    const { agendaItem, selected } = this.props;
+    if (agendaItem.status === 'resolved') {
+      return (
+          <div className={styles.resolvedIcon} onClick={ selected ? this.handleStatusUpdate : null }>
+            <ResolveIcon resolved/>
+          </div>
+      );
+    }
+  };
+
+  renderAgendaItemIcon = () => {
+    return (
+      <div className={styles.agendaItemIconContainer}>
+        <Icon type="agendaItem" />
+      </div>
+    );
+  };
+
   render() {
     const { agendaItem, selected } = this.props;
     let styleName = styles.seen;
     if (selected) {
       styleName = styles.selected;
+    } else if (agendaItem.status === 'resolved') {
+      styleName = styles.resolved;
     } else if (agendaItem.unseenCount > 0) {
       styleName = styles.unseen;
     }
@@ -112,9 +138,7 @@ class AgendaItem extends React.Component {
         <div className={styles.leftStrip}></div>
         <div className={styles.contentContainer} title={agendaItem.title}>
           <div className={styles.titleContainer}>
-            <div className={styles.agendaItemIconContainer}>
-              <Icon type="agendaItem" />
-            </div>
+            { agendaItem.status === 'resolved' ? this.renderResolvedIcon() : this.renderAgendaItemIcon() }
             <div className={styles.title}>
               <EditableText text={agendaItem.title} onUpdate={this.handleTitleUpdate} editable={this.isEditable()} inverted maxLength={40} />
             </div>

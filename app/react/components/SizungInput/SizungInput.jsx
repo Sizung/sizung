@@ -4,6 +4,7 @@ import styles from './SizungInput.css';
 class SizungInput extends React.Component {
 
   static propTypes = {
+    inputRef: PropTypes.func,
     value: PropTypes.string,
     defaultValue: PropTypes.string,
     onKeyDown: PropTypes.func,
@@ -11,8 +12,8 @@ class SizungInput extends React.Component {
     onSubmit: PropTypes.func,
     onBlur: PropTypes.func,
     onChange: PropTypes.func,
-    users: PropTypes.object,
     maxLength: PropTypes.number,
+    className: PropTypes.string,
   };
 
   static defaultProps = {
@@ -77,22 +78,18 @@ class SizungInput extends React.Component {
     }
   };
 
-  userSuggestions = () => {
-    const { users } = this.props;
-    return users ? users.filter(u => u.display).toJS() : [];
-  };
-
   render() {
-    const { placeholder } = this.props;
+    const { placeholder, inputRef, className } = this.props;
     return (
       <input type="text"
+        ref={inputRef}
         value={this.state.value}
         placeholder={placeholder}
         onChange={this.handleChange}
         onKeyDown={this.handleKeyDown}
         onKeyUp={this.handleKeyUp}
         onBlur={this.handleBlur}
-        className={styles.input}
+        className={`${styles.input} ${className}`}
       />
     );
   }

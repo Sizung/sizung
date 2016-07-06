@@ -13,6 +13,9 @@ const updateDeliverable = (id, changedFields) => {
         deliverable,
         entity: deliverable,
       });
+      if (changedFields.archived) {
+        dispatch(routeActions.push('/' + transform.reverseTransformTypeFromJsonApi(deliverable.parentType) +  '/' + deliverable.parentId));
+      }
     });
   };
 };

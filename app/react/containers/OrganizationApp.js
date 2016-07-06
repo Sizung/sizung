@@ -10,6 +10,7 @@ import * as DeliverableActions from '../actions/deliverables';
 import * as channelHandlers from '../actions/channelHandlers';
 import * as selectors from '../utils/selectors';
 import * as ws from '../utils/websocketUtils';
+import * as labels from '../utils/entityLabels';
 
 import OrganizationOverview from '../components/OrganizationOverview';
 
@@ -42,7 +43,7 @@ class OrganizationApp extends React.Component {
   };
 
   render() {
-    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState, updateAgendaItem, updateDeliverable } = this.props;
+    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState, updateAgendaItem, updateDeliverable, currentUser, labels } = this.props;
 
     if (organization && conversations) {
       return (
@@ -57,6 +58,8 @@ class OrganizationApp extends React.Component {
           updateDeliverable={updateDeliverable}
           users={users}
           conversationSettingsViewState={conversationSettingsViewState}
+          currentUser={currentUser}
+          labels={labels}
         />
       );
     }
@@ -79,6 +82,8 @@ function mapStateToProps(state, props) {
     deliverables: selectors.deliverablesForOrganization(state, props.params.organizationId),
     users: selectors.users(state),
     conversationSettingsViewState,
+    currentUser: selectors.currentUser(state),
+    labels: labels.organizationObjectsLabels(state),
   };
 }
 

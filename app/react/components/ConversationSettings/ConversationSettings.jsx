@@ -3,7 +3,7 @@ import User from './../User';
 import SelectableUser from './../SelectableUser';
 import styles from './ConversationSettings.css';
 import Immutable from 'immutable';
-import SizungInputApp from '../../containers/SizungInputApp';
+import SizungInput from '../SizungInput';
 import Icon from '../Icon';
 import { validateEmail } from '../../utils/validators';
 import classNames from 'classnames';
@@ -223,10 +223,10 @@ class ConversationSettings extends React.Component {
           <Icon type="chat" contentClassName={styles.chatIcon}/>
 
           <div className={styles.conversationTitle}>
-            <SizungInputApp ref="name" onChange={this.handleConversationTitleChange}
+            <SizungInput ref="name" onChange={this.handleConversationTitleChange}
                             onKeyDown={this.handleKeyDown}
                             value={this.state.conversationTitle} rows="1"
-                            placeholder="Enter Team name" maxLength={15}
+                            placeholder="Enter Team name" maxLength={25}
             />
           </div>
           <div className={styles.charsHint}>15 chars</div>

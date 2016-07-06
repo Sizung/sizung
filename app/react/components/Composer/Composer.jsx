@@ -177,6 +177,7 @@ class Composer extends React.Component {
     return (
       <div className={styles.root} onClick={this._focusEditor}>
         <Editor ref="editor"
+                spellCheck
                 editorState={editorState}
                 onChange={this.handleChange}
                 handleKeyCommand={this.handleKeyCommand}

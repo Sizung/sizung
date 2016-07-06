@@ -49,6 +49,10 @@
   align-items: center;
 }
 
+.assigneeContainer:focus {
+  outline: none;
+}
+
 .dueOnContainer {
   display: flex;
   flex-direction: row;

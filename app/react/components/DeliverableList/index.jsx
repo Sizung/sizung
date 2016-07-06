@@ -11,63 +11,68 @@ class DeliverableList extends Component {
     updateDeliverable: PropTypes.func,
     archiveDeliverable: PropTypes.func,
     currentTimeline: PropTypes.string,
+    currentUser: PropTypes.object.isRequired,
   };
 
-  constructor() {
+  constructor(props) {
     super();
-    this.deliverableListSize = 0;
+    this.state = {
+      filter: (props.currentTimeline === 'organization' ? 'my' : 'all'),
+    };
   }
 
-  componentDidMount() {
-    const deliverableList = this.refs.deliverableList;
-    if (deliverableList) {
-      deliverableList.scrollTop = 0;
+  handleFilter = (filter) => {
+    this.setState({ filter });
+  };
+
+  filteredDeliverableList = () => {
+    const { deliverables,
+        visitDeliverable,
+        selectedDeliverableId,
+        updateDeliverable,
+        archiveDeliverable,
+        currentUser,
+        } = this.props;
+
+    const filteredDeliverables = (this.state.filter === 'my' ? deliverables.filter((deliverable) => { return (deliverable.ownerId === currentUser.id || deliverable.assigneeId === currentUser.id); }) : deliverables);
+    //const filteredDeliverables = deliverables;
+    return (filteredDeliverables.map((deliverable) => {
+      return (
+          <Deliverable
+              key={deliverable.id}
+              deliverable={deliverable}
+              visitDeliverable={visitDeliverable}
+              selected={deliverable.id === selectedDeliverableId}
+              updateDeliverable={updateDeliverable}
+              archiveDeliverable={archiveDeliverable}
+              currentTimeline={this.props.currentTimeline}
+              />);
+    }));
+  };
+
+  renderFilterOptions = () => {
+    if (this.props.deliverables.toJS().length > 0) {
+      return (
+        <div className={styles.filter}>
+          <span className={this.state.filter === 'all' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'all')}>All</span>
+          <span className={this.state.filter === 'my' ? styles.filterOptionSelected : styles.filterOption} onClick={this.handleFilter.bind(this, 'my')}>My</span>
+        </div>
+      );
     }
-  }
-
-  componentDidUpdate() {
-  }
-
-  scrollList() {
-    const _this = this;
-    window.requestAnimationFrame(() => {
-      const node = _this.refs.deliverableList;
-      if (node !== undefined) {
-        node.scrollTop = node.scrollHeight;
-      }
-    });
-  }
+    return undefined;
+  };
 
   render() {
-    const { deliverables,
-            visitDeliverable,
-            selectedDeliverableId,
-            updateDeliverable,
-            archiveDeliverable,
-    } = this.props;
-
     return (
       <div className={styles.root}>
         <div className={styles.header}>
           <Icon type="deliverable" gap="10px">
-            ACTION
+            { this.props.labels.deliverableLabel }
           </Icon>
         </div>
+        {this.renderFilterOptions()}
         <div ref="deliverableList" className={styles.list}>
-          {
-            deliverables.map((deliverable) => {
-              return (
-                <Deliverable
-                  key={deliverable.id}
-                  deliverable={deliverable}
-                  visitDeliverable={visitDeliverable}
-                  selected={deliverable.id === selectedDeliverableId}
-                  updateDeliverable={updateDeliverable}
-                  archiveDeliverable={archiveDeliverable}
-                  currentTimeline={this.props.currentTimeline}
-                />);
-            })
-          }
+          { this.filteredDeliverableList() }
         </div>
       </div>
     );

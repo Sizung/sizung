@@ -16,6 +16,19 @@ export default function deliverablesByOrganization(state = initialState, action 
       newState = reducerUtils.setReferenceByObject(newState, entity, action.entity.id);
     });
 
+    //if (action.entities) {
+    //  action.entities.forEach((entity) => {
+    //    const type = entity.type;
+    //    if (type === 'deliverables') {
+    //      newState = reducerUtils.updateReferenceByObject(newState, entity, action.entity.id);
+    //    }
+    //  });
+    //}
+    //
+    //if (action.entity && action.entity.type === 'deliverables') {
+    //  newState = reducerUtils.updateReferenceByObject(newState, action.entity, action.entity.id);
+    //}
+
     return newState;
   }
 

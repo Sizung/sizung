@@ -16,8 +16,10 @@ function mapStateToProps(state, props) {
     selectors.deliverablesForAgendaItem(state, agendaItemId) :
     selectors.deliverablesForConversation(state, conversationId);
 
+  const currentUser = selectors.currentUser(state);
   return {
     deliverables,
+    currentUser,
   };
 }
 
