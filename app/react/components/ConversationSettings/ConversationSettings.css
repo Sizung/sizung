@@ -38,7 +38,7 @@
   flex-direction: row;
   flex: none;
   overflow: auto;
-  padding: 0 1.25rem 1.875rem 1.25rem;
+  padding: 0 1.25rem 0 1.25rem;
   background-color: #ffffff;
 }
 
@@ -149,9 +149,9 @@
   cursor: pointer;
 }
 
-.inviteMemberLabel {
+.inviteTeammateLabel {
   flex: none;
-  padding: 3.75rem 1.875rem 1rem 1.875rem;
+  padding: 1.875rem 1.875rem 1rem 1.875rem;
   font-family: Gotham-Medium;
   font-size: 1.25rem;
   color: #415764;
@@ -210,4 +210,43 @@
   display: flex;
   flex-direction: column;
   background-color: #EBEFF0;
+}
+
+.inviteMemberContainer {
+  padding: 1.875rem;
+  background: white;
+  color: #415764;
+}
+
+.inviteMemberInput {
+  max-width: 36.25rem;
+  height: 3.375rem;
+  border: none;
+  outline: none;
+  box-shadow: none !important;
+  -webkit-appearance: none;
+  border-radius: 0px;
+  font-family: Gotham-Book;
+  font-size: 1.313rem;
+  padding: 0 1.875rem;
+  background-color: rgb(231,235,236);
+  width: 100%;
+}
+
+.inviteMemberLabel {
+  flex: none;
+  padding-bottom: 1rem;
+  font-family: Gotham-Medium;
+  font-size: 1.25rem;
+  background-color: #ffffff;
+}
+
+.inviteMemberInputInvalid {
+  border: 1px solid #FF685B;
+}
+
+.memberInviteLink {
+  margin-left: 10px;
+  cursor: pointer;
+  text-decoration: underline;
 }
