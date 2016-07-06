@@ -18,6 +18,7 @@ class ConversationSettings extends React.Component {
       emailInputError: false,
       conversationTitle: props.conversationSettingsViewState === 'edit' ? props.currentConversation.title : '',
       conversationMembers: props.conversationSettingsViewState === 'edit' ? props.conversationMembersAsUsers : (new Immutable.List()).push(props.currentUser),
+      invitedMembersEmailList: new Immutable.List(),
     };
   }
 
@@ -64,6 +65,7 @@ class ConversationSettings extends React.Component {
       this.setState({
         inviteEmail: undefined,
         emailInputError: false,
+        invitedMembersEmailList: this.state.invitedMembersEmailList.push(this.state.inviteEmail),
       });
     } else {
       this.setState({
@@ -146,17 +148,15 @@ class ConversationSettings extends React.Component {
     return !conversationMembers.some((conMember) => {
       return (conMember.name !== null && conMember.name === member.name) || conMember.email === member.email;
     });
-  }
+  };
 
   renderOrganizationMemberList = () => {
     return (
-      this.filteredOptions(this.state.filter, this.props.organizationMembers.toList()).filter(this.filterNonConversationalOrgMembers)
-      .filter((member) => {
+      this.filteredOptions(this.state.filter, this.props.organizationMembers.toList()).filter((member) => {
         return (member.presenceStatus === 'online');
       }).sortBy((member) => {
         return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
-      }).concat(this.filteredOptions(this.state.filter, this.props.organizationMembers).filter(this.filterNonConversationalOrgMembers)
-      .filter((member) => {
+      }).concat(this.filteredOptions(this.state.filter, this.props.organizationMembers).filter((member) => {
         return (member.presenceStatus === 'offline');
       }).sortBy((member) => {
         return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
@@ -209,10 +209,22 @@ class ConversationSettings extends React.Component {
     } else {
       alert('Conversation title cannot be blank');
     }
-  }
+  };
 
   handleKeyDown = (event) => {
     event.stopPropagation();
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const invitedMembers = nextProps.organizationMembers.filter((member) => {
+      return this.state.invitedMembersEmailList.some((invitedMemberEmail) => {
+        return invitedMemberEmail.toLowerCase() === member.email.toLowerCase();
+      });
+    });
+    this.setState({
+      conversationMembers: this.state.conversationMembers.concat(invitedMembers),
+      invitedMembersEmailList: new Immutable.List(),
+    });
   }
 
   render()  {
@@ -232,9 +244,15 @@ class ConversationSettings extends React.Component {
           <div className={styles.charsHint}>15 chars</div>
         </div>
         <div className={styles.membersContainer}>
+          <div className={styles.inviteTeammateLabel}>
+            MEMBERS
+          </div>
+          <div className={styles.conversationMemberList}>
+            {this.renderConversationMemberList()}
+          </div>
           <div className={styles.inviteMemberContainer}>
             <div className={styles.inviteMemberLabel}>
-              INVITE MEMBERS
+              INVITE NEW MEMBERS
             </div>
             <div>
               <input
@@ -256,16 +274,11 @@ class ConversationSettings extends React.Component {
               </span>
             </div>
           </div>
-          <div className={styles.inviteTeammateLabel}>
-            INVITE TEAMMATES
-          </div>
-          <div className={styles.conversationMemberList}>
-            {this.renderConversationMemberList()}
-          </div>
+
           <div className={styles.memberSettingsContainer}>
             <div className={styles.inputContainer}>
               <input ref="memberFilter" type="text" className={styles.input} id="memberName"
-                     placeholder="Search" onKeyDown={this.handleKeyDown}
+                     placeholder="Search or add by selecting" onKeyDown={this.handleKeyDown}
                      onChange={this.handleFilterChange} value={filter}
               />
             </div>
@@ -279,7 +292,7 @@ class ConversationSettings extends React.Component {
             CANCEL
           </div>
           <div className={styles.actionButton} onClick={this.saveConversationTitle}>
-            { this.props.conversationSettingsViewState === 'edit' ? 'SAVE' : 'CREATE' }
+            { this.props.conversationSettingsViewState === 'edit' ? 'CONFIRM' : 'CREATE' }
           </div>
         </div>
       </div>
