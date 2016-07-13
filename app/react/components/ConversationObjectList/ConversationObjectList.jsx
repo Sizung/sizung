@@ -274,13 +274,6 @@ class ConversationObjectList extends Component {
     return undefined;
   };
 
-  createNewComment = (obj) => {
-    this.setState({
-      newObjects: 0,
-    });
-    this.props.createComment(obj);
-  }
-
   render() {
     const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params, labels } = this.props;
     const root = this.refs.root;
@@ -308,7 +301,7 @@ class ConversationObjectList extends Component {
           />
           <TimelineHeader parent={commentForm.parent} />
           {this.renderConversationTimeLine()}
-          <ComposeContainer createComment={this.createNewComment}
+          <ComposeContainer createComment={createComment}
                             entityId={params && (params.deliverableId || params.agendaItemId)}
                             createAgendaItem={createAgendaItem}
                             createDeliverable={createDeliverable}
