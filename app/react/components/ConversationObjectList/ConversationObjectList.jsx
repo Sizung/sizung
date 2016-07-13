@@ -274,13 +274,6 @@ class ConversationObjectList extends Component {
     return undefined;
   };
 
-  // createNewComment = (obj) => {
-  //   this.setState({
-  //     newObjects: 0,
-  //   });
-  //   this.props.createComment(obj);
-  // };
-
   render() {
     const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params, labels } = this.props;
     const root = this.refs.root;
