@@ -27,7 +27,7 @@ class EditableDate extends React.Component {
                         placeholderText="Due On?"
                         onChange={this.handleChange}
                         dateFormat="DD MMM - YYYY"
-                        weekStart="1"
+                        weekStart="0"
                         disabled={!editable}
                         locale={'en'}
                         weekdays={'S_M_T_W_T_F_S'.split('_')}
