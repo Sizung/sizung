@@ -279,7 +279,7 @@ class ConversationObjectList extends Component {
       newObjects: 0,
     });
     this.props.createComment(obj);
-  };
+  }
 
   render() {
     const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params, labels } = this.props;
