@@ -4,7 +4,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import styles from './Conversation.css';
 import EditableText from '../EditableText';
-import User from '../User';
+import UserApp from '../../containers/UserApp';
 import Immutable from 'immutable';
 
 class Conversation extends React.Component {
@@ -30,7 +30,7 @@ class Conversation extends React.Component {
     }).sortBy((member) => {
       return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
     })).map((member) => {
-      conversationMembersDOM.push(<div key={member.id} className={styles.memberContainer}><User user={ member } showName={ false }/></div>);
+      conversationMembersDOM.push(<div key={member.id} className={styles.memberContainer}><UserApp user={ member } showName={ false }/></div>);
     });
     return conversationMembersDOM;
   }

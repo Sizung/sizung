@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import SizungTime from '../SizungTime';
-import User from '../User/index';
+import UserApp from '../../containers/UserApp';
 import Icon from '../Icon';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
@@ -60,7 +60,7 @@ class AgendaItemInTimeline extends React.Component {
     return (
         <div className={ styles.root }>
           <div className={styles.userContainer}>
-            { showOwner ? <User user={owner}/> : ''}
+            { showOwner ? <UserApp user={owner}/> : ''}
           </div>
           <div className={ agendaItem.archived ? styles.contentWrapperArchived : styles.contentWrapper }>
             <div className={styles.content}>

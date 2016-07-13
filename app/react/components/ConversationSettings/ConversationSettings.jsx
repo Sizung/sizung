@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import User from './../User';
+import UserApp from '../../containers/UserApp';
 import SelectableUser from './../SelectableUser';
 import styles from './ConversationSettings.css';
 import Immutable from 'immutable';
@@ -132,7 +132,7 @@ class ConversationSettings extends React.Component {
       })).map((conversationMember) => {
         return (
           <div key={conversationMember.id} className={styles.userLogoContainer}>
-            <User key={conversationMember.id} user={conversationMember} showName={false}/>
+            <UserApp key={conversationMember.id} user={conversationMember} showName={false}/>
             { (this.props.conversationSettingsViewState === 'create' && conversationMember.id === this.props.currentUser.id) ?
               '' : <div className={styles.action} onClick={this.triggerUpdate.bind(this, conversationMember.id)}>
                 &times;

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import SizungTime from '../SizungTime';
-import User from './../User/index';
+import UserApp from '../../containers/UserApp';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
 import OptionsDropdown from '../OptionsDropdown/index';
@@ -133,7 +133,7 @@ class Comment extends React.Component {
     return (
       <div className={styles.root}>
         <div className={styles.userContainer}>
-          { this.props.showAuthor ? <User user={author} /> : ''}
+          { this.props.showAuthor ? <UserApp user={author} /> : ''}
         </div>
         { this.state.edit ? this.renderEditComment(body) : this.renderShowComment() }
       </div>

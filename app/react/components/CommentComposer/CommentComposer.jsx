@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './CommentComposer.css';
-import User from '../User';
+import UserApp from '../../containers/UserApp';
 import ReactS3Uploader from 'react-s3-uploader';
 import Icon from '../Icon';
 import ComposerApp from '../../containers/ComposerApp';

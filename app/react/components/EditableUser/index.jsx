@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './index.css';
-import User from '../User/index';
+import UserApp from '../../containers/UserApp';
 
 class EditableUser extends React.Component {
   constructor() {
@@ -60,7 +60,7 @@ class EditableUser extends React.Component {
   }
 
   renderShow(selectedUser, editable) {
-    return <span className={styles['current-user' + (editable ? '-editable' : '')]} onClick={editable ? this.handleEditClick : null}><User user={selectedUser} size={this.props.size} /></span>;
+    return <span className={styles['current-user' + (editable ? '-editable' : '')]} onClick={editable ? this.handleEditClick : null}><UserApp user={selectedUser} size={this.props.size} /></span>;
   }
 
   filteredOptions(filter, options) {
@@ -83,7 +83,7 @@ class EditableUser extends React.Component {
     }).map((user) => {
       return (
         <div className={styles['user-row']} onClick={() => this.handleUserClick(user.id)} key={user.id}>
-            <span className={styles['user-column']}><User user={user} showName={true}/></span>
+            <span className={styles['user-column']}><UserApp user={user} showName={true}/></span>
             <span className={styles['marker-column']}>{this.selectedMarker(selectedUser, user)}</span>
         </div>
       );
