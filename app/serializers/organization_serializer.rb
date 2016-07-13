@@ -36,13 +36,6 @@ class OrganizationSerializer < ActiveModel::Serializer
     end
   end
 
-  swagger_schema :reference_Organization do
-    property :data, required: [:id, :type] do
-      property :id, type: :string
-      property :type, type: :string, enum: ['organizations']
-    end
-  end
-  
   swagger_schema :responseOne_Organization do
     property :data do
       key :'$ref', :Organization

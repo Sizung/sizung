@@ -6,6 +6,20 @@ class OrganizationMemberSerializer < ActiveModel::Serializer
 
   include Swagger::Blocks
 
+  swagger_schema :reference_User do
+    property :data, required: [:id, :type] do
+      property :id, type: :string
+      property :type, type: :string, enum: ['users']
+    end
+  end
+
+  swagger_schema :reference_Organization do
+    property :data, required: [:id, :type] do
+      property :id, type: :string
+      property :type, type: :string, enum: ['organizations']
+    end
+  end
+  
   swagger_schema :OrganizationMember do
     key :required, [:id, :type]
 
