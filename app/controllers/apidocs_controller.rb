@@ -58,6 +58,7 @@ class ApidocsController < ActionController::Base
     Api::AgendaItemsController,
     Api::DeliverablesController,
     Api::DevicesController,
+    Api::UnseenObjectsController,
     OrganizationSerializer,
     OrganizationMemberSerializer,
     ConversationSerializer,
@@ -66,6 +67,8 @@ class ApidocsController < ActionController::Base
     AgendaItemSerializer,
     DeliverableSerializer,
     DeviceSerializer,
+    UnseenObjectSerializer,
+    UserSerializer,
     self,
   ].freeze
 
