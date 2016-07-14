@@ -58,6 +58,8 @@ class ApidocsController < ActionController::Base
     Api::AgendaItemsController,
     Api::DeliverablesController,
     Api::DevicesController,
+    Api::UnseenObjectsController,
+    Api::UsersController,
     OrganizationSerializer,
     OrganizationMemberSerializer,
     ConversationSerializer,

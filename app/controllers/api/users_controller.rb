@@ -4,12 +4,50 @@ module Api
     before_action :set_user, only: [:update]
     respond_to :json
 
+    include Swagger::Blocks
+
     def index
       @user = User.find_by_email(params[:email])
       if @user
         render json: { emailExists: true }
       else
         render json: { emailExists: false }
+      end
+    end
+
+    swagger_schema :UserInput do
+      key :required, [:user]
+
+      property :user, type: :object, required: [:email, :first_name, :last_name] do
+        property :email, type: :string
+        property :first_name, type: :string
+        property :last_name, type: :string
+        property :organization, type: :object do
+          property :name, type: :string
+        end
+      end
+    end
+
+    
+    swagger_path '/users' do
+      operation :post, security: [bearer: []] do
+        key :summary, 'Sign up a new user'
+        key :tags, ['user']
+        parameter name: :user, in: :body, required: true, description: 'User fields' do
+          schema do
+            key :'$ref', :UserInput
+          end
+        end
+        
+        response 200 do
+          key :description, 'The new user'
+          schema do
+            key :'$ref', :responseOne_User
+          end
+        end
+        response :default do
+          key :description, 'Unexpected error'
+        end
       end
     end
 

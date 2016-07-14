@@ -18,4 +18,11 @@ class NotificationsPreview < ActionMailer::Preview
     deliverable = Deliverable.order(:created_at).last
     Notifications.deliverable_assigned(deliverable, actor)
   end
+
+  # Preview this email at http://localhost:3000/rails/mailers/notifications/agenda_item_assigned
+  def agenda_item_assigned
+    actor = User.first
+    agenda_item = AgendaItem.order(:created_at).last
+    Notifications.agenda_item_assigned(agenda_item, actor)
+  end
 end
