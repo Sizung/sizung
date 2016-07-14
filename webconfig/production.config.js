@@ -43,7 +43,7 @@ module.exports = {
         warnings: false
       }
     }),
-    new ExtractTextPlugin('[name].css', {
+    new ExtractTextPlugin('../stylesheets/react_bundle.css', {
       allChunks: true
     }),
   ],
