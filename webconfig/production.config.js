@@ -32,6 +32,7 @@ module.exports = {
     extensions: ['', '.js', '.jsx', '.js.jsx']
   },
   plugins: [
+    NODE_ENV_PLUGIN,
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env': {
