@@ -275,9 +275,7 @@ class ConversationObjectList extends Component {
   };
 
   createNewComment = (obj) => {
-    this.setState({
-      newObjects: 0,
-    });
+    this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     this.props.createComment(obj);
   };
 
