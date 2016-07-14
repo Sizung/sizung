@@ -5,11 +5,11 @@ describe Api::UnseenObjectsController do
 
   describe 'signed in' do
     setup do
-      @agenda_item = FactoryGirl.create(:agenda_item)
-      @comment = FactoryGirl.create(:comment, commentable: @agenda_item)
-      @unseen_object = UnseenObject.create_from!(@comment, @agenda_item.owner)
+      @agenda_item                   = FactoryGirl.create(:agenda_item)
+      @comment                       = FactoryGirl.create(:comment, commentable: @agenda_item)
+      @unseen_object                 = UnseenObject.create_from!(@comment, @agenda_item.owner)
       @request.env['devise.mapping'] = Devise.mappings[:user]
-      @current_user = @agenda_item.owner
+      @current_user                  = @agenda_item.owner
       sign_in @current_user
     end
 
@@ -52,6 +52,24 @@ describe Api::UnseenObjectsController do
       expect(body['data'].first['id']).must_equal @unseen_object.id
     end
 
+    it 'gets unseen objects including the requested includes' do
+      get :index, parent_type: 'User', user_id: @current_user.id, includes: [:user, :target, :agenda_item]
+
+      assert_response :success
+      body = JSON.parse(response.body)
+      expect(included(body, 'type', 'users')).must_equal true
+      expect(included(body, 'type', 'comments')).must_equal true
+      expect(included(body, 'type', 'agenda_items')).must_equal true
+      expect(body['data'].first['id']).must_equal @unseen_object.id
+    end
+
+    def included(json, key, value)
+      json['included'].each do |obj|
+        return true if obj[key] == value
+      end
+      return false
+    end
+    
     it 'destroys unseen object for an agenda item on visiting agenda item w/o visiting it\'s parent conversation' do
       @new_agenda_item = FactoryGirl.create(:agenda_item)
       @unseen_object = UnseenObject.create_from!(@new_agenda_item, @current_user)

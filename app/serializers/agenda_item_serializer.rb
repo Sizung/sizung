@@ -6,20 +6,6 @@ class AgendaItemSerializer < ActiveModel::Serializer
 
   include Swagger::Blocks
 
-  swagger_schema :reference_User do
-    property :data, required: [:id, :type] do
-      property :id, type: :string
-      property :type, type: :string, enum: ['users']
-    end
-  end
-
-  swagger_schema :reference_Conversation do
-    property :data, required: [:id, :type] do
-      property :id, type: :string
-      property :type, type: :string, enum: ['conversations']
-    end
-  end
-  
   swagger_schema :AgendaItem do
     key :required, [:id, :type]
 
@@ -51,6 +37,13 @@ class AgendaItemSerializer < ActiveModel::Serializer
     end
   end
 
+  swagger_schema :reference_AgendaItem do
+    property :data, required: [:id, :type] do
+      property :id, type: :string
+      property :type, type: :string, enum: ['agenda_items']
+    end
+  end
+  
   swagger_schema :responseOne_AgendaItem do
     property :data do
       key :'$ref', :AgendaItem

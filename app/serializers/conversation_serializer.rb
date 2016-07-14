@@ -77,6 +77,13 @@ class ConversationSerializer < ActiveModel::Serializer
     end
   end
 
+  swagger_schema :reference_Conversation do
+    property :data, required: [:id, :type] do
+      property :id, type: :string
+      property :type, type: :string, enum: ['conversations']
+    end
+  end
+  
   swagger_schema :responseOne_Conversation do
     property :data do
       key :'$ref', :Conversation
