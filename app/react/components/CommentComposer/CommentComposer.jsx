@@ -133,7 +133,7 @@ class CommentComposer extends React.Component {
     return (
       <div className={styles.rootClosed}>
         <div className={styles.user}>
-          <User user={this.props.currentUser} />
+          <UserApp user={this.props.currentUser} />
         </div>
         <ComposerApp
           ref="name"

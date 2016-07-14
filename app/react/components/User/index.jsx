@@ -4,18 +4,8 @@ import styles from './index.css';
 class User extends React.Component {
 
   static propTypes = {
-    user: PropTypes.shape({
-      email: PropTypes.string.isRequired,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      presenceStatus: PropTypes.string.isRequired,
-    }).isRequired,
-    currentUser: PropTypes.shape({
-      email: PropTypes.string.isRequired,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      presenceStatus: PropTypes.string.isRequired,
-    }),
+    user: PropTypes.shape(userShape).isRequired,
+    currentUser: PropTypes.shape(userShape),
     size: PropTypes.oneOf(['normal', 'large', 'small']).isRequired,
     showName: PropTypes.bool,
     showEmail: PropTypes.bool,
@@ -79,5 +69,13 @@ class User extends React.Component {
     );
   }
 }
+
+const userShape = {
+  id: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  presenceStatus: PropTypes.string.isRequired,
+};
 
 export default User;
