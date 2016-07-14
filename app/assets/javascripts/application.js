@@ -20,4 +20,4 @@
 //= require application_cable
 //= require_tree ./cable
 //= require react_integration
-//= require react_bundle
+// require react_bundle

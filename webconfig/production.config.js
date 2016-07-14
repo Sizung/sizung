@@ -8,10 +8,10 @@ var NODE_ENV_PLUGIN = new webpack.DefinePlugin({
 });
 
 module.exports = {
-  context: __dirname + '/app/react',
+  context: __dirname + '/../app/react',
   entry: './index',
   output: {
-    path: __dirname + '/app/assets/javascripts',
+    path: __dirname + '/../app/assets/javascripts',
     filename: 'react_bundle.js'
   },
   module: {
@@ -33,8 +33,19 @@ module.exports = {
   },
   plugins: [
     NODE_ENV_PLUGIN,
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    }),
     new ExtractTextPlugin('../stylesheets/react_bundle.css', {
       allChunks: true
-    })
-  ]
+    }),
+  ],
 };

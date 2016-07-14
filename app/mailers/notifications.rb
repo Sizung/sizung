@@ -21,4 +21,13 @@ class Notifications < ApplicationMailer
     
     mail to: @deliverable.assignee.email, subject: "#{@actor.first_name} assigned an action to you"
   end
+
+  def agenda_item_assigned(agenda_item, actor)
+    @agenda_item = agenda_item
+    @owner       = agenda_item.owner
+    @actor       = actor
+    @target_url  = agenda_item_url(agenda_item)
+    
+    mail to: @owner.email, subject: "#{@actor.first_name} assigned a priority to you"
+  end
 end

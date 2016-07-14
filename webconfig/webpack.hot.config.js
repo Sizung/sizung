@@ -19,7 +19,7 @@ var NODE_ENV_PLUGIN = new webpack.DefinePlugin({
 });
 
 var config = {
-  context: __dirname + '/app/react',
+  context: __dirname + '/../app/react',
 
     entry: [
         "webpack-hot-middleware/client?path=" + PUBLIC_DEV_SERVER + "__webpack_hmr",
@@ -49,10 +49,6 @@ var config = {
                                     "transform": "react-transform-hmr",
                                     "imports": ["react"],
                                     "locals": ["module"]
-                                  },
-                                  {
-                                    transform: "react-transform-catch-errors",
-                                    imports: ["react", "redbox-react"]
                                   }]
                                 }
                             }
