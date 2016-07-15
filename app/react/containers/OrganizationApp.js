@@ -63,7 +63,9 @@ class OrganizationApp extends React.Component {
         />
       );
     }
-    return <div className="text-center"><h5>Loading Organization...</h5></div>;
+    return (<div className="spinnerContainer">
+      <div className="circleSpinner"></div>
+    </div>);
   }
 }
 
