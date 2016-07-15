@@ -6,7 +6,7 @@
 }
 
 .spinner {
-  background-image: url('/assets/logo_sm.png');
+  background-image: url('/icons/logo_sm.png');
   background-repeat: no-repeat;
   background-size: 6em 6em;
   height: 6em;
