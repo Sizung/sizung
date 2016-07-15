@@ -62,16 +62,17 @@ class AgendaItem extends React.Component {
   };
 
   renderBottomRow = () => {
-    const { agendaItem } = this.props;
+    const { agendaItem, selected } = this.props;
     return (
       <div className={styles.actionContainer}>
         <div className={styles.actions}>
           { this.renderResolveAction() }
           { this.isEditable() ? this.renderArchiveAction() : this.parentContextTitle()}
         </div>
-        <div className={styles.owner}>
-          <EditableUserApp conversationId={agendaItem.conversationId} editable userId={agendaItem.ownerId} onUpdate={this.handleOwnerUpdate} />
-        </div>
+        { selected ?
+          <div className={styles.owner}>
+            <EditableUserApp conversationId={agendaItem.conversationId} editable userId={agendaItem.ownerId} onUpdate={this.handleOwnerUpdate} />
+          </div> : undefined }
       </div>
     );
   };
