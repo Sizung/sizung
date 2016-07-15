@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import SizungTime from '../SizungTime';
-import User from './../User/index';
+import UserApp from '../../containers/UserApp';
 import styles from './Attachment.css';
 import OptionsDropdown from '../OptionsDropdown/index';
 
@@ -98,7 +98,7 @@ class Attachment extends React.Component {
     return (
       <div className={styles.root}>
         <div className={styles.userContainer}>
-          { this.props.showOwner ? <User user={owner} /> : ''}
+          { this.props.showOwner ? <UserApp user={owner} /> : ''}
         </div>
         { this.renderShowAttachment() }
         { this.renderCommentSettingsOptions(owner) }

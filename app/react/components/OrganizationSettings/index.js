@@ -3,7 +3,7 @@ import styles from './index.css';
 import FormInput from '../FormInput';
 import OrganizationIcon from '../OrganizationIcon';
 import EditableText from '../EditableText';
-import User from '../User';
+import UserApp from '../../containers/UserApp';
 import PlusIcon from '../PlusIcon';
 
 class OrganizationSettings extends React.Component {
@@ -109,7 +109,7 @@ class OrganizationSettings extends React.Component {
         return (
           <div key={user.id} className={styles.organizationMember}>
             <div className={styles.userLogoContainer}>
-              <User user={user} size={'large'}/>
+              <UserApp user={user} size={'large'}/>
               <div className={styles.action} onClick={this.handleDeleteOrganizationMember.bind(this, organizationMemberId)}>
                 &times;
               </div>

@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import User from './../User';
+import UserApp from '../../containers/UserApp';
 import SelectableUser from './../SelectableUser';
 import styles from './index.css';
 import Immutable from 'immutable';
@@ -75,7 +75,7 @@ class MeetingParticipantList extends React.Component {
         }).sortBy((member) => {
           return member.name === null ? member.email.toLowerCase() : member.name.toLowerCase();
         })).map((meetingParticipant) => {
-          return (<User key={meetingParticipant.id} user={meetingParticipant} showName={false}
+          return (<UserApp key={meetingParticipant.id} user={meetingParticipant} showName={false}
             style={{ display: 'inline-block', marginTop: '5px', marginBottom: '5px', marginRight: '5px' }}
           />);
         }, this)

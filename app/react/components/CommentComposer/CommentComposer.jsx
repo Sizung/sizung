@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import styles from './CommentComposer.css';
-import User from '../User';
+import UserApp from '../../containers/UserApp';
 import ReactS3Uploader from 'react-s3-uploader';
 import Icon from '../Icon';
 import ComposerApp from '../../containers/ComposerApp';
@@ -133,7 +133,7 @@ class CommentComposer extends React.Component {
     return (
       <div className={styles.rootClosed}>
         <div className={styles.user}>
-          <User user={this.props.currentUser} />
+          <UserApp user={this.props.currentUser} />
         </div>
         <ComposerApp
           ref="name"

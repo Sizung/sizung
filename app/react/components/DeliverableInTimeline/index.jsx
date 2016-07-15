@@ -2,7 +2,7 @@ import React, { PropTypes } from 'react';
 import { Link } from 'react-router';
 import SizungTime from '../SizungTime';
 import Time from 'react-time';
-import User from '../User/index';
+import UserApp from '../../containers/UserApp';
 import Icon from '../Icon';
 import styles from './index.css';
 import TextWithMentions from '../TextWithMentions';
@@ -97,7 +97,7 @@ class DeliverableInTimeline extends React.Component {
     return (
       <div className={ styles.root }>
         <div className={styles.userContainer}>
-          { showOwner ? <User user={owner} /> : ''}
+          { showOwner ? <UserApp user={owner} /> : ''}
         </div>
         <div className={ deliverable.archived ? styles.contentWrapperArchived : styles.contentWrapper }>
           <div className={styles.content}>
