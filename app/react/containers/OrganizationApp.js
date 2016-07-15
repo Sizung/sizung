@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
+import Spinner from '../components/Spinner';
 
 import * as OrganizationActions from '../actions/organizations';
 import * as ConversationActions from '../actions/conversations';
@@ -63,9 +64,7 @@ class OrganizationApp extends React.Component {
         />
       );
     }
-    return (<div className="spinnerContainer">
-      <div className="circleSpinner"></div>
-    </div>);
+    return <Spinner />;
   }
 }
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Spinner from '../components/Spinner';
 
 import * as OrganizationActions from '../actions/organizations';
 import * as AgendaItemActions from '../actions/agendaItems';
@@ -45,7 +46,7 @@ class AgendaItemApp extends React.Component {
       );
     }
 
-    return <div className="text-center"><h5>Loading Agenda Item...</h5></div>;
+    return <Spinner />;
   }
 }
 
