@@ -5,6 +5,7 @@ import Comment from './../Comment/index';
 import Attachment from './../Attachment';
 import AgendaItemInTimeline from './../AgendaItemInTimeline';
 import DeliverableInTimeline from './../DeliverableInTimeline';
+import Spinner from '../Spinner';
 import styles from './ConversationObjectList.css';
 import TimelineHeader from '../TimelineHeader/index';
 import ConversationHeader from '../ConversationHeader';
@@ -154,7 +155,7 @@ class ConversationObjectList extends Component {
 
   prepareShowMore = (isFetching, nextPageUrl) => {
     if (isFetching) {
-      return <div className={styles.loadingMessage}>Loading...</div>;
+      return <Spinner />;
     } else if (nextPageUrl) {
       return (
         <div className={styles.loadMoreMessageContainer}>

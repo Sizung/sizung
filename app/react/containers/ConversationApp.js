@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Spinner from '../components/Spinner';
 
 import * as OrganizationActions from '../actions/organizations';
 import * as ConversationActions from '../actions/conversations';
@@ -49,12 +50,12 @@ class ConversationApp extends React.Component {
 
       return (
         <ConversationLayoutApp conversationId={parent.id} currentTimeline={'conversation'} labels={labels}>
-          <div className="text-center"><h5>Loading Conversation...</h5></div>
+          <Spinner />
         </ConversationLayoutApp>
       );
     }
 
-    return <div className="text-center"><h5>Loading Conversation...</h5></div>;
+    return <Spinner />;
   }
 }
 

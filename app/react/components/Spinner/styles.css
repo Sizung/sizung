@@ -1,0 +1,20 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.spinner {
+  background-image: url('/assets/logo_sm.png');
+  background-repeat: no-repeat;
+  background-size: 6em 6em;
+  height: 6em;
+  width: 6em;
+  animation: rotate 0.8s infinite linear;
+}
+
+@keyframes rotate {
+  0%    { transform: rotate(0deg); }
+  100%  { transform: rotate(360deg); }
+}

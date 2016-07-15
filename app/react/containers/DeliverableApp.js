@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Spinner from '../components/Spinner';
 
 import * as OrganizationActions from '../actions/organizations';
 import * as ConversationActions from '../actions/conversations';
@@ -19,7 +20,7 @@ import { fillDeliverable } from '../utils/entityUtils';
 import DeliverableList from '../components/DeliverableList';
 import * as labels from '../utils/entityLabels';
 
-class DeliverableApp extends React.Component {
+class DeliverableApp extends Component {
   componentDidMount() {
     this.fetchData();
   }
@@ -50,7 +51,7 @@ class DeliverableApp extends React.Component {
       );
     }
 
-    return <div className="text-center"><h5>Loading Deliverable...</h5></div>;
+    return <Spinner />;
   }
 }
 
