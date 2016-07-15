@@ -8,13 +8,11 @@
 .spinner {
   background-image: url('/icons/logo_sm.png');
   background-repeat: no-repeat;
-  background-size: 6em 6em;
-  height: 6em;
-  width: 6em;
-  animation: rotate 0.8s infinite linear;
+  animation: fade 2s infinite linear;
 }
 
-@keyframes rotate {
-  0%    { transform: rotate(0deg); }
-  100%  { transform: rotate(360deg); }
+@keyframes fade {
+  0%   { opacity: 0; width: 2em;  height: 2em;  background-size: 2em 2em; }
+  50%  { opacity: 1; width: 10em; height: 10em; background-size: 10em 10em;}
+  100% { opacity: 0; width: 2em;  height: 2em;  background-size: 2em 2em; }
 }
