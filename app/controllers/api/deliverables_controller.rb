@@ -78,10 +78,11 @@ module Api
     end
 
     def update
-      old_body = @deliverable.title
-      original_parent_id = @deliverable.parent_id
+      old_body             = @deliverable.title
+      original_parent_id   = @deliverable.parent_id
       original_parent_type = @deliverable.parent_type
-      old_assignee = @deliverable.assignee
+      old_assignee         = @deliverable.assignee
+      
       if @deliverable.toggle_archive(params[:deliverable][:archived]) || @deliverable.update(deliverable_params)
         MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id), old_body)
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')

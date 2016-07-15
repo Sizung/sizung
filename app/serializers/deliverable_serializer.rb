@@ -34,6 +34,13 @@ class DeliverableSerializer < ActiveModel::Serializer
     end
   end
 
+  swagger_schema :reference_Deliverable do
+    property :data, required: [:id, :type] do
+      property :id, type: :string
+      property :type, type: :string, enum: ['deliverables']
+    end
+  end
+  
   swagger_schema :responseOne_Deliverable do
     property :data do
       key :'$ref', :Deliverable

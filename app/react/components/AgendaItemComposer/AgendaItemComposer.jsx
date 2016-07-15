@@ -3,7 +3,7 @@ import styles from './AgendaItemComposer.css';
 import CloseIcon from '../CloseIcon';
 import Icon from '../Icon';
 import * as deliverableUtils from '../../utils/deliverableUtils';
-import * as ui from '../../utils/ui';
+import SizungInput from '../SizungInput';
 
 class AgendaItemComposer extends React.Component {
   static propTypes = {
@@ -15,7 +15,8 @@ class AgendaItemComposer extends React.Component {
     }).isRequired,
     onClose: PropTypes.func.isRequired,
     defaultValue: PropTypes.string,
-    setComposerValue: PropTypes.func
+    setComposerValue: PropTypes.func,
+    labels: PropTypes.object.isRequired,
   };
 
   static defaultProps = {
@@ -25,6 +26,13 @@ class AgendaItemComposer extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: props.defaultValue.substring(0, 40) };
+  }
+
+  _setInputRef = (input) => {
+    if (input) {
+      this.inputRef = input;
+      input.focus();
+    }
   }
 
   handleSubmit = () => {
@@ -47,16 +55,10 @@ class AgendaItemComposer extends React.Component {
     }
   };
 
-  handleChangeInMentionBox = (ev) => {
+  handleChangeInInput = (ev) => {
     const { value } = ev.target;
     this.setState({ value });
   };
-
-  componentDidMount() {
-    if (this.refs.name) {
-      this.refs.name.focus();
-    }
-  }
 
   render() {
     const { value } = this.state;
@@ -64,24 +66,22 @@ class AgendaItemComposer extends React.Component {
       <div className={styles.root}>
         <div className={styles.row}>
           <div className={styles.composeHeader}>
-            PRIORITY
+            { this.props.labels.agendaItemLabel }
           </div>
           <div className={styles.filler}></div>
           <CloseIcon type="transparent" style={{ marginBottom: '0' }} onClick={this.props.onClose} />
         </div>
         <div className={styles.inputRow}>
           <Icon type="agendaItem" className={styles.agendaItemIcon} />
-          <textarea
-            rows="1"
-            ref="name"
-            type="text"
-            maxLength={ 40 }
-            onKeyDown={this.handleKeyDown}
+          <SizungInput
+            inputRef={this._setInputRef}
+            maxLength={40}
             onSubmit={this.handleSubmit}
-            value={this.state.value}
             className={styles.agendaInput}
-            onChange={this.handleChangeInMentionBox}
-            placeholder="What would you like to discuss?"
+            onChange={this.handleChangeInInput}
+            onKeyDown={this.handleKeyDown}
+            value={this.state.value}
+            placeholder={ this.props.labels.agendaItemInputPlaceholder }
           />
           <div
             className={(value && (40 - value.length)) < 5 ? styles.charsHintRed : styles.charsHint}

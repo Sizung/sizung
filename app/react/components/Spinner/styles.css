@@ -1,0 +1,18 @@
+.wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 100px;
+}
+
+.spinner {
+  background-image: url('/icons/logo_sm.png');
+  background-repeat: no-repeat;
+  animation: fade 2s infinite linear;
+}
+
+@keyframes fade {
+  0%   { opacity: 0; width: 2em;  height: 2em;  background-size: 2em 2em; }
+  50%  { opacity: 1; width: 10em; height: 10em; background-size: 10em 10em;}
+  100% { opacity: 0; width: 2em;  height: 2em;  background-size: 2em 2em; }
+}

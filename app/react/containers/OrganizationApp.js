@@ -2,6 +2,7 @@ import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Immutable from 'immutable';
+import Spinner from '../components/Spinner';
 
 import * as OrganizationActions from '../actions/organizations';
 import * as ConversationActions from '../actions/conversations';
@@ -10,6 +11,7 @@ import * as DeliverableActions from '../actions/deliverables';
 import * as channelHandlers from '../actions/channelHandlers';
 import * as selectors from '../utils/selectors';
 import * as ws from '../utils/websocketUtils';
+import * as labels from '../utils/entityLabels';
 
 import OrganizationOverview from '../components/OrganizationOverview';
 
@@ -42,7 +44,7 @@ class OrganizationApp extends React.Component {
   };
 
   render() {
-    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState, updateAgendaItem, updateDeliverable, currentUser } = this.props;
+    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState, updateAgendaItem, updateDeliverable, currentUser, labels } = this.props;
 
     if (organization && conversations) {
       return (
@@ -58,10 +60,11 @@ class OrganizationApp extends React.Component {
           users={users}
           conversationSettingsViewState={conversationSettingsViewState}
           currentUser={currentUser}
+          labels={labels}
         />
       );
     }
-    return <div className="text-center"><h5>Loading Organization...</h5></div>;
+    return <Spinner />;
   }
 }
 
@@ -81,6 +84,7 @@ function mapStateToProps(state, props) {
     users: selectors.users(state),
     conversationSettingsViewState,
     currentUser: selectors.currentUser(state),
+    labels: labels.organizationObjectsLabels(state),
   };
 }
 

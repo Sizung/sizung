@@ -1,17 +1,11 @@
 var webpack = require("webpack");
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
-var NODE_ENV_PLUGIN = new webpack.DefinePlugin({
-    "process.env.NODE_ENV": JSON.stringify(process.env.NODE_ENV),
-    __DEVELOPMENT__: false,
-    __DEVTOOLS__: false
-});
-
 module.exports = {
-  context: __dirname + '/app/react',
+  context: __dirname + '/../app/react',
   entry: './index',
   output: {
-    path: __dirname + '/app/assets/javascripts',
+    path: __dirname + '/../app/assets/javascripts',
     filename: 'react_bundle.js'
   },
   module: {
@@ -32,9 +26,26 @@ module.exports = {
     extensions: ['', '.js', '.jsx', '.js.jsx']
   },
   plugins: [
-    NODE_ENV_PLUGIN,
+    new webpack.DefinePlugin({
+        'process.env': {
+          'NODE_ENV': JSON.stringify('production')
+        },
+        __DEVELOPMENT__: false,
+        __DEVTOOLS__: false
+    }),
+    new webpack.optimize.OccurenceOrderPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production')
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compressor: {
+        warnings: false
+      }
+    }),
     new ExtractTextPlugin('../stylesheets/react_bundle.css', {
       allChunks: true
-    })
-  ]
+    }),
+  ],
 };

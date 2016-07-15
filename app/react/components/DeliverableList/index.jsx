@@ -67,7 +67,7 @@ class DeliverableList extends Component {
       <div className={styles.root}>
         <div className={styles.header}>
           <Icon type="deliverable" gap="10px">
-            ACTION
+            { this.props.labels.deliverableLabel }
           </Icon>
         </div>
         {this.renderFilterOptions()}

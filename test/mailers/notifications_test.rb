@@ -29,4 +29,19 @@ describe Notifications do
     value(body).must_match "#{actor.name} assigned you an action: #{deliverable.title}"
     value(body).must_match "http://localhost:3000/deliverables/#{deliverable.id}"
   end
+
+  it 'agenda_item_assigned' do
+    actor       = FactoryGirl.create :user
+    owner       = FactoryGirl.create :user
+    agenda_item = FactoryGirl.create :agenda_item, owner: owner
+    mail        = Notifications.agenda_item_assigned(agenda_item, actor)
+    body        = mail.body.encoded
+
+    value(mail.to).must_equal [owner.email]
+    value(mail.from).must_equal ['no-reply@sizung.com']
+    value(mail.subject).must_equal "#{actor.first_name} assigned a priority to you"
+    value(body).must_match "Hi #{owner.first_name},"
+    value(body).must_match "#{actor.name} made you the owner of an agenda item: #{agenda_item.title}"
+    value(body).must_match "http://localhost:3000/agenda_items/#{agenda_item.id}"
+  end
 end

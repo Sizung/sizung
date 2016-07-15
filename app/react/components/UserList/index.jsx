@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import User from './../User/index';
+import UserApp from '../../containers/UserApp';
 import styles from "./index.css";
 
 class UserList extends Component {
@@ -10,7 +10,7 @@ class UserList extends Component {
       <div>
         {
           users.map(function(user) {
-            return(<User key={user.id} user={user} showName={true} style={{display: 'block', marginTop: '5px', marginBottom: '5px'}} />);
+            return(<UserApp key={user.id} user={user} showName={true} style={{display: 'block', marginTop: '5px', marginBottom: '5px'}} />);
           })
         }
       </div>

@@ -5,6 +5,7 @@ import Comment from './../Comment/index';
 import Attachment from './../Attachment';
 import AgendaItemInTimeline from './../AgendaItemInTimeline';
 import DeliverableInTimeline from './../DeliverableInTimeline';
+import Spinner from '../Spinner';
 import styles from './ConversationObjectList.css';
 import TimelineHeader from '../TimelineHeader/index';
 import ConversationHeader from '../ConversationHeader';
@@ -154,7 +155,7 @@ class ConversationObjectList extends Component {
 
   prepareShowMore = (isFetching, nextPageUrl) => {
     if (isFetching) {
-      return <div className={styles.loadingMessage}>Loading...</div>;
+      return <Spinner />;
     } else if (nextPageUrl) {
       return (
         <div className={styles.loadMoreMessageContainer}>
@@ -274,8 +275,13 @@ class ConversationObjectList extends Component {
     return undefined;
   };
 
+  createNewComment = (obj) => {
+    this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    this.props.createComment(obj);
+  };
+
   render() {
-    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params } = this.props;
+    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params, labels } = this.props;
     const root = this.refs.root;
 
     if (this.props.conversationSettingsViewState === 'edit') {
@@ -301,8 +307,8 @@ class ConversationObjectList extends Component {
           />
           <TimelineHeader parent={commentForm.parent} />
           {this.renderConversationTimeLine()}
-          <ComposeContainer createComment={createComment}
-                            entityId={params.deliverableId || params.agendaItemId}
+          <ComposeContainer createComment={this.createNewComment}
+                            entityId={params && (params.deliverableId || params.agendaItemId)}
                             createAgendaItem={createAgendaItem}
                             createDeliverable={createDeliverable}
                             createAttachment={createAttachment}
@@ -310,6 +316,7 @@ class ConversationObjectList extends Component {
                             handleNewObjectMarkerClick={this.scrollListToBottom}
                             scrollListToBottom={this.ifAlreadyAtBottomScrollListToBottom}
                             newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
+                            labels={labels}
                             {...commentForm}
           />
         </div>
@@ -345,6 +352,7 @@ ConversationObjectList.propTypes = {
   createAttachment: PropTypes.func.isRequired,
   archiveAttachment: PropTypes.func.isRequired,
   navigationHistory: PropTypes.object,
+  labels: PropTypes.object.isRequired,
 };
 
 ConversationObjectList.defaultProps = {

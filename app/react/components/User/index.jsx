@@ -4,12 +4,8 @@ import styles from './index.css';
 class User extends React.Component {
 
   static propTypes = {
-    user: PropTypes.shape({
-      email: PropTypes.string.isRequired,
-      firstName: PropTypes.string,
-      lastName: PropTypes.string,
-      presenceStatus: PropTypes.string.isRequired,
-    }).isRequired,
+    user: PropTypes.shape(userShape).isRequired,
+    currentUser: PropTypes.shape(userShape),
     size: PropTypes.oneOf(['normal', 'large', 'small']).isRequired,
     showName: PropTypes.bool,
     showEmail: PropTypes.bool,
@@ -30,17 +26,17 @@ class User extends React.Component {
     style: {},
     innerStyle: {},
   };
-  
+
   constructor() {
     super();
     this.validSizes = ['normal', 'large', 'small'];
   }
 
   render() {
-    const { style, showName, showEmail, innerStyle } = this.props;
-    const { email, presenceStatus, firstName, lastName } = this.props.user;
+    const { style, showName, showEmail, innerStyle, currentUser } = this.props;
+    const { id, email, presenceStatus, firstName, lastName } = this.props.user;
     const initials = (firstName && lastName) ? firstName.charAt(0).toUpperCase() + lastName.charAt(0).toUpperCase() : email.charAt(0).toUpperCase();
-    const onlineState = presenceStatus === 'online' ? '-online' : '';
+    const onlineState = (presenceStatus === 'online' || id === currentUser.id) ? '-online' : '';
     const size = (this.validSizes.indexOf(this.props.size) === -1) ? this.validSizes[0] : this.props.size;
     let name;
     if (showName) {
@@ -73,5 +69,13 @@ class User extends React.Component {
     );
   }
 }
+
+const userShape = {
+  id: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  firstName: PropTypes.string,
+  lastName: PropTypes.string,
+  presenceStatus: PropTypes.string.isRequired,
+};
 
 export default User;

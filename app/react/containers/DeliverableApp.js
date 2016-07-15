@@ -1,6 +1,7 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import Spinner from '../components/Spinner';
 
 import * as OrganizationActions from '../actions/organizations';
 import * as ConversationActions from '../actions/conversations';
@@ -17,8 +18,9 @@ import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillDeliverable } from '../utils/entityUtils';
 import DeliverableList from '../components/DeliverableList';
+import * as labels from '../utils/entityLabels';
 
-class DeliverableApp extends React.Component {
+class DeliverableApp extends Component {
   componentDidMount() {
     this.fetchData();
   }
@@ -35,7 +37,7 @@ class DeliverableApp extends React.Component {
   };
 
   render() {
-    const { commentForm, deliverables, deliverable, visitDeliverable, updateDeliverable, archiveDeliverable } = this.props;
+    const { commentForm, deliverables, deliverable, visitDeliverable, updateDeliverable, archiveDeliverable, labels } = this.props;
     const { parent } = commentForm;
 
     if (parent) {
@@ -43,13 +45,13 @@ class DeliverableApp extends React.Component {
       const conversationId = deliverableUtils.getConversationIdFromParent(parent.parent);
 
       return (
-        <ConversationLayoutApp currentTimeline={'deliverable'} conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList currentTimeline={'deliverable'} deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } currentUser={commentForm.currentUser}/> }>
+        <ConversationLayoutApp currentTimeline={'deliverable'} labels={labels} conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList currentTimeline={'deliverable'} deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } currentUser={commentForm.currentUser} labels={labels}/> }>
           <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );
     }
 
-    return <div className="text-center"><h5>Loading Deliverable...</h5></div>;
+    return <Spinner />;
   }
 }
 
@@ -99,6 +101,7 @@ function mapStateToProps(state, props) {
     conversationMembers: selectors.conversationMembers(state),
     conversationSettingsViewState,
     navigationHistory: selectors.navigationHistory(state),
+    labels: labels.organizationObjectsLabels(state),
   };
 }
 

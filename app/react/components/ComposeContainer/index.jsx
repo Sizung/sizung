@@ -46,7 +46,7 @@ class ComposeContainer extends React.Component {
   };
 
   renderComposer(composerType) {
-    const { currentUser, parent, createComment, createAgendaItem, createDeliverable, createAttachment, entityId } = this.props;
+    const { currentUser, parent, createComment, createAgendaItem, createDeliverable, createAttachment, entityId, labels } = this.props;
 
     switch (composerType) {
       case 'agendaItem':
@@ -56,6 +56,7 @@ class ComposeContainer extends React.Component {
                                    defaultValue={this.state.value}
                                    createAttachment={createAttachment}
                                    setComposerValue={this.setValue}
+                                   labels={labels}
                />;
       case 'deliverable':
         return <DeliverableComposer parent={parent}
@@ -65,6 +66,7 @@ class ComposeContainer extends React.Component {
                                     defaultValue={this.state.value}
                                     createAttachment={createAttachment}
                                     setComposerValue={this.setValue}
+                                    labels={labels}
                />;
       case 'comment':
       default:
@@ -76,6 +78,7 @@ class ComposeContainer extends React.Component {
                                 defaultValue={this.state.value}
                                 createAttachment={createAttachment}
                                 scrollListToBottom={this.props.scrollListToBottom}
+                                labels={labels}
                />;
     }
   }

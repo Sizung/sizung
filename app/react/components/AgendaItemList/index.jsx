@@ -8,6 +8,7 @@ class AgendaItemList extends Component {
     agendaItems: PropTypes.object.isRequired,
     visitAgendaItem: PropTypes.func.isRequired,
     currentTimeline: PropTypes.string,
+    labels: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -37,7 +38,7 @@ class AgendaItemList extends Component {
       <div className={styles.root}>
         <div className={styles.header}>
           <Icon type="agendaItem">
-            PRIORITY
+            { this.props.labels.agendaItemLabel }
           </Icon>
         </div>
         <div ref="agendaItemList" className={styles.list}>

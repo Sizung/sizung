@@ -1,6 +1,7 @@
 // coming from this gist https://gist.github.com/epeli/28c2dbcbe8109a0c5edb
 
 var webpack = require("webpack");
+var path = require("path");
 
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 
@@ -18,7 +19,7 @@ var NODE_ENV_PLUGIN = new webpack.DefinePlugin({
 });
 
 var config = {
-  context: __dirname + '/app/react',
+  context: __dirname + '/../app/react',
 
     entry: [
         "webpack-hot-middleware/client?path=" + PUBLIC_DEV_SERVER + "__webpack_hmr",
@@ -48,10 +49,6 @@ var config = {
                                     "transform": "react-transform-hmr",
                                     "imports": ["react"],
                                     "locals": ["module"]
-                                  },
-                                  {
-                                    transform: "react-transform-catch-errors",
-                                    imports: ["react", "redbox-react"]
                                   }]
                                 }
                             }
@@ -69,6 +66,9 @@ var config = {
         ]
     },
     resolve: {
+      // alias: {
+      //   'draft-js-mention-plugin': path.join(__dirname, 'draft-js-mention-plugin', 'src'),
+      // },
       extensions: ['', '.js', '.jsx', '.js.jsx']
     },
     plugins: [
