@@ -37,10 +37,7 @@ const updateAgendaItem = (id, changedFields) => {
 };
 
 const archiveAgendaItem = (id) => {
-  if (confirm("Are you sure you want to archive this Agenda Item?")) {
-    return updateAgendaItem(id, { archived: true });
-  }
-  return null;
+  return updateAgendaItem(id, { archived: true });
 };
 
 const fetchAgendaItem = (agendaItemId, dispatch) => {

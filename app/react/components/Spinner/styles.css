@@ -8,9 +8,9 @@
 .spinner {
   background-image: url('/icons/logo_sm.png');
   background-repeat: no-repeat;
-  width: 10em;
-  height: 10em;
-  background-size: 10em 10em;
+  width: 8em;
+  height: 8em;
+  background-size: 8em 8em;
   animation: fade 2s infinite linear;
 }
 
