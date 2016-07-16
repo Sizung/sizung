@@ -25,6 +25,10 @@
   display: inline-block;
 }
 
+.react-datepicker__day--outside-month {
+  font-size: 0 !important;
+}
+
 .react-datepicker {
   border: 1px solid #B5B6B6 !important;
   -webkit-border-radius: 0px !important;
