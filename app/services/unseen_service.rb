@@ -50,11 +50,9 @@ class UnseenService
                                else
                                  []
                                end
-    if unseen_objects_to_delete.any?
-      broadcast_delete(unseen_objects_to_delete)
-      unseen_objects_to_delete.destroy_all
-    end
-    unseen_objects_to_delete
+
+    broadcast_delete(unseen_objects_to_delete)
+    unseen_objects_to_delete.any? ? unseen_objects_to_delete.destroy_all : []
   end
 
   def movedDeliverable(deliverable, actor)

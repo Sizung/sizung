@@ -40,6 +40,8 @@ describe Api::UnseenObjectsController do
       }.must_change 'UnseenObject.count', -1
 
       assert_response :success
+      json_response = JSON.parse(response.body)
+      expect(json_response['data'].size).must_equal 1
     end
 
     it 'gets all unseen objects for a user' do
