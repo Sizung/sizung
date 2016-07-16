@@ -12,6 +12,7 @@ class UnseenService
     UserRelayJob.perform_later(unseen_object, user.id, 'create')
   end
 
+  # Removes the unseen objects of the given object and all child objects
   def remove(object)
     unless [Conversation, AgendaItem, Deliverable, Comment, Attachment].include? object.class
       raise ArgumentError.new('Unseen Objects can only be removed for Conversations, AgendaItems, Deliverables, Comments and Attachments')
@@ -24,12 +25,36 @@ class UnseenService
                        UnseenObject.all.where("#{object.class.name.underscore}_id = ?", object.id)
                      end
 
+    broadcast_delete(unseen_objects)
+    unseen_objects.destroy_all
+  end
+
+  def broadcast_delete(unseen_objects)
     unseen_objects.each do |unseen_object|
       ActionCable.server.broadcast "users:#{unseen_object.user_id}",
                                    payload: ActiveModelSerializers::SerializableResource.new(unseen_object).serializable_hash,
                                    action: 'delete'
     end
-    unseen_objects.destroy_all
+  end
+  
+  # Removes the unseen objects for the given timeline
+  def remove_for_timeline(current_user, timeline)
+    scope = current_user.unseen_objects
+    unseen_objects_to_delete = case timeline.class.name
+                               when 'Conversation'
+                                 scope.where(conversation: timeline).where("(target_type = 'Attachment' AND agenda_item_id IS NULL AND deliverable_id IS NULL) OR target_type = 'Conversation' OR target_type = 'AgendaItem' OR (target_type = 'Comment' AND agenda_item_id IS NULL AND deliverable_id IS NULL) ")
+                               when 'AgendaItem'
+                                 scope.where(agenda_item: timeline).where("(target_type = 'Attachment' AND deliverable_id IS NULL) OR target_type = 'AgendaItem' OR target_type = 'Deliverable' OR (target_type = 'Comment' AND deliverable_id IS NULL)")
+                               when 'Deliverable'
+                                 scope.where(deliverable: timeline)
+                               else
+                                 []
+                               end
+    if unseen_objects_to_delete.any?
+      broadcast_delete(unseen_objects_to_delete)
+      unseen_objects_to_delete.destroy_all
+    end
+    unseen_objects_to_delete
   end
 
   def movedDeliverable(deliverable, actor)
