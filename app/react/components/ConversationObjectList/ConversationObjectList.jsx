@@ -1,15 +1,24 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
+import _ from 'lodash';
 import ComposeContainer from './../ComposeContainer';
 import Comment from './../Comment/index';
 import Attachment from './../Attachment';
 import AgendaItemInTimeline from './../AgendaItemInTimeline';
 import DeliverableInTimeline from './../DeliverableInTimeline';
 import Spinner from '../Spinner';
+import moment from 'moment';
 import styles from './ConversationObjectList.css';
 import TimelineHeader from '../TimelineHeader/index';
 import ConversationHeader from '../ConversationHeader';
 import ConversationSettingsApp from '../../containers/ConversationSettingsApp';
+
+const momentDateFormats = {
+  lastDay: '[Yesterday]',
+  sameDay: '[Today]',
+  lastWeek: 'DD MMM YY',
+  sameElse: 'DD MMM YY',
+};
 
 class ConversationObjectList extends Component {
 
@@ -96,62 +105,97 @@ class ConversationObjectList extends Component {
     return true;
   };
 
-  prepareChildElements = (conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, parent, currentUser, archiveAttachment) => {
+  prepareChildElements = () => {
+    const { conversationObjects } = this.props;
     if (conversationObjects) {
-      let ownerId = null;
-      let showOwner = false;
-      return conversationObjects.map((conversationObject, index) => {
-        const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
-        let unseenObjectMarkerRef = '';
-        const uid = this.getConversationObjectOwnerId(conversationObject);
-
-        if (uid !== ownerId) {
-          ownerId = uid;
-          showOwner = true;
-        } else {
-          showOwner = false;
-        }
-
-        if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
-          unseenObjectMarkerRef = 'newObjectsMarker';
-        }
-
-        if (conversationObject.type === 'comments') {
-          const comment = conversationObject;
-          comment.parent = parent;
-          return (<Comment ref={unseenObjectMarkerRef} key={comment.id} comment={comment} showAuthor={showOwner}
-                           showTimeStamp={showTimeStamp} currentUser={currentUser}
-                           updateComment={updateComment} deleteComment={deleteComment}
-                           createAgendaItem={createAgendaItem}
-                           createDeliverable={createDeliverable}
-              />);
-        } else if (conversationObject.type === 'agendaItems') {
-          const agendaItem = conversationObject;
-          return (<AgendaItemInTimeline ref={unseenObjectMarkerRef} key={agendaItem.id} showOwner={showOwner}
-                                        showTimeStamp={showTimeStamp} currentUser={currentUser}
-                                        agendaItem={agendaItem} visitAgendaItem={visitAgendaItem}
-                                        archiveAgendaItem={archiveAgendaItem}
-                                        updateAgendaItem={updateAgendaItem}
-              />);
-        } else if (conversationObject.type === 'attachments' && !conversationObject.archived) {
-          const attachment = conversationObject;
-          return (<Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}
-                              archiveAttachment={archiveAttachment}
-                              currentUser={currentUser} showTimeStamp={showTimeStamp} attachment={attachment}/>);
-        } else if (conversationObject.type === 'deliverables') {
-          const deliverable = conversationObject;
-          return (<DeliverableInTimeline ref={unseenObjectMarkerRef} key={deliverable.id} showOwner={showOwner}
-                                         showTimeStamp={showTimeStamp} currentUser={currentUser}
-                                         deliverable={deliverable}
-                                         visitDeliverable={visitDeliverable}
-                                         archiveDeliverable={archiveDeliverable}
-                                         updateDeliverable={updateDeliverable}/>);
-        }
-        return undefined;
-        console.warn('Component not found for conversationObject: ', conversationObject);
+      const groupedConvObjs = _.groupBy(conversationObjects, (obj) => obj.createdAt.substr(0, 10));
+      return _.map(groupedConvObjs, (conObjs, date) => {
+        const convObjectsMarkup = conObjs.map((conversationObject, index) => {
+          return this.prepareConversationObject(conversationObject, index);
+        });
+        return (
+          <div>
+            {this.prepareDateSeparator(date)}
+            {convObjectsMarkup}
+          </div>
+        );
       });
     }
   };
+
+  prepareDateSeparator = (date) => {
+    return (
+      <div className={styles.conversationDateSection}>
+        <div className={styles.conversationDateLine}></div>
+        <div className={styles.conversationDate}>
+          {date && moment(date).calendar(null, momentDateFormats)}
+        </div>
+        <div className={styles.conversationDateLine}></div>
+      </div>
+    );
+  }
+
+  prepareConversationObject = (conversationObject, index) => {
+    const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
+        createDeliverable, archiveDeliverable, updateDeliverable,
+        visitAgendaItem, visitDeliverable, archiveAttachment, commentForm } = this.props;
+    const { currentUser } = commentForm;
+    let ownerId;
+    let showOwner;
+    const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
+    let unseenObjectMarkerRef = '';
+    const uid = this.getConversationObjectOwnerId(conversationObject);
+
+    if (uid !== ownerId) {
+      ownerId = uid;
+      showOwner = true;
+    } else {
+      showOwner = false;
+    }
+
+    if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
+      unseenObjectMarkerRef = 'newObjectsMarker';
+    }
+
+    if (conversationObject.type === 'comments') {
+      const comment = conversationObject;
+      comment.parent = parent;
+      return (
+        <Comment ref={unseenObjectMarkerRef} key={comment.id} comment={comment} showAuthor={showOwner}
+                       showTimeStamp={showTimeStamp} currentUser={currentUser}
+                       updateComment={updateComment} deleteComment={deleteComment}
+                       createAgendaItem={createAgendaItem}
+                       createDeliverable={createDeliverable}
+        />);
+    } else if (conversationObject.type === 'agendaItems') {
+      const agendaItem = conversationObject;
+      return (
+        <AgendaItemInTimeline ref={unseenObjectMarkerRef} key={agendaItem.id} showOwner={showOwner}
+                                    showTimeStamp={showTimeStamp} currentUser={currentUser}
+                                    agendaItem={agendaItem} visitAgendaItem={visitAgendaItem}
+                                    archiveAgendaItem={archiveAgendaItem}
+                                    updateAgendaItem={updateAgendaItem}
+        />);
+    } else if (conversationObject.type === 'attachments' && !conversationObject.archived) {
+      const attachment = conversationObject;
+      return (
+        <Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}
+                          archiveAttachment={archiveAttachment}
+                          currentUser={currentUser} showTimeStamp={showTimeStamp} attachment={attachment}
+        />);
+    } else if (conversationObject.type === 'deliverables') {
+      const deliverable = conversationObject;
+      return (
+        <DeliverableInTimeline ref={unseenObjectMarkerRef} key={deliverable.id} showOwner={showOwner}
+                                     showTimeStamp={showTimeStamp} currentUser={currentUser}
+                                     deliverable={deliverable}
+                                     visitDeliverable={visitDeliverable}
+                                     archiveDeliverable={archiveDeliverable}
+                                     updateDeliverable={updateDeliverable}
+        />);
+    }
+    return undefined;
+  }
 
   prepareShowMore = (isFetching, nextPageUrl) => {
     if (isFetching) {
@@ -242,12 +286,10 @@ class ConversationObjectList extends Component {
   };
 
   renderConversationTimeLine = () => {
-    const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
-        createDeliverable, archiveDeliverable, updateDeliverable, commentForm, isFetching, nextPageUrl,
-        visitAgendaItem, visitDeliverable, archiveAttachment } = this.props;
+    const { conversationObjects, isFetching, nextPageUrl } = this.props;
 
     const showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    let conversationObjectElements = this.prepareChildElements(conversationObjects, updateComment, deleteComment, archiveAgendaItem, updateAgendaItem, archiveDeliverable, updateDeliverable, createAgendaItem, createDeliverable, visitAgendaItem, visitDeliverable, commentForm.parent, commentForm.currentUser, archiveAttachment);
+    let conversationObjectElements = this.prepareChildElements();
     if (conversationObjects && conversationObjectElements) {
       conversationObjectElements = this.checkAndInsertNewObjectsMarker(conversationObjectElements, conversationObjects);
     }
@@ -281,7 +323,7 @@ class ConversationObjectList extends Component {
   };
 
   render() {
-    const { createComment, createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params, labels } = this.props;
+    const { createAgendaItem, createDeliverable, commentForm, createAttachment, archiveAttachment, params, labels } = this.props;
     const root = this.refs.root;
 
     if (this.props.conversationSettingsViewState === 'edit') {

@@ -76,3 +76,23 @@
   align-items: center;
   border-color: #f2695d;
 }
+
+.conversationDate {
+  font-size: 11px;
+  font-weight: bold;
+  color: #57C1E8;
+}
+
+.conversationDateLine {
+  width: 15%;
+  border-bottom: 1px dashed #57C1E8;
+  height: 0;
+  margin: 0 10px;
+}
+
+.conversationDateSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
