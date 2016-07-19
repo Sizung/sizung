@@ -29,8 +29,10 @@ describe Api::DevicesController do
       assert_equal @current_user.id, agenda_item['data']['relationships']['user']['data']['id']
     end
 
-    it 'should not create a duplicated token for the same user' do
-      device = FactoryGirl.create :device, token: 'abc123', user: @current_user
+    it 'should not create a duplicated token for the same user with the same token' do
+      old_device = FactoryGirl.create :device, token: 'old', user: @current_user
+      device     = FactoryGirl.create :device, token: 'abc123', user: @current_user
+
       expect {
         post :create, device: { token: 'abc123' }, format: :json
       }.wont_change 'Device.count'
@@ -39,6 +41,26 @@ describe Api::DevicesController do
       agenda_item = JSON.parse(response.body)
       assert_equal 'abc123', agenda_item['data']['attributes']['token']
       assert_equal @current_user.id, agenda_item['data']['relationships']['user']['data']['id']
+
+      expect(old_device.reload.token).must_equal 'old'
+      expect(device.reload.token).must_equal 'abc123'
+    end
+
+    it 'should update the token for an existing device' do
+      old_device = FactoryGirl.create :device, token: 'old', user: @current_user
+      device     = FactoryGirl.create :device, token: 'abc123', user: @current_user
+
+      expect {
+        put :update, id: device.id, device: { token: 'abc123456' }, format: :json
+      }.wont_change 'Device.count'
+
+      assert_response :success
+      agenda_item = JSON.parse(response.body)
+      assert_equal 'abc123456', agenda_item['data']['attributes']['token']
+      assert_equal @current_user.id, agenda_item['data']['relationships']['user']['data']['id']
+
+      expect(old_device.reload.token).must_equal 'old'
+      expect(device.reload.token).must_equal 'abc123456'
     end
   end
 end

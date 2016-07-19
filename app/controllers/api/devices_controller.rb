@@ -45,7 +45,7 @@ module Api
     end
 
     def create
-      @device = Device.where(user: current_user).first_or_initialize(device_params)
+      @device = Device.where(user: current_user, token: device_params[:token]).first_or_initialize(device_params)
       authorize @device
 
       if @device.save
@@ -55,6 +55,47 @@ module Api
       end
     end
 
+    swagger_path '/devices/{id}' do
+      operation :put, security: [bearer: []] do
+        key :summary, 'Update the token for an existing Device.'
+        key :tags, ['device']
+
+        parameter name: :id, in: :path, required: true, description: 'The device id'
+        parameter name: :device, in: :body, required: true, description: 'Device fields' do
+          schema do
+            key :'$ref', :DeviceInput
+          end
+        end
+
+        response 200 do
+          key :description, 'Device response'
+          schema do
+            key :'$ref', :responseOne_Device
+          end
+        end
+        response 422, description: 'Unprocessable Resource' do
+          schema do
+            key :'$ref', :errors
+          end
+        end
+
+        response :default do
+          key :description, 'Unexpected error'
+        end
+      end
+    end
+
+    def update
+      @device = Device.where(user: current_user).find(params[:id])
+      authorize @device
+
+      if @device.update(device_params)
+        render json: @device
+      else
+        render json: @device, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
+      end
+    end
+    
     private
       def device_params
         params.require(:device).permit(:token)
