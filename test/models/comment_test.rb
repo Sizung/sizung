@@ -16,4 +16,10 @@ describe Comment do
     }.must_change 'UnseenObject.count', -1
   end
 
+  it 'returns all mentioned users for a comment' do
+    user1 = FactoryGirl.create :user
+    user2 = FactoryGirl.create :user
+    comment = FactoryGirl.build :comment, body: "Hi @[#{user1.name}](#{user1.id}) and @[#{user2.name}](#{user2.id}). How are you doing?"
+    expect(comment.mentioned_users).must_equal [user1, user2]
+  end
 end

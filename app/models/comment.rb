@@ -35,4 +35,12 @@ class Comment < ActiveRecord::Base
   def parent
     commentable
   end
+
+  def mentioned_users
+    MentionsService.new.extract_users(body)
+  end
+
+  def display_body
+    MentionsService.new.display_body(self)
+  end
 end

@@ -1,6 +1,30 @@
 require 'houston'
 
 class NotificationService
+  include Rails.application.routes.url_helpers
+  
+  # Sends the necessary notifications to a user that has been mentioned
+  def mentioned(user, comment)
+    author = comment.author
+    url    = url_for(controller: comment.commentable.class.name.underscore.pluralize, action: :show, id: comment.commentable.id, host: ActionMailer::Base.default_url_options[:host])
+    
+    # send a notification to the iOS device if possible
+    notify(user, comment.display_body, url)
+
+    # send an email
+    Notifications.mentioned(user, comment, author, url).deliver_later
+  end
+
+  def new_comment(user, comment)
+    author = comment.author
+    url    = url_for(controller: comment.commentable.class.name.underscore.pluralize, action: :show, id: comment.commentable.id, host: ActionMailer::Base.default_url_options[:host])
+
+    # send a notification to the iOS device if possible
+    notify(user, comment.display_body, url)
+  end
+
+  # TODO Make that a private method. It's to specific to be used directly outside of the NotificationService responsibility
+  # sends a notification to the iOS device when the user has one registered
   def notify(user, body, url)
     raise ArgumentError('user and body must be present to notify a user') unless user && body
     return unless ENV['APN_CERTIFICATE_DATA']

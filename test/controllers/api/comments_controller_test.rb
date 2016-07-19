@@ -2,6 +2,7 @@ require 'test_helper'
 
 describe Api::CommentsController do
   include Devise::TestHelpers
+  include ActiveJob::TestHelper
 
   describe 'visitor' do
     it 'should not be allowed to create a new comment' do
@@ -72,7 +73,10 @@ describe Api::CommentsController do
     it 'removes the unseen objects when a comment gets archived' do
       conversation = @comment.commentable
       conversation_member = FactoryGirl.create :conversation_member, conversation: conversation
-      post :create, comment: { body: 'Thats what I say about it. :)', commentable_id: conversation.id, commentable_type: 'Conversation' }, format: :json
+
+      perform_enqueued_jobs do
+        post :create, comment: { body: 'Thats what I say about it. :)', commentable_id: conversation.id, commentable_type: 'Conversation' }, format: :json
+      end
 
       expect(conversation_member.member.unseen_objects.count).must_equal 1
 
@@ -93,8 +97,11 @@ describe Api::CommentsController do
     it 'removes the unseen objects when a comment gets removed' do
       conversation = @comment.commentable
       conversation_member = FactoryGirl.create :conversation_member, conversation: conversation
-      post :create, comment: { body: 'Thats what I say about it. :)', commentable_id: conversation.id, commentable_type: 'Conversation' }, format: :json
 
+      perform_enqueued_jobs do
+        post :create, comment: { body: 'Thats what I say about it. :)', commentable_id: conversation.id, commentable_type: 'Conversation' }, format: :json
+      end
+      
       expect(conversation_member.member.unseen_objects.count).must_equal 1
 
       comment = Comment.find(JSON.parse(response.body)['data']['id'])
