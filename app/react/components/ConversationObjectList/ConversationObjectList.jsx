@@ -108,10 +108,13 @@ class ConversationObjectList extends Component {
   prepareChildElements = () => {
     const { conversationObjects } = this.props;
     if (conversationObjects) {
-      const groupedConvObjs = _.groupBy(conversationObjects, (obj) => obj.createdAt.substr(0, 10));
+      const filteredConvObject = _.filter(conversationObjects, (obj) => !obj.archived);
+      const groupedConvObjs = _.groupBy(filteredConvObject, (obj) => obj.createdAt.substr(0, 10));
+      let objIndex = -1;
       return _.map(groupedConvObjs, (conObjs, date) => {
-        const convObjectsMarkup = conObjs.map((conversationObject, index) => {
-          return this.prepareConversationObject(conversationObject, index);
+        const convObjectsMarkup = conObjs.map((conversationObject) => {
+          objIndex += 1;
+          return this.prepareConversationObject(conversationObject, objIndex);
         });
         return (
           <div>
@@ -176,7 +179,7 @@ class ConversationObjectList extends Component {
                                     archiveAgendaItem={archiveAgendaItem}
                                     updateAgendaItem={updateAgendaItem}
         />);
-    } else if (conversationObject.type === 'attachments' && !conversationObject.archived) {
+    } else if (conversationObject.type === 'attachments') {
       const attachment = conversationObject;
       return (
         <Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}

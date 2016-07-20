@@ -11,11 +11,11 @@
   width: 8em;
   height: 8em;
   background-size: 8em 8em;
-  animation: fade 2s infinite linear;
+  animation: fade 1.5s infinite linear;
 }
 
 @keyframes fade {
-  0%   { opacity: 0; }
+  0%   { opacity: 0.2; }
   50%  { opacity: 1; }
-  100% { opacity: 0; }
+  100% { opacity: 0.2; }
 }
