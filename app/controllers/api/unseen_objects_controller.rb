@@ -3,17 +3,21 @@ module Api
     before_filter :authenticate_user!
     # after_action :verify_authorized
 
+    FILTERS = %w(subscribed unsubscribed)
+    
     respond_to :json
 
     include Swagger::Blocks
 
     swagger_path '/{parent_type}/{parent_id}/unseen_objects' do
-      operation :post, security: [bearer: []] do
+      operation :get, security: [bearer: []] do
         key :summary, 'Get the users unseen objects on a given level'
         key :tags, ['organization', 'conversation', 'agenda_item', 'deliverable', 'user', 'unseen_objects']
 
-        parameter name: :parent_type, in: :path, required: true, type: :string
+        parameter name: :parent_type, in: :path, required: true, type: :string, enum: ['users', 'organizations', 'conversations', 'agenda_items', 'deliverables']
         parameter name: :parent_id, in: :path, required: true, type: :string
+        parameter name: :filter, in: :query, type: :string, enum: ['subscribed', 'unsubscribed'], description: 'Filter the unseen objects by relevance. e.g. add filter=subscribed to only get the relevant unseen objects for the relevance stream.'
+        parameter name: :include, in: :query, type: :string, description: 'See http://jsonapi.org/format/#fetching-includes for how the include parameter works. e.g. for the relevance stream it makes sense to use include=timeline'
         response 200 do
           key :description, 'Unseen Object response'
           schema do
@@ -26,12 +30,16 @@ module Api
         end
       end
     end
-    
+
     def index
       authorize parent, :show?
-      @unseen_objects = parent.unseen_objects.where(user: current_user).includes(:user, :organization, :conversation, :agenda_item, :deliverable, :target)
+      @unseen_objects = parent.unseen_objects.where(user: current_user).includes(:user, :organization, :conversation, :agenda_item, :deliverable, :target, :timeline)
 
-      render json: @unseen_objects, include: params[:includes]
+      if params[:filter] && FILTERS.include?(params[:filter])
+        @unseen_objects = @unseen_objects.send params[:filter]
+      end
+
+      render json: @unseen_objects, include: params[:include]
     end
 
     swagger_path '/{parent_type}/{parent_id}/unseen_objects' do

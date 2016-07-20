@@ -29,4 +29,8 @@ class AgendaItem < ActiveRecord::Base
   def parent
     conversation
   end
+
+  def timeline
+    self
+  end
 end

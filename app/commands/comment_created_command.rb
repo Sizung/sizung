@@ -38,13 +38,13 @@ class CommentCreatedCommand < ApplicationCommand
 
   def notify_mentioned_users
     mentioned_users.each do |mentioned_user|
-      NotificationService.mentioned(mentioned_user, comment)
+      NotificationService.new.mentioned(mentioned_user, comment)
     end
   end
 
   def notify_subscribers
     (subscribers - mentioned_users - [comment.author]).each do |subscriber|
-      NotificationService.new_comment(subscriber, comment)
+      NotificationService.new.new_comment(subscriber, comment)
     end
   end
   

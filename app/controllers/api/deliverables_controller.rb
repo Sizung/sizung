@@ -58,12 +58,7 @@ module Api
       @deliverable.assignee_id = current_user.id unless @deliverable.assignee_id
 
       if @deliverable.save
-        MentionedJob.perform_later(@deliverable, current_user, deliverable_url(id: @deliverable.id))
-        DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'create')
-        UnseenService.new.handle_with(@deliverable, current_user)
-        if @deliverable.assignee != current_user
-          Notifications.deliverable_assigned(@deliverable, current_user).deliver_later
-        end
+        DeliverableCreatedJob.perform_later(@deliverable, current_user)
         render json: @deliverable, serializer: DeliverableSerializer
       else
         render json: @deliverable, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
