@@ -108,12 +108,12 @@ class ConversationObjectList extends Component {
   prepareChildElements = () => {
     const { conversationObjects } = this.props;
     if (conversationObjects) {
-      const groupedConvObjs = _.groupBy(conversationObjects, (obj) => obj.createdAt.substr(0, 10));
+      const filteredConvObject = _.filter(conversationObjects, (obj) => !obj.archived);
+      const groupedConvObjs = _.groupBy(filteredConvObject, (obj) => obj.createdAt.substr(0, 10));
       return _.map(groupedConvObjs, (conObjs, date) => {
         const convObjectsMarkup = conObjs.map((conversationObject, index) => {
           return this.prepareConversationObject(conversationObject, index);
         });
-        console.log('---convObjectsMarkup---', convObjectsMarkup)
         return (
           <div>
             {this.prepareDateSeparator(date)}
@@ -158,8 +158,6 @@ class ConversationObjectList extends Component {
       unseenObjectMarkerRef = 'newObjectsMarker';
     }
 
-    console.log('-----', conversationObject.type)
-
     if (conversationObject.type === 'comments') {
       const comment = conversationObject;
       comment.parent = parent;
@@ -179,7 +177,7 @@ class ConversationObjectList extends Component {
                                     archiveAgendaItem={archiveAgendaItem}
                                     updateAgendaItem={updateAgendaItem}
         />);
-    } else if (conversationObject.type === 'attachments' && !conversationObject.archived) {
+    } else if (conversationObject.type === 'attachments') {
       const attachment = conversationObject;
       return (
         <Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}
