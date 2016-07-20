@@ -113,6 +113,7 @@ class ConversationObjectList extends Component {
         const convObjectsMarkup = conObjs.map((conversationObject, index) => {
           return this.prepareConversationObject(conversationObject, index);
         });
+        console.log('---convObjectsMarkup---', convObjectsMarkup)
         return (
           <div>
             {this.prepareDateSeparator(date)}
@@ -156,6 +157,8 @@ class ConversationObjectList extends Component {
     if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
       unseenObjectMarkerRef = 'newObjectsMarker';
     }
+
+    console.log('-----', conversationObject.type)
 
     if (conversationObject.type === 'comments') {
       const comment = conversationObject;
