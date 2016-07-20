@@ -59,8 +59,9 @@ module Api
       operation :put, security: [bearer: []] do
         key :summary, 'Update the token for an existing Device.'
         key :tags, ['device']
-
-        parameter name: :id, in: :path, required: true, description: 'The device id'
+        key :operationId, 'updateDeviceById'
+        
+        parameter name: :id, in: :path, required: true, type: :string
         parameter name: :device, in: :body, required: true, description: 'Device fields' do
           schema do
             key :'$ref', :DeviceInput

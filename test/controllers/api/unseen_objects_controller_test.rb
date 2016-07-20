@@ -84,7 +84,7 @@ describe Api::UnseenObjectsController do
     end
     
     it 'gets unseen objects including the requested includes' do
-      get :index, parent_type: 'User', user_id: @current_user.id, includes: [:user, :target, :agenda_item]
+      get :index, parent_type: 'User', user_id: @current_user.id, include: 'user,target,agenda_item,timeline'
 
       assert_response :success
       body = JSON.parse(response.body)
