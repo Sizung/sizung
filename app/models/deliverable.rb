@@ -29,4 +29,8 @@ class Deliverable < ActiveRecord::Base
   def organization
     conversation.organization
   end
+
+  def timeline
+    self
+  end
 end

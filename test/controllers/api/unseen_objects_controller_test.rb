@@ -54,6 +54,35 @@ describe Api::UnseenObjectsController do
       expect(body['data'].first['id']).must_equal @unseen_object.id
     end
 
+    it 'gets only the subscribed unseen objects for a user' do
+      @comment                  = FactoryGirl.create(:comment, commentable: @agenda_item)
+      @unseen_object_subscribed = UnseenObject.create_from!(@comment, @agenda_item.owner)
+      @unseen_object_subscribed.update(subscribed: true)
+
+      get :index, parent_type: 'User', user_id: @current_user.id, filter: 'subscribed'
+
+      assert_response :success
+
+      body = JSON.parse(response.body)
+      expect(body['data'].size).must_equal 1
+      expect(body['data'].first['id']).must_equal @unseen_object_subscribed.id
+
+      get :index, parent_type: 'User', user_id: @current_user.id, filter: 'unsubscribed'
+
+      assert_response :success
+
+      body = JSON.parse(response.body)
+      expect(body['data'].size).must_equal 1
+      expect(body['data'].first['id']).must_equal @unseen_object.id
+
+      get :index, parent_type: 'User', user_id: @current_user.id
+
+      assert_response :success
+
+      body = JSON.parse(response.body)
+      expect(body['data'].size).must_equal 2
+    end
+    
     it 'gets unseen objects including the requested includes' do
       get :index, parent_type: 'User', user_id: @current_user.id, includes: [:user, :target, :agenda_item]
 

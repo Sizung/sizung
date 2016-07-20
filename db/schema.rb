@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719122742) do
+ActiveRecord::Schema.define(version: 20160719145124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -300,12 +300,16 @@ UNION ALL
     t.uuid     "user_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.boolean  "subscribed",      default: false, null: false
+    t.uuid     "timeline_id"
+    t.string   "timeline_type"
   end
   add_index "unseen_objects", ["agenda_item_id"], name: "index_unseen_objects_on_agenda_item_id", using: :btree
   add_index "unseen_objects", ["conversation_id"], name: "index_unseen_objects_on_conversation_id", using: :btree
   add_index "unseen_objects", ["deliverable_id"], name: "index_unseen_objects_on_deliverable_id", using: :btree
   add_index "unseen_objects", ["organization_id"], name: "index_unseen_objects_on_organization_id", using: :btree
   add_index "unseen_objects", ["target_type", "target_id"], name: "index_unseen_objects_on_target_type_and_target_id", using: :btree
+  add_index "unseen_objects", ["timeline_type", "timeline_id"], name: "index_unseen_objects_on_timeline_type_and_timeline_id", using: :btree
   add_index "unseen_objects", ["user_id"], name: "index_unseen_objects_on_user_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|

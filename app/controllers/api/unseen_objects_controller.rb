@@ -3,6 +3,8 @@ module Api
     before_filter :authenticate_user!
     # after_action :verify_authorized
 
+    FILTERS = %w(subscribed unsubscribed)
+    
     respond_to :json
 
     include Swagger::Blocks
@@ -14,6 +16,7 @@ module Api
 
         parameter name: :parent_type, in: :path, required: true, type: :string
         parameter name: :parent_id, in: :path, required: true, type: :string
+        parameter name: :filter, in: :path, required: false, type: :string, enum: ['subscribed', 'unsubscribed'], description: 'Select a subset of the unseen objects. e.g. use filter=subscribed to prepare the relevance stream.'
         response 200 do
           key :description, 'Unseen Object response'
           schema do
@@ -26,10 +29,14 @@ module Api
         end
       end
     end
-    
+
     def index
       authorize parent, :show?
-      @unseen_objects = parent.unseen_objects.where(user: current_user).includes(:user, :organization, :conversation, :agenda_item, :deliverable, :target)
+      @unseen_objects = parent.unseen_objects.where(user: current_user).includes(:user, :organization, :conversation, :agenda_item, :deliverable, :target, :timeline)
+
+      if params[:filter] && FILTERS.include?(params[:filter])
+        @unseen_objects = @unseen_objects.send params[:filter]
+      end
 
       render json: @unseen_objects, include: params[:includes]
     end

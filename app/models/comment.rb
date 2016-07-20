@@ -36,6 +36,10 @@ class Comment < ActiveRecord::Base
     commentable
   end
 
+  def timeline
+    parent
+  end
+  
   def mentioned_users
     MentionsService.new.extract_users(body)
   end
