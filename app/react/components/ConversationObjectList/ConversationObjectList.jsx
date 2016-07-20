@@ -156,7 +156,6 @@ class ConversationObjectList extends Component {
       showOwner = false;
     }
 
-    console.log('-----', conversationObject, conversationObjects, index)
     if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
       console.log('-----condition met ----');
       unseenObjectMarkerRef = 'newObjectsMarker';
@@ -256,6 +255,7 @@ class ConversationObjectList extends Component {
   };
 
   nextObjectIsFirstUnseenObject = (conversationObject, conversationObjects, index) => {
+    console.log('-----', conversationObject, conversationObjects, index)
     return (!conversationObject.unseen && index < (conversationObjects.length - 1) && conversationObjects[index + 1].unseen);
   };
 
