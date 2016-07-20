@@ -26,6 +26,10 @@ class NotificationService
   def assigned_agenda_item(agenda_item, author)
     Notifications.agenda_item_assigned(agenda_item, author).deliver_later
   end
+
+  def assigned_deliverable(deliverable, author)
+    Notifications.deliverable_assigned(deliverable, author).deliver_later
+  end
   
   # TODO Make that a private method. It's to specific to be used directly outside of the NotificationService responsibility
   # sends a notification to the iOS device when the user has one registered

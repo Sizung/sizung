@@ -65,8 +65,11 @@ describe Api::DeliverablesController do
 
     it 'removes the unseen objects when a deliverable gets archived' do
       conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
-      post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
 
+      perform_enqueued_jobs do
+        post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
+      end
+      
       expect(conversation_member.member.unseen_objects.count).must_equal 1
 
       deliverable = Deliverable.find(JSON.parse(response.body)['data']['id'])
@@ -80,8 +83,10 @@ describe Api::DeliverablesController do
       conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
       other_agenda_item = FactoryGirl.create :agenda_item, conversation: @agenda_item.conversation
 
-      post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
-
+      perform_enqueued_jobs do
+        post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
+      end
+      
       expect(conversation_member.member.unseen_objects.count).must_equal 1
       expect(conversation_member.member.unseen_objects.first.agenda_item_id).must_equal @agenda_item.id
 
