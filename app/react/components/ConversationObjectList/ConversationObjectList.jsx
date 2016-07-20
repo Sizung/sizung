@@ -110,8 +110,9 @@ class ConversationObjectList extends Component {
     if (conversationObjects) {
       const filteredConvObject = _.filter(conversationObjects, obj => !obj.archived);
       const unseenCount = _.filter(conversationObjects, obj => obj.unseen).length;
+      let firstUnseenIndex = -1;
       if (unseenCount) {
-        filteredConvObject[filteredConvObject.length - unseenCount].unseenFirst = true;
+        firstUnseenIndex = filteredConvObject.length - unseenCount;
       }
       const groupedConvObjs = _.groupBy(filteredConvObject, (obj) => obj.createdAt.substr(0, 10));
       let objIndex = -1;
@@ -119,10 +120,10 @@ class ConversationObjectList extends Component {
         const renderedConObjs = [];
         conObjs.forEach((conversationObject) => {
           objIndex += 1;
-          if (conversationObject.unseenFirst) {
+          if (objIndex === firstUnseenIndex) {
             renderedConObjs.push(this.newObjectsMarker(unseenCount));
           }
-          renderedConObjs.push(this.prepareConversationObject(conversationObject, objIndex));
+          renderedConObjs.push(this.prepareConversationObject(conversationObject, objIndex, objIndex === firstUnseenIndex));
         });
         return (
           <div>
@@ -146,7 +147,7 @@ class ConversationObjectList extends Component {
     );
   }
 
-  prepareConversationObject = (conversationObject, index) => {
+  prepareConversationObject = (conversationObject, index, isFirstUnseen) => {
     const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable,
         visitAgendaItem, visitDeliverable, archiveAttachment, commentForm } = this.props;
@@ -154,7 +155,7 @@ class ConversationObjectList extends Component {
     let ownerId;
     let showOwner;
     const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
-    let unseenObjectMarkerRef = '';
+    const unseenObjectMarkerRef = isFirstUnseen ? 'newObjectsMarker' : '';
     const uid = this.getConversationObjectOwnerId(conversationObject);
 
     if (uid !== ownerId) {
@@ -162,10 +163,6 @@ class ConversationObjectList extends Component {
       showOwner = true;
     } else {
       showOwner = false;
-    }
-
-    if (conversationObject.unseenFirst) {
-      unseenObjectMarkerRef = 'newObjectsMarker';
     }
 
     if (conversationObject.type === 'comments') {
