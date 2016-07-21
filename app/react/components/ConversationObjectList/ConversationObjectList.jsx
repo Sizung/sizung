@@ -108,18 +108,27 @@ class ConversationObjectList extends Component {
   prepareChildElements = () => {
     const { conversationObjects } = this.props;
     if (conversationObjects) {
-      const filteredConvObject = _.filter(conversationObjects, (obj) => !obj.archived);
+      const filteredConvObject = _.filter(conversationObjects, obj => !obj.archived);
+      const unseenCount = _.filter(conversationObjects, obj => obj.unseen).length;
+      let firstUnseenIndex = -1;
+      if (unseenCount) {
+        firstUnseenIndex = filteredConvObject.length - unseenCount;
+      }
       const groupedConvObjs = _.groupBy(filteredConvObject, (obj) => obj.createdAt.substr(0, 10));
       let objIndex = -1;
       return _.map(groupedConvObjs, (conObjs, date) => {
-        const convObjectsMarkup = conObjs.map((conversationObject) => {
+        const renderedConObjs = [];
+        conObjs.forEach((conversationObject) => {
           objIndex += 1;
-          return this.prepareConversationObject(conversationObject, objIndex);
+          if (objIndex === firstUnseenIndex) {
+            renderedConObjs.push(this.newObjectsMarker(unseenCount));
+          }
+          renderedConObjs.push(this.prepareConversationObject(conversationObject, objIndex, objIndex === firstUnseenIndex));
         });
         return (
           <div>
             {this.prepareDateSeparator(date)}
-            {convObjectsMarkup}
+            {renderedConObjs}
           </div>
         );
       });
@@ -138,7 +147,7 @@ class ConversationObjectList extends Component {
     );
   }
 
-  prepareConversationObject = (conversationObject, index) => {
+  prepareConversationObject = (conversationObject, index, isFirstUnseen) => {
     const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable,
         visitAgendaItem, visitDeliverable, archiveAttachment, commentForm } = this.props;
@@ -146,7 +155,7 @@ class ConversationObjectList extends Component {
     let ownerId;
     let showOwner;
     const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
-    let unseenObjectMarkerRef = '';
+    const unseenObjectMarkerRef = isFirstUnseen ? 'newObjectsMarker' : '';
     const uid = this.getConversationObjectOwnerId(conversationObject);
 
     if (uid !== ownerId) {
@@ -154,10 +163,6 @@ class ConversationObjectList extends Component {
       showOwner = true;
     } else {
       showOwner = false;
-    }
-
-    if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
-      unseenObjectMarkerRef = 'newObjectsMarker';
     }
 
     if (conversationObject.type === 'comments') {
@@ -257,45 +262,10 @@ class ConversationObjectList extends Component {
     return (!conversationObject.unseen && index < (conversationObjects.length - 1) && conversationObjects[index + 1].unseen);
   };
 
-  checkAndInsertNewObjectsMarker = (conversationObjectElements, conversationObjects) => {
-    let newObjectsMarker;
-    let newObjectsMarkerIndex = -1;
-    const { nextPageUrl } = this.props;
-    if (!nextPageUrl && conversationObjects.length > 0 && conversationObjects[0].unseen) {
-      newObjectsMarkerIndex = 0;
-    } else {
-      conversationObjects.forEach((conversationObject, index) => {
-        if (this.nextObjectIsFirstUnseenObject(conversationObject, conversationObjects, index)) {
-          newObjectsMarkerIndex = index + 1;
-          return false;
-        }
-      });
-    }
-    newObjectsMarker = this.newObjectsMarker(conversationObjects.filter((obj) => {
-      return obj.unseen;
-    }).length, (newObjectsMarkerIndex === 0));
-
-    //Insert New Object Marker Dom between last seen and first unseen object
-    if (newObjectsMarker) {
-      return conversationObjectElements.filter((obj, index) => {
-        return index < newObjectsMarkerIndex;
-      }).concat(newObjectsMarker).concat(
-          conversationObjectElements.filter((obj, index) => {
-            return index >= newObjectsMarkerIndex;
-          })
-      );
-    }
-    return conversationObjectElements;
-  };
-
   renderConversationTimeLine = () => {
-    const { conversationObjects, isFetching, nextPageUrl } = this.props;
-
+    const { isFetching, nextPageUrl } = this.props;
     const showMore = this.prepareShowMore(isFetching, nextPageUrl);
-    let conversationObjectElements = this.prepareChildElements();
-    if (conversationObjects && conversationObjectElements) {
-      conversationObjectElements = this.checkAndInsertNewObjectsMarker(conversationObjectElements, conversationObjects);
-    }
+    const conversationObjectElements = this.prepareChildElements();
     return (
       <div ref="root" className={styles.root}>
         <div ref="conversationObjectList" className={styles.list}>
