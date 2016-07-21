@@ -46,13 +46,46 @@ describe Api::UnseenObjectsController do
     end
 
     it 'gets all unseen objects for a user' do
+      other_unseen_objects = FactoryGirl.create_list :unseen_object, 3, user: @current_user
+
       get :index, parent_type: 'User', user_id: @current_user.id
 
       assert_response :success
 
       body = JSON.parse(response.body)
-      expect(body['data'].size).must_equal 1
-      expect(body['data'].first['id']).must_equal @unseen_object.id
+      expect(body['data'].size).must_equal 4 # remember that we already create an unseen object
+    end
+
+    it 'paginates the unseen objects for a user' do
+      other_unseen_objects = FactoryGirl.create_list :unseen_object, 3, user: @current_user
+
+      get :index, parent_type: 'User', user_id: @current_user.id, page: { number: 1, size: 2 }
+
+      assert_response :success
+
+      body = JSON.parse(response.body)
+
+      expect(body['data'].size).must_equal 2
+      expect(body['links']['self']).must_be :present?
+      expect(body['links']['last']).must_be :present?
+      expect(body['links']['next']).must_be :present?
+    end
+
+    it 'paginates the unseen objects for a user: do not show link to last if it is already the last page' do
+      # remember that we already create an unseen object
+      other_unseen_objects = FactoryGirl.create_list :unseen_object, 3, user: @current_user
+
+      get :index, parent_type: 'User', user_id: @current_user.id, page: { number: 2, size: 2 }
+
+      assert_response :success
+
+      body = JSON.parse(response.body)
+
+      expect(body['data'].size).must_equal 2
+      expect(body['links']['self']).must_be :present?
+      expect(body['links']['last']).wont_be :present?
+      expect(body['links']['first']).must_be :present?
+      expect(body['links']['prev']).must_be :present?
     end
 
     it 'gets only the subscribed unseen objects for a user' do

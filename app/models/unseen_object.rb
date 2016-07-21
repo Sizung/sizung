@@ -9,6 +9,8 @@ class UnseenObject < ActiveRecord::Base
 
   scope :subscribed,   -> { where(subscribed: true) }
   scope :unsubscribed, -> { where(subscribed: false) }
+
+  default_scope { order(created_at: :desc)}
   
   def self.create_from!(object, user)
     subscribed = false

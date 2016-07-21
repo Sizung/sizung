@@ -18,6 +18,9 @@ module Api
         parameter name: :parent_id, in: :path, required: true, type: :string
         parameter name: :filter, in: :query, type: :string, enum: ['subscribed', 'unsubscribed'], description: 'Filter the unseen objects by relevance. e.g. add filter=subscribed to only get the relevant unseen objects for the relevance stream.'
         parameter name: :include, in: :query, type: :string, description: 'See http://jsonapi.org/format/#fetching-includes for how the include parameter works. e.g. for the relevance stream it makes sense to use include=timeline'
+        parameter name: 'page[number]', in: :query, type: :integer, description: 'Using pagination: The number of the page you want to receive.'
+        parameter name: 'page[size]',   in: :query, type: :integer, description: 'Using pagination: The size of the page you want to receive.'
+        
         response 200 do
           key :description, 'Unseen Object response'
           schema do
@@ -37,6 +40,15 @@ module Api
 
       if params[:filter] && FILTERS.include?(params[:filter])
         @unseen_objects = @unseen_objects.send params[:filter]
+      end
+
+      if params[:page]
+        if params[:page][:number]
+          @unseen_objects = @unseen_objects.page(params[:page][:number])
+        end
+        if params[:page][:size]
+          @unseen_objects = @unseen_objects.per(params[:page][:size])
+        end        
       end
 
       render json: @unseen_objects, include: params[:include]

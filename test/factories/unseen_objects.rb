@@ -5,7 +5,7 @@ FactoryGirl.define do
     agenda_item nil
     deliverable nil
     timeline nil
-    target nil
-    actor nil
+    target factory: :comment
+    user factory: :user
   end
 end

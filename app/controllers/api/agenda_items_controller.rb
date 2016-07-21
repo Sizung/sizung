@@ -9,7 +9,7 @@ module Api
     include Swagger::Blocks
 
     swagger_path '/conversations/{conversation_id}/agenda_items' do
-      operation :post, security: [bearer: []] do
+      operation :get, security: [bearer: []] do
         key :summary, 'List Agenda Items'
         key :tags, ['agenda_item', 'conversation']
 
