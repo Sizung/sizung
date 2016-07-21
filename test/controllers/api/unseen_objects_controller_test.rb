@@ -1,4 +1,5 @@
 require 'test_helper'
+require 'support/json_helpers'
 
 describe Api::UnseenObjectsController do
   include Devise::TestHelpers
@@ -88,19 +89,12 @@ describe Api::UnseenObjectsController do
 
       assert_response :success
       body = JSON.parse(response.body)
-      expect(included(body, 'type', 'users')).must_equal true
-      expect(included(body, 'type', 'comments')).must_equal true
-      expect(included(body, 'type', 'agenda_items')).must_equal true
+      expect(json_included(body, 'type', 'users')).must_equal true
+      expect(json_included(body, 'type', 'comments')).must_equal true
+      expect(json_included(body, 'type', 'agenda_items')).must_equal true
       expect(body['data'].first['id']).must_equal @unseen_object.id
     end
 
-    def included(json, key, value)
-      json['included'].each do |obj|
-        return true if obj[key] == value
-      end
-      return false
-    end
-    
     it 'destroys unseen object for an agenda item on visiting agenda item w/o visiting it\'s parent conversation' do
       @new_agenda_item = FactoryGirl.create(:agenda_item)
       @unseen_object = UnseenObject.create_from!(@new_agenda_item, @current_user)

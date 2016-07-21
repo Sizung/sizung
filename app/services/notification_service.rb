@@ -6,8 +6,8 @@ class NotificationService
   # Sends the necessary notifications to a user that has been mentioned
   def mentioned(user, comment)
     author = comment.author
-    url    = url_for(controller: comment.commentable.class.name.underscore.pluralize, action: :show, id: comment.commentable.id, host: ActionMailer::Base.default_url_options[:host])
-    
+    url    = timeline_url(comment.commentable)
+
     # send a notification to the iOS device if possible
     notify(user, comment.display_body, url)
 
@@ -17,7 +17,7 @@ class NotificationService
 
   def new_comment(user, comment)
     author = comment.author
-    url    = url_for(controller: comment.commentable.class.name.underscore.pluralize, action: :show, id: comment.commentable.id, host: ActionMailer::Base.default_url_options[:host])
+    url    = timeline_url(comment.commentable)
 
     # send a notification to the iOS device if possible
     notify(user, comment.display_body, url)
@@ -29,6 +29,10 @@ class NotificationService
 
   def assigned_deliverable(deliverable, author)
     Notifications.deliverable_assigned(deliverable, author).deliver_later
+  end
+
+  def unassigned_deliverable(deliverable, old_assignee, author)
+    Notifications.deliverable_unassigned(deliverable, old_assignee, author).deliver_later
   end
   
   # TODO Make that a private method. It's to specific to be used directly outside of the NotificationService responsibility
@@ -58,6 +62,20 @@ class NotificationService
       notification.custom_data = { link: url } if url
 
       apn.push(notification)
+    end
+  end
+
+  private
+  def timeline_url(timeline)
+    case timeline
+    when AgendaItem
+      agenda_item_path(timeline.id, host: ActionMailer::Base.default_url_options[:host])
+    when Deliverable
+      deliverable_path(timeline.id, host: ActionMailer::Base.default_url_options[:host])
+    when Conversation
+      conversation_path(timeline.id, host: ActionMailer::Base.default_url_options[:host])
+    else
+      raise ArgumentError, "Only urls to Conversations, Deliverables or AgendaItems are supported but got: #{timeline}"
     end
   end
 end
