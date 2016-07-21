@@ -30,6 +30,10 @@ class NotificationService
   def assigned_deliverable(deliverable, author)
     Notifications.deliverable_assigned(deliverable, author).deliver_later
   end
+
+  def unassigned_deliverable(deliverable, old_assignee, author)
+    Notifications.deliverable_unassigned(deliverable, old_assignee, author).deliver_later
+  end
   
   # TODO Make that a private method. It's to specific to be used directly outside of the NotificationService responsibility
   # sends a notification to the iOS device when the user has one registered

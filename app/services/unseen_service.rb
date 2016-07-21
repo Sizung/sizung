@@ -54,15 +54,4 @@ class UnseenService
     broadcast_delete(unseen_objects_to_delete)
     unseen_objects_to_delete.any? ? unseen_objects_to_delete.destroy_all : []
   end
-
-  def movedDeliverable(deliverable, actor)
-    unseen_objects = UnseenObject.all.where(deliverable: deliverable)
-    unseen_objects.each do |unseen_object|
-      unseen_object.update agenda_item_id: deliverable.agenda_item.try(:id)
-      unseen_object.update conversation_id: deliverable.conversation.id
-      ActionCable.server.broadcast "users:#{unseen_object.user_id}",
-                                   payload: ActiveModelSerializers::SerializableResource.new(unseen_object).serializable_hash,
-                                   action: 'update'
-    end
-  end
 end

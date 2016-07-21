@@ -22,6 +22,15 @@ class Notifications < ApplicationMailer
     mail to: @deliverable.assignee.email, subject: "#{@actor.first_name} assigned an action to you"
   end
 
+  def deliverable_unassigned(deliverable, old_assignee, actor)
+    @deliverable  = deliverable
+    @old_assignee = old_assignee
+    @actor        = actor
+    @target_url   = deliverable_url(deliverable)
+    
+    mail to: old_assignee.email, subject: "#{@actor.first_name} unassigned you from an action"
+  end
+  
   def agenda_item_assigned(agenda_item, actor)
     @agenda_item = agenda_item
     @owner       = agenda_item.owner
