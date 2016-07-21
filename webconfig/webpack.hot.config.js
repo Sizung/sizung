@@ -67,7 +67,7 @@ var config = {
     },
     resolve: {
       // alias: {
-      //   'draft-js-mention-plugin': path.join(__dirname, 'draft-js-mention-plugin', 'src'),
+      //   'draft-js-export-markdown': path.join(__dirname, '../draft-js-export-markdown', 'src/main.js'),
       // },
       extensions: ['', '.js', '.jsx', '.js.jsx']
     },
