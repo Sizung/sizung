@@ -32,7 +32,16 @@ class AgendaItem extends React.Component {
   handleArchive = (e) => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.archiveAgendaItem(this.props.agendaItem.id, this.props.agendaItem.conversation.id);
+    const { deliverablesCount } = this.props.agendaItem;
+    let prompt;
+    if (deliverablesCount === 0) {
+      prompt = 'Are you sure you want to archive this Agenda Item?';
+    } else {
+      prompt = 'Are you sure you want to archive this Agenda Item and its related Action Items?';
+    }
+    if (confirm(prompt)) {
+      this.props.archiveAgendaItem(this.props.agendaItem.id, this.props.agendaItem.conversation.id);
+    }
   };
 
   renderArchiveAction = () => {

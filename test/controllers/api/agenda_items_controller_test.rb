@@ -3,7 +3,8 @@ require 'support/auth'
 
 describe Api::AgendaItemsController do
   include Devise::TestHelpers
-
+  include ActiveJob::TestHelper
+  
   describe 'visitor' do
     it 'should not be allowed to create a new agenda item' do
       post :create, agenda_item: {title: 'Last weeks review'}
@@ -98,7 +99,10 @@ describe Api::AgendaItemsController do
 
     it 'removes the unseen objects when an agenda item gets archived' do
       conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
-      post :create, agenda_item: { title: 'Another big thing to discuss', conversation_id: @agenda_item.conversation.id }, format: :json
+
+      perform_enqueued_jobs do
+        post :create, agenda_item: { title: 'Another big thing to discuss', conversation_id: @agenda_item.conversation.id }, format: :json
+      end
 
       expect(conversation_member.member.unseen_objects.count).must_equal 1
 

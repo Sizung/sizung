@@ -9,7 +9,7 @@ module Api
     include Swagger::Blocks
 
     swagger_path '/conversations/{conversation_id}/agenda_items' do
-      operation :post, security: [bearer: []] do
+      operation :get, security: [bearer: []] do
         key :summary, 'List Agenda Items'
         key :tags, ['agenda_item', 'conversation']
 
@@ -106,12 +106,7 @@ module Api
       @agenda_item.owner = current_user unless @agenda_item.owner
 
       if @agenda_item.save
-        MentionedJob.perform_later(@agenda_item, current_user, agenda_item_url(id: @agenda_item.id))
-        AgendaItemRelayJob.perform_later(agenda_item: @agenda_item, actor_id: current_user.id, action: 'create')
-        UnseenService.new.handle_with(@agenda_item, current_user)
-        if @agenda_item.owner != current_user
-          Notifications.agenda_item_assigned(@agenda_item, current_user).deliver_later
-        end
+        AgendaItemCreatedJob.perform_later(@agenda_item, current_user)
         render json: @agenda_item, serializer: AgendaItemSerializer
       else
         render json: @agenda_item, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer

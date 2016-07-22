@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160617161937) do
+ActiveRecord::Schema.define(version: 20160719145124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -273,6 +273,17 @@ UNION ALL
   end
   add_index "organizations", ["owner_id"], name: "index_organizations_on_owner_id", using: :btree
 
+  create_table "timeline_users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "timeline_id",        null: false
+    t.string   "timeline_type",      null: false
+    t.uuid     "user_id",            null: false
+    t.string   "subscription_level"
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+  end
+  add_index "timeline_users", ["timeline_type", "timeline_id"], name: "index_timeline_users_on_timeline_type_and_timeline_id", using: :btree
+  add_index "timeline_users", ["user_id"], name: "index_timeline_users_on_user_id", using: :btree
+
   create_table "unseen_objects", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "organization_id"
     t.uuid     "conversation_id"
@@ -283,12 +294,16 @@ UNION ALL
     t.uuid     "user_id"
     t.datetime "created_at",      null: false
     t.datetime "updated_at",      null: false
+    t.boolean  "subscribed",      default: false, null: false
+    t.uuid     "timeline_id"
+    t.string   "timeline_type"
   end
   add_index "unseen_objects", ["agenda_item_id"], name: "index_unseen_objects_on_agenda_item_id", using: :btree
   add_index "unseen_objects", ["conversation_id"], name: "index_unseen_objects_on_conversation_id", using: :btree
   add_index "unseen_objects", ["deliverable_id"], name: "index_unseen_objects_on_deliverable_id", using: :btree
   add_index "unseen_objects", ["organization_id"], name: "index_unseen_objects_on_organization_id", using: :btree
   add_index "unseen_objects", ["target_type", "target_id"], name: "index_unseen_objects_on_target_type_and_target_id", using: :btree
+  add_index "unseen_objects", ["timeline_type", "timeline_id"], name: "index_unseen_objects_on_timeline_type_and_timeline_id", using: :btree
   add_index "unseen_objects", ["user_id"], name: "index_unseen_objects_on_user_id", using: :btree
 
   create_table "users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
@@ -345,6 +360,7 @@ UNION ALL
   add_foreign_key "organization_members", "organizations"
   add_foreign_key "organization_members", "users", column: "member_id"
   add_foreign_key "organizations", "users", column: "owner_id"
+  add_foreign_key "timeline_users", "users"
   add_foreign_key "unseen_objects", "agenda_items"
   add_foreign_key "unseen_objects", "conversations"
   add_foreign_key "unseen_objects", "deliverables"

@@ -1,8 +1,12 @@
 class DevicePolicy < ApplicationPolicy
   def create?
-    user.id == record.user.id
+    update?
   end
 
+  def update?
+    user.id == record.user.id
+  end
+  
   class Scope < Scope
     def resolve
       scope.where(user: user)

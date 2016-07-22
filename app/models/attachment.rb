@@ -27,4 +27,8 @@ class Attachment < ActiveRecord::Base
   def organization
     parent.organization
   end
+
+  def timeline
+    parent
+  end
 end

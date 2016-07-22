@@ -1,8 +1,8 @@
 import * as selectors from '../utils/selectors'
 
 const isOrganizationOfTypeClosingMatrix = (organization) => {
-  if (organization) {
-    return (('closing matrix by sizung').indexOf(organization.name.toLowerCase()) > -1);
+  if (organization && organization.name) {
+    return ((organization.name.toLowerCase()).indexOf('closing matrix by sizung') > -1);
   }
   return '';
 };
