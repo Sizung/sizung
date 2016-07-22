@@ -13,7 +13,7 @@
 }
 
 .spinner {
-  background-image: url('/icons/logo_sm.png');
+  background-image: url('/icons/logo_sm.svg');
   background-repeat: no-repeat;
   width: 8em;
   height: 8em;
