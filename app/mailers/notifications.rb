@@ -39,4 +39,13 @@ class Notifications < ApplicationMailer
     
     mail to: @owner.email, subject: "#{@actor.first_name} assigned a priority to you"
   end
+
+  def agenda_item_unassigned(agenda_item, old_owner, actor)
+    @agenda_item = agenda_item
+    @old_owner   = old_owner
+    @actor       = actor
+    @target_url  = agenda_item_url(agenda_item)
+    
+    mail to: old_owner.email, subject: "#{@actor.first_name} unassigned you from a priority"
+  end
 end

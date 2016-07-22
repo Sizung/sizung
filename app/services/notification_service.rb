@@ -27,6 +27,10 @@ class NotificationService
     Notifications.agenda_item_assigned(agenda_item, author).deliver_later
   end
 
+  def unassigned_agenda_item(agenda_item, old_owner, author)
+    Notifications.agenda_item_unassigned(agenda_item, old_owner, author).deliver_later
+  end
+
   def assigned_deliverable(deliverable, author)
     Notifications.deliverable_assigned(deliverable, author).deliver_later
   end

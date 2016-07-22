@@ -144,14 +144,12 @@ module Api
     end
 
     def update
-      old_body  = @agenda_item.title
       old_owner = @agenda_item.owner
       
       if @agenda_item.toggle_archive(params[:agenda_item][:archived]) || @agenda_item.update(agenda_item_params)
-        MentionedJob.perform_later(@agenda_item, current_user, agenda_item_url(id: @agenda_item.id), old_body)
         AgendaItemRelayJob.perform_later(agenda_item: @agenda_item, actor_id: current_user.id, action: 'update')
-        if @agenda_item.owner != old_owner && @agenda_item.owner != current_user
-          Notifications.agenda_item_assigned(@agenda_item, current_user).deliver_later
+        if @agenda_item.owner != old_owner
+          AgendaItemReassignedJob.perform_later(@agenda_item, old_owner, current_user)
         end
         
         render json: @agenda_item
