@@ -55,10 +55,10 @@ module Api
     # GET /conversations/1.json
     def show
       @conversation = Conversation.includes(
-          { agenda_items: [:owner, :comments, :deliverables] },
-          { deliverables: [:owner, :assignee, :comments] },
+          { agenda_items: [:owner, { deliverables: [:parent, :owner, :assignee] }] },
+          { deliverables: [:owner, :assignee, :parent] },
           { organization: { organization_members: :member }},
-          :conversation_members
+          { conversation_members: :member }
       ).find(params[:id])
       authorize @conversation
 

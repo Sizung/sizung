@@ -36,7 +36,7 @@ module Api
 
     def index
       authorize parent, :show?
-      @unseen_objects = parent.unseen_objects.where(user: current_user).includes(:user, :organization, :conversation, :agenda_item, :deliverable, :target, :timeline)
+      @unseen_objects = parent.unseen_objects.where(user: current_user).includes(:organization, :conversation, :agenda_item, :deliverable, :target, :timeline)
 
       if params[:filter] && FILTERS.include?(params[:filter])
         @unseen_objects = @unseen_objects.send params[:filter]

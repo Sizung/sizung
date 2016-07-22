@@ -33,7 +33,8 @@ class OrganizationsController < ApplicationController
         authorize @organization
         current_user.update last_visited_organization: @organization
 
-        @organizations_json = ActiveModelSerializers::SerializableResource.new(policy_scope(Organization)).serializable_hash
+        @organizations = policy_scope(Organization).includes(:owner, :organization_members)
+        @organizations_json = ActiveModelSerializers::SerializableResource.new(@organizations).serializable_hash
         @users_json = ActiveModelSerializers::SerializableResource.new(@organization.members).serializable_hash
         render :show
       end

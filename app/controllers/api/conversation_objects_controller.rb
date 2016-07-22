@@ -5,6 +5,7 @@ module Api
 
     respond_to :json
 
+    # before: Completed 200 OK in 2574ms (Views: 1043.9ms | ActiveRecord: 113.4ms)
     def index
       authorize parent, :show_including_archived?
       render json: parent.conversation_objects.page(page_number).per(page_size)
@@ -12,8 +13,8 @@ module Api
 
     private
       def initial_page_size_containing_all_unseen_objects
-        unseen_conv_objects = parent.conversation_objects.select {|obj| obj.unseen_objects.select {|unseen_obj| unseen_obj.target_id === obj.id}.size > 0}
-        unseen_conv_objects.size < 10 ? 10 : (unseen_conv_objects.size + 1)
+        unseen_count = UnseenObject.where(user: current_user, timeline: parent).count
+        unseen_count < 10 ? 10 : (unseen_count + 1)
       end
 
       def page_number
