@@ -138,11 +138,13 @@ class ConversationObjectList extends Component {
   };
 
   prepareDateSeparator = (date) => {
+    console.log('date', date)
+    console.log('moment.utc(date)', moment.utc(date))
     return (
       <div className={styles.conversationDateSection}>
         <div className={styles.conversationDateLine}></div>
         <div className={styles.conversationDate}>
-          {date && moment(date).calendar(null, momentDateFormats)}
+          {date && moment.utc(date).calendar(null, momentDateFormats)}
         </div>
         <div className={styles.conversationDateLine}></div>
       </div>
