@@ -118,12 +118,14 @@ class ConversationObjectList extends Component {
       let objIndex = -1;
       return _.map(groupedConvObjs, (conObjs, date) => {
         const renderedConObjs = [];
+        let ownerId;
         conObjs.forEach((conversationObject) => {
           objIndex += 1;
           if (objIndex === firstUnseenIndex) {
             renderedConObjs.push(this.newObjectsMarker(unseenCount));
           }
-          renderedConObjs.push(this.prepareConversationObject(conversationObject, objIndex, objIndex === firstUnseenIndex));
+          renderedConObjs.push(this.prepareConversationObject(conversationObject, objIndex, objIndex === firstUnseenIndex, ownerId));
+          ownerId = this.getConversationObjectOwnerId(conversationObject);
         });
         return (
           <div>
@@ -147,19 +149,17 @@ class ConversationObjectList extends Component {
     );
   }
 
-  prepareConversationObject = (conversationObject, index, isFirstUnseen) => {
+  prepareConversationObject = (conversationObject, index, isFirstUnseen, ownerId) => {
     const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable,
         visitAgendaItem, visitDeliverable, archiveAttachment, commentForm } = this.props;
     const { currentUser } = commentForm;
-    let ownerId;
     let showOwner;
     const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
     const unseenObjectMarkerRef = isFirstUnseen ? 'newObjectsMarker' : '';
     const uid = this.getConversationObjectOwnerId(conversationObject);
 
     if (uid !== ownerId) {
-      ownerId = uid;
       showOwner = true;
     } else {
       showOwner = false;
