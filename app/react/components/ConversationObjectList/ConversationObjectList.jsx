@@ -138,8 +138,6 @@ class ConversationObjectList extends Component {
   };
 
   prepareDateSeparator = (date) => {
-    console.log('date', date)
-    console.log('moment.utc(date)', moment.utc(date))
     return (
       <div className={styles.conversationDateSection}>
         <div className={styles.conversationDateLine}></div>
