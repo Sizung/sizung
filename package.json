@@ -39,7 +39,7 @@
     "css-loader": "0.23.0",
     "draft-js": "0.6.0",
     "draft-js-export-markdown": "git+https://github.com/gugl/draft-js-export-markdown.git#58efb82",
-    "draft-js-import-markdown": "git+https://github.com/gugl/draft-js-import-markdown.git",
+    "draft-js-import-markdown": "git+https://github.com/jpuri/draft-js-import-markdown.git#bfa4629",
     "draft-js-mention-plugin": "git+https://github.com/Sizung/draft-js-mention-plugin.git#e7ebea9",
     "draft-js-plugins-editor": "^1.0.1",
     "es6-promise": "^3.0.2",
