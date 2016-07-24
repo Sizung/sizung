@@ -5,7 +5,8 @@ class ReactRoutesController < ApplicationController
   respond_to :html
 
   def index
-    @organizations_json = ActiveModelSerializers::SerializableResource.new(policy_scope(Organization)).serializable_hash
+    @organizations = policy_scope(Organization).includes(:owner, :organization_members)
+    @organizations_json = ActiveModelSerializers::SerializableResource.new(@organizations).serializable_hash
     @users = User.all.joins(:organization_members).references(:organization_members).where(organization_members: { organization: current_user.organizations })
     @users_json = ActiveModelSerializers::SerializableResource.new(@users).serializable_hash
   end

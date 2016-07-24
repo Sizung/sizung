@@ -8,7 +8,7 @@
   background-color: white;
   flex: 1;
   overflow: auto;
-  position: relative;
+  /*position: relative;*/
   justify-content: center;
 }
 
