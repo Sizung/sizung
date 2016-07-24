@@ -63,6 +63,12 @@ class Composer extends React.Component {
     this.setSuggestion('', props.mentions);
   }
 
+  componentDidMount() {
+    setTimeout(() => {
+      this._focusEditor();
+    });
+  }
+
   componentWillReceiveProps(properties) {
     if (properties.entityId !== this.props.entityId) {
       this.refs.editor.focus();
