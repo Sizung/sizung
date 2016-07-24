@@ -51,7 +51,9 @@ module Api
         end
       end
     end
-    
+
+    # TODO: Talk to Jyoti and Markus about the need to reduce the stuff that is loaded
+    #       in response to this endpoint
     # GET /conversations/1.json
     def show
       @conversation = Conversation.includes(
