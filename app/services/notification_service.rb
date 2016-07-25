@@ -2,7 +2,7 @@ require 'houston'
 
 class NotificationService
   include Rails.application.routes.url_helpers
-  
+
   # Sends the necessary notifications to a user that has been mentioned
   def mentioned(user, comment)
     author = comment.author
@@ -38,13 +38,13 @@ class NotificationService
   def unassigned_deliverable(deliverable, old_assignee, author)
     Notifications.deliverable_unassigned(deliverable, old_assignee, author).deliver_later
   end
-  
+
   # TODO Make that a private method. It's to specific to be used directly outside of the NotificationService responsibility
   # sends a notification to the iOS device when the user has one registered
   def notify(user, body, url)
     raise ArgumentError('user and body must be present to notify a user') unless user && body
     return unless ENV['APN_CERTIFICATE_DATA']
-    
+
     # Environment variables are automatically read, or can be overridden by any specified options. You can also
     # conveniently use `Houston::Client.development` or `Houston::Client.production`.
     apn = ENV['APN_ENV'] == 'production' ? Houston::Client.production : Houston::Client.development
@@ -73,11 +73,11 @@ class NotificationService
   def timeline_url(timeline)
     case timeline
     when AgendaItem
-      agenda_item_path(timeline.id, host: ActionMailer::Base.default_url_options[:host])
+      agenda_item_url(timeline.id, host: ActionMailer::Base.default_url_options[:host])
     when Deliverable
-      deliverable_path(timeline.id, host: ActionMailer::Base.default_url_options[:host])
+      deliverable_url(timeline.id, host: ActionMailer::Base.default_url_options[:host])
     when Conversation
-      conversation_path(timeline.id, host: ActionMailer::Base.default_url_options[:host])
+      conversation_url(timeline.id, host: ActionMailer::Base.default_url_options[:host])
     else
       raise ArgumentError, "Only urls to Conversations, Deliverables or AgendaItems are supported but got: #{timeline}"
     end
