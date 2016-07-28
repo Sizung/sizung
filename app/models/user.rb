@@ -35,6 +35,10 @@ class User < ActiveRecord::Base
   def first_name_or_email
     first_name.present? ? first_name : email
   end
+
+  def device_registered?
+    devices.any?
+  end
   
   def to_s
     name
