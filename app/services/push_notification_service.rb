@@ -30,6 +30,13 @@ class PushNotificationService
     
     notify(user, body, url)
   end
+
+  def archived_deliverable(user, deliverable, author)
+    body = "#{author.name} archived #{deliverable.title}"
+    url  = timeline_url(deliverable)
+
+    notify(user, body, url)
+  end
   
   private
 

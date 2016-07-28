@@ -42,6 +42,10 @@ class NotificationService
     PushNotificationService.new.resolved_deliverable(user, deliverable, author)
   end
 
+  # Archived Deliverable: Push
+  def archived_deliverable(user, deliverable, author)
+    PushNotificationService.new.archived_deliverable(user, deliverable, author)
+  end
 
 
 
