@@ -44,6 +44,10 @@ class User < ActiveRecord::Base
     name
   end
 
+  def long_lived_token_secret
+    encrypted_password
+  end
+
   def generate_and_return_confirmation_token!
     generate_confirmation_token!
     @raw_confirmation_token

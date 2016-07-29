@@ -23,11 +23,13 @@ module Api
         key :operationId, 'createJWT'
         key :tags, ['auth']
         key :produces, ['application/json']
-        parameter name: :user, in: :body, required: true, description: 'Username and password' do
+        parameter name: :user, in: :body, description: 'Username and password' do
           schema do
             key :'$ref', :AuthInput
           end
         end
+
+        parameter name: :long_lived_token, in: :body, type: :string, description: 'The long lived JSON Web Token'
         
         response 201 do
           key :description, 'Your JSON Web Token for request authorization'
@@ -37,10 +39,10 @@ module Api
           end
         end
         response 401 do
-          key :description, 'Invalid email or password'
+          key :description, 'Invalid email or password or no long lived JSON Web Token'
           schema do
             key :required, [:error]
-            property :error, type: :string, description: 'Error description', enum: ['Invalid email or password.']
+            property :error, type: :string, description: 'Error description', enum: ['Invalid email or password.', 'The long lived token is missing, wrong, expired or got revoked. You have to login again and create a new one.']
           end
         end
         response :default do
@@ -50,8 +52,17 @@ module Api
     end
     
     def create
-      user = warden.authenticate!({scope: :user})
-      sign_in(:user, user)
+      if params[:user]
+        user = warden.authenticate!({scope: :user})
+        sign_in(:user, user)
+      elsif params[:long_lived_token]
+        long_lived_token = params[:long_lived_token]
+        user = User.find_by(id: JsonWebToken.unverified_payload(long_lived_token)['user_id'])
+        unless JsonWebToken.verified_with_secret?(long_lived_token, user.try(:long_lived_token_secret))
+          return render json: { error: 'The long lived token is missing, wrong, expired or got revoked. You have to login again and create a new one.' }, status: 401
+        end
+      end
+
       token = JsonWebToken.encode('user_id' => user.id)
 
       respond_to do |format|

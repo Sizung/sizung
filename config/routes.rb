@@ -57,6 +57,7 @@ Rails.application.routes.draw do
     resources :conversations, only: [:create, :update, :destroy]
     devise_scope :user do
       resources :session_tokens, only: [:create, :show]
+      resources :long_lived_tokens, only: [:create]
     end
     resources :devices, only: [:create, :update]
   end
