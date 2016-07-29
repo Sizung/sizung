@@ -29,7 +29,12 @@ module Api
           end
         end
 
-        parameter name: :long_lived_token, in: :body, type: :string, description: 'The long lived JSON Web Token'
+        parameter name: :long_lived_token, type: :string, in: :body, description: 'The long lived JSON Web Token' do
+          schema do
+            key :required, [:long_lived_token]
+            property :long_lived_token, type: :string
+          end
+        end
         
         response 201 do
           key :description, 'Your JSON Web Token for request authorization'
