@@ -47,13 +47,27 @@ describe Api::DeliverablesController do
     end
 
     it 'archive deliverable' do
-      patch :update, id: @deliverable.id, deliverable: { archived: true }
+      perform_enqueued_jobs do
+        patch :update, id: @deliverable.id, deliverable: { archived: true }
+      end
 
       assert_response :success
       expect(@deliverable.reload).must_be :paranoia_destroyed?
 
       deliverable = JSON.parse(response.body)
       assert_equal true, deliverable['data']['attributes']['archived']
+    end
+
+    it 'resolves a deliverable' do
+      perform_enqueued_jobs do
+        patch :update, id: @deliverable.id, deliverable: { status: 'resolved' }
+      end
+
+      assert_response :success
+      expect(@deliverable.reload).must_be :resolved?
+
+      deliverable = JSON.parse(response.body)
+      assert_equal 'resolved', deliverable['data']['attributes']['status']
     end
 
     it 'should freeze archived deliverables' do

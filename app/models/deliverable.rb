@@ -14,6 +14,10 @@ class Deliverable < ActiveRecord::Base
   
   validates_presence_of :parent, :owner, :title, :assignee, :status
 
+  def resolved?
+    status == 'resolved'
+  end
+
   def deliverable
     self
   end

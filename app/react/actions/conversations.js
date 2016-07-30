@@ -54,17 +54,6 @@ const updateConversationRemoteOrigin = (conversation, entities) => {
   };
 };
 
-const fetchConversation = (conversationId) => {
-  return (dispatch) => {
-    api.fetchJson('/api/conversations/' + conversationId, (json) => {
-      const conversation = transform.transformConversationFromJsonApi(json.data);
-      dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
-      dispatch(setCurrentOrganization({ id: conversation.organizationId, type: 'organizations' }));
-      dispatch(ConversationUiActions.resetConversationUi());
-    });
-  };
-};
-
 const fetchConversationObjectsSuccess = (parentReference, conversationObjects, links) => {
   return {
     type: constants.FETCH_CONVERSATION_OBJECTS,
@@ -88,15 +77,15 @@ const fetchObjects = (conversationId, dispatch) => {
   });
 };
 
-// TODO: Is this still used?
-const selectConversation = (conversationId) => {
+const fetchConversation = (conversationId) => {
   return (dispatch) => {
     api.fetchJson('/api/conversations/' + conversationId, (json) => {
       const conversation = transform.transformConversationFromJsonApi(json.data);
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
       dispatch(setCurrentOrganization({ id: conversation.organizationId, type: 'organizations' }));
+      dispatch(ConversationUiActions.resetConversationUi());
+      fetchObjects(conversationId, dispatch);
     });
-    fetchObjects(conversationId, dispatch);
   };
 };
 
@@ -118,12 +107,10 @@ const createConversation = (values) => {
       });
       dispatch(routeActions.push('/conversations/' + conversation.id));
     });
-
   };
 };
 
 const deleteConversation = (conversationId, organizationId) => {
-
   return (dispatch) => {
     if (confirm("Are you sure you want to archive this Conversation?")) {
       dispatch(updateConversation(conversationId, { archived: true }));
@@ -134,7 +121,6 @@ const deleteConversation = (conversationId, organizationId) => {
 
 export {
   fetchConversation,
-  selectConversation,
   visitConversation,
   updateConversation,
   updateConversationRemoteOrigin,

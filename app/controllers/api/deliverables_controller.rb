@@ -74,11 +74,22 @@ module Api
 
     def update
       old_assignee = @deliverable.assignee
+      old_status   = @deliverable.status
+      old_archived = @deliverable.archived?
+
       
       if @deliverable.toggle_archive(params[:deliverable][:archived]) || @deliverable.update(deliverable_params)
         DeliverableRelayJob.perform_later(deliverable: @deliverable, actor_id: current_user.id, action: 'update')
         if @deliverable.assignee != old_assignee
           DeliverableReassignedJob.perform_later(@deliverable, old_assignee, current_user)
+        end
+
+        if @deliverable.status != old_status && @deliverable.resolved?
+          DeliverableResolvedJob.perform_later(@deliverable, current_user)
+        end
+
+        if @deliverable.archived? != old_archived && @deliverable.archived?
+          DeliverableArchivedJob.perform_later(@deliverable, current_user)
         end
       end
       render json: @deliverable
