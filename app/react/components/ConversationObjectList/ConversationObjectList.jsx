@@ -206,13 +206,11 @@ class ConversationObjectList extends Component {
   }
 
   prepareShowMore = (isFetching, nextPageUrl) => {
-    if (isFetching) {
-      return <Spinner />;
-    } else if (nextPageUrl) {
+    if (isFetching || nextPageUrl) {
       return (
         <div className={styles.loadMoreMessageContainer}>
           <div className={styles.loadMoreMessage} onClick={this.handleShowMore}>
-            Show More
+            {isFetching ? 'Loading' : 'Show More'}
           </div>
         </div>
       );
