@@ -10,39 +10,36 @@ import * as channelHandlers from '../actions/channelHandlers';
 
 class ConversationLayoutApp extends React.Component {
   componentDidMount() {
-    const { currentUser, onConversationChannelReceived, onOrganizationChannelReceived, conversation } = this.props;
-    const { conversationId } = this.props;
-
+    const {
+      currentUser,
+      conversation,
+      conversationId,
+      onConversationChannelReceived,
+      onOrganizationChannelReceived,
+    } = this.props;
     this.props.fetchUnseenObjects('users', this.props.currentUser.id);
-    this.fetchData();
     ws.followConversationChannel(conversationId, currentUser.id, onConversationChannelReceived);
-    if (conversation) {
-      ws.followOrganizationChannel(conversation.organizationId, onOrganizationChannelReceived);
-    }
+    ws.followOrganizationChannel(conversation.organizationId, onOrganizationChannelReceived);
   }
 
-  componentDidUpdate(prevProps) {
-    const { currentUser, onConversationChannelReceived, onOrganizationChannelReceived, conversation } = this.props;
-    const conversationId = this.props.conversationId;
+  componentWillReceiveProps(properties) {
+    const {
+      currentUser,
+      conversation,
+      conversationId,
+      onConversationChannelReceived,
+      onOrganizationChannelReceived,
+    } = properties;
 
-    if (conversationId !== prevProps.conversationId) {
-      this.fetchData();
+    if (this.props.conversationId !== properties.conversationId) {
       ws.followConversationChannel(conversationId, currentUser.id, onConversationChannelReceived);
-    }
-
-    if (conversation && conversationId !== prevProps.conversationId) {
-      ws.followOrganizationChannel(conversation.organizationId, onOrganizationChannelReceived);
     }
   }
 
   componentWillUnmount() {
     ws.unfollowConversationChannel();
+    ws.unfollowOrganizationChannel();
   }
-
-  fetchData = () => {
-    const { conversationId } = this.props;
-    this.props.fetchConversation(conversationId);
-  };
 
   render() {
     return <ConversationLayout {...this.props} />;
