@@ -99,16 +99,17 @@ const createConversation = (values) => {
   return (dispatch) => {
     api.postJson('/api/conversations', { conversation: values }, (json) => {
       const conversation = transform.transformObjectFromJsonApi(json.data);
+      dispatch(routeActions.push('/conversations/' + conversation.id));
       dispatch({
         type: constants.CREATE_CONVERSATION,
         status: constants.STATUS_SUCCESS,
         conversation,
         entity: conversation,
       });
-      dispatch(routeActions.push('/conversations/' + conversation.id));
     });
   };
 };
+// TODO: when conv creation is success and returns data we can avoid fetching data again as conversation opens.
 
 const deleteConversation = (conversationId, organizationId) => {
   return (dispatch) => {

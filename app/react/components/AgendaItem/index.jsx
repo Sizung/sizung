@@ -40,7 +40,7 @@ class AgendaItem extends React.Component {
       prompt = 'Are you sure you want to archive this Agenda Item and its related Action Items?';
     }
     if (confirm(prompt)) {
-      this.props.archiveAgendaItem(this.props.agendaItem.id, this.props.agendaItem.conversation.id);
+      this.props.archiveAgendaItem(this.props.agendaItem.id);
     }
   };
 
