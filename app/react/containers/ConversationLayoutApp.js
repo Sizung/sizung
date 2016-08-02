@@ -18,6 +18,7 @@ class ConversationLayoutApp extends React.Component {
       onOrganizationChannelReceived,
     } = this.props;
     this.props.fetchUnseenObjects('users', this.props.currentUser.id);
+    this.fetchData();
     ws.followConversationChannel(conversationId, currentUser.id, onConversationChannelReceived);
     ws.followOrganizationChannel(conversation.organizationId, onOrganizationChannelReceived);
   }
@@ -25,13 +26,12 @@ class ConversationLayoutApp extends React.Component {
   componentWillReceiveProps(properties) {
     const {
       currentUser,
-      conversation,
       conversationId,
       onConversationChannelReceived,
-      onOrganizationChannelReceived,
     } = properties;
 
     if (this.props.conversationId !== properties.conversationId) {
+      this.fetchData();
       ws.followConversationChannel(conversationId, currentUser.id, onConversationChannelReceived);
     }
   }
@@ -40,6 +40,14 @@ class ConversationLayoutApp extends React.Component {
     ws.unfollowConversationChannel();
     ws.unfollowOrganizationChannel();
   }
+
+  fetchData = () => {
+    if (this.props.currentTimeline === 'deliverable' ||
+      this.props.currentTimeline === 'agendaItem') {
+      const { conversationId } = this.props;
+      this.props.fetchConversation(conversationId);
+    }
+  };
 
   render() {
     return <ConversationLayout {...this.props} />;
