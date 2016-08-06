@@ -20,7 +20,7 @@ import * as AttachmentActions from '../actions/attachments';
 import * as labels from '../utils/entityLabels';
 
 class ConversationApp extends React.Component {
-  componentDidMount() {
+   componentDidMount() {
      this.fetchData();
    }
 
@@ -29,7 +29,7 @@ class ConversationApp extends React.Component {
        this.fetchData();
      }
    }
- 
+
    fetchData = () => {
      const { conversationId } = this.props.params;
      this.props.fetchConversation(conversationId);
