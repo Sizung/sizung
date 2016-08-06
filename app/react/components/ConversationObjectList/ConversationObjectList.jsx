@@ -30,8 +30,12 @@ class ConversationObjectList extends Component {
     };
   }
 
+  hasUnseenConversationObjects = (conversationObjects) => {
+    return (conversationObjects && conversationObjects.some((obj) => { return obj.unseen; }));
+  };
+
   componentWillMount() {
-    if (this.props.conversationObjects && this.props.conversationObjects.some((obj) => { return obj.unseen; })) {
+    if (this.hasUnseenConversationObjects(this.props.conversationObjects)) {
       this.setState({ newCommentsLineVisible: true });
     }
   }
@@ -68,11 +72,11 @@ class ConversationObjectList extends Component {
   }
 
   componentWillReceiveProps(properties) {
-    //if (ConversationObjectList.hasTimelineSwitched(this.props, properties) &&
-    //  this.props.commentForm.parent.unseen) {
+    if (ConversationObjectList.hasTimelineSwitched(this.props, properties) &&
+      this.hasUnseenConversationObjects(this.props.conversationObjects)) {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
-    //}
-    if (properties.conversationObjects.some((obj) => { return obj.unseen; })) {
+    }
+    if (this.hasUnseenConversationObjects(properties.conversationObjects)) {
       this.setState({ newCommentsLineVisible: true });
     }
   }
@@ -89,7 +93,7 @@ class ConversationObjectList extends Component {
   componentWillUnmount() {
     const root = this.refs.root;
     if (root) {
-      if (this.props.commentForm.parent && this.props.commentForm.parent.unseen && !this.conversationDeleted) {
+      if (this.hasUnseenConversationObjects(this.props.conversationObjects) && !this.conversationDeleted) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
       }
       this.refs.root.removeEventListener('scroll', this.handleScroll);
@@ -121,9 +125,6 @@ class ConversationObjectList extends Component {
       const filteredConvObject = _.filter(conversationObjects, obj => !obj.archived);
       const unseenCount = _.filter(conversationObjects, obj => obj.unseen).length;
       let firstUnseenIndex = -1;
-      if (unseenCount) {
-        firstUnseenIndex = filteredConvObject.length - unseenCount;
-      }
       const groupedConvObjs = _.groupBy(filteredConvObject, (obj) => obj.createdAt.substr(0, 10));
       let objIndex = -1;
       return _.map(groupedConvObjs, (conObjs, date) => {
@@ -131,7 +132,8 @@ class ConversationObjectList extends Component {
         let ownerId;
         conObjs.forEach((conversationObject) => {
           objIndex += 1;
-          if (objIndex === firstUnseenIndex && this.state.newCommentsLineVisible) {
+          if (firstUnseenIndex === -1 && conversationObject.unseen && this.state.newCommentsLineVisible) {
+            firstUnseenIndex = objIndex;
             renderedConObjs.push(this.newObjectsMarker(unseenCount));
           }
           renderedConObjs.push(this.prepareConversationObject(conversationObject, objIndex, objIndex === firstUnseenIndex, ownerId));
@@ -304,11 +306,9 @@ class ConversationObjectList extends Component {
   };
 
   createNewComment = (obj) => {
-    console.log('this.props.commentForm.parent.unseen: ', this.props.commentForm.parent.unseen);
     if (this.props.commentForm.parent.unseen) {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     }
-    this.setState({ newCommentsLineVisible: false });
     this.props.createComment(obj);
   };
 
