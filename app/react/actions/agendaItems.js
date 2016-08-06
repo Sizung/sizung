@@ -23,15 +23,15 @@ const updateAgendaItem = (id, changedFields) => {
   return (dispatch) => {
     api.putJson('/api/agenda_items/' + id, { agenda_item: changedFields }, (json) => {
       const agendaItem = transform.transformObjectFromJsonApi(json.data);
+      if (changedFields.archived) {
+        dispatch(routeActions.push('/conversations/' + agendaItem.conversationId));
+      }
       dispatch({
         type: constants.UPDATE_AGENDA_ITEM,
         status: constants.STATUS_SUCCESS,
         agendaItem,
         entity: agendaItem,
       });
-      if (changedFields.archived) {
-        dispatch(routeActions.push('/conversations/' + agendaItem.conversationId));
-      }
     });
   };
 };

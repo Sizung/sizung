@@ -6,7 +6,6 @@ import Comment from './../Comment/index';
 import Attachment from './../Attachment';
 import AgendaItemInTimeline from './../AgendaItemInTimeline';
 import DeliverableInTimeline from './../DeliverableInTimeline';
-import Spinner from '../Spinner';
 import moment from 'moment';
 import styles from './ConversationObjectList.css';
 import TimelineHeader from '../TimelineHeader/index';
@@ -61,12 +60,15 @@ class ConversationObjectList extends Component {
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (ConversationObjectList.hasTimelineSwitched(prevProps, this.props)) {
-      this.props.markAsSeen(prevProps.commentForm.parent.type, prevProps.commentForm.parent.id);
+  componentWillReceiveProps(properties) {
+    if (ConversationObjectList.hasTimelineSwitched(this.props, properties) &&
+      this.props.commentForm.parent.unseen) {
+      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
       this.newObjectsMarkerSeen = false;
     }
+  }
 
+  componentDidUpdate() {
     if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
       this.refs.root.scrollTop =  0;
       this.refs.root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
@@ -79,7 +81,7 @@ class ConversationObjectList extends Component {
   componentWillUnmount() {
     const root = this.refs.root;
     if (root) {
-      if (this.props.commentForm.parent) {
+      if (this.props.commentForm.parent && this.props.commentForm.parent.unseen && !this.conversationDeleted) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
       }
       this.refs.root.removeEventListener('scroll', this.handleScroll);
@@ -151,6 +153,11 @@ class ConversationObjectList extends Component {
     );
   }
 
+  deleteConversation = (conversationId, organizationId) => {
+    this.conversationDeleted = true;
+    this.props.deleteConversation(conversationId, organizationId);
+  }
+
   prepareConversationObject = (conversationObject, index, isFirstUnseen, ownerId) => {
     const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable,
@@ -208,13 +215,11 @@ class ConversationObjectList extends Component {
   }
 
   prepareShowMore = (isFetching, nextPageUrl) => {
-    if (isFetching) {
-      return <Spinner />;
-    } else if (nextPageUrl) {
+    if (isFetching || nextPageUrl) {
       return (
         <div className={styles.loadMoreMessageContainer}>
           <div className={styles.loadMoreMessage} onClick={this.handleShowMore}>
-            Show More
+            {isFetching ? 'Loading' : 'Show More'}
           </div>
         </div>
       );
@@ -293,7 +298,9 @@ class ConversationObjectList extends Component {
   };
 
   createNewComment = (obj) => {
-    this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    if (this.props.commentForm.parent.unseen) {
+      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    }
     this.props.createComment(obj);
   };
 
@@ -315,7 +322,7 @@ class ConversationObjectList extends Component {
                               updateConversation={this.props.updateConversation}
                               currentConversationObject={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}
                               conversationSettingsViewState={this.props.conversationSettingsViewState}
-                              deleteConversation={this.props.deleteConversation}
+                              deleteConversation={this.deleteConversation}
                               navigationHistory={this.props.navigationHistory}
                               visitAgendaItem={this.props.visitAgendaItem}
                               visitDeliverable={this.props.visitDeliverable}
