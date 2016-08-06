@@ -26,15 +26,22 @@ class ConversationObjectList extends Component {
 
     this.state = {
       newObjects: 0,
+      newCommentsLineVisible: false,
     };
-    this.newObjectsMarkerSeen = false;
+  }
+
+  componentWillMount() {
+    if (this.props.conversationObjects && this.props.conversationObjects.some((obj) => { return obj.unseen; })) {
+      this.setState({ newCommentsLineVisible: true });
+    }
   }
 
   componentDidMount() {
     const root = this.refs.root;
     if (root) {
+      console.log('Adding Event Listener');
       this.refs.root.addEventListener('scroll', this.handleScroll);
-      if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
+      if (this.refs.newObjectsMarker && this.state.newCommentsLineVisible) {
         //this.refs.newObjectsMarker.scrollIntoView({ block: 'start', behavior: 'smooth' });
         root.scrollTop = 0;
         root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
@@ -54,25 +61,26 @@ class ConversationObjectList extends Component {
 
       const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
 
-      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && ((nextProps.conversationObjects.filter((obj) => { return obj.unseen; }).length > 0 && this.newObjectsMarkerSeen) || !this.newObjectsMarkerSeen)) {
+      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length) {
         this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
       }
     }
   }
 
   componentWillReceiveProps(properties) {
-    if (ConversationObjectList.hasTimelineSwitched(this.props, properties) &&
-      this.props.commentForm.parent.unseen) {
+    //if (ConversationObjectList.hasTimelineSwitched(this.props, properties) &&
+    //  this.props.commentForm.parent.unseen) {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
-      this.newObjectsMarkerSeen = false;
+    //}
+    if (properties.conversationObjects.some((obj) => { return obj.unseen; })) {
+      this.setState({ newCommentsLineVisible: true });
     }
   }
 
   componentDidUpdate() {
-    if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
+    if (this.refs.newObjectsMarker && this.state.newCommentsLineVisible) {
       this.refs.root.scrollTop =  0;
       this.refs.root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
-      this.newObjectsMarkerSeen = true;
     } else if (this.shouldScrollBottom) {
       this.scrollListToBottom();
     }
@@ -123,7 +131,7 @@ class ConversationObjectList extends Component {
         let ownerId;
         conObjs.forEach((conversationObject) => {
           objIndex += 1;
-          if (objIndex === firstUnseenIndex) {
+          if (objIndex === firstUnseenIndex && this.state.newCommentsLineVisible) {
             renderedConObjs.push(this.newObjectsMarker(unseenCount));
           }
           renderedConObjs.push(this.prepareConversationObject(conversationObject, objIndex, objIndex === firstUnseenIndex, ownerId));
@@ -140,8 +148,6 @@ class ConversationObjectList extends Component {
   };
 
   prepareDateSeparator = (date) => {
-    console.log('date', date)
-    console.log('moment.utc(date)', moment.utc(date))
     return (
       <div className={styles.conversationDateSection}>
         <div className={styles.conversationDateLine}></div>
@@ -298,9 +304,11 @@ class ConversationObjectList extends Component {
   };
 
   createNewComment = (obj) => {
+    console.log('this.props.commentForm.parent.unseen: ', this.props.commentForm.parent.unseen);
     if (this.props.commentForm.parent.unseen) {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     }
+    this.setState({ newCommentsLineVisible: false });
     this.props.createComment(obj);
   };
 
