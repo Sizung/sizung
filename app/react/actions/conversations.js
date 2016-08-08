@@ -30,6 +30,9 @@ const updateConversation = (id, changedFields) => {
       const conversation = transform.transformObjectFromJsonApi(json.data);
       const conversationMembers = json.data.relationships.conversation_members.data;
       const entities = json.included ? json.included.map(transform.transformObjectFromJsonApi) : [];
+      if (changedFields.archived) {
+        dispatch(routeActions.push('/organizations/' + conversation.organizationId));
+      }
       dispatch({
         type: constants.UPDATE_CONVERSATION,
         status: constants.STATUS_SUCCESS,
@@ -115,7 +118,6 @@ const deleteConversation = (conversationId, organizationId) => {
   return (dispatch) => {
     if (confirm("Are you sure you want to archive this Conversation?")) {
       dispatch(updateConversation(conversationId, { archived: true }));
-      dispatch(routeActions.push('/organizations/' + organizationId));
     }
   };
 };
