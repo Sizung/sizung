@@ -25,8 +25,9 @@ class ConversationObjectList extends Component {
     super();
 
     this.state = {
-      newObjects: 0,
+      newObjectsCountWhileInsideTimeline: 0,
       newCommentsLineVisible: false,
+      allowNewCommentsLine: true,
     };
   }
 
@@ -43,10 +44,8 @@ class ConversationObjectList extends Component {
   componentDidMount() {
     const root = this.refs.root;
     if (root) {
-      console.log('Adding Event Listener');
       this.refs.root.addEventListener('scroll', this.handleScroll);
-      if (this.refs.newObjectsMarker && this.state.newCommentsLineVisible) {
-        //this.refs.newObjectsMarker.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      if (this.refs.newObjectsMarker && this.state.newCommentsLineVisible && this.state.newObjectsCountWhileInsideTimeline === 0) {
         root.scrollTop = 0;
         root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
       } else {
@@ -55,7 +54,11 @@ class ConversationObjectList extends Component {
     }
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
+    const hasTimelineSwitched = ConversationObjectList.hasTimelineSwitched(this.props, nextProps);
+    const unseenPrev = this.hasUnseenConversationObjects(this.props.conversationObjects);
+    const unseenNow = this.hasUnseenConversationObjects(nextProps.conversationObjects);
+
     const root = this.refs.root;
     if (root) {
       this.shouldScrollBottom = this.isScrolledToBottom(root);
@@ -66,23 +69,26 @@ class ConversationObjectList extends Component {
       const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
 
       if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length) {
-        this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
+        this.setState({ newObjectsCountWhileInsideTimeline: this.state.newObjectsCountWhileInsideTimeline + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
       }
     }
-  }
 
-  componentWillReceiveProps(properties) {
-    if (ConversationObjectList.hasTimelineSwitched(this.props, properties) &&
-      this.hasUnseenConversationObjects(this.props.conversationObjects)) {
-      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    if (hasTimelineSwitched) {
+      if (unseenPrev) {
+        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      }
+      if (unseenNow) {
+        this.setState({ allowNewCommentsLine: true });
+      }
     }
-    if (this.hasUnseenConversationObjects(properties.conversationObjects)) {
+
+    if (unseenNow && !this.state.newCommentsLineVisible && this.state.allowNewCommentsLine) {
       this.setState({ newCommentsLineVisible: true });
     }
   }
 
   componentDidUpdate() {
-    if (this.refs.newObjectsMarker && this.state.newCommentsLineVisible) {
+    if (this.refs.newObjectsMarker && this.state.newCommentsLineVisible && this.state.newObjectsCountWhileInsideTimeline === 0) {
       this.refs.root.scrollTop =  0;
       this.refs.root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
     } else if (this.shouldScrollBottom) {
@@ -132,7 +138,7 @@ class ConversationObjectList extends Component {
         let ownerId;
         conObjs.forEach((conversationObject) => {
           objIndex += 1;
-          if (firstUnseenIndex === -1 && conversationObject.unseen && this.state.newCommentsLineVisible) {
+          if (firstUnseenIndex === -1 && conversationObject.unseen && this.state.allowNewCommentsLine && this.state.newCommentsLineVisible) {
             firstUnseenIndex = objIndex;
             renderedConObjs.push(this.newObjectsMarker(unseenCount));
           }
@@ -241,8 +247,8 @@ class ConversationObjectList extends Component {
 
   handleScroll = (evt) => {
     const root = this.refs.root;
-    if (root && this.isScrolledToBottom(root) && this.state.newObjects > 0) {
-      this.setState({ newObjects: 0 });
+    if (root && this.isScrolledToBottom(root) && this.state.newObjectsCountWhileInsideTimeline > 0) {
+      this.setState({ newObjectsCountWhileInsideTimeline: 0 });
     }
   };
 
@@ -306,9 +312,10 @@ class ConversationObjectList extends Component {
   };
 
   createNewComment = (obj) => {
-    if (this.props.commentForm.parent.unseen) {
+    if (this.hasUnseenConversationObjects(this.props.conversationObjects)) {
       this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
     }
+    this.setState({ allowNewCommentsLine: false });
     this.props.createComment(obj);
   };
 
@@ -347,7 +354,7 @@ class ConversationObjectList extends Component {
                             archiveAttachment={archiveAttachment}
                             handleNewObjectMarkerClick={this.scrollListToBottom}
                             scrollListToBottom={this.ifAlreadyAtBottomScrollListToBottom}
-                            newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
+                            newObjects={ this.state.newObjectsCountWhileInsideTimeline > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjectsCountWhileInsideTimeline : 0 }
                             labels={labels}
                             {...commentForm}
           />
