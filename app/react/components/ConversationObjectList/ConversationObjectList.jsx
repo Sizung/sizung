@@ -6,7 +6,6 @@ import Comment from './../Comment/index';
 import Attachment from './../Attachment';
 import AgendaItemInTimeline from './../AgendaItemInTimeline';
 import DeliverableInTimeline from './../DeliverableInTimeline';
-import Spinner from '../Spinner';
 import moment from 'moment';
 import styles from './ConversationObjectList.css';
 import TimelineHeader from '../TimelineHeader/index';
@@ -26,26 +25,39 @@ class ConversationObjectList extends Component {
     super();
 
     this.state = {
-      newObjects: 0,
+      newObjectsCountWhileInsideTimeline: 0,
+      newCommentsLineVisible: false,
+      allowNewCommentsLine: true,
     };
-    this.newObjectsMarkerSeen = false;
+  }
+
+  hasUnseenConversationObjects = (conversationObjects) => {
+    return (conversationObjects && conversationObjects.some((obj) => { return obj.unseen; }));
+  };
+
+  componentWillMount() {
+    if (this.hasUnseenConversationObjects(this.props.conversationObjects)) {
+      this.setState({ newCommentsLineVisible: true });
+    }
   }
 
   componentDidMount() {
     const root = this.refs.root;
     if (root) {
       this.refs.root.addEventListener('scroll', this.handleScroll);
-      if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
-        //this.refs.newObjectsMarker.scrollIntoView({ block: 'start', behavior: 'smooth' });
-        root.scrollTop = 0;
-        root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
+      if (this.refs.newObjectsMarker && this.state.newCommentsLineVisible) {
+        ReactDOM.findDOMNode(this.refs.newObjectsMarker).scrollIntoView();
       } else {
         this.scrollListToBottom();
       }
     }
   }
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
+    const hasTimelineSwitched = ConversationObjectList.hasTimelineSwitched(this.props, nextProps);
+    const unseenPrev = this.hasUnseenConversationObjects(this.props.conversationObjects);
+    const unseenNow = this.hasUnseenConversationObjects(nextProps.conversationObjects);
+
     const root = this.refs.root;
     if (root) {
       this.shouldScrollBottom = this.isScrolledToBottom(root);
@@ -55,22 +67,29 @@ class ConversationObjectList extends Component {
 
       const newListLastObjectTimestamp = (new Date(nextProps.conversationObjects[nextProps.conversationObjects.length - 1].createdAt)).getTime();
 
-      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length && ((nextProps.conversationObjects.filter((obj) => { return obj.unseen; }).length > 0 && this.newObjectsMarkerSeen) || !this.newObjectsMarkerSeen)) {
-        this.setState({ newObjects: this.state.newObjects + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
+      if (oldListLastObjectTimestamp < newListLastObjectTimestamp && this.props.conversationObjects.length < nextProps.conversationObjects.length) {
+        this.setState({ newObjectsCountWhileInsideTimeline: this.state.newObjectsCountWhileInsideTimeline + (nextProps.conversationObjects.length - this.props.conversationObjects.length) });
       }
+    }
+
+    if (hasTimelineSwitched) {
+      if (unseenPrev) {
+        this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+      }
+      if (unseenNow) {
+        this.setState({ allowNewCommentsLine: true });
+      }
+    }
+
+    if (unseenNow && !this.state.newCommentsLineVisible && this.state.allowNewCommentsLine) {
+      this.setState({ newCommentsLineVisible: true });
     }
   }
 
-  componentDidUpdate(prevProps) {
-    if (ConversationObjectList.hasTimelineSwitched(prevProps, this.props)) {
-      this.props.markAsSeen(prevProps.commentForm.parent.type, prevProps.commentForm.parent.id);
-      this.newObjectsMarkerSeen = false;
-    }
-
-    if (this.refs.newObjectsMarker && !this.newObjectsMarkerSeen) {
-      this.refs.root.scrollTop =  0;
-      this.refs.root.scrollTop = ReactDOM.findDOMNode(this.refs.newObjectsMarker).offsetTop;
-      this.newObjectsMarkerSeen = true;
+  componentDidUpdate(prevProps, prevState) {
+    const scrolledToBottomOnNewCommentMarkerClick = (this.state.newObjectsCountWhileInsideTimeline === 0 && prevState.newObjectsCountWhileInsideTimeline > 0);
+    if (this.refs.newObjectsMarker && this.state.newCommentsLineVisible && (!scrolledToBottomOnNewCommentMarkerClick)) {
+      ReactDOM.findDOMNode(this.refs.newObjectsMarker).scrollIntoView();
     } else if (this.shouldScrollBottom) {
       this.scrollListToBottom();
     }
@@ -79,7 +98,7 @@ class ConversationObjectList extends Component {
   componentWillUnmount() {
     const root = this.refs.root;
     if (root) {
-      if (this.props.commentForm.parent) {
+      if (this.hasUnseenConversationObjects(this.props.conversationObjects) && !this.conversationDeleted) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
       }
       this.refs.root.removeEventListener('scroll', this.handleScroll);
@@ -111,22 +130,25 @@ class ConversationObjectList extends Component {
       const filteredConvObject = _.filter(conversationObjects, obj => !obj.archived);
       const unseenCount = _.filter(conversationObjects, obj => obj.unseen).length;
       let firstUnseenIndex = -1;
-      if (unseenCount) {
-        firstUnseenIndex = filteredConvObject.length - unseenCount;
-      }
       const groupedConvObjs = _.groupBy(filteredConvObject, (obj) => obj.createdAt.substr(0, 10));
-      let objIndex = -1;
       return _.map(groupedConvObjs, (conObjs, date) => {
         const renderedConObjs = [];
         let ownerId;
-        conObjs.forEach((conversationObject) => {
-          objIndex += 1;
-          if (objIndex === firstUnseenIndex) {
-            renderedConObjs.push(this.newObjectsMarker(unseenCount));
+        for (let i=0; i<conObjs.length; i++) {
+          let lastSeen = false;
+          if (i === 0 && conObjs[i].unseen) {
+            firstUnseenIndex = i;
+          } else if (!conObjs[i].unseen && (i+1)<conObjs.length && conObjs[i+1].unseen) {
+            lastSeen = true;
+            firstUnseenIndex = i+1;
           }
-          renderedConObjs.push(this.prepareConversationObject(conversationObject, objIndex, objIndex === firstUnseenIndex, ownerId));
-          ownerId = this.getConversationObjectOwnerId(conversationObject);
-        });
+
+          if (firstUnseenIndex === i && conObjs[i].unseen && this.state.allowNewCommentsLine && this.state.newCommentsLineVisible) {
+            renderedConObjs.push(this.newObjectsMarker(unseenCount, i === 0));
+          }
+          ownerId = this.getConversationObjectOwnerId(conObjs[i]);
+          renderedConObjs.push(this.prepareConversationObject(conObjs[i], i, lastSeen, ownerId));
+        }
         return (
           <div>
             {this.prepareDateSeparator(date)}
@@ -138,8 +160,6 @@ class ConversationObjectList extends Component {
   };
 
   prepareDateSeparator = (date) => {
-    console.log('date', date)
-    console.log('moment.utc(date)', moment.utc(date))
     return (
       <div className={styles.conversationDateSection}>
         <div className={styles.conversationDateLine}></div>
@@ -151,14 +171,19 @@ class ConversationObjectList extends Component {
     );
   }
 
-  prepareConversationObject = (conversationObject, index, isFirstUnseen, ownerId) => {
+  deleteConversation = (conversationId, organizationId) => {
+    this.conversationDeleted = true;
+    this.props.deleteConversation(conversationId, organizationId);
+  }
+
+  prepareConversationObject = (conversationObject, index, isLastSeen, ownerId) => {
     const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable,
         visitAgendaItem, visitDeliverable, archiveAttachment, commentForm } = this.props;
     const { currentUser } = commentForm;
     let showOwner;
     const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
-    const unseenObjectMarkerRef = isFirstUnseen ? 'newObjectsMarker' : '';
+    const unseenObjectMarkerRef = isLastSeen ? 'newObjectsMarker' : '';
     const uid = this.getConversationObjectOwnerId(conversationObject);
 
     if (uid !== ownerId) {
@@ -171,7 +196,7 @@ class ConversationObjectList extends Component {
       const comment = conversationObject;
       comment.parent = parent;
       return (
-        <Comment ref={unseenObjectMarkerRef} key={comment.id} comment={comment} showAuthor={showOwner}
+        <Comment id='ani' ref={unseenObjectMarkerRef} key={comment.id} comment={comment} showAuthor={showOwner}
                        showTimeStamp={showTimeStamp} currentUser={currentUser}
                        updateComment={updateComment} deleteComment={deleteComment}
                        createAgendaItem={createAgendaItem}
@@ -208,13 +233,11 @@ class ConversationObjectList extends Component {
   }
 
   prepareShowMore = (isFetching, nextPageUrl) => {
-    if (isFetching) {
-      return <Spinner />;
-    } else if (nextPageUrl) {
+    if (isFetching || nextPageUrl) {
       return (
         <div className={styles.loadMoreMessageContainer}>
           <div className={styles.loadMoreMessage} onClick={this.handleShowMore}>
-            Show More
+            {isFetching ? 'Loading' : 'Show More'}
           </div>
         </div>
       );
@@ -228,8 +251,8 @@ class ConversationObjectList extends Component {
 
   handleScroll = (evt) => {
     const root = this.refs.root;
-    if (root && this.isScrolledToBottom(root) && this.state.newObjects > 0) {
-      this.setState({ newObjects: 0 });
+    if (root && this.isScrolledToBottom(root) && this.state.newObjectsCountWhileInsideTimeline > 0) {
+      this.setState({ newObjectsCountWhileInsideTimeline: 0 });
     }
   };
 
@@ -270,10 +293,8 @@ class ConversationObjectList extends Component {
     const conversationObjectElements = this.prepareChildElements();
     return (
       <div ref="root" className={styles.root}>
-        <div ref="conversationObjectList" className={styles.list}>
           { showMore }
           { conversationObjectElements }
-        </div>
       </div>
     );
   };
@@ -293,7 +314,10 @@ class ConversationObjectList extends Component {
   };
 
   createNewComment = (obj) => {
-    this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    if (this.hasUnseenConversationObjects(this.props.conversationObjects)) {
+      this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
+    }
+    this.setState({ allowNewCommentsLine: false });
     this.props.createComment(obj);
   };
 
@@ -315,7 +339,7 @@ class ConversationObjectList extends Component {
                               updateConversation={this.props.updateConversation}
                               currentConversationObject={this.props.commentForm.parent} chatType={this.props.commentForm.parent.type}
                               conversationSettingsViewState={this.props.conversationSettingsViewState}
-                              deleteConversation={this.props.deleteConversation}
+                              deleteConversation={this.deleteConversation}
                               navigationHistory={this.props.navigationHistory}
                               visitAgendaItem={this.props.visitAgendaItem}
                               visitDeliverable={this.props.visitDeliverable}
@@ -332,7 +356,7 @@ class ConversationObjectList extends Component {
                             archiveAttachment={archiveAttachment}
                             handleNewObjectMarkerClick={this.scrollListToBottom}
                             scrollListToBottom={this.ifAlreadyAtBottomScrollListToBottom}
-                            newObjects={ this.state.newObjects > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjects : 0 }
+                            newObjects={ this.state.newObjectsCountWhileInsideTimeline > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjectsCountWhileInsideTimeline : 0 }
                             labels={labels}
                             {...commentForm}
           />

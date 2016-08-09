@@ -72,16 +72,14 @@ class MentionsServiceTest < ActiveSupport::TestCase
   end
 
   it 'sends mail for one mention' do
-    user = FactoryGirl.create :user
-    actor = FactoryGirl.create :user
-
-    mentionable = FactoryGirl.create :comment, body: "This is a mention test for @[Sam Sample](#{user.id})"
-    url = 'http://timeline.example.com'
-
+    user             = FactoryGirl.create :user
+    actor            = FactoryGirl.create :user
+    comment          = FactoryGirl.create :comment, body: "This is a mention test for @[Sam Sample](#{user.id})", author: actor
+    url              = 'http://timeline.example.com'
     mentions_service = MentionsService.new
 
     perform_enqueued_jobs do
-      mentions_service.send_mails(mentionable, actor, url)
+      mentions_service.send_mails(comment, actor, url)
     end
 
     delivered_email = ActionMailer::Base.deliveries.last

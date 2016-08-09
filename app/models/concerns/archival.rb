@@ -5,7 +5,12 @@ module Archival
     acts_as_paranoid column: :archived_at
   end
 
+  # TODO: deprecated. use archived? instead
   def archived
+    !!paranoia_destroyed?
+  end
+
+  def archived?
     !!paranoia_destroyed?
   end
 

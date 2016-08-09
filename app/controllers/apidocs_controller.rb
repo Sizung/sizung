@@ -60,6 +60,7 @@ class ApidocsController < ActionController::Base
     Api::DevicesController,
     Api::UnseenObjectsController,
     Api::UsersController,
+    Api::LongLivedTokensController,
     OrganizationSerializer,
     OrganizationMemberSerializer,
     ConversationSerializer,

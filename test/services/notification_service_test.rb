@@ -49,5 +49,17 @@ class NotificationServiceTest < ActiveSupport::TestCase
     delivered_email = ActionMailer::Base.deliveries.last
     expect(delivered_email.subject).must_equal "#{author.first_name} mentioned you"
   end
+
+  it 'archived deliverable: push' do
+    author      = FactoryGirl.create :user
+    user        = FactoryGirl.create :user
+    deliverable = FactoryGirl.create :deliverable
+
+    notification_service = NotificationService.new
+
+    perform_enqueued_jobs do
+      notification_service.archived_deliverable(user, deliverable, author)
+    end
+  end
 end
 

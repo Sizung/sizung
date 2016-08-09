@@ -20,20 +20,20 @@ import * as AttachmentActions from '../actions/attachments';
 import * as labels from '../utils/entityLabels';
 
 class ConversationApp extends React.Component {
-  componentDidMount() {
-    this.fetchData();
-  }
+   componentDidMount() {
+     this.fetchData();
+   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.params.conversationId !== prevProps.params.conversationId) {
-      this.fetchData();
-    }
-  }
+   componentDidUpdate(prevProps) {
+     if (this.props.params.conversationId !== prevProps.params.conversationId) {
+       this.fetchData();
+     }
+   }
 
-  fetchData = () => {
-    const { conversationId } = this.props.params;
-    this.props.selectConversation(conversationId);
-  };
+   fetchData = () => {
+     const { conversationId } = this.props.params;
+     this.props.fetchConversation(conversationId);
+   };
 
   render() {
     const { conversationObjects, commentForm, labels } = this.props;

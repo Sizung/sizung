@@ -14,7 +14,9 @@ const updateDeliverable = (id, changedFields) => {
         entity: deliverable,
       });
       if (changedFields.archived) {
-        dispatch(routeActions.push('/' + transform.reverseTransformTypeFromJsonApi(deliverable.parentType) +  '/' + deliverable.parentId));
+        dispatch(routeActions.push(
+          '/' + transform.reverseTransformTypeFromJsonApi(deliverable.parentType) +  '/' + deliverable.parentId
+        ));
       }
     });
   };
