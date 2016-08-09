@@ -134,7 +134,7 @@ class ConversationObjectList extends Component {
       return _.map(groupedConvObjs, (conObjs, date) => {
         const renderedConObjs = [];
         let uId;
-        for (let i=0; i<conObjs.length; i++) {
+        for (let i = 0; i < conObjs.length; i++) {
           let lastSeen = false;
           let showOwner = false;
           const ownerId = this.getConversationObjectOwnerId(conObjs[i]);
@@ -148,13 +148,13 @@ class ConversationObjectList extends Component {
 
           if (i === 0 && conObjs[i].unseen) {
             firstUnseenIndex = i;
-          } else if (!conObjs[i].unseen && (i+1)<conObjs.length && conObjs[i+1].unseen) {
+          } else if (!conObjs[i].unseen && (i + 1) < conObjs.length && conObjs[i + 1].unseen) {
             lastSeen = true;
-            firstUnseenIndex = i+1;
+            firstUnseenIndex = i + 1;
           }
-
-          if (firstUnseenIndex > -1 && conObjs[i].unseen && this.state.allowNewCommentsLine && this.state.newCommentsLineVisible) {
-            renderedConObjs.push(this.newObjectsMarker(unseenCount, i === 0));
+          console.log('firstUnseenIndex: ' + firstUnseenIndex);
+          if (firstUnseenIndex === i && conObjs[i].unseen && this.state.allowNewCommentsLine && this.state.newCommentsLineVisible) {
+            renderedConObjs.push(this.newObjectsMarker(unseenCount, firstUnseenIndex === 0));
           }
           renderedConObjs.push(this.prepareConversationObject(conObjs[i], i, lastSeen, showOwner));
         }
