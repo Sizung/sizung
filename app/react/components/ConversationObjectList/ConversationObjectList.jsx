@@ -127,17 +127,19 @@ class ConversationObjectList extends Component {
   prepareChildElements = () => {
     const { conversationObjects } = this.props;
     if (conversationObjects) {
-      const filteredConvObject = _.filter(conversationObjects, obj => !obj.archived);
+      const filteredConvObjects = _.filter(conversationObjects, obj => !obj.archived);
       const unseenCount = _.filter(conversationObjects, obj => obj.unseen).length;
       let firstUnseenIndex = -1;
-      const groupedConvObjs = _.groupBy(filteredConvObject, (obj) => obj.createdAt.substr(0, 10));
-      return _.map(groupedConvObjs, (conObjs, date) => {
+      let objIndex = -1;
+      const groupedConvObjs = _.groupBy(filteredConvObjects, (obj) => obj.createdAt.substr(0, 10));
+      return _.map(groupedConvObjs, (convObjs, date) => {
         const renderedConObjs = [];
         let uId;
-        for (let i=0; i<conObjs.length; i++) {
+        convObjs.forEach((conversationObject) => {
+          objIndex += 1;
           let lastSeen = false;
           let showOwner = false;
-          const ownerId = this.getConversationObjectOwnerId(conObjs[i]);
+          const ownerId = this.getConversationObjectOwnerId(conversationObject);
 
           if (ownerId !== uId) {
             uId = ownerId;
@@ -146,18 +148,18 @@ class ConversationObjectList extends Component {
             showOwner = false;
           }
 
-          if (i === 0 && conObjs[i].unseen) {
-            firstUnseenIndex = i;
-          } else if (!conObjs[i].unseen && (i+1)<conObjs.length && conObjs[i+1].unseen) {
+          if (objIndex === 0 && filteredConvObjects[objIndex].unseen) {
+            firstUnseenIndex = objIndex;
+          } else if (!filteredConvObjects[objIndex].unseen && (objIndex + 1) < filteredConvObjects.length && filteredConvObjects[objIndex + 1].unseen) {
             lastSeen = true;
-            firstUnseenIndex = i+1;
+            firstUnseenIndex = objIndex + 1;
           }
 
-          if (firstUnseenIndex > -1 && conObjs[i].unseen && this.state.allowNewCommentsLine && this.state.newCommentsLineVisible) {
-            renderedConObjs.push(this.newObjectsMarker(unseenCount, i === 0));
+          if (firstUnseenIndex === objIndex && conversationObject.unseen && this.state.allowNewCommentsLine && this.state.newCommentsLineVisible) {
+            renderedConObjs.push(this.newObjectsMarker(unseenCount, firstUnseenIndex === 0));
           }
-          renderedConObjs.push(this.prepareConversationObject(conObjs[i], i, lastSeen, showOwner));
-        }
+          renderedConObjs.push(this.prepareConversationObject(conversationObject, objIndex, lastSeen, showOwner));
+        });
         return (
           <div>
             {this.prepareDateSeparator(date)}
