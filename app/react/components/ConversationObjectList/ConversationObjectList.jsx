@@ -133,9 +133,19 @@ class ConversationObjectList extends Component {
       const groupedConvObjs = _.groupBy(filteredConvObject, (obj) => obj.createdAt.substr(0, 10));
       return _.map(groupedConvObjs, (conObjs, date) => {
         const renderedConObjs = [];
-        let ownerId;
+        let uId;
         for (let i=0; i<conObjs.length; i++) {
           let lastSeen = false;
+          let showOwner = false;
+          const ownerId = this.getConversationObjectOwnerId(conObjs[i]);
+
+          if (ownerId !== uId) {
+            uId = ownerId;
+            showOwner = true;
+          } else {
+            showOwner = false;
+          }
+
           if (i === 0 && conObjs[i].unseen) {
             firstUnseenIndex = i;
           } else if (!conObjs[i].unseen && (i+1)<conObjs.length && conObjs[i+1].unseen) {
@@ -143,11 +153,10 @@ class ConversationObjectList extends Component {
             firstUnseenIndex = i+1;
           }
 
-          if (firstUnseenIndex === i && conObjs[i].unseen && this.state.allowNewCommentsLine && this.state.newCommentsLineVisible) {
+          if (firstUnseenIndex > -1 && conObjs[i].unseen && this.state.allowNewCommentsLine && this.state.newCommentsLineVisible) {
             renderedConObjs.push(this.newObjectsMarker(unseenCount, i === 0));
           }
-          ownerId = this.getConversationObjectOwnerId(conObjs[i]);
-          renderedConObjs.push(this.prepareConversationObject(conObjs[i], i, lastSeen, ownerId));
+          renderedConObjs.push(this.prepareConversationObject(conObjs[i], i, lastSeen, showOwner));
         }
         return (
           <div>
@@ -176,21 +185,13 @@ class ConversationObjectList extends Component {
     this.props.deleteConversation(conversationId, organizationId);
   }
 
-  prepareConversationObject = (conversationObject, index, isLastSeen, ownerId) => {
+  prepareConversationObject = (conversationObject, index, isLastSeen, showOwner) => {
     const { conversationObjects, updateComment, deleteComment, createAgendaItem, archiveAgendaItem, updateAgendaItem,
         createDeliverable, archiveDeliverable, updateDeliverable,
         visitAgendaItem, visitDeliverable, archiveAttachment, commentForm } = this.props;
     const { currentUser } = commentForm;
-    let showOwner;
     const showTimeStamp = (index < (conversationObjects.length - 1) ? this.shouldShowTimeStamp(conversationObject, conversationObjects[index + 1], showOwner) : true);
     const unseenObjectMarkerRef = isLastSeen ? 'newObjectsMarker' : '';
-    const uid = this.getConversationObjectOwnerId(conversationObject);
-
-    if (uid !== ownerId) {
-      showOwner = true;
-    } else {
-      showOwner = false;
-    }
 
     if (conversationObject.type === 'comments') {
       const comment = conversationObject;
