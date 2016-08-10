@@ -29,3 +29,6 @@
 npm-debug.log
 
 dump.rdb
+
+# ignore local env
+.env
