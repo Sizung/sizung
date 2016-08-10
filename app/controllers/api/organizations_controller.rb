@@ -128,8 +128,8 @@ module Api
     end
     
     def create
-      @organization = Organization.new(organization_params)
-      @organization.owner = current_user
+      @organization = current_user.organizations.create(organization_params.merge(owner: current_user))
+      
       authorize @organization
       if @organization.save
         render json: @organization, serializer: OrganizationSerializer
