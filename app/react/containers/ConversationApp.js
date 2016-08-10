@@ -91,6 +91,8 @@ function mapStateToProps(state, props) {
     conversationSettingsViewState,
     navigationHistory: selectors.navigationHistory(state),
     labels: labels.organizationObjectsLabels(state),
+    deliverables: selectors.deliverablesForConversation(state, props.params.conversationId),
+    agendaItems: selectors.agendaItemsList(state, props.params.conversationId),
   };
 }
 

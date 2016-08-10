@@ -151,9 +151,9 @@ class ConversationObjectList extends Component {
     );
   }
 
-  deleteConversation = (conversationId, organizationId) => {
+  deleteConversation = (conversationId, organizationId, agendaItems, deliverables) => {
     this.conversationDeleted = true;
-    this.props.deleteConversation(conversationId, organizationId);
+    this.props.deleteConversation(conversationId, organizationId, agendaItems, deliverables);
   }
 
   prepareConversationObject = (conversationObject, index, isFirstUnseen, ownerId) => {
@@ -326,6 +326,8 @@ class ConversationObjectList extends Component {
                               visitDeliverable={this.props.visitDeliverable}
                               visitConversation={this.props.visitConversation}
                               visitOrganization={this.props.visitOrganization}
+                              deliverables={this.props.deliverables}
+                              agendaItems={this.props.agendaItems}
           />
           <TimelineHeader parent={commentForm.parent} />
           {this.renderConversationTimeLine()}
