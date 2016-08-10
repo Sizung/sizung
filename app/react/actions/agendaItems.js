@@ -36,19 +36,6 @@ const updateAgendaItem = (id, changedFields) => {
   };
 };
 
-const markAsArchived = (agendaItem) => {
-  return (dispatch) => {
-    const newAgendaItem = agendaItem;
-    newAgendaItem.archived = true;
-    dispatch({
-      type: constants.UPDATE_AGENDA_ITEM,
-      status: constants.STATUS_SUCCESS,
-      newAgendaItem,
-      entity: newAgendaItem,
-    });
-  };
-};
-
 const archiveAgendaItem = (id) => {
   return updateAgendaItem(id, { archived: true });
 };
@@ -130,5 +117,4 @@ export {
   selectAgendaItem,
   visitAgendaItem,
   archiveAgendaItem,
-  markAsArchived,
 };
