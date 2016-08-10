@@ -114,10 +114,35 @@ const createConversation = (values) => {
 };
 // TODO: when conv creation is success and returns data we can avoid fetching data again as conversation opens.
 
-const deleteConversation = (conversationId, organizationId) => {
+const deleteConversation = (conversationId, organizationId, agendaItems, deliverables) => {
   return (dispatch) => {
-    if (confirm("Are you sure you want to archive this Conversation?")) {
+    if (confirm('Are you sure you want to archive this Conversation?')) {
       dispatch(updateConversation(conversationId, { archived: true }));
+      dispatch(routeActions.push('/organizations/' + organizationId));
+      if (agendaItems) {
+        agendaItems.forEach(agendaItem => {
+          const newAgendaItem = agendaItem;
+          newAgendaItem.archived = true;
+          dispatch({
+            type: constants.UPDATE_AGENDA_ITEM,
+            status: constants.STATUS_SUCCESS,
+            agendaItem: newAgendaItem,
+            entity: newAgendaItem,
+          });
+        });
+      }
+      if (deliverables) {
+        deliverables.forEach(deliverable => {
+          const newDeliverable = deliverable;
+          newDeliverable.archived = true;
+          dispatch({
+            type: constants.UPDATE_DELIVERABLE,
+            status: constants.STATUS_SUCCESS,
+            deliverable: newDeliverable,
+            entity: newDeliverable,
+          });
+        });
+      }
     }
   };
 };

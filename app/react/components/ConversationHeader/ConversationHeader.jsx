@@ -40,12 +40,13 @@ class ConversationHeader extends React.Component {
   };
 
   deleteConversation = () => {
-    this.props.deleteConversation(this.props.conversation.id, this.props.conversation.organizationId);
+    const { agendaItems, deliverables, conversation: { id, organizationId } } = this.props;
+    this.props.deleteConversation(id, organizationId, agendaItems, deliverables);
   };
 
   renderArchiveAction = () => {
     const { chatType } = this.props;
-    if ( chatType === 'conversations') {
+    if (chatType === 'conversations') {
       return (
           <div className={styles.archiveIcon} onClick={this.deleteConversation}>
             <ArchiveIcon inverted/>
