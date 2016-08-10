@@ -182,9 +182,9 @@ class ConversationObjectList extends Component {
     );
   }
 
-  deleteConversation = (conversationId, organizationId, agendaItems, deliverables) => {
+  deleteConversation = (conversationId, organizationId) => {
     this.conversationDeleted = true;
-    this.props.deleteConversation(conversationId, organizationId, agendaItems, deliverables);
+    this.props.deleteConversation(conversationId, organizationId);
   }
 
   prepareConversationObject = (conversationObject, index, isLastSeen, showOwner) => {
