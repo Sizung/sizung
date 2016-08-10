@@ -4,7 +4,6 @@ import * as transform from '../utils/jsonApiUtils';
 import * as constants from './constants';
 import { setCurrentOrganization } from './organizations';
 import * as ConversationUiActions from './conversationUi';
-import * as AgendaItemActions from './agendaItems';
 
 const setCurrentConversation = (conversation, included, json) => {
   const conversationMembers = json.data.relationships.conversation_members.data;
@@ -31,6 +30,9 @@ const updateConversation = (id, changedFields) => {
       const conversation = transform.transformObjectFromJsonApi(json.data);
       const conversationMembers = json.data.relationships.conversation_members.data;
       const entities = json.included ? json.included.map(transform.transformObjectFromJsonApi) : [];
+      if (changedFields.archived) {
+        dispatch(routeActions.push('/organizations/' + conversation.organizationId));
+      }
       dispatch({
         type: constants.UPDATE_CONVERSATION,
         status: constants.STATUS_SUCCESS,

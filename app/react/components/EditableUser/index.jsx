@@ -40,6 +40,7 @@ class EditableUser extends React.Component {
   }
 
   handleKeyDown(event) {
+    event.stopPropagation();
     if (event.key === 'Enter') {
       this.handleInputSubmit();
     } else if (event.key === 'Escape') {
