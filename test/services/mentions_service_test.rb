@@ -83,7 +83,7 @@ class MentionsServiceTest < ActiveSupport::TestCase
     end
 
     delivered_email = ActionMailer::Base.deliveries.last
-    expect(delivered_email.subject).must_equal "#{actor.first_name} mentioned you"
+    expect(delivered_email.subject).must_equal "#{actor.first_name} mentioned you in #{comment.parent.title}"
   end
 
 end
