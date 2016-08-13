@@ -158,13 +158,13 @@ class Deliverable extends React.Component {
           <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
         </div>
         <div className={styles.bottomRow}>
-          <div className={styles.assignee}>
+          {(selected && !deliverable.archived) ? <div className={styles.assignee}>
             <EditableUserApp
               conversationId={deliverableUtils.getConversationIdFromParent(deliverable.parent)}
               userId={ownerId}
               editable={false}
             />
-          </div>
+          </div> : undefined }
           { selected ? this.renderActions() : this.parentContextTitle() }
           <div className={styles.assignee}>
             <EditableUserApp
