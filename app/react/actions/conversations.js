@@ -30,9 +30,6 @@ const updateConversation = (id, changedFields) => {
       const conversation = transform.transformObjectFromJsonApi(json.data);
       const conversationMembers = json.data.relationships.conversation_members.data;
       const entities = json.included ? json.included.map(transform.transformObjectFromJsonApi) : [];
-      if (changedFields.archived) {
-        dispatch(routeActions.push('/organizations/' + conversation.organizationId));
-      }
       dispatch({
         type: constants.UPDATE_CONVERSATION,
         status: constants.STATUS_SUCCESS,
@@ -41,6 +38,9 @@ const updateConversation = (id, changedFields) => {
         entities,
         conversationMembers,
       });
+      if (changedFields.archived) {
+        dispatch(routeActions.push('/organizations/' + conversation.organizationId));
+      }
     });
   };
 };
@@ -120,27 +120,17 @@ const deleteConversation = (conversationId, organizationId, agendaItems, deliver
       dispatch(updateConversation(conversationId, { archived: true }));
       dispatch(routeActions.push('/organizations/' + organizationId));
       if (agendaItems) {
-        agendaItems.forEach(agendaItem => {
-          const newAgendaItem = agendaItem;
-          newAgendaItem.archived = true;
-          dispatch({
-            type: constants.UPDATE_AGENDA_ITEM,
-            status: constants.STATUS_SUCCESS,
-            agendaItem: newAgendaItem,
-            entity: newAgendaItem,
-          });
+        dispatch({
+          type: constants.DELETEALL_AGENDA_ITEMS,
+          status: constants.STATUS_SUCCESS,
+          agendaItems,
         });
       }
       if (deliverables) {
-        deliverables.forEach(deliverable => {
-          const newDeliverable = deliverable;
-          newDeliverable.archived = true;
-          dispatch({
-            type: constants.UPDATE_DELIVERABLE,
-            status: constants.STATUS_SUCCESS,
-            deliverable: newDeliverable,
-            entity: newDeliverable,
-          });
+        dispatch({
+          type: constants.DELETEALL_DELIVERABLE,
+          status: constants.STATUS_SUCCESS,
+          deliverables,
         });
       }
     }
