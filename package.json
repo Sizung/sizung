@@ -42,7 +42,7 @@
     "draft-js": "0.6.0",
     "draft-js-export-markdown": "git+https://github.com/gugl/draft-js-export-markdown.git#df4ded6",
     "draft-js-import-markdown": "git+https://github.com/jpuri/draft-js-import-markdown.git#af7ee8d",
-    "draft-js-mention-plugin": "git+https://github.com/Sizung/draft-js-mention-plugin.git#e7ebea9",
+    "draft-js-mention-plugin": "git+https://github.com/Sizung/draft-js-mention-plugin.git#ea4fd6c",
     "draft-js-plugins-editor": "^1.0.1",
     "es6-promise": "^3.0.2",
     "extract-text-webpack-plugin": "0.8.2",
