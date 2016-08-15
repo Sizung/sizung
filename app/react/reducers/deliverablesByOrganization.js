@@ -5,7 +5,7 @@ import * as reducerUtils from '../utils/reducerUtils';
 const initialState = new Immutable.Map();
 
 export default function deliverablesByOrganization(state = initialState, action = null) {
-  if (action.type === constants.DELETEALL_DELIVERABLE) {
+  if (action.type === constants.DELETE_ALL_DELIVERABLES) {
     let newState = state;
     action.deliverables.forEach((deliverables) => {
       newState = reducerUtils.updateReferenceByObject(newState, deliverables, deliverables.id);

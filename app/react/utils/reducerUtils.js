@@ -9,10 +9,6 @@ export function setReferenceByObject(state, object, reference) {
   return add(state, reference, toReference(object));
 }
 
-export function removeReferenceByObject(state, object, reference) {
-  return add(state, reference, toReference(object));
-}
-
 export function updateReferenceByObject(state, object, reference) {
   return update(state, reference, toReference(object));
 }

@@ -4,6 +4,8 @@ import * as transform from '../utils/jsonApiUtils';
 import * as constants from './constants';
 import { setCurrentOrganization } from './organizations';
 import * as ConversationUiActions from './conversationUi';
+import { deleteAgendaItems } from './agendaItems.js';
+import { deleteDeliverables } from './deliverables.js';
 
 const setCurrentConversation = (conversation, included, json) => {
   const conversationMembers = json.data.relationships.conversation_members.data;
@@ -120,18 +122,10 @@ const deleteConversation = (conversationId, organizationId, agendaItems, deliver
       dispatch(updateConversation(conversationId, { archived: true }));
       dispatch(routeActions.push('/organizations/' + organizationId));
       if (agendaItems) {
-        dispatch({
-          type: constants.DELETEALL_AGENDA_ITEMS,
-          status: constants.STATUS_SUCCESS,
-          agendaItems,
-        });
+        dispatch(deleteAgendaItems(agendaItems));
       }
       if (deliverables) {
-        dispatch({
-          type: constants.DELETEALL_DELIVERABLE,
-          status: constants.STATUS_SUCCESS,
-          deliverables,
-        });
+        dispatch(deleteDeliverables(deliverables));
       }
     }
   };

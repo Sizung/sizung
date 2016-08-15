@@ -5,7 +5,7 @@ import * as reducerUtils from '../utils/reducerUtils';
 const initialState = new Immutable.Map();
 
 export default function agendaItemsByOrganization(state = initialState, action = null) {
-  if (action.type === constants.DELETEALL_AGENDA_ITEMS) {
+  if (action.type === constants.DELETE_ALL_AGENDA_ITEMS) {
     let newState = state;
     action.agendaItems.forEach((agendaItem) => {
       newState = reducerUtils.updateReferenceByObject(newState, agendaItem, agendaItem.id);
