@@ -336,6 +336,7 @@ class ConversationObjectList extends Component {
       );
     }
 
+    console.log('this.props.currentConversation', this.props.currentConversation)
     return (
         <div className={styles.listContainer}>
           <ConversationHeader conversation={this.props.currentConversation}
