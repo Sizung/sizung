@@ -34,7 +34,6 @@ class FilterableDropdown extends React.Component {
     this.setState({ edit: false, filter: '' });
   }
 
-
   handleFilterChange(event) {
     this.setState({ filter: event.target.value });
   }
