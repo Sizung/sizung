@@ -1,0 +1,93 @@
+.root-container {
+  position: relative;
+  display: inline-block;
+}
+
+.root {
+  z-index: 100;
+  position: absolute;
+  width: 30ch;
+  border: 1px solid #B5B6B6;
+  padding: 10px;
+  background-color: #415764;
+}
+
+.southDirection {
+  top: 3ch;
+  right: 0;
+}
+
+.northDirection {
+  bottom: 0;
+  left: 0;
+}
+
+.current-item {
+  color: #dddddd;
+}
+
+.current-item-editable {
+  cursor: pointer;
+  color: #555555;
+}
+
+.title {
+  text-align: center;
+  color: #dddddd;
+  padding-bottom: 10px;
+  border-bottom: 1px solid lightgray;
+  margin-bottom: 10px;
+  font-family: Gotham-Medium;
+  font-size: 1.25rem;
+}
+
+.input {
+  composes: form-control from global;
+  margin-bottom: 10px;
+  background-color: #334752;
+  color: #ffffff;
+  outline: none;
+  border: none;
+  box-shadow: none !important;
+}
+
+.close-icon {
+  composes: fa fa-times from global;
+  composes: pull-right from global;
+  margin-top: 3px;
+  cursor: pointer;
+}
+
+.selected-icon {
+  composes: fa fa-check from global;
+  width: 10px;
+  height: 10px;
+  border: 1px solid red;
+}
+
+.item-row {
+  composes: col-xs-12 from global;
+  padding: 5px;
+  cursor: pointer;
+}
+
+.item-row:hover {
+  background-color: #334752;
+}
+
+.item-column {
+  composes: col-xs-10 from global;
+  padding: 0px;
+  color: #ffffff;
+}
+
+.marker-column {
+  composes: col-xs-2 from global;
+  padding: 0px;
+}
+
+.check {
+  composes: fa fa-lg fa-check pull-right from global;
+  color: #ffffff;
+  padding: 10px 5px 5px 5px;
+}

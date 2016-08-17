@@ -364,6 +364,7 @@ class ConversationObjectList extends Component {
                             newObjects={ this.state.newObjectsCountWhileInsideTimeline > 0 && root && !this.isScrolledToBottom(root) ? this.state.newObjectsCountWhileInsideTimeline : 0 }
                             labels={labels}
                             {...commentForm}
+                            conversations={this.props.conversations}
           />
         </div>
     );
@@ -399,6 +400,7 @@ ConversationObjectList.propTypes = {
   archiveAttachment: PropTypes.func.isRequired,
   navigationHistory: PropTypes.object,
   labels: PropTypes.object.isRequired,
+  conversations: PropTypes.object,
 };
 
 ConversationObjectList.defaultProps = {

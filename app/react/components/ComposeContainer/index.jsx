@@ -21,6 +21,7 @@ class ComposeContainer extends React.Component {
     handleNewObjectMarkerClick: PropTypes.func,
     scrollListToBottom: PropTypes.func,
     entityId: PropTypes.string,
+    conversations: PropTypes.object,
   };
 
   constructor() {
@@ -57,6 +58,7 @@ class ComposeContainer extends React.Component {
                                    createAttachment={createAttachment}
                                    setComposerValue={this.setValue}
                                    labels={labels}
+                                   conversations={this.props.conversations}
                />;
       case 'deliverable':
         return <DeliverableComposer parent={parent}
@@ -67,6 +69,7 @@ class ComposeContainer extends React.Component {
                                     createAttachment={createAttachment}
                                     setComposerValue={this.setValue}
                                     labels={labels}
+                                    conversations={this.props.conversations}
                />;
       case 'comment':
       default:

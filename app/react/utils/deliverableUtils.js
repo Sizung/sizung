@@ -8,7 +8,7 @@ const getConversationIdFrom = (obj) => {
     case 'deliverables':
       return obj.parentType == 'agendaItems' ? obj.parent.conversationId : obj.parentId;
     default:
-      throw new Error(`getConversationIdFrom does not support parentType for deliverable: ${JSON.stringify(deliverable)}`);
+      throw new Error(`getConversationIdFrom does not support parentType for deliverable: ${JSON.stringify(parent)}`);
   }
 }
 

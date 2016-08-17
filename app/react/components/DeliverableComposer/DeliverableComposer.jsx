@@ -6,6 +6,7 @@ import EditableUserApp from '../../containers/EditableUserApp';
 import EditableDate from '../EditableDate';
 import * as deliverableUtils from '../../utils/deliverableUtils.js';
 import SizungInput from '../SizungInput';
+import ConversationsDropdownApp from '../../containers/ConversationsDropdownApp';
 
 class DeliverableComposer extends React.Component {
   static propTypes = {
@@ -29,7 +30,12 @@ class DeliverableComposer extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = { value: props.defaultValue.substring(0, 40), assigneeId: null, dueOn: null };
+    this.state = {
+      value: props.defaultValue.substring(0, 40),
+      assigneeId: null,
+      dueOn: null,
+      parent: props.parent,
+    };
   }
 
   getType = (type) => {
@@ -45,7 +51,7 @@ class DeliverableComposer extends React.Component {
   }
 
   handleSubmit = () => {
-    const { parent } = this.props;
+    const { parent } = this.state;
     const title = this.state.value.trim();
     const { dueOn } = this.state;
     const assigneeId = this.assigneeId();
@@ -85,15 +91,15 @@ class DeliverableComposer extends React.Component {
 
   handleAssigneeUpdate = (assigneeId) => {
     this.setState({ assigneeId });
-  }
+  };
 
   handleDueOnUpdate = (dueOn) => {
     this.setState({ dueOn });
-  }
+  };
 
   assigneeId = () => {
     return this.state.assigneeId || this.props.currentUser.id;
-  }
+  };
 
   handleKeyDownOnDueDate = (event) => {
     event.stopPropagation();
@@ -102,18 +108,25 @@ class DeliverableComposer extends React.Component {
     }
   };
 
+  handleTeamChange = (id) => {
+    this.setState({ parent: {
+      id,
+      type: 'conversations',
+    } });
+  };
+
   _setInputRef = (input) => {
     if (input) {
       this.inputRef = input;
       input.focus();
     }
-  }
+  };
 
   render() {
     const { dueOn } = this.state;
     const assigneeId = this.assigneeId();
-    const { parent, labels } = this.props;
-    const { value } = this.state;
+    const { labels } = this.props;
+    const { value, parent } = this.state;
 
     return (
       <div className={styles.root}>
@@ -127,7 +140,7 @@ class DeliverableComposer extends React.Component {
         <div className={styles.properties}>
           <div className={styles.assigneeContainer} onKeyDown={this.handleKeyDown} tabIndex="0">
             <div className={styles.assignLabel}>ASSIGN TO</div>
-            <EditableUserApp userId={assigneeId} conversationId={deliverableUtils.getConversationIdFrom(parent)} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
+            <EditableUserApp userId={assigneeId} conversationId={deliverableUtils.getConversationIdFrom(this.state.parent)} editable direction="north" onUpdate={this.handleAssigneeUpdate} />
           </div>
           <div className={styles.dueOnContainer}>
             <div className={styles.dueOnLabel}>DUE ON</div>
@@ -154,7 +167,22 @@ class DeliverableComposer extends React.Component {
             {40 - ((value && value.length) || 0) + ' chars'}
           </div>
         </div>
-
+        <div className={styles.inputRow}>
+          <div className={styles.conversationLabel}>
+            {'TEAM :'}
+          </div>
+          <div className={styles.conversationDropdownContainer}>
+            <ConversationsDropdownApp conversationId={deliverableUtils.getConversationIdFromParent(this.state.parent)} onUpdate={this.handleTeamChange} direction={'north'} conversations={this.props.conversations}/>
+          </div>
+        </div>
+        <div className={styles.actionContainer}>
+          <div className={styles.cancelButton} onClick={this.props.onClose}>
+            CANCEL
+          </div>
+          <div className={styles.actionButton} onClick={this.handleSubmit}>
+            CREATE
+          </div>
+        </div>
       </div>
     );
   }

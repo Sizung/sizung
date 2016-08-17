@@ -33,6 +33,9 @@ class ConversationApp extends React.Component {
    fetchData = () => {
      const { conversationId } = this.props.params;
      this.props.fetchConversation(conversationId);
+     if (this.props.currentOrganizationId) {
+       this.props.selectOrganization(this.props.currentOrganizationId);
+     }
    };
 
   render() {
@@ -77,6 +80,8 @@ function nextPageUrl(state, props) {
 
 function mapStateToProps(state, props) {
   const conversationSettingsViewState = selectors.conversationSettingsViewState(state);
+  const currentConversation = state.getIn(['currentConversation']).toJS();
+  console.log('Conversations: ', state.toJS());
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
@@ -86,13 +91,15 @@ function mapStateToProps(state, props) {
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
     currentConversationId: props.params.conversationId,
-    currentConversation: selectors.currentConversation(state),
+    currentConversation: currentConversation,
+    currentOrganizationId: currentConversation.organizationId,
     conversationMembers: selectors.conversationMembers(state),
     conversationSettingsViewState,
     navigationHistory: selectors.navigationHistory(state),
     labels: labels.organizationObjectsLabels(state),
     deliverables: selectors.deliverablesForConversation(state, props.params.conversationId),
     agendaItems: selectors.agendaItemsList(state, props.params.conversationId),
+    conversations: selectors.conversationsForOrganization(state, currentConversation.organizationId),
   };
 }
 

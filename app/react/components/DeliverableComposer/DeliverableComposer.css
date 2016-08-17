@@ -108,3 +108,59 @@
 .deliverableInput:focus {
   outline: none;
 }
+
+.actionContainer {
+  flex: none;
+  min-height: 5rem;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0;
+  border-top: 1px solid #efefef;
+}
+
+.actionButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 11.625rem;
+  height: 3.5rem;
+  background-color: #262C43;
+  color: #ffffff;
+  font-family: Gotham-Book;
+  font-size: 1.688rem;
+  cursor: pointer;
+}
+
+.cancelButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  height: 3.5rem;
+  margin-right: 3.75rem;
+  font-family: Gotham-Medium;
+  font-size: 1.25rem;
+  color: #405663;
+  cursor: pointer;
+}
+
+.conversationLabel {
+  flex: none;
+  font-family: Gotham-Book;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #555555;
+}
+
+.conversationDropdownContainer {
+  flex: none;
+  padding: 5px 20px;
+  margin-left: 10px;
+  font-family: Gotham-Book;
+  font-size: 1.25rem;
+  color: #8C9295;
+  background-color: #eeeeee;
+}

@@ -163,6 +163,7 @@ class Deliverable extends React.Component {
               conversationId={deliverableUtils.getConversationIdFromParent(deliverable.parent)}
               userId={ownerId}
               editable={false}
+              size={'small'}
             />
           </div> : undefined }
           { selected ? this.renderActions() : this.parentContextTitle() }
