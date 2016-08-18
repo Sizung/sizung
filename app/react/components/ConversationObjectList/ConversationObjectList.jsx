@@ -182,9 +182,9 @@ class ConversationObjectList extends Component {
     );
   }
 
-  deleteConversation = (conversationId, organizationId) => {
+  deleteConversation = (conversationId, organizationId, agendaItems, deliverables) => {
     this.conversationDeleted = true;
-    this.props.deleteConversation(conversationId, organizationId);
+    this.props.deleteConversation(conversationId, organizationId, agendaItems, deliverables);
   }
 
   prepareConversationObject = (conversationObject, index, isLastSeen, showOwner) => {
@@ -336,6 +336,7 @@ class ConversationObjectList extends Component {
       );
     }
 
+    console.log('this.props.currentConversation', this.props.currentConversation)
     return (
         <div className={styles.listContainer}>
           <ConversationHeader conversation={this.props.currentConversation}

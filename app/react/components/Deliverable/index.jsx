@@ -4,7 +4,6 @@ import EditableText from '../EditableText';
 import EditableDate from '../EditableDate';
 import EditableUserApp from '../../containers/EditableUserApp';
 import Icon from '../Icon';
-import TextWithMentions from '../TextWithMentions';
 import DeliverableIcon from '../DeliverableIcon';
 import ResolveIcon from '../ResolveIcon';
 import ArchiveIcon from '../ArchiveIcon';
@@ -133,7 +132,7 @@ class Deliverable extends React.Component {
 
   render() {
     const { deliverable, selected } = this.props;
-    const { title, assigneeId, dueOn, unseenCount, archived } = deliverable;
+    const { title, assigneeId, dueOn, unseenCount, archived, ownerId } = deliverable;
     const deliverableIconStatus = this.dueDateStatus();
     let styleName = styles.seen;
 
@@ -159,9 +158,21 @@ class Deliverable extends React.Component {
           <EditableDate value={dueOn} onUpdate={this.handleDueOnUpdate} editable={!archived} />
         </div>
         <div className={styles.bottomRow}>
+          {(selected && !deliverable.archived) ? <div className={styles.assignee}>
+            <EditableUserApp
+              conversationId={deliverableUtils.getConversationIdFromParent(deliverable.parent)}
+              userId={ownerId}
+              editable={false}
+            />
+          </div> : undefined }
           { selected ? this.renderActions() : this.parentContextTitle() }
           <div className={styles.assignee}>
-            <EditableUserApp conversationId={deliverableUtils.getConversationIdFromParent(deliverable.parent)} editable userId={assigneeId} onUpdate={this.handleAssigneeUpdate} />
+            <EditableUserApp
+              conversationId={deliverableUtils.getConversationIdFromParent(deliverable.parent)}
+              onUpdate={this.handleAssigneeUpdate}
+              userId={assigneeId}
+              editable
+            />
           </div>
         </div>
       </div>

@@ -100,7 +100,6 @@ class ConversationHeader extends React.Component {
 
   render() {
     const { chatType } = this.props;
-
     return (
         <div className={ chatType === 'conversations' ? styles.editableRoot : styles.root }>
           <div className={styles.conversationTitle}>

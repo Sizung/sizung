@@ -40,6 +40,14 @@ const archiveAgendaItem = (id) => {
   return updateAgendaItem(id, { archived: true });
 };
 
+const deleteAgendaItems = (agendaItems) => {
+  return {
+    type: constants.DELETE_ALL_AGENDA_ITEMS,
+    status: constants.STATUS_SUCCESS,
+    agendaItems,
+  };
+};
+
 const fetchAgendaItem = (agendaItemId, dispatch) => {
   api.fetchJson('/api/agenda_items/' + agendaItemId, (json) => {
     const included = json.included ? json.included.map(transform.transformObjectFromJsonApi) : null;
@@ -117,4 +125,5 @@ export {
   selectAgendaItem,
   visitAgendaItem,
   archiveAgendaItem,
+  deleteAgendaItems,
 };

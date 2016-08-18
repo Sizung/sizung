@@ -38,6 +38,14 @@ const archiveDeliverable = (id) => {
   return null;
 };
 
+const deleteDeliverables = (deliverables) => {
+  return {
+    type: constants.DELETE_ALL_DELIVERABLES,
+    status: constants.STATUS_SUCCESS,
+    deliverables,
+  };
+};
+
 const fetchDeliverable = (deliverableId) => {
   return (dispatch, getState) => {
     api.fetchJson('/api/deliverables/' + deliverableId, (json) => {
@@ -111,4 +119,5 @@ export {
   updateDeliverable,
   createDeliverableRemoteOrigin,
   updateDeliverableRemoteOrigin,
+  deleteDeliverables,
 };
