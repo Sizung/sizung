@@ -5,6 +5,15 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   namespace :api do
+    namespace :v1 do
+      resources :organizations, only: [:index, :show], shallow: true do
+        resources :agenda_items, only: [:index]
+        resources :conversations, only: [:index, :show], shallow: true do
+          resources :agenda_items, only: [:index, :show]
+        end
+      end
+    end
+    
     concern :list_conversation_objects do |options|
       resources :conversation_objects, options.merge(only: [:index])
     end
