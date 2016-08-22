@@ -307,7 +307,7 @@ class ConversationObjectList extends Component {
       return (
           <div ref={ isFirstObjectUnseen ? 'newObjectsMarker' : ''} className={styles.newObjectsMarkerContainer}>
             <div className={styles.newObjectsMarkerLabel}>
-              { newObjectsCount + ' new comment' + (newObjectsCount === 1 ? '' : 's')}
+              New comments
             </div>
             <hr className={styles.newObjectsMarkerLine}/>
           </div>
@@ -336,7 +336,6 @@ class ConversationObjectList extends Component {
       );
     }
 
-    console.log('this.props.currentConversation', this.props.currentConversation)
     return (
         <div className={styles.listContainer}>
           <ConversationHeader conversation={this.props.currentConversation}
