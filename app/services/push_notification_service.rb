@@ -23,6 +23,14 @@ class PushNotificationService
     
     notify(user, body, url)
   end
+
+  def unassigned_deliverable(deliverable, old_assignee, author)
+    user = old_assignee
+    body = "#{author} unassigned you from the action: #{deliverable.title}#{due_on(deliverable)}"
+    url  = timeline_url(deliverable)
+
+    notify(user, body, url)
+  end
   
   def resolved_deliverable(user, deliverable, author)
     body = "#{author.name} resolved #{deliverable.title}"

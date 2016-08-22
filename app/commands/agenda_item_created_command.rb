@@ -11,7 +11,6 @@ class AgendaItemCreatedCommand < ApplicationCommand
     subscribe_owner unless agenda_item.owner == author
     create_unseen_objects
     broadcast
-    notify_owner unless agenda_item.owner == author
   end
   
   private
@@ -26,10 +25,6 @@ class AgendaItemCreatedCommand < ApplicationCommand
 
   def create_unseen_objects
     UnseenService.new.handle_with(agenda_item, author)
-  end
-
-  def notify_owner
-    NotificationService.new.assigned_agenda_item(agenda_item, author)
   end
 
   def broadcast

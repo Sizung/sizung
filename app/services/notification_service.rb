@@ -34,7 +34,7 @@ class NotificationService
 
   # Unassigned Deliverable: Email
   def unassigned_deliverable(deliverable, old_assignee, author)
-    Notifications.deliverable_unassigned(deliverable, old_assignee, author).deliver_later
+    PushNotificationService.new.unassigned_deliverable(deliverable, old_assignee, author)
   end
 
   # Resolved Deliverable: Push
