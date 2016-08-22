@@ -65,16 +65,13 @@
 }
 
 .actionContainer {
+  white-space: nowrap;
   display: flex;
   flex-direction: row;
-  /*justify-content: flex-start;*/
   align-items: center;
   margin-left: 10px;
-  overflow: hidden;
   font-size: 1.438rem;
   font-family: Gotham-Medium;
-  /*cursor: pointer;*/
-
 }
 
 .archiveActionContainer {
@@ -112,6 +109,10 @@
   margin-top: 2em;
   padding: 0px 20px;
   margin-bottom: 1.87em;
+}
+
+.bottomRowLeft {
+  display: flex;
 }
 
 .dueDateContainer {
