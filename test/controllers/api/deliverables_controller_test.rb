@@ -127,10 +127,6 @@ describe Api::DeliverablesController do
       expect(old_assignee.assigned_deliverables.count).must_equal 0
       expect(new_assignee.assigned_deliverables.count).must_equal 1
 
-      mail = open_email(old_assignee.email)
-      expect(mail).must_be :present?
-      value(mail.subject).must_match "#{@current_user.first_name} unassigned you from an action"
-
       mail = open_email(new_assignee.email)
       expect(mail).must_be :present?
       value(mail.subject).must_match "#{@current_user.first_name} assigned an action to you"
