@@ -57,16 +57,18 @@ module Api
       @deliverable.owner = current_user
       @deliverable.assignee_id = current_user.id unless @deliverable.assignee_id
       if @deliverable.save
-        source_timeline = params[:source_timeline]
-        child_comment_body = current_user.first_name + ' ' + current_user.last_name + ' created this deliverable from ' + source_timeline[:title] + ': ' + source_timeline_url(source_timeline)
-        parent_comment_body = current_user.first_name + ' ' + current_user.last_name + ' created this deliverable in ' + ( @deliverable.agenda_item ? @deliverable.agenda_item.conversation.title : @deliverable.conversation.title ) + ': ' + deliverable_url(@deliverable)
-        @child_comment = Comment.new({ commentable_id: @deliverable.id, commentable_type: 'Deliverable', author_id: current_user.id, body: child_comment_body})
-        @child_comment.save!
-        if @deliverable.conversation.id != source_timeline[:id]
-          @parent_comment = Comment.new({ commentable_id: source_timeline[:id], commentable_type: source_timeline[:type], author_id: current_user.id, body: parent_comment_body})
-          @parent_comment.save!
+        # TODO @ani: find a better way of passing the source timeline while creating a deliverable
+        if params[:source_timeline]
+          source_timeline = params[:source_timeline]
+          child_comment_body = current_user.first_name + ' ' + current_user.last_name + ' created this deliverable from ' + source_timeline[:title] + ': ' + source_timeline_url(source_timeline)
+          parent_comment_body = current_user.first_name + ' ' + current_user.last_name + ' created this deliverable in ' + ( @deliverable.agenda_item ? @deliverable.agenda_item.conversation.title : @deliverable.conversation.title ) + ': ' + deliverable_url(@deliverable)
+          @child_comment = Comment.new({ commentable_id: @deliverable.id, commentable_type: 'Deliverable', author_id: current_user.id, body: child_comment_body})
+          @child_comment.save!
+          if @deliverable.conversation.id != source_timeline[:id]
+            @parent_comment = Comment.new({ commentable_id: source_timeline[:id], commentable_type: source_timeline[:type], author_id: current_user.id, body: parent_comment_body})
+            @parent_comment.save!
+          end
         end
-
         DeliverableCreatedJob.perform_later(@deliverable, current_user)
         render json: @deliverable, serializer: DeliverableSerializer
       else
