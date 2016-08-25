@@ -336,6 +336,7 @@ class ConversationObjectList extends Component {
       );
     }
 
+    console.log('~~~~~~ Parent: ', commentForm.parent);
     return (
         <div className={styles.listContainer}>
           <ConversationHeader conversation={this.props.currentConversation}

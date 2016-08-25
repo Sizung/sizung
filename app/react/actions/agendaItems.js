@@ -103,8 +103,21 @@ const createAgendaItemRemoteOrigin = (agendaItem) => {
 };
 
 const createAgendaItem = (values) => {
+  switch (values.source_timeline.type) {
+    case 'conversations':
+      values.source_timeline.type = 'Conversation';
+      break;
+    case 'agendaItems':
+      values.source_timeline.type = 'AgendaItem';
+      break;
+    case 'deliverables':
+      values.source_timeline.type = 'Deliverable';
+      break;
+    default:
+      values.source_timeline.type = 'Undefined';
+  }
   return (dispatch) => {
-    api.postJson('/api/agenda_items', { agenda_item: values }, (json) => {
+    api.postJson('/api/agenda_items', { agenda_item: values, source_timeline: values.source_timeline }, (json) => {
       const agendaItem = transform.transformObjectFromJsonApi(json.data);
       dispatch({
         type: constants.CREATE_AGENDA_ITEM,

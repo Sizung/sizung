@@ -104,8 +104,16 @@ module Api
       @agenda_item = AgendaItem.new(agenda_item_params)
       authorize @agenda_item
       @agenda_item.owner = current_user unless @agenda_item.owner
-
       if @agenda_item.save
+        source_timeline = params[:source_timeline]
+        child_comment_body = current_user.first_name + ' ' + current_user.last_name + ' created this agenda from ' + source_timeline[:title] + ': ' + source_timeline_url(source_timeline)
+        parent_comment_body = current_user.first_name + ' ' + current_user.last_name + ' created this agenda in ' + @agenda_item.conversation.title + ': ' + agenda_item_url(@agenda_item)
+        @child_comment = Comment.new({ commentable_id: @agenda_item.id, commentable_type: 'AgendaItem', author_id: current_user.id, body: child_comment_body})
+        @child_comment.save!
+        if @agenda_item.conversation.id != source_timeline[:id]
+          @parent_comment = Comment.new({ commentable_id: source_timeline[:id], commentable_type: source_timeline[:type], author_id: current_user.id, body: parent_comment_body})
+          @parent_comment.save!
+        end
         AgendaItemCreatedJob.perform_later(@agenda_item, current_user)
         render json: @agenda_item, serializer: AgendaItemSerializer
       else
@@ -166,6 +174,21 @@ module Api
       def set_agenda_item
         @agenda_item = AgendaItem.find(params[:id])
         authorize @agenda_item
+      end
+
+      def source_timeline_url(source_timeline)
+
+        src_url = case source_timeline[:type]
+                    when 'Conversation'
+                      conversation_url(Conversation.find(source_timeline[:id]))
+                    when 'AgendaItem'
+                      agenda_item_url(AgendaItem.find(source_timeline[:id]))
+                    when 'Deliverable'
+                      deliverable_url(Deliverable.find(source_timeline[:id]))
+                    else
+                      []
+                  end
+        return src_url
       end
   end
 end

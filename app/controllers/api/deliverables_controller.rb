@@ -56,8 +56,17 @@ module Api
       authorize @deliverable
       @deliverable.owner = current_user
       @deliverable.assignee_id = current_user.id unless @deliverable.assignee_id
-
       if @deliverable.save
+        source_timeline = params[:source_timeline]
+        child_comment_body = current_user.first_name + ' ' + current_user.last_name + ' created this deliverable from ' + source_timeline[:title] + ': ' + source_timeline_url(source_timeline)
+        parent_comment_body = current_user.first_name + ' ' + current_user.last_name + ' created this deliverable in ' + ( @deliverable.agenda_item ? @deliverable.agenda_item.conversation.title : @deliverable.conversation.title ) + ': ' + deliverable_url(@deliverable)
+        @child_comment = Comment.new({ commentable_id: @deliverable.id, commentable_type: 'Deliverable', author_id: current_user.id, body: child_comment_body})
+        @child_comment.save!
+        if @deliverable.conversation.id != source_timeline[:id]
+          @parent_comment = Comment.new({ commentable_id: source_timeline[:id], commentable_type: source_timeline[:type], author_id: current_user.id, body: parent_comment_body})
+          @parent_comment.save!
+        end
+
         DeliverableCreatedJob.perform_later(@deliverable, current_user)
         render json: @deliverable, serializer: DeliverableSerializer
       else
@@ -103,6 +112,21 @@ module Api
       def set_deliverable
         @deliverable = Deliverable.find(params[:id])
         authorize @deliverable
+      end
+
+      def source_timeline_url(source_timeline)
+
+        src_url = case source_timeline[:type]
+                    when 'Conversation'
+                      conversation_url(Conversation.find(source_timeline[:id]))
+                    when 'AgendaItem'
+                      agenda_item_url(AgendaItem.find(source_timeline[:id]))
+                    when 'Deliverable'
+                      deliverable_url(Deliverable.find(source_timeline[:id]))
+                    else
+                      []
+                  end
+        return src_url
       end
   end
 end

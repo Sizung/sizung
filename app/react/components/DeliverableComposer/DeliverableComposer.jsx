@@ -69,7 +69,7 @@ class DeliverableComposer extends React.Component {
     }
 
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
-    this.props.createDeliverable({ parent_id: parentId, parent_type: parentType, title, assignee_id: assigneeId, due_on: dueOn });
+    this.props.createDeliverable({ parent_id: parentId, parent_type: parentType, title, assignee_id: assigneeId, due_on: dueOn, source_timeline: this.props.parent });
     this.setState({ value: '', assigneeId: null, dueOn: null });
     this.props.setComposerValue('');
     this.props.onClose();

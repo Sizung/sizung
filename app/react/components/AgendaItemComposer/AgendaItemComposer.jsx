@@ -47,7 +47,7 @@ class AgendaItemComposer extends React.Component {
 
     if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
     //if (!id) {
-      this.props.createAgendaItem({ conversation_id: conversationId, title });
+      this.props.createAgendaItem({ conversation_id: conversationId, title, source_timeline: this.props.parent });
     //} else {
     //  this.props.createAgendaItem({ conversation_id: id, title });
     //}
