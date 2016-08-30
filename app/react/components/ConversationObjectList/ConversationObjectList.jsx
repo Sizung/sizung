@@ -147,10 +147,9 @@ class ConversationObjectList extends Component {
           } else {
             showOwner = false;
           }
-
-          if (objIndex === 0 && filteredConvObjects[objIndex].unseen) {
+          if (objIndex === 0 && filteredConvObjects[objIndex].unseen && !(filteredConvObjects[objIndex].type === 'agendaItems' || filteredConvObjects[objIndex].type === 'deliverables')) {
             firstUnseenIndex = objIndex;
-          } else if (!filteredConvObjects[objIndex].unseen && (objIndex + 1) < filteredConvObjects.length && filteredConvObjects[objIndex + 1].unseen) {
+          } else if (!filteredConvObjects[objIndex].unseen && (objIndex + 1) < filteredConvObjects.length && filteredConvObjects[objIndex + 1].unseen && !(filteredConvObjects[objIndex+1].type === 'agendaItems' || filteredConvObjects[objIndex+1].type === 'deliverables')) {
             lastSeen = true;
             firstUnseenIndex = objIndex + 1;
           }
@@ -307,7 +306,7 @@ class ConversationObjectList extends Component {
       return (
           <div ref={ isFirstObjectUnseen ? 'newObjectsMarker' : ''} className={styles.newObjectsMarkerContainer}>
             <div className={styles.newObjectsMarkerLabel}>
-              New comments
+              New messages
             </div>
             <hr className={styles.newObjectsMarkerLine}/>
           </div>
