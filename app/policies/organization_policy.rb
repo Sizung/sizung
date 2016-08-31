@@ -4,11 +4,11 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def update?
-    user == record.owner
+    true
   end
 
   def destroy?
-    update?
+    user == record.owner
   end
 
   class Scope < Scope
