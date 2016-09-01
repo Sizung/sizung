@@ -3,6 +3,7 @@ class DeliverableSerializer < ActiveModel::Serializer
   belongs_to :parent
   belongs_to :owner
   belongs_to :assignee
+  belongs_to :traceable
 
   include Swagger::Blocks
 

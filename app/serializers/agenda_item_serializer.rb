@@ -2,6 +2,7 @@ class AgendaItemSerializer < ActiveModel::Serializer
   attributes :id, :title, :status, :due_on, :created_at, :updated_at, :comments_count, :deliverables_count, :archived, :archived_at
   belongs_to :conversation
   belongs_to :owner
+  belongs_to :traceable
   has_many :deliverables
 
   include Swagger::Blocks

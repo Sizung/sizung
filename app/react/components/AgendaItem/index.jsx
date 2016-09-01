@@ -6,6 +6,7 @@ import ArchiveIcon from '../ArchiveIcon';
 import ResolveIcon from '../ResolveIcon';
 import TextWithMentions from '../TextWithMentions';
 import EditableUserApp from '../../containers/EditableUserApp';
+import Trace from '../Trace';
 
 class AgendaItem extends React.Component {
 
@@ -75,6 +76,7 @@ class AgendaItem extends React.Component {
     return (
       <div className={styles.actionContainer}>
         <div className={styles.actions}>
+          { this.isEditable() ? <Trace styles={{ marginRight: '20px' }} type={'AgendaItem'} id={this.props.agendaItem.id} organization={this.props.agendaItem.conversation.organization}/> : undefined }
           { this.renderResolveAction() }
           { this.isEditable() ? this.renderArchiveAction() : this.parentContextTitle()}
         </div>

@@ -83,6 +83,7 @@ function mapStateToProps(state, props) {
     conversationSettingsViewState,
     navigationHistory: selectors.navigationHistory(state),
     labels: labels.organizationObjectsLabels(state),
+    conversations: selectors.conversationsForOrganization(state, selectors.currentConversation(state).organizationId),
   };
 }
 

@@ -56,6 +56,15 @@ module Api
       authorize @deliverable
       @deliverable.owner = current_user
       @deliverable.assignee_id = current_user.id unless @deliverable.assignee_id
+      if params[:source_timeline]
+        @deliverable.traceable = source_timeline_object(params[:source_timeline])
+      else
+        if params[:deliverable][:parent_type] === 'Conversation'
+          @deliverable.traceable = Conversation.find(params[:deliverable][:parent_id])
+        else
+          @deliverable.traceable = AgendaItem.find(params[:deliverable][:parent_id])
+        end
+      end
       if @deliverable.save
         # TODO @ani: find a better way of passing the source timeline while creating a deliverable
         if params[:source_timeline]
@@ -129,6 +138,20 @@ module Api
                       []
                   end
         return src_url
+      end
+
+      def source_timeline_object(source_timeline)
+        src_obj = case source_timeline[:type]
+                    when 'Conversation'
+                      Conversation.find(source_timeline[:id])
+                    when 'AgendaItem'
+                      AgendaItem.find(source_timeline[:id])
+                    when 'Deliverable'
+                      Deliverable.find(source_timeline[:id])
+                    else
+                      []
+                  end
+        return src_obj
       end
   end
 end

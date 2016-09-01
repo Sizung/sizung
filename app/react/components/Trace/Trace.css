@@ -1,0 +1,115 @@
+.root {
+  position: fixed;
+  top: 0px;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  background-color: rgba(0, 0, 0, 0.7);
+  overflow: auto;
+  z-index: 1000;
+  font-size: 1.5rem;
+}
+
+.container {
+  position: absolute;
+  top: 10px;
+  bottom: 10px;
+  left: 10px;
+  right: 10px;
+  background-color: white;
+  overflow: auto;
+  z-index: 1000;
+}
+
+.trace {
+  display: inline-block;
+}
+
+.traceIcon {
+  composes: fa fa-anchor from global;
+  color: white;
+}
+
+.closeIcon {
+  composes: fa fa-times fa-lg from global;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  color: black;
+  z-index: 1000;
+}
+
+.content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  /*top: 10px;*/
+  /*bottom: 10px;*/
+  /*left: 10px;*/
+  /*right: 10px;*/
+  justify-content: center;
+  background-color: #eeeeee;
+}
+.row {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}
+
+.arrow {
+  composes: fa fa-arrow-up from global;
+  color: black;
+  margin: 10px 0px;
+}
+
+.object {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  max-width: 1000px;
+  background-color: white;
+  border: 1px solid #555555;
+  border-radius: 10px;
+  padding: 20px;
+  color: black;
+  z-index: 1000;
+}
+
+.object .a:hover {
+  color: yellow;
+}
+
+.agendaItems {
+  composes: object;
+  color: white;
+  background-color: #38ACD4;
+}
+
+.conversations {
+  composes: object;
+  color: white;
+  background-color: #F2695D;
+}
+
+.deliverables {
+  composes: object;
+  color: white;
+  background-color: #415764;
+}
+
+.organizations {
+  composes: object;
+}
+
+.message {
+  color: blue;
+  z-index: 1000;
+}
+

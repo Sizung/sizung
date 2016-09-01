@@ -8,6 +8,7 @@ import DeliverableIcon from '../DeliverableIcon';
 import ResolveIcon from '../ResolveIcon';
 import ArchiveIcon from '../ArchiveIcon';
 import * as deliverableUtils from '../../utils/deliverableUtils.js';
+import Trace from '../Trace';
 
 class Deliverable extends React.Component {
 
@@ -109,6 +110,7 @@ class Deliverable extends React.Component {
           <div className={styles.actionContainer}>
             {(deliverable.status === 'open' ? this.renderResolveAction() : false)}
             {this.renderArchiveAction()}
+            <Trace type={'Deliverable'} id={deliverable.id} organization={this.props.deliverable.parent.organization}/>
           </div>
       );
     }

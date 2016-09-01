@@ -104,6 +104,11 @@ module Api
       @agenda_item = AgendaItem.new(agenda_item_params)
       authorize @agenda_item
       @agenda_item.owner = current_user unless @agenda_item.owner
+      if params[:source_timeline]
+        @agenda_item.traceable = source_timeline_object(params[:source_timeline])
+      else
+        @agenda_item.traceable = @agenda_item.conversation
+      end
       if @agenda_item.save
         # TODO @ani: find a better way of passing the source timeline while creating an agenda item
         if params[:source_timeline]
@@ -193,5 +198,19 @@ module Api
                   end
         return src_url
       end
+
+    def source_timeline_object(source_timeline)
+      src_obj = case source_timeline[:type]
+                  when 'Conversation'
+                    Conversation.find(source_timeline[:id])
+                  when 'AgendaItem'
+                    AgendaItem.find(source_timeline[:id])
+                  when 'Deliverable'
+                    Deliverable.find(source_timeline[:id])
+                  else
+                    []
+                end
+      return src_obj
+    end
   end
 end

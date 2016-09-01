@@ -6,6 +6,8 @@ class Conversation < ActiveRecord::Base
   has_many :comments, as: :commentable, dependent: :destroy
   has_many :agenda_item_deliverables, through: :agenda_items, source: :deliverables
   has_many :agenda_items, dependent: :destroy
+  has_many :agenda_items, as: :traceable
+  has_many :deliverables, as: :traceable
   has_many :conversation_members, dependent: :destroy
   has_many :conversation_objects, foreign_key: :parent_id
   has_many :members, through: :conversation_members

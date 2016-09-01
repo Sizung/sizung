@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722171105) do
+ActiveRecord::Schema.define(version: 20160830135902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,10 +60,13 @@ ActiveRecord::Schema.define(version: 20160722171105) do
     t.integer  "deliverables_count", default: 0,      null: false
     t.integer  "comments_count",     default: 0,      null: false
     t.date     "due_on"
+    t.uuid     "traceable_id"
+    t.string   "traceable_type"
   end
   add_index "agenda_items", ["conversation_id"], name: "index_agenda_items_on_conversation_id", using: :btree
   add_index "agenda_items", ["created_at"], name: "index_agenda_items_on_created_at", order: {"created_at"=>:desc}, using: :btree
   add_index "agenda_items", ["owner_id"], name: "index_agenda_items_on_owner_id", using: :btree
+  add_index "agenda_items", ["traceable_type", "traceable_id"], name: "index_agenda_items_on_traceable_type_and_traceable_id", using: :btree
 
   create_table "attachments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "parent_id"
@@ -118,9 +121,12 @@ ActiveRecord::Schema.define(version: 20160722171105) do
     t.datetime "archived_at"
     t.integer  "comments_count", default: 0,            null: false
     t.string   "parent_type",    default: "AgendaItem", null: false
+    t.uuid     "traceable_id"
+    t.string   "traceable_type"
   end
   add_index "deliverables", ["owner_id"], name: "index_deliverables_on_owner_id", using: :btree
   add_index "deliverables", ["parent_id"], name: "index_deliverables_on_parent_id", using: :btree
+  add_index "deliverables", ["traceable_type", "traceable_id"], name: "index_deliverables_on_traceable_type_and_traceable_id", using: :btree
 
   create_view "conversation_objects", <<-'END_VIEW_CONVERSATION_OBJECTS', :force => true
 SELECT comments.id,
