@@ -2,7 +2,8 @@ import * as selectors from '../utils/selectors'
 
 const isOrganizationOfTypeClosingMatrix = (organization) => {
   if (organization && organization.name) {
-    return ((organization.name.toLowerCase()).indexOf('closing matrix by sizung') > -1);
+    //return ((organization.name.toLowerCase()).indexOf('closing matrix by sizung') > -1);
+    return true;
   }
   return '';
 };
@@ -16,7 +17,7 @@ const agendaItemLabel = (organization) => {
 
 const deliverableLabel = (organization) => {
   if (organization) {
-    return 'REVIEW';
+    return (isOrganizationOfTypeClosingMatrix(organization) ? 'REVIEW' : 'ACTION');
   }
   return '';
 };
