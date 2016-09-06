@@ -87,7 +87,7 @@ class Deliverable extends React.Component {
         <div className={styles.actionIconContainer}>
           <ResolveIcon/>
         </div>
-        {'Mark as Done'}
+        {'Sign off'}
       </div>
     );
   };
