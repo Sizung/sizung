@@ -244,40 +244,16 @@ class ConversationSettings extends React.Component {
         </div>
         <div className={styles.membersContainer}>
           <div className={styles.inviteTeammateLabel}>
-            MEMBERS
+            PARTIES
           </div>
           <div className={styles.conversationMemberList}>
             {this.renderConversationMemberList()}
-          </div>
-          <div className={styles.inviteMemberContainer}>
-            <div className={styles.inviteMemberLabel}>
-              INVITE NEW MEMBERS
-            </div>
-            <div>
-              <input
-                type="text"
-                className={classNames(styles.inviteMemberInput, {
-                  [`${styles.inviteMemberInputInvalid}`]: emailInputError,
-                })}
-                id="inviteEmail"
-                value={inviteEmail}
-                onChange={this.handleEmailChange}
-                placeholder="Invite members by email"
-                onKeyDown={this.handleInviteByEmailKeyDown}
-              />
-              <span
-                onClick={this.inviteByEmail}
-                className={styles.memberInviteLink}
-              >
-                Invite
-              </span>
-            </div>
           </div>
 
           <div className={styles.memberSettingsContainer}>
             <div className={styles.inputContainer}>
               <input ref="memberFilter" type="text" className={styles.input} id="memberName"
-                     placeholder="Search or add by selecting" onKeyDown={this.handleKeyDown}
+                     placeholder="SIGNED OFF ON FORM" onKeyDown={this.handleKeyDown}
                      onChange={this.handleFilterChange} value={filter}
               />
             </div>
@@ -287,11 +263,8 @@ class ConversationSettings extends React.Component {
           </div>
         </div>
         <div className={styles.actionContainer}>
-          <div className={styles.cancelButton} onClick={this.handleCloseView}>
-            CANCEL
-          </div>
           <div className={styles.actionButton} onClick={this.saveConversationTitle}>
-            { this.props.conversationSettingsViewState === 'edit' ? 'CONFIRM' : 'CREATE' }
+            { this.props.conversationSettingsViewState === 'edit' ? 'CLOSE' : 'CREATE' }
           </div>
         </div>
       </div>

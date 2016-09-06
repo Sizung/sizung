@@ -13,7 +13,7 @@ class Attachment extends React.Component {
       label: 'Upload New',
       function: undefined,
     }, {
-      label: 'Sign Off',
+      label: 'Status',
       function: undefined,
     }];
   }

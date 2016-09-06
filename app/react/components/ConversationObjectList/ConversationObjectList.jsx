@@ -204,31 +204,12 @@ class ConversationObjectList extends Component {
                        createAgendaItem={createAgendaItem}
                        createDeliverable={createDeliverable}
         />);
-    } else if (conversationObject.type === 'agendaItems') {
-      const agendaItem = conversationObject;
-      return (
-        <AgendaItemInTimeline ref={unseenObjectMarkerRef} key={agendaItem.id} showOwner={showOwner}
-                                    showTimeStamp={showTimeStamp} currentUser={currentUser}
-                                    agendaItem={agendaItem} visitAgendaItem={visitAgendaItem}
-                                    archiveAgendaItem={archiveAgendaItem}
-                                    updateAgendaItem={updateAgendaItem}
-        />);
     } else if (conversationObject.type === 'attachments') {
       const attachment = conversationObject;
       return (
         <Attachment ref={unseenObjectMarkerRef} key={attachment.id} showOwner={showOwner}
                           archiveAttachment={archiveAttachment}
                           currentUser={currentUser} showTimeStamp={showTimeStamp} attachment={attachment}
-        />);
-    } else if (conversationObject.type === 'deliverables' && commentForm.parent.type !== 'agendaItems') {
-      const deliverable = conversationObject;
-      return (
-        <DeliverableInTimeline ref={unseenObjectMarkerRef} key={deliverable.id} showOwner={showOwner}
-                                     showTimeStamp={showTimeStamp} currentUser={currentUser}
-                                     deliverable={deliverable}
-                                     visitDeliverable={visitDeliverable}
-                                     archiveDeliverable={archiveDeliverable}
-                                     updateDeliverable={updateDeliverable}
         />);
     }
     return undefined;
