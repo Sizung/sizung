@@ -16,7 +16,7 @@ const agendaItemLabel = (organization) => {
 
 const deliverableLabel = (organization) => {
   if (organization) {
-    return 'ACTION';
+    return 'REVIEW';
   }
   return '';
 };

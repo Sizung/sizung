@@ -220,7 +220,7 @@ class ConversationObjectList extends Component {
                           archiveAttachment={archiveAttachment}
                           currentUser={currentUser} showTimeStamp={showTimeStamp} attachment={attachment}
         />);
-    } else if (conversationObject.type === 'deliverables') {
+    } else if (conversationObject.type === 'deliverables' && commentForm.parent.type !== 'agendaItems') {
       const deliverable = conversationObject;
       return (
         <DeliverableInTimeline ref={unseenObjectMarkerRef} key={deliverable.id} showOwner={showOwner}
