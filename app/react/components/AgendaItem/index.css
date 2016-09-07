@@ -35,14 +35,6 @@
   composes: seen;
 }
 
-.resolved .leftStrip {
-  float: left;
-  width: 0.768rem;
-  min-height: 10.5rem;
-  background-color: transparent;
-}
-
-
 .leftStrip {
   float: left;
   width: 0.768rem;

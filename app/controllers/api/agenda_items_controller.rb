@@ -9,7 +9,7 @@ module Api
     include Swagger::Blocks
 
     swagger_path '/conversations/{conversation_id}/agenda_items' do
-      operation :post, security: [bearer: []] do
+      operation :get, security: [bearer: []] do
         key :summary, 'List Agenda Items'
         key :tags, ['agenda_item', 'conversation']
 
@@ -54,7 +54,7 @@ module Api
     end
 
     def show
-      @agenda_item = AgendaItem.unscoped.includes({ deliverables: [:owner, :assignee, :comments] }, :owner, :comments).find(params[:id])
+      @agenda_item = AgendaItem.unscoped.includes({ deliverables: [:owner, :assignee, :parent] }, :owner).find(params[:id])
       authorize @agenda_item, :show_including_archived?
       render json: @agenda_item, include: %w(deliverables)
     end
@@ -106,12 +106,7 @@ module Api
       @agenda_item.owner = current_user unless @agenda_item.owner
 
       if @agenda_item.save
-        MentionedJob.perform_later(@agenda_item, current_user, agenda_item_url(id: @agenda_item.id))
-        AgendaItemRelayJob.perform_later(agenda_item: @agenda_item, actor_id: current_user.id, action: 'create')
-        UnseenService.new.handle_with(@agenda_item, current_user)
-        if @agenda_item.owner != current_user
-          Notifications.agenda_item_assigned(@agenda_item, current_user).deliver_later
-        end
+        AgendaItemCreatedJob.perform_later(@agenda_item, current_user)
         render json: @agenda_item, serializer: AgendaItemSerializer
       else
         render json: @agenda_item, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer
@@ -149,14 +144,12 @@ module Api
     end
 
     def update
-      old_body  = @agenda_item.title
       old_owner = @agenda_item.owner
       
       if @agenda_item.toggle_archive(params[:agenda_item][:archived]) || @agenda_item.update(agenda_item_params)
-        MentionedJob.perform_later(@agenda_item, current_user, agenda_item_url(id: @agenda_item.id), old_body)
         AgendaItemRelayJob.perform_later(agenda_item: @agenda_item, actor_id: current_user.id, action: 'update')
-        if @agenda_item.owner != old_owner && @agenda_item.owner != current_user
-          Notifications.agenda_item_assigned(@agenda_item, current_user).deliver_later
+        if @agenda_item.owner != old_owner
+          AgendaItemReassignedJob.perform_later(@agenda_item, old_owner, current_user)
         end
         
         render json: @agenda_item

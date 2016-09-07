@@ -20,27 +20,29 @@ import * as AttachmentActions from '../actions/attachments';
 import * as labels from '../utils/entityLabels';
 
 class ConversationApp extends React.Component {
-  componentDidMount() {
-    this.fetchData();
-  }
+   componentDidMount() {
+     this.fetchData(this.props);
+   }
 
-  componentDidUpdate(prevProps) {
-    if (this.props.params.conversationId !== prevProps.params.conversationId) {
-      this.fetchData();
-    }
-  }
+   componentWillReceiveProps(properties) {
+     if (this.props.params.conversationId !== properties.params.conversationId) {
+       this.fetchData(properties);
+     }
+   }
 
-  fetchData = () => {
-    const { conversationId } = this.props.params;
-    this.props.selectConversation(conversationId);
-  };
+   fetchData = (properties) => {
+     const { conversationId } = properties.params;
+     properties.fetchConversation(conversationId);
+   };
 
   render() {
     const { conversationObjects, commentForm, labels } = this.props;
     const { parent } = commentForm;
+    const parentConversationId = conversationObjects && conversationObjects.length > 0 ? conversationObjects[0].conversationId || conversationObjects[0].commentableId : undefined;
 
     if (parent) {
-      if (conversationObjects) {
+      if (conversationObjects && this.props.params.conversationId === this.props.currentConversation.id
+      && (!parentConversationId || parentConversationId === this.props.params.conversationId)) {
         return (
           <ConversationLayoutApp conversationId={parent.id} currentTimeline={'conversation'} labels={labels}>
             <ConversationObjectList {...this.props} />
@@ -91,6 +93,8 @@ function mapStateToProps(state, props) {
     conversationSettingsViewState,
     navigationHistory: selectors.navigationHistory(state),
     labels: labels.organizationObjectsLabels(state),
+    deliverables: selectors.deliverablesForConversation(state, props.params.conversationId),
+    agendaItems: selectors.agendaItemsList(state, props.params.conversationId),
   };
 }
 

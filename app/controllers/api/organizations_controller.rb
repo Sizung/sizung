@@ -56,7 +56,9 @@ module Api
         end
       end
     end
-    
+
+    # TODO: Add filters so that the frontend can decide to only get a minimal set of data
+    #       At the moment we are sending way to much stuff down the wire.
     # GET /organizations/1.json
     def show
       # TODO: Remove that workaround when we switch to the final ActionCable release and can use connection-tokens
@@ -67,7 +69,9 @@ module Api
       authorize @organization
       current_user.update last_visited_organization: @organization
 
-      @conversations = policy_scope(Conversation).where(organization: @organization).includes(:agenda_items, :deliverables, :conversation_members, :organization)
+      @conversations = policy_scope(Conversation)
+                       .where(organization: @organization)
+                       .includes(:agenda_items, :deliverables, :agenda_item_deliverables, :conversation_members, :members, :organization)
       @agenda_items = AgendaItem.where(conversation: @conversations).includes(:deliverables, :conversation, :owner)
       @deliverables = Deliverable.where(parent_id: @agenda_items).includes(:parent, :owner, :assignee)
       @conversation_deliverables = Deliverable.where(parent_id: @conversations).includes(:parent, :owner, :assignee)
@@ -124,8 +128,8 @@ module Api
     end
     
     def create
-      @organization = Organization.new(organization_params)
-      @organization.owner = current_user
+      @organization = current_user.organizations.create(organization_params.merge(owner: current_user))
+      
       authorize @organization
       if @organization.save
         render json: @organization, serializer: OrganizationSerializer

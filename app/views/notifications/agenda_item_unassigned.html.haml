@@ -1,0 +1,10 @@
+%p
+  = "Hi #{@old_owner.first_name}, "
+%p
+  = "#{@actor.name} unassigned you from a priority: #{@agenda_item.title}"
+  %br
+  %br
+%p
+  = link_to 'Reply', @target_url, class: 'actionLink'
+%br
+%p

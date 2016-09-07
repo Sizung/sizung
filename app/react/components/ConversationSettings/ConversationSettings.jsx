@@ -201,11 +201,10 @@ class ConversationSettings extends React.Component {
           });
         });
         this.props.updateConversation(this.props.currentConversation.id, conversationJson);
+        this.handleCloseView();
       } else if (conversationSettingsViewState === 'create') {
         this.props.createConversation(conversationJson);
       }
-
-      this.handleCloseView();
     } else {
       alert('Conversation title cannot be blank');
     }

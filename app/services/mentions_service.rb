@@ -25,10 +25,9 @@ class MentionsService
     end
   end
 
-  def send_mails(mentionable, actor, url, old_mentionable_body = nil)
-    extract_users(raw_body(mentionable), old_mentionable_body).each do |user|
-      NotificationService.new.notify(user, display_body(mentionable), url)
-      Notifications.mentioned(user, mentionable, actor, url).deliver_later
+  def send_mails(comment, actor, url, old_comment_body = nil)
+    extract_users(raw_body(comment), old_comment_body).each do |user|
+      NotificationService.new.mentioned(user, comment)
     end
   end
 end

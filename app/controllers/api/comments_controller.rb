@@ -52,10 +52,7 @@ module Api
       authorize @comment
       @comment.author = current_user
       if @comment.save
-        MentionedJob.perform_later(@comment, current_user, url_for(@comment.commentable))
-        payload = ActiveModelSerializers::SerializableResource.new(@comment).serializable_hash.to_json
-        CommentRelayJob.perform_later(payload: payload, commentable_id: @comment.commentable_id, commentable_type: @comment.commentable_type, actor_id: current_user.id, action: 'create')
-        UnseenService.new.handle_with(@comment, current_user)
+        CommentCreatedJob.perform_later(@comment)
         render json: @comment, serializer: CommentSerializer
       else
         render json: @comment, status: 422, serializer: ActiveModel::Serializer::ErrorSerializer

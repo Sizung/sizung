@@ -14,7 +14,9 @@ const updateDeliverable = (id, changedFields) => {
         entity: deliverable,
       });
       if (changedFields.archived) {
-        dispatch(routeActions.push('/' + transform.reverseTransformTypeFromJsonApi(deliverable.parentType) +  '/' + deliverable.parentId));
+        dispatch(routeActions.push(
+          '/' + transform.reverseTransformTypeFromJsonApi(deliverable.parentType) +  '/' + deliverable.parentId
+        ));
       }
     });
   };
@@ -34,6 +36,14 @@ const archiveDeliverable = (id) => {
     return updateDeliverable(id, { archived: true });
   }
   return null;
+};
+
+const deleteDeliverables = (deliverables) => {
+  return {
+    type: constants.DELETE_ALL_DELIVERABLES,
+    status: constants.STATUS_SUCCESS,
+    deliverables,
+  };
 };
 
 const fetchDeliverable = (deliverableId) => {
@@ -109,4 +119,5 @@ export {
   updateDeliverable,
   createDeliverableRemoteOrigin,
   updateDeliverableRemoteOrigin,
+  deleteDeliverables,
 };

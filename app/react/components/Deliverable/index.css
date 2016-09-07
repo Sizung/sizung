@@ -61,20 +61,17 @@
 .actionIconContainer {
   display: flex;
   flex: none;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 
 .actionContainer {
+  white-space: nowrap;
   display: flex;
   flex-direction: row;
-  /*justify-content: flex-start;*/
   align-items: center;
-  margin-left: 35px;
-  overflow: hidden;
+  margin-left: 10px;
   font-size: 1.438rem;
   font-family: Gotham-Medium;
-  /*cursor: pointer;*/
-
 }
 
 .archiveActionContainer {
@@ -89,7 +86,8 @@
   flex-direction: row;
   justify-content: flex-start;
   cursor: pointer;
-  margin-right: 20px;
+  margin-right: 10px;
+  align-items: center;
 }
 
 .contextTitleContainer {
@@ -111,6 +109,10 @@
   margin-top: 2em;
   padding: 0px 20px;
   margin-bottom: 1.87em;
+}
+
+.bottomRowLeft {
+  display: flex;
 }
 
 .dueDateContainer {

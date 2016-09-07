@@ -1,11 +1,12 @@
 class UnseenObjectSerializer < ActiveModel::Serializer
-  attributes :id, :created_at, :updated_at
+  attributes :id, :subscribed, :created_at, :updated_at
   belongs_to :organization
   belongs_to :conversation
   belongs_to :agenda_item
   belongs_to :deliverable
   belongs_to :target
   belongs_to :user
+  belongs_to :timeline
 
   include Swagger::Blocks
 
@@ -14,6 +15,7 @@ class UnseenObjectSerializer < ActiveModel::Serializer
 
     property :id, type: :string
     property :type, type: :string, enum: ['unseen_objects']
+    property :subscribed, type: :boolean
     property :attributes, type: :object, required: [:created_at, :updated_at] do
       property :created_at, type: :string, format: 'date-time'
       property :updated_at, type: :string, format: 'date-time'
@@ -24,7 +26,11 @@ class UnseenObjectSerializer < ActiveModel::Serializer
       property :agenda_item, '$ref': :reference_AgendaItem
       property :conversation, '$ref': :reference_Conversation
       property :organization, '$ref': :reference_Organization
-      
+
+      property :timeline do
+        property :id, type: :string
+        property :type, type: :string, enum: ['conversations', 'agenda_items', 'deliverables']
+      end
       property :target do
         property :id, type: :string
         property :type, type: :string, enum: ['conversations', 'agenda_items', 'deliverables', 'comments', 'attachments']

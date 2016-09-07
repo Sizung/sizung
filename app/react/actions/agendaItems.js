@@ -23,24 +23,29 @@ const updateAgendaItem = (id, changedFields) => {
   return (dispatch) => {
     api.putJson('/api/agenda_items/' + id, { agenda_item: changedFields }, (json) => {
       const agendaItem = transform.transformObjectFromJsonApi(json.data);
+      if (changedFields.archived) {
+        dispatch(routeActions.push('/conversations/' + agendaItem.conversationId));
+      }
       dispatch({
         type: constants.UPDATE_AGENDA_ITEM,
         status: constants.STATUS_SUCCESS,
         agendaItem,
         entity: agendaItem,
       });
-      if (changedFields.archived) {
-        dispatch(routeActions.push('/conversations/' + agendaItem.conversationId));
-      }
     });
   };
 };
 
 const archiveAgendaItem = (id) => {
-  if (confirm("Are you sure you want to archive this Agenda Item?")) {
-    return updateAgendaItem(id, { archived: true });
-  }
-  return null;
+  return updateAgendaItem(id, { archived: true });
+};
+
+const deleteAgendaItems = (agendaItems) => {
+  return {
+    type: constants.DELETE_ALL_AGENDA_ITEMS,
+    status: constants.STATUS_SUCCESS,
+    agendaItems,
+  };
 };
 
 const fetchAgendaItem = (agendaItemId, dispatch) => {
@@ -120,4 +125,5 @@ export {
   selectAgendaItem,
   visitAgendaItem,
   archiveAgendaItem,
+  deleteAgendaItems,
 };

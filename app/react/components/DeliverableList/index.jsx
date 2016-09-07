@@ -34,7 +34,7 @@ class DeliverableList extends Component {
         currentUser,
         } = this.props;
 
-    const filteredDeliverables = (this.state.filter === 'my' ? deliverables.filter((deliverable) => { return (deliverable.ownerId === currentUser.id || deliverable.assigneeId === currentUser.id); }) : deliverables);
+    const filteredDeliverables = (this.state.filter === 'my' ? deliverables.filter((deliverable) => { return (deliverable.assigneeId === currentUser.id); }) : deliverables);
     //const filteredDeliverables = deliverables;
     return (filteredDeliverables.map((deliverable) => {
       return (

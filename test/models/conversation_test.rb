@@ -50,4 +50,12 @@ describe Deliverable do
       conversation.destroy
     }.must_change 'UnseenObject.count', -1
   end
+
+  it 'has subscribers' do
+    conversation  = FactoryGirl.create :conversation
+    user          = FactoryGirl.create :user
+    timeline_user = FactoryGirl.create :timeline_user, timeline: conversation, user: user, subscription_level: TimelineUser::SUBSCRIPTION_LEVEL_TIMELINE
+
+    expect(conversation.subscribers.first).must_equal user
+  end
 end

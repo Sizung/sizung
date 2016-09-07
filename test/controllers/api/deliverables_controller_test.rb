@@ -47,13 +47,27 @@ describe Api::DeliverablesController do
     end
 
     it 'archive deliverable' do
-      patch :update, id: @deliverable.id, deliverable: { archived: true }
+      perform_enqueued_jobs do
+        patch :update, id: @deliverable.id, deliverable: { archived: true }
+      end
 
       assert_response :success
       expect(@deliverable.reload).must_be :paranoia_destroyed?
 
       deliverable = JSON.parse(response.body)
       assert_equal true, deliverable['data']['attributes']['archived']
+    end
+
+    it 'resolves a deliverable' do
+      perform_enqueued_jobs do
+        patch :update, id: @deliverable.id, deliverable: { status: 'resolved' }
+      end
+
+      assert_response :success
+      expect(@deliverable.reload).must_be :resolved?
+
+      deliverable = JSON.parse(response.body)
+      assert_equal 'resolved', deliverable['data']['attributes']['status']
     end
 
     it 'should freeze archived deliverables' do
@@ -65,32 +79,17 @@ describe Api::DeliverablesController do
 
     it 'removes the unseen objects when a deliverable gets archived' do
       conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
-      post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
 
+      perform_enqueued_jobs do
+        post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
+      end
+      
       expect(conversation_member.member.unseen_objects.count).must_equal 1
 
       deliverable = Deliverable.find(JSON.parse(response.body)['data']['id'])
       patch :update, id: deliverable.id, deliverable: { archived: true }
 
       expect(conversation_member.member.reload.unseen_objects.count).must_equal 0
-    end
-
-    it 'handles unseen objects when a deliverable gets moved to another agenda item' do
-      clear_enqueued_jobs
-      conversation_member = FactoryGirl.create :conversation_member, conversation: @agenda_item.conversation
-      other_agenda_item = FactoryGirl.create :agenda_item, conversation: @agenda_item.conversation
-
-      post :create, deliverable: { title: 'Another big thing', parent_id: @agenda_item.id }, format: :json
-
-      expect(conversation_member.member.unseen_objects.count).must_equal 1
-      expect(conversation_member.member.unseen_objects.first.agenda_item_id).must_equal @agenda_item.id
-
-      deliverable = Deliverable.find(JSON.parse(response.body)['data']['id'])
-      perform_enqueued_jobs do
-        patch :update, id: deliverable.id, deliverable: { parent_id: other_agenda_item.id }
-      end
-      expect(conversation_member.member.unseen_objects.reload.count).must_equal 1
-      expect(conversation_member.member.unseen_objects.reload.first.agenda_item_id).must_equal other_agenda_item.id
     end
 
     it 'shows an archived deliverable' do
@@ -115,6 +114,24 @@ describe Api::DeliverablesController do
       value(mail.subject).must_match "#{@current_user.first_name} assigned an action to you"
     end
 
+    it 'sends an email notification when a deliverable gets reassigned' do
+      old_assignee = FactoryGirl.create(:conversation_member, conversation: @conversation).member
+      new_assignee = FactoryGirl.create(:conversation_member, conversation: @conversation).member
+      deliverable  = FactoryGirl.create(:deliverable, parent: @conversation, assignee: old_assignee)
+
+      perform_enqueued_jobs do
+        post :update, id: deliverable.id, deliverable: { assignee_id: new_assignee.id }
+      end
+      
+      assert_response :success
+      expect(old_assignee.assigned_deliverables.count).must_equal 0
+      expect(new_assignee.assigned_deliverables.count).must_equal 1
+
+      mail = open_email(new_assignee.email)
+      expect(mail).must_be :present?
+      value(mail.subject).must_match "#{@current_user.first_name} assigned an action to you"
+    end
+    
     it 'only notifies when assigned to someone else' do
       perform_enqueued_jobs do
         post :create, deliverable: { title: 'Something to do', parent_id: @conversation.id, parent_type: 'Conversation', assignee_id: @current_user.id }
