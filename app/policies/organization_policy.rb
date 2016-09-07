@@ -4,7 +4,7 @@ class OrganizationPolicy < ApplicationPolicy
   end
 
   def update?
-    true
+    user.organizations.exists?(record.id)
   end
 
   def destroy?
