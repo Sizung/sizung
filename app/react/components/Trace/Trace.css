@@ -11,12 +11,11 @@
 }
 
 .container {
-  position: absolute;
-  top: 10px;
-  bottom: 10px;
-  left: 10px;
-  right: 10px;
-  background-color: white;
+  position: relative;
+  /*top: 10px;*/
+  /*bottom: 10px;*/
+  /*left: 10px;*/
+  /*right: 10px;*/
   overflow: auto;
   z-index: 1000;
 }
@@ -28,6 +27,7 @@
 .traceIcon {
   composes: fa fa-anchor from global;
   color: white;
+  cursor: pointer;
 }
 
 .closeIcon {
@@ -35,11 +35,12 @@
   position: absolute;
   top: 20px;
   right: 20px;
-  color: black;
+  color: white;
   z-index: 1000;
 }
 
 .content {
+  padding: 10px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -47,12 +48,13 @@
   justify-content: center;
   width: 100%;
   height: 100%;
+  overflow: auto;
   /*top: 10px;*/
   /*bottom: 10px;*/
   /*left: 10px;*/
   /*right: 10px;*/
   justify-content: center;
-  background-color: whitesmoke;
+  /*background-color: rgba(0,0,0,0.1);*/
 }
 .row {
   display: flex;
@@ -64,7 +66,7 @@
 
 .arrow {
   composes: fa fa-arrow-up from global;
-  color: black;
+  color: white;
   margin: 10px 0px;
 }
 

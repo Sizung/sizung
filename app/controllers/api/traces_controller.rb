@@ -21,9 +21,9 @@ module Api
       # puts "Trace Object: #{@trace_object}"
       trace_array = []
       current_trace_object = @trace_object
-      puts "Current Trace Object #{current_trace_object}"
+      # puts "Current Trace Object #{current_trace_object}"
       while current_trace_object.class.name != 'Organization' do
-        puts "Current object : #{current_trace_object.title || current_trace_object.name}"
+        # puts "Current object : #{current_trace_object.title || current_trace_object.name}"
         case current_trace_object.class.name
           when 'Conversation'
             # trace_array.push('( Conversation: ' + current_trace_object.organization.name + '>' + current_trace_object.title + ' )')
