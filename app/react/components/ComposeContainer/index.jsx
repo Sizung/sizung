@@ -22,16 +22,27 @@ class ComposeContainer extends React.Component {
     scrollListToBottom: PropTypes.func,
     entityId: PropTypes.string,
     conversations: PropTypes.object,
+    mode: PropTypes.string.isRequired,
+    setComposerState: PropTypes.func.isRequired,
+    defaultValue: PropTypes.string.isRequired,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
-      value: '',
+      value: props.defaultValue ? props.defaultValue : '',
       composerType: 'comment',
       newObjects: 0,
     };
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.mode === 'ship') {
+      this.setState({ value: props.defaultValue });
+    } else if (props.mode !== 'ship' && this.props.mode === 'ship') {
+      this.setState({ value: '' });
+    }
   }
 
   handleSelect = (composerType, value) => {
@@ -48,28 +59,30 @@ class ComposeContainer extends React.Component {
 
   renderComposer(composerType) {
     const { currentUser, parent, createComment, createAgendaItem, createDeliverable, createAttachment, entityId, labels } = this.props;
-
+    console.log('defaultValue: ' + this.props.defaultValue);
     switch (composerType) {
       case 'agendaItem':
         return <AgendaItemComposer parent={parent}
                                    createAgendaItem={createAgendaItem}
                                    onClose={this.handleClose}
-                                   defaultValue={this.state.value}
+                                   defaultValue={this.props.mode === 'ship' ? this.props.defaultValue : this.state.value}
                                    createAttachment={createAttachment}
                                    setComposerValue={this.setValue}
                                    labels={labels}
                                    conversations={this.props.conversations}
+                                   mode={this.props.mode}
                />;
       case 'deliverable':
         return <DeliverableComposer parent={parent}
                                     createDeliverable={createDeliverable}
                                     onClose={this.handleClose}
                                     currentUser={currentUser}
-                                    defaultValue={this.state.value}
+                                    defaultValue={this.props.mode === 'ship' ? this.props.defaultValue : this.state.value}
                                     createAttachment={createAttachment}
                                     setComposerValue={this.setValue}
                                     labels={labels}
                                     conversations={this.props.conversations}
+                                    mode={this.props.mode}
                />;
       case 'comment':
       default:
@@ -78,10 +91,13 @@ class ComposeContainer extends React.Component {
                                 createComment={createComment}
                                 onSelect={this.handleSelect}
                                 currentUser={currentUser}
-                                defaultValue={this.state.value}
                                 createAttachment={createAttachment}
                                 scrollListToBottom={this.props.scrollListToBottom}
                                 labels={labels}
+                                defaultValue={this.props.mode === 'ship' ? this.props.defaultValue : this.state.value}
+                                mode={this.props.mode}
+                                setComposerState={this.props.setComposerState}
+                                resetComposerState={this.props.resetComposerState}
                />;
     }
   }
@@ -102,6 +118,7 @@ class ComposeContainer extends React.Component {
   };
 
   render() {
+    console.log('Compose Container value: ' + this.state.value + ', mode: ' + this.props.mode);
     return (
       <div className={styles.wrapper}>
         {this.renderNewObjectsMarker()}

@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import DeliverableList from '../components/DeliverableList/index';
 import * as DeliverableListActions from '../actions/deliverables';
+import * as ComposerUiActions from '../actions/composerUi';
 import * as selectors from '../utils/selectors';
 
 function mapStateToProps(state, props) {
@@ -24,7 +25,7 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators(DeliverableListActions, dispatch);
+  return bindActionCreators({ ...ComposerUiActions, ...DeliverableListActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeliverableList);

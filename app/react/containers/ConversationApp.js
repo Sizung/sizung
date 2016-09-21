@@ -16,6 +16,7 @@ import ConversationLayoutApp from './ConversationLayoutApp';
 import ConversationObjectList from '../components/ConversationObjectList';
 import { fillConversation } from '../utils/entityUtils';
 import * as ConversationUiActions from '../actions/conversationUi';
+import * as ComposerUiActions from '../actions/composerUi';
 import * as AttachmentActions from '../actions/attachments';
 import * as labels from '../utils/entityLabels';
 
@@ -81,6 +82,7 @@ function nextPageUrl(state, props) {
 function mapStateToProps(state, props) {
   const conversationSettingsViewState = selectors.conversationSettingsViewState(state);
   const currentConversation = state.getIn(['currentConversation']).toJS();
+  const composerState = selectors.composerState(state);
   console.log('Conversations: ', state.toJS());
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
@@ -95,6 +97,7 @@ function mapStateToProps(state, props) {
     currentOrganizationId: currentConversation.organizationId,
     conversationMembers: selectors.conversationMembers(state),
     conversationSettingsViewState,
+    composerState,
     navigationHistory: selectors.navigationHistory(state),
     labels: labels.organizationObjectsLabels(state),
     deliverables: selectors.deliverablesForConversation(state, props.params.conversationId),
@@ -104,7 +107,7 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ConversationUiActions, ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
+  return bindActionCreators({ ...ComposerUiActions, ...ConversationUiActions, ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationApp);

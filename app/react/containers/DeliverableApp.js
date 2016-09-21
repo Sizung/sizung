@@ -11,6 +11,7 @@ import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
 import * as AttachmentActions from '../actions/attachments';
+import * as ComposerUiActions from '../actions/composerUi';
 import * as selectors from '../utils/selectors';
 import * as deliverableUtils from '../utils/deliverableUtils.js';
 
@@ -45,7 +46,7 @@ class DeliverableApp extends Component {
       const conversationId = deliverableUtils.getConversationIdFromParent(parent.parent);
 
       return (
-        <ConversationLayoutApp currentTimeline={'deliverable'} labels={labels} conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList currentTimeline={'deliverable'} deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } currentUser={commentForm.currentUser} labels={labels}/> }>
+        <ConversationLayoutApp currentTimeline={'deliverable'} labels={labels} conversationId={conversationId} selectedAgendaItemId={parent.parentId} selectedDeliverableId={parent.id} right={ <DeliverableList currentTimeline={'deliverable'} deliverables={ deliverables } selectedDeliverableId={deliverable ? deliverable.id : null} visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } archiveDeliverable={ archiveDeliverable } currentUser={commentForm.currentUser} labels={labels} setComposerState={this.props.setComposerState}/> }>
           <ConversationObjectList {...this.props} />
         </ConversationLayoutApp>
       );
@@ -86,6 +87,7 @@ function mapStateToProps(state, props) {
 
   const deliverableParent = deliverable ? deliverable.parent : null;
   const conversationSettingsViewState = selectors.conversationSettingsViewState(state);
+  const composerState = selectors.composerState(state);
   return {
     deliverable,
     deliverables,
@@ -100,14 +102,15 @@ function mapStateToProps(state, props) {
     currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
     conversationSettingsViewState,
+    composerState,
     navigationHistory: selectors.navigationHistory(state),
     labels: labels.organizationObjectsLabels(state),
-    conversations: selectors.conversationsForOrganization(state, selectors.currentConversation(state).organizationId),
+    conversations: selectors.currentConversation(state) ? selectors.conversationsForOrganization(state, selectors.currentConversation(state).organizationId) : undefined,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
+  return bindActionCreators({ ...ComposerUiActions, ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeliverableApp);

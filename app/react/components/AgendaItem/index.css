@@ -174,3 +174,10 @@
   justify-content: flex-end;
   margin-left: 10px;
 }
+
+.ship {
+  composes: fa fa-rocket from global;
+  padding: 10px;
+  z-index: 100;
+  cursor: pointer;
+}

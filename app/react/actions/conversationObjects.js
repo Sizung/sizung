@@ -1,6 +1,7 @@
 import * as api from '../utils/api';
 import * as constants from './constants';
 import * as transform from '../utils/jsonApiUtils';
+import * as ComposerUiActions from './composerUi';
 
 const fetchConversationObjectsInProgress = (parentReference) => {
   return {
@@ -28,6 +29,7 @@ const fetchConversationObjects = (type, id, url = null) => {
         links: json.links,
         entities: conversationObjects,
       });
+      dispatch(ComposerUiActions.resetComposerState());
     });
   };
 };

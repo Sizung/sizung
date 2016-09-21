@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import AgendaItemList from '../components/AgendaItemList/index';
 import * as AgendaItemListActions from '../actions/agendaItems';
+import * as ComposerUiActions from '../actions/composerUi';
 import Immutable from 'immutable';
 import * as selectors from '../utils/selectors';
 
@@ -16,7 +17,7 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...AgendaItemListActions }, dispatch);
+  return bindActionCreators({ ...ComposerUiActions, ...AgendaItemListActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AgendaItemList);

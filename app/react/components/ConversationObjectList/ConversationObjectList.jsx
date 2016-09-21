@@ -336,7 +336,7 @@ class ConversationObjectList extends Component {
       );
     }
 
-    console.log('~~~~~~ Parent: ', commentForm.parent);
+    console.log('Composer State:' +  this.props.composerState['mode'], this.props.composerState['title']);
     return (
         <div className={styles.listContainer}>
           <ConversationHeader conversation={this.props.currentConversation}
@@ -366,6 +366,10 @@ class ConversationObjectList extends Component {
                             labels={labels}
                             {...commentForm}
                             conversations={this.props.conversations}
+                            defaultValue={this.props.composerState.mode === 'ship' ? this.props.composerState.title : ''}
+                            mode={this.props.composerState.mode}
+                            setComposerState={this.props.setComposerState}
+                            resetComposerState={this.props.resetComposerState}
           />
         </div>
     );

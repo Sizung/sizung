@@ -19,6 +19,7 @@ class AgendaItemComposer extends React.Component {
     setComposerValue: PropTypes.func,
     labels: PropTypes.object.isRequired,
     conversations: PropTypes.object,
+    mode: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -33,6 +34,11 @@ class AgendaItemComposer extends React.Component {
     };
   }
 
+  componentWillReceiveProps(props) {
+    if (props.mode === 'ship') {
+      this.setState({ value: props.defaultValue });
+    }
+  }
   _setInputRef = (input) => {
     if (input) {
       this.inputRef = input;
@@ -78,6 +84,7 @@ class AgendaItemComposer extends React.Component {
   };
 
   render() {
+    console.log('Agenda Item Composer value: ' + this.state.value);
     const { value } = this.state;
     return (
       <div className={styles.root}>
@@ -119,7 +126,7 @@ class AgendaItemComposer extends React.Component {
             CANCEL
           </div>
           <div className={styles.actionButton} onClick={this.handleSubmit}>
-            CREATE
+            { this.props.mode === 'ship' ? 'SHIP' : 'CREATE' }
           </div>
         </div>
       </div>

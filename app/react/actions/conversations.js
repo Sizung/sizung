@@ -4,6 +4,7 @@ import * as transform from '../utils/jsonApiUtils';
 import * as constants from './constants';
 import { setCurrentOrganization } from './organizations';
 import * as ConversationUiActions from './conversationUi';
+import * as ComposerUiActions from './composerUi';
 import { deleteAgendaItems } from './agendaItems.js';
 import { deleteDeliverables } from './deliverables.js';
 
@@ -89,6 +90,7 @@ const fetchConversation = (conversationId) => {
       dispatch(setCurrentConversation(conversation, json.included.map(transform.transformObjectFromJsonApi), json));
       dispatch(setCurrentOrganization({ id: conversation.organizationId, type: 'organizations' }));
       dispatch(ConversationUiActions.resetConversationUi());
+      dispatch(ComposerUiActions.resetComposerState());
       fetchObjects(conversationId, dispatch);
     });
   };

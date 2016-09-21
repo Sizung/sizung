@@ -12,6 +12,7 @@ class DeliverableList extends Component {
     archiveDeliverable: PropTypes.func,
     currentTimeline: PropTypes.string,
     currentUser: PropTypes.object.isRequired,
+    setComposerState: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -46,6 +47,7 @@ class DeliverableList extends Component {
               updateDeliverable={updateDeliverable}
               archiveDeliverable={archiveDeliverable}
               currentTimeline={this.props.currentTimeline}
+              setComposerState={this.props.setComposerState}
               />);
     }));
   };

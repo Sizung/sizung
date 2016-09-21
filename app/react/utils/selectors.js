@@ -283,6 +283,10 @@ const navigationHistory = (state) => {
   return state.getIn(['navigationHistory']);
 };
 
+const composerState = (state) => {
+  return state.getIn(['composerUi']).toJS();
+};
+
 export {
   user,
   users,
@@ -306,4 +310,5 @@ export {
   conversation,
   conversationSettingsViewState,
   navigationHistory,
+  composerState,
 };

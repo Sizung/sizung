@@ -22,6 +22,7 @@ class DeliverableComposer extends React.Component {
     defaultValue: PropTypes.string,
     setComposerValue: PropTypes.func,
     labels: PropTypes.object.isRequired,
+    mode: PropTypes.string.isRequired,
   };
 
   static defaultProps = {
@@ -36,6 +37,12 @@ class DeliverableComposer extends React.Component {
       dueOn: null,
       parent: props.parent,
     };
+  }
+
+  componentWillReceiveProps(props) {
+    if (props.mode === 'ship') {
+      this.setState({ value: props.defaultValue });
+    }
   }
 
   getType = (type) => {
@@ -180,7 +187,7 @@ class DeliverableComposer extends React.Component {
             CANCEL
           </div>
           <div className={styles.actionButton} onClick={this.handleSubmit}>
-            CREATE
+            { this.props.mode === 'ship' ? 'SHIP' : 'CREATE' }
           </div>
         </div>
       </div>

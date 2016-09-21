@@ -15,6 +15,7 @@ import deliverablesByOrganization from './deliverablesByOrganization';
 import deliverablesByAgendaItem from './deliverablesByAgendaItem';
 import deliverablesByConversation from './deliverablesByConversation';
 import conversationUi from './conversationUi';
+import composerUi from './composerUi';
 import { syncReduxAndRouter, routeReducer } from 'redux-simple-router';
 import entitiesReducer from './entitiesReducer';
 import navigationHistory from './navigationHistoryReducer';
@@ -36,6 +37,7 @@ const rootReducer = combineReducers({
   deliverablesByConversation,
   conversationMembersByConversation,
   conversationUi,
+  composerUi,
   navigationHistory,
 });
 

@@ -2,6 +2,7 @@ import * as constants from './constants';
 import * as transform from '../utils/jsonApiUtils';
 import * as api from '../utils/api';
 import * as ConversationUiActions from './conversationUi';
+import * as ComposerUiActions from './composerUi';
 
 const setCurrentUser = (currentUserReference) => {
   return (dispatch) => {
@@ -11,6 +12,7 @@ const setCurrentUser = (currentUserReference) => {
       currentUser: currentUserReference,
     });
     dispatch(ConversationUiActions.resetConversationUi());
+    dispatch(ComposerUiActions.resetComposerState());
   };
 };
 

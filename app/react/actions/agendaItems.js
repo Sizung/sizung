@@ -9,6 +9,7 @@ import { routeActions } from 'redux-simple-router';
 import * as constants from './constants';
 import * as transform from '../utils/jsonApiUtils';
 import * as api from '../utils/api';
+import * as ComposerUiActions from './composerUi';
 
 const updateAgendaItemRemoteOrigin = (agendaItem) => {
   return {
@@ -83,6 +84,7 @@ const fetchObjects = (agendaItemId, dispatch) => {
 const visitAgendaItem = (agendaItemId) => {
   return (dispatch) => {
     dispatch(routeActions.push('/agenda_items/' + agendaItemId));
+    dispatch(ComposerUiActions.resetComposerState());
   };
 };
 

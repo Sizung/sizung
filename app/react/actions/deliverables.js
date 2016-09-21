@@ -2,6 +2,7 @@ import { routeActions } from 'redux-simple-router';
 import * as constants from './constants';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
+import * as ComposerUiActions from './composerUi';
 
 const updateDeliverable = (id, changedFields) => {
   return (dispatch) => {
@@ -93,6 +94,7 @@ const createDeliverableRemoteOrigin = (deliverable) => {
 const visitDeliverable = (deliverableId) => {
   return (dispatch) => {
     dispatch(routeActions.push('/deliverables/' + deliverableId));
+    dispatch(ComposerUiActions.resetComposerState());
   };
 };
 

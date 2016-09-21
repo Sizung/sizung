@@ -103,6 +103,12 @@ class Deliverable extends React.Component {
     );
   };
 
+  openComposerForShipping = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.setComposerState({ mode: 'ship', title: this.props.deliverable.title });
+  };
+
   renderActions = () => {
     const { deliverable, selected } = this.props;
     if (selected && !deliverable.archived) {
@@ -111,6 +117,7 @@ class Deliverable extends React.Component {
             {(deliverable.status === 'open' ? this.renderResolveAction() : false)}
             {this.renderArchiveAction()}
             <Trace type={'Deliverable'} id={deliverable.id} organization={this.props.deliverable.parent.organization}/>
+            <div className={styles.ship} onClick={this.openComposerForShipping}></div>
           </div>
       );
     }
@@ -193,6 +200,7 @@ Deliverable.propTypes = {
   updateDeliverable: PropTypes.func,
   archiveDeliverable: PropTypes.func,
   currentTimeline: PropTypes.string,
+  setComposerState: PropTypes.func.isRequired,
 };
 
 export default Deliverable;

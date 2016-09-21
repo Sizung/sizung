@@ -9,6 +9,7 @@ class AgendaItemList extends Component {
     visitAgendaItem: PropTypes.func.isRequired,
     currentTimeline: PropTypes.string,
     labels: PropTypes.object.isRequired,
+    setComposerState: PropTypes.object.isRequired,
   };
 
   componentDidMount() {
@@ -54,6 +55,7 @@ class AgendaItemList extends Component {
                   visitAgendaItem={visitAgendaItem}
                   currentTimeline={this.props.currentTimeline}
                   archiveAgendaItem={archiveAgendaItem}
+                  setComposerState={this.props.setComposerState}
                 />);
             })
           }

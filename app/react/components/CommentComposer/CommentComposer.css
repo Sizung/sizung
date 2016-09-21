@@ -229,3 +229,10 @@ and (max-width: 768px) {
   width: 1.5rem;
   height: 0.75rem;
 }
+
+.label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 2rem;
+}

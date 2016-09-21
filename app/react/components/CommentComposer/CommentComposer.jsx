@@ -17,21 +17,28 @@ class CommentComposer extends React.Component {
     scrollListToBottom: PropTypes.func,
     entityId: PropTypes.string,
     labels: PropTypes.object.isRequired,
+    mode: PropTypes.string.isRequired,
+    setComposerState: PropTypes.func.isRequired,
+    resetComposerState: PropTypes.func.isRequired,
   };
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       editorContent: undefined,
       uploadStatus: '',
       uploadPercentage: 0,
-      open: false,
+      open: props.mode && props.mode === 'ship' ? true : false,
     };
 
     this.handleSubmit = (text) => {
       this.props.createComment({ commentable_id: this.props.parent.id, commentable_type: this.props.parent.type, body: text });
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({ open: (nextProps.mode === 'ship' && this.props.mode !== 'ship') });
   }
 
   onUploadProgress = (data) => {
@@ -69,6 +76,7 @@ class CommentComposer extends React.Component {
 
   handleClose = () => {
     this.setState({ open: false });
+    this.props.resetComposerState();
   };
 
   selectAgendaItem = () => {
@@ -150,11 +158,12 @@ class CommentComposer extends React.Component {
   };
 
   render() {
+    console.log('~~~~~~~~ Comment Composer default value: ' + this.props.defaultValue);
     return (
       <div className={styles.rootOpen}>
         { this.state.open ?
           <div className={styles.optionsRoot}>
-            {this.renderFileUploader()}
+            {this.props.mode === 'ship' ? <div className={styles.label}>SHIP AS</div> : this.renderFileUploader()}
             {this.renderAgendaItem()}
             {this.renderDeliverable()}
           </div> : undefined }

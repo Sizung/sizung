@@ -3,6 +3,7 @@ import * as constants from './constants';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
 import * as ConversationUiActions from './conversationUi.js';
+import * as ComposerUiActions from './composerUi';
 
 const setCurrentOrganization = (organization) => {
   return {
@@ -46,6 +47,7 @@ const fetchOrganization = (organizationId, dispatch) => {
     dispatch(fetchOrganizationSuccess(organization, included, conversations, agendaItems, deliverables, conversationDeliverables));
     dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
     dispatch(ConversationUiActions.resetConversationUi());
+    dispatch(ComposerUiActions.resetComposerState());
   });
 };
 

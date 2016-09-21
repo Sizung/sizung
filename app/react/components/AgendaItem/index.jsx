@@ -71,12 +71,19 @@ class AgendaItem extends React.Component {
     return null;
   };
 
+  openComposerForShipping = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.setComposerState({ mode: 'ship', title: this.props.agendaItem.title });
+  };
+
   renderBottomRow = () => {
     const { agendaItem, selected } = this.props;
     return (
       <div className={styles.actionContainer}>
         <div className={styles.actions}>
-          { this.isEditable() ? <Trace styles={{ marginRight: '20px' }} type={'AgendaItem'} id={this.props.agendaItem.id} organization={this.props.agendaItem.conversation.organization}/> : undefined }
+          { this.isEditable() && this.props.agendaItem.conversation ? <Trace styles={{ marginRight: '20px' }} type={'AgendaItem'} id={this.props.agendaItem.id} organization={this.props.agendaItem.conversation.organization}/> : undefined }
+          { this.isEditable() ? <div className={styles.ship} onClick={this.openComposerForShipping}></div> : undefined }
           { this.renderResolveAction() }
           { this.isEditable() ? this.renderArchiveAction() : this.parentContextTitle()}
         </div>
@@ -174,6 +181,7 @@ AgendaItem.propTypes = {
   visitAgendaItem: PropTypes.func.isRequired,
   archiveAgendaItem: PropTypes.func,
   currentTimeline: PropTypes.string,
+  setComposerState: PropTypes.func.isRequired,
 };
 
 export default AgendaItem;

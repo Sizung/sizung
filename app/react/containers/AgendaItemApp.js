@@ -10,6 +10,7 @@ import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
 import * as ConversationActions from '../actions/conversations';
+import * as ComposerUiActions from '../actions/composerUi';
 import * as AttachmentActions from '../actions/attachments';
 import * as selectors from '../utils/selectors';
 
@@ -69,6 +70,8 @@ function nextPageUrl(state, props) {
 function mapStateToProps(state, props) {
   const agendaItem = fillAgendaItem(state, props.params.agendaItemId);
   const conversationSettingsViewState = selectors.conversationSettingsViewState(state);
+  const composerState = selectors.composerState(state);
+  console.log('AgendaItemApp Current conversation: ', selectors.currentConversation(state));
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
@@ -81,14 +84,15 @@ function mapStateToProps(state, props) {
     currentConversation: selectors.currentConversation(state),
     conversationMembers: selectors.conversationMembers(state),
     conversationSettingsViewState,
+    composerState,
     navigationHistory: selectors.navigationHistory(state),
     labels: labels.organizationObjectsLabels(state),
-    conversations: selectors.conversationsForOrganization(state, selectors.currentConversation(state).organizationId),
+    conversations: selectors.currentConversation(state) ? selectors.conversationsForOrganization(state, selectors.currentConversation(state).organizationId) : undefined,
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...ConversationActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
+  return bindActionCreators({ ...ComposerUiActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...ConversationActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AgendaItemApp);

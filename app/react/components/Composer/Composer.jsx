@@ -76,6 +76,12 @@ class Composer extends React.Component {
     if (properties.mentions !== this.props.mentions) {
       this.setSuggestion(this.state.filterText, properties.mentions);
     }
+    const contentState = toContentState(properties.value);
+    const editorState = EditorState.createWithContent(contentState);
+
+    this.setState({
+      editorState,
+    });
   }
 
   // componentDidMount() {
