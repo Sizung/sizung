@@ -144,7 +144,7 @@
 }
 
 .ship {
-  composes: fa fa-rocket from global;
+  composes: fa fa-gift from global;
   padding: 10px;
   z-index: 100;
   cursor: pointer;
