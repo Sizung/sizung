@@ -27,7 +27,7 @@ class DeliverableComposer extends React.Component {
 
   static defaultProps = {
     defaultValue: '',
-  }
+  };
 
   constructor(props) {
     super(props);
@@ -36,6 +36,7 @@ class DeliverableComposer extends React.Component {
       assigneeId: null,
       dueOn: null,
       parent: props.parent,
+      parentSelected: false,
     };
   }
 
@@ -55,31 +56,48 @@ class DeliverableComposer extends React.Component {
         console.warn(`Type not supported here: ${type}`);
         throw `Type not supported here: ${type}`;
     }
-  }
+  };
+
+  isParentSelectionValid = () => {
+    return ((this.props.mode === 'ship' && this.state.parentSelected) || (this.props.mode === 'default'));
+  };
 
   handleSubmit = () => {
-    const { parent } = this.state;
-    const title = this.state.value.trim();
-    const { dueOn } = this.state;
-    const assigneeId = this.assigneeId();
-    let parentId = null;
-    let parentType = null;
-    if (parent.type === 'agendaItems' || parent.type === 'conversations') {
-      parentId = parent.id;
-      parentType = this.getType(parent.type);
-    } else if (parent.type === 'deliverables') {
-      parentId = parent.parent.id;
-      parentType = this.getType(parent.parent.type);
-    } else {
-      console.warn(`DeliverableComposer does not support parent of type: ${parent.type}`);
-      throw `DeliverableComposer does not support parent of type: ${parent.type}`;
-    }
+    if (this.isParentSelectionValid()) {
+      const { parent } = this.state;
+      const title = this.state.value.trim();
+      const { dueOn } = this.state;
+      const assigneeId = this.assigneeId();
+      let parentId = null;
+      let parentType = null;
+      if (parent.type === 'agendaItems' || parent.type === 'conversations') {
+        parentId = parent.id;
+        parentType = this.getType(parent.type);
+      } else if (parent.type === 'deliverables') {
+        parentId = parent.parent.id;
+        parentType = this.getType(parent.parent.type);
+      } else {
+        console.warn(`DeliverableComposer does not support parent of type: ${parent.type}`);
+        throw `DeliverableComposer does not support parent of type: ${parent.type}`;
+      }
 
-    if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
-    this.props.createDeliverable({ parent_id: parentId, parent_type: parentType, title, assignee_id: assigneeId, due_on: dueOn, source_timeline: this.props.parent });
-    this.setState({ value: '', assigneeId: null, dueOn: null });
-    this.props.setComposerValue('');
-    this.props.onClose();
+      if (title === '') {
+        return;
+      } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
+      this.props.createDeliverable({
+        parent_id: parentId,
+        parent_type: parentType,
+        title,
+        assignee_id: assigneeId,
+        due_on: dueOn,
+        source_timeline: this.props.parent
+      });
+      this.setState({value: '', assigneeId: null, dueOn: null});
+      this.props.setComposerValue('');
+      this.props.onClose();
+    } else {
+      alert('Please choose a Team');
+    }
   };
 
   handleKeyDown = (e) => {
@@ -116,10 +134,13 @@ class DeliverableComposer extends React.Component {
   };
 
   handleTeamChange = (id) => {
-    this.setState({ parent: {
-      id,
-      type: 'conversations',
-    } });
+    this.setState({
+      parent: {
+        id,
+        type: 'conversations',
+      },
+      parentSelected: true,
+    });
   };
 
   _setInputRef = (input) => {
@@ -176,10 +197,10 @@ class DeliverableComposer extends React.Component {
         </div>
         <div className={styles.inputRow}>
           <div className={styles.conversationLabel}>
-            {'TEAM :'}
+            { this.props.mode === 'ship' ? 'CHOOSE A TEAM' : 'TEAM' }
           </div>
           <div className={styles.conversationDropdownContainer}>
-            <ConversationsDropdownApp conversationId={deliverableUtils.getConversationIdFromParent(this.state.parent)} onUpdate={this.handleTeamChange} direction={'north'} conversations={this.props.conversations}/>
+            <ConversationsDropdownApp conversationId={ this.isParentSelectionValid() ? deliverableUtils.getConversationIdFrom(this.state.parent) : undefined } onUpdate={this.handleTeamChange} direction={'north'} conversations={this.props.conversations}/>
           </div>
         </div>
         <div className={styles.actionContainer}>

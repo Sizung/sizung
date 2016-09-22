@@ -31,6 +31,7 @@ class AgendaItemComposer extends React.Component {
     this.state = {
       value: props.defaultValue.substring(0, 40),
       parent: props.parent,
+      parentSelected: false,
     };
   }
 
@@ -46,20 +47,26 @@ class AgendaItemComposer extends React.Component {
     }
   }
 
-  handleSubmit = () => {
-    const { parent } = this.state;
-    const title = this.state.value.trim();
-    const conversationId = deliverableUtils.getConversationIdFrom(parent);
+  isParentSelectionValid = () => {
+    return ((this.props.mode === 'ship' && this.state.parentSelected) || (this.props.mode === 'default'));
+  };
 
-    if (title === '') { return; } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
-    //if (!id) {
-      this.props.createAgendaItem({ conversation_id: conversationId, title, source_timeline: this.props.parent });
-    //} else {
-    //  this.props.createAgendaItem({ conversation_id: id, title });
-    //}
-    this.setState({ value: '' });
-    this.props.setComposerValue('');
-    this.props.onClose();
+  handleSubmit = () => {
+    if (this.isParentSelectionValid()) {
+      const { parent } = this.state;
+      const title = this.state.value.trim();
+      const conversationId = deliverableUtils.getConversationIdFrom(parent);
+
+      if (title === '') {
+        return;
+      } // TODO: Improve that quickfix when the whole new ui behavior gets implemented
+      this.props.createAgendaItem({conversation_id: conversationId, title, source_timeline: this.props.parent});
+      this.setState({value: ''});
+      this.props.setComposerValue('');
+      this.props.onClose();
+    } else {
+      alert('Please choose a Team');
+    }
   };
 
   handleKeyDown = (e) => {
@@ -76,11 +83,14 @@ class AgendaItemComposer extends React.Component {
   };
 
   handleTeamChange = (id) => {
-    this.setState({ parent: {
-      id,
-      type: 'conversations',
-      conversationId: id,
-    } });
+    this.setState({
+      parent: {
+        id,
+        type: 'conversations',
+        conversationId: id,
+      },
+      parentSelected: true,
+    });
   };
 
   render() {
@@ -115,10 +125,10 @@ class AgendaItemComposer extends React.Component {
         </div>
         <div className={styles.inputRow}>
           <div className={styles.conversationLabel}>
-            {'TEAM :'}
+            { this.props.mode === 'ship' ? 'CHOOSE A TEAM' : 'TEAM' }
           </div>
           <div className={styles.conversationDropdownContainer}>
-            <ConversationsDropdownApp conversationId={deliverableUtils.getConversationIdFrom(this.state.parent)} onUpdate={this.handleTeamChange} direction={'north'} conversations={this.props.conversations}/>
+            <ConversationsDropdownApp conversationId={ this.isParentSelectionValid() ? deliverableUtils.getConversationIdFrom(this.state.parent) : undefined } onUpdate={this.handleTeamChange} direction={'north'} conversations={this.props.conversations}/>
           </div>
         </div>
         <div className={styles.actionContainer}>

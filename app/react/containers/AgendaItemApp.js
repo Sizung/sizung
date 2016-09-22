@@ -71,7 +71,6 @@ function mapStateToProps(state, props) {
   const agendaItem = fillAgendaItem(state, props.params.agendaItemId);
   const conversationSettingsViewState = selectors.conversationSettingsViewState(state);
   const composerState = selectors.composerState(state);
-  console.log('AgendaItemApp Current conversation: ', selectors.currentConversation(state));
   return {
     conversationObjects: selectors.conversationObjects(state, objectsToShow(state, props)),
     commentForm: {
@@ -81,7 +80,8 @@ function mapStateToProps(state, props) {
     isFetching: isFetching(state, props),
     nextPageUrl: nextPageUrl(state, props),
     currentConversationId: agendaItem ? agendaItem.conversationId : null,
-    currentConversation: selectors.currentConversation(state),
+    //currentConversation: selectors.currentConversation(state),
+    currentConversation: agendaItem ? selectors.conversation(state, agendaItem.conversationId) : undefined,
     conversationMembers: selectors.conversationMembers(state),
     conversationSettingsViewState,
     composerState,

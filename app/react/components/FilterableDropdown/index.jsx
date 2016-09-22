@@ -4,7 +4,10 @@ import styles from './index.css';
 class FilterableDropdown extends React.Component {
   constructor() {
     super();
-    this.state = { edit: false, filter: '' };
+    this.state = {
+      edit: false,
+      filter: '',
+    };
 
     this.handleEditClick = this.handleEditClick.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -60,7 +63,7 @@ class FilterableDropdown extends React.Component {
   }
 
   renderShow(selectedItem, editable) {
-    return <div className={styles['current-item' + (editable ? '-editable' : '')]} onClick={editable ? this.handleEditClick : null}>{selectedItem.title}</div>;
+    return <div className={styles['current-item' + (editable ? '-editable' : '')]} onClick={editable ? this.handleEditClick : null}>{ selectedItem ? selectedItem.title : 'Click to Choose'}</div>;
   }
 
   filteredOptions(filter, options) {
@@ -71,9 +74,10 @@ class FilterableDropdown extends React.Component {
   }
 
   selectedMarker(selectedItem, item) {
-    if (selectedItem.id === item.id) {
+    if (selectedItem && selectedItem.id === item.id) {
       return <i className={styles.check}></i>;
     }
+    return undefined;
   }
 
   dropdownLabel = () => {
