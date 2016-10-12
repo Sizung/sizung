@@ -11,40 +11,8 @@
   composes: hidden-xs from global;
 }
 
-.organizationWrapper {
-  display: flex;
-  flex: none;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0 3.125rem;
-}
-
-.organizationWrapper a {
-  text-decoration: none;
-}
-
-.otherOrganizations {
-  display: none;
-  margin-left: 24px;
-}
-
-.organizationWrapper:hover .otherOrganizations {
-  display: flex;
-}
-
 .profileDropdown {
   flex: none;
   display: flex;
   justify-content: flex-end;
-}
-
-.notification {
-  width: 3.375rem;
-  height: 3.375rem;
-  min-width: 3.375rem;
-  line-height: 3.375rem;
-  margin: 0 2rem 0 0;
-  background-image: url('/icons/notification_icon.svg');
-  background-size: 100% 100%;
 }
