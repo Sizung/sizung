@@ -1,4 +1,5 @@
 import React, { PropTypes } from 'react';
+import Link from 'react-router';
 import OrganizationIcon from '../OrganizationIcon/index';
 import ProfileDropdown from '../ProfileDropdown/index';
 import PlusIcon from '../PlusIcon';
@@ -30,6 +31,7 @@ class OrganizationDropdown extends React.Component {
     }).map((otherOrganization) => {
       count += otherOrganization.unseenCount;
     });
+    console.log('Unseen Count: ' + count);
     return count;
   };
 
@@ -43,7 +45,7 @@ class OrganizationDropdown extends React.Component {
     const seenOrganization = otherOrganization.filter(org => org.unseenCount <= 0);
 
     return unseenOrganization.concat(seenOrganization).map((org) => {
-      return <OrganizationIcon key={org.id} reactLink={reactLinks} organization={org} url={'/organizations/' + org.id} showUnseenNotification style={{ marginLeft: '2rem' }}/>;
+      return <div className={styles.menuItem}><OrganizationIcon key={org.id} reactLink={reactLinks} organization={org} url={'/organizations/' + org.id} showUnseenNotification/><span className={styles.organizationName}>{org.name}</span></div>;
     });
   };
 
@@ -54,17 +56,35 @@ class OrganizationDropdown extends React.Component {
     return null;
   };
 
-  render() {
+  renderOrganizationIcon = () => {
     const { currentOrganization, reactLinks } = this.props;
     return (
+      <div className={styles.currentOrganizationIcon}>
+        {this.renderUnseenNotification()}
+        <OrganizationIcon organization={currentOrganization} reactLink={reactLinks} url={'/organizations/' + currentOrganization.id}/>
+        <span className={styles.organizationName}>{currentOrganization.name}</span>
+      </div>
+    );
+  };
+
+  render() {
+    return (
         <div className={styles.organizationWrapper}>
-          {this.renderUnseenNotification()}
-          <OrganizationIcon organization={currentOrganization} reactLink={reactLinks} url={'/organizations/' + currentOrganization.id}/>
+          <div className={styles.rootShow}>
+            {this.renderOrganizationIcon()}
+          </div>
           <div className={styles.otherOrganizations}>
-            {this.renderOrganizationList()}
-            <a href={'/organizations/new'} title={'+ New Organization'} style={{ marginLeft: '3rem' }}>
-              <PlusIcon/>
-            </a>
+            <div className={styles.currentOrganizationIconContainer}>
+              {this.renderOrganizationIcon()}
+            </div>
+            <div className={styles.organizationListContainer}>
+              <div className={styles.organizationList}>
+                {this.renderOrganizationList()}
+                <a href={'/organizations/new'} title={'+ New Organization'} className={styles.menuItem}>
+                  <PlusIcon/><span className={styles.organizationName}>{'New Organization'}</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
     );
