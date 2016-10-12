@@ -44,6 +44,7 @@ gem 'haml-rails'
 gem 'devise'
 gem 'devise_invitable'
 gem 'puma'
+gem 'puma-heroku'
 # gem 'rack-timeout'
 gem 'simple_form'
 gem 'pundit'
@@ -69,6 +70,7 @@ gem 'rack-cors'
 gem 'fog'
 gem 'houston'
 gem 'redcarpet'
+gem 'puma_worker_killer'
 
 group :production do
   gem 'rails_12factor'
@@ -85,6 +87,8 @@ group :development, :test do
   gem 'email_spec'
   gem 'guard'
   gem 'guard-minitest'
+  gem 'rack-mini-profiler'
+  gem 'memory_profiler'
 end
 
 group :development do

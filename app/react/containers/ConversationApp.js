@@ -22,12 +22,12 @@ import * as labels from '../utils/entityLabels';
 
 class ConversationApp extends React.Component {
    componentDidMount() {
-     this.fetchData();
+     this.fetchData(this.props);
    }
 
-   componentDidUpdate(prevProps) {
-     if (this.props.params.conversationId !== prevProps.params.conversationId) {
-       this.fetchData();
+   componentWillReceiveProps(properties) {
+     if (this.props.params.conversationId !== properties.params.conversationId) {
+       this.fetchData(properties);
      }
    }
 
@@ -42,9 +42,11 @@ class ConversationApp extends React.Component {
   render() {
     const { conversationObjects, commentForm, labels } = this.props;
     const { parent } = commentForm;
+    const parentConversationId = conversationObjects && conversationObjects.length > 0 ? conversationObjects[0].conversationId || conversationObjects[0].commentableId : undefined;
 
     if (parent) {
-      if (conversationObjects) {
+      if (conversationObjects && this.props.params.conversationId === this.props.currentConversation.id
+      && (!parentConversationId || parentConversationId === this.props.params.conversationId)) {
         return (
           <ConversationLayoutApp conversationId={parent.id} currentTimeline={'conversation'} labels={labels}>
             <ConversationObjectList {...this.props} />

@@ -68,6 +68,12 @@ ActiveRecord::Schema.define(version: 20160921145924) do
   add_index "agenda_items", ["owner_id"], name: "index_agenda_items_on_owner_id", using: :btree
   add_index "agenda_items", ["traceable_type", "traceable_id"], name: "index_agenda_items_on_traceable_type_and_traceable_id", using: :btree
 
+  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
+    t.string   "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "attachments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "parent_id"
     t.string   "parent_type"
