@@ -14,9 +14,14 @@ class Users::SessionsController < Devise::SessionsController
   # end
 
   # DELETE /resource/sign_out
-  # def destroy
-  #   super
-  # end
+  def destroy
+    @latest_user_time_track = TimeTrack.where(user_id: current_user.id).order(created_at: :desc).first
+    if @latest_user_time_track && !@latest_user_time_track.out_time
+      @latest_user_time_track.out_time = Time.now
+      @latest_user_time_track.save
+    end
+    super
+  end
 
   # protected
 

@@ -14,6 +14,7 @@ class User < ActiveRecord::Base
   has_many :deliverables, foreign_key: 'owner_id'
   has_many :assigned_deliverables, foreign_key: 'assignee_id', class_name: 'Deliverable'
   has_many :comments, foreign_key: 'author_id'
+  has_many :time_tracks
   has_many :devices
   
   validates_presence_of :first_name, :last_name

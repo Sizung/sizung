@@ -6,7 +6,9 @@ Rails.application.routes.draw do
 
   namespace :api do
 
-    resources :time_tracks, only: [:index, :create, :update]
+    # resources :time_tracks, only: [:index, :create, :update]
+    post 'time_tracks', to: 'time_tracks#create'
+    put 'time_tracks', to: 'time_tracks#update_last'
 
     concern :list_conversation_objects do |options|
       resources :conversation_objects, options.merge(only: [:index])

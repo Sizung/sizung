@@ -26,7 +26,6 @@ const updateAgendaItem = (id, changedFields) => {
       const agendaItem = transform.transformObjectFromJsonApi(json.data);
       if (changedFields.archived) {
         dispatch(routeActions.push('/conversations/' + agendaItem.conversationId));
-        dispatch(timetracks.createTimeTrack({ chat_id: agendaItem.conversationId, chat_type: 'Conversation'}));
       }
       dispatch({
         type: constants.UPDATE_AGENDA_ITEM,
@@ -84,7 +83,6 @@ const fetchObjects = (agendaItemId, dispatch) => {
 
 const visitAgendaItem = (agendaItemId) => {
   return (dispatch) => {
-    dispatch(timetracks.createTimeTrack({ chat_id: agendaItemId, chat_type: 'AgendaItem' }));
     dispatch(routeActions.push('/agenda_items/' + agendaItemId));
   };
 };
@@ -93,7 +91,6 @@ const selectAgendaItem = (agendaItemId) => {
   return (dispatch) => {
     fetchAgendaItem(agendaItemId, dispatch);
     fetchObjects(agendaItemId, dispatch);
-    // dispatch(timetracks.createTimeTrack({ chat_id: agendaItemId, chat_type: 'AgendaItem'}));
   };
 };
 

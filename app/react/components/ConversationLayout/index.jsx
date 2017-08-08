@@ -20,9 +20,55 @@ class ConversationLayout extends Component {
   setCurrentPanel = (panel) => {
     this.setState({ panel })
   };
-  
+
+  componentDidMount() {
+    switch (this.props.currentTimeline) {
+      case 'organization':
+        this.props.createTimeTrack({ chat_id: this.props.organization.id, chat_type: 'Organization' });
+        break;
+      case 'conversation':
+        this.props.createTimeTrack({ chat_id: this.props.conversationId, chat_type: 'Conversation' });
+        break;
+      case 'agendaItem':
+        this.props.createTimeTrack({ chat_id: this.props.selectedAgendaItemId, chat_type: 'AgendaItem' });
+        break;
+      case 'deliverable':
+        this.props.createTimeTrack({ chat_id: this.props.selectedDeliverableId, chat_type: 'Deliverable' });
+        break;
+      default:
+        break;
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    switch (this.props.currentTimeline) {
+      case 'organization':
+        if (this.props.organization.id != prevProps.organization.id) {
+          this.props.createTimeTrack({chat_id: this.props.organization.id, chat_type: 'Organization'});
+        }
+        break;
+      case 'conversation':
+        if (this.props.conversationId != prevProps.conversationId) {
+          this.props.createTimeTrack({chat_id: this.props.conversationId, chat_type: 'Conversation'});
+        }
+        break;
+      case 'agendaItem':
+        if (this.props.selectedAgendaItemId != prevProps.selectedAgendaItemId) {
+          this.props.createTimeTrack({chat_id: this.props.selectedAgendaItemId, chat_type: 'AgendaItem'});
+        }
+        break;
+      case 'deliverable':
+        if (this.props.selectedDeliverableId != prevProps.selectedDeliverableId) {
+          this.props.createTimeTrack({chat_id: this.props.selectedDeliverableId, chat_type: 'Deliverable'});
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
   render() {
-    const left = this.props.left || <AgendaItemListApp currentTimeline={this.props.currentTimeline} conversationId={this.props.conversationId} selectedAgendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} labels={this.props.labels}/>;
+    const left = this.props.left || <AgendaItemListApp currentTimeline={this.props.currentTimeline} conversationId={this.props.conversationId} selectedAgendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} labels={this.props.labels} />;
     const right = this.props.right || <DeliverableListApp currentTimeline={this.props.currentTimeline} conversationId={this.props.conversationId} agendaItemId={this.props.selectedAgendaItemId} selectedDeliverableId={this.props.selectedDeliverableId} labels={this.props.labels}/>;
     const { panel } = this.state;
     return (
@@ -52,6 +98,7 @@ ConversationLayout.propTypes = {
   right: PropTypes.object,
   currentTimeline: PropTypes.string.isRequired,
   labels: PropTypes.object.isRequired,
+  createTimeTrack: PropTypes.func.isRequired,
 };
 
 export default ConversationLayout;

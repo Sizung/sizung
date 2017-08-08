@@ -73,9 +73,6 @@ class ConversationObjectList extends Component {
     }
 
     if (hasTimelineSwitched) {
-      alert("yuhoo");
-      // this.props.updateTimeTrack({ chat_id: this.props.commentForm.parent.id, chat_type: this.props.commentForm.parent.type });
-      // this.props.createTimeTrack({ chat_id: nextProps.commentForm.parent.id, chat_type: nextProps.commentForm.parent.type });
 
       if (unseenPrev) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);

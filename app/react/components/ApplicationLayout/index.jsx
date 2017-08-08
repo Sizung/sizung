@@ -12,11 +12,11 @@ class ApplicationLayout extends Component {
   }
 
   render() {
-    const { currentUser, organizations, currentOrganization, currentConversation } = this.props;
+    const { currentUser, organizations, currentOrganization, currentConversation, createTimeTrack, updateTimeTrack } = this.props;
 
     return (
       <div className={styles.root} onKeyDown={this._handleKeyDown} tabIndex="1">
-        <TopBar currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation}/>
+        <TopBar currentUser={currentUser} organizations={organizations} currentOrganization={currentOrganization} currentConversation={currentConversation} createTimeTrack={createTimeTrack} updateTimeTrack={updateTimeTrack}/>
         <div className={styles.mainContent} >
           <StaleNotification />
           { this.props.children }

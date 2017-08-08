@@ -8,6 +8,7 @@ import * as OrganizationActions from '../actions/organizations';
 import * as ConversationActions from '../actions/conversations';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as DeliverableActions from '../actions/deliverables';
+import * as TimeTrackActions from '../actions/timetracks';
 import * as channelHandlers from '../actions/channelHandlers';
 import * as selectors from '../utils/selectors';
 import * as ws from '../utils/websocketUtils';
@@ -44,7 +45,7 @@ class OrganizationApp extends React.Component {
   };
 
   render() {
-    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState, updateAgendaItem, updateDeliverable, currentUser, labels } = this.props;
+    const { organization, conversations, agendaItems, deliverables, visitAgendaItem, visitDeliverable, users, conversationSettingsViewState, updateAgendaItem, updateDeliverable, currentUser, labels, createTimeTrack } = this.props;
 
     if (organization && conversations) {
       return (
@@ -61,6 +62,7 @@ class OrganizationApp extends React.Component {
           conversationSettingsViewState={conversationSettingsViewState}
           currentUser={currentUser}
           labels={labels}
+          createTimeTrack={createTimeTrack}
         />
       );
     }
@@ -94,6 +96,7 @@ function mapDispatchToProps(dispatch) {
     ...ConversationActions,
     ...AgendaItemActions,
     ...DeliverableActions,
+    ...TimeTrackActions,
     ...channelHandlers,
   }, dispatch);
 }

@@ -95,7 +95,6 @@ const createDeliverableRemoteOrigin = (deliverable) => {
 const visitDeliverable = (deliverableId) => {
   return (dispatch) => {
     dispatch(routeActions.push('/deliverables/' + deliverableId));
-    dispatch(timetracks.createTimeTrack({ chat_id: deliverableId, chat_type: 'Deliverable' }));
   };
 };
 

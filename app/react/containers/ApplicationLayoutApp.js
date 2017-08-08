@@ -1,6 +1,8 @@
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as selectors from '../utils/selectors';
 import ApplicationLayout from '../components/ApplicationLayout';
+import * as TimeTrackActions from '../actions/timetracks';
 
 function mapStateToProps(state, props) {
   return {
@@ -13,4 +15,8 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps)(ApplicationLayout);
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ ...TimeTrackActions }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicationLayout);
