@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   ActiveAdmin.routes(self)
 
   namespace :api do
+
+    resources :time_tracks, only: [:index, :create, :update]
+
     concern :list_conversation_objects do |options|
       resources :conversation_objects, options.merge(only: [:index])
     end
@@ -63,7 +66,7 @@ Rails.application.routes.draw do
   end
 
   resources :attachments, only: [:show]
-  
+
   resources :organizations, shallow: true do
     resources :organization_members, only: [:index, :destroy]
     resources :conversations

@@ -7,6 +7,7 @@ import * as ConversationActions from '../actions/conversations';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ws from '../utils/websocketUtils';
 import * as channelHandlers from '../actions/channelHandlers';
+import * as TimeTrackActions from '../actions/timetracks';
 
 class ConversationLayoutApp extends React.Component {
   componentDidMount() {
@@ -70,7 +71,7 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ConversationActions, ...channelHandlers, ...UnseenObjectsActions}, dispatch);
+  return bindActionCreators({ ...ConversationActions, ...channelHandlers, ...UnseenObjectsActions, ...TimeTrackActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationLayoutApp);

@@ -9,6 +9,7 @@ import { routeActions } from 'redux-simple-router';
 import * as constants from './constants';
 import * as transform from '../utils/jsonApiUtils';
 import * as api from '../utils/api';
+import * as timetracks from './timetracks';
 
 const updateAgendaItemRemoteOrigin = (agendaItem) => {
   return {
@@ -25,6 +26,7 @@ const updateAgendaItem = (id, changedFields) => {
       const agendaItem = transform.transformObjectFromJsonApi(json.data);
       if (changedFields.archived) {
         dispatch(routeActions.push('/conversations/' + agendaItem.conversationId));
+        dispatch(timetracks.createTimeTrack({ chat_id: agendaItem.conversationId, chat_type: 'Conversation'}));
       }
       dispatch({
         type: constants.UPDATE_AGENDA_ITEM,
@@ -82,6 +84,7 @@ const fetchObjects = (agendaItemId, dispatch) => {
 
 const visitAgendaItem = (agendaItemId) => {
   return (dispatch) => {
+    dispatch(timetracks.createTimeTrack({ chat_id: agendaItemId, chat_type: 'AgendaItem' }));
     dispatch(routeActions.push('/agenda_items/' + agendaItemId));
   };
 };
@@ -90,6 +93,7 @@ const selectAgendaItem = (agendaItemId) => {
   return (dispatch) => {
     fetchAgendaItem(agendaItemId, dispatch);
     fetchObjects(agendaItemId, dispatch);
+    // dispatch(timetracks.createTimeTrack({ chat_id: agendaItemId, chat_type: 'AgendaItem'}));
   };
 };
 

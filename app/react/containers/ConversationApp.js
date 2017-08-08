@@ -10,6 +10,7 @@ import * as CommentActions from '../actions/comments';
 import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
+import * as TimeTrackActions from '../actions/timetracks';
 import * as selectors from '../utils/selectors';
 
 import ConversationLayoutApp from './ConversationLayoutApp';
@@ -99,7 +100,7 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ConversationUiActions, ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
+  return bindActionCreators({ ...TimeTrackActions, ...ConversationUiActions, ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationApp);

@@ -11,6 +11,7 @@ import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
 import * as ConversationObjectsActions from '../actions/conversationObjects';
 import * as AttachmentActions from '../actions/attachments';
+import * as TimeTrackActions from '../actions/timetracks';
 import * as selectors from '../utils/selectors';
 import * as deliverableUtils from '../utils/deliverableUtils.js';
 
@@ -106,7 +107,7 @@ function mapStateToProps(state, props) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
+  return bindActionCreators({ ...TimeTrackActions, ...ConversationActions, ...AgendaItemActions, ...CommentActions, ...DeliverableActions, ...ConversationObjectsActions, ...UnseenObjectsActions, ...AttachmentActions, ...OrganizationActions }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(DeliverableApp);

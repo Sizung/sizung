@@ -10,13 +10,14 @@ import * as CommentsActions from '../actions/comments';
 import * as AgendaItemActions from '../actions/agendaItems';
 import * as DeliverableActions from '../actions/deliverables';
 import * as UnseenObjectsActions from '../actions/unseenObjects';
+import * as TimeTrackActions from '../actions/timetracks';
 import { fetchConversationObjects } from '../actions/conversationObjects';
 
 function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ updateConversation, ...AgendaItemActions, ...CommentsActions, ...DeliverableActions, fetchConversationObjects, ...UnseenObjectsActions}, dispatch);
+  return bindActionCreators({ updateConversation, ...TimeTrackActions, ...AgendaItemActions, ...CommentsActions, ...DeliverableActions, fetchConversationObjects, ...UnseenObjectsActions}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(ConversationObjectList);

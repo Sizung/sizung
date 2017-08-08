@@ -2,6 +2,7 @@ import { routeActions } from 'redux-simple-router';
 import * as constants from './constants';
 import * as api from '../utils/api';
 import * as transform from '../utils/jsonApiUtils';
+import * as timetracks from "./timetracks";
 
 const updateDeliverable = (id, changedFields) => {
   return (dispatch) => {
@@ -61,6 +62,7 @@ const fetchDeliverable = (deliverableId) => {
         entity: deliverable,
         entities: included,
       });
+      // dispatch(timetracks.createTimeTrack({ chat_id: deliverableId, chat_type: 'Deliverable' }));
     });
 
     // fetch objects if not already there
@@ -93,6 +95,7 @@ const createDeliverableRemoteOrigin = (deliverable) => {
 const visitDeliverable = (deliverableId) => {
   return (dispatch) => {
     dispatch(routeActions.push('/deliverables/' + deliverableId));
+    dispatch(timetracks.createTimeTrack({ chat_id: deliverableId, chat_type: 'Deliverable' }));
   };
 };
 

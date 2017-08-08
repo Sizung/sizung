@@ -4,6 +4,7 @@ class Conversation < ActiveRecord::Base
   belongs_to :organization
   has_many :deliverables, as: :parent, dependent: :destroy
   has_many :comments, as: :commentable, dependent: :destroy
+  has_many :time_tracks, as: :chat, dependent: :destroy
   has_many :agenda_item_deliverables, through: :agenda_items, source: :deliverables
   has_many :agenda_items, dependent: :destroy
   has_many :conversation_members, dependent: :destroy

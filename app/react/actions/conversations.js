@@ -6,6 +6,7 @@ import { setCurrentOrganization } from './organizations';
 import * as ConversationUiActions from './conversationUi';
 import { deleteAgendaItems } from './agendaItems.js';
 import { deleteDeliverables } from './deliverables.js';
+import * as timetracks from "./timetracks";
 
 const setCurrentConversation = (conversation, included, json) => {
   const conversationMembers = json.data.relationships.conversation_members.data;
@@ -97,6 +98,7 @@ const fetchConversation = (conversationId) => {
 const visitConversation = (conversationId) => {
   return (dispatch) => {
     dispatch(routeActions.push('/conversations/' + conversationId));
+    dispatch(timetracks.createTimeTrack({ chat_id: conversationId, chat_type: 'Conversation' }));
   };
 };
 
@@ -105,6 +107,7 @@ const createConversation = (values) => {
     api.postJson('/api/conversations', { conversation: values }, (json) => {
       const conversation = transform.transformObjectFromJsonApi(json.data);
       dispatch(routeActions.push('/conversations/' + conversation.id));
+      dispatch(timetracks.createTimeTrack({ chat_id: conversation.id, chat_type: 'Conversation' }));
       dispatch({
         type: constants.CREATE_CONVERSATION,
         status: constants.STATUS_SUCCESS,
