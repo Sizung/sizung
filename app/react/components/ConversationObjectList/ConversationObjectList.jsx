@@ -73,6 +73,7 @@ class ConversationObjectList extends Component {
     }
 
     if (hasTimelineSwitched) {
+
       if (unseenPrev) {
         this.props.markAsSeen(this.props.commentForm.parent.type, this.props.commentForm.parent.id);
       }

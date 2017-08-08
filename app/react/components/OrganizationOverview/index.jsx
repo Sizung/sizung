@@ -55,15 +55,17 @@ class OrganizationOverview extends Component {
     return this.renderConversationListPanel();
   }
   render() {
-    const { organization, conversations, agendaItems, visitAgendaItem, deliverables, visitDeliverable, updateDeliverable, updateAgendaItem, currentUser, labels } = this.props;
+    const { organization, conversations, agendaItems, visitAgendaItem, deliverables, visitDeliverable, updateDeliverable, updateAgendaItem, currentUser, labels, createTimeTrack } = this.props;
 
     return (
       <div className={styles.root} ref="root">
         <ConversationLayout
-          left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } updateAgendaItem={ updateAgendaItem } currentTimeline={'organization'} labels={labels}/> }
-          right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } currentTimeline={'organization'} currentUser={currentUser} labels={labels}/> }
+          left={ <AgendaItemList agendaItems={ agendaItems } visitAgendaItem={ visitAgendaItem } updateAgendaItem={ updateAgendaItem } currentTimeline={'organization'} labels={labels} createTimeTrack={createTimeTrack}/> }
+          right={ <DeliverableList deliverables={ deliverables } visitDeliverable={ visitDeliverable } updateDeliverable={ updateDeliverable } currentTimeline={'organization'} currentUser={currentUser} labels={labels} createTimeTrack={createTimeTrack}/> }
           currentTimeline={'organization'}
           labels={labels}
+          createTimeTrack={createTimeTrack}
+          organization={organization}
         >
           {this.renderCenterPanel()}
         </ConversationLayout>
@@ -85,6 +87,7 @@ OrganizationOverview.propTypes = {
   updateAgendaItem: PropTypes.func.isRequired,
   currentUser: PropTypes.object.isRequired,
   labels: PropTypes.object.isRequired,
+  createTimeTrack: PropTypes.func.isRequired,
 };
 
 export default OrganizationOverview;

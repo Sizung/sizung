@@ -21,6 +21,8 @@ describe('ConversationObjectList', () => {
       selectAgendaItem: noOp,
       updateAgendaItem: noOp,
       markAsSeen: noOp,
+      createTimeTrack: noOp,
+      updateTimeTrack: noOp,
     };
 
     const reducer = () => { return Immutable.fromJS({}); };

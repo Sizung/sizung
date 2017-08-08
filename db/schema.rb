@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160722171105) do
+ActiveRecord::Schema.define(version: 20170729123639) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -60,16 +60,13 @@ ActiveRecord::Schema.define(version: 20160722171105) do
     t.integer  "deliverables_count", default: 0,      null: false
     t.integer  "comments_count",     default: 0,      null: false
     t.date     "due_on"
+    t.uuid     "traceable_id"
+    t.string   "traceable_type"
   end
   add_index "agenda_items", ["conversation_id"], name: "index_agenda_items_on_conversation_id", using: :btree
   add_index "agenda_items", ["created_at"], name: "index_agenda_items_on_created_at", order: {"created_at"=>:desc}, using: :btree
   add_index "agenda_items", ["owner_id"], name: "index_agenda_items_on_owner_id", using: :btree
-
-  create_table "ar_internal_metadata", primary_key: "key", force: :cascade do |t|
-    t.string   "value"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
+  add_index "agenda_items", ["traceable_type", "traceable_id"], name: "index_agenda_items_on_traceable_type_and_traceable_id", using: :btree
 
   create_table "attachments", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "parent_id"
@@ -124,9 +121,12 @@ ActiveRecord::Schema.define(version: 20160722171105) do
     t.datetime "archived_at"
     t.integer  "comments_count", default: 0,            null: false
     t.string   "parent_type",    default: "AgendaItem", null: false
+    t.uuid     "traceable_id"
+    t.string   "traceable_type"
   end
   add_index "deliverables", ["owner_id"], name: "index_deliverables_on_owner_id", using: :btree
   add_index "deliverables", ["parent_id"], name: "index_deliverables_on_parent_id", using: :btree
+  add_index "deliverables", ["traceable_type", "traceable_id"], name: "index_deliverables_on_traceable_type_and_traceable_id", using: :btree
 
   create_view "conversation_objects", <<-'END_VIEW_CONVERSATION_OBJECTS', :force => true
 SELECT comments.id,
@@ -278,6 +278,18 @@ UNION ALL
     t.datetime "archived_at"
   end
   add_index "organizations", ["owner_id"], name: "index_organizations_on_owner_id", using: :btree
+
+  create_table "time_tracks", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
+    t.uuid     "user_id",    null: false
+    t.datetime "in_time"
+    t.datetime "out_time"
+    t.uuid     "chat_id",    null: false
+    t.string   "chat_type",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+  add_index "time_tracks", ["chat_type", "chat_id"], name: "index_time_tracks_on_chat_type_and_chat_id", using: :btree
+  add_index "time_tracks", ["user_id"], name: "index_time_tracks_on_user_id", using: :btree
 
   create_table "timeline_users", id: :uuid, default: "uuid_generate_v4()", force: :cascade do |t|
     t.uuid     "timeline_id",        null: false

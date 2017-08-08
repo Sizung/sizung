@@ -5,6 +5,7 @@ class ConversationSerializer < ActiveModel::Serializer
   has_many :agenda_item_deliverables
   has_many :conversation_members
   has_many :members
+  has_many :time_tracks
   belongs_to :organization
 
   include Swagger::Blocks
