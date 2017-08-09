@@ -9,7 +9,7 @@ module Api
       update_last_time_track
       @time_track = TimeTrack.new(time_track_params)
       @time_track.in_time = Time.now
-      @time_track.user = current_user
+      @time_track.user_id = current_user.id
       # if @latest_time_track
       #   @latest_time_track.out_time = Time.now
       #   @latest_time_track.save

@@ -3,7 +3,7 @@ class AgendaItemSerializer < ActiveModel::Serializer
   belongs_to :conversation
   belongs_to :owner
   has_many :deliverables
-  has_many :time_tracks
+  # has_many :time_tracks
 
   include Swagger::Blocks
 

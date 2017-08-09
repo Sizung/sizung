@@ -7,7 +7,7 @@ class AgendaItem < ActiveRecord::Base
   has_many :deliverables, as: :parent, dependent: :destroy
   has_many :conversation_objects, foreign_key: :parent_id
   has_many :comments, as: :commentable, dependent: :destroy
-  has_many :time_tracks, as: :chat, dependent: :destroy
+  # has_many :time_tracks, as: :chat, dependent: :destroy
   has_many :unseen_objects
   has_many :timeline_users, as: :timeline, dependent: :destroy
   has_many :subscribed_timeline_users, -> { subscribed }, as: :timeline, class_name: 'TimelineUser'
