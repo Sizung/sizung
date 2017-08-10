@@ -78,6 +78,7 @@ Rails.application.routes.draw do
   get 'deliverables/:id', to: 'react_routes#index', as: :deliverable
   get 'signup', to: 'react_routes#new_registration', as: :signup
   get 'organizations/:id/settings', to: 'react_routes#index', as: :settings
+  get 'api/organizations/shallow/:id', to: 'api/organizations#show_only_organization'
 
   # Old routes are redirected to new shallow routes
   get 'conversations/:id/agenda_items/:agenda_item_id/deliverables/:deliverable_id', to: redirect('/deliverables/%{deliverable_id}')

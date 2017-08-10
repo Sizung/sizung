@@ -34,6 +34,15 @@ const fetchOrganizationSuccess = (organization, included, conversations, agendaI
   };
 };
 
+const fetchOrganizationOnlySuccess = (organization, included) => {
+  return {
+    type: constants.FETCH_ORGANIZATION_ONLY,
+    status: constants.STATUS_SUCCESS,
+    entity: organization,
+    entities: included,
+  };
+};
+
 const fetchOrganization = (organizationId, dispatch) => {
   api.fetchJson('/api/organizations/' + organizationId, (json) => {
     const organization = transform.transformObjectFromJsonApi(json.data, json.meta);
@@ -49,9 +58,26 @@ const fetchOrganization = (organizationId, dispatch) => {
   });
 };
 
+const fetchOrganizationOnly = (organizationId, dispatch) => {
+  api.fetchJson('/api/organizations/shallow/' + organizationId, (json) => {
+    const organization = transform.transformObjectFromJsonApi(json.data, json.meta);
+    const included = json.included.map(transform.transformObjectFromJsonApi);
+    dispatch(fetchOrganizationOnlySuccess(organization, included));
+    dispatch(setCurrentOrganization({ id: organizationId, type: 'organizations' }));
+    dispatch(ConversationUiActions.resetConversationUi());
+  });
+};
+
 const selectOrganization = (organizationId) => {
   return (dispatch) => {
     fetchOrganization(organizationId, dispatch);
+  };
+};
+
+// Following action is for fetching just organization and its members and not its conv/actions/agendas
+const selectOrganizationOnly = (organizationId) => {
+  return (dispatch) => {
+    fetchOrganizationOnly(organizationId, dispatch);
   };
 };
 
@@ -79,6 +105,7 @@ export {
   setCurrentOrganization,
   fetchOrganizationsSuccess,
   selectOrganization,
+  selectOrganizationOnly,
   updateOrganization,
   visitOrganization,
 };

@@ -11,6 +11,10 @@ class OrganizationPolicy < ApplicationPolicy
     user == record.owner
   end
 
+  def show_only_organization?
+    user.organizations.exists?(record.id)
+  end
+
   class Scope < Scope
     def resolve
       user.organizations

@@ -87,6 +87,19 @@ module Api
              }
     end
 
+    def show_only_organization
+      @organization = policy_scope(Organization).includes(organization_members: :member).find(params[:id])
+      authorize @organization
+      @conversations = policy_scope(Conversation)
+                           .where(organization: @organization)
+                           .includes(:conversation_members, :members, :organization)
+      render json: @organization,
+             include: %w(organization_members, organization_members.member),
+             meta: {
+                 editable: policy(@organization).edit?
+             }
+    end
+
     swagger_schema :OrganizationInput do
       key :required, [:organization]
 

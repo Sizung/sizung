@@ -36,7 +36,7 @@ class SettingsApp extends React.Component {
 
   fetchData = () => {
     const { organizationId } = this.props.params;
-    this.props.selectOrganization(organizationId);
+    this.props.selectOrganizationOnly(organizationId);
   };
 
   render() {
